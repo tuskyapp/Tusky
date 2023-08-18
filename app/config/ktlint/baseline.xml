@@ -1,0 +1,2152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/androidTest/java/com/keylesspalace/tusky/MigrationsTest.kt">
+        <error line="23" column="43" source="trailing-comma-on-call-site" />
+        <error line="40" column="24" source="trailing-comma-on-call-site" />
+        <error line="52" column="19" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/AboutActivity.kt">
+        <error line="52" column="34" source="trailing-comma-on-call-site" />
+        <error line="62" column="41" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/AccountsInListFragment.kt">
+        <error line="127" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/BottomSheetActivity.kt">
+        <error line="64" column="10" source="trailing-comma-on-call-site" />
+        <error line="75" column="27" source="trailing-comma-on-call-site" />
+        <error line="104" column="18" source="trailing-comma-on-call-site" />
+        <error line="180" column="18" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/EditProfileActivity.kt">
+        <error line="80" column="15" source="trailing-comma-on-declaration-site" />
+        <error line="153" column="112" source="trailing-comma-on-call-site" />
+        <error line="189" column="17" source="trailing-comma-on-call-site" />
+        <error line="212" column="55" source="trailing-comma-on-call-site" />
+        <error line="220" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="223" column="17" source="trailing-comma-on-call-site" />
+        <error line="235" column="96" source="trailing-comma-on-call-site" />
+        <error line="258" column="22" source="trailing-comma-on-call-site" />
+        <error line="269" column="22" source="trailing-comma-on-call-site" />
+        <error line="295" column="51" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/ListsActivity.kt">
+        <error line="99" column="72" source="trailing-comma-on-call-site" />
+        <error line="135" column="18" source="trailing-comma-on-call-site" />
+        <error line="193" column="29" source="trailing-comma-on-call-site" />
+        <error line="205" column="34" source="trailing-comma-on-call-site" />
+        <error line="211" column="70" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/MainActivity.kt">
+        <error line="226" column="26" source="trailing-comma-on-call-site" />
+        <error line="266" column="96" source="trailing-comma-on-call-site" />
+        <error line="291" column="80" source="trailing-comma-on-call-site" />
+        <error line="328" column="14" source="trailing-comma-on-call-site" />
+        <error line="335" column="18" source="trailing-comma-on-call-site" />
+        <error line="370" column="65" source="trailing-comma-on-call-site" />
+        <error line="438" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="457" column="18" source="trailing-comma-on-call-site" />
+        <error line="496" column="10" source="trailing-comma-on-call-site" />
+        <error line="605" column="18" source="trailing-comma-on-call-site" />
+        <error line="617" column="22" source="trailing-comma-on-call-site" />
+        <error line="630" column="22" source="trailing-comma-on-call-site" />
+        <error line="648" column="18" source="trailing-comma-on-call-site" />
+        <error line="657" column="52" source="trailing-comma-on-call-site" />
+        <error line="666" column="42" source="trailing-comma-on-call-site" />
+        <error line="847" column="14" source="trailing-comma-on-call-site" />
+        <error line="912" column="100" source="trailing-comma-on-call-site" />
+        <error line="930" column="65" source="trailing-comma-on-declaration-site" />
+        <error line="945" column="22" source="trailing-comma-on-call-site" />
+        <error line="950" column="100" source="trailing-comma-on-call-site" />
+        <error line="968" column="63" source="trailing-comma-on-declaration-site" />
+        <error line="973" column="44" source="trailing-comma-on-call-site" />
+        <error line="983" column="22" source="trailing-comma-on-call-site" />
+        <error line="998" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/StatusListActivity.kt">
+        <error line="119" column="22" source="trailing-comma-on-call-site" />
+        <error line="139" column="22" source="trailing-comma-on-call-site" />
+        <error line="159" column="22" source="trailing-comma-on-call-site" />
+        <error line="198" column="30" source="trailing-comma-on-call-site" />
+        <error line="203" column="18" source="trailing-comma-on-call-site" />
+        <error line="228" column="40" source="trailing-comma-on-call-site" />
+        <error line="247" column="52" source="trailing-comma-on-call-site" />
+        <error line="257" column="30" source="trailing-comma-on-call-site" />
+        <error line="263" column="18" source="trailing-comma-on-call-site" />
+        <error line="279" column="88" source="trailing-comma-on-call-site" />
+        <error line="294" column="52" source="trailing-comma-on-call-site" />
+        <error line="314" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/TabData.kt">
+        <error line="46" column="76" source="trailing-comma-on-declaration-site" />
+        <error line="69" column="85" source="trailing-comma-on-call-site" />
+        <error line="75" column="63" source="trailing-comma-on-call-site" />
+        <error line="81" column="93" source="trailing-comma-on-call-site" />
+        <error line="87" column="97" source="trailing-comma-on-call-site" />
+        <error line="93" column="63" source="trailing-comma-on-call-site" />
+        <error line="99" column="58" source="trailing-comma-on-call-site" />
+        <error line="107" column="121" source="trailing-comma-on-call-site" />
+        <error line="115" column="57" source="trailing-comma-on-call-site" />
+        <error line="126" column="36" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/TabPreferenceActivity.kt">
+        <error line="155" column="10" source="trailing-comma-on-call-site" />
+        <error line="336" column="18" source="trailing-comma-on-call-site" />
+        <error line="342" column="36" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/TuskyApplication.kt">
+        <error line="105" column="25" source="trailing-comma-on-call-site" />
+        <error line="115" column="29" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/ViewMediaActivity.kt">
+        <error line="128" column="10" source="trailing-comma-on-call-site" />
+        <error line="157" column="10" source="trailing-comma-on-call-site" />
+        <error line="200" column="14" source="trailing-comma-on-call-site" />
+        <error line="231" column="46" source="trailing-comma-on-call-site" />
+        <error line="266" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="324" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/AccountViewHolder.kt">
+        <error line="14" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="22" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="28" column="29" source="trailing-comma-on-call-site" />
+        <error line="34" column="26" source="trailing-comma-on-call-site" />
+        <error line="52" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/EmojiAdapter.kt">
+        <error line="31" column="33" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/FollowRequestViewHolder.kt">
+        <error line="44" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="50" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="60" column="48" source="trailing-comma-on-call-site" />
+        <error line="70" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="76" column="26" source="trailing-comma-on-call-site" />
+        <error line="82" column="28" source="trailing-comma-on-call-site" />
+        <error line="89" column="53" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/PlaceholderViewHolder.kt">
+        <error line="39" column="62" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/PollAdapter.kt">
+        <error line="52" column="32" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/ReportNotificationViewHolder.kt">
+        <error line="38" column="71" source="trailing-comma-on-declaration-site" />
+        <error line="44" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="47" source="trailing-comma-on-call-site" />
+        <error line="60" column="31" source="trailing-comma-on-call-site" />
+        <error line="68" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="73" column="26" source="trailing-comma-on-call-site" />
+        <error line="78" column="26" source="trailing-comma-on-call-site" />
+        <error line="86" column="25" source="trailing-comma-on-call-site" />
+        <error line="91" column="41" source="trailing-comma-on-call-site" />
+        <error line="103" column="26" source="trailing-comma-on-call-site" />
+        <error line="109" column="26" source="trailing-comma-on-call-site" />
+        <error line="117" column="25" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt">
+        <error line="49" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="106" column="106" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/appstore/CacheUpdater.kt">
+        <error line="17" column="15" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/AccountActivity.kt">
+        <error line="158" column="18" source="trailing-comma-on-declaration-site" />
+        <error line="286" column="10" source="trailing-comma-on-call-site" />
+        <error line="326" column="54" source="trailing-comma-on-call-site" />
+        <error line="327" column="14" source="trailing-comma-on-call-site" />
+        <error line="332" column="52" source="trailing-comma-on-call-site" />
+        <error line="333" column="14" source="trailing-comma-on-call-site" />
+        <error line="388" column="10" source="trailing-comma-on-call-site" />
+        <error line="442" column="17" source="trailing-comma-on-call-site" />
+        <error line="499" column="98" source="trailing-comma-on-call-site" />
+        <error line="518" column="30" source="trailing-comma-on-call-site" />
+        <error line="540" column="91" source="trailing-comma-on-call-site" />
+        <error line="863" column="32" source="trailing-comma-on-call-site" />
+        <error line="880" column="59" source="trailing-comma-on-call-site" />
+        <error line="921" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/AccountFieldAdapter.kt">
+        <error line="33" column="39" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/AccountPagerAdapter.kt">
+        <error line="28" column="34" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/AccountViewModel.kt">
+        <error line="30" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="74" column="26" source="trailing-comma-on-call-site" />
+        <error line="93" column="26" source="trailing-comma-on-call-site" />
+        <error line="145" column="14" source="trailing-comma-on-call-site" />
+        <error line="158" column="14" source="trailing-comma-on-call-site" />
+        <error line="176" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="219" column="48" source="trailing-comma-on-call-site" />
+        <error line="227" column="25" source="trailing-comma-on-call-site" />
+        <error line="260" column="14" source="trailing-comma-on-call-site" />
+        <error line="278" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountFragment.kt">
+        <error line="67" column="55" source="trailing-comma-on-call-site" />
+        <error line="75" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="148" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="155" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="165" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/list/ListsForAccountViewModel.kt">
+        <error line="38" column="33" source="trailing-comma-on-declaration-site" />
+        <error line="44" column="23" source="trailing-comma-on-declaration-site" />
+        <error line="48" column="15" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="78" column="77" source="trailing-comma-on-call-site" />
+        <error line="85" column="93" source="trailing-comma-on-call-site" />
+        <error line="87" column="22" source="trailing-comma-on-call-site" />
+        <error line="108" column="26" source="trailing-comma-on-call-site" />
+        <error line="129" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/AccountMediaFragment.kt">
+        <error line="91" column="60" source="trailing-comma-on-call-site" />
+        <error line="177" column="34" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/AccountMediaGridAdapter.kt">
+        <error line="29" column="78" source="trailing-comma-on-declaration-site" />
+        <error line="39" column="6" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/AccountMediaPagingSource.kt">
+        <error line="23" column="49" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/AccountMediaRemoteMediator.kt">
+        <error line="32" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="55" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/AccountMediaViewModel.kt">
+        <error line="31" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="46" column="48" source="trailing-comma-on-call-site" />
+        <error line="50" column="33" source="trailing-comma-on-call-site" />
+        <error line="55" column="78" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/account/media/GridSpacingItemDecoration.kt">
+        <error line="26" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="33" column="34" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/AccountListActivity.kt">
+        <error line="41" column="19" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/AccountListFragment.kt">
+        <error line="118" column="57" source="trailing-comma-on-call-site" />
+        <error line="250" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="269" column="18" source="trailing-comma-on-call-site" />
+        <error line="368" column="21" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/AccountAdapter.kt">
+        <error line="31" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="64" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/BlocksAdapter.kt">
+        <error line="33" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="38" column="36" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/FollowAdapter.kt">
+        <error line="29" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="34" column="36" source="trailing-comma-on-call-site" />
+        <error line="47" column="27" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/FollowRequestsAdapter.kt">
+        <error line="31" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="36" source="trailing-comma-on-call-site" />
+        <error line="43" column="18" source="trailing-comma-on-call-site" />
+        <error line="49" column="31" source="trailing-comma-on-call-site" />
+        <error line="58" column="44" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/FollowRequestsHeaderAdapter.kt">
+        <error line="27" column="39" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/MutesAdapter.kt">
+        <error line="34" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="39" column="36" source="trailing-comma-on-call-site" />
+        <error line="86" column="22" source="trailing-comma-on-call-site" />
+        <error line="94" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementAdapter.kt">
+        <error line="50" column="47" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementsViewModel.kt">
+        <error line="40" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="73" column="58" source="trailing-comma-on-call-site" />
+        <error line="75" column="42" source="trailing-comma-on-call-site" />
+        <error line="81" column="22" source="trailing-comma-on-call-site" />
+        <error line="101" column="70" source="trailing-comma-on-call-site" />
+        <error line="116" column="70" source="trailing-comma-on-call-site" />
+        <error line="118" column="54" source="trailing-comma-on-call-site" />
+        <error line="120" column="46" source="trailing-comma-on-call-site" />
+        <error line="125" column="34" source="trailing-comma-on-call-site" />
+        <error line="126" column="30" source="trailing-comma-on-call-site" />
+        <error line="131" column="22" source="trailing-comma-on-call-site" />
+        <error line="151" column="71" source="trailing-comma-on-call-site" />
+        <error line="159" column="46" source="trailing-comma-on-call-site" />
+        <error line="164" column="34" source="trailing-comma-on-call-site" />
+        <error line="165" column="30" source="trailing-comma-on-call-site" />
+        <error line="170" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt">
+        <error line="194" column="32" source="trailing-comma-on-call-site" />
+        <error line="248" column="50" source="trailing-comma-on-call-site" />
+        <error line="266" column="39" source="trailing-comma-on-call-site" />
+        <error line="398" column="72" source="trailing-comma-on-call-site" />
+        <error line="399" column="14" source="trailing-comma-on-call-site" />
+        <error line="491" column="46" source="trailing-comma-on-call-site" />
+        <error line="492" column="26" source="trailing-comma-on-call-site" />
+        <error line="560" column="14" source="trailing-comma-on-call-site" />
+        <error line="601" column="27" source="trailing-comma-on-call-site" />
+        <error line="605" column="35" source="trailing-comma-on-call-site" />
+        <error line="839" column="74" source="trailing-comma-on-call-site" />
+        <error line="848" column="14" source="trailing-comma-on-call-site" />
+        <error line="863" column="49" source="trailing-comma-on-call-site" />
+        <error line="907" column="37" source="trailing-comma-on-call-site" />
+        <error line="953" column="70" source="trailing-comma-on-call-site" />
+        <error line="994" column="42" source="trailing-comma-on-call-site" />
+        <error line="1019" column="22" source="trailing-comma-on-call-site" />
+        <error line="1033" column="14" source="trailing-comma-on-call-site" />
+        <error line="1045" column="14" source="trailing-comma-on-call-site" />
+        <error line="1067" column="14" source="trailing-comma-on-call-site" />
+        <error line="1245" column="26" source="trailing-comma-on-call-site" />
+        <error line="1281" column="25" source="trailing-comma-on-declaration-site" />
+        <error line="1324" column="23" source="trailing-comma-on-declaration-site" />
+        <error line="1350" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="1377" column="36" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/ComposeAutoCompleteAdapter.kt">
+        <error line="40" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="116" column="34" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt">
+        <error line="61" column="45" source="trailing-comma-on-declaration-site" />
+        <error line="127" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="139" column="52" source="trailing-comma-on-call-site" />
+        <error line="167" column="132" source="trailing-comma-on-call-site" />
+        <error line="200" column="52" source="trailing-comma-on-call-site" />
+        <error line="300" column="40" source="trailing-comma-on-call-site" />
+        <error line="311" column="24" source="trailing-comma-on-declaration-site" />
+        <error line="324" column="115" source="trailing-comma-on-call-site" />
+        <error line="343" column="40" source="trailing-comma-on-call-site" />
+        <error line="382" column="22" source="trailing-comma-on-call-site" />
+        <error line="391" column="22" source="trailing-comma-on-call-site" />
+        <error line="423" column="71" source="trailing-comma-on-call-site" />
+        <error line="519" column="42" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/ImageDownsizer.kt">
+        <error line="42" column="19" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/MediaPreviewAdapter.kt">
+        <error line="37" column="64" source="trailing-comma-on-declaration-site" />
+        <error line="123" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/MediaUploader.kt">
+        <error line="74" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="85" column="19" source="trailing-comma-on-call-site" />
+        <error line="99" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="178" column="37" source="trailing-comma-on-call-site" />
+        <error line="201" column="33" source="trailing-comma-on-call-site" />
+        <error line="271" column="30" source="trailing-comma-on-call-site" />
+        <error line="282" column="47" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/dialog/AddPollDialog.kt">
+        <error line="36" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="57" column="10" source="trailing-comma-on-call-site" />
+        <error line="97" column="73" source="trailing-comma-on-call-site" />
+        <error line="98" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/dialog/AddPollOptionsAdapter.kt">
+        <error line="33" column="51" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/dialog/CaptionDialog.kt">
+        <error line="59" column="46" source="trailing-comma-on-call-site" />
+        <error line="89" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="93" column="14" source="trailing-comma-on-call-site" />
+        <error line="106" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="127" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="132" column="46" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/dialog/FocusDialog.kt">
+        <error line="40" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="75" column="10" source="trailing-comma-on-call-site" />
+        <error line="93" column="60" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/ComposeScheduleView.kt">
+        <error line="41" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="49" column="13" source="trailing-comma-on-call-site" />
+        <error line="56" column="28" source="trailing-comma-on-call-site" />
+        <error line="86" column="41" source="trailing-comma-on-call-site" />
+        <error line="185" column="42" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/EditTextTyped.kt">
+        <error line="33" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="63" column="23" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/FocusIndicatorView.kt">
+        <error line="22" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/PollPreviewView.kt">
+        <error line="30" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/ProgressImageView.kt">
+        <error line="34" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="53" column="30" source="trailing-comma-on-call-site" />
+        <error line="99" column="34" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/compose/view/TootButton.kt">
+        <error line="33" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="61" column="41" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationAdapter.kt">
+        <error line="29" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="58" source="trailing-comma-on-call-site" />
+        <error line="52" column="28" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationEntity.kt">
+        <error line="40" column="70" source="trailing-comma-on-declaration-site" />
+        <error line="48" column="49" source="trailing-comma-on-call-site" />
+        <error line="59" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="70" column="28" source="trailing-comma-on-call-site" />
+        <error line="100" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="134" column="32" source="trailing-comma-on-call-site" />
+        <error line="138" column="36" source="trailing-comma-on-call-site" />
+        <error line="150" column="34" source="trailing-comma-on-call-site" />
+        <error line="156" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="182" column="28" source="trailing-comma-on-call-site" />
+        <error line="190" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="201" column="48" source="trailing-comma-on-call-site" />
+        <error line="202" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationLoadStateAdapter.kt">
+        <error line="27" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="48" column="29" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationViewData.kt">
+        <error line="26" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="68" source="trailing-comma-on-declaration-site" />
+        <error line="51" column="60" source="trailing-comma-on-call-site" />
+        <error line="52" column="14" source="trailing-comma-on-call-site" />
+        <error line="64" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="90" column="35" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsFragment.kt">
+        <error line="114" column="75" source="trailing-comma-on-call-site" />
+        <error line="160" column="10" source="trailing-comma-on-call-site" />
+        <error line="178" column="10" source="trailing-comma-on-call-site" />
+        <error line="193" column="69" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsRemoteMediator.kt">
+        <error line="18" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="29" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="71" column="68" source="trailing-comma-on-call-site" />
+        <error line="73" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/conversation/ConversationsViewModel.kt">
+        <error line="40" column="33" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="10" source="trailing-comma-on-call-site" />
+        <error line="67" column="43" source="trailing-comma-on-call-site" />
+        <error line="73" column="14" source="trailing-comma-on-call-site" />
+        <error line="82" column="42" source="trailing-comma-on-call-site" />
+        <error line="88" column="14" source="trailing-comma-on-call-site" />
+        <error line="98" column="36" source="trailing-comma-on-call-site" />
+        <error line="104" column="18" source="trailing-comma-on-call-site" />
+        <error line="112" column="36" source="trailing-comma-on-call-site" />
+        <error line="122" column="38" source="trailing-comma-on-call-site" />
+        <error line="132" column="47" source="trailing-comma-on-call-site" />
+        <error line="145" column="66" source="trailing-comma-on-call-site" />
+        <error line="158" column="69" source="trailing-comma-on-call-site" />
+        <error line="163" column="77" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/drafts/DraftHelper.kt">
+        <error line="48" column="20" source="trailing-comma-on-declaration-site" />
+        <error line="69" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="111" column="36" source="trailing-comma-on-call-site" />
+        <error line="112" column="18" source="trailing-comma-on-call-site" />
+        <error line="130" column="32" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/drafts/DraftMediaAdapter.kt">
+        <error line="31" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="41" column="6" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/drafts/DraftsActivity.kt">
+        <error line="122" column="74" source="trailing-comma-on-call-site" />
+        <error line="143" column="22" source="trailing-comma-on-call-site" />
+        <error line="160" column="58" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/drafts/DraftsAdapter.kt">
+        <error line="37" column="46" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="6" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/drafts/DraftsViewModel.kt">
+        <error line="36" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="41" column="109" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterActivity.kt">
+        <error line="62" column="60" source="trailing-comma-on-call-site" />
+        <error line="79" column="14" source="trailing-comma-on-call-site" />
+        <error line="108" column="18" source="trailing-comma-on-call-site" />
+        <error line="118" column="22" source="trailing-comma-on-call-site" />
+        <error line="190" column="42" source="trailing-comma-on-call-site" />
+        <error line="223" column="58" source="trailing-comma-on-call-site" />
+        <error line="224" column="22" source="trailing-comma-on-call-site" />
+        <error line="244" column="70" source="trailing-comma-on-call-site" />
+        <error line="245" column="22" source="trailing-comma-on-call-site" />
+        <error line="283" column="34" source="trailing-comma-on-call-site" />
+        <error line="288" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/filters/EditFilterViewModel.kt">
+        <error line="101" column="48" source="trailing-comma-on-call-site" />
+        <error line="115" column="14" source="trailing-comma-on-call-site" />
+        <error line="126" column="48" source="trailing-comma-on-call-site" />
+        <error line="151" column="14" source="trailing-comma-on-call-site" />
+        <error line="169" column="56" source="trailing-comma-on-call-site" />
+        <error line="178" column="56" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/filters/FiltersActivity.kt">
+        <error line="80" column="37" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/filters/FiltersAdapter.kt">
+        <error line="35" column="115" source="trailing-comma-on-call-site" />
+        <error line="41" column="102" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/filters/FiltersViewModel.kt">
+        <error line="20" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="50" column="30" source="trailing-comma-on-call-site" />
+        <error line="56" column="18" source="trailing-comma-on-call-site" />
+        <error line="78" column="30" source="trailing-comma-on-call-site" />
+        <error line="83" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsActivity.kt">
+        <error line="97" column="14" source="trailing-comma-on-call-site" />
+        <error line="136" column="46" source="trailing-comma-on-call-site" />
+        <error line="139" column="18" source="trailing-comma-on-call-site" />
+        <error line="153" column="45" source="trailing-comma-on-call-site" />
+        <error line="167" column="36" source="trailing-comma-on-call-site" />
+        <error line="169" column="46" source="trailing-comma-on-call-site" />
+        <error line="172" column="18" source="trailing-comma-on-call-site" />
+        <error line="194" column="41" source="trailing-comma-on-call-site" />
+        <error line="195" column="18" source="trailing-comma-on-call-site" />
+        <error line="203" column="79" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsAdapter.kt">
+        <error line="16" column="49" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsRemoteMediator.kt">
+        <error line="16" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="20" column="43" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/followedtags/FollowedTagsViewModel.kt">
+        <error line="19" column="33" source="trailing-comma-on-declaration-site" />
+        <error line="31" column="33" source="trailing-comma-on-call-site" />
+        <error line="35" column="10" source="trailing-comma-on-call-site" />
+        <error line="45" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/instanceinfo/InstanceInfo.kt">
+        <error line="32" column="25" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/instanceinfo/InstanceInfoRepository.kt">
+        <error line="35" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="79" column="99" source="trailing-comma-on-call-site" />
+        <error line="87" column="18" source="trailing-comma-on-call-site" />
+        <error line="103" column="52" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/instancemute/adapter/DomainMutesAdapter.kt">
+        <error line="11" column="55" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt">
+        <error line="72" column="18" source="trailing-comma-on-call-site" />
+        <error line="83" column="18" source="trailing-comma-on-call-site" />
+        <error line="114" column="18" source="trailing-comma-on-call-site" />
+        <error line="134" column="21" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/login/LoginActivity.kt">
+        <error line="103" column="33" source="trailing-comma-on-call-site" />
+        <error line="176" column="50" source="trailing-comma-on-call-site" />
+        <error line="199" column="18" source="trailing-comma-on-call-site" />
+        <error line="285" column="33" source="trailing-comma-on-call-site" />
+        <error line="295" column="14" source="trailing-comma-on-call-site" />
+        <error line="303" column="29" source="trailing-comma-on-declaration-site" />
+        <error line="307" column="55" source="trailing-comma-on-call-site" />
+        <error line="315" column="40" source="trailing-comma-on-call-site" />
+        <error line="328" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewActivity.kt">
+        <error line="91" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="152" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="160" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="207" column="87" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/login/LoginWebViewViewModel.kt">
+        <error line="28" column="33" source="trailing-comma-on-declaration-site" />
+        <error line="43" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/FollowViewHolder.kt">
+        <error line="37" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="40" column="35" source="trailing-comma-on-call-site" />
+        <error line="46" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="56" column="47" source="trailing-comma-on-call-site" />
+        <error line="65" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="74" column="18" source="trailing-comma-on-call-site" />
+        <error line="82" column="30" source="trailing-comma-on-call-site" />
+        <error line="90" column="26" source="trailing-comma-on-call-site" />
+        <error line="97" column="27" source="trailing-comma-on-call-site" />
+        <error line="103" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationFetcher.kt">
+        <error line="31" column="33" source="trailing-comma-on-declaration-site" />
+        <error line="78" column="39" source="trailing-comma-on-call-site" />
+        <error line="90" column="32" source="trailing-comma-on-call-site" />
+        <error line="146" column="34" source="trailing-comma-on-call-site" />
+        <error line="170" column="54" source="trailing-comma-on-call-site" />
+        <error line="184" column="40" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsFragment.kt">
+        <error line="114" column="72" source="trailing-comma-on-call-site" />
+        <error line="121" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="164" column="21" source="trailing-comma-on-call-site" />
+        <error line="173" column="14" source="trailing-comma-on-call-site" />
+        <error line="178" column="47" source="trailing-comma-on-call-site" />
+        <error line="179" column="14" source="trailing-comma-on-call-site" />
+        <error line="211" column="10" source="trailing-comma-on-call-site" />
+        <error line="215" column="71" source="trailing-comma-on-call-site" />
+        <error line="235" column="10" source="trailing-comma-on-call-site" />
+        <error line="272" column="72" source="trailing-comma-on-call-site" />
+        <error line="278" column="55" source="trailing-comma-on-call-site" />
+        <error line="312" column="54" source="trailing-comma-on-call-site" />
+        <error line="319" column="81" source="trailing-comma-on-declaration-site" />
+        <error line="349" column="91" source="trailing-comma-on-call-site" />
+        <error line="353" column="48" source="trailing-comma-on-call-site" />
+        <error line="408" column="59" source="trailing-comma-on-call-site" />
+        <error line="422" column="63" source="trailing-comma-on-call-site" />
+        <error line="428" column="63" source="trailing-comma-on-call-site" />
+        <error line="524" column="17" source="trailing-comma-on-call-site" />
+        <error line="541" column="34" source="trailing-comma-on-call-site" />
+        <error line="549" column="41" source="trailing-comma-on-call-site" />
+        <error line="561" column="38" source="trailing-comma-on-call-site" />
+        <error line="618" column="74" source="trailing-comma-on-call-site" />
+        <error line="641" column="50" source="trailing-comma-on-declaration-site" />
+        <error line="648" column="50" source="trailing-comma-on-declaration-site" />
+        <error line="655" column="50" source="trailing-comma-on-declaration-site" />
+        <error line="671" column="69" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsLoadStateAdapter.kt">
+        <error line="26" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="30" column="29" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsLoadStateViewHolder.kt">
+        <error line="41" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="68" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsPagingAdapter.kt">
+        <error line="51" column="12" source="trailing-comma-on-declaration-site" />
+        <error line="58" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="62" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="64" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="105" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="116" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="132" column="30" source="trailing-comma-on-call-site" />
+        <error line="140" column="42" source="trailing-comma-on-call-site" />
+        <error line="147" column="41" source="trailing-comma-on-call-site" />
+        <error line="155" column="38" source="trailing-comma-on-call-site" />
+        <error line="161" column="47" source="trailing-comma-on-call-site" />
+        <error line="166" column="76" source="trailing-comma-on-call-site" />
+        <error line="179" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="187" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="197" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="202" column="55" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsPagingSource.kt">
+        <error line="40" column="29" source="trailing-comma-on-call-site" />
+        <error line="43" column="29" source="trailing-comma-on-call-site" />
+        <error line="44" column="18" source="trailing-comma-on-call-site" />
+        <error line="54" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="67" column="50" source="trailing-comma-on-call-site" />
+        <error line="72" column="50" source="trailing-comma-on-call-site" />
+        <error line="100" column="37" source="trailing-comma-on-call-site" />
+        <error line="124" column="46" source="trailing-comma-on-call-site" />
+        <error line="201" column="42" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsRepository.kt">
+        <error line="36" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="58" column="44" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModel.kt">
+        <error line="81" column="46" source="trailing-comma-on-declaration-site" />
+        <error line="87" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="93" column="47" source="trailing-comma-on-call-site" />
+        <error line="165" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="182" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="200" column="61" source="trailing-comma-on-declaration-site" />
+        <error line="237" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="241" column="46" source="trailing-comma-on-call-site" />
+        <error line="246" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="251" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="256" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="261" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="266" column="68" source="trailing-comma-on-declaration-site" />
+        <error line="271" column="68" source="trailing-comma-on-declaration-site" />
+        <error line="293" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="348" column="74" source="trailing-comma-on-call-site" />
+        <error line="349" column="22" source="trailing-comma-on-call-site" />
+        <error line="384" column="24" source="trailing-comma-on-call-site" />
+        <error line="385" column="14" source="trailing-comma-on-call-site" />
+        <error line="396" column="32" source="trailing-comma-on-call-site" />
+        <error line="451" column="49" source="trailing-comma-on-call-site" />
+        <error line="456" column="49" source="trailing-comma-on-call-site" />
+        <error line="461" column="49" source="trailing-comma-on-call-site" />
+        <error line="467" column="51" source="trailing-comma-on-call-site" />
+        <error line="499" column="68" source="trailing-comma-on-call-site" />
+        <error line="504" column="37" source="trailing-comma-on-call-site" />
+        <error line="510" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="519" column="43" source="trailing-comma-on-call-site" />
+        <error line="548" column="86" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/PushNotificationHelper.kt">
+        <error line="58" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="166" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="182" column="48" source="trailing-comma-on-call-site" />
+        <error line="204" column="52" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/StatusNotificationViewHolder.kt">
+        <error line="70" column="61" source="trailing-comma-on-declaration-site" />
+        <error line="73" column="35" source="trailing-comma-on-call-site" />
+        <error line="76" column="35" source="trailing-comma-on-call-site" />
+        <error line="79" column="35" source="trailing-comma-on-call-site" />
+        <error line="85" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="106" column="60" source="trailing-comma-on-call-site" />
+        <error line="112" column="60" source="trailing-comma-on-call-site" />
+        <error line="132" column="61" source="trailing-comma-on-call-site" />
+        <error line="181" column="53" source="trailing-comma-on-call-site" />
+        <error line="196" column="29" source="trailing-comma-on-declaration-site" />
+        <error line="209" column="27" source="trailing-comma-on-call-site" />
+        <error line="228" column="27" source="trailing-comma-on-call-site" />
+        <error line="235" column="27" source="trailing-comma-on-call-site" />
+        <error line="242" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="276" column="17" source="trailing-comma-on-call-site" />
+        <error line="285" column="45" source="trailing-comma-on-call-site" />
+        <error line="290" column="26" source="trailing-comma-on-call-site" />
+        <error line="301" column="60" source="trailing-comma-on-call-site" />
+        <error line="305" column="60" source="trailing-comma-on-call-site" />
+        <error line="312" column="47" source="trailing-comma-on-call-site" />
+        <error line="325" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="342" column="33" source="trailing-comma-on-call-site" />
+        <error line="349" column="60" source="trailing-comma-on-call-site" />
+        <error line="354" column="60" source="trailing-comma-on-call-site" />
+        <error line="366" column="30" source="trailing-comma-on-call-site" />
+        <error line="373" column="21" source="trailing-comma-on-call-site" />
+        <error line="378" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/notifications/StatusViewHolder.kt">
+        <error line="30" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="51" column="40" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/preference/AccountPreferencesFragment.kt">
+        <error line="102" column="45" source="trailing-comma-on-call-site" />
+        <error line="116" column="45" source="trailing-comma-on-call-site" />
+        <error line="131" column="45" source="trailing-comma-on-call-site" />
+        <error line="149" column="45" source="trailing-comma-on-call-site" />
+        <error line="163" column="45" source="trailing-comma-on-call-site" />
+        <error line="318" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/preference/PreferencesActivity.kt">
+        <error line="99" column="34" source="trailing-comma-on-call-site" />
+        <error line="105" column="25" source="trailing-comma-on-declaration-site" />
+        <error line="110" column="28" source="trailing-comma-on-call-site" />
+        <error line="119" column="38" source="trailing-comma-on-call-site" />
+        <error line="162" column="107" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/preference/PreferencesFragment.kt">
+        <error line="59" column="21" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/preference/ProxyPreferencesFragment.kt">
+        <error line="59" column="35" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/ReportViewModel.kt">
+        <error line="49" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="69" column="54" source="trailing-comma-on-call-site" />
+        <error line="76" column="83" source="trailing-comma-on-call-site" />
+        <error line="137" column="18" source="trailing-comma-on-call-site" />
+        <error line="169" column="18" source="trailing-comma-on-call-site" />
+        <error line="191" column="14" source="trailing-comma-on-call-site" />
+        <error line="204" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/adapter/StatusViewHolder.kt">
+        <error line="50" column="72" source="trailing-comma-on-declaration-site" />
+        <error line="93" column="28" source="trailing-comma-on-call-site" />
+        <error line="106" column="37" source="trailing-comma-on-call-site" />
+        <error line="147" column="31" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/adapter/StatusesAdapter.kt">
+        <error line="31" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="45" column="30" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/adapter/StatusesPagingSource.kt">
+        <error line="30" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="66" column="50" source="trailing-comma-on-call-site" />
+        <error line="85" column="34" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/fragments/ReportDoneFragment.kt">
+        <error line="63" column="18" source="trailing-comma-on-call-site" />
+        <error line="79" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/report/fragments/ReportStatusesFragment.kt">
+        <error line="162" column="75" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/scheduled/ScheduledStatusAdapter.kt">
+        <error line="32" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="42" column="6" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/scheduled/ScheduledStatusPagingSource.kt">
+        <error line="26" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="69" source="trailing-comma-on-declaration-site" />
+        <error line="59" column="66" source="trailing-comma-on-call-site" />
+        <error line="65" column="44" source="trailing-comma-on-call-site" />
+        <error line="71" column="54" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/scheduled/ScheduledStatusViewModel.kt">
+        <error line="33" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="40" column="50" source="trailing-comma-on-call-site" />
+        <error line="52" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/SearchType.kt">
+        <error line="21" column="24" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/SearchViewModel.kt">
+        <error line="44" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="64" column="35" source="trailing-comma-on-call-site" />
+        <error line="79" column="58" source="trailing-comma-on-call-site" />
+        <error line="85" column="58" source="trailing-comma-on-call-site" />
+        <error line="91" column="58" source="trailing-comma-on-call-site" />
+        <error line="122" column="88" source="trailing-comma-on-call-site" />
+        <error line="123" column="22" source="trailing-comma-on-call-site" />
+        <error line="127" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/adapter/SearchAccountsAdapter.kt">
+        <error line="34" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/adapter/SearchPagingSource.kt">
+        <error line="30" column="50" source="trailing-comma-on-declaration-site" />
+        <error line="42" column="31" source="trailing-comma-on-call-site" />
+        <error line="50" column="44" source="trailing-comma-on-call-site" />
+        <error line="63" column="34" source="trailing-comma-on-call-site" />
+        <error line="77" column="34" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/adapter/SearchPagingSourceFactory.kt">
+        <error line="26" column="50" source="trailing-comma-on-declaration-site" />
+        <error line="39" column="28" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/adapter/SearchStatusesAdapter.kt">
+        <error line="30" column="53" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/fragments/SearchAccountsFragment.kt">
+        <error line="35" column="47" source="trailing-comma-on-call-site" />
+        <error line="36" column="14" source="trailing-comma-on-call-site" />
+        <error line="47" column="68" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/fragments/SearchHashtagsFragment.kt">
+        <error line="37" column="47" source="trailing-comma-on-call-site" />
+        <error line="38" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/search/fragments/SearchStatusesFragment.kt">
+        <error line="93" column="75" source="trailing-comma-on-call-site" />
+        <error line="139" column="40" source="trailing-comma-on-call-site" />
+        <error line="147" column="32" source="trailing-comma-on-call-site" />
+        <error line="233" column="55" source="trailing-comma-on-call-site" />
+        <error line="234" column="14" source="trailing-comma-on-call-site" />
+        <error line="291" column="18" source="trailing-comma-on-call-site" />
+        <error line="391" column="28" source="trailing-comma-on-call-site" />
+        <error line="411" column="14" source="trailing-comma-on-call-site" />
+        <error line="438" column="43" source="trailing-comma-on-call-site" />
+        <error line="491" column="79" source="trailing-comma-on-call-site" />
+        <error line="492" column="38" source="trailing-comma-on-call-site" />
+        <error line="499" column="30" source="trailing-comma-on-call-site" />
+        <error line="522" column="71" source="trailing-comma-on-call-site" />
+        <error line="530" column="46" source="trailing-comma-on-call-site" />
+        <error line="532" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineFragment.kt">
+        <error line="172" column="17" source="trailing-comma-on-call-site" />
+        <error line="188" column="26" source="trailing-comma-on-call-site" />
+        <error line="201" column="75" source="trailing-comma-on-call-site" />
+        <error line="205" column="17" source="trailing-comma-on-call-site" />
+        <error line="212" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="270" column="10" source="trailing-comma-on-call-site" />
+        <error line="296" column="14" source="trailing-comma-on-call-site" />
+        <error line="387" column="14" source="trailing-comma-on-call-site" />
+        <error line="484" column="17" source="trailing-comma-on-call-site" />
+        <error line="533" column="78" source="trailing-comma-on-call-site" />
+        <error line="543" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="545" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="552" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="634" column="49" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/TimelinePagingAdapter.kt">
+        <error line="34" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="41" column="58" source="trailing-comma-on-call-site" />
+        <error line="71" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="79" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="91" column="85" source="trailing-comma-on-call-site" />
+        <error line="115" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="122" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="129" column="40" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/TimelineTypeMappers.kt">
+        <error line="38" column="25" source="trailing-comma-on-declaration-site" />
+        <error line="56" column="18" source="trailing-comma-on-call-site" />
+        <error line="70" column="55" source="trailing-comma-on-call-site" />
+        <error line="109" column="24" source="trailing-comma-on-call-site" />
+        <error line="118" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="154" column="45" source="trailing-comma-on-call-site" />
+        <error line="202" column="39" source="trailing-comma-on-call-site" />
+        <error line="235" column="39" source="trailing-comma-on-call-site" />
+        <error line="267" column="39" source="trailing-comma-on-call-site" />
+        <error line="275" column="32" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/util/TimelineUtils.kt">
+        <error line="10" column="16" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/CachedTimelineRemoteMediator.kt">
+        <error line="40" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="50" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="71" column="54" source="trailing-comma-on-call-site" />
+        <error line="113" column="100" source="trailing-comma-on-call-site" />
+        <error line="172" column="56" source="trailing-comma-on-call-site" />
+        <error line="173" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/CachedTimelineViewModel.kt">
+        <error line="70" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="77" column="16" source="trailing-comma-on-call-site" />
+        <error line="95" column="10" source="trailing-comma-on-call-site" />
+        <error line="162" column="41" source="trailing-comma-on-call-site" />
+        <error line="163" column="22" source="trailing-comma-on-call-site" />
+        <error line="175" column="49" source="trailing-comma-on-call-site" />
+        <error line="182" column="49" source="trailing-comma-on-call-site" />
+        <error line="200" column="48" source="trailing-comma-on-call-site" />
+        <error line="218" column="56" source="trailing-comma-on-call-site" />
+        <error line="219" column="30" source="trailing-comma-on-call-site" />
+        <error line="236" column="48" source="trailing-comma-on-call-site" />
+        <error line="237" column="57" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/NetworkTimelinePagingSource.kt">
+        <error line="23" column="52" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/NetworkTimelineRemoteMediator.kt">
+        <error line="32" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="37" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="77" column="51" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/NetworkTimelineViewModel.kt">
+        <error line="63" column="29" source="trailing-comma-on-declaration-site" />
+        <error line="77" column="33" source="trailing-comma-on-call-site" />
+        <error line="82" column="77" source="trailing-comma-on-call-site" />
+        <error line="94" column="56" source="trailing-comma-on-call-site" />
+        <error line="100" column="34" source="trailing-comma-on-call-site" />
+        <error line="106" column="41" source="trailing-comma-on-call-site" />
+        <error line="112" column="38" source="trailing-comma-on-call-site" />
+        <error line="152" column="31" source="trailing-comma-on-call-site" />
+        <error line="168" column="43" source="trailing-comma-on-call-site" />
+        <error line="186" column="76" source="trailing-comma-on-call-site" />
+        <error line="270" column="19" source="trailing-comma-on-declaration-site" />
+        <error line="288" column="30" source="trailing-comma-on-call-site" />
+        <error line="297" column="30" source="trailing-comma-on-call-site" />
+        <error line="306" column="30" source="trailing-comma-on-call-site" />
+        <error line="322" column="70" source="trailing-comma-on-declaration-site" />
+        <error line="331" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="346" column="70" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/timeline/viewmodel/TimelineViewModel.kt">
+        <error line="61" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="82" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="298" column="30" source="trailing-comma-on-call-site" />
+        <error line="306" column="18" source="trailing-comma-on-call-site" />
+        <error line="317" column="40" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/trending/TrendingAdapter.kt">
+        <error line="28" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="79" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="86" column="42" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/trending/TrendingDateViewHolder.kt">
+        <error line="27" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="38" column="35" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/trending/TrendingFragment.kt">
+        <error line="85" column="68" source="trailing-comma-on-call-site" />
+        <error line="91" column="10" source="trailing-comma-on-call-site" />
+        <error line="165" column="21" source="trailing-comma-on-call-site" />
+        <error line="198" column="35" source="trailing-comma-on-call-site" />
+        <error line="210" column="35" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/trending/TrendingTagViewHolder.kt">
+        <error line="25" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="30" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="33" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/trending/viewmodel/TrendingViewModel.kt">
+        <error line="40" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="48" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="113" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/ThreadAdapter.kt">
+        <error line="33" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="77" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="84" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="91" column="49" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadFragment.kt">
+        <error line="117" column="75" source="trailing-comma-on-call-site" />
+        <error line="125" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="141" column="21" source="trailing-comma-on-call-site" />
+        <error line="142" column="64" source="trailing-comma-on-call-site" />
+        <error line="221" column="38" source="trailing-comma-on-call-site" />
+        <error line="261" column="14" source="trailing-comma-on-call-site" />
+        <error line="299" column="36" source="trailing-comma-on-call-site" />
+        <error line="342" column="17" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModel.kt">
+        <error line="64" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="116" column="38" source="trailing-comma-on-call-site" />
+        <error line="139" column="69" source="trailing-comma-on-call-site" />
+        <error line="161" column="67" source="trailing-comma-on-call-site" />
+        <error line="168" column="63" source="trailing-comma-on-call-site" />
+        <error line="170" column="14" source="trailing-comma-on-call-site" />
+        <error line="247" column="105" source="trailing-comma-on-call-site" />
+        <error line="263" column="63" source="trailing-comma-on-call-site" />
+        <error line="309" column="18" source="trailing-comma-on-call-site" />
+        <error line="341" column="18" source="trailing-comma-on-call-site" />
+        <error line="351" column="18" source="trailing-comma-on-call-site" />
+        <error line="363" column="60" source="trailing-comma-on-call-site" />
+        <error line="369" column="58" source="trailing-comma-on-call-site" />
+        <error line="430" column="98" source="trailing-comma-on-call-site" />
+        <error line="436" column="18" source="trailing-comma-on-call-site" />
+        <error line="446" column="63" source="trailing-comma-on-call-site" />
+        <error line="463" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="470" column="61" source="trailing-comma-on-call-site" />
+        <error line="493" column="18" source="trailing-comma-on-call-site" />
+        <error line="501" column="50" source="trailing-comma-on-call-site" />
+        <error line="524" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="534" column="40" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/edits/ViewEditsAdapter.kt">
+        <error line="48" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="61" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="115" column="30" source="trailing-comma-on-call-site" />
+        <error line="152" column="32" source="trailing-comma-on-call-site" />
+        <error line="243" column="49" source="trailing-comma-on-call-site" />
+        <error line="254" column="50" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/edits/ViewEditsFragment.kt">
+        <error line="117" column="65" source="trailing-comma-on-call-site" />
+        <error line="138" column="62" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/components/viewthread/edits/ViewEditsViewModel.kt">
+        <error line="92" column="47" source="trailing-comma-on-call-site" />
+        <error line="108" column="60" source="trailing-comma-on-call-site" />
+        <error line="114" column="84" source="trailing-comma-on-call-site" />
+        <error line="143" column="36" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/AccountEntity.kt">
+        <error line="32" column="26" source="trailing-comma-on-call-site" />
+        <error line="33" column="10" source="trailing-comma-on-call-site" />
+        <error line="34" column="6" source="trailing-comma-on-call-site" />
+        <error line="107" column="32" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/AccountManager.kt">
+        <error line="69" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="87" column="32" source="trailing-comma-on-call-site" />
+        <error line="100" column="42" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/Converters.kt">
+        <error line="41" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/DraftEntity.kt">
+        <error line="46" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="59" column="75" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/DraftsAlert.kt">
+        <error line="66" column="112" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/InstanceEntity.kt">
+        <error line="41" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="65" column="34" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/TimelineDao.kt">
+        <error line="52" column="53" source="trailing-comma-on-call-site" />
+        <error line="75" column="36" source="trailing-comma-on-call-site" />
+        <error line="84" column="8" source="trailing-comma-on-call-site" />
+        <error line="90" column="94" source="trailing-comma-on-call-site" />
+        <error line="96" column="94" source="trailing-comma-on-call-site" />
+        <error line="102" column="94" source="trailing-comma-on-call-site" />
+        <error line="108" column="59" source="trailing-comma-on-call-site" />
+        <error line="129" column="28" source="trailing-comma-on-call-site" />
+        <error line="151" column="8" source="trailing-comma-on-call-site" />
+        <error line="163" column="128" source="trailing-comma-on-call-site" />
+        <error line="169" column="94" source="trailing-comma-on-call-site" />
+        <error line="175" column="94" source="trailing-comma-on-call-site" />
+        <error line="181" column="94" source="trailing-comma-on-call-site" />
+        <error line="187" column="94" source="trailing-comma-on-call-site" />
+        <error line="193" column="94" source="trailing-comma-on-call-site" />
+        <error line="202" column="5" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/db/TimelineStatusEntity.kt">
+        <error line="44" column="68" source="trailing-comma-on-call-site" />
+        <error line="45" column="14" source="trailing-comma-on-call-site" />
+        <error line="49" column="58" source="trailing-comma-on-call-site" />
+        <error line="88" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="95" column="49" source="trailing-comma-on-call-site" />
+        <error line="106" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="115" column="53" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/di/AppComponent.kt">
+        <error line="39" column="28" source="trailing-comma-on-call-site" />
+        <error line="40" column="6" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/di/AppInjector.kt">
+        <error line="61" column="10" source="trailing-comma-on-call-site" />
+        <error line="77" column="21" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/di/AppModule.kt">
+        <error line="71" column="44" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/di/NetworkModule.kt">
+        <error line="71" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="87" column="118" source="trailing-comma-on-call-site" />
+        <error line="117" column="19" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/AccessToken.kt">
+        <error line="21" column="60" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Account.kt">
+        <error line="39" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="58" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="64" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="69" column="22" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Announcement.kt">
+        <error line="34" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="61" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/AppCredentials.kt">
+        <error line="22" column="62" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Attachment.kt">
+        <error line="35" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="53" column="16" source="trailing-comma-on-declaration-site" />
+        <error line="77" column="25" source="trailing-comma-on-declaration-site" />
+        <error line="89" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="101" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Card.kt">
+        <error line="30" column="55" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Conversation.kt">
+        <error line="24" column="24" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/DeletedStatus.kt">
+        <error line="30" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Emoji.kt">
+        <error line="27" column="71" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Error.kt">
+        <error line="23" column="35" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Filter.kt">
+        <error line="15" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="21" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="32" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/FilterKeyword.kt">
+        <error line="11" column="57" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/FilterResult.kt">
+        <error line="8" column="71" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/FilterV1.kt">
+        <error line="27" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="60" column="42" source="trailing-comma-on-call-site" />
+        <error line="61" column="18" source="trailing-comma-on-call-site" />
+        <error line="62" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Instance.kt">
+        <error line="37" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="57" column="62" source="trailing-comma-on-declaration-site" />
+        <error line="63" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="69" column="86" source="trailing-comma-on-declaration-site" />
+        <error line="78" column="69" source="trailing-comma-on-declaration-site" />
+        <error line="82" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="86" column="73" source="trailing-comma-on-declaration-site" />
+        <error line="92" column="58" source="trailing-comma-on-declaration-site" />
+        <error line="97" column="21" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Marker.kt">
+        <error line="14" column="24" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/MastoList.kt">
+        <error line="26" column="28" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/MediaUploadResult.kt">
+        <error line="8" column="19" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/NewStatus.kt">
+        <error line="32" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="39" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="49" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Notification.kt">
+        <error line="31" column="24" source="trailing-comma-on-declaration-site" />
+        <error line="67" column="66" source="trailing-comma-on-declaration-site" />
+        <error line="107" column="48" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/NotificationSubscribeResult.kt">
+        <error line="23" column="56" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Poll.kt">
+        <error line="15" column="58" source="trailing-comma-on-declaration-site" />
+        <error line="31" column="25" source="trailing-comma-on-call-site" />
+        <error line="40" column="17" source="trailing-comma-on-call-site" />
+        <error line="46" column="55" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Relationship.kt">
+        <error line="38" column="28" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Report.kt">
+        <error line="11" column="73" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/ScheduledStatus.kt">
+        <error line="24" column="85" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/SearchResult.kt">
+        <error line="21" column="32" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/Status.kt">
+        <error line="53" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="82" column="18" source="trailing-comma-on-declaration-site" />
+        <error line="140" column="32" source="trailing-comma-on-call-site" />
+        <error line="167" column="62" source="trailing-comma-on-declaration-site" />
+        <error line="172" column="29" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/StatusContext.kt">
+        <error line="20" column="34" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/StatusEdit.kt">
+        <error line="14" column="28" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/StatusParams.kt">
+        <error line="25" column="63" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/StatusSource.kt">
+        <error line="23" column="60" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/TimelineAccount.kt">
+        <error line="33" column="43" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/entity/TrendingTagsResult.kt">
+        <error line="30" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="43" column="21" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/fragment/SFragment.kt">
+        <error line="125" column="85" source="trailing-comma-on-call-site" />
+        <error line="136" column="51" source="trailing-comma-on-call-site" />
+        <error line="191" column="18" source="trailing-comma-on-call-site" />
+        <error line="203" column="113" source="trailing-comma-on-call-site" />
+        <error line="210" column="77" source="trailing-comma-on-call-site" />
+        <error line="211" column="26" source="trailing-comma-on-call-site" />
+        <error line="224" column="74" source="trailing-comma-on-call-site" />
+        <error line="225" column="26" source="trailing-comma-on-call-site" />
+        <error line="328" column="28" source="trailing-comma-on-call-site" />
+        <error line="397" column="71" source="trailing-comma-on-call-site" />
+        <error line="405" column="26" source="trailing-comma-on-call-site" />
+        <error line="427" column="71" source="trailing-comma-on-call-site" />
+        <error line="435" column="46" source="trailing-comma-on-call-site" />
+        <error line="437" column="18" source="trailing-comma-on-call-site" />
+        <error line="455" column="18" source="trailing-comma-on-call-site" />
+        <error line="469" column="18" source="trailing-comma-on-call-site" />
+        <error line="484" column="43" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/fragment/ViewImageFragment.kt">
+        <error line="78" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="122" column="14" source="trailing-comma-on-call-site" />
+        <error line="219" column="10" source="trailing-comma-on-call-site" />
+        <error line="236" column="14" source="trailing-comma-on-call-site" />
+        <error line="265" column="96" source="trailing-comma-on-call-site" />
+        <error line="275" column="90" source="trailing-comma-on-call-site" />
+        <error line="304" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="311" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="331" column="37" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/fragment/ViewMediaFragment.kt">
+        <error line="33" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="62" column="38" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt">
+        <error line="161" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="169" column="18" source="trailing-comma-on-call-site" />
+        <error line="234" column="58" source="trailing-comma-on-call-site" />
+        <error line="331" column="61" source="trailing-comma-on-declaration-site" />
+        <error line="342" column="18" source="trailing-comma-on-call-site" />
+        <error line="352" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="395" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/json/Iso8601Utils.kt">
+        <error line="167" column="109" source="trailing-comma-on-call-site" />
+        <error line="174" column="67" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/network/MastodonApi.kt">
+        <error line="101" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="109" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="119" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="127" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="139" column="75" source="trailing-comma-on-declaration-site" />
+        <error line="145" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="152" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="161" column="86" source="trailing-comma-on-declaration-site" />
+        <error line="169" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="180" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="185" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="193" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="198" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="207" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="212" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="217" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="222" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="227" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="233" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="239" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="244" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="249" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="254" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="259" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="264" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="269" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="274" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="279" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="284" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="289" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="294" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="300" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="305" column="46" source="trailing-comma-on-declaration-site" />
+        <error line="311" column="54" source="trailing-comma-on-declaration-site" />
+        <error line="319" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="337" column="79" source="trailing-comma-on-declaration-site" />
+        <error line="345" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="353" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="358" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="378" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="384" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="390" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="398" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="403" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="408" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="413" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="421" column="49" source="trailing-comma-on-declaration-site" />
+        <error line="426" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="431" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="436" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="441" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="446" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="451" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="458" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="464" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="476" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="483" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="488" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="493" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="498" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="508" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="519" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="527" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="535" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="542" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="550" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="555" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="561" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="569" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="576" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="582" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="587" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="597" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="608" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="613" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="622" column="52" source="trailing-comma-on-declaration-site" />
+        <error line="632" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="637" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="645" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="653" column="48" source="trailing-comma-on-declaration-site" />
+        <error line="658" column="45" source="trailing-comma-on-declaration-site" />
+        <error line="665" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="670" column="63" source="trailing-comma-on-declaration-site" />
+        <error line="675" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="681" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="687" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="696" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="706" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="711" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="721" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="731" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="738" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="752" column="45" source="trailing-comma-on-declaration-site" />
+        <error line="760" column="45" source="trailing-comma-on-declaration-site" />
+        <error line="766" column="46" source="trailing-comma-on-declaration-site" />
+        <error line="777" column="43" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/network/MediaUploadApi.kt">
+        <error line="19" column="48" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/pager/ImagePagerAdapter.kt">
+        <error line="13" column="37" source="trailing-comma-on-declaration-site" />
+        <error line="29" column="95" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/pager/SingleImagePagerAdapter.kt">
+        <error line="10" column="33" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/receiver/SendStatusBroadcastReceiver.kt">
+        <error line="100" column="40" source="trailing-comma-on-call-site" />
+        <error line="101" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/service/SendStatusService.kt">
+        <error line="199" column="30" source="trailing-comma-on-call-site" />
+        <error line="220" column="41" source="trailing-comma-on-call-site" />
+        <error line="222" column="18" source="trailing-comma-on-call-site" />
+        <error line="230" column="30" source="trailing-comma-on-call-site" />
+        <error line="238" column="30" source="trailing-comma-on-call-site" />
+        <error line="265" column="14" source="trailing-comma-on-call-site" />
+        <error line="308" column="25" source="trailing-comma-on-call-site" />
+        <error line="333" column="25" source="trailing-comma-on-call-site" />
+        <error line="361" column="39" source="trailing-comma-on-call-site" />
+        <error line="372" column="57" source="trailing-comma-on-call-site" />
+        <error line="380" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="390" column="57" source="trailing-comma-on-call-site" />
+        <error line="423" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="433" column="61" source="trailing-comma-on-call-site" />
+        <error line="466" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="476" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/settings/AccountPreferenceDataStore.kt">
+        <error line="16" column="64" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/settings/ProxyConfiguration.kt">
+        <error line="7" column="18" source="trailing-comma-on-declaration-site" />
+        <error line="21" column="42" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/settings/SettingsConstants.kt">
+        <error line="8" column="31" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/settings/SettingsDSL.kt">
+        <error line="21" column="44" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="56" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="67" column="43" source="trailing-comma-on-declaration-site" />
+        <error line="90" column="59" source="trailing-comma-on-declaration-site" />
+        <error line="100" column="41" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/usecase/DeveloperToolsUseCase.kt">
+        <error line="14" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="35" column="108" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/usecase/LogoutUsecase.kt">
+        <error line="18" column="41" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="54" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/usecase/TimelineCases.kt">
+        <error line="48" column="35" source="trailing-comma-on-declaration-site" />
+        <error line="126" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/AsciiFolding.kt">
+        <error line="21" column="197" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/BindingHolder.kt">
+        <error line="7" column="19" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/BlurHashDecoder.kt">
+        <error line="79" column="47" source="trailing-comma-on-call-site" />
+        <error line="90" column="34" source="trailing-comma-on-declaration-site" />
+        <error line="127" column="82" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/CardViewMode.kt">
+        <error line="6" column="13" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/CompositeWithOpaqueBackground.kt">
+        <error line="76" column="23" source="trailing-comma-on-declaration-site" />
+        <error line="140" column="45" source="trailing-comma-on-call-site" />
+        <error line="141" column="22" source="trailing-comma-on-call-site" />
+        <error line="142" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/CustomFragmentStateAdapter.kt">
+        <error line="23" column="43" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/FlowExtensions.kt">
+        <error line="58" column="50" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/FocalPointUtil.kt">
+        <error line="62" column="20" source="trailing-comma-on-declaration-site" />
+        <error line="92" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="108" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="151" column="21" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/HttpHeaderLink.kt">
+        <error line="30" column="16" source="trailing-comma-on-declaration-site" />
+        <error line="128" column="33" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/IOUtils.kt">
+        <error line="39" column="15" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/ImageLoadingHelper.kt">
+        <error line="24" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="36" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/LinkHelper.kt">
+        <error line="115" column="27" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/ListStatusAccessibilityDelegate.kt">
+        <error line="32" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="44" column="46" source="trailing-comma-on-declaration-site" />
+        <error line="68" column="45" source="trailing-comma-on-call-site" />
+        <error line="75" column="83" source="trailing-comma-on-call-site" />
+        <error line="76" column="26" source="trailing-comma-on-call-site" />
+        <error line="100" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="117" column="105" source="trailing-comma-on-call-site" />
+        <error line="183" column="34" source="trailing-comma-on-call-site" />
+        <error line="184" column="22" source="trailing-comma-on-call-site" />
+        <error line="200" column="39" source="trailing-comma-on-call-site" />
+        <error line="201" column="22" source="trailing-comma-on-call-site" />
+        <error line="218" column="29" source="trailing-comma-on-call-site" />
+        <error line="219" column="22" source="trailing-comma-on-call-site" />
+        <error line="240" column="49" source="trailing-comma-on-call-site" />
+        <error line="275" column="67" source="trailing-comma-on-call-site" />
+        <error line="280" column="67" source="trailing-comma-on-call-site" />
+        <error line="285" column="49" source="trailing-comma-on-call-site" />
+        <error line="290" column="52" source="trailing-comma-on-call-site" />
+        <error line="295" column="50" source="trailing-comma-on-call-site" />
+        <error line="300" column="55" source="trailing-comma-on-call-site" />
+        <error line="305" column="53" source="trailing-comma-on-call-site" />
+        <error line="310" column="52" source="trailing-comma-on-call-site" />
+        <error line="315" column="52" source="trailing-comma-on-call-site" />
+        <error line="320" column="56" source="trailing-comma-on-call-site" />
+        <error line="325" column="49" source="trailing-comma-on-call-site" />
+        <error line="330" column="52" source="trailing-comma-on-call-site" />
+        <error line="335" column="52" source="trailing-comma-on-call-site" />
+        <error line="340" column="58" source="trailing-comma-on-call-site" />
+        <error line="345" column="61" source="trailing-comma-on-call-site" />
+        <error line="350" column="57" source="trailing-comma-on-call-site" />
+        <error line="355" column="48" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/LocaleExtensions.kt">
+        <error line="34" column="33" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/LocaleManager.kt">
+        <error line="32" column="25" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/MediaUtils.kt">
+        <error line="138" column="17" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/Resource.kt">
+        <error line="13" column="33" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/SpanUtils.kt">
+        <error line="46" column="92" source="trailing-comma-on-call-site" />
+        <error line="53" column="12" source="trailing-comma-on-declaration-site" />
+        <error line="66" column="42" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/StatusDisplayOptions.kt">
+        <error line="50" column="29" source="trailing-comma-on-declaration-site" />
+        <error line="59" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="62" column="64" source="trailing-comma-on-call-site" />
+        <error line="65" column="62" source="trailing-comma-on-call-site" />
+        <error line="68" column="65" source="trailing-comma-on-call-site" />
+        <error line="71" column="63" source="trailing-comma-on-call-site" />
+        <error line="74" column="60" source="trailing-comma-on-call-site" />
+        <error line="77" column="67" source="trailing-comma-on-call-site" />
+        <error line="80" column="63" source="trailing-comma-on-call-site" />
+        <error line="83" column="59" source="trailing-comma-on-call-site" />
+        <error line="86" column="63" source="trailing-comma-on-call-site" />
+        <error line="89" column="66" source="trailing-comma-on-call-site" />
+        <error line="92" column="52" source="trailing-comma-on-call-site" />
+        <error line="110" column="48" source="trailing-comma-on-call-site" />
+        <error line="126" column="52" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/StatusViewHelper.kt">
+        <error line="54" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="61" column="63" source="trailing-comma-on-call-site" />
+        <error line="68" column="63" source="trailing-comma-on-call-site" />
+        <error line="194" column="39" source="trailing-comma-on-call-site" />
+        <error line="207" column="39" source="trailing-comma-on-call-site" />
+        <error line="222" column="39" source="trailing-comma-on-declaration-site" />
+        <error line="270" column="68" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/ThemeUtils.kt">
+        <error line="49" column="31" source="trailing-comma-on-call-site" />
+        <error line="56" column="45" source="trailing-comma-on-call-site" />
+        <error line="60" column="51" source="trailing-comma-on-call-site" />
+        <error line="63" column="55" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/TouchDelegateHelper.kt">
+        <error line="48" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/ViewBindingExtensions.kt">
+        <error line="20" column="55" source="trailing-comma-on-declaration-site" />
+        <error line="27" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="41" column="22" source="trailing-comma-on-call-site" />
+        <error line="51" column="10" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/util/ViewDataUtils.kt">
+        <error line="47" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="54" column="32" source="trailing-comma-on-call-site" />
+        <error line="61" column="25" source="trailing-comma-on-declaration-site" />
+        <error line="68" column="20" source="trailing-comma-on-call-site" />
+        <error line="85" column="48" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/BackgroundMessageView.kt">
+        <error line="26" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="51" source="trailing-comma-on-declaration-site" />
+        <error line="57" column="51" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/BezelImageView.kt">
+        <error line="30" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="44" column="64" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/ClickableSpanTextView.kt">
+        <error line="55" column="53" source="trailing-comma-on-declaration-site" />
+        <error line="114" column="25" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/EmojiPicker.kt">
+        <error line="10" column="32" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/GraphView.kt">
+        <error line="35" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="78" column="15" source="trailing-comma-on-call-site" />
+        <error line="88" column="14" source="trailing-comma-on-call-site" />
+        <error line="105" column="15" source="trailing-comma-on-call-site" />
+        <error line="115" column="14" source="trailing-comma-on-call-site" />
+        <error line="133" column="39" source="trailing-comma-on-call-site" />
+        <error line="134" column="18" source="trailing-comma-on-call-site" />
+        <error line="140" column="38" source="trailing-comma-on-call-site" />
+        <error line="141" column="18" source="trailing-comma-on-call-site" />
+        <error line="146" column="45" source="trailing-comma-on-call-site" />
+        <error line="152" column="44" source="trailing-comma-on-call-site" />
+        <error line="153" column="18" source="trailing-comma-on-call-site" />
+        <error line="159" column="41" source="trailing-comma-on-call-site" />
+        <error line="160" column="18" source="trailing-comma-on-call-site" />
+        <error line="165" column="37" source="trailing-comma-on-call-site" />
+        <error line="287" column="30" source="trailing-comma-on-call-site" />
+        <error line="300" column="42" source="trailing-comma-on-call-site" />
+        <error line="307" column="42" source="trailing-comma-on-call-site" />
+        <error line="317" column="29" source="trailing-comma-on-declaration-site" />
+        <error line="322" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/LicenseCard.kt">
+        <error line="34" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="46" column="14" source="trailing-comma-on-call-site" />
+        <error line="51" column="58" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/MediaPreviewImageView.kt">
+        <error line="44" column="26" source="trailing-comma-on-declaration-site" />
+        <error line="127" column="38" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/MediaPreviewLayout.kt">
+        <error line="119" column="74" source="trailing-comma-on-call-site" />
+        <error line="139" column="67" source="trailing-comma-on-call-site" />
+        <error line="161" column="34" source="trailing-comma-on-call-site" />
+        <error line="175" column="55" source="trailing-comma-on-call-site" />
+        <error line="181" column="55" source="trailing-comma-on-call-site" />
+        <error line="193" column="91" source="trailing-comma-on-call-site" />
+        <error line="212" column="75" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/MuteAccountDialog.kt">
+        <error line="13" column="59" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/view/SliderPreference.kt">
+        <error line="36" column="25" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewdata/AttachmentViewData.kt">
+        <error line="30" column="28" source="trailing-comma-on-declaration-site" />
+        <error line="46" column="83" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewdata/NotificationViewData.kt">
+        <error line="42" column="24" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewdata/PollViewData.kt">
+        <error line="36" column="23" source="trailing-comma-on-declaration-site" />
+        <error line="43" column="23" source="trailing-comma-on-declaration-site" />
+        <error line="75" column="22" source="trailing-comma-on-call-site" />
+        <error line="84" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewdata/StatusViewData.kt">
+        <error line="46" column="40" source="trailing-comma-on-declaration-site" />
+        <error line="103" column="31" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewdata/TrendingViewData.kt">
+        <error line="25" column="22" source="trailing-comma-on-declaration-site" />
+        <error line="35" column="35" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewmodel/AccountsInListViewModel.kt">
+        <error line="51" column="22" source="trailing-comma-on-call-site" />
+        <error line="69" column="81" source="trailing-comma-on-call-site" />
+        <error line="71" column="22" source="trailing-comma-on-call-site" />
+        <error line="85" column="34" source="trailing-comma-on-call-site" />
+        <error line="92" column="77" source="trailing-comma-on-call-site" />
+        <error line="94" column="22" source="trailing-comma-on-call-site" />
+        <error line="111" column="26" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewmodel/EditProfileViewModel.kt">
+        <error line="58" column="57" source="trailing-comma-on-declaration-site" />
+        <error line="82" column="18" source="trailing-comma-on-call-site" />
+        <error line="156" column="139" source="trailing-comma-on-call-site" />
+        <error line="164" column="18" source="trailing-comma-on-call-site" />
+        <error line="176" column="42" source="trailing-comma-on-call-site" />
+        <error line="189" column="61" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/viewmodel/ListsViewModel.kt">
+        <error line="68" column="63" source="trailing-comma-on-call-site" />
+        <error line="79" column="30" source="trailing-comma-on-call-site" />
+        <error line="82" column="18" source="trailing-comma-on-call-site" />
+        <error line="97" column="18" source="trailing-comma-on-call-site" />
+        <error line="112" column="18" source="trailing-comma-on-call-site" />
+        <error line="127" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/worker/NotificationWorker.kt">
+        <error line="35" column="58" source="trailing-comma-on-declaration-site" />
+        <error line="47" column="62" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/worker/PruneCacheWorker.kt">
+        <error line="39" column="47" source="trailing-comma-on-declaration-site" />
+        <error line="61" column="51" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/main/java/com/keylesspalace/tusky/worker/WorkerFactory.kt">
+        <error line="46" column="118" source="trailing-comma-on-declaration-site" />
+        <error line="51" column="43" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/BottomSheetActivityTest.kt">
+        <error line="61" column="20" source="trailing-comma-on-call-site" />
+        <error line="94" column="24" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/FilterV1Test.kt">
+        <error line="54" column="34" source="trailing-comma-on-call-site" />
+        <error line="62" column="33" source="trailing-comma-on-call-site" />
+        <error line="70" column="33" source="trailing-comma-on-call-site" />
+        <error line="78" column="33" source="trailing-comma-on-call-site" />
+        <error line="86" column="33" source="trailing-comma-on-call-site" />
+        <error line="94" column="33" source="trailing-comma-on-call-site" />
+        <error line="102" column="34" source="trailing-comma-on-call-site" />
+        <error line="103" column="14" source="trailing-comma-on-call-site" />
+        <error line="114" column="63" source="trailing-comma-on-call-site" />
+        <error line="115" column="14" source="trailing-comma-on-call-site" />
+        <error line="124" column="62" source="trailing-comma-on-call-site" />
+        <error line="125" column="14" source="trailing-comma-on-call-site" />
+        <error line="134" column="66" source="trailing-comma-on-call-site" />
+        <error line="135" column="14" source="trailing-comma-on-call-site" />
+        <error line="144" column="67" source="trailing-comma-on-call-site" />
+        <error line="145" column="14" source="trailing-comma-on-call-site" />
+        <error line="154" column="71" source="trailing-comma-on-call-site" />
+        <error line="155" column="14" source="trailing-comma-on-call-site" />
+        <error line="166" column="63" source="trailing-comma-on-call-site" />
+        <error line="167" column="18" source="trailing-comma-on-call-site" />
+        <error line="168" column="14" source="trailing-comma-on-call-site" />
+        <error line="180" column="78" source="trailing-comma-on-call-site" />
+        <error line="181" column="18" source="trailing-comma-on-call-site" />
+        <error line="182" column="14" source="trailing-comma-on-call-site" />
+        <error line="194" column="90" source="trailing-comma-on-call-site" />
+        <error line="195" column="18" source="trailing-comma-on-call-site" />
+        <error line="196" column="14" source="trailing-comma-on-call-site" />
+        <error line="205" column="74" source="trailing-comma-on-call-site" />
+        <error line="206" column="14" source="trailing-comma-on-call-site" />
+        <error line="215" column="63" source="trailing-comma-on-call-site" />
+        <error line="216" column="14" source="trailing-comma-on-call-site" />
+        <error line="225" column="208" source="trailing-comma-on-call-site" />
+        <error line="226" column="14" source="trailing-comma-on-call-site" />
+        <error line="235" column="111" source="trailing-comma-on-call-site" />
+        <error line="236" column="14" source="trailing-comma-on-call-site" />
+        <error line="245" column="95" source="trailing-comma-on-call-site" />
+        <error line="246" column="14" source="trailing-comma-on-call-site" />
+        <error line="255" column="93" source="trailing-comma-on-call-site" />
+        <error line="256" column="14" source="trailing-comma-on-call-site" />
+        <error line="281" column="58" source="trailing-comma-on-declaration-site" />
+        <error line="313" column="48" source="trailing-comma-on-call-site" />
+        <error line="315" column="26" source="trailing-comma-on-call-site" />
+        <error line="337" column="40" source="trailing-comma-on-call-site" />
+        <error line="344" column="32" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/FocalPointUtilTest.kt">
+        <error line="56" column="19" source="trailing-comma-on-call-site" />
+        <error line="57" column="14" source="trailing-comma-on-call-site" />
+        <error line="68" column="19" source="trailing-comma-on-call-site" />
+        <error line="69" column="14" source="trailing-comma-on-call-site" />
+        <error line="79" column="15" source="trailing-comma-on-call-site" />
+        <error line="91" column="22" source="trailing-comma-on-call-site" />
+        <error line="94" column="16" source="trailing-comma-on-call-site" />
+        <error line="105" column="21" source="trailing-comma-on-call-site" />
+        <error line="108" column="16" source="trailing-comma-on-call-site" />
+        <error line="119" column="19" source="trailing-comma-on-call-site" />
+        <error line="122" column="16" source="trailing-comma-on-call-site" />
+        <error line="133" column="20" source="trailing-comma-on-call-site" />
+        <error line="136" column="16" source="trailing-comma-on-call-site" />
+        <error line="147" column="19" source="trailing-comma-on-call-site" />
+        <error line="150" column="16" source="trailing-comma-on-call-site" />
+        <error line="161" column="19" source="trailing-comma-on-call-site" />
+        <error line="164" column="16" source="trailing-comma-on-call-site" />
+        <error line="174" column="16" source="trailing-comma-on-call-site" />
+        <error line="183" column="16" source="trailing-comma-on-call-site" />
+        <error line="192" column="16" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/MainActivityTest.kt">
+        <error line="46" column="20" source="trailing-comma-on-call-site" />
+        <error line="54" column="24" source="trailing-comma-on-call-site" />
+        <error line="106" column="126" source="trailing-comma-on-call-site" />
+        <error line="109" column="34" source="trailing-comma-on-call-site" />
+        <error line="112" column="21" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/SpanUtilsTest.kt">
+        <error line="43" column="60" source="trailing-comma-on-call-site" />
+        <error line="101" column="42" source="trailing-comma-on-declaration-site" />
+        <error line="114" column="52" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/StatusComparisonTest.kt">
+        <error line="48" column="32" source="trailing-comma-on-call-site" />
+        <error line="54" column="32" source="trailing-comma-on-call-site" />
+        <error line="65" column="32" source="trailing-comma-on-call-site" />
+        <error line="71" column="32" source="trailing-comma-on-call-site" />
+        <error line="82" column="32" source="trailing-comma-on-call-site" />
+        <error line="88" column="32" source="trailing-comma-on-call-site" />
+        <error line="98" column="26" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/StringUtilsTest.kt">
+        <error line="16" column="23" source="trailing-comma-on-call-site" />
+        <error line="20" column="27" source="trailing-comma-on-call-site" />
+        <error line="32" column="27" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/compose/ComposeActivity/ComposeActivityTest.kt">
+        <error line="88" column="33" source="trailing-comma-on-call-site" />
+        <error line="132" column="29" source="trailing-comma-on-call-site" />
+        <error line="504" column="32" source="trailing-comma-on-call-site" />
+        <error line="513" column="68" source="trailing-comma-on-call-site" />
+        <error line="516" column="25" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/compose/ComposeActivity/StatusLengthTest.kt">
+        <error line="31" column="36" source="trailing-comma-on-declaration-site" />
+        <error line="50" column="69" source="trailing-comma-on-call-site" />
+        <error line="62" column="64" source="trailing-comma-on-call-site" />
+        <error line="72" column="80" source="trailing-comma-on-call-site" />
+        <error line="76" column="66" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/compose/ComposeTokenizer/ComposeTokenizerTest.kt">
+        <error line="28" column="38" source="trailing-comma-on-declaration-site" />
+        <error line="84" column="48" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsPagingSourceTest.kt">
+        <error line="62" column="76" source="trailing-comma-on-call-site" />
+        <error line="88" column="76" source="trailing-comma-on-call-site" />
+        <error line="114" column="76" source="trailing-comma-on-call-site" />
+        <error line="140" column="76" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModelTestBase.kt">
+        <error line="103" column="39" source="trailing-comma-on-call-site" />
+        <error line="122" column="41" source="trailing-comma-on-call-site" />
+        <error line="133" column="21" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModelTestNotificationAction.kt">
+        <error line="56" column="25" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModelTestStatusAction.kt">
+        <error line="48" column="28" source="trailing-comma-on-call-site" />
+        <error line="64" column="23" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModelTestStatusDisplayOptions.kt">
+        <error line="51" column="27" source="trailing-comma-on-call-site" />
+        <error line="74" column="43" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/notifications/NotificationsViewModelTestUiState.kt">
+        <error line="39" column="37" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/timeline/CachedTimelineRemoteMediatorTest.kt">
+        <error line="51" column="28" source="trailing-comma-on-call-site" />
+        <error line="83" column="26" source="trailing-comma-on-call-site" />
+        <error line="102" column="26" source="trailing-comma-on-call-site" />
+        <error line="118" column="26" source="trailing-comma-on-call-site" />
+        <error line="125" column="57" source="trailing-comma-on-call-site" />
+        <error line="128" column="32" source="trailing-comma-on-call-site" />
+        <error line="129" column="18" source="trailing-comma-on-call-site" />
+        <error line="130" column="14" source="trailing-comma-on-call-site" />
+        <error line="145" column="45" source="trailing-comma-on-call-site" />
+        <error line="157" column="40" source="trailing-comma-on-call-site" />
+        <error line="158" column="22" source="trailing-comma-on-call-site" />
+        <error line="164" column="40" source="trailing-comma-on-call-site" />
+        <error line="165" column="22" source="trailing-comma-on-call-site" />
+        <error line="169" column="26" source="trailing-comma-on-call-site" />
+        <error line="177" column="32" source="trailing-comma-on-call-site" />
+        <error line="178" column="18" source="trailing-comma-on-call-site" />
+        <error line="180" column="25" source="trailing-comma-on-call-site" />
+        <error line="193" column="75" source="trailing-comma-on-call-site" />
+        <error line="197" column="49" source="trailing-comma-on-call-site" />
+        <error line="198" column="14" source="trailing-comma-on-call-site" />
+        <error line="208" column="45" source="trailing-comma-on-call-site" />
+        <error line="220" column="40" source="trailing-comma-on-call-site" />
+        <error line="221" column="22" source="trailing-comma-on-call-site" />
+        <error line="227" column="40" source="trailing-comma-on-call-site" />
+        <error line="228" column="22" source="trailing-comma-on-call-site" />
+        <error line="232" column="26" source="trailing-comma-on-call-site" />
+        <error line="240" column="32" source="trailing-comma-on-call-site" />
+        <error line="241" column="18" source="trailing-comma-on-call-site" />
+        <error line="242" column="14" source="trailing-comma-on-call-site" />
+        <error line="257" column="49" source="trailing-comma-on-call-site" />
+        <error line="258" column="14" source="trailing-comma-on-call-site" />
+        <error line="268" column="45" source="trailing-comma-on-call-site" />
+        <error line="280" column="40" source="trailing-comma-on-call-site" />
+        <error line="281" column="22" source="trailing-comma-on-call-site" />
+        <error line="287" column="40" source="trailing-comma-on-call-site" />
+        <error line="288" column="22" source="trailing-comma-on-call-site" />
+        <error line="292" column="26" source="trailing-comma-on-call-site" />
+        <error line="300" column="32" source="trailing-comma-on-call-site" />
+        <error line="301" column="18" source="trailing-comma-on-call-site" />
+        <error line="303" column="25" source="trailing-comma-on-call-site" />
+        <error line="317" column="49" source="trailing-comma-on-call-site" />
+        <error line="318" column="14" source="trailing-comma-on-call-site" />
+        <error line="332" column="40" source="trailing-comma-on-call-site" />
+        <error line="333" column="22" source="trailing-comma-on-call-site" />
+        <error line="337" column="26" source="trailing-comma-on-call-site" />
+        <error line="345" column="32" source="trailing-comma-on-call-site" />
+        <error line="346" column="18" source="trailing-comma-on-call-site" />
+        <error line="347" column="14" source="trailing-comma-on-call-site" />
+        <error line="359" column="49" source="trailing-comma-on-call-site" />
+        <error line="360" column="14" source="trailing-comma-on-call-site" />
+        <error line="370" column="63" source="trailing-comma-on-call-site" />
+        <error line="383" column="40" source="trailing-comma-on-call-site" />
+        <error line="384" column="22" source="trailing-comma-on-call-site" />
+        <error line="388" column="26" source="trailing-comma-on-call-site" />
+        <error line="396" column="32" source="trailing-comma-on-call-site" />
+        <error line="397" column="18" source="trailing-comma-on-call-site" />
+        <error line="398" column="14" source="trailing-comma-on-call-site" />
+        <error line="409" column="67" source="trailing-comma-on-call-site" />
+        <error line="410" column="14" source="trailing-comma-on-call-site" />
+        <error line="421" column="45" source="trailing-comma-on-call-site" />
+        <error line="433" column="40" source="trailing-comma-on-call-site" />
+        <error line="434" column="22" source="trailing-comma-on-call-site" />
+        <error line="439" column="40" source="trailing-comma-on-call-site" />
+        <error line="440" column="22" source="trailing-comma-on-call-site" />
+        <error line="444" column="26" source="trailing-comma-on-call-site" />
+        <error line="452" column="32" source="trailing-comma-on-call-site" />
+        <error line="453" column="18" source="trailing-comma-on-call-site" />
+        <error line="454" column="14" source="trailing-comma-on-call-site" />
+        <error line="468" column="49" source="trailing-comma-on-call-site" />
+        <error line="469" column="14" source="trailing-comma-on-call-site" />
+        <error line="479" column="45" source="trailing-comma-on-call-site" />
+        <error line="491" column="40" source="trailing-comma-on-call-site" />
+        <error line="492" column="22" source="trailing-comma-on-call-site" />
+        <error line="496" column="26" source="trailing-comma-on-call-site" />
+        <error line="504" column="32" source="trailing-comma-on-call-site" />
+        <error line="505" column="18" source="trailing-comma-on-call-site" />
+        <error line="506" column="14" source="trailing-comma-on-call-site" />
+        <error line="520" column="49" source="trailing-comma-on-call-site" />
+        <error line="521" column="14" source="trailing-comma-on-call-site" />
+        <error line="527" column="27" source="trailing-comma-on-declaration-site" />
+        <error line="532" column="32" source="trailing-comma-on-call-site" />
+        <error line="534" column="36" source="trailing-comma-on-call-site" />
+        <error line="553" column="29" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/timeline/NetworkTimelineRemoteMediatorTest.kt">
+        <error line="43" column="28" source="trailing-comma-on-call-site" />
+        <error line="92" column="36" source="trailing-comma-on-call-site" />
+        <error line="96" column="177" source="trailing-comma-on-call-site" />
+        <error line="97" column="18" source="trailing-comma-on-call-site" />
+        <error line="108" column="35" source="trailing-comma-on-call-site" />
+        <error line="109" column="18" source="trailing-comma-on-call-site" />
+        <error line="110" column="14" source="trailing-comma-on-call-site" />
+        <error line="118" column="36" source="trailing-comma-on-call-site" />
+        <error line="133" column="36" source="trailing-comma-on-call-site" />
+        <error line="143" column="36" source="trailing-comma-on-call-site" />
+        <error line="144" column="18" source="trailing-comma-on-call-site" />
+        <error line="156" column="48" source="trailing-comma-on-call-site" />
+        <error line="159" column="34" source="trailing-comma-on-call-site" />
+        <error line="160" column="18" source="trailing-comma-on-call-site" />
+        <error line="161" column="14" source="trailing-comma-on-call-site" />
+        <error line="171" column="36" source="trailing-comma-on-call-site" />
+        <error line="185" column="36" source="trailing-comma-on-call-site" />
+        <error line="195" column="36" source="trailing-comma-on-call-site" />
+        <error line="196" column="18" source="trailing-comma-on-call-site" />
+        <error line="208" column="48" source="trailing-comma-on-call-site" />
+        <error line="211" column="34" source="trailing-comma-on-call-site" />
+        <error line="212" column="18" source="trailing-comma-on-call-site" />
+        <error line="213" column="14" source="trailing-comma-on-call-site" />
+        <error line="224" column="36" source="trailing-comma-on-call-site" />
+        <error line="238" column="36" source="trailing-comma-on-call-site" />
+        <error line="248" column="36" source="trailing-comma-on-call-site" />
+        <error line="249" column="18" source="trailing-comma-on-call-site" />
+        <error line="261" column="48" source="trailing-comma-on-call-site" />
+        <error line="264" column="34" source="trailing-comma-on-call-site" />
+        <error line="265" column="18" source="trailing-comma-on-call-site" />
+        <error line="266" column="14" source="trailing-comma-on-call-site" />
+        <error line="277" column="36" source="trailing-comma-on-call-site" />
+        <error line="291" column="36" source="trailing-comma-on-call-site" />
+        <error line="301" column="36" source="trailing-comma-on-call-site" />
+        <error line="305" column="177" source="trailing-comma-on-call-site" />
+        <error line="306" column="18" source="trailing-comma-on-call-site" />
+        <error line="318" column="48" source="trailing-comma-on-call-site" />
+        <error line="321" column="34" source="trailing-comma-on-call-site" />
+        <error line="322" column="18" source="trailing-comma-on-call-site" />
+        <error line="323" column="14" source="trailing-comma-on-call-site" />
+        <error line="334" column="36" source="trailing-comma-on-call-site" />
+        <error line="348" column="36" source="trailing-comma-on-call-site" />
+        <error line="364" column="48" source="trailing-comma-on-call-site" />
+        <error line="367" column="35" source="trailing-comma-on-call-site" />
+        <error line="368" column="18" source="trailing-comma-on-call-site" />
+        <error line="369" column="14" source="trailing-comma-on-call-site" />
+        <error line="377" column="36" source="trailing-comma-on-call-site" />
+        <error line="389" column="26" source="trailing-comma-on-call-site" />
+        <error line="391" column="36" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/timeline/StatusMocker.kt">
+        <error line="19" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="30" column="110" source="trailing-comma-on-call-site" />
+        <error line="57" column="20" source="trailing-comma-on-call-site" />
+        <error line="71" column="31" source="trailing-comma-on-declaration-site" />
+        <error line="80" column="32" source="trailing-comma-on-call-site" />
+        <error line="85" column="28" source="trailing-comma-on-call-site" />
+        <error line="91" column="30" source="trailing-comma-on-declaration-site" />
+        <error line="102" column="36" source="trailing-comma-on-call-site" />
+        <error line="106" column="24" source="trailing-comma-on-call-site" />
+        <error line="107" column="10" source="trailing-comma-on-call-site" />
+        <error line="113" column="21" source="trailing-comma-on-declaration-site" />
+        <error line="116" column="57" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/components/viewthread/ViewThreadViewModelTest.kt">
+        <error line="93" column="32" source="trailing-comma-on-call-site" />
+        <error line="123" column="120" source="trailing-comma-on-call-site" />
+        <error line="126" column="60" source="trailing-comma-on-call-site" />
+        <error line="128" column="42" source="trailing-comma-on-call-site" />
+        <error line="146" column="117" source="trailing-comma-on-call-site" />
+        <error line="149" column="63" source="trailing-comma-on-call-site" />
+        <error line="151" column="42" source="trailing-comma-on-call-site" />
+        <error line="168" column="52" source="trailing-comma-on-call-site" />
+        <error line="180" column="108" source="trailing-comma-on-call-site" />
+        <error line="181" column="18" source="trailing-comma-on-call-site" />
+        <error line="190" column="52" source="trailing-comma-on-call-site" />
+        <error line="208" column="139" source="trailing-comma-on-call-site" />
+        <error line="211" column="58" source="trailing-comma-on-call-site" />
+        <error line="213" column="42" source="trailing-comma-on-call-site" />
+        <error line="232" column="120" source="trailing-comma-on-call-site" />
+        <error line="235" column="60" source="trailing-comma-on-call-site" />
+        <error line="237" column="42" source="trailing-comma-on-call-site" />
+        <error line="256" column="120" source="trailing-comma-on-call-site" />
+        <error line="259" column="60" source="trailing-comma-on-call-site" />
+        <error line="261" column="42" source="trailing-comma-on-call-site" />
+        <error line="280" column="140" source="trailing-comma-on-call-site" />
+        <error line="283" column="60" source="trailing-comma-on-call-site" />
+        <error line="285" column="42" source="trailing-comma-on-call-site" />
+        <error line="303" column="139" source="trailing-comma-on-call-site" />
+        <error line="306" column="60" source="trailing-comma-on-call-site" />
+        <error line="308" column="42" source="trailing-comma-on-call-site" />
+        <error line="321" column="127" source="trailing-comma-on-call-site" />
+        <error line="330" column="120" source="trailing-comma-on-call-site" />
+        <error line="333" column="60" source="trailing-comma-on-call-site" />
+        <error line="335" column="42" source="trailing-comma-on-call-site" />
+        <error line="348" column="127" source="trailing-comma-on-call-site" />
+        <error line="357" column="120" source="trailing-comma-on-call-site" />
+        <error line="360" column="60" source="trailing-comma-on-call-site" />
+        <error line="362" column="42" source="trailing-comma-on-call-site" />
+        <error line="375" column="127" source="trailing-comma-on-call-site" />
+        <error line="384" column="120" source="trailing-comma-on-call-site" />
+        <error line="387" column="60" source="trailing-comma-on-call-site" />
+        <error line="389" column="42" source="trailing-comma-on-call-site" />
+        <error line="400" column="130" source="trailing-comma-on-call-site" />
+        <error line="401" column="18" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/db/TimelineDaoTest.kt">
+        <error line="75" column="59" source="trailing-comma-on-call-site" />
+        <error line="82" column="74" source="trailing-comma-on-call-site" />
+        <error line="117" column="22" source="trailing-comma-on-call-site" />
+        <error line="128" column="37" source="trailing-comma-on-call-site" />
+        <error line="142" column="37" source="trailing-comma-on-call-site" />
+        <error line="178" column="37" source="trailing-comma-on-call-site" />
+        <error line="205" column="37" source="trailing-comma-on-call-site" />
+        <error line="209" column="53" source="trailing-comma-on-call-site" />
+        <error line="222" column="33" source="trailing-comma-on-call-site" />
+        <error line="228" column="33" source="trailing-comma-on-call-site" />
+        <error line="234" column="33" source="trailing-comma-on-call-site" />
+        <error line="240" column="33" source="trailing-comma-on-call-site" />
+        <error line="246" column="33" source="trailing-comma-on-call-site" />
+        <error line="252" column="33" source="trailing-comma-on-call-site" />
+        <error line="288" column="37" source="trailing-comma-on-call-site" />
+        <error line="294" column="37" source="trailing-comma-on-call-site" />
+        <error line="300" column="37" source="trailing-comma-on-call-site" />
+        <error line="301" column="14" source="trailing-comma-on-call-site" />
+        <error line="323" column="38" source="trailing-comma-on-call-site" />
+        <error line="350" column="38" source="trailing-comma-on-call-site" />
+        <error line="395" column="32" source="trailing-comma-on-declaration-site" />
+        <error line="406" column="24" source="trailing-comma-on-call-site" />
+        <error line="419" column="28" source="trailing-comma-on-call-site" />
+        <error line="464" column="28" source="trailing-comma-on-call-site" />
+        <error line="471" column="17" source="trailing-comma-on-declaration-site" />
+        <error line="479" column="50" source="trailing-comma-on-declaration-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/json/GuardedBooleanAdapterTest.kt">
+        <error line="46" column="34" source="trailing-comma-on-call-site" />
+        <error line="48" column="63" source="trailing-comma-on-call-site" />
+        <error line="86" column="34" source="trailing-comma-on-call-site" />
+        <error line="88" column="63" source="trailing-comma-on-call-site" />
+        <error line="125" column="34" source="trailing-comma-on-call-site" />
+        <error line="127" column="63" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/network/InstanceSwitchAuthInterceptorTest.kt">
+        <error line="65" column="36" source="trailing-comma-on-call-site" />
+        <error line="99" column="36" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/usecase/TimelineCasesTest.kt">
+        <error line="62" column="130" source="trailing-comma-on-call-site" />
+        <error line="63" column="22" source="trailing-comma-on-call-site" />
+        <error line="64" column="18" source="trailing-comma-on-call-site" />
+        <error line="70" column="77" source="trailing-comma-on-call-site" />
+        <error line="105" column="28" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/util/HttpHeaderLinkTest.kt">
+        <error line="21" column="62" source="trailing-comma-on-call-site" />
+        <error line="26" column="62" source="trailing-comma-on-call-site" />
+        <error line="31" column="81" source="trailing-comma-on-call-site" />
+        <error line="39" column="64" source="trailing-comma-on-call-site" />
+        <error line="40" column="18" source="trailing-comma-on-call-site" />
+        <error line="46" column="78" source="trailing-comma-on-call-site" />
+        <error line="51" column="44" source="trailing-comma-on-call-site" />
+        <error line="56" column="49" source="trailing-comma-on-call-site" />
+        <error line="63" column="56" source="trailing-comma-on-call-site" />
+        <error line="64" column="18" source="trailing-comma-on-call-site" />
+        <error line="65" column="14" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/util/LinkHelperTest.kt">
+        <error line="29" column="94" source="trailing-comma-on-call-site" />
+        <error line="33" column="65" source="trailing-comma-on-call-site" />
+        <error line="121" column="25" source="trailing-comma-on-call-site" />
+        <error line="133" column="26" source="trailing-comma-on-call-site" />
+        <error line="143" column="87" source="trailing-comma-on-call-site" />
+        <error line="156" column="58" source="trailing-comma-on-call-site" />
+        <error line="172" column="58" source="trailing-comma-on-call-site" />
+        <error line="186" column="58" source="trailing-comma-on-call-site" />
+        <error line="250" column="55" source="trailing-comma-on-call-site" />
+        <error line="370" column="98" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/util/LocaleUtilsTest.kt">
+        <error line="43" column="131" source="trailing-comma-on-call-site" />
+        <error line="47" column="120" source="trailing-comma-on-call-site" />
+        <error line="76" column="79" source="trailing-comma-on-call-site" />
+        <error line="77" column="22" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/util/NumberUtilsTest.kt">
+        <error line="61" column="63" source="trailing-comma-on-call-site" />
+    </file>
+    <file name="src/test/java/com/keylesspalace/tusky/util/SmartLengthInputFilterTest.kt">
+        <error line="36" column="77" source="trailing-comma-on-call-site" />
+        <error line="37" column="18" source="trailing-comma-on-call-site" />
+        <error line="38" column="14" source="trailing-comma-on-call-site" />
+        <error line="55" column="78" source="trailing-comma-on-call-site" />
+        <error line="56" column="18" source="trailing-comma-on-call-site" />
+        <error line="57" column="14" source="trailing-comma-on-call-site" />
+        <error line="74" column="79" source="trailing-comma-on-call-site" />
+        <error line="75" column="18" source="trailing-comma-on-call-site" />
+        <error line="76" column="14" source="trailing-comma-on-call-site" />
+        <error line="98" column="77" source="trailing-comma-on-call-site" />
+        <error line="99" column="18" source="trailing-comma-on-call-site" />
+        <error line="100" column="14" source="trailing-comma-on-call-site" />
+    </file>
+</baseline>
