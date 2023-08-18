@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -81,7 +82,11 @@ class EditFilterActivity : BaseActivity() {
 
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
-        binding.filterDeleteButton.setOnClickListener { deleteFilter() }
+        binding.filterDeleteButton.setOnClickListener {
+            lifecycleScope.launch {
+                if (showDeleteFilterDialog(filter.title) == BUTTON_POSITIVE) deleteFilter()
+            }
+        }
         binding.filterDeleteButton.visible(originalFilter != null)
 
         for (switch in contextSwitches.keys) {

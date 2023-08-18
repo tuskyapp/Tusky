@@ -278,7 +278,7 @@ public class NotificationHelper {
         int accountId = (int) account.getId();
 
         // Initialise the map with all channel IDs.
-        for (Notification.Type ty : Notification.Type.values()) {
+        for (Notification.Type ty : Notification.Type.getEntries()) {
             channelGroups.put(getChannelId(account, ty), new ArrayList<>());
         }
 

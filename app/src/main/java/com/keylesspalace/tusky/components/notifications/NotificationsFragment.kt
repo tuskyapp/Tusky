@@ -293,7 +293,7 @@ class NotificationsFragment :
                             val position = adapter.snapshot().indexOfFirst {
                                 it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
                             }
-                            if (position != RecyclerView.NO_POSITION) {
+                            if (position != NO_POSITION) {
                                 adapter.notifyItemChanged(position)
                             }
                         }
@@ -418,13 +418,13 @@ class NotificationsFragment :
                             when ((loadState.refresh as LoadState.Error).error) {
                                 is IOException -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_offline,
+                                        R.drawable.errorphant_offline,
                                         R.string.error_network
                                     ) { adapter.retry() }
                                 }
                                 else -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_error,
+                                        R.drawable.errorphant_error,
                                         R.string.error_generic
                                     ) { adapter.retry() }
                                 }
@@ -518,7 +518,11 @@ class NotificationsFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = adapter.peek(position)?.statusViewData?.status ?: return
-        super.viewMedia(attachmentIndex, list(status), view)
+        super.viewMedia(
+            attachmentIndex,
+            list(status, viewModel.statusDisplayOptions.value.showSensitiveMedia),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {

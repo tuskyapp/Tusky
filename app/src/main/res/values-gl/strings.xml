@@ -50,7 +50,7 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_follow">Seguir</string>
-    <string name="action_logout_confirm">Tes a certeza de que queres pechar sesión da conta %1$s\?</string>
+    <string name="action_logout_confirm">Tes a certeza de querer pechar a sesión %1$s\? Isto eliminará todos os datos locais da conta, incluíndo borradores e preferencias.</string>
     <string name="action_logout">Pechar sesión</string>
     <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
@@ -118,7 +118,7 @@
     <string name="error_failed_app_registration">Fallou a autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
     <string name="error_empty">Esto non pode estar baleiro.</string>
-    <string name="error_network">Houbo un fallo na rede! Comproba a túa conexión e inténtao outra vez!</string>
+    <string name="error_network">Houbo un fallo na rede. Comproba a conexión e inténtao outra vez.</string>
     <string name="error_generic">Algo fallou.</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="action_unsubscribe_account">Desubscribir</string>
@@ -262,7 +262,6 @@
     <string name="action_remove_from_list">Eliminar conta da listaxe</string>
     <string name="action_add_to_list">Engadir conta á listaxe</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
-    <string name="action_edit_list">Editar a listaxe</string>
     <string name="action_delete_list">Eliminar a listaxe</string>
     <string name="action_rename_list">Renomear a listaxe</string>
     <string name="action_create_list">Crear unha listaxe</string>
@@ -350,7 +349,7 @@
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_failed_to_sync">Fallou a sincronización dos axustes</string>
-    <string name="pref_publishing">Publicando (sincronizado co servidor)</string>
+    <string name="pref_publishing">Ao publicar (sincronizado co servidor)</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible</string>
     <string name="pref_default_post_privacy">Privacidade por defecto da publicación</string>
     <string name="pref_title_http_proxy_port">Porto proxy HTTP</string>
@@ -662,4 +661,10 @@
 \nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
     <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
     <string name="compose_delete_draft">Eliminar borrador\?</string>
+    <string name="pref_ui_text_size">Tamaño da letra</string>
+    <string name="notification_listenable_worker_name">Actividade en segundo plano</string>
+    <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
+    <string name="notification_notification_worker">Obtendo as notificacións…</string>
+    <string name="notification_prune_cache">Mantemento da caché…</string>
+    <string name="error_media_upload_sending_fmt">Fallou a subida: %s</string>
 </resources>

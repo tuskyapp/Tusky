@@ -21,7 +21,7 @@
     <string name="error_no_custom_emojis">Máy chủ %s không có emoji tùy chỉnh</string>
     <string name="send_post_notification_error_title">Lỗi đăng tút</string>
     <string name="error_delete_list">Không thể xóa danh sách</string>
-    <string name="error_rename_list">Không thể đổi tên danh sách</string>
+    <string name="error_rename_list">Không thể cập nhật danh sách</string>
     <string name="error_create_list">Không thể tạo danh sách</string>
     <string name="error_sender_account_gone">Xảy ra lỗi khi đăng tút.</string>
     <string name="error_media_upload_sending">Tải lên không thành công.</string>
@@ -152,8 +152,8 @@
     <string name="action_block">Chặn</string>
     <string name="action_unfollow">Bỏ theo dõi</string>
     <string name="action_follow">Theo dõi</string>
-    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\?</string>
-    <string name="action_compose">Viết tút</string>
+    <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\? Dữ liệu của tài khoản sẽ bị xóa, bao gồm những bản nháp và thiết lập.</string>
+    <string name="action_compose">Soạn tút</string>
     <string name="action_more">Thêm</string>
     <string name="action_unfavourite">Bỏ lưu</string>
     <string name="action_bookmark">Lưu</string>
@@ -171,7 +171,7 @@
     <string name="post_content_warning_show_less">Thu gọn</string>
     <string name="post_content_warning_show_more">Mở rộng</string>
     <string name="post_sensitive_media_directions">Hiển thị</string>
-    <string name="post_media_hidden_title">Nội dung bị ẩn</string>
+    <string name="post_media_hidden_title">Media bị ẩn</string>
     <string name="post_sensitive_media_title">Nhạy cảm</string>
     <string name="post_boosted_format">%s đăng lại</string>
     <string name="post_username_format">\@%s</string>
@@ -194,7 +194,7 @@
     <string name="title_public_federated">Liên hợp</string>
     <string name="title_public_local">Máy chủ</string>
     <string name="title_notifications">Thông báo</string>
-    <string name="title_home">Bảng tin</string>
+    <string name="title_home">Trang chính</string>
     <string name="title_drafts">Những tút nháp</string>
     <string name="title_favourites">Những tút đã thích</string>
     <string name="link_whats_an_instance">Máy chủ là gì\?</string>
@@ -249,7 +249,7 @@
     <string name="post_text_size_medium">Trung bình</string>
     <string name="post_text_size_small">Nhỏ vừa</string>
     <string name="post_text_size_smallest">Nhỏ</string>
-    <string name="pref_post_text_size">Cỡ chữ</string>
+    <string name="pref_post_text_size">Cỡ chữ tút</string>
     <string name="post_privacy_followers_only">Chỉ người theo dõi</string>
     <string name="post_privacy_unlisted">Hạn chế</string>
     <string name="post_privacy_public">Công khai</string>
@@ -270,8 +270,7 @@
     <string name="notification_follow_request_description">Thông báo về lượt yêu cầu theo dõi</string>
     <string name="about_bug_feature_request_site">Báo lỗi và đề xuất tính năng
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Trang chủ
-\nhttps://tusky.app</string>
+    <string name="about_project_site">Website dự án: https://tusky.app</string>
     <string name="about_tusky_license">Tusky là phần mềm mã nguồn mở, được phân phối với giấy phép GNU General Public License Version 3. Bạn có thể tham khảo thêm tại: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -307,7 +306,7 @@
     <string name="post_share_link">URL tút</string>
     <string name="post_share_content">Nội dung tút</string>
     <string name="about_tusky_account">Trang hồ sơ Tusky</string>
-    <string name="pref_title_confirm_reblogs">Xác nhận trước khi đăng lại</string>
+    <string name="pref_title_confirm_reblogs">Hỏi trước khi đăng lại tút</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
     <string name="no_scheduled_posts">Bạn không có tút đã lên lịch.</string>
@@ -360,8 +359,8 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 người bình chọn • còn 1 giờ --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %s</string>
-    <string name="compose_shortcut_short_label">Viết</string>
-    <string name="compose_shortcut_long_label">Viết tút</string>
+    <string name="compose_shortcut_short_label">Soạn</string>
+    <string name="compose_shortcut_long_label">Soạn tút</string>
     <string name="filter_apply">Áp dụng</string>
     <string name="notifications_apply_filter">Lọc</string>
     <string name="notifications_clear">Xóa hết</string>
@@ -426,7 +425,7 @@
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
     <string name="system_default">Mặc định của thiết bị</string>
     <string name="emoji_style">Emoji</string>
-    <string name="action_compose_shortcut">Viết</string>
+    <string name="action_compose_shortcut">Soạn</string>
     <string name="compose_save_draft">Lưu nháp\?</string>
     <string name="lock_account_label_description">Tự bạn sẽ phê duyệt người theo dõi</string>
     <string name="lock_account_label">Tài khoản riêng tư</string>
@@ -440,9 +439,8 @@
     <string name="action_add_to_list">Thêm người này vào danh sách</string>
     <string name="action_remove_from_list">Xóa người này khỏi danh sách</string>
     <string name="hint_search_people_list">Tìm người để theo dõi</string>
-    <string name="action_edit_list">Sửa danh sách</string>
     <string name="action_delete_list">Xóa danh sách</string>
-    <string name="action_rename_list">Đổi tên danh sách</string>
+    <string name="action_rename_list">Cập nhật danh sách</string>
     <string name="action_create_list">Tạo danh sách</string>
     <string name="add_account_description">Thêm tài khoản Mastodon</string>
     <string name="add_account_name">Thêm tài khoản</string>
@@ -491,7 +489,7 @@
     <string name="follow_requests_info">Dù biết tài khoản của bạn công khai, quản trị viên %1$s vẫn nghĩ bạn hãy nên duyệt thủ công yêu cầu theo dõi từ những người lạ.</string>
     <string name="dialog_delete_conversation_warning">Xóa cuộc thảo luận này\?</string>
     <string name="action_delete_conversation">Xóa thảo luận</string>
-    <string name="pref_title_confirm_favourites">Xác nhận trước khi thích</string>
+    <string name="pref_title_confirm_favourites">Hỏi trước khi thích tút</string>
     <string name="action_unbookmark">Bỏ lưu</string>
     <string name="duration_14_days">14 ngày</string>
     <string name="duration_30_days">30 ngày</string>
@@ -499,7 +497,7 @@
     <string name="duration_90_days">90 ngày</string>
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
-    <string name="tusky_compose_post_quicksetting_label">Viết tút</string>
+    <string name="tusky_compose_post_quicksetting_label">Soạn tút</string>
     <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%s tham gia máy chủ</string>
     <string name="notification_sign_up_name">Thành viên mới</string>
@@ -574,8 +572,8 @@
     <string name="action_continue_edit">Tiếp tục sửa</string>
     <string name="compose_unsaved_changes">Thay đổi chưa được lưu.</string>
     <string name="mute_notifications_switch">Ẩn thông báo</string>
-    <string name="status_edit_info">%1$s sửa</string>
-    <string name="status_created_info">%1$s đăng</string>
+    <string name="status_edit_info">Sửa %1$s</string>
+    <string name="status_created_info">Đăng %1$s</string>
     <string name="title_edits">Những lượt sửa tút</string>
     <string name="a11y_label_loading_thread">Đang tải thảo luận</string>
     <string name="action_share_account_link">Chia sẻ URL người dùng</string>
@@ -624,18 +622,18 @@
     <string name="status_filter_placeholder_label_format">Đã lọc: %s</string>
     <string name="pref_title_account_filter_keywords">Người</string>
     <string name="hint_filter_title">Bộ lọc của tôi</string>
-    <string name="label_filter_title">Tiêu đề</string>
+    <string name="label_filter_title">Tên bộ lọc</string>
     <string name="filter_action_warn">Cảnh báo</string>
-    <string name="filter_action_hide">Ẩn</string>
+    <string name="filter_action_hide">Đã ẩn</string>
     <string name="filter_description_warn">Ẩn với cảnh báo</string>
     <string name="filter_description_hide">Ẩn hoàn toàn</string>
-    <string name="label_filter_action">Hành động lọc</string>
-    <string name="label_filter_context">Bối cảnh lọc</string>
-    <string name="label_filter_keywords">Từ khóa hoặc cụm từ muốn lọc</string>
+    <string name="label_filter_action">Hành động</string>
+    <string name="label_filter_context">Nơi áp dụng</string>
+    <string name="label_filter_keywords">Từ hoặc cụm từ muốn lọc</string>
     <string name="action_add">Thêm</string>
     <string name="filter_keyword_display_format">%s (cả từ)</string>
-    <string name="filter_keyword_addition_title">Thêm từ khóa</string>
-    <string name="filter_edit_keyword_title">Sửa từ khóa</string>
+    <string name="filter_keyword_addition_title">Thêm từ</string>
+    <string name="filter_edit_keyword_title">Sửa từ</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="pref_title_show_stat_inline">Hiện số tương tác trên tút</string>
     <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện những tút gần đây từ những người bạn theo dõi.
@@ -648,4 +646,24 @@
     <string name="select_list_empty">Bạn chưa có danh sách</string>
     <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
     <string name="compose_delete_draft">Xóa bản nháp\?</string>
+    <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
+\n
+\nĐây là <a href="https://github.com/mastodon/mastodon/issues/25398">Lỗi Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Cỡ chữ giao diện</string>
+    <string name="notification_listenable_worker_name">Hoạt động chạy nền</string>
+    <string name="notification_listenable_worker_description">Thông báo khi Tusky hoạt động ngầm</string>
+    <string name="notification_notification_worker">Đang nạp thông báo…</string>
+    <string name="notification_prune_cache">Bảo trì bộ nhớ đệm…</string>
+    <string name="error_media_upload_sending_fmt">Không thể tải lên: %s</string>
+    <string name="about_device_info">%s %s
+\nAndroid %s
+\nSDK %d</string>
+    <string name="about_account_info_title">Tài khoản của bạn</string>
+    <string name="about_account_info">\@%s@%s
+\nPhiên bản: %s</string>
+    <string name="about_copy">Sao chép phiên bản và thông tin thiết bị</string>
+    <string name="about_copied">Đã sao chép phiên bản và thông tin thiết bị</string>
+    <string name="about_device_info_title">Thiết bị của bạn</string>
+    <string name="list_exclusive_label">Ẩn khỏi bảng tin</string>
+    <string name="error_media_playback">Không thể phát: %s</string>
 </resources>

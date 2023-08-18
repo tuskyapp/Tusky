@@ -45,6 +45,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentQuery: String = ""
+    var currentSearchFieldContent: String? = null
 
     val activeAccount: AccountEntity?
         get() = accountManager.activeAccount

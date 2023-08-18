@@ -100,7 +100,11 @@ data class AccountEntity(
      * ID of the status at the top of the visible list in the home timeline when the
      * user navigated away.
      */
-    var lastVisibleHomeTimelineStatusId: String? = null
+    var lastVisibleHomeTimelineStatusId: String? = null,
+
+    /** true if the connected Mastodon account is locked (has to manually approve all follow requests **/
+    @ColumnInfo(defaultValue = "0")
+    var locked: Boolean = false
 ) {
 
     val identifier: String
@@ -125,9 +129,7 @@ data class AccountEntity(
         other as AccountEntity
 
         if (id == other.id) return true
-        if (domain == other.domain && accountId == other.accountId) return true
-
-        return false
+        return domain == other.domain && accountId == other.accountId
     }
 
     override fun hashCode(): Int {

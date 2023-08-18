@@ -24,7 +24,7 @@
     <string name="error_compose_character_limit">Допис задовгий!</string>
     <string name="error_no_web_browser_found">Не вдалося знайти браузер, який можна використати.</string>
     <string name="error_empty">Не може бути порожнім.</string>
-    <string name="error_network">Сталася помилка мережі! Перевірте інтернет-з\'єднання та спробуйте знову!</string>
+    <string name="error_network">Сталася помилка мережі. Перевірте інтернет-з\'єднання та спробуйте знову.</string>
     <string name="title_lists">Списки</string>
     <string name="action_lists">Списки</string>
     <string name="about_title_activity">Про застосунок</string>
@@ -85,7 +85,7 @@
     <string name="action_block">Заблокувати</string>
     <string name="action_unfollow">Відписатися</string>
     <string name="action_follow">Підписатися</string>
-    <string name="action_logout_confirm">Ви впевнені, що хочете вийти з облікового запису %1$s\?</string>
+    <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s\? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
     <string name="action_compose">Написати</string>
     <string name="action_unfavourite">Не подобається</string>
     <string name="action_bookmark">Додати в закладки</string>
@@ -274,12 +274,11 @@
     <string name="action_remove_from_list">Вилучити обліковий запис зі списку</string>
     <string name="action_add_to_list">Додати обліковий запис до списку</string>
     <string name="hint_search_people_list">Пошук серед тих, на кого ви підписані</string>
-    <string name="action_edit_list">Змінити список</string>
     <string name="action_delete_list">Видалити список</string>
-    <string name="action_rename_list">Змінити назву списку</string>
+    <string name="action_rename_list">Оновити список</string>
     <string name="action_create_list">Створити список</string>
     <string name="error_delete_list">Не вдалося видалити список</string>
-    <string name="error_rename_list">Не вдалося перейменувати список</string>
+    <string name="error_rename_list">Не вдалося оновити список</string>
     <string name="error_create_list">Не вдалося створити список</string>
     <string name="add_account_description">Додати новий обліковий запис Mastodon</string>
     <string name="add_account_name">Додати обліковий запис</string>
@@ -318,9 +317,8 @@
     <string name="post_share_content">Поділитися вмістом допису</string>
     <string name="about_tusky_account">Профіль Tusky</string>
     <string name="about_bug_feature_request_site">Звіти про вади та запити функцій:
-\n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Вебсайт проєкту:
-\n https://tusky.app</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Вебсайт проєкту: https://tusky.app</string>
     <string name="about_tusky_license">Tusky — вільне та відкрите програмне забезпечення. Ліцензовано загальною громадською ліцензією GNU версії 3, ви можете переглянути ліцензію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Створено Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -681,4 +679,25 @@
     <string name="error_list_load">Помилка завантаження списків</string>
     <string name="select_list_empty">У вас ще немає списків</string>
     <string name="select_list_manage">Керувати списками</string>
+    <string name="pref_ui_text_size">Розмір шрифту інтерфейсу</string>
+    <string name="notification_listenable_worker_name">Фонова діяльність</string>
+    <string name="notification_listenable_worker_description">Сповіщення, коли Tusky працює у фоновому режимі</string>
+    <string name="notification_notification_worker">Отримання сповіщень…</string>
+    <string name="notification_prune_cache">Обслуговування кешу…</string>
+    <string name="load_newest_notifications">Завантажити найновіші сповіщення</string>
+    <string name="compose_delete_draft">Видалити чернетку\?</string>
+    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому вони не можуть бути вам показані.
+\n
+\nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
+    <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %s</string>
+    <string name="about_device_info_title">Ваш пристрій</string>
+    <string name="about_device_info">%s %s
+\nВерсія Android: %s
+\nВерсія SDK: %d</string>
+    <string name="about_account_info_title">Ваш обліковий запис</string>
+    <string name="about_account_info">\@%s@%s
+\nВерсія: %s</string>
+    <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
+    <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
+    <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
 </resources>
