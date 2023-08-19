@@ -680,4 +680,6 @@
     <string name="about_copy">复制版本及设备信息</string>
     <string name="list_exclusive_label">不出现在首页时间线中</string>
     <string name="error_media_playback">播放失败了：%s</string>
+    <string name="dialog_delete_filter_text">删除筛选器\'%1$s\'吗？</string>
+    <string name="dialog_delete_filter_positive_action">删除</string>
 </resources>
