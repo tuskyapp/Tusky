@@ -666,4 +666,6 @@
     <string name="about_device_info_title">Thiết bị của bạn</string>
     <string name="list_exclusive_label">Ẩn khỏi bảng tin</string>
     <string name="error_media_playback">Không thể phát: %s</string>
+    <string name="dialog_delete_filter_text">Xóa bộ lọc \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Xóa</string>
 </resources>
