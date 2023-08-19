@@ -263,10 +263,10 @@
     <string name="action_add_to_list">Engadir conta á listaxe</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
     <string name="action_delete_list">Eliminar a listaxe</string>
-    <string name="action_rename_list">Renomear a listaxe</string>
+    <string name="action_rename_list">Actualizar a listaxe</string>
     <string name="action_create_list">Crear unha listaxe</string>
     <string name="error_delete_list">Non se puido eliminar a listaxe</string>
-    <string name="error_rename_list">Non se puido renomear a listaxe</string>
+    <string name="error_rename_list">Non se actualizou a listaxe</string>
     <string name="error_create_list">Non se puido crear a listaxe</string>
     <string name="title_lists">Listaxes</string>
     <string name="action_lists">Listaxes</string>
@@ -305,10 +305,9 @@
     <string name="post_share_link">Compartir ligazón ao toot</string>
     <string name="post_share_content">Compartir contido do toot</string>
     <string name="about_tusky_account">Perfil de Tusky</string>
-    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións:
-\n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Web do proxecto:
-\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións: 
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Web do proxecto: https://tusky.app</string>
     <string name="about_tusky_license">Tusky é software libre e de código aberto. Está baixo a licenza GNU General Public License Version 3. Podes ver a licenza aquí: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Desenvolta por Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
@@ -667,4 +666,16 @@
     <string name="notification_notification_worker">Obtendo as notificacións…</string>
     <string name="notification_prune_cache">Mantemento da caché…</string>
     <string name="error_media_upload_sending_fmt">Fallou a subida: %s</string>
+    <string name="about_device_info_title">O teu dispositivo</string>
+    <string name="about_device_info">%s %s
+\nVersión de Android: %s
+\nVersión SDK: %d</string>
+    <string name="about_account_info_title">A túa conta</string>
+    <string name="about_account_info">\@%s@%s
+\nVersión: %s</string>
+    <string name="about_copied">Copiouse a información sobre o dispositivo e versión</string>
+    <string name="about_copy">Copiar a información da versión e o dispositivo</string>
+    <string name="dialog_delete_filter_positive_action">Eliminar</string>
+    <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
+    <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'\?</string>
 </resources>
