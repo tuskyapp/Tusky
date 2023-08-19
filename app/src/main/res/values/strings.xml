@@ -820,4 +820,6 @@
     <string name="error_media_playback">Playback failed: %s</string>
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
+    <string name="title_edit_profile_save_changes_prompt">Unsaved Changes</string>
+    <string name="message_edit_profile_save_changes_prompt">Do you want to save your profile changes?</string>
 </resources>

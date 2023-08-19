@@ -51,6 +51,17 @@ import javax.inject.Inject
 private const val HEADER_FILE_NAME = "header.png"
 private const val AVATAR_FILE_NAME = "avatar.png"
 
+
+/**
+ * Conveniently groups Profile Data users can modify in the UI.
+ */
+internal data class ProfileData(
+    val displayName: String,
+    val note: String,
+    val locked: Boolean,
+    val fields: List<StringField>,
+)
+
 class EditProfileViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
@@ -96,29 +107,73 @@ class EditProfileViewModel @Inject constructor(
         headerData.value = getHeaderUri()
     }
 
-    fun save(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
+    internal fun save(newProfileData: ProfileData) {
         if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
 
         saveData.value = Loading()
 
-        val displayName = if (oldProfileData?.displayName == newDisplayName) {
-            null
-        } else {
-            newDisplayName.toRequestBody(MultipartBody.FORM)
+        val encoded = encodeChangedProfileFields(newProfileData)
+        if (encoded.allFieldsAreNull()) {
+            // if nothing has changed, there is no need to make a network request
+            saveData.postValue(Success())
+            return
         }
 
-        val note = if (oldProfileData?.source?.note == newNote) {
+        viewModelScope.launch {
+            mastodonApi.accountUpdateCredentials(
+                encoded.displayName, encoded.note, encoded.locked, encoded.avatar, encoded.header,
+                encoded.field1?.first, encoded.field1?.second, encoded.field2?.first, encoded.field2?.second, encoded.field3?.first, encoded.field3?.second, encoded.field4?.first, encoded.field4?.second
+            ).fold(
+                { newProfileData ->
+                    saveData.postValue(Success())
+                    eventHub.dispatch(ProfileEditedEvent(newProfileData))
+                },
+                { throwable ->
+                    saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
+                }
+            )
+        }
+    }
+
+    // cache activity state for rotation change
+    internal fun updateProfile(newProfileData: ProfileData) {
+        if (profileData.value is Success) {
+            val newProfileSource = profileData.value?.data?.source?.copy(note = newProfileData.note, fields = newProfileData.fields)
+            val newProfile = profileData.value?.data?.copy(
+                displayName = newProfileData.displayName,
+                locked = newProfileData.locked,
+                source = newProfileSource
+            )
+
+            profileData.postValue(Success(newProfile))
+        }
+    }
+
+    internal fun hasUnsavedChanges(newProfileData: ProfileData) : Boolean {
+        val encoded = encodeChangedProfileFields(newProfileData)
+        // If all fields are null, there are no changes.
+        return !encoded.allFieldsAreNull()
+    }
+
+    private fun encodeChangedProfileFields(newProfileData: ProfileData): EncodedProfileData {
+        val displayName = if (oldProfileData?.displayName == newProfileData.displayName) {
             null
         } else {
-            newNote.toRequestBody(MultipartBody.FORM)
+            newProfileData.displayName.toRequestBody(MultipartBody.FORM)
         }
 
-        val locked = if (oldProfileData?.locked == newLocked) {
+        val note = if (oldProfileData?.source?.note == newProfileData.note) {
             null
         } else {
-            newLocked.toString().toRequestBody(MultipartBody.FORM)
+            newProfileData.note.toRequestBody(MultipartBody.FORM)
+        }
+
+        val locked = if (oldProfileData?.locked == newProfileData.locked) {
+            null
+        } else {
+            newProfileData.locked.toString().toRequestBody(MultipartBody.FORM)
         }
 
         val avatar = if (avatarData.value != null) {
@@ -136,48 +191,15 @@ class EditProfileViewModel @Inject constructor(
         }
 
         // when one field changed, all have to be sent or they unchanged ones would get overridden
-        val fieldsUnchanged = oldProfileData?.source?.fields == newFields
-        val field1 = calculateFieldToUpdate(newFields.getOrNull(0), fieldsUnchanged)
-        val field2 = calculateFieldToUpdate(newFields.getOrNull(1), fieldsUnchanged)
-        val field3 = calculateFieldToUpdate(newFields.getOrNull(2), fieldsUnchanged)
-        val field4 = calculateFieldToUpdate(newFields.getOrNull(3), fieldsUnchanged)
+        val fieldsUnchanged = oldProfileData?.source?.fields == newProfileData.fields
+        val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), fieldsUnchanged)
+        val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), fieldsUnchanged)
+        val field3 = calculateFieldToUpdate(newProfileData.fields.getOrNull(2), fieldsUnchanged)
+        val field4 = calculateFieldToUpdate(newProfileData.fields.getOrNull(3), fieldsUnchanged)
 
-        if (displayName == null && note == null && locked == null && avatar == null && header == null &&
-            field1 == null && field2 == null && field3 == null && field4 == null
-        ) {
-            /** if nothing has changed, there is no need to make a network request */
-            saveData.postValue(Success())
-            return
-        }
-
-        viewModelScope.launch {
-            mastodonApi.accountUpdateCredentials(
-                displayName, note, locked, avatar, header,
-                field1?.first, field1?.second, field2?.first, field2?.second, field3?.first, field3?.second, field4?.first, field4?.second
-            ).fold(
-                { newProfileData ->
-                    saveData.postValue(Success())
-                    eventHub.dispatch(ProfileEditedEvent(newProfileData))
-                },
-                { throwable ->
-                    saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
-                }
-            )
-        }
-    }
-
-    // cache activity state for rotation change
-    fun updateProfile(newDisplayName: String, newNote: String, newLocked: Boolean, newFields: List<StringField>) {
-        if (profileData.value is Success) {
-            val newProfileSource = profileData.value?.data?.source?.copy(note = newNote, fields = newFields)
-            val newProfile = profileData.value?.data?.copy(
-                displayName = newDisplayName,
-                locked = newLocked,
-                source = newProfileSource
-            )
-
-            profileData.postValue(Success(newProfile))
-        }
+        return EncodedProfileData(
+            displayName, note, locked, field1, field2, field3, field4, header, avatar
+        )
     }
 
     private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
@@ -192,5 +214,21 @@ class EditProfileViewModel @Inject constructor(
 
     private fun getCacheFileForName(filename: String): File {
         return File(application.cacheDir, filename)
+    }
+
+    private data class EncodedProfileData(
+        val displayName: RequestBody?,
+        val note: RequestBody?,
+        val locked: RequestBody?,
+        val field1: Pair<RequestBody, RequestBody>?,
+        val field2: Pair<RequestBody, RequestBody>?,
+        val field3: Pair<RequestBody, RequestBody>?,
+        val field4: Pair<RequestBody, RequestBody>?,
+        val header: MultipartBody.Part?,
+        val avatar: MultipartBody.Part?,
+    ) {
+        fun allFieldsAreNull() = displayName == null && note == null && locked == null
+            && avatar == null && header == null && field1 == null && field2 == null
+            && field3 == null && field4 == null
     }
 }

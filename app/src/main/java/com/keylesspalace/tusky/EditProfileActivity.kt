@@ -25,7 +25,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -46,9 +48,11 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.await
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
+import com.keylesspalace.tusky.viewmodel.ProfileData
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -200,19 +204,36 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 }
             }
         }
+
+        val onBackCallback = object : OnBackPressedCallback(enabled = true) {
+            override fun handleOnBackPressed() {
+                if (!viewModel.hasUnsavedChanges(gatherProfileData())) finish()
+
+                lifecycleScope.launch {
+                    when(showConfirmationDialog()) {
+                        AlertDialog.BUTTON_POSITIVE -> save()
+                        else -> finish()
+                    }
+                }
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, onBackCallback)
     }
 
     override fun onStop() {
         super.onStop()
         if (!isFinishing) {
-            viewModel.updateProfile(
-                binding.displayNameEditText.text.toString(),
-                binding.noteEditText.text.toString(),
-                binding.lockedCheckBox.isChecked,
-                accountFieldEditAdapter.getFieldData()
-            )
+            viewModel.updateProfile(gatherProfileData())
         }
     }
+
+    private fun gatherProfileData() = ProfileData(
+        displayName = binding.displayNameEditText.text.toString(),
+        note = binding.noteEditText.text.toString(),
+        locked = binding.lockedCheckBox.isChecked,
+        fields = accountFieldEditAdapter.getFieldData(),
+    )
 
     private fun observeImage(
         liveData: LiveData<Uri>,
@@ -287,14 +308,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun save() {
-        viewModel.save(
-            binding.displayNameEditText.text.toString(),
-            binding.noteEditText.text.toString(),
-            binding.lockedCheckBox.isChecked,
-            accountFieldEditAdapter.getFieldData()
-        )
-    }
+    private fun save() = viewModel.save(gatherProfileData())
 
     private fun onSaveFailure(msg: String?) {
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
@@ -306,4 +320,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
         Log.w("EditProfileActivity", "failed to pick media", throwable)
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
     }
+
+    private suspend fun showConfirmationDialog() = AlertDialog.Builder(this)
+        .setTitle(getString(R.string.title_edit_profile_save_changes_prompt))
+        .setMessage(getString(R.string.message_edit_profile_save_changes_prompt))
+        .create()
+        .await(R.string.action_save, R.string.action_discard)
 }
