@@ -195,7 +195,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             /** there are two possibilities the accountId can be passed to MainActivity:
-             * - from our code as Long Intent Extra ACCOUNT_ID
+             * - from our code as Long Intent Extra TUSKY_ACCOUNT_ID
              * - from share shortcuts as String 'android.intent.extra.shortcut.ID'
              */
             var tuskyAccountId = intent.getLongExtra(TUSKY_ACCOUNT_ID, -1)
