@@ -29,7 +29,6 @@ import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountEntity
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -72,7 +71,7 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         val intent = Intent(context, MainActivity::class.java).apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
-            putExtra(NotificationHelper.ACCOUNT_ID, account.id)
+            putExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID, account.id.toString())
         }
 
         val shortcutInfo = ShortcutInfoCompat.Builder(context, account.id.toString())
