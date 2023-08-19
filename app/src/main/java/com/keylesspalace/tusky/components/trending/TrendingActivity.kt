@@ -48,7 +48,7 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector {
 
         if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null) {
             supportFragmentManager.commit {
-                val fragment = TrendingFragment.newInstance()
+                val fragment = TrendingTagsFragment.newInstance()
                 replace(R.id.fragmentContainer, fragment)
             }
         }
