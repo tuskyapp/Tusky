@@ -439,7 +439,6 @@
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
-    <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
     <string name="create_poll_title">Sondaggio</string>
     <string name="duration_5_min">5 minuti</string>
     <string name="duration_30_min">30 minuti</string>

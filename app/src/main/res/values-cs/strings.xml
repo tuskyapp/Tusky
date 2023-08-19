@@ -423,7 +423,6 @@
     <string name="failed_fetch_posts">Stahování příspěvků selhalo</string>
     <string name="report_description_1">Nahlášení bude zasláno moderátorovi vašeho serveru. Níže můžete uvést, proč tento účet nahlašujete:</string>
     <string name="report_description_remote_instance">Tento účet je z jiného serveru. Chcete na něj také poslat anonymizovanou kopii nahlášení\?</string>
-    <string name="pref_title_show_notifications_filter">Zobrazit filtr oznámení</string>
     <string name="create_poll_title">Anketa</string>
     <string name="duration_5_min">5 minut</string>
     <string name="duration_30_min">30 minut</string>

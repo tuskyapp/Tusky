@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.getDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
-    private val accountManager: AccountManager
+    accountManager: AccountManager
 ) : ViewModel() {
 
     val accountData = MutableLiveData<Resource<Account>>()
@@ -41,7 +42,12 @@ class AccountViewModel @Inject constructor(
     lateinit var accountId: String
     var isSelf = false
 
+    /** True if the viewed account has the same domain as the active account */
+    var isFromOwnDomain = false
+
     private var noteUpdateJob: Job? = null
+
+    private val activeAccount = accountManager.activeAccount!!
 
     init {
         viewModelScope.launch {
@@ -65,6 +71,8 @@ class AccountViewModel @Inject constructor(
                             accountData.postValue(Success(account))
                             isDataLoading = false
                             isRefreshing.postValue(false)
+
+                            isFromOwnDomain = getDomain(account.url) == activeAccount.domain
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
@@ -298,7 +306,7 @@ class AccountViewModel @Inject constructor(
 
     fun setAccountInfo(accountId: String) {
         this.accountId = accountId
-        this.isSelf = accountManager.activeAccount?.accountId == accountId
+        this.isSelf = activeAccount.accountId == accountId
         reload(false)
     }
 

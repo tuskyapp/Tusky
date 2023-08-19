@@ -101,6 +101,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun trendingTagsFragment(): TrendingTagsFragment
+
     @ContributesAndroidInjector
     abstract fun trendingLinksFragment(): TrendingLinksFragment
 

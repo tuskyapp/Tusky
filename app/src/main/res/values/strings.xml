@@ -615,8 +615,8 @@
     <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Clear</string>
-    <string name="notifications_apply_filter">Filter</string>
+    <string name="notifications_clear">Delete notifications</string>
+    <string name="notifications_apply_filter">Filter notifications</string>
     <string name="filter_apply">Apply</string>
 
     <string name="compose_shortcut_long_label">Compose post</string>
@@ -675,7 +675,6 @@
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Failed to search</string>
 
-    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
     <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
 

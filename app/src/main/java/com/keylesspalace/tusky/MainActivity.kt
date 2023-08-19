@@ -16,6 +16,8 @@
 package com.keylesspalace.tusky
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -33,6 +35,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -41,9 +44,12 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.IntentCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -100,7 +106,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -175,6 +180,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -182,30 +188,39 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             ?: return // will be redirected to LoginActivity by BaseActivity
 
         var showNotificationTab = false
-        if (intent != null) {
+
+        // check for savedInstanceState in order to not handle intent events more than once
+        if (intent != null && savedInstanceState == null) {
+            val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
+            if (notificationId != -1) {
+                // opened from a notification action, cancel the notification
+                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.cancel(intent.getStringExtra(NOTIFICATION_TAG), notificationId)
+            }
+
             /** there are two possibilities the accountId can be passed to MainActivity:
-             * - from our code as long 'account_id'
+             * - from our code as Long Intent Extra TUSKY_ACCOUNT_ID
              * - from share shortcuts as String 'android.intent.extra.shortcut.ID'
              */
-            var accountId = intent.getLongExtra(NotificationHelper.ACCOUNT_ID, -1)
-            if (accountId == -1L) {
+            var tuskyAccountId = intent.getLongExtra(TUSKY_ACCOUNT_ID, -1)
+            if (tuskyAccountId == -1L) {
                 val accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID)
                 if (accountIdString != null) {
-                    accountId = accountIdString.toLong()
+                    tuskyAccountId = accountIdString.toLong()
                 }
             }
-            val accountRequested = accountId != -1L
-            if (accountRequested && accountId != activeAccount.id) {
-                accountManager.setActiveAccount(accountId)
+            val accountRequested = tuskyAccountId != -1L
+            if (accountRequested && tuskyAccountId != activeAccount.id) {
+                accountManager.setActiveAccount(tuskyAccountId)
             }
 
             val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
 
-            if (canHandleMimeType(intent.type)) {
+            if (canHandleMimeType(intent.type) || intent.hasExtra(COMPOSE_OPTIONS)) {
                 // Sharing to Tusky from an external app
                 if (accountRequested) {
                     // The correct account is already active
-                    forwardShare(intent)
+                    forwardToComposeActivity(intent)
                 } else {
                     // No account was provided, show the chooser
                     showAccountChooserDialog(
@@ -216,10 +231,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                                 val requestedId = account.id
                                 if (requestedId == activeAccount.id) {
                                     // The correct account is already active
-                                    forwardShare(intent)
+                                    forwardToComposeActivity(intent)
                                 } else {
                                     // A different account was requested, restart the activity
-                                    intent.putExtra(NotificationHelper.ACCOUNT_ID, requestedId)
+                                    intent.putExtra(TUSKY_ACCOUNT_ID, requestedId)
                                     changeAccount(requestedId, intent)
                                 }
                             }
@@ -229,10 +244,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             } else if (openDrafts) {
                 val intent = DraftsActivity.newIntent(this)
                 startActivity(intent)
-            } else if (accountRequested && savedInstanceState == null) {
+            } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
-                if (intent.getStringExtra(NotificationHelper.TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
+                if (intent.getSerializableExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST) {
                     val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
                     startActivityWithSlideInAnimation(intent)
                 } else {
@@ -242,7 +257,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
-        setSupportActionBar(binding.mainToolbar)
 
         glide = Glide.with(this)
 
@@ -251,8 +265,21 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
+        // Determine which of the three toolbars should be the supportActionBar (which hosts
+        // the options menu).
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
-        binding.mainToolbar.visible(!hideTopToolbar)
+        if (hideTopToolbar) {
+            when (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top")) {
+                "top" -> setSupportActionBar(binding.topNav)
+                "bottom" -> setSupportActionBar(binding.bottomNav)
+            }
+            binding.mainToolbar.hide()
+            // There's not enough space in the top/bottom bars to show the title as well.
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        } else {
+            setSupportActionBar(binding.mainToolbar)
+            binding.mainToolbar.show()
+        }
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
@@ -348,6 +375,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
+    override fun onPrepareMenu(menu: Menu) {
+        super.onPrepareMenu(menu)
+
+        // If the main toolbar is hidden then there's no space in the top/bottomNav to show
+        // the menu items as icons, so forceably disable them
+        if (!binding.mainToolbar.isVisible) menu.forEach { it.setShowAsAction(SHOW_AS_ACTION_NEVER) }
+    }
+
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_search -> {
@@ -420,12 +455,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    private fun forwardShare(intent: Intent) {
-        val composeIntent = Intent(this, ComposeActivity::class.java)
-        composeIntent.action = intent.action
-        composeIntent.type = intent.type
-        composeIntent.putExtras(intent)
-        composeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    private fun forwardToComposeActivity(intent: Intent) {
+        val composeOptions = IntentCompat.getParcelableExtra(intent, COMPOSE_OPTIONS, ComposeActivity.ComposeOptions::class.java)
+
+        val composeIntent = if (composeOptions != null) {
+            ComposeActivity.startIntent(this, composeOptions)
+        } else {
+            Intent(this, ComposeActivity::class.java).apply {
+                action = intent.action
+                type = intent.type
+                putExtras(intent)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        }
         startActivity(composeIntent)
         finish()
     }
@@ -437,8 +479,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
-        binding.topNavAvatar.setOnClickListener(drawerOpenClickListener)
-        binding.bottomNavAvatar.setOnClickListener(drawerOpenClickListener)
+        binding.topNav.setNavigationOnClickListener(drawerOpenClickListener)
+        binding.bottomNav.setNavigationOnClickListener(drawerOpenClickListener)
 
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
@@ -871,112 +913,75 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
-        if (hideTopToolbar) {
+        val activeToolbar = if (hideTopToolbar) {
             val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
-
-            val avatarView = if (navOnBottom) {
-                binding.bottomNavAvatar.show()
-                binding.bottomNavAvatar
+            if (navOnBottom) {
+                binding.bottomNav
             } else {
-                binding.topNavAvatar.show()
-                binding.topNavAvatar
-            }
-
-            if (animateAvatars) {
-                Glide.with(this)
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarView)
-            } else {
-                Glide.with(this)
-                    .asBitmap()
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarView)
+                binding.topNav
             }
         } else {
-            binding.bottomNavAvatar.hide()
-            binding.topNavAvatar.hide()
+            binding.mainToolbar
+        }
 
-            val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
-            if (animateAvatars) {
-                glide.asDrawable()
-                    .load(avatarUrl)
-                    .transform(
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                    )
-                    .apply {
-                        if (showPlaceholder) {
-                            placeholder(R.drawable.avatar_default)
+        if (animateAvatars) {
+            glide.asDrawable().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .apply {
+                    if (showPlaceholder) placeholder(R.drawable.avatar_default)
+                }
+                .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                    override fun onLoadStarted(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
                     }
-                    .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
 
-                        override fun onLoadStarted(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
-                        }
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        if (resource is Animatable) resource.start()
+                        activeToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
+                    }
 
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            if (resource is Animatable) {
-                                resource.start()
-                            }
-                            binding.mainToolbar.navigationIcon =
-                                FixedSizeDrawable(resource, navIconSize, navIconSize)
-                        }
-
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
-                        }
-                    })
-            } else {
-                glide.asBitmap()
-                    .load(avatarUrl)
-                    .transform(
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                    )
-                    .apply {
-                        if (showPlaceholder) {
-                            placeholder(R.drawable.avatar_default)
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
                     }
-                    .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
-
-                        override fun onLoadStarted(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
+                })
+        } else {
+            glide.asBitmap().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .apply {
+                    if (showPlaceholder) placeholder(R.drawable.avatar_default)
+                }
+                .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
+                    override fun onLoadStarted(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
+                    }
 
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(
-                                BitmapDrawable(resources, resource),
-                                navIconSize,
-                                navIconSize
-                            )
-                        }
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        activeToolbar.navigationIcon = FixedSizeDrawable(
+                            BitmapDrawable(resources, resource),
+                            navIconSize,
+                            navIconSize
+                        )
+                    }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
-                    })
-            }
+                    }
+                })
         }
     }
 
@@ -1038,8 +1043,75 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
-        const val REDIRECT_URL = "redirectUrl"
-        const val OPEN_DRAFTS = "draft"
+        private const val REDIRECT_URL = "redirectUrl"
+        private const val OPEN_DRAFTS = "draft"
+        private const val TUSKY_ACCOUNT_ID = "tuskyAccountId"
+        private const val COMPOSE_OPTIONS = "composeOptions"
+        private const val NOTIFICATION_TYPE = "notificationType"
+        private const val NOTIFICATION_TAG = "notificationTag"
+        private const val NOTIFICATION_ID = "notificationId"
+
+        /**
+         * Switches the active account to the provided accountId and then stays on MainActivity
+         */
+        @JvmStatic
+        fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
+            }
+        }
+
+        /**
+         * Switches the active account to the accountId and takes the user to the correct place according to the notification they clicked
+         */
+        @JvmStatic
+        fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
+                putExtra(NOTIFICATION_TYPE, type)
+            }
+        }
+
+        /**
+         * Switches the active account to the accountId and then opens ComposeActivity with the provided options
+         * @param tuskyAccountId the id of the Tusky account to open the screen with. Set to -1 for current account.
+         * @param notificationId optional id of the notification that should be cancelled when this intent is opened
+         * @param notificationTag optional tag of the notification that should be cancelled when this intent is opened
+         */
+        @JvmStatic
+        fun composeIntent(
+            context: Context,
+            options: ComposeActivity.ComposeOptions,
+            tuskyAccountId: Long = -1,
+            notificationTag: String? = null,
+            notificationId: Int = -1
+        ): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
+                action = Intent.ACTION_SEND // so it can be opened via shortcuts
+                putExtra(COMPOSE_OPTIONS, options)
+                putExtra(NOTIFICATION_TAG, notificationTag)
+                putExtra(NOTIFICATION_ID, notificationId)
+            }
+        }
+
+        /**
+         * switches the active account to the accountId and then tries to resolve and show the provided url
+         */
+        @JvmStatic
+        fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
+                putExtra(REDIRECT_URL, url)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        }
+
+        /**
+         * switches the active account to the provided accountId and then opens drafts
+         */
+        fun draftIntent(context: Context, tuskyAccountId: Long): Intent {
+            return accountSwitchIntent(context, tuskyAccountId).apply {
+                putExtra(OPEN_DRAFTS, true)
+            }
+        }
     }
 }
 

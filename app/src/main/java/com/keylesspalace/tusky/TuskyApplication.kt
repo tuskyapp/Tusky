@@ -130,6 +130,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
         }
 
+        if (oldVersion < 2023072401) {
+            // The notifications filter / clear options are shown on a menu, not a separate bar,
+            // the preference to display them is not needed.
+            editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
+        }
+
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }

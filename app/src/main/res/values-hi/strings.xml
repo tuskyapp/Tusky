@@ -256,7 +256,6 @@
     <string name="no_drafts">आपके पास कोई ड्राफ्ट नहीं है।</string>
     <string name="post_lookup_error_format">%s पोस्ट खोजने में त्रुटि</string>
     <string name="pref_title_enable_swipe_for_tabs">टैब के बीच स्विच करने के लिए स्वाइप जेस्चर को सक्षम करें</string>
-    <string name="pref_title_show_notifications_filter">सूचना फ़िल्टर दिखाएं</string>
     <string name="failed_search">खोज करने में विफल</string>
     <string name="report_description_remote_instance">खाता किसी अन्य सर्वर से है। रिपोर्ट की अनाम प्रति वहां भी भेजें\?</string>
     <string name="report_description_1">रिपोर्ट आपके सर्वर मॉडरेटर को भेजी जाएगी। आप इस बारे में स्पष्टीकरण दे सकते हैं कि आप इस खाते को रिपोर्ट क्यों कर रहे हैं:</string>

@@ -379,9 +379,7 @@ class SendStatusService : Service(), Injectable {
         accountId: Long,
         statusId: Int
     ): Notification {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(NotificationHelper.ACCOUNT_ID, accountId)
-        intent.putExtra(MainActivity.OPEN_DRAFTS, true)
+        val intent = MainActivity.draftIntent(this, accountId)
 
         val pendingIntent = PendingIntent.getActivity(
             this,
