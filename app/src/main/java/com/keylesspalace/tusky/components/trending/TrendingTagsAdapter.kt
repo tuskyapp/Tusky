@@ -24,7 +24,7 @@ import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.databinding.ItemTrendingDateBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
-class TrendingAdapter(
+class TrendingTagsAdapter(
     private val onViewTag: (String) -> Unit
 ) : ListAdapter<TrendingViewData, RecyclerView.ViewHolder>(TrendingDifferCallback) {
 
