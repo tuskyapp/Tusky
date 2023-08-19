@@ -51,7 +51,6 @@ import javax.inject.Inject
 private const val HEADER_FILE_NAME = "header.png"
 private const val AVATAR_FILE_NAME = "avatar.png"
 
-
 /**
  * Conveniently groups Profile Data users can modify in the UI.
  */
@@ -59,7 +58,7 @@ internal data class ProfileData(
     val displayName: String,
     val note: String,
     val locked: Boolean,
-    val fields: List<StringField>,
+    val fields: List<StringField>
 )
 
 class EditProfileViewModel @Inject constructor(
@@ -151,7 +150,7 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    internal fun hasUnsavedChanges(newProfileData: ProfileData) : Boolean {
+    internal fun hasUnsavedChanges(newProfileData: ProfileData): Boolean {
         val encoded = encodeChangedProfileFields(newProfileData)
         // If all fields are null, there are no changes.
         return !encoded.allFieldsAreNull()
@@ -225,10 +224,10 @@ class EditProfileViewModel @Inject constructor(
         val field3: Pair<RequestBody, RequestBody>?,
         val field4: Pair<RequestBody, RequestBody>?,
         val header: MultipartBody.Part?,
-        val avatar: MultipartBody.Part?,
+        val avatar: MultipartBody.Part?
     ) {
-        fun allFieldsAreNull() = displayName == null && note == null && locked == null
-            && avatar == null && header == null && field1 == null && field2 == null
-            && field3 == null && field4 == null
+        fun allFieldsAreNull() = displayName == null && note == null && locked == null &&
+            avatar == null && header == null && field1 == null && field2 == null &&
+            field3 == null && field4 == null
     }
 }

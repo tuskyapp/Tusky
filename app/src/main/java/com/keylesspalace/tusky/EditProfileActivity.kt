@@ -210,7 +210,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 if (!viewModel.hasUnsavedChanges(gatherProfileData())) finish()
 
                 lifecycleScope.launch {
-                    when(showConfirmationDialog()) {
+                    when (showConfirmationDialog()) {
                         AlertDialog.BUTTON_POSITIVE -> save()
                         else -> finish()
                     }
@@ -232,7 +232,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         displayName = binding.displayNameEditText.text.toString(),
         note = binding.noteEditText.text.toString(),
         locked = binding.lockedCheckBox.isChecked,
-        fields = accountFieldEditAdapter.getFieldData(),
+        fields = accountFieldEditAdapter.getFieldData()
     )
 
     private fun observeImage(
