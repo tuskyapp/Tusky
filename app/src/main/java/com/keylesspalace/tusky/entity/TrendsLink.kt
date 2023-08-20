@@ -59,6 +59,7 @@ data class LinkHistory(
     val uses: Int
 )
 
+/** Represents a https://docs.joinmastodon.org/entities/PreviewCard/#trends-link */
 data class TrendsLink(
     override val url: String,
     override val title: String,
