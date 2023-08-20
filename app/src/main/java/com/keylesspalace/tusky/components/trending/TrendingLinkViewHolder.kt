@@ -51,14 +51,11 @@ class TrendingLinkViewHolder(
         // Can a "PreviewCardView" type be created to encapsulate all this?
         binding.cardTitle.text = link.title
 
-        val description = if (link.description.isNotBlank()) {
-            link.description
-        } else if (link.authorName.isNotBlank()) {
-            link.authorName
-        } else {
-            null
-        }
-        description?.let { binding.cardDescription.text = it } ?: binding.cardDescription.hide()
+        when {
+            link.description.isNotBlank() -> link.description
+            link.authorName.isNotBlank() -> link.authorName
+            else -> null
+        }?.let { binding.cardDescription.text = it } ?: binding.cardDescription.hide()
 
         binding.cardLink.text = link.url
 

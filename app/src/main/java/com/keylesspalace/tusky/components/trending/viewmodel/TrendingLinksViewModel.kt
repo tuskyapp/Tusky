@@ -73,8 +73,6 @@ class TrendingLinksViewModel @Inject constructor(
     )
     val statusDisplayOptions = _statusDisplayOptions.asStateFlow()
 
-//    val data = MutableStateFlow<List<TrendsLink>>(emptyList())
-
     private val uiAction = MutableSharedFlow<UiAction>()
 
     val accept: (UiAction) -> Unit = { viewModelScope.launch { uiAction.emit(it) } }
