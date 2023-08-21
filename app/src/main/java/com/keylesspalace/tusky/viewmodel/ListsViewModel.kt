@@ -38,7 +38,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
     }
 
     enum class Event {
-        CREATE_ERROR, DELETE_ERROR, RENAME_ERROR
+        CREATE_ERROR, DELETE_ERROR, UPDATE_ERROR
     }
 
     data class State(val lists: List<MastoList>, val loadingState: LoadingState)
@@ -72,8 +72,11 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 { err ->
                     updateState {
                         copy(
-                            loadingState = if (err is IOException || err is ConnectException)
-                                LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER
+                            loadingState = if (err is IOException || err is ConnectException) {
+                                LoadingState.ERROR_NETWORK
+                            } else {
+                                LoadingState.ERROR_OTHER
+                            }
                         )
                     }
                 }
@@ -81,9 +84,9 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun createNewList(listName: String) {
+    fun createNewList(listName: String, exclusive: Boolean) {
         viewModelScope.launch {
-            api.createList(listName).fold(
+            api.createList(listName, exclusive).fold(
                 { list ->
                     updateState {
                         copy(lists = lists + list)
@@ -96,16 +99,16 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun renameList(listId: String, listName: String) {
+    fun updateList(listId: String, listName: String, exclusive: Boolean) {
         viewModelScope.launch {
-            api.updateList(listId, listName).fold(
+            api.updateList(listId, listName, exclusive).fold(
                 { list ->
                     updateState {
                         copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
                     }
                 },
                 {
-                    sendEvent(Event.RENAME_ERROR)
+                    sendEvent(Event.UPDATE_ERROR)
                 }
             )
         }

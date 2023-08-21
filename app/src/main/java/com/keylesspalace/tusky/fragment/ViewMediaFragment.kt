@@ -17,7 +17,9 @@ package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.annotation.OptIn
 import androidx.fragment.app.Fragment
+import androidx.media3.common.util.UnstableApi
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 
@@ -42,10 +44,12 @@ abstract class ViewMediaFragment : Fragment() {
 
         @JvmStatic
         protected val ARG_ATTACHMENT = "attach"
+
         @JvmStatic
         protected val ARG_SINGLE_IMAGE_URL = "singleImageUrl"
 
         @JvmStatic
+        @OptIn(UnstableApi::class)
         fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
             val arguments = Bundle(2)
             arguments.putParcelable(ARG_ATTACHMENT, attachment)

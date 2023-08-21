@@ -54,7 +54,6 @@ class LocaleManager @Inject constructor(
     }
 
     override fun putString(key: String?, value: String?) {
-
         // if we are on Android < 13 we have to save the selected language so we can apply it at appstart
         // on Android 13+ the system handles it for us
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {

@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
@@ -50,14 +51,11 @@ import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 /**
  * TimelineViewModel that caches all statuses in a local database
@@ -101,21 +99,11 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 timelineStatus.toViewData(gson)
             }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                !shouldFilterStatus(statusViewData)
+                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
-
-    init {
-        viewModelScope.launch {
-            delay(5.toDuration(DurationUnit.SECONDS)) // delay so the db is not locked during initial ui refresh
-            accountManager.activeAccount?.id?.let { accountId ->
-                db.timelineDao().cleanup(accountId, MAX_STATUSES_IN_CACHE)
-                db.timelineDao().cleanupAccounts(accountId)
-            }
-        }
-    }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         // handled by CacheUpdater
@@ -150,6 +138,12 @@ class CachedTimelineViewModel @Inject constructor(
     override fun removeAllByInstance(instance: String) {
         viewModelScope.launch {
             db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+        }
+    }
+
+    override fun clearWarning(status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 
@@ -198,7 +192,6 @@ class CachedTimelineViewModel @Inject constructor(
                 }
 
                 db.withTransaction {
-
                     timelineDao.delete(activeAccount.id, placeholderId)
 
                     val overlappedStatuses = if (statuses.isNotEmpty()) {
@@ -288,6 +281,14 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
+    override fun saveReadingPosition(statusId: String) {
+        accountManager.activeAccount?.let { account ->
+            Log.d(TAG, "Saving position at: $statusId")
+            account.lastVisibleHomeTimelineStatusId = statusId
+            accountManager.saveAccount(account)
+        }
+    }
+
     override suspend fun invalidate() {
         // invalidating when we don't have statuses yet can cause empty timelines because it cancels the network load
         if (db.timelineDao().getStatusCount(accountManager.activeAccount!!.id) > 0) {
@@ -296,6 +297,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "CachedTimelineViewModel"
         private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }

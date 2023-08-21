@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Soporte para edición de publicaciones
+- Nueva configuración para controlar la dirección de lectura preferida
+- Vistas previas de medios más grandes y una nueva superposición para indicar medios con descripción
+- Ahora es posible agregar cuentas a listas desde su perfil
+y mucho más

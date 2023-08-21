@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Si è verificato un errore.</string>
-    <string name="error_network">Si è verificato un errore di rete! Per favore controlla la tua connessione e riprova!</string>
+    <string name="error_network">Si è verificato un errore di rete. Per favore controlla la tua connessione e riprova.</string>
     <string name="error_empty">Questo non può essere vuoto.</string>
     <string name="error_invalid_domain">Inserito un dominio non valido</string>
-    <string name="error_failed_app_registration">Autenticazione con quell\'istanza fallita.</string>
+    <string name="error_failed_app_registration">Autenticazione con quell\'istanza fallita. Se il problema persiste, prova a collegarti dal browser nel menù.</string>
     <string name="error_no_web_browser_found">Nessun browser web utilizzabile trovato.</string>
-    <string name="error_authorization_unknown">Si è verificato un errore di autenticazione non identificato.</string>
-    <string name="error_authorization_denied">Autorizzazione negata.</string>
-    <string name="error_retrieving_oauth_token">Acquisizione token di accesso fallita.</string>
+    <string name="error_authorization_unknown">Sì è verificato un errore di autenticazione non identificato. Se il problema persiste, prova a collegarti dal browser nel menù.</string>
+    <string name="error_authorization_denied">Autorizzazione negata. Se sei sicuro di aver usato le credenziali corrette, prova a collegarti con il browser nel menu.</string>
+    <string name="error_retrieving_oauth_token">Acquisizione token di accesso fallita. Se il problema persiste, prova a collegarti dal browser nel menu.</string>
     <string name="error_compose_character_limit">Il messaggio è troppo lungo!</string>
     <string name="error_media_upload_type">Quel tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Non è stato possibile aprire quel file.</string>
@@ -29,7 +29,7 @@
     <string name="title_posts_pinned">Fissati</string>
     <string name="title_follows">Seguiti</string>
     <string name="title_followers">Seguaci</string>
-    <string name="title_favourites">Preferiti</string>
+    <string name="title_favourites">Apprezzati</string>
     <string name="title_mutes">Utenti silenziati</string>
     <string name="title_blocks">Utenti bloccati</string>
     <string name="title_follow_requests">Richieste di seguirti</string>
@@ -48,7 +48,7 @@
     <string name="message_empty">Qui non c\'è nulla.</string>
     <string name="footer_empty">Qui non c\'è nulla. Trascina verso il basso per aggiornare!</string>
     <string name="notification_reblog_format">%s ha condiviso il tuo post</string>
-    <string name="notification_favourite_format">%s ha messo il tuo messaggio nei preferiti</string>
+    <string name="notification_favourite_format">%s ha apprezzato il tuo post</string>
     <string name="notification_follow_format">%s ti segue</string>
     <string name="report_username_format">Segnala @%s</string>
     <string name="report_comment_hint">Commenti aggiuntivi?</string>
@@ -56,11 +56,11 @@
     <string name="action_reply">Rispondi</string>
     <string name="action_reblog">Condividi</string>
     <string name="action_unreblog">Rimuovi condivisione</string>
-    <string name="action_favourite">Aggiungi ai preferiti</string>
-    <string name="action_unfavourite">Rimuovi preferito</string>
+    <string name="action_favourite">Aggiungi ai post apprezzati</string>
+    <string name="action_unfavourite">Rimuovi apprezzamento</string>
     <string name="action_more">Di più</string>
     <string name="action_compose">Componi</string>
-    <string name="action_login">Accedi con Mastodon</string>
+    <string name="action_login">Accedi con Tusky</string>
     <string name="action_logout">Disconnettiti</string>
     <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s?</string>
     <string name="action_follow">Segui</string>
@@ -78,7 +78,7 @@
     <string name="action_view_profile">Profilo</string>
     <string name="action_view_preferences">Preferenze</string>
     <string name="action_view_account_preferences">Preferenze account</string>
-    <string name="action_view_favourites">Preferiti</string>
+    <string name="action_view_favourites">Apprezzati</string>
     <string name="action_view_mutes">Utenti silenziati</string>
     <string name="action_view_blocks">Utenti bloccati</string>
     <string name="action_view_follow_requests">Richieste di seguirti</string>
@@ -138,12 +138,12 @@
     <string name="label_header">Intestazione</string>
     <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
     <string name="login_connection">Connessione…</string>
-    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a> 
-\n 
-\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account. 
-\n 
-\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
-\n 
+    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a>
+\n
+\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
+\n
+\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito.
+\n
 \nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
@@ -165,7 +165,7 @@
     <string name="pref_title_notification_filter_mentions">vengo menzionato</string>
     <string name="pref_title_notification_filter_follows">vengo seguito</string>
     <string name="pref_title_notification_filter_reblogs">i miei messaggi vengono condivisi</string>
-    <string name="pref_title_notification_filter_favourites">i miei messaggi vengono messi nei preferiti</string>
+    <string name="pref_title_notification_filter_favourites">i miei messaggi vengono messi negli apprezzamenti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
@@ -208,8 +208,8 @@
     <string name="notification_follow_description">Notifiche su nuovi seguaci</string>
     <string name="notification_boost_name">Ricondivisioni</string>
     <string name="notification_boost_description">Notifiche sui tuoi messaggi che vengono condivisi</string>
-    <string name="notification_favourite_name">Preferiti</string>
-    <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come preferiti</string>
+    <string name="notification_favourite_name">Apprezzati</string>
+    <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come apprezzati</string>
     <string name="notification_mention_format">%s ti ha menzionato</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d altri</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -259,8 +259,8 @@
     <string name="load_more_placeholder_text">carica altro</string>
     <string name="pref_title_public_filter_keywords">Timeline pubbliche</string>
     <string name="pref_title_thread_filter_keywords">Conversazioni</string>
-    <string name="filter_addition_dialog_title">Aggiungi filtro</string>
-    <string name="filter_edit_dialog_title">Modifica filtro</string>
+    <string name="filter_addition_title">Aggiungi filtro</string>
+    <string name="filter_edit_title">Modifica filtro</string>
     <string name="filter_dialog_remove_button">Rimuovi</string>
     <string name="filter_dialog_update_button">Aggiorna</string>
     <string name="filter_add_description">Frase da filtrare</string>
@@ -274,18 +274,16 @@
     <string name="action_create_list">Crea una lista</string>
     <string name="action_rename_list">Rinomina la lista</string>
     <string name="action_delete_list">Elimina la lista</string>
-    <string name="action_edit_list">Modifica la lista</string>
     <string name="hint_search_people_list">Cerca tra le persone che segui</string>
     <string name="action_add_to_list">Aggiungi un account alla lista</string>
     <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
     <string name="compose_active_account_description">Pubblicando come %1$s</string>
-    <string name="error_failed_set_caption">Impostazione del sottotitolo non riuscita</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Descrivi per ipovedenti
+        <item quantity="one">Descrivi i contenuti per gli ipovedenti
+\n(limite di %d carattere)</item>
+        <item quantity="many">Descrivi i contenuti per gli ipovedenti
 \n(limite di %d caratteri)</item>
-        <item quantity="many">Descrivi per ipovedenti
-\n(limite di %d caratteri)</item>
-        <item quantity="other">Descrivi per ipovedenti
+        <item quantity="other">Descrivi i contenuti per gli ipovedenti
 \n(limite di %d caratteri)</item>
     </plurals>
     <string name="action_set_caption">Inserisci descrizione</string>
@@ -341,7 +339,7 @@
         <item quantity="other"><b>%s</b> ricondivisioni</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
-    <string name="title_favourited_by">Aggiunto ai preferiti da</string>
+    <string name="title_favourited_by">Aggiunto ai post apprezzati da</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
@@ -354,7 +352,7 @@
     <string name="description_post_cw">Contenuto sensibile: %s</string>
     <string name="description_post_media_no_description_placeholder">Nessuna descrizione</string>
     <string name="description_post_reblogged">Ribloggato</string>
-    <string name="description_post_favourited">Messo nei preferiti</string>
+    <string name="description_post_favourited">Messo nei post apprezzati</string>
     <string name="description_visibility_public">        Pubblico
     </string>
     <string name="description_visibility_unlisted">Non in elenco</string>
@@ -389,7 +387,7 @@
     <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_notification_filter_poll">dei sondaggi si sono conclusi</string>
-    <string name="pref_title_animate_gif_avatars">Riproduci animazioni avatars</string>
+    <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
     <string name="notification_poll_name">Votazioni</string>
     <string name="notification_poll_description">Notifiche sui sondaggi che si sono conclusi</string>
     <string name="filter_dialog_whole_word">Parola intera</string>
@@ -441,7 +439,6 @@
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
-    <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
     <string name="create_poll_title">Sondaggio</string>
     <string name="duration_5_min">5 minuti</string>
     <string name="duration_30_min">30 minuti</string>
@@ -566,7 +563,6 @@
     <string name="error_loading_account_details">Caricamento dettagli utente fallito</string>
     <string name="delete_scheduled_post_warning">Cancellare questo post programmato\?</string>
     <string name="instance_rule_title">Regole di %s</string>
-    <string name="error_failed_set_focus">Impossibile selezionare il punto focale</string>
     <string name="instance_rule_info">Facendo il log in accetti le regole di %s.</string>
     <string name="set_focus_description">Tappa o crea un cerchio per scegliere il punto focale che sarà sempre visibile nelle anteprime.</string>
     <string name="action_set_focus">Imposta punto focale</string>
@@ -612,8 +608,82 @@
     <string name="mute_notifications_switch">Silenzia notifiche</string>
     <string name="title_edits">Modifiche</string>
     <string name="report_category_spam">Spam</string>
-    <string name="status_edit_info">%1$s ha modificato %2$s</string>
-    <string name="status_created_info">%1$s ha creato %2$s</string>
+    <string name="status_edit_info">%1$s ha modificato</string>
+    <string name="status_created_info">%1$s ha creato</string>
     <string name="report_category_other">Altro</string>
     <string name="action_unfollow_hashtag_format">Smettere di seguire #%s\?</string>
+    <string name="action_post_failed">Caricamento fallito</string>
+    <string name="action_browser_login">Accedi dal browser</string>
+    <string name="a11y_label_loading_thread">Carico il thread</string>
+    <string name="pref_summary_http_proxy_disabled">Disattivato</string>
+    <string name="pref_summary_http_proxy_missing">&lt;non impostato&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;non valido&gt;</string>
+    <string name="pref_reading_order_newest_first">Più nuovi prima</string>
+    <string name="action_post_failed_detail">Non è stato possibile caricare il tuo post ed è stato salvato nelle bozze.
+\n
+\nNon è stato possibile contattare il server oppure il server ha rifiutato il post.</string>
+    <string name="action_post_failed_detail_plural">Non è stato possibile caricare i tuoi post e sono stati salvati nelle bozze.
+\n
+\nNon è stato possibile contattare il server oppure il server ha rifiutato i post.</string>
+    <string name="action_post_failed_show_drafts">Mostra bozze</string>
+    <string name="action_post_failed_do_nothing">Chiudi</string>
+    <string name="send_account_username_to">Condividi nome utente dell\'account a…</string>
+    <string name="pref_title_reading_order">Ordine di lettura</string>
+    <string name="description_login">Funziona nella maggior parte dei casi. Nessun dato è trasferito ad altre app.</string>
+    <string name="description_browser_login">Potrebbe supportare differenti metodi di autenticazione, ma richiede un browser supportato.</string>
+    <string name="pref_reading_order_oldest_first">Più vecchi prima</string>
+    <string name="action_share_account_link">Condividi link dell\'account</string>
+    <string name="action_share_account_username">Condividi il nome utente dell\'account</string>
+    <string name="send_account_link_to">Condividi URL account a…</string>
+    <string name="account_username_copied">Nome utente copiato</string>
+    <string name="dialog_follow_hashtag_title">Segui hashtag</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="accessibility_talking_about_tag">%1$d persone parlano dell\'hashtag %2$s</string>
+    <string name="total_usage">Utilizzo totale</string>
+    <string name="total_accounts">Account totali</string>
+    <string name="action_refresh">Aggiorna</string>
+    <string name="title_public_trending_hashtags">Hashtag di tendenza</string>
+    <string name="help_empty_home">Questa è la tua <b>Timeline principale</b>. Mostra i post più recenti degli account che segui.
+\n
+\nPer esplorare gli account puoi scopririli in una delle altre timeline. Per esempio la timeline locale della tua istanza [iconica gmd_group]. O puoi cercarli per fine [iconica gmd_search]; per esempio cerca “Tusky” per trovare il nostro account Mastodon.</string>
+    <string name="hint_description">Descrizione</string>
+    <string name="notification_unknown_name">Sconosciuto</string>
+    <string name="post_media_image">Immagine</string>
+    <string name="label_filter_title">Titolo</string>
+    <string name="filter_action_warn">Avvisa</string>
+    <string name="filter_action_hide">Nascondi</string>
+    <string name="ui_error_bookmark">Salvataggio nei segnalibri fallito: %s</string>
+    <string name="socket_timeout_exception">Contattare il tuo server ha richiesto troppo tempo</string>
+    <string name="ui_error_unknown">motivo sconosciuto</string>
+    <string name="ui_error_clear_notifications">Cancellazione notifiche fallita: %s</string>
+    <string name="ui_error_favourite">Apprezzamento post fallito: %s</string>
+    <string name="ui_error_reblog">Condivisione del post fallita: %s</string>
+    <string name="ui_error_reject_follow_request">Rifiuto richiesta di follow fallita: %s</string>
+    <string name="ui_error_vote">Votazione al sondaggio fallita: %s</string>
+    <string name="ui_error_accept_follow_request">Accettazione richiesta di follow fallita: %s</string>
+    <string name="ui_success_accepted_follow_request">Richiesta di follow accettata</string>
+    <string name="ui_success_rejected_follow_request">Richiesta di follow bloccata</string>
+    <string name="select_list_empty">Non hai ancora alcuna lista</string>
+    <string name="select_list_manage">Gestisci liste</string>
+    <string name="error_list_load">Errore nel caricamento delle liste</string>
+    <string name="status_filtered_show_anyway">Mostra comunque</string>
+    <string name="status_filter_placeholder_label_format">Filtrato: %s</string>
+    <string name="pref_title_account_filter_keywords">Profili</string>
+    <string name="hint_filter_title">I miei filtri</string>
+    <string name="action_add">Aggiungi</string>
+    <string name="pref_title_show_stat_inline">Mostra le statistiche del post nella timeline</string>
+    <string name="filter_description_warn">Nascondi con un avviso</string>
+    <string name="filter_keyword_display_format">%s (parola intera)</string>
+    <string name="filter_description_hide">Nascondi completamente</string>
+    <string name="label_filter_action">Azioni del filtro</string>
+    <string name="label_filter_context">Contesti di filtraggio</string>
+    <string name="label_filter_keywords">Parole chiave i frasi da filtrare</string>
+    <string name="filter_keyword_addition_title">Aggiungi parola chiave</string>
+    <string name="filter_edit_keyword_title">Modifica parola chiave</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="load_newest_notifications">Carica le notifiche più recenti</string>
+    <string name="compose_delete_draft">Cancellare bozza\?</string>
+    <string name="error_missing_edits">Il tuo server sa che questo post è stato modificato, ma non ha una copia delle modifiche, quindi non ti può essere mostrato.
+\n
+\nQuesto è il <a href="https://github.com/mastodon/mastodon/issues/25398">problema Mastodon #25398</a>.</string>
 </resources>

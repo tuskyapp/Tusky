@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Dapatkan pemberitahuan saat pengguna yang diikuti memposting - klik ikon bel di profil mereka! (fitur Mastodon 3.3.0)
+- Fitur draf di Tusky telah sepenuhnya didesain ulang menjadi lebih cepat, lebih ramah pengguna, dan lebih sedikit buggy.
+- Mode kesejahteraan baru yang memungkinkan Anda membatasi fitur Tusky tertentu telah ditambahkan.
+- Tusky sekarang dapat menganimasikan emoji kustom.
+Changelog lengkap: https://github.com/tuskyapp/Tusky/releases

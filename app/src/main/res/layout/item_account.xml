@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/account_container"
     android:layout_width="match_parent"
-    android:background="?attr/selectableItemBackground"
     android:layout_height="72dp"
+    android:background="?attr/selectableItemBackground"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
@@ -14,6 +14,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="24dp"
+        android:contentDescription="@string/action_view_profile"
         android:foregroundGravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +27,8 @@
         android:layout_height="24dp"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
-        android:visibility="gone"
         android:src="@drawable/bot_badge"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/account_avatar"
         app:layout_constraintEnd_toEndOf="@id/account_avatar"
         tools:src="#000"

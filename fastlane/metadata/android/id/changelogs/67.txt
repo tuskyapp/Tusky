@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Kini Anda dapat membuat Polling dari Tusky
+- Pencarian yang ditingkatkan
+- Opsi baru dalam Preferensi Akun untuk selalu memperluas peringatan konten
+- Avatar di drawer navigasi sekarang memiliki bentuk kotak yang dibulatkan
+- Kini memungkinkan untuk melaporkan pengguna bahkan ketika mereka tidak pernah memposting status
+- Tusky sekarang akan menolak untuk terhubung melalui koneksi cleartext pada Android 6+
+- Banyak perbaikan kecil dan perbaikan bug lainnya

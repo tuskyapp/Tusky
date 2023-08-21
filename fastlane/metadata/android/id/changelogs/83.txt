@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Rilis ini memperbaiki crash saat memberi keterangan pada gambar

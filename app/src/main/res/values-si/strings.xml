@@ -48,10 +48,9 @@
     <string name="hint_display_name">දර්ශන නාමය</string>
     <string name="post_text_size_medium">මධ්‍යම</string>
     <string name="post_media_audio">ශ්‍රව්‍ය</string>
-    <string name="pref_title_show_notifications_filter">දැනුම්දීම් පෙරහන පෙන්වන්න</string>
     <string name="abbreviated_days_ago">දව. %d</string>
     <string name="action_logout">නික්මෙන්න</string>
-    <string name="filter_edit_dialog_title">පෙරහන සංස්කරණය</string>
+    <string name="filter_edit_title">පෙරහන සංස්කරණය</string>
     <string name="notification_summary_medium">%1$s, %2$s, සහ %3$s</string>
     <string name="caption_twemoji">මාස්ටඩන් හි සම්මත ඉමෝජි කට්ටලය</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
@@ -142,7 +141,7 @@
     <string name="label_quick_reply">පිළිතුරු…</string>
     <string name="limit_notifications">කාලරේඛා දැනුම්දීම් සීමාකරන්න</string>
     <string name="send_post_notification_error_title">ටූට් යැවීමේ දෝෂයකි</string>
-    <string name="filter_addition_dialog_title">පෙරහන එකතු කරන්න</string>
+    <string name="filter_addition_title">පෙරහන එකතු කරන්න</string>
     <string name="pref_default_media_sensitivity">සැමවිටම මාධ්‍ය සංවේදී ලෙස සලකුණු කරන්න</string>
     <string name="restart_required">යෙදුම යළි ඇරඹීම ඇවැසිය</string>
     <string name="restart">යළි අරඹන්න</string>

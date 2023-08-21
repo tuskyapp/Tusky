@@ -200,7 +200,6 @@
     <string name="error_compose_character_limit">Julkaisusi on liian pitkä!</string>
     <string name="action_unmute_conversation">Poista keskustelun mykistys</string>
     <string name="download_image">Ladataan kuvaa %1$s</string>
-    <string name="error_failed_set_caption">Kuvauksen lisääminen epäonnistui</string>
     <string name="action_mute_conversation">Mykistä keskustelu</string>
     <string name="error_generic">Tapahtui virhe.</string>
     <string name="action_logout_confirm">Halutako varmasti kirjautua ulos tililtä %s1\?</string>
@@ -212,7 +211,6 @@
     <string name="notification_favourite_format">%s lisäsi julkaisusi suosikkeihinsa</string>
     <string name="action_open_reblogged_by">Näytä jaot</string>
     <string name="action_show_reblogs">Näytä jaetut julkaisut</string>
-    <string name="action_edit_list">Muokkaa listaa</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s ja %4$d muuta</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Kuvaa näkövammaisille
@@ -279,7 +277,7 @@
     <string name="notification_favourite_name">Suosikit</string>
     <string name="notification_poll_name">Äänestykset</string>
     <string name="notification_poll_description">Ilmoitukset päättyneistä äänestyksistä</string>
-    <string name="filter_edit_dialog_title">Muokkaa suodatinta</string>
+    <string name="filter_edit_title">Muokkaa suodatinta</string>
     <string name="action_add_reaction">lisää reaktio</string>
     <string name="confirmation_reported">Lähetetty!</string>
     <string name="post_sent">Lähetetty!</string>
@@ -302,7 +300,7 @@
     <string name="load_more_placeholder_text">lataa lisää</string>
     <string name="pref_title_public_filter_keywords">Julkiset aikajanat</string>
     <string name="pref_title_thread_filter_keywords">Keskustelut</string>
-    <string name="filter_addition_dialog_title">Lisää suodatin</string>
+    <string name="filter_addition_title">Lisää suodatin</string>
     <string name="later">Myöhemmin</string>
     <string name="description_post_cw">Sisältövaroitus: %s</string>
     <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>

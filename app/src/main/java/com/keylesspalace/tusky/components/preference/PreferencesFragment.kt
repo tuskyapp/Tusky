@@ -29,11 +29,13 @@ import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -47,7 +49,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var localeManager: LocaleManager
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */
@@ -96,6 +98,19 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setTitle(R.string.pref_title_language)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
                     preferenceDataStore = localeManager
+                }
+
+                sliderPreference {
+                    key = PrefKeys.UI_TEXT_SCALE_RATIO
+                    setDefaultValue(100F)
+                    valueTo = 150F
+                    valueFrom = 50F
+                    stepSize = 5F
+                    setTitle(R.string.pref_ui_text_size)
+                    format = "%.0f%%"
+                    decrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_out)
+                    incrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_in)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
                 listPreference {
@@ -195,13 +210,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(true)
-                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
-                    setTitle(R.string.pref_title_show_notifications_filter)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(true)
                     key = PrefKeys.CONFIRM_REBLOGS
                     setTitle(R.string.pref_title_confirm_reblogs)
                     isSingleLineTitle = false
@@ -218,6 +226,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_STATS_INLINE
+                    setTitle(R.string.pref_title_show_stat_inline)
                     isSingleLineTitle = false
                 }
             }

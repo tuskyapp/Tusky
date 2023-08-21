@@ -17,6 +17,7 @@
     <color name="colorBackgroundAccent">@color/tusky_grey_70</color>
     <color name="colorBackgroundHighlight">@color/tusky_grey_50</color>
     <color name="dividerColor">@color/tusky_grey_80</color>
+    <color name="dividerColorOther">@color/tusky_grey_90</color>
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange_light</color>
 
@@ -27,4 +28,7 @@
     <color name="botBadgeForeground">@color/tusky_grey_20</color>
     <color name="botBadgeBackground">@color/white</color>
 
+    <!-- colors used to show inserted/deleted text -->
+    <color name="view_edits_background_insert">#CCFFD8</color>
+    <color name="view_edits_background_delete">#FFC0C0</color>
 </resources>

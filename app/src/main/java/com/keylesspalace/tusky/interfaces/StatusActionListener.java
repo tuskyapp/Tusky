@@ -65,5 +65,7 @@ public interface StatusActionListener extends LinkListener {
     void onVoteInPoll(int position, @NonNull List<Integer> choices);
 
     default void onShowEdits(int position) {}
+    
+    void clearWarningAction(int position);
 
 }

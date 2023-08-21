@@ -74,7 +74,6 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should return error when network call returns error code`() {
-
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
@@ -94,7 +93,6 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should return error when network call fails`() {
-
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
@@ -113,7 +111,6 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should not prepend statuses`() {
-
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock(),
@@ -142,11 +139,10 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should refresh and insert placeholder when a whole page with no overlap to existing statuses is loaded`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("3"),
             mockStatusEntityWithAccount("2"),
-            mockStatusEntityWithAccount("1"),
+            mockStatusEntityWithAccount("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -193,12 +189,12 @@ class CachedTimelineRemoteMediatorTest {
             listOf(
                 mockStatusEntityWithAccount("8"),
                 mockStatusEntityWithAccount("7"),
-                TimelineStatusWithAccount().apply {
+                TimelineStatusWithAccount(
                     status = Placeholder("5", loading = false).toEntity(1)
-                },
+                ),
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
-                mockStatusEntityWithAccount("1"),
+                mockStatusEntityWithAccount("1")
             )
         )
     }
@@ -206,11 +202,10 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholder when less than a whole page is loaded`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("3"),
             mockStatusEntityWithAccount("2"),
-            mockStatusEntityWithAccount("1"),
+            mockStatusEntityWithAccount("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -259,7 +254,7 @@ class CachedTimelineRemoteMediatorTest {
                 mockStatusEntityWithAccount("5"),
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
-                mockStatusEntityWithAccount("1"),
+                mockStatusEntityWithAccount("1")
             )
         )
     }
@@ -267,11 +262,10 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholders when there is overlap with existing statuses`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("3"),
             mockStatusEntityWithAccount("2"),
-            mockStatusEntityWithAccount("1"),
+            mockStatusEntityWithAccount("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -320,7 +314,7 @@ class CachedTimelineRemoteMediatorTest {
                 mockStatusEntityWithAccount("4"),
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
-                mockStatusEntityWithAccount("1"),
+                mockStatusEntityWithAccount("1")
             )
         )
     }
@@ -328,7 +322,6 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should not try to refresh already cached statuses when db is empty`() {
-
         val remoteMediator = CachedTimelineRemoteMediator(
             accountManager = accountManager,
             api = mock {
@@ -371,11 +364,10 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should remove deleted status from db and keep state of other cached statuses`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("3", expanded = true),
             mockStatusEntityWithAccount("2"),
-            mockStatusEntityWithAccount("1", expanded = false),
+            mockStatusEntityWithAccount("1", expanded = false)
         )
 
         db.insert(statusesAlreadyInDb)
@@ -422,12 +414,11 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should not remove placeholder in timeline`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("8"),
             mockStatusEntityWithAccount("7"),
             mockPlaceholderEntityWithAccount("6"),
-            mockStatusEntityWithAccount("1"),
+            mockStatusEntityWithAccount("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -474,7 +465,7 @@ class CachedTimelineRemoteMediatorTest {
                 mockStatusEntityWithAccount("8"),
                 mockStatusEntityWithAccount("7"),
                 mockPlaceholderEntityWithAccount("6"),
-                mockStatusEntityWithAccount("1"),
+                mockStatusEntityWithAccount("1")
             )
         )
     }
@@ -482,11 +473,10 @@ class CachedTimelineRemoteMediatorTest {
     @Test
     @ExperimentalPagingApi
     fun `should append statuses`() {
-
         val statusesAlreadyInDb = listOf(
             mockStatusEntityWithAccount("8"),
             mockStatusEntityWithAccount("7"),
-            mockStatusEntityWithAccount("5"),
+            mockStatusEntityWithAccount("5")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -527,7 +517,7 @@ class CachedTimelineRemoteMediatorTest {
                 mockStatusEntityWithAccount("5"),
                 mockStatusEntityWithAccount("3"),
                 mockStatusEntityWithAccount("2"),
-                mockStatusEntityWithAccount("1"),
+                mockStatusEntityWithAccount("1")
             )
         )
     }
@@ -547,8 +537,8 @@ class CachedTimelineRemoteMediatorTest {
     private fun AppDatabase.insert(statuses: List<TimelineStatusWithAccount>) {
         runBlocking {
             statuses.forEach { statusWithAccount ->
-                if (!statusWithAccount.status.isPlaceholder) {
-                    timelineDao().insertAccount(statusWithAccount.account)
+                statusWithAccount.account?.let { account ->
+                    timelineDao().insertAccount(account)
                 }
                 statusWithAccount.reblogAccount?.let { account ->
                     timelineDao().insertAccount(account)

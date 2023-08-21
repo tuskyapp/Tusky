@@ -23,29 +23,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
+import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -101,6 +99,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
 
+        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.retryLoading() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+
         lifecycleScope.launch {
             viewModel.state.collect(this@ListsActivity::update)
         }
@@ -113,10 +114,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
         lifecycleScope.launch {
             viewModel.events.collect { event ->
-                @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                 when (event) {
                     Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
-                    Event.RENAME_ERROR -> showMessage(R.string.error_rename_list)
+                    Event.UPDATE_ERROR -> showMessage(R.string.error_rename_list)
                     Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
                 }
             }
@@ -124,31 +124,36 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private fun showlistNameDialog(list: MastoList?) {
-        val layout = FrameLayout(this)
-        val editText = EditText(this)
-        editText.setHint(R.string.hint_list_name)
-        layout.addView(editText)
-        val margin = Utils.dpToPx(this, 8)
-        (editText.layoutParams as ViewGroup.MarginLayoutParams)
-            .setMargins(margin, margin, margin, 0)
-
+        val binding = DialogListBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this)
-            .setView(layout)
+            .setView(binding.root)
             .setPositiveButton(
-                if (list == null) R.string.action_create_list
-                else R.string.action_rename_list
+                if (list == null) {
+                    R.string.action_create_list
+                } else {
+                    R.string.action_rename_list
+                }
             ) { _, _ ->
-                onPickedDialogName(editText.text, list?.id)
+                onPickedDialogName(binding.nameText.text.toString(), list?.id, binding.exclusiveCheckbox.isChecked)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
 
-        val positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE)
-        editText.onTextChanged { s, _, _, _ ->
-            positiveButton.isEnabled = s.isNotBlank()
+        binding.nameText.let { editText ->
+            editText.doOnTextChanged { s, _, _, _ ->
+                dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = s?.isNotBlank() == true
+            }
+            editText.setText(list?.title)
+            editText.text?.let { editText.setSelection(it.length) }
         }
-        editText.setText(list?.title)
-        editText.text?.let { editText.setSelection(it.length) }
+
+        list?.let {
+            if (it.exclusive == null) {
+                binding.exclusiveCheckbox.visible(false)
+            } else {
+                binding.exclusiveCheckbox.isChecked = it.exclusive
+            }
+        }
     }
 
     private fun showListDeleteDialog(list: MastoList) {
@@ -164,17 +169,18 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     private fun update(state: ListsViewModel.State) {
         adapter.submitList(state.lists)
         binding.progressBar.visible(state.loadingState == LOADING)
+        binding.swipeRefreshLayout.isRefreshing = state.loadingState == LOADING
         when (state.loadingState) {
             INITIAL, LOADING -> binding.messageView.hide()
             ERROR_NETWORK -> {
                 binding.messageView.show()
-                binding.messageView.setup(R.drawable.elephant_offline, R.string.error_network) {
+                binding.messageView.setup(R.drawable.errorphant_offline, R.string.error_network) {
                     viewModel.retryLoading()
                 }
             }
             ERROR_OTHER -> {
                 binding.messageView.show()
-                binding.messageView.setup(R.drawable.elephant_error, R.string.error_generic) {
+                binding.messageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }
@@ -182,7 +188,8 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                 if (state.lists.isEmpty()) {
                     binding.messageView.show()
                     binding.messageView.setup(
-                        R.drawable.elephant_friend_empty, R.string.message_empty,
+                        R.drawable.elephant_friend_empty,
+                        R.string.message_empty,
                         null
                     )
                 } else {
@@ -193,7 +200,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
 
     private fun showMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.listsRecycler, messageId, Snackbar.LENGTH_SHORT
+            binding.listsRecycler,
+            messageId,
+            Snackbar.LENGTH_SHORT
         ).show()
     }
 
@@ -217,7 +226,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.list_edit -> openListSettings(list)
-                    R.id.list_rename -> renameListDialog(list)
+                    R.id.list_update -> renameListDialog(list)
                     R.id.list_delete -> showListDeleteDialog(list)
                     else -> return@setOnMenuItemClickListener false
                 }
@@ -278,11 +287,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
     }
 
-    private fun onPickedDialogName(name: CharSequence, listId: String?) {
+    private fun onPickedDialogName(name: String, listId: String?, exclusive: Boolean) {
         if (listId == null) {
-            viewModel.createNewList(name.toString())
+            viewModel.createNewList(name, exclusive)
         } else {
-            viewModel.renameList(listId, name.toString())
+            viewModel.updateList(listId, name, exclusive)
         }
     }
 

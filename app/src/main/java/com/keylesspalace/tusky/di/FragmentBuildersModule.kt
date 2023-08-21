@@ -18,8 +18,10 @@ package com.keylesspalace.tusky.di
 import com.keylesspalace.tusky.AccountsInListFragment
 import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.account.media.AccountMediaFragment
+import com.keylesspalace.tusky.components.accountlist.AccountListFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
+import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.components.preference.NotificationPreferencesFragment
 import com.keylesspalace.tusky.components.preference.PreferencesFragment
@@ -30,16 +32,12 @@ import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
-import com.keylesspalace.tusky.fragment.AccountListFragment
-import com.keylesspalace.tusky.fragment.NotificationsFragment
+import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-
-/**
- * Created by charlag on 3/24/18.
- */
 
 @Module
 abstract class FragmentBuildersModule {
@@ -99,4 +97,10 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun listsForAccountFragment(): ListsForAccountFragment
+
+    @ContributesAndroidInjector
+    abstract fun trendingTagsFragment(): TrendingTagsFragment
+
+    @ContributesAndroidInjector
+    abstract fun viewVideoFragment(): ViewVideoFragment
 }

@@ -1,0 +1,10 @@
+Tusky 22.0 beta 7
+
+Javítások:
+
+
+### Jelentős hibák
+
+- Minden fontos Mastodon értesítés lekérése, amikor Android értesítéseket hozunk létre
+- A "Üzenetírás" kattintása rossz fiókra vitt, megoldva
+- Annak biztosítása, hogy az "utolsó olvasott értesítés azonosítója" a helyes fiókba mentődjön

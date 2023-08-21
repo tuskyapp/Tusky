@@ -31,10 +31,10 @@ interface DraftDao {
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId ORDER BY id ASC")
     fun draftsPagingSource(accountId: Long): PagingSource<Int, DraftEntity>
 
-    @Query("SELECT COUNT(*) FROM DraftEntity where accountId = :accountId and failedToSendNew=true")
+    @Query("SELECT COUNT(*) FROM DraftEntity WHERE accountId = :accountId AND failedToSendNew = 1")
     fun draftsNeedUserAlert(accountId: Long): LiveData<Int>
 
-    @Query("UPDATE DraftEntity SET failedToSendNew=false where accountId = :accountId and failedToSendNew=true")
+    @Query("UPDATE DraftEntity SET failedToSendNew = 0 WHERE accountId = :accountId AND failedToSendNew = 1")
     suspend fun draftsClearNeedUserAlert(accountId: Long)
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")

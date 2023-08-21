@@ -16,15 +16,22 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
-import com.keylesspalace.tusky.components.notifications.NotificationWorkerFactory
+import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
+import com.keylesspalace.tusky.worker.PruneCacheWorker
+import com.keylesspalace.tusky.worker.WorkerFactory
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
@@ -33,18 +40,21 @@ import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.conscrypt.Conscrypt
 import java.security.Security
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TuskyApplication : Application(), HasAndroidInjector {
-
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
-    lateinit var notificationWorkerFactory: NotificationWorkerFactory
+    lateinit var workerFactory: WorkerFactory
 
     @Inject
     lateinit var localeManager: LocaleManager
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -65,7 +75,11 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         AppInjector.init(this)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        // Migrate shared preference keys and defaults from version to version.
+        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 0)
+        if (oldVersion != SCHEMA_VERSION) {
+            upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
+        }
 
         // In this case, we want to have the emoji preferences merged with the other ones
         // Copied from PreferenceManager.getDefaultSharedPreferenceName
@@ -73,7 +87,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
+        val theme = sharedPreferences.getString("appTheme", APP_THEME_DEFAULT)
         setAppNightMode(theme)
 
         localeManager.setLocale()
@@ -82,13 +96,51 @@ class TuskyApplication : Application(), HasAndroidInjector {
             Log.w("RxJava", "undeliverable exception", it)
         }
 
+        NotificationHelper.createWorkerNotificationChannel(this)
+
         WorkManager.initialize(
             this,
             androidx.work.Configuration.Builder()
-                .setWorkerFactory(notificationWorkerFactory)
+                .setWorkerFactory(workerFactory)
                 .build()
+        )
+
+        // Prune the database every ~ 12 hours when the device is idle.
+        val pruneCacheWorker = PeriodicWorkRequestBuilder<PruneCacheWorker>(12, TimeUnit.HOURS)
+            .setConstraints(Constraints.Builder().setRequiresDeviceIdle(true).build())
+            .build()
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            PruneCacheWorker.PERIODIC_WORK_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            pruneCacheWorker
         )
     }
 
     override fun androidInjector() = androidInjector
+
+    private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
+        Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
+        val editor = sharedPreferences.edit()
+
+        if (oldVersion < 2023022701) {
+            // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
+
+            editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
+            editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
+            editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
+        }
+
+        if (oldVersion < 2023072401) {
+            // The notifications filter / clear options are shown on a menu, not a separate bar,
+            // the preference to display them is not needed.
+            editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
+        }
+
+        editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
+        editor.apply()
+    }
+
+    companion object {
+        private const val TAG = "TuskyApplication"
+    }
 }

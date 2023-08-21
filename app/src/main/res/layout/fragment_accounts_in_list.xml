@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/elephant_error"
+        tools:src="@drawable/errorphant_error"
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView

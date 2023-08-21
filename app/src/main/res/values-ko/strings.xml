@@ -29,7 +29,7 @@
     <string name="title_posts_pinned">고정된 툿</string>
     <string name="title_follows">팔로우</string>
     <string name="title_followers">팔로워</string>
-    <string name="title_favourites">즐겨찾기</string>
+    <string name="title_favourites">좋아요</string>
     <string name="title_mutes">뮤트한 유저</string>
     <string name="title_blocks">블록한 유저</string>
     <string name="title_domain_mutes">숨긴 도메인</string>
@@ -49,7 +49,7 @@
     <string name="message_empty">메시지가 없습니다.</string>
     <string name="footer_empty">게시물이 없습니다. 아래로 당겨서 새로고침하세요!</string>
     <string name="notification_reblog_format">%s님이 부스트 했습니다</string>
-    <string name="notification_favourite_format">%s님이 즐겨찾기 했습니다</string>
+    <string name="notification_favourite_format">%s님이 당신의 게시물을 좋아합니다</string>
     <string name="notification_follow_format">%s님이 나를 팔로우 했습니다</string>
     <string name="report_username_format">\@%s 신고</string>
     <string name="report_comment_hint">코멘트</string>
@@ -57,8 +57,8 @@
     <string name="action_reply">답장</string>
     <string name="action_reblog">부스트</string>
     <string name="action_unreblog">부스트 해제</string>
-    <string name="action_favourite">즐겨찾기</string>
-    <string name="action_unfavourite">즐겨찾기 해제</string>
+    <string name="action_favourite">좋아요</string>
+    <string name="action_unfavourite">좋아요 취소</string>
     <string name="action_more">더 보기</string>
     <string name="action_compose">작성</string>
     <string name="action_login">마스토돈에 로그인</string>
@@ -80,7 +80,7 @@
     <string name="action_view_profile">프로필</string>
     <string name="action_view_preferences">설정</string>
     <string name="action_view_account_preferences">계정 설정</string>
-    <string name="action_view_favourites">즐겨찾기</string>
+    <string name="action_view_favourites">좋아요</string>
     <string name="action_view_mutes">뮤트한 유저</string>
     <string name="action_view_blocks">블록한 유저</string>
     <string name="action_view_domain_mutes">숨긴 도메인</string>
@@ -113,7 +113,7 @@
     <string name="action_hashtags">해시태그</string>
     <string name="action_open_reblogger">부스트한 유저의 프로필로 이동</string>
     <string name="action_open_reblogged_by">부스트 보이기</string>
-    <string name="action_open_faved_by">즐겨찾기한 유저 보이기</string>
+    <string name="action_open_faved_by">좋아요한 유저 보이기</string>
     <string name="title_hashtags_dialog">해시태그</string>
     <string name="title_mentions_dialog">멘션</string>
     <string name="title_links_dialog">링크</string>
@@ -144,12 +144,12 @@
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
     <string name="login_connection">연결 중...</string>
-    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
+    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다!
 \n
-\n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
-\n 
-\n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다. 
-\n 
+\n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다.
+\n
+\n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다.
+\n
 \n자세한 사항은 <a href="https://joinmastodon.org">joinmastodon.org</a>을 참조하세요. </string>
     <string name="dialog_title_finishing_media_upload">미디어 업로드 완료</string>
     <string name="dialog_message_uploading_media">업로드 중...</string>
@@ -174,7 +174,7 @@
     <string name="pref_title_notification_filter_mentions">누군가가 나를 멘션했을때</string>
     <string name="pref_title_notification_filter_follows">누군가가 나를 팔로우했을 때</string>
     <string name="pref_title_notification_filter_reblogs">누군가가 내 게시물을 부스트했을 때</string>
-    <string name="pref_title_notification_filter_favourites">누군가가 내 게시물을 즐겨찾기했을 때</string>
+    <string name="pref_title_notification_filter_favourites">누군가가 내 게시물을 좋아요했을 때</string>
     <string name="pref_title_notification_filter_poll">투표가 종료되었을 때</string>
     <string name="pref_title_appearance_settings">화면</string>
     <string name="pref_title_app_theme">어플리케이션 테마</string>
@@ -220,8 +220,8 @@
     <string name="notification_follow_description">누군가 나를 팔로우할 때 알림</string>
     <string name="notification_boost_name">부스트</string>
     <string name="notification_boost_description">누군가 내 게시물을 부스트할 때 알림</string>
-    <string name="notification_favourite_name">즐겨찾기</string>
-    <string name="notification_favourite_description">누군가 내 게시물을 즐겨찾기할 때 알림</string>
+    <string name="notification_favourite_name">좋아요</string>
+    <string name="notification_favourite_description">누군가 내 게시물을 좋아요 했을 때 알림</string>
     <string name="notification_poll_name">투표</string>
     <string name="notification_poll_description">투표가 종료되었을 때 알림</string>
     <string name="notification_mention_format">%s님이 당신을 멘션했습니다</string>
@@ -269,8 +269,8 @@
     <string name="load_more_placeholder_text">더 불러오기</string>
     <string name="pref_title_public_filter_keywords">공개 타임라인</string>
     <string name="pref_title_thread_filter_keywords">대화</string>
-    <string name="filter_addition_dialog_title">필터 추가</string>
-    <string name="filter_edit_dialog_title">필터 편집</string>
+    <string name="filter_addition_title">필터 추가</string>
+    <string name="filter_edit_title">필터 편집</string>
     <string name="filter_dialog_remove_button">삭제</string>
     <string name="filter_dialog_update_button">변경 사항 저장</string>
     <string name="filter_dialog_whole_word">단어 전체에 매칭</string>
@@ -286,12 +286,10 @@
     <string name="action_create_list">리스트 생성</string>
     <string name="action_rename_list">리스트 이름 바꾸기</string>
     <string name="action_delete_list">리스트 삭제</string>
-    <string name="action_edit_list">리스트 편집</string>
     <string name="hint_search_people_list">당신을 팔로우하는 사람 검색</string>
     <string name="action_add_to_list">리스트에 계정 추가</string>
     <string name="action_remove_from_list">리스트에서 계정 삭제</string>
     <string name="compose_active_account_description">%1$s로서 포스팅</string>
-    <string name="error_failed_set_caption">미디어에 대한 설명을 추가할 수 없습니다</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">시각 장애인을 위한 설명
 \n(%d글자 작성 가능)</item>
@@ -340,13 +338,13 @@
     <string name="unpin_action">고정 해제</string>
     <string name="pin_action">고정</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; 즐겨찾기</item>
+        <item quantity="other"><b>%1$s</b> 좋아요</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="other">&lt;b&gt;%s&lt;/b&gt; 부스트</item>
     </plurals>
     <string name="title_reblogged_by">부스트한 유저</string>
-    <string name="title_favourited_by">즐겨찾기한 유저</string>
+    <string name="title_favourited_by">좋아요한 유저</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s와 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 외 %3$d명</string>
@@ -357,7 +355,7 @@
     <string name="description_post_cw">열람주의: %s</string>
     <string name="description_post_media_no_description_placeholder">설명 없음</string>
     <string name="description_post_reblogged">부스트함</string>
-    <string name="description_post_favourited">즐겨찾기함</string>
+    <string name="description_post_favourited">좋아요함</string>
     <string name="description_visibility_public">공개</string>
     <string name="description_visibility_unlisted">타임라인에 비표시</string>
     <string name="description_visibility_private">비공개</string>
@@ -404,7 +402,6 @@
     <string name="failed_fetch_posts">게시물을 불러오지 못했습니다</string>
     <string name="report_description_1">인스턴스 관리자에게 신고합니다. 이 계정을 신고하려는 이유를 작성하실 수 있습니다:</string>
     <string name="report_description_remote_instance">이 유저는 다른 인스턴스에 속해 있습니다. 그 인스턴스에도 익명으로 신고 내용을 보내시겠습니까\?</string>
-    <string name="pref_title_show_notifications_filter">알림 필터 보이기</string>
     <string name="action_open_as">%s(으)로 열기</string>
     <string name="title_accounts">계정</string>
     <string name="failed_search">검색하지 못했습니다</string>

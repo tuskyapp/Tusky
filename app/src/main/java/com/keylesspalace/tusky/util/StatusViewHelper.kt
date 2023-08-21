@@ -53,7 +53,6 @@ class StatusViewHelper(private val itemView: View) {
         showingContent: Boolean,
         mediaPreviewHeight: Int
     ) {
-
         val context = itemView.context
         val mediaPreviews = arrayOf<MediaPreviewImageView>(
             itemView.findViewById(R.id.status_media_preview_0),
@@ -110,9 +109,11 @@ class StatusViewHelper(private val itemView: View) {
                     .centerInside()
                     .into(mediaPreviews[i])
             } else {
-                val placeholder = if (attachment.blurhash != null)
+                val placeholder = if (attachment.blurhash != null) {
                     decodeBlurHash(context, attachment.blurhash)
-                else mediaPreviewUnloaded
+                } else {
+                    mediaPreviewUnloaded
+                }
                 val meta = attachment.meta
                 val focus = meta?.focus
                 if (showingContent) {
@@ -185,8 +186,12 @@ class StatusViewHelper(private val itemView: View) {
                 v.visibility = View.GONE
                 sensitiveMediaWarning.visibility = View.VISIBLE
                 setMediasPreview(
-                    statusDisplayOptions, attachments, sensitive, previewListener,
-                    false, mediaPreviewHeight
+                    statusDisplayOptions,
+                    attachments,
+                    sensitive,
+                    previewListener,
+                    false,
+                    mediaPreviewHeight
                 )
             }
             sensitiveMediaWarning.setOnClickListener { v ->
@@ -194,8 +199,12 @@ class StatusViewHelper(private val itemView: View) {
                 v.visibility = View.GONE
                 sensitiveMediaShow.visibility = View.VISIBLE
                 setMediasPreview(
-                    statusDisplayOptions, attachments, sensitive, previewListener,
-                    true, mediaPreviewHeight
+                    statusDisplayOptions,
+                    attachments,
+                    sensitive,
+                    previewListener,
+                    true,
+                    mediaPreviewHeight
                 )
             }
         }

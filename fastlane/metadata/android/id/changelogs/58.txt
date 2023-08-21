@@ -1,0 +1,13 @@
+Tusky v6.0
+
+- Filter timeline telah dipindahkan ke Preferensi Akun dan akan disinkronkan dengan server
+- Sekarang Anda dapat memiliki hashtag kustom sebagai tab di antarmuka utama
+- Daftar sekarang dapat diedit
+- Keamanan: dukungan untuk TLS 1.0 dan TLS 1.1 telah dihapus, dan dukungan untuk TLS 1.3 telah ditambahkan pada Android 6+
+- Tampilan tulisan sekarang akan menyarankan emoji kustom saat memulai mengetik
+- Pengaturan tema baru "ikuti tema sistem"
+- Aksesibilitas timeline yang ditingkatkan
+- Tusky sekarang akan mengabaikan notifikasi yang tidak diketahui dan tidak lagi mengalami crash
+- Pengaturan baru: Sekarang Anda dapat mengubah bahasa sistem dan mengatur bahasa yang berbeda di Tusky
+- Terjemahan baru: Ceko dan Esperanto
+- Banyak perbaikan dan peningkatan lainnya

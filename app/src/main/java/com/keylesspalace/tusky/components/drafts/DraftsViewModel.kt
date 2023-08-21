@@ -33,7 +33,7 @@ class DraftsViewModel @Inject constructor(
     val database: AppDatabase,
     val accountManager: AccountManager,
     val api: MastodonApi,
-    val draftHelper: DraftHelper
+    private val draftHelper: DraftHelper
 ) : ViewModel() {
 
     val drafts = Pager(

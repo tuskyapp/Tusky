@@ -1,0 +1,9 @@
+Tusky v9.0
+
+- Gallwch nawr greu Polau o Tusky
+- Gwell chwiliad
+- Opsiwn newydd yn dewisiadau'ch cyfrif i ehangu rhybuddion cynnwys bob amser
+- Mae gan avatars yn y drôr llywio siâp sgwâr crwn bellach
+- Mae bellach yn bosibl adrodd defnyddwyr hyd yn oed pan nad ydynt byth yn postio statws
+- Bydd Tusky nawr yn gwrthod cysylltu dros gysylltiadau clir-destun ar Android 6+
+- Llawer o welliannau bach eraill ac atgyweiriadau i fygiau

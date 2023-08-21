@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Dukungan untuk menampilkan jajak pendapat, voting, dan notifikasi jajak pendapat
+- Tombol baru untuk menyaring tab notifikasi dan menghapus semua notifikasi
+- Menghapus dan menyunting ulang toot Anda sendiri
+- Indikator baru yang menunjukkan jika akun adalah bot pada gambar profil (dapat dimatikan dalam preferensi)
+- Terjemahan baru: Norwegia Bokmål dan Slovenian.

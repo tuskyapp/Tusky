@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.List;
@@ -110,9 +109,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             setupButtons(listener, account.getId(), statusViewData.getContent().toString(),
                     statusDisplayOptions);
 
-            setSpoilerAndContent(statusViewData.isExpanded(), statusViewData.getContent(), status.getSpoilerText(),
-                    status.getMentions(), status.getTags(), status.getEmojis(),
-                    PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
+            setSpoilerAndContent(statusViewData, statusDisplayOptions, listener);
 
             setConversationName(conversation.getAccounts());
 
@@ -147,7 +144,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             ImageView avatarView = avatars[i];
             if (i < accounts.size()) {
                 ImageLoadingHelper.loadAvatar(accounts.get(i).getAvatar(), avatarView,
-                        avatarRadius48dp, statusDisplayOptions.animateAvatars());
+                        avatarRadius48dp, statusDisplayOptions.animateAvatars(), null);
                 avatarView.setVisibility(View.VISIBLE);
             } else {
                 avatarView.setVisibility(View.GONE);

@@ -24,7 +24,6 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import java.util.Random
 
 class AccountMediaGridAdapter(
-    private val alwaysShowSensitiveMedia: Boolean,
     private val useBlurhash: Boolean,
     context: Context,
     private val onAttachmentClickListener: (AttachmentViewData, View) -> Unit
@@ -40,7 +39,7 @@ class AccountMediaGridAdapter(
     }
 ) {
 
-    private val baseItemBackgroundColor = MaterialColors.getColor(context, R.attr.colorSurface, Color.BLACK)
+    private val baseItemBackgroundColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK)
     private val videoIndicator = AppCompatResources.getDrawable(context, R.drawable.ic_play_indicator)
     private val mediaHiddenDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_hide_media_24dp)
 
@@ -80,7 +79,7 @@ class AccountMediaGridAdapter(
                     .into(imageView)
 
                 imageView.contentDescription = item.attachment.getFormattedDescription(context)
-            } else if (item.sensitive && !item.isRevealed && !alwaysShowSensitiveMedia) {
+            } else if (item.sensitive && !item.isRevealed) {
                 overlay.show()
                 overlay.setImageDrawable(mediaHiddenDrawable)
 

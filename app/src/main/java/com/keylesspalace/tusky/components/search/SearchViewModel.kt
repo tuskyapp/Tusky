@@ -16,23 +16,23 @@
 package com.keylesspalace.tusky.components.search
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -42,15 +42,13 @@ class SearchViewModel @Inject constructor(
     mastodonApi: MastodonApi,
     private val timelineCases: TimelineCases,
     private val accountManager: AccountManager
-) : RxAwareViewModel() {
+) : ViewModel() {
 
     var currentQuery: String = ""
+    var currentSearchFieldContent: String? = null
 
-    var activeAccount: AccountEntity?
+    val activeAccount: AccountEntity?
         get() = accountManager.activeAccount
-        set(value) {
-            accountManager.activeAccount = value
-        }
 
     val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
@@ -116,22 +114,18 @@ class SearchViewModel @Inject constructor(
     }
 
     fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        timelineCases.reblog(statusViewData.id, reblog)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { setRebloggedForStatus(statusViewData, reblog) },
-                { t -> Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t) }
-            )
-            .autoDispose()
-    }
-
-    private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        updateStatus(
-            statusViewData.status.copy(
-                reblogged = reblog,
-                reblog = statusViewData.status.reblog?.copy(reblogged = reblog)
-            )
-        )
+        viewModelScope.launch {
+            timelineCases.reblog(statusViewData.id, reblog).fold({
+                updateStatus(
+                    statusViewData.status.copy(
+                        reblogged = reblog,
+                        reblog = statusViewData.status.reblog?.copy(reblogged = reblog)
+                    )
+                )
+            }, { t ->
+                Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t)
+            })
+        }
     }
 
     fun contentHiddenChange(statusViewData: StatusViewData.Concrete, isShowing: Boolean) {
@@ -145,42 +139,34 @@ class SearchViewModel @Inject constructor(
     fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
         val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(statusViewData.status.copy(poll = votedPoll))
-        timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
+                .onFailure { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
+        }
     }
 
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
-        timelineCases.favourite(statusViewData.id, isFavorited)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.favourite(statusViewData.id, isFavorited)
+        }
     }
 
     fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
-        timelineCases.bookmark(statusViewData.id, isBookmarked)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.bookmark(statusViewData.id, isBookmarked)
+        }
     }
 
     fun translate(statusViewData: StatusViewData.Concrete, alreadyTranslated: Boolean) {
         if (alreadyTranslated)
-            return timelineCases.dispatchNullTranslation(statusViewData.actionableId)
-        timelineCases.translate(statusViewData.actionableId)
-            .onErrorReturnItem(
-                TranslationResult(
-                    statusViewData.status.content,
-                    statusViewData.status.language ?: "null",
-                    "<error>",
-                )
-            )
-            .subscribe()
-            .autoDispose()
+            updateStatus(statusViewData.status.copy(translationResult = null))
+        viewModelScope.launch {
+            if (alreadyTranslated)
+                timelineCases.dispatchNullTranslation(statusViewData.actionableId)
+            updateStatus(statusViewData.status.copy(translationResult = timelineCases.translate(statusViewData.actionableId)))
+        }
     }
 
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
@@ -190,7 +176,9 @@ class SearchViewModel @Inject constructor(
     }
 
     fun pinAccount(status: Status, isPin: Boolean) {
-        timelineCases.pin(status.id, isPin)
+        viewModelScope.launch {
+            timelineCases.pin(status.id, isPin)
+        }
     }
 
     fun blockAccount(accountId: String) {
@@ -207,10 +195,9 @@ class SearchViewModel @Inject constructor(
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
         updateStatus(statusViewData.status.copy(muted = mute))
-        timelineCases.muteConversation(statusViewData.id, mute)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.muteConversation(statusViewData.id, mute)
+        }
     }
 
     private fun updateStatusViewData(newStatusViewData: StatusViewData.Concrete) {

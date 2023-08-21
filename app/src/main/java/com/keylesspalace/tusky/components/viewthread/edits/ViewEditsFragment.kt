@@ -17,49 +17,65 @@ package com.keylesspalace.tusky.components.viewthread.edits
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
-import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
+import com.keylesspalace.tusky.databinding.FragmentViewEditsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.viewBinding
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
-class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener, Injectable {
+class ViewEditsFragment :
+    Fragment(R.layout.fragment_view_edits),
+    LinkListener,
+    OnRefreshListener,
+    MenuProvider,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel: ViewEditsViewModel by viewModels { viewModelFactory }
 
-    private val binding by viewBinding(FragmentViewThreadBinding::bind)
+    private val binding by viewBinding(FragmentViewEditsBinding::bind)
 
     private lateinit var statusId: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-        binding.toolbar.title = getString(R.string.title_edits)
-        binding.swipeRefreshLayout.isEnabled = false
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -74,6 +90,7 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
+        val avatarRadius: Int = requireContext().resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
@@ -84,24 +101,31 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                         binding.statusView.hide()
                         binding.initialProgressBar.show()
                     }
+                    EditsUiState.Refreshing -> {}
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
 
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.hide()
                         binding.statusView.show()
                         binding.initialProgressBar.hide()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.loadEdits(statusId, force = true)
+                        when (uiState.throwable) {
+                            is ViewEditsViewModel.MissingEditsException -> {
+                                binding.statusView.setup(
+                                    R.drawable.elephant_friend_empty,
+                                    R.string.error_missing_edits
+                                )
                             }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.loadEdits(statusId, force = true)
+                            else -> {
+                                binding.statusView.setup(uiState.throwable) {
+                                    viewModel.loadEdits(statusId, force = true)
+                                }
                             }
                         }
                     }
                     is EditsUiState.Success -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.show()
                         binding.statusView.hide()
                         binding.initialProgressBar.hide()
@@ -113,12 +137,51 @@ class ViewEditsFragment : Fragment(R.layout.fragment_view_thread), LinkListener,
                             useBlurhash = useBlurhash,
                             listener = this@ViewEditsFragment
                         )
+
+                        // Focus on the most recent version
+                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(0)
+
+                        val account = uiState.edits.first().account
+                        loadAvatar(account.avatar, binding.statusAvatar, avatarRadius, animateAvatars)
+
+                        binding.statusDisplayName.text = account.name.unicodeWrap().emojify(account.emojis, binding.statusDisplayName, animateEmojis)
+                        binding.statusUsername.text = account.username
                     }
                 }
             }
         }
 
         viewModel.loadEdits(statusId)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_view_edits, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                onRefresh()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().title = getString(R.string.title_edits)
+    }
+
+    override fun onRefresh() {
+        viewModel.loadEdits(statusId, force = true, refreshing = true)
     }
 
     override fun onViewAccount(id: String) {

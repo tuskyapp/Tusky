@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="ClickableSpanTextView">
+        <!-- Necessary to support tools:text in Android Studio layout designer -->
+        <attr name="android:text"/>
+    </declare-styleable>
+
     <declare-styleable name="LicenseCard">
         <attr name="name" format="string|reference" />
         <attr name="license" format="string|reference" />
         <attr name="link" format="string|reference" />
         <attr name="description" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="GraphView">
+        <attr name="primaryLineColor" format="reference|color" />
+        <attr name="secondaryLineColor" format="reference|color" />
+        <attr name="lineWidth" format="dimension" />
+        <attr name="graphColor" format="reference|color" />
+        <attr name="metaColor" format="reference|color" />
+        <attr name="proportionalTrending" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SliderPreference">
+        <attr name="android:value" format="string|reference" />
+        <attr name="android:valueFrom" format="string|reference" />
+        <attr name="android:valueTo" format="string|reference" />
+        <attr name="android:stepSize" format="string|reference" />
+        <attr name="format" format="string|reference" />
+        <attr name="iconStart" format="reference" />
+        <attr name="iconEnd" format="reference" />
     </declare-styleable>
 
     <!--Themed Attributes-->

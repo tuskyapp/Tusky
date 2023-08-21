@@ -4,30 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:background="?attr/selectableItemBackground"
+    tools:ignore="Overdraw">
 
     <TextView
         android:id="@+id/list_name_textview"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="?selectableItemBackground"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="?attr/status_text_medium"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         tools:text="Example list" />
 
     <ImageButton
         android:id="@+id/editListButton"
         style="@style/TuskyImageButton"
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="?selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_more"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:src="@drawable/ic_more_horiz_24dp" />
 </LinearLayout>

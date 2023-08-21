@@ -121,12 +121,11 @@
     <string name="action_schedule_post">Sɣiwes tijewwaqt-a</string>
     <string name="post_share_content">Bḍu agbur n tijewwiqt-a</string>
     <string name="post_share_link">Bḍu aseɣwen ɣer tijewwiqt</string>
-    <string name="filter_addition_dialog_title">Rnu amsizdeg</string>
-    <string name="filter_edit_dialog_title">Ẓreg amsizdeg</string>
+    <string name="filter_addition_title">Rnu amsizdeg</string>
+    <string name="filter_edit_title">Ẓreg amsizdeg</string>
     <string name="action_create_list">Snulfu-d tabdart</string>
     <string name="action_rename_list">Snifel isem n tabdart</string>
     <string name="action_delete_list">Kkes tabdart-a</string>
-    <string name="action_edit_list">Ẓreg tabdart-a</string>
     <string name="action_add_to_list">Rnu yiwen umiḍan ɣer tabdart</string>
     <string name="action_remove_from_list">Kkes amiḍan seg tabdart</string>
     <string name="profile_metadata_add">Rnu isefka</string>

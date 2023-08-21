@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
@@ -37,7 +38,7 @@ import javax.inject.Singleton
 
 @ProvidedTypeConverter
 @Singleton
-class Converters @Inject constructor (
+class Converters @Inject constructor(
     private val gson: Gson
 ) {
 
@@ -112,8 +113,8 @@ class Converters @Inject constructor (
     }
 
     @TypeConverter
-    fun jsonToAttachmentList(attachmentListJson: String?): ArrayList<Attachment>? {
-        return gson.fromJson(attachmentListJson, object : TypeToken<ArrayList<Attachment>>() {}.type)
+    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment>? {
+        return gson.fromJson(attachmentListJson, object : TypeToken<List<Attachment>>() {}.type)
     }
 
     @TypeConverter
@@ -174,5 +175,15 @@ class Converters @Inject constructor (
     @TypeConverter
     fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment>? {
         return gson.fromJson(draftAttachmentListJson, object : TypeToken<List<DraftAttachment>>() {}.type)
+    }
+
+    @TypeConverter
+    fun filterResultListToJson(filterResults: List<FilterResult>?): String? {
+        return gson.toJson(filterResults)
+    }
+
+    @TypeConverter
+    fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
+        return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
     }
 }

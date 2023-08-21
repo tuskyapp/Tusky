@@ -19,7 +19,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
 import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import java.util.*
+import java.util.Date
 
 data class Status(
     val id: String,
@@ -41,7 +41,7 @@ data class Status(
     val sensitive: Boolean,
     @SerializedName("spoiler_text") val spoilerText: String,
     val visibility: Visibility,
-    @SerializedName("media_attachments") val attachments: ArrayList<Attachment>,
+    @SerializedName("media_attachments") val attachments: List<Attachment>,
     val mentions: List<Mention>,
     val tags: List<HashTag>?,
     val application: Application?,
@@ -50,7 +50,8 @@ data class Status(
     val poll: Poll?,
     val card: Card?,
     val language: String?,
-    val translationResult: TranslationResult? = null
+    val filtered: List<FilterResult>?,
+    val translationResult: TranslationResult? = null,
 ) {
 
     val displayedContent: String
@@ -77,12 +78,16 @@ data class Status(
 
     enum class Visibility(val num: Int) {
         UNKNOWN(0),
+
         @SerializedName("public")
         PUBLIC(1),
+
         @SerializedName("unlisted")
         UNLISTED(2),
+
         @SerializedName("private")
         PRIVATE(3),
+
         @SerializedName("direct")
         DIRECT(4);
 
@@ -142,11 +147,11 @@ data class Status(
             attachments = attachments,
             poll = poll,
             createdAt = createdAt,
-            language = language,
+            language = language
         )
     }
 
-    fun getEditableText(): String {
+    private fun getEditableText(): String {
         val contentSpanned = content.parseAsMastodonHtml()
         val builder = SpannableStringBuilder(content.parseAsMastodonHtml())
         for (span in contentSpanned.getSpans(0, content.length, URLSpan::class.java)) {

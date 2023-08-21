@@ -18,12 +18,17 @@ package com.keylesspalace.tusky.components.viewthread
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.CheckResult
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,10 +36,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.AccountListActivity
-import com.keylesspalace.tusky.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -55,10 +60,14 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
-class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener, Injectable {
+class ViewThreadFragment :
+    SFragment(),
+    OnRefreshListener,
+    StatusActionListener,
+    MenuProvider,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -72,6 +81,16 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
+
+    /**
+     * State of the "reveal" menu item that shows/hides content that is behind a content
+     * warning. Setting this invalidates the menu to redraw the menu item.
+     */
+    private var revealButtonState = RevealButtonState.NO_BUTTON
+        set(value) {
+            field = value
+            requireActivity().invalidateMenu()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +111,10 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             confirmReblogs = preferences.getBoolean("confirmReblogs", true),
             confirmFavourites = preferences.getBoolean("confirmFavourites", false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
+            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
+            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
         adapter = ThreadAdapter(statusDisplayOptions, this)
     }
@@ -106,24 +128,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        binding.toolbar.setNavigationOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-        binding.toolbar.inflateMenu(R.menu.view_thread_toolbar)
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_reveal -> {
-                    viewModel.toggleRevealButton()
-                    true
-                }
-                R.id.action_open_in_web -> {
-                    context?.openLink(requireArguments().getString(URL_EXTRA)!!)
-                    true
-                }
-                else -> false
-            }
-        }
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
@@ -153,7 +158,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             viewModel.uiState.collect { uiState ->
                 when (uiState) {
                     is ThreadUiState.Loading -> {
-                        updateRevealButton(RevealButtonState.NO_BUTTON)
+                        revealButtonState = RevealButtonState.NO_BUTTON
 
                         binding.recyclerView.hide()
                         binding.statusView.hide()
@@ -172,9 +177,13 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
                         threadProgressBar.start()
 
-                        adapter.submitList(listOf(uiState.statusViewDatum))
+                        if (viewModel.isInitialLoad) {
+                            adapter.submitList(listOf(uiState.statusViewDatum))
 
-                        updateRevealButton(uiState.revealButton)
+                            // else this "submit one and then all on success below" will always center on the one
+                        }
+
+                        revealButtonState = uiState.revealButton
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.show()
@@ -185,21 +194,13 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         initialProgressBar.cancel()
                         threadProgressBar.cancel()
 
-                        updateRevealButton(RevealButtonState.NO_BUTTON)
+                        revealButtonState = RevealButtonState.NO_BUTTON
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.hide()
                         binding.statusView.show()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) {
-                                viewModel.retry(thisThreadsStatusId)
-                            }
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                                viewModel.retry(thisThreadsStatusId)
-                            }
-                        }
+                        binding.statusView.setup(uiState.throwable) { viewModel.retry(thisThreadsStatusId) }
                     }
                     is ThreadUiState.Success -> {
                         if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
@@ -211,15 +212,18 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
                         threadProgressBar.cancel()
 
                         adapter.submitList(uiState.statusViewData) {
-                            if (viewModel.isInitialLoad) {
+                            if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) && viewModel.isInitialLoad) {
                                 viewModel.isInitialLoad = false
 
                                 // Ensure the top of the status is visible
-                                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(uiState.detailedStatusPosition, 0)
+                                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                                    uiState.detailedStatusPosition,
+                                    0
+                                )
                             }
                         }
 
-                        updateRevealButton(uiState.revealButton)
+                        revealButtonState = uiState.revealButton
                         binding.swipeRefreshLayout.isRefreshing = false
 
                         binding.recyclerView.show()
@@ -246,6 +250,41 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         viewModel.loadThread(thisThreadsStatusId)
     }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_view_thread, menu)
+        val actionReveal = menu.findItem(R.id.action_reveal)
+        actionReveal.isVisible = revealButtonState != RevealButtonState.NO_BUTTON
+        actionReveal.setIcon(
+            when (revealButtonState) {
+                RevealButtonState.REVEAL -> R.drawable.ic_eye_24dp
+                else -> R.drawable.ic_hide_media_24dp
+            }
+        )
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_reveal -> {
+                viewModel.toggleRevealButton()
+                true
+            }
+            R.id.action_open_in_web -> {
+                context?.openLink(requireArguments().getString(URL_EXTRA)!!)
+                true
+            }
+            R.id.action_refresh -> {
+                onRefresh()
+                true
+            }
+            else -> false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().title = getString(R.string.title_view_thread)
+    }
+
     /**
      * Create a job to implement a delayed-visible progress bar.
      *
@@ -255,7 +294,7 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
      * When started the job will wait `delayMs` then show `view`. If the job is cancelled at
      * any time `view` is hidden.
      */
-    @CheckResult()
+    @CheckResult
     private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
         start = CoroutineStart.LAZY
     ) {
@@ -266,13 +305,6 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
         } finally {
             view.hide()
         }
-    }
-
-    private fun updateRevealButton(state: RevealButtonState) {
-        val menuItem = binding.toolbar.menu.findItem(R.id.action_reveal)
-
-        menuItem.isVisible = state != RevealButtonState.NO_BUTTON
-        menuItem.setIcon(if (state == RevealButtonState.REVEAL) R.drawable.ic_eye_24dp else R.drawable.ic_hide_media_24dp)
     }
 
     override fun onRefresh() {
@@ -309,7 +341,11 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = adapter.currentList[position].status
-        super.viewMedia(attachmentIndex, list(status), view)
+        super.viewMedia(
+            attachmentIndex,
+            list(status, alwaysShowSensitiveMedia),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {
@@ -374,13 +410,14 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.currentList[position]
-        if (status.isDetailed) {
-            // the main status we are viewing is being removed, finish the activity
-            activity?.finish()
-            return
+        adapter.currentList.getOrNull(position)?.let { status ->
+            if (status.isDetailed) {
+                // the main status we are viewing is being removed, finish the activity
+                activity?.finish()
+                return
+            }
+            viewModel.removeStatus(status)
         }
-        viewModel.removeStatus(status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
@@ -397,6 +434,10 @@ class ViewThreadFragment : SFragment(), OnRefreshListener, StatusActionListener,
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
             addToBackStack(null)
         }
+    }
+
+    override fun clearWarningAction(position: Int) {
+        viewModel.clearWarning(adapter.currentList[position])
     }
 
     companion object {

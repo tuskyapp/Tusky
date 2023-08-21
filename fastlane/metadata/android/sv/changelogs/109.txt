@@ -1,0 +1,10 @@
+Tusky 22.0 beta 7
+
+Fixar:
+
+
+### Betydande buggfixar
+
+- Hämta alla utestående Mastodon aviseringar när du skapar Android-aviseringar
+- Om du klickar på "Skriv" från ett meddelande ställs fel konto in
+- Se till att "senast lästa meddelande-ID" är sparat på rätt konto

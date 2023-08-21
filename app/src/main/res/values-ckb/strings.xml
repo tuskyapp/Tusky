@@ -206,11 +206,11 @@
     <string name="dialog_download_image">داگرتن</string>
     <string name="dialog_message_uploading_media">بارکردن…</string>
     <string name="dialog_title_finishing_media_upload">تەواوکردنی بارکردنی میدیا</string>
-    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a> 
+    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a>
 \n
 \nئەگەر هێشتا ئەژمێرێکت نیە، دەتوانیت ناوی ئەو نمونەیە داخڵ بکەیت کە دەتەوێت بیبەستیت و ئەژمێرێک دروست بکەیت لەوێ.
 \n
-\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت. 
+\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت.
 \n
 \nزانیاری زیاتر دەتوانرێت بدۆزرێتەوە لە <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">گرێدان…</string>
@@ -261,7 +261,6 @@
     <string name="create_poll_title">ڕاپرسی</string>
     <string name="pref_title_enable_swipe_for_tabs">چالاککردنی ئاماژەکردنی لێدانی چالاک بۆ گۆڕین لە نێوان خشتەبەندەکان</string>
     <string name="license_description">تاسکی کۆد و سەرمایەکانی تێدایە لەم پڕۆژە کراوەی سەرچاوە:</string>
-    <string name="pref_title_show_notifications_filter">فلتەری ئاگانامەکان نیشان بدە</string>
     <string name="failed_search">گەڕانەکە سەرکەوتوو نەبوو</string>
     <string name="title_accounts">ئەژمێرەکان</string>
     <string name="report_description_remote_instance">هەژمارەلە ڕاژەیەکی دیکەیە ترە. کۆپیەکی بێ سەروبەر بنێرە بۆ ڕاپۆرتەکە لەوێ؟</string>
@@ -386,12 +385,10 @@
         <item quantity="other">وەسف بکە بۆ بینایی داڕماو
 \n(%d سنوری کاراکتەر)</item>
     </plurals>
-    <string name="error_failed_set_caption">دانانی سەردێڕ شکستی هێنا</string>
     <string name="compose_active_account_description">بڵاوکردنەوە بە هەژماری %1$s</string>
     <string name="action_remove_from_list">لابردنی ئەژمێر لە لیستەکە</string>
     <string name="action_add_to_list">زیادکردنی ئەژمێر بۆ لیستەکە</string>
     <string name="hint_search_people_list">گەڕان بەدوای ئەو کەسانەی کە پەیڕەوی ان دەکەیت</string>
-    <string name="action_edit_list">دەستکاریکردنی لیستەکە</string>
     <string name="action_delete_list">سڕینەوەی لیستەکە</string>
     <string name="action_rename_list">ناونانەوەی لیستەکە</string>
     <string name="action_create_list">دروستکردنی لیستێک</string>
@@ -406,8 +403,8 @@
     <string name="filter_dialog_whole_word">هەموو وشەکە</string>
     <string name="filter_dialog_update_button">نوێکردنەوە</string>
     <string name="filter_dialog_remove_button">لابردن</string>
-    <string name="filter_edit_dialog_title">دەستکاریکردنی فلتەر</string>
-    <string name="filter_addition_dialog_title">زیادکردنی فلتەر</string>
+    <string name="filter_edit_title">دەستکاریکردنی فلتەر</string>
+    <string name="filter_addition_title">زیادکردنی فلتەر</string>
     <string name="pref_title_thread_filter_keywords">گفتوگۆکان</string>
     <string name="pref_title_public_filter_keywords">هێڵی کاتی گشتی</string>
     <string name="load_more_placeholder_text">بارکردنی زیاتر</string>

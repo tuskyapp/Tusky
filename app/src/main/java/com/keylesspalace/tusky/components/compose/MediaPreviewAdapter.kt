@@ -48,11 +48,12 @@ class MediaPreviewAdapter(
         val addFocusId = 2
         val editImageId = 3
         val removeId = 4
-        if (item.state != ComposeActivity.QueuedMedia.State.PUBLISHED) {
-            // Already-published items can't have their metadata edited
-            popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
-            if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
-                popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
+
+        popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
+        if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
+            popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
+            if (item.state != ComposeActivity.QueuedMedia.State.PUBLISHED) {
+                // Already-published items can't be edited
                 popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
             }
         }
@@ -89,10 +90,11 @@ class MediaPreviewAdapter(
             val imageView = holder.progressImageView
             val focus = item.focus
 
-            if (focus != null)
+            if (focus != null) {
                 imageView.setFocalPoint(focus)
-            else
+            } else {
                 imageView.removeFocalPoint() // Probably unnecessary since we have no UI for removal once added.
+            }
 
             var glide = Glide.with(holder.itemView.context)
                 .load(item.uri)
@@ -100,8 +102,9 @@ class MediaPreviewAdapter(
                 .dontAnimate()
                 .centerInside()
 
-            if (focus != null)
+            if (focus != null) {
                 glide = glide.addListener(imageView)
+            }
 
             glide.into(imageView)
         }

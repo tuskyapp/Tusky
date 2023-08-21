@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -46,21 +47,16 @@ class TimelinePagingAdapter(
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(viewGroup.context)
         return when (viewType) {
-            VIEW_TYPE_STATUS -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_status, viewGroup, false)
-                StatusViewHolder(view)
+            VIEW_TYPE_STATUS_FILTERED -> {
+                StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, viewGroup, false))
             }
             VIEW_TYPE_PLACEHOLDER -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_status_placeholder, viewGroup, false)
-                PlaceholderViewHolder(view)
+                PlaceholderViewHolder(inflater.inflate(R.layout.item_status_placeholder, viewGroup, false))
             }
             else -> {
-                val view = LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.item_status, viewGroup, false)
-                StatusViewHolder(view)
+                StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
             }
         }
     }
@@ -98,8 +94,11 @@ class TimelinePagingAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getItem(position) is StatusViewData.Placeholder) {
+        val viewData = getItem(position)
+        return if (viewData is StatusViewData.Placeholder) {
             VIEW_TYPE_PLACEHOLDER
+        } else if (viewData?.filterAction == Filter.Action.WARN) {
+            VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS
         }
@@ -107,6 +106,7 @@ class TimelinePagingAdapter(
 
     companion object {
         private const val VIEW_TYPE_STATUS = 0
+        private const val VIEW_TYPE_STATUS_FILTERED = 1
         private const val VIEW_TYPE_PLACEHOLDER = 2
 
         val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
@@ -131,8 +131,10 @@ class TimelinePagingAdapter(
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
                     listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                } else // If items are different - update the whole view holder
+                } else {
+                    // If items are different - update the whole view holder
                     null
+                }
             }
         }
     }

@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Wsparcie dla edycji postów
+- Nowe ustawienie preferowanego kierunku czytania
+- Większe podglądy multimediów oraz nowa nakładka wskazująca na opis
+- Możliwość dodawania kont do listy bezpośrednio z ich profilu
+I więcej

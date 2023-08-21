@@ -8,5 +8,5 @@ data class Report(
     val category: String,
     val status_ids: List<String>?,
     @SerializedName("created_at") val createdAt: Date,
-    @SerializedName("target_account") val targetAccount: TimelineAccount,
+    @SerializedName("target_account") val targetAccount: TimelineAccount
 )

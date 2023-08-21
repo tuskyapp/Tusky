@@ -48,7 +48,6 @@ class DraftsAdapter(
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemDraftBinding> {
-
         val binding = ItemDraftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         val viewHolder = BindingHolder(binding)

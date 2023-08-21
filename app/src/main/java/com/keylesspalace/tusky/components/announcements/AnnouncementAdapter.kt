@@ -80,7 +80,7 @@ class AnnouncementAdapter(
         item.reactions.forEachIndexed { i, reaction ->
             (
                 chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                    ?: Chip(ContextThemeWrapper(chips.context, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice)).apply {
                         isCheckable = true
                         checkedIcon = null
                         chips.addView(this, i)

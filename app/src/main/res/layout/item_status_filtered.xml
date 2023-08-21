@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_filtered_placeholder"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/status_filter_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0dp"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        android:textAlignment="center"
+        android:text="Filter: MyFilter"
+        />
+
+    <Button
+        android:id="@+id/status_filter_show_anyway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        style="@style/TuskyButton.TextButton"
+        android:textStyle="bold"
+        android:textSize="?attr/status_text_medium"
+        android:text="@string/status_filtered_show_anyway"
+        />
+
+</LinearLayout>

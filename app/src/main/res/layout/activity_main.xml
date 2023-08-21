@@ -29,21 +29,14 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationContentDescription="@string/action_open_drawer" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/topNav"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/topNavAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/avatar_default"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationContentDescription="@string/action_open_drawer">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -53,7 +46,7 @@
                     app:tabGravity="fill"
                     app:tabMaxWidth="0dp"
                     app:tabMode="fixed" />
-            </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -71,32 +64,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="end">
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/bottomTabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/bottomNavAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/avatar_default"
-                    app:shapeAppearance="@style/ShapeAppearance.Avatar" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/bottomTabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:tabGravity="fill"
-                    app:tabIndicator="@null"
-                    app:tabMode="fixed" />
-
-            </LinearLayout>
+                android:layout_height="?attr/actionBarSize"
+                app:tabGravity="fill"
+                app:tabIndicatorGravity="top"
+                app:tabMode="fixed" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -129,4 +106,3 @@
         android:fitsSystemWindows="true" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
-

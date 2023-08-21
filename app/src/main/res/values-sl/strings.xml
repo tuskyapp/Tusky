@@ -236,8 +236,8 @@
     <string name="load_more_placeholder_text">naloži več</string>
     <string name="pref_title_public_filter_keywords">Javne časovnice</string>
     <string name="pref_title_thread_filter_keywords">Pogovori</string>
-    <string name="filter_addition_dialog_title">Dodaj filter</string>
-    <string name="filter_edit_dialog_title">Uredi filter</string>
+    <string name="filter_addition_title">Dodaj filter</string>
+    <string name="filter_edit_title">Uredi filter</string>
     <string name="filter_dialog_remove_button">Odstrani</string>
     <string name="filter_dialog_update_button">Posodobi</string>
     <string name="filter_add_description">Filtriraj frazo</string>
@@ -251,12 +251,10 @@
     <string name="action_create_list">Ustvari seznam</string>
     <string name="action_rename_list">Preimenuj seznam</string>
     <string name="action_delete_list">Izbriši seznam</string>
-    <string name="action_edit_list">Uredi seznam</string>
     <string name="hint_search_people_list">Poiščite osebe, katerim sledite</string>
     <string name="action_add_to_list">Dodaj račun na seznam</string>
     <string name="action_remove_from_list">Odstrani račun iz seznama</string>
     <string name="compose_active_account_description">Objavljanje z računom %1$s</string>
-    <string name="error_failed_set_caption">Opisa ni bilo mogoče nastaviti</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">Opišite za slabovidne
 \n(omejitev znakov - %d)</item>
@@ -409,7 +407,6 @@
     <string name="confirmation_domain_unmuted">Domena %s odrita</string>
     <string name="mute_domain_warning">Ali ste prepričani, da želite blokirati vse iz domene %s\? Vsebine iz te domene ne boste videli v nobeni javni časovnici ali v obvestilih. Vaši sledilci iz te domene bodo odstranjeni.</string>
     <string name="mute_domain_warning_dialog_ok">Skrij celotno domeno</string>
-    <string name="pref_title_show_notifications_filter">Pokaži filtre obvestil</string>
     <string name="filter_dialog_whole_word">Cela beseda</string>
     <string name="filter_dialog_whole_word_description">Če je ključna beseda ali fraza samo alfanumerična, bo uporabljena le, če se ujema s celotno besedo</string>
     <string name="title_accounts">Računi</string>
