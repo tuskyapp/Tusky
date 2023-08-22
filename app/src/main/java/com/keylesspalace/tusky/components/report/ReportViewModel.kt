@@ -77,7 +77,7 @@ class ReportViewModel @Inject constructor(
         ).flow
     }
         .map { pagingData ->
-            /* TODO: refactor reports to use the isShowingContent / isExpanded / isCollapsed attributes from StatusViewData.Concrete
+            /* TODO: refactor reports to use the isShowingContent / isExpanded / isCollapsed attributes from StatusViewData
              instead of StatusViewState */
             pagingData.map { status -> status.toViewData(false, false, false) }
         }

@@ -2,6 +2,7 @@ package com.keylesspalace.tusky.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import kotlinx.parcelize.Parcelize
 import java.util.Date
 
@@ -33,6 +34,16 @@ data class Filter(
 
         companion object {
             fun from(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
+
+            fun from(kind: TimelineKind): Kind = when (kind) {
+                is TimelineKind.Home, is TimelineKind.UserList -> HOME
+                is TimelineKind.PublicFederated,
+                is TimelineKind.PublicLocal,
+                is TimelineKind.Tag,
+                is TimelineKind.Favourites -> Filter.Kind.PUBLIC
+                is TimelineKind.User -> Filter.Kind.ACCOUNT
+                else -> Filter.Kind.PUBLIC
+            }
         }
     }
 

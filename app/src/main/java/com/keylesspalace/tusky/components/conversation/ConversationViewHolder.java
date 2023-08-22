@@ -72,7 +72,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             @Nullable Object payloads
     ) {
 
-        StatusViewData.Concrete statusViewData = conversation.getLastStatus();
+        StatusViewData statusViewData = conversation.getLastStatus();
         Status status = statusViewData.getStatus();
 
         if (payloads == null) {

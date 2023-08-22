@@ -209,7 +209,6 @@
     <string name="filter_addition_title">शोधकं युज्यताम्</string>
     <string name="pref_title_thread_filter_keywords">आलापाः</string>
     <string name="pref_title_public_filter_keywords">सार्वजनिकतालिकाः</string>
-    <string name="load_more_placeholder_text">अधिकमारोप्यताम्</string>
     <string name="replying_to">\@%s मित्रायोत्तरम्</string>
     <string name="title_media">सामग्र्यः</string>
     <string name="pref_title_alway_open_spoiler">सर्वदा विषयसतर्कतयाऽङ्कितं दौत्यं विस्तार्यताम्</string>
@@ -463,9 +462,6 @@
     <string name="total_accounts">सकललेखाः</string>
     <string name="a11y_label_loading_thread">दौत्यमाला दृश्यते</string>
     <string name="instance_rule_title">%s नियमाः</string>
-    <string name="pref_title_reading_order">पाठनक्रमः</string>
-    <string name="pref_reading_order_oldest_first">पुरातनं प्रथमम्</string>
-    <string name="pref_reading_order_newest_first">नूतनं प्रथमम्</string>
     <string name="duration_indefinite">अपरिमितम्</string>
     <string name="action_set_focus">केन्द्रबिन्दुं स्थाप्यताम्</string>
     <string name="mute_notifications_switch">सूचनाः निशब्दाः करोतु</string>

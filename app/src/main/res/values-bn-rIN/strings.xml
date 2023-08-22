@@ -261,7 +261,6 @@
     <string name="pref_title_alway_show_sensitive_media">সর্বদা সংবেদনশীল কন্টেন্ট প্রদর্শন করুন</string>
     <string name="title_media">মিডিয়া</string>
     <string name="replying_to">\@%s কে উত্তর দিচ্ছে</string>
-    <string name="load_more_placeholder_text">আরো লোড কর</string>
     <string name="pref_title_public_filter_keywords">পাবলিক টাইমলাইন</string>
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
     <string name="filter_addition_title">ফিল্টার যোগ করুন</string>

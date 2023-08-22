@@ -1,4 +1,5 @@
-/* Copyright 2021 Tusky Contributors
+/*
+ * Copyright 2023 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,103 +12,163 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.BuildConfig
+import com.keylesspalace.tusky.components.timeline.TimelineKind
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.util.HttpHeaderLink
-import com.keylesspalace.tusky.util.toViewData
-import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.network.MastodonApi
+import kotlinx.coroutines.CoroutineScope
 import retrofit2.HttpException
+import retrofit2.Response
+import java.io.IOException
 
+/** Remote mediator for accessing timelines that are not backed by the database. */
 @OptIn(ExperimentalPagingApi::class)
 class NetworkTimelineRemoteMediator(
-    private val accountManager: AccountManager,
-    private val viewModel: NetworkTimelineViewModel
-) : RemoteMediator<String, StatusViewData>() {
+    private val viewModelScope: CoroutineScope,
+    private val api: MastodonApi,
+    accountManager: AccountManager,
+    private val factory: InvalidatingPagingSourceFactory<String, Status>,
+    private val pageCache: PageCache,
+    private val timelineKind: TimelineKind
+) : RemoteMediator<String, Status>() {
 
-    override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<String, StatusViewData>
-    ): MediatorResult {
-        try {
-            val statusResponse = when (loadType) {
+    private val activeAccount = accountManager.activeAccount!!
+
+    override suspend fun load(loadType: LoadType, state: PagingState<String, Status>): MediatorResult {
+        if (!activeAccount.isLoggedIn()) {
+            return MediatorResult.Success(endOfPaginationReached = true)
+        }
+
+        return try {
+            val key = when (loadType) {
                 LoadType.REFRESH -> {
-                    viewModel.fetchStatusesForKind(null, null, limit = state.config.pageSize)
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(endOfPaginationReached = true)
+                    // Find the closest page to the current position
+                    val itemKey = state.anchorPosition?.let { state.closestItemToPosition(it) }?.id
+                    itemKey?.let { ik ->
+                        val pageContainingItem = pageCache.floorEntry(ik)
+                            ?: throw java.lang.IllegalStateException("$itemKey not found in the pageCache page")
+
+                        // Double check the item appears in the page
+                        if (BuildConfig.DEBUG) {
+                            pageContainingItem.value.data.find { it.id == itemKey }
+                                ?: throw java.lang.IllegalStateException("$itemKey not found in returned page")
+                        }
+
+                        // The desired key is the prevKey of the page immediately before this one
+                        pageCache.lowerEntry(pageContainingItem.value.data.last().id)?.value?.prevKey
+                    }
                 }
                 LoadType.APPEND -> {
-                    val maxId = viewModel.nextKey
-                    if (maxId != null) {
-                        viewModel.fetchStatusesForKind(maxId, null, limit = state.config.pageSize)
-                    } else {
-                        return MediatorResult.Success(endOfPaginationReached = true)
+                    pageCache.firstEntry()?.value?.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                }
+                LoadType.PREPEND -> {
+                    pageCache.lastEntry()?.value?.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
+                }
+            }
+
+            Log.d(TAG, "- load(), type = $loadType, key = $key")
+
+            val response = fetchStatusPageByKind(loadType, key, state.config.initialLoadSize)
+            val page = Page.tryFrom(response).getOrElse { return MediatorResult.Error(it) }
+
+            val endOfPaginationReached = page.data.isEmpty()
+            if (!endOfPaginationReached) {
+                synchronized(pageCache) {
+                    if (loadType == LoadType.REFRESH) {
+                        pageCache.clear()
                     }
+
+                    pageCache.upsert(page)
+                    Log.d(
+                        TAG,
+                        "  Page $loadType complete for $timelineKind, now got ${pageCache.size} pages"
+                    )
+                    pageCache.debug()
                 }
+                Log.d(TAG, "  Invalidating paging source")
+                factory.invalidate()
             }
 
-            val statuses = statusResponse.body()
-            if (!statusResponse.isSuccessful || statuses == null) {
-                return MediatorResult.Error(HttpException(statusResponse))
-            }
-
-            val activeAccount = accountManager.activeAccount!!
-
-            val data = statuses.map { status ->
-
-                val oldStatus = viewModel.statusData.find { s ->
-                    s.asStatusOrNull()?.id == status.id
-                }?.asStatusOrNull()
-
-                val contentShowing = oldStatus?.isShowingContent ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
-                val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
-                val contentCollapsed = oldStatus?.isCollapsed ?: true
-
-                status.toViewData(
-                    isShowingContent = contentShowing,
-                    isExpanded = expanded,
-                    isCollapsed = contentCollapsed
-                )
-            }
-
-            if (loadType == LoadType.REFRESH && viewModel.statusData.isNotEmpty()) {
-                val insertPlaceholder = if (statuses.isNotEmpty()) {
-                    !viewModel.statusData.removeAll { statusViewData ->
-                        statuses.any { status -> status.id == statusViewData.asStatusOrNull()?.id }
-                    }
-                } else {
-                    false
-                }
-
-                viewModel.statusData.addAll(0, data)
-
-                if (insertPlaceholder) {
-                    viewModel.statusData[statuses.size - 1] = StatusViewData.Placeholder(statuses.last().id, false)
-                }
-            } else {
-                val linkHeader = statusResponse.headers()["Link"]
-                val links = HttpHeaderLink.parse(linkHeader)
-                val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-
-                viewModel.nextKey = nextId
-
-                viewModel.statusData.addAll(data)
-            }
-
-            viewModel.currentSource?.invalidate()
-            return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
-        } catch (e: Exception) {
-            return ifExpected(e) {
-                MediatorResult.Error(e)
-            }
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (e: IOException) {
+            MediatorResult.Error(e)
+        } catch (e: HttpException) {
+            MediatorResult.Error(e)
         }
+    }
+
+    @Throws(IOException::class, HttpException::class)
+    private suspend fun fetchStatusPageByKind(loadType: LoadType, key: String?, loadSize: Int): Response<List<Status>> {
+        val (maxId, minId) = when (loadType) {
+            // When refreshing fetch a page of statuses that are immediately *newer* than the key
+            // This is so that the user's reading position is not lost.
+            LoadType.REFRESH -> Pair(null, key)
+            // When appending fetch a page of statuses that are immediately *older* than the key
+            LoadType.APPEND -> Pair(key, null)
+            // When prepending fetch a page of statuses that are immediately *newer* than the key
+            LoadType.PREPEND -> Pair(null, key)
+        }
+
+        return when (timelineKind) {
+            TimelineKind.Bookmarks -> api.bookmarks(maxId = maxId, minId = minId, limit = loadSize)
+            TimelineKind.Favourites -> api.favourites(maxId = maxId, minId = minId, limit = loadSize)
+            TimelineKind.Home -> api.homeTimeline(maxId = maxId, minId = minId, limit = loadSize)
+            TimelineKind.PublicFederated -> api.publicTimeline(local = false, maxId = maxId, minId = minId, limit = loadSize)
+            TimelineKind.PublicLocal -> api.publicTimeline(local = true, maxId = maxId, minId = minId, limit = loadSize)
+            is TimelineKind.Tag -> {
+                val firstHashtag = timelineKind.tags.first()
+                val additionalHashtags = timelineKind.tags.subList(1, timelineKind.tags.size)
+                api.hashtagTimeline(firstHashtag, additionalHashtags, null, maxId = maxId, minId = minId, limit = loadSize)
+            }
+            is TimelineKind.User.Pinned -> api.accountStatuses(
+                timelineKind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = loadSize,
+                excludeReplies = null,
+                onlyMedia = null,
+                pinned = true
+            )
+            is TimelineKind.User.Posts -> api.accountStatuses(
+                timelineKind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = loadSize,
+                excludeReplies = true,
+                onlyMedia = null,
+                pinned = null
+            )
+            is TimelineKind.User.Replies -> api.accountStatuses(
+                timelineKind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = loadSize,
+                excludeReplies = null,
+                onlyMedia = null,
+                pinned = null
+            )
+            is TimelineKind.UserList -> api.listTimeline(
+                timelineKind.id,
+                maxId = maxId,
+                minId = minId,
+                limit = loadSize
+            )
+        }
+    }
+
+    companion object {
+        private const val TAG = "NetworkTimelineRemoteMediator"
     }
 }

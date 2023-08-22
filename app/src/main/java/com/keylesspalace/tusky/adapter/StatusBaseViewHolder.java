@@ -37,6 +37,7 @@ import com.google.android.material.color.MaterialColors;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
@@ -208,7 +209,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         contentWarningButton.performClick();
     }
 
-    protected void setSpoilerAndContent(@NonNull StatusViewData.Concrete status,
+    protected void setSpoilerAndContent(@NonNull StatusViewData status,
                                         @NonNull StatusDisplayOptions statusDisplayOptions,
                                         final StatusActionListener listener) {
 
@@ -246,7 +247,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     protected void toggleExpandedState(boolean sensitive,
                                        boolean expanded,
-                                       @NonNull final StatusViewData.Concrete status,
+                                       @NonNull final StatusViewData status,
                                        @NonNull final StatusDisplayOptions statusDisplayOptions,
                                        @NonNull final StatusActionListener listener) {
 
@@ -264,7 +265,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void setTextVisible(boolean sensitive,
                                 boolean expanded,
-                                @NonNull final StatusViewData.Concrete status,
+                                @NonNull final StatusViewData status,
                                 @NonNull final StatusDisplayOptions statusDisplayOptions,
                                 final StatusActionListener listener) {
 
@@ -340,7 +341,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             Collections.singletonList(new CompositeWithOpaqueBackground(avatar)));
     }
 
-    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+    protected void setMetaData(StatusViewData statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
 
         Status status = statusViewData.getActionable();
         Date createdAt = status.getCreatedAt();
@@ -752,12 +753,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         popup.show();
     }
 
-    public void setupWithStatus(StatusViewData.Concrete status, final StatusActionListener listener,
+    public void setupWithStatus(StatusViewData status, final StatusActionListener listener,
                                 StatusDisplayOptions statusDisplayOptions) {
         this.setupWithStatus(status, listener, statusDisplayOptions, null);
     }
 
-    public void setupWithStatus(@NonNull StatusViewData.Concrete status,
+    public void setupWithStatus(@NonNull StatusViewData status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
                                 @Nullable Object payloads) {
@@ -821,7 +822,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setupFilterPlaceholder(StatusViewData.Concrete status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
+    private void setupFilterPlaceholder(StatusViewData status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
         if (status.getFilterAction() != Filter.Action.WARN) {
             showFilteredPlaceholder(false);
             return;
@@ -852,7 +853,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return true;
     }
 
-    private void setDescriptionForStatus(@NonNull StatusViewData.Concrete status,
+    private void setDescriptionForStatus(@NonNull StatusViewData status,
                                          StatusDisplayOptions statusDisplayOptions) {
         Context context = itemView.getContext();
         Status actionable = status.getActionable();
@@ -878,7 +879,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getReblogDescription(Context context,
-                                                     @NonNull StatusViewData.Concrete status) {
+                                                     @NonNull StatusViewData status) {
         Status reblog = status.getRebloggingStatus();
         if (reblog != null) {
             return context
@@ -889,7 +890,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getMediaDescription(Context context,
-                                                    @NonNull StatusViewData.Concrete status) {
+                                                    @NonNull StatusViewData status) {
         if (status.getActionable().getAttachments().isEmpty()) {
             return "";
         }
@@ -910,7 +911,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getContentWarningDescription(Context context,
-                                                             @NonNull StatusViewData.Concrete status) {
+                                                             @NonNull StatusViewData status) {
         if (!TextUtils.isEmpty(status.getSpoilerText())) {
             return context.getString(R.string.description_post_cw, status.getSpoilerText());
         } else {
@@ -944,7 +945,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         return context.getString(resource);
     }
 
-    private CharSequence getPollDescription(@NonNull StatusViewData.Concrete status,
+    private CharSequence getPollDescription(@NonNull StatusViewData status,
                                             Context context,
                                             StatusDisplayOptions statusDisplayOptions) {
         PollViewData poll = PollViewDataKt.toViewData(status.getActionable().getPoll());
@@ -1030,18 +1031,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             pollButton.setVisibility(View.VISIBLE);
 
             pollButton.setOnClickListener(v -> {
-
                 int position = getBindingAdapterPosition();
-
                 if (position != RecyclerView.NO_POSITION) {
-
                     List<Integer> pollResult = pollAdapter.getSelected();
-
                     if (!pollResult.isEmpty()) {
                         listener.onVoteInPoll(position, pollResult);
+                    } else {
+                        Snackbar.make(
+                            itemView,
+                            "pollAdapter.getSelected() returned an empty list",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).show();
                     }
+                } else {
+                    Snackbar.make(
+                        itemView,
+                        "getBindingAdapterPosition() returned NO_POSITION",
+                        Snackbar.LENGTH_INDEFINITE
+                    ).show();
                 }
-
             });
         }
 
@@ -1077,7 +1085,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected void setupCard(
-            final StatusViewData.Concrete status,
+            final StatusViewData status,
             boolean expanded,
             final CardViewMode cardViewMode,
             final StatusDisplayOptions statusDisplayOptions,

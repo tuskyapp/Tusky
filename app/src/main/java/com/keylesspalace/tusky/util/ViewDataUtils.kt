@@ -45,8 +45,8 @@ fun Status.toViewData(
     isExpanded: Boolean,
     isCollapsed: Boolean,
     isDetailed: Boolean = false
-): StatusViewData.Concrete {
-    return StatusViewData.Concrete(
+): StatusViewData {
+    return StatusViewData(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,

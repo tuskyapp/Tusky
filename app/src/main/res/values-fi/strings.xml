@@ -297,7 +297,6 @@
     <string name="post_share_link">Jaa linkki postaukseen</string>
     <string name="post_media_attachments">Liitteet</string>
     <string name="title_media">Media</string>
-    <string name="load_more_placeholder_text">lataa lisää</string>
     <string name="pref_title_public_filter_keywords">Julkiset aikajanat</string>
     <string name="pref_title_thread_filter_keywords">Keskustelut</string>
     <string name="filter_addition_title">Lisää suodatin</string>

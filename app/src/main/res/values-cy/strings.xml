@@ -227,7 +227,6 @@
     <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
     <string name="title_media">Cyfryngau</string>
     <string name="replying_to">Yn ymateb i @%s</string>
-    <string name="load_more_placeholder_text">llwytho rhagor</string>
     <string name="add_account_name">Ychwanegu Cyfrif</string>
     <string name="add_account_description">Ychwanegu Cyfrif Mastodon newydd</string>
     <string name="action_lists">Rhestrau</string>
@@ -645,10 +644,7 @@
     <string name="action_share_account_username">Rhannu enw defnyddiwr y cyfrif</string>
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
     <string name="send_account_username_to">Rhannu enw denyddiwr cyfrif i…</string>
-    <string name="account_username_copied">Enw defnyddiwr a gopïwyd</string>
-    <string name="pref_reading_order_oldest_first">Hynaf yn gyntaf</string>
-    <string name="pref_reading_order_newest_first">Diweddaraf yn gyntaf</string>
-    <string name="pref_title_reading_order">Trefn darllen</string>
+    <string name="account_username_copied">Enw defnyddiwr wedi\'i gopïo</string>
     <string name="pref_summary_http_proxy_disabled">Analluogwyd</string>
     <string name="pref_summary_http_proxy_missing">&lt;heb ei osod&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;annilys&gt;</string>

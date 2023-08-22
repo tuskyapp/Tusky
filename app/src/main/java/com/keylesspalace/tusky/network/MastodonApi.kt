@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.TrendingTag
+import com.keylesspalace.tusky.util.HttpHeaderLink
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -70,6 +71,23 @@ import retrofit2.http.Query
 /**
  * for documentation of the Mastodon REST API see https://docs.joinmastodon.org/api/
  */
+
+/** Models next/prev links from the "Links" header in an API response */
+data class Links(val next: String?, val prev: String?) {
+    companion object {
+        fun from(linkHeader: String?): Links {
+            val links = HttpHeaderLink.parse(linkHeader)
+            return Links(
+                next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
+                    "max_id"
+                ),
+                prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
+                    "min_id"
+                )
+            )
+        }
+    }
+}
 
 @JvmSuppressWildcards
 interface MastodonApi {
@@ -106,6 +124,7 @@ interface MastodonApi {
         @Query("local") local: Boolean? = null,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
@@ -114,17 +133,19 @@ interface MastodonApi {
         @Path("hashtag") hashtag: String,
         @Query("any[]") any: List<String>?,
         @Query("local") local: Boolean?,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
     @GET("api/v1/timelines/list/{listId}")
     suspend fun listTimeline(
         @Path("listId") listId: String,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("limit") limit: Int?
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
@@ -372,6 +393,7 @@ interface MastodonApi {
         @Path("id") accountId: String,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int? = null,
         @Query("exclude_replies") excludeReplies: Boolean? = null,
         @Query("only_media") onlyMedia: Boolean? = null,
@@ -471,15 +493,17 @@ interface MastodonApi {
 
     @GET("api/v1/favourites")
     suspend fun favourites(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int?
     ): Response<List<Status>>
 
     @GET("api/v1/bookmarks")
     suspend fun bookmarks(
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("limit") limit: Int?
     ): Response<List<Status>>
 

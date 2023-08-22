@@ -114,7 +114,7 @@ class ViewThreadViewModel @Inject constructor(
                 val viewData = timelineStatus.toViewData(
                     gson,
                     isDetailed = true
-                ) as StatusViewData.Concrete
+                )
 
                 // Return the correct status, depending on which one matched. If you do not do
                 // this the status IDs will be different between the status that's displayed with
@@ -181,7 +181,7 @@ class ViewThreadViewModel @Inject constructor(
         loadThread(id)
     }
 
-    fun detailedStatus(): StatusViewData.Concrete? {
+    fun detailedStatus(): StatusViewData? {
         return when (val uiState = _uiState.value) {
             is ThreadUiState.Success -> uiState.statusViewData.find { status ->
                 status.isDetailed
@@ -191,7 +191,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun reblog(reblog: Boolean, status: StatusViewData): Job = viewModelScope.launch {
         try {
             timelineCases.reblog(status.actionableId, reblog).getOrThrow()
         } catch (t: Exception) {
@@ -201,7 +201,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun favorite(favorite: Boolean, status: StatusViewData): Job = viewModelScope.launch {
         try {
             timelineCases.favourite(status.actionableId, favorite).getOrThrow()
         } catch (t: Exception) {
@@ -211,7 +211,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun bookmark(bookmark: Boolean, status: StatusViewData): Job = viewModelScope.launch {
         try {
             timelineCases.bookmark(status.actionableId, bookmark).getOrThrow()
         } catch (t: Exception) {
@@ -221,7 +221,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun voteInPoll(choices: List<Int>, status: StatusViewData): Job = viewModelScope.launch {
         val poll = status.status.actionableStatus.poll ?: run {
             Log.w(TAG, "No poll on status ${status.id}")
             return@launch
@@ -241,7 +241,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun removeStatus(statusToRemove: StatusViewData.Concrete) {
+    fun removeStatus(statusToRemove: StatusViewData) {
         updateSuccess { uiState ->
             uiState.copy(
                 statusViewData = uiState.statusViewData.filterNot { status -> status == statusToRemove }
@@ -249,7 +249,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
+    fun changeExpanded(expanded: Boolean, status: StatusViewData) {
         updateSuccess { uiState ->
             val statuses = uiState.statusViewData.map { viewData ->
                 if (viewData.id == status.id) {
@@ -265,13 +265,13 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
+    fun changeContentShowing(isShowing: Boolean, status: StatusViewData) {
         updateStatusViewData(status.id) { viewData ->
             viewData.copy(isShowingContent = isShowing)
         }
     }
 
-    fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
+    fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData) {
         updateStatusViewData(status.id) { viewData ->
             viewData.copy(isCollapsed = isCollapsed)
         }
@@ -373,7 +373,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun StatusViewData.Concrete.getRevealButtonState(): RevealButtonState {
+    private fun StatusViewData.getRevealButtonState(): RevealButtonState {
         val hasWarnings = status.spoilerText.isNotEmpty()
 
         return if (hasWarnings) {
@@ -394,7 +394,7 @@ class ViewThreadViewModel @Inject constructor(
      * - If no status sets it to REVEAL, but at least one uses HIDE, use HIDE
      * - Otherwise use NO_BUTTON
      */
-    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
+    private fun List<StatusViewData>.getRevealButtonState(): RevealButtonState {
         var seenHide = false
 
         forEach {
@@ -448,7 +448,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
+    private fun List<StatusViewData>.filter(): List<StatusViewData> {
         return filter { status ->
             if (status.isDetailed) {
                 true
@@ -461,7 +461,7 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun Status.toViewData(
         isDetailed: Boolean = false
-    ): StatusViewData.Concrete {
+    ): StatusViewData {
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find { it.id == this.id }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
@@ -481,7 +481,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
+    private fun updateStatusViewData(statusId: String, updater: (StatusViewData) -> StatusViewData) {
         updateSuccess { uiState ->
             uiState.copy(
                 statusViewData = uiState.statusViewData.map { viewData ->
@@ -503,7 +503,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun clearWarning(viewData: StatusViewData.Concrete) {
+    fun clearWarning(viewData: StatusViewData) {
         updateStatus(viewData.id) { status ->
             status.copy(filtered = null)
         }
@@ -520,7 +520,7 @@ sealed interface ThreadUiState {
 
     /** Loading the detailed status has completed, now loading ancestors/descendants */
     data class LoadingThread(
-        val statusViewDatum: StatusViewData.Concrete?,
+        val statusViewDatum: StatusViewData?,
         val revealButton: RevealButtonState
     ) : ThreadUiState
 
@@ -529,7 +529,7 @@ sealed interface ThreadUiState {
 
     /** Successfully loaded the full thread */
     data class Success(
-        val statusViewData: List<StatusViewData.Concrete>,
+        val statusViewData: List<StatusViewData>,
         val revealButton: RevealButtonState,
         val detailedStatusPosition: Int
     ) : ThreadUiState

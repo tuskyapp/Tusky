@@ -73,6 +73,9 @@ data class StatusDisplayOptions(
         PrefKeys.USE_BLURHASH -> copy(
             useBlurhash = preferences.getBoolean(key, true)
         )
+        PrefKeys.SHOW_CARDS_IN_TIMELINES -> copy(
+            cardViewMode = if (preferences.getBoolean(key, false)) CardViewMode.INDENTED else CardViewMode.NONE
+        )
         PrefKeys.CONFIRM_FAVOURITES -> copy(
             confirmFavourites = preferences.getBoolean(key, false)
         )
@@ -91,6 +94,9 @@ data class StatusDisplayOptions(
         PrefKeys.ALWAYS_OPEN_SPOILER -> copy(
             openSpoiler = account.alwaysOpenSpoiler
         )
+        PrefKeys.SHOW_STATS_INLINE -> copy(
+            showStatsInline = preferences.getBoolean(key, false)
+        )
         else -> { this }
     }
 
@@ -107,7 +113,8 @@ data class StatusDisplayOptions(
             PrefKeys.MEDIA_PREVIEW_ENABLED,
             PrefKeys.SHOW_BOT_OVERLAY,
             PrefKeys.USE_BLURHASH,
-            PrefKeys.WELLBEING_HIDE_STATS_POSTS
+            PrefKeys.WELLBEING_HIDE_STATS_POSTS,
+            PrefKeys.SHOW_STATS_INLINE
         )
 
         fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
@@ -117,7 +124,11 @@ data class StatusDisplayOptions(
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = CardViewMode.NONE,
+            cardViewMode = if (preferences.getBoolean(PrefKeys.SHOW_CARDS_IN_TIMELINES, false)) {
+                CardViewMode.INDENTED
+            } else {
+                CardViewMode.NONE
+            },
             confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
             confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),

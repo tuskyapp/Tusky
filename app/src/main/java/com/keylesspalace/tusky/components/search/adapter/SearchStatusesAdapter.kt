@@ -28,7 +28,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class SearchStatusesAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener
-) : PagingDataAdapter<StatusViewData.Concrete, StatusViewHolder>(STATUS_COMPARATOR) {
+) : PagingDataAdapter<StatusViewData, StatusViewHolder>(STATUS_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,11 +44,11 @@ class SearchStatusesAdapter(
 
     companion object {
 
-        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
-            override fun areContentsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
+        val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData>() {
+            override fun areContentsTheSame(oldItem: StatusViewData, newItem: StatusViewData): Boolean =
                 oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
+            override fun areItemsTheSame(oldItem: StatusViewData, newItem: StatusViewData): Boolean =
                 oldItem.id == newItem.id
         }
     }

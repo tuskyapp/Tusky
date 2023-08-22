@@ -15,24 +15,24 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.components.notifications
+package com.keylesspalace.tusky.components.timeline
 
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 
-/** Show load state and retry options when loading notifications */
-class NotificationsLoadStateAdapter(
+/** Show load state and retry options when loading timelines */
+class TimelineLoadStateAdapter(
     private val retry: () -> Unit
-) : LoadStateAdapter<NotificationsLoadStateViewHolder>() {
+) : LoadStateAdapter<TimelineLoadStateViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         loadState: LoadState
-    ): NotificationsLoadStateViewHolder {
-        return NotificationsLoadStateViewHolder.create(parent, retry)
+    ): TimelineLoadStateViewHolder {
+        return TimelineLoadStateViewHolder.create(parent, retry)
     }
 
-    override fun onBindViewHolder(holder: NotificationsLoadStateViewHolder, loadState: LoadState) {
+    override fun onBindViewHolder(holder: TimelineLoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
 }

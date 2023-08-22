@@ -228,7 +228,6 @@
     <string name="pref_title_alway_show_sensitive_media">Eduki mingarria erakutsi</string>
     <string name="title_media">Multimedia</string>
     <string name="replying_to">\@%s-(r)i erantzuten</string>
-    <string name="load_more_placeholder_text">Gehiago erakutsi</string>
     <string name="add_account_name">Gehitu kontua</string>
     <string name="add_account_description">Mastodon kontua gehitu</string>
     <string name="action_lists">Zerrendak</string>

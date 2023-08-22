@@ -228,7 +228,6 @@
     <string name="pref_title_alway_show_sensitive_media">Vis alltid sensitivt innhold</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Svarer til @%s</string>
-    <string name="load_more_placeholder_text">last mer</string>
     <string name="pref_title_public_filter_keywords">Offentlige tidslinjer</string>
     <string name="pref_title_thread_filter_keywords">Samtaler</string>
     <string name="filter_addition_title">Legg til filter</string>
@@ -579,10 +578,7 @@
     <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger.
 \n
 \nFor å utforske kontoer kan du enten oppdage dem i en av tidslinjene dine, for eksempel den lokale tidslinjen for instansen din [iconics gmd_group], eller du kan søke etter navnet deres [iconics gmd_search]; søk for eksempel etter Tusky før å finne Mastodonkonten vår.</string>
-    <string name="pref_title_reading_order">Leserekkefølge</string>
-    <string name="pref_reading_order_oldest_first">Eldste først</string>
     <string name="pref_ui_text_size">Skriftstørrelse for brukergrensesnitt</string>
-    <string name="pref_reading_order_newest_first">Nyeste først</string>
     <string name="dialog_follow_hashtag_title">Følg emneknagger</string>
     <string name="dialog_follow_hashtag_hint">#emneknagg</string>
     <string name="accessibility_talking_about_tag">%1$d folk snakker om emneknaggen %2$s</string>

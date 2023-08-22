@@ -231,7 +231,6 @@
     <string name="follows_you">Követ téged</string>
     <string name="pref_title_alway_show_sensitive_media">Mindig mutassa a kényes tartalmat</string>
     <string name="title_media">Média</string>
-    <string name="load_more_placeholder_text">több betöltése</string>
     <string name="add_account_name">Fiók hozzáadása</string>
     <string name="add_account_description">Új Mastodon-fiók hozzáadása</string>
     <string name="action_lists">Listák</string>
@@ -587,9 +586,6 @@
     <string name="error_status_source_load">Nem sikerült letölteni a kiszolgálóról az állapotforrást.</string>
     <string name="title_followed_hashtags">Követett hashtagek</string>
     <string name="a11y_label_loading_thread">Szál betöltése</string>
-    <string name="pref_title_reading_order">Olvasási sorrend</string>
-    <string name="pref_reading_order_oldest_first">Régebbi először</string>
-    <string name="pref_reading_order_newest_first">Újabb először</string>
     <string name="mute_notifications_switch">Értesítések némítása</string>
     <string name="pref_summary_http_proxy_disabled">Letiltva</string>
     <string name="pref_summary_http_proxy_missing">&lt;nincs beállítva&gt;</string>

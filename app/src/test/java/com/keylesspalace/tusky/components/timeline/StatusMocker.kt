@@ -69,7 +69,7 @@ fun mockStatusViewData(
     reblogged: Boolean = false,
     favourited: Boolean = true,
     bookmarked: Boolean = true
-) = StatusViewData.Concrete(
+) = StatusViewData(
     status = mockStatus(
         id = id,
         inReplyToId = inReplyToId,
@@ -105,14 +105,5 @@ fun mockStatusEntityWithAccount(
             accountId = userId,
             gson = gson
         )
-    )
-}
-
-fun mockPlaceholderEntityWithAccount(
-    id: String,
-    userId: Long = 1
-): TimelineStatusWithAccount {
-    return TimelineStatusWithAccount(
-        status = Placeholder(id, false).toEntity(userId)
     )
 }

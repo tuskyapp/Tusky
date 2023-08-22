@@ -256,7 +256,6 @@
     <string name="pref_title_alway_show_sensitive_media">Mostra sempre i contenuti sensibili</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Rispondendo a @%s</string>
-    <string name="load_more_placeholder_text">carica altro</string>
     <string name="pref_title_public_filter_keywords">Timeline pubbliche</string>
     <string name="pref_title_thread_filter_keywords">Conversazioni</string>
     <string name="filter_addition_title">Aggiungi filtro</string>
@@ -618,7 +617,6 @@
     <string name="pref_summary_http_proxy_disabled">Disattivato</string>
     <string name="pref_summary_http_proxy_missing">&lt;non impostato&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;non valido&gt;</string>
-    <string name="pref_reading_order_newest_first">Più nuovi prima</string>
     <string name="action_post_failed_detail">Non è stato possibile caricare il tuo post ed è stato salvato nelle bozze.
 \n
 \nNon è stato possibile contattare il server oppure il server ha rifiutato il post.</string>
@@ -628,10 +626,8 @@
     <string name="action_post_failed_show_drafts">Mostra bozze</string>
     <string name="action_post_failed_do_nothing">Chiudi</string>
     <string name="send_account_username_to">Condividi nome utente dell\'account a…</string>
-    <string name="pref_title_reading_order">Ordine di lettura</string>
     <string name="description_login">Funziona nella maggior parte dei casi. Nessun dato è trasferito ad altre app.</string>
     <string name="description_browser_login">Potrebbe supportare differenti metodi di autenticazione, ma richiede un browser supportato.</string>
-    <string name="pref_reading_order_oldest_first">Più vecchi prima</string>
     <string name="action_share_account_link">Condividi link dell\'account</string>
     <string name="action_share_account_username">Condividi il nome utente dell\'account</string>
     <string name="send_account_link_to">Condividi URL account a…</string>

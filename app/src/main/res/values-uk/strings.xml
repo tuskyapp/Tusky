@@ -293,7 +293,6 @@
     <string name="filter_addition_title">Додати фільтр</string>
     <string name="pref_title_thread_filter_keywords">Розмови</string>
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
-    <string name="load_more_placeholder_text">завантажити ще</string>
     <string name="replying_to">Відповідь для @%s</string>
     <string name="pref_title_alway_open_spoiler">Завжди розгортати допис, з попередженнями про вміст</string>
     <string name="follows_you">Підписники</string>
@@ -615,9 +614,6 @@
     <string name="send_account_link_to">Поділитися URL облікового запису через…</string>
     <string name="send_account_username_to">Поділитися іменем користувача облікового запису через…</string>
     <string name="account_username_copied">Ім\'я користувача скопійовано</string>
-    <string name="pref_reading_order_newest_first">Спочатку новіші</string>
-    <string name="pref_title_reading_order">Порядок читання</string>
-    <string name="pref_reading_order_oldest_first">Спочатку давніші</string>
     <string name="pref_summary_http_proxy_disabled">Вимкнено</string>
     <string name="pref_summary_http_proxy_missing">&lt;не налаштовано&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;недійсний&gt;</string>

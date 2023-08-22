@@ -23,87 +23,78 @@ import com.keylesspalace.tusky.util.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
 /**
- * Created by charlag on 11/07/2017.
- *
- * Class to represent data required to display either a notification or a placeholder.
- * It is either a [StatusViewData.Concrete] or a [StatusViewData.Placeholder].
+ * Data required to display a status.
  */
-sealed class StatusViewData {
-    abstract val id: String
+data class StatusViewData(
+    var status: Status,
+    /**
+     * If the status includes a non-empty content warning ([spoilerText]), specifies whether
+     * just the content warning is showing (false), or the whole status content is showing (true).
+     *
+     * Ignored if there is no content warning.
+     */
+    val isExpanded: Boolean,
+    val isShowingContent: Boolean,
+
+    /**
+     * Specifies whether the content of this status is currently limited in visibility to the first
+     * 500 characters or not.
+     *
+     * @return Whether the status is collapsed or fully expanded.
+     */
+    val isCollapsed: Boolean,
+    val isDetailed: Boolean = false
+) {
     var filterAction: Filter.Action = Filter.Action.NONE
+    val id: String
+        get() = status.id
 
-    data class Concrete(
-        val status: Status,
-        val isExpanded: Boolean,
-        val isShowingContent: Boolean,
-        /**
-         * Specifies whether the content of this post is currently limited in visibility to the first
-         * 500 characters or not.
-         *
-         * @return Whether the post is collapsed or fully expanded.
-         */
-        val isCollapsed: Boolean,
-        val isDetailed: Boolean = false
-    ) : StatusViewData() {
-        override val id: String
-            get() = status.id
+    /**
+     * Specifies whether the content of this status is long enough to be automatically
+     * collapsed or if it should show all content regardless.
+     *
+     * @return Whether the status is collapsible or never collapsed.
+     */
+    val isCollapsible: Boolean
 
-        /**
-         * Specifies whether the content of this post is long enough to be automatically
-         * collapsed or if it should show all content regardless.
-         *
-         * @return Whether the post is collapsible or never collapsed.
-         */
-        val isCollapsible: Boolean
+    val content: Spanned
 
-        val content: Spanned
-        val spoilerText: String
-        val username: String
+    /** The content warning, may be the empty string */
+    val spoilerText: String
+    val username: String
 
-        val actionable: Status
-            get() = status.actionableStatus
+    val actionable: Status
+        get() = status.actionableStatus
 
-        val actionableId: String
-            get() = status.actionableStatus.id
+    val actionableId: String
+        get() = status.actionableStatus.id
 
-        val rebloggedAvatar: String?
-            get() = if (status.reblog != null) {
-                status.account.avatar
-            } else {
-                null
-            }
-
-        val rebloggingStatus: Status?
-            get() = if (status.reblog != null) status else null
-
-        init {
-            if (Build.VERSION.SDK_INT == 23) {
-                // https://github.com/tuskyapp/Tusky/issues/563
-                this.content = replaceCrashingCharacters(status.actionableStatus.content.parseAsMastodonHtml())
-                this.spoilerText =
-                    replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
-                this.username =
-                    replaceCrashingCharacters(status.actionableStatus.account.username).toString()
-            } else {
-                this.content = status.actionableStatus.content.parseAsMastodonHtml()
-                this.spoilerText = status.actionableStatus.spoilerText
-                this.username = status.actionableStatus.account.username
-            }
-            this.isCollapsible = shouldTrimStatus(this.content)
+    val rebloggedAvatar: String?
+        get() = if (status.reblog != null) {
+            status.account.avatar
+        } else {
+            null
         }
 
-        /** Helper for Java */
-        fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
-            return copy(isCollapsed = isCollapsed)
+    val rebloggingStatus: Status?
+        get() = if (status.reblog != null) status else null
+
+    init {
+        if (Build.VERSION.SDK_INT == 23) {
+            // https://github.com/tuskyapp/Tusky/issues/563
+            this.content = replaceCrashingCharacters(status.actionableStatus.content.parseAsMastodonHtml())
+            this.spoilerText =
+                replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
+            this.username =
+                replaceCrashingCharacters(status.actionableStatus.account.username).toString()
+        } else {
+            this.content = status.actionableStatus.content.parseAsMastodonHtml()
+            this.spoilerText = status.actionableStatus.spoilerText
+            this.username = status.actionableStatus.account.username
         }
+        this.isCollapsible = shouldTrimStatus(this.content)
     }
 
-    data class Placeholder(
-        override val id: String,
-        val isLoading: Boolean
-    ) : StatusViewData()
-
-    fun asStatusOrNull() = this as? Concrete
-
-    fun asPlaceholderOrNull() = this as? Placeholder
+    /** Helper for Java */
+    fun copyWithCollapsed(isCollapsed: Boolean) = copy(isCollapsed = isCollapsed)
 }

@@ -129,7 +129,6 @@
     <string name="action_photo_take">ഫോട്ടോ എടുക്കുക</string>
     <string name="hint_search">തിരയുക…</string>
     <string name="post_media_images">ചിത്രങ്ങൾ</string>
-    <string name="load_more_placeholder_text">കൂടുതൽ ലഭ്യമാക്കുക</string>
     <string name="title_mentions_dialog">സൂചനകൾ</string>
     <string name="hint_note">ബയോ</string>
     <string name="conversation_1_recipients">%1$s</string>

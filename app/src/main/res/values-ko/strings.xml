@@ -266,7 +266,6 @@
     <string name="pref_title_alway_show_sensitive_media">민감한 컨텐츠 항상 보이기</string>
     <string name="title_media">미디어</string>
     <string name="replying_to">\@%s에게 답장</string>
-    <string name="load_more_placeholder_text">더 불러오기</string>
     <string name="pref_title_public_filter_keywords">공개 타임라인</string>
     <string name="pref_title_thread_filter_keywords">대화</string>
     <string name="filter_addition_title">필터 추가</string>

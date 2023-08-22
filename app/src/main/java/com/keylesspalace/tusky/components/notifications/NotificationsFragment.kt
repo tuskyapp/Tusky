@@ -49,6 +49,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.components.timeline.TimelineLoadStateAdapter
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -60,7 +61,11 @@ import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
+import com.keylesspalace.tusky.util.UserRefreshState
+import com.keylesspalace.tusky.util.asRefreshState
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -71,12 +76,11 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class NotificationsFragment :
@@ -194,28 +198,14 @@ class NotificationsFragment :
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = NotificationsLoadStateAdapter { adapter.retry() },
-            footer = NotificationsLoadStateAdapter { adapter.retry() }
+            header = TimelineLoadStateAdapter { adapter.retry() },
+            footer = TimelineLoadStateAdapter { adapter.retry() }
         )
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
-        // Signal the user that a refresh has loaded new items above their current position
-        // by scrolling up slightly to disclose the new content
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
-                    binding.recyclerView.post {
-                        if (getView() != null) {
-                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
-                        }
-                    }
-                }
-            }
-        })
-
-        // update post timestamps
+        // Update post timestamps
         val updateTimestampFlow = flow {
             while (true) {
                 delay(60000)
@@ -226,7 +216,7 @@ class NotificationsFragment :
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.pagingData.collectLatest { pagingData ->
                         Log.d(TAG, "Submitting data to adapter")
@@ -269,10 +259,10 @@ class NotificationsFragment :
                         // that the action succeeded. Since it hasn't, re-bind the view
                         // to show the correct data.
                         error.action?.let { action ->
-                            action is StatusAction || return@let
+                            if (action !is StatusAction) return@let
 
                             val position = adapter.snapshot().indexOfFirst {
-                                it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
+                                it?.statusViewData?.status?.id == action.statusViewData.id
                             }
                             if (position != NO_POSITION) {
                                 adapter.notifyItemChanged(position)
@@ -371,47 +361,98 @@ class NotificationsFragment :
                         }
                 }
 
+                /** StateFlow (to allow multiple consumers) of UserRefreshState */
+                val refreshState = adapter.loadStateFlow.asRefreshState().stateIn(lifecycleScope)
+
+                // Scroll the list down (peek) if a refresh has completely finished. A refresh is
+                // finished when both the initial refresh is complete and any prepends have
+                // finished (so that DiffUtil has had a chance to process the data).
+                launch {
+                    /** True if the previous prepend resulted in a peek, false otherwise */
+                    var peeked = false
+
+                    /** ID of the item that was first in the adapter before the refresh */
+                    var previousFirstId: String? = null
+
+                    refreshState.collect {
+                        when (it) {
+                            // Refresh has started, reset peeked, and save the ID of the first item
+                            // in the adapter
+                            UserRefreshState.ACTIVE -> {
+                                peeked = false
+                                if (adapter.itemCount != 0) previousFirstId = adapter.peek(0)?.id
+                            }
+
+                            // Refresh has finished, pages are being prepended.
+                            UserRefreshState.COMPLETE -> {
+                                // There might be multiple prepends after a refresh, only continue
+                                // if one them has not already caused a peek.
+                                if (peeked) return@collect
+
+                                // Compare the ID of the current first item with the previous first
+                                // item. If they're the same then this prepend did not add any new
+                                // items, and can be ignored.
+                                val firstId = if (adapter.itemCount != 0) adapter.peek(0)?.id else null
+                                if (previousFirstId == firstId) return@collect
+
+                                // New items were added and haven't peeked for this refresh. Schedule
+                                // a scroll to disclose that new items are available.
+                                binding.recyclerView.post {
+                                    getView() ?: return@post
+                                    binding.recyclerView.smoothScrollBy(
+                                        0,
+                                        Utils.dpToPx(requireContext(), -30)
+                                    )
+                                }
+                                peeked = true
+                            }
+                            else -> { /* nothing to do */ }
+                        }
+                    }
+                }
+
+                // Manage the display of progress bars. Rather than hide them as soon as the
+                // Refresh portion completes, hide them when then first Prepend completes. This
+                // is a better signal to the user that it is now possible to scroll up and see
+                // new content.
+                launch {
+                    refreshState.collect {
+                        when (it) {
+                            UserRefreshState.ACTIVE -> {
+                                if (adapter.itemCount == 0 && !binding.swipeRefreshLayout.isRefreshing) {
+                                    binding.progressBar.show()
+                                }
+                            }
+                            UserRefreshState.COMPLETE, UserRefreshState.ERROR -> {
+                                binding.progressBar.hide()
+                                binding.swipeRefreshLayout.isRefreshing = false
+                            }
+                            else -> { /* nothing to do */ }
+                        }
+                    }
+                }
+
                 // Update the UI from the loadState
                 adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
                     .collect { loadState ->
-                        binding.recyclerView.isVisible = true
-                        binding.progressBar.isVisible = loadState.refresh is LoadState.Loading &&
-                            !binding.swipeRefreshLayout.isRefreshing
-                        binding.swipeRefreshLayout.isRefreshing =
-                            loadState.refresh is LoadState.Loading && !binding.progressBar.isVisible
-
-                        binding.statusView.isVisible = false
+                        binding.statusView.hide()
                         if (loadState.refresh is LoadState.NotLoading) {
                             if (adapter.itemCount == 0) {
                                 binding.statusView.setup(
                                     R.drawable.elephant_friend_empty,
                                     R.string.message_empty
                                 )
-                                binding.recyclerView.isVisible = false
-                                binding.statusView.isVisible = true
+                                binding.recyclerView.hide()
+                                binding.statusView.show()
                             } else {
-                                binding.statusView.isVisible = false
+                                binding.statusView.hide()
                             }
                         }
 
                         if (loadState.refresh is LoadState.Error) {
-                            when ((loadState.refresh as LoadState.Error).error) {
-                                is IOException -> {
-                                    binding.statusView.setup(
-                                        R.drawable.errorphant_offline,
-                                        R.string.error_network
-                                    ) { adapter.retry() }
-                                }
-                                else -> {
-                                    binding.statusView.setup(
-                                        R.drawable.errorphant_error,
-                                        R.string.error_generic
-                                    ) { adapter.retry() }
-                                }
-                            }
-                            binding.recyclerView.isVisible = false
-                            binding.statusView.isVisible = true
+                            binding.statusView.setup((loadState.refresh as LoadState.Error).error) { adapter.retry() }
+                            binding.recyclerView.hide()
+                            binding.statusView.show()
                         }
                     }
             }
@@ -503,7 +544,7 @@ class NotificationsFragment :
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val statusViewData = adapter.peek(position)?.statusViewData ?: return
-        val poll = statusViewData.status.poll ?: return
+        val poll = statusViewData.actionable.poll ?: return
         viewModel.accept(StatusAction.VoteInPoll(poll, choices, statusViewData))
     }
 
@@ -545,10 +586,6 @@ class NotificationsFragment :
             isShowingContent = isShowing
         )
         adapter.notifyItemChanged(position)
-    }
-
-    override fun onLoadMore(position: Int) {
-        // Empty -- this fragment doesn't show placeholders
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {

@@ -242,8 +242,7 @@
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Mediendateien mit Inhaltswarnung immer anzeigen</string>
     <string name="title_media">Medien</string>
-    <string name="replying_to">Antwort an @%s</string>
-    <string name="load_more_placeholder_text">mehr laden</string>
+    <string name="replying_to">Antworten an @%s</string>
     <string name="pref_title_thread_filter_keywords">Unterhaltungen</string>
     <string name="filter_addition_title">Filter hinzufügen</string>
     <string name="filter_edit_title">Filter bearbeiten</string>
@@ -582,9 +581,6 @@
     <string name="description_post_edited">Bearbeitet</string>
     <string name="a11y_label_loading_thread">Thread wird geladen</string>
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
-    <string name="pref_reading_order_newest_first">Neueste zuerst</string>
-    <string name="pref_reading_order_oldest_first">Älteste zuerst</string>
-    <string name="pref_title_reading_order">Lesereihenfolge</string>
     <string name="title_edits">Bearbeitungen</string>
     <string name="pref_summary_http_proxy_disabled">Deaktiviert</string>
     <string name="pref_summary_http_proxy_missing">&lt;nicht gesetzt&gt;</string>

@@ -21,7 +21,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Filter
@@ -30,34 +29,19 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
 class TimelinePagingAdapter(
-    private var statusDisplayOptions: StatusDisplayOptions,
-    private val statusListener: StatusActionListener
+    private val statusListener: StatusActionListener,
+    var statusDisplayOptions: StatusDisplayOptions
 ) : PagingDataAdapter<StatusViewData, RecyclerView.ViewHolder>(TimelineDifferCallback) {
-
-    var mediaPreviewEnabled: Boolean
-        get() = statusDisplayOptions.mediaPreviewEnabled
-        set(mediaPreviewEnabled) {
-            statusDisplayOptions = statusDisplayOptions.copy(
-                mediaPreviewEnabled = mediaPreviewEnabled
-            )
-        }
-
-    init {
-        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
-    }
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
         return when (viewType) {
             VIEW_TYPE_STATUS_FILTERED -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, viewGroup, false))
             }
-            VIEW_TYPE_PLACEHOLDER -> {
-                PlaceholderViewHolder(inflater.inflate(R.layout.item_status_placeholder, viewGroup, false))
-            }
-            else -> {
+            VIEW_TYPE_STATUS -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
             }
+            else -> return object : RecyclerView.ViewHolder(inflater.inflate(R.layout.item_placeholder, viewGroup, false)) {}
         }
     }
 
@@ -78,26 +62,19 @@ class TimelinePagingAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val status = getItem(position)
-        if (status is StatusViewData.Placeholder) {
-            val holder = viewHolder as PlaceholderViewHolder
-            holder.setup(statusListener, status.isLoading)
-        } else if (status is StatusViewData.Concrete) {
-            val holder = viewHolder as StatusViewHolder
-            holder.setupWithStatus(
-                status,
+        getItem(position)?.let {
+            (viewHolder as StatusViewHolder).setupWithStatus(
+                it,
                 statusListener,
                 statusDisplayOptions,
-                if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
+                payloads?.getOrNull(0)
             )
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val viewData = getItem(position)
-        return if (viewData is StatusViewData.Placeholder) {
-            VIEW_TYPE_PLACEHOLDER
-        } else if (viewData?.filterAction == Filter.Action.WARN) {
+        val viewData = getItem(position) ?: return VIEW_TYPE_PLACEHOLDER
+        return if (viewData.filterAction == Filter.Action.WARN) {
             VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS
@@ -105,9 +82,11 @@ class TimelinePagingAdapter(
     }
 
     companion object {
+        @Suppress("unused")
+        private const val TAG = "TimelinePagingAdapter"
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_FILTERED = 1
-        private const val VIEW_TYPE_PLACEHOLDER = 2
+        private const val VIEW_TYPE_PLACEHOLDER = -1
 
         val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(
@@ -121,7 +100,7 @@ class TimelinePagingAdapter(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
             ): Boolean {
-                return false // Items are different always. It allows to refresh timestamp on every view holder update
+                return oldItem == newItem
             }
 
             override fun getChangePayload(

@@ -38,6 +38,6 @@ data class NotificationViewData(
     val type: Notification.Type,
     val id: String,
     val account: TimelineAccount,
-    var statusViewData: StatusViewData.Concrete?,
+    var statusViewData: StatusViewData?,
     val report: Report?
 )

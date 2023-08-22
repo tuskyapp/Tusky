@@ -303,7 +303,6 @@
     <string name="filter_addition_title">Cuir criathrag ris</string>
     <string name="pref_title_thread_filter_keywords">Còmhraidhean</string>
     <string name="pref_title_public_filter_keywords">Loidhnichean-ama poblach</string>
-    <string name="load_more_placeholder_text">luchdaich barrachd dheth</string>
     <string name="replying_to">A’ freagairt gu @%s</string>
     <string name="title_media">Meadhanan</string>
     <string name="pref_title_alway_show_sensitive_media">Seall susbaint fhrionasach an-còmhnaidh</string>
@@ -575,9 +574,6 @@
     <string name="failed_to_unpin">Dh’fhàillig leis an dì-phrìneachadh</string>
     <string name="compose_save_draft_loses_media">A bheil thu airson a shàbhaladh ’na dhreachd\? (Thèid na ceanglachain a luchdadh suas a-rithist nuair a dh’aisigeas tu an dreuchd.)</string>
     <string name="a11y_label_loading_thread">A’ luchdadh an t-snàithlein</string>
-    <string name="pref_title_reading_order">Òrdugh an leughaidh</string>
-    <string name="pref_reading_order_oldest_first">As sine an toiseach</string>
-    <string name="pref_reading_order_newest_first">As ùire an toiseach</string>
     <string name="action_unfollow_hashtag_format">A bheil thu airson sgur de #%s a leantainn\?</string>
     <string name="mute_notifications_switch">Mùch na brathan</string>
     <string name="hint_media_description_missing">Bu chòir do thuairisgeul a bhith aig a’ mheadhan.</string>

@@ -307,7 +307,6 @@
     <string name="pref_title_alway_open_spoiler">Expandir sempre toots com Aviso de Conteúdo</string>
     <string name="filter_dialog_whole_word">Palavra completa</string>
     <string name="title_media">Conteúdo Multimédia</string>
-    <string name="load_more_placeholder_text">carregar mais</string>
     <string name="pref_title_public_filter_keywords">Timelines públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="filter_addition_title">Criar filtro</string>

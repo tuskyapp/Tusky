@@ -161,7 +161,6 @@
     <string name="filter_addition_title">Добавяне на филтър</string>
     <string name="pref_title_thread_filter_keywords">Разговори</string>
     <string name="pref_title_public_filter_keywords">Публични емисии</string>
-    <string name="load_more_placeholder_text">зареждане на още</string>
     <string name="replying_to">Отговаряне на @%s</string>
     <string name="title_media">Мултимедия</string>
     <string name="pref_title_alway_open_spoiler">Винаги разгъване на публикации, маркирани с предупреждения за съдържание</string>

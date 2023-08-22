@@ -65,17 +65,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
+class SearchStatusesFragment : SearchFragment<StatusViewData>(), StatusActionListener {
     @Inject
     lateinit var accountManager: AccountManager
 
-    override val data: Flow<PagingData<StatusViewData.Concrete>>
+    override val data: Flow<PagingData<StatusViewData>>
         get() = viewModel.statusesFlow
 
     private val searchAdapter
         get() = super.adapter as SearchStatusesAdapter
 
-    override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
+    override fun createAdapter(): PagingDataAdapter<StatusViewData, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean("animateGifAvatars", false),
@@ -177,10 +177,6 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onLoadMore(position: Int) {
-        // Not possible here
-    }
-
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         searchAdapter.peek(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
@@ -211,7 +207,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         fun newInstance() = SearchStatusesFragment()
     }
 
-    private fun reply(status: StatusViewData.Concrete) {
+    private fun reply(status: StatusViewData) {
         val actionableStatus = status.actionable
         val mentionedUsernames = actionableStatus.mentions.map { it.username }
             .toMutableSet()

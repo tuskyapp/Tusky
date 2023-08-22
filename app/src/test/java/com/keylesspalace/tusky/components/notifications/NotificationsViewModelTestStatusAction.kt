@@ -41,7 +41,7 @@ import org.mockito.kotlin.verify
  */
 class NotificationsViewModelTestStatusAction : NotificationsViewModelTestBase() {
     private val status = mockStatus(pollOptions = listOf("Choice 1", "Choice 2", "Choice 3"))
-    private val statusViewData = StatusViewData.Concrete(
+    private val statusViewData = StatusViewData(
         status = status,
         isExpanded = true,
         isShowingContent = false,
