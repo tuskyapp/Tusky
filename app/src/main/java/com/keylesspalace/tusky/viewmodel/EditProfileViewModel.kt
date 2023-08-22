@@ -114,16 +114,37 @@ class EditProfileViewModel @Inject constructor(
         saveData.value = Loading()
 
         val diff = getProfileDiff(apiProfileAccount, newProfileData)
-        if (diff.hasNoChanges()) {
+        if (!diff.hasChanges()) {
             // if nothing has changed, there is no need to make an api call
             saveData.postValue(Success())
             return
         }
 
         viewModelScope.launch {
+            var avatarFileBody: MultipartBody.Part? = null
+            diff.avatarFile?.let {
+                avatarFileBody = MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12),  it.asRequestBody("image/png".toMediaTypeOrNull()))
+            }
+
+            var headerFileBody: MultipartBody.Part? = null
+            diff.headerFile?.let {
+                headerFileBody = MultipartBody.Part.createFormData("header", randomAlphanumericString(12),  it.asRequestBody("image/png".toMediaTypeOrNull()))
+            }
+
             mastodonApi.accountUpdateCredentials(
-                diff.displayName, diff.note, diff.locked, diff.avatar, diff.header,
-                diff.field1?.first, diff.field1?.second, diff.field2?.first, diff.field2?.second, diff.field3?.first, diff.field3?.second, diff.field4?.first, diff.field4?.second
+                diff.displayName?.toRequestBody(MultipartBody.FORM),
+                diff.note?.toRequestBody(MultipartBody.FORM),
+                diff.locked?.toString()?.toRequestBody(MultipartBody.FORM),
+                avatarFileBody,
+                headerFileBody,
+                diff.field1?.first?.toRequestBody(MultipartBody.FORM),
+                diff.field1?.second?.toRequestBody(MultipartBody.FORM),
+                diff.field2?.first?.toRequestBody(MultipartBody.FORM),
+                diff.field2?.second?.toRequestBody(MultipartBody.FORM),
+                diff.field3?.first?.toRequestBody(MultipartBody.FORM),
+                diff.field3?.second?.toRequestBody(MultipartBody.FORM),
+                diff.field4?.first?.toRequestBody(MultipartBody.FORM),
+                diff.field4?.second?.toRequestBody(MultipartBody.FORM),
             ).fold(
                 { newAccountData ->
                     saveData.postValue(Success())
@@ -152,62 +173,60 @@ class EditProfileViewModel @Inject constructor(
 
     internal fun hasUnsavedChanges(newProfileData: ProfileData): Boolean {
         val diff = getProfileDiff(apiProfileAccount, newProfileData)
-        // If all fields are null, there are no changes.
-        return !diff.hasNoChanges()
+
+        return diff.hasChanges()
     }
 
     private fun getProfileDiff(oldProfileAccount: Account?, newProfileData: ProfileData): DiffProfileData {
         val displayName = if (oldProfileAccount?.displayName == newProfileData.displayName) {
             null
         } else {
-            newProfileData.displayName.toRequestBody(MultipartBody.FORM)
+            newProfileData.displayName
         }
 
         val note = if (oldProfileAccount?.source?.note == newProfileData.note) {
             null
         } else {
-            newProfileData.note.toRequestBody(MultipartBody.FORM)
+            newProfileData.note
         }
 
         val locked = if (oldProfileAccount?.locked == newProfileData.locked) {
             null
         } else {
-            newProfileData.locked.toString().toRequestBody(MultipartBody.FORM)
+            newProfileData.locked
         }
 
-        val avatar = if (avatarData.value != null) {
-            val avatarBody = getCacheFileForName(AVATAR_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), avatarBody)
+        val avatarFile = if (avatarData.value != null) {
+            getCacheFileForName(AVATAR_FILE_NAME)
         } else {
             null
         }
 
-        val header = if (headerData.value != null) {
-            val headerBody = getCacheFileForName(HEADER_FILE_NAME).asRequestBody("image/png".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("header", randomAlphanumericString(12), headerBody)
+        val headerFile = if (headerData.value != null) {
+            getCacheFileForName(HEADER_FILE_NAME)
         } else {
             null
         }
 
         // when one field changed, all have to be sent or they unchanged ones would get overridden
-        val fieldsUnchanged = oldProfileAccount?.source?.fields == newProfileData.fields
-        val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), fieldsUnchanged)
-        val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), fieldsUnchanged)
-        val field3 = calculateFieldToUpdate(newProfileData.fields.getOrNull(2), fieldsUnchanged)
-        val field4 = calculateFieldToUpdate(newProfileData.fields.getOrNull(3), fieldsUnchanged)
+        val allFieldsUnchanged = oldProfileAccount?.source?.fields == newProfileData.fields
+        val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), allFieldsUnchanged)
+        val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), allFieldsUnchanged)
+        val field3 = calculateFieldToUpdate(newProfileData.fields.getOrNull(2), allFieldsUnchanged)
+        val field4 = calculateFieldToUpdate(newProfileData.fields.getOrNull(3), allFieldsUnchanged)
 
         return DiffProfileData(
-            displayName, note, locked, field1, field2, field3, field4, header, avatar
+            displayName, note, locked, field1, field2, field3, field4, headerFile, avatarFile
         )
     }
 
-    private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<RequestBody, RequestBody>? {
+    private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<String, String>? {
         if (fieldsUnchanged || newField == null) {
             return null
         }
         return Pair(
-            newField.name.toRequestBody(MultipartBody.FORM),
-            newField.value.toRequestBody(MultipartBody.FORM)
+            newField.name,
+            newField.value,
         )
     }
 
@@ -216,18 +235,18 @@ class EditProfileViewModel @Inject constructor(
     }
 
     private data class DiffProfileData(
-        val displayName: RequestBody?,
-        val note: RequestBody?,
-        val locked: RequestBody?,
-        val field1: Pair<RequestBody, RequestBody>?,
-        val field2: Pair<RequestBody, RequestBody>?,
-        val field3: Pair<RequestBody, RequestBody>?,
-        val field4: Pair<RequestBody, RequestBody>?,
-        val header: MultipartBody.Part?,
-        val avatar: MultipartBody.Part?
+        val displayName: String?,
+        val note: String?,
+        val locked: Boolean?,
+        val field1: Pair<String, String>?,
+        val field2: Pair<String, String>?,
+        val field3: Pair<String, String>?,
+        val field4: Pair<String, String>?,
+        val headerFile: File?,
+        val avatarFile: File?
     ) {
-        fun hasNoChanges() = displayName == null && note == null && locked == null &&
-            avatar == null && header == null && field1 == null && field2 == null &&
-            field3 == null && field4 == null
+        fun hasChanges() = displayName != null || note != null || locked != null ||
+            avatarFile != null || headerFile != null || field1 != null || field2 != null ||
+            field3 != null || field4 != null
     }
 }
