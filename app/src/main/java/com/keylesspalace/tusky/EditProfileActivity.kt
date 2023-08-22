@@ -233,8 +233,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
             displayName = binding.displayNameEditText.text.toString(),
             note = binding.noteEditText.text.toString(),
             locked = binding.lockedCheckBox.isChecked,
-            fields = accountFieldEditAdapter.getFieldData())
-
+            fields = accountFieldEditAdapter.getFieldData()
+        )
 
     private fun observeImage(
         liveData: LiveData<Uri>,
