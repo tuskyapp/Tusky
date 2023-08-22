@@ -207,7 +207,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         val onBackCallback = object : OnBackPressedCallback(enabled = true) {
             override fun handleOnBackPressed() {
-                if (!viewModel.hasUnsavedChanges(gatherProfileData())) finish()
+                if (!viewModel.hasUnsavedChanges(profileData)) finish()
 
                 lifecycleScope.launch {
                     when (showConfirmationDialog()) {
@@ -224,16 +224,17 @@ class EditProfileActivity : BaseActivity(), Injectable {
     override fun onStop() {
         super.onStop()
         if (!isFinishing) {
-            viewModel.updateProfile(gatherProfileData())
+            viewModel.updateProfile(profileData)
         }
     }
 
-    private fun gatherProfileData() = ProfileData(
-        displayName = binding.displayNameEditText.text.toString(),
-        note = binding.noteEditText.text.toString(),
-        locked = binding.lockedCheckBox.isChecked,
-        fields = accountFieldEditAdapter.getFieldData()
-    )
+    private val profileData
+        get() = ProfileData(
+            displayName = binding.displayNameEditText.text.toString(),
+            note = binding.noteEditText.text.toString(),
+            locked = binding.lockedCheckBox.isChecked,
+            fields = accountFieldEditAdapter.getFieldData())
+
 
     private fun observeImage(
         liveData: LiveData<Uri>,
@@ -308,7 +309,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun save() = viewModel.save(gatherProfileData())
+    private fun save() = viewModel.save(profileData)
 
     private fun onSaveFailure(msg: String?) {
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
