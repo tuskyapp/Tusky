@@ -128,7 +128,6 @@
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre lapelas</string>
-    <string name="pref_title_show_notifications_filter">Mostrar filtro das notificacións</string>
     <string name="failed_search">Fallou a busca</string>
     <string name="title_accounts">Contas</string>
     <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén\?</string>

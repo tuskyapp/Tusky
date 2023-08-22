@@ -378,9 +378,9 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if (!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
-        val trendingTab = createTabDataFromId(TRENDING)
-        if (!currentTabs.contains(trendingTab)) {
-            addableTabs.add(trendingTab)
+        val trendingTagsTab = createTabDataFromId(TRENDING_TAGS)
+        if (!currentTabs.contains(trendingTagsTab)) {
+            addableTabs.add(trendingTagsTab)
         }
 
         addableTabs.add(createTabDataFromId(HASHTAG))
