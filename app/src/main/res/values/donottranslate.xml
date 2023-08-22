@@ -37,74 +37,74 @@
         <item>auto_system</item>
     </string-array>
 
-    <!-- Modifications to this list most also modify language_values, below.
-
-         https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes is a list of codes and names for
-         a language, in that language. -->
+    <!-- Do not edit this list, create it with "runtools mklanguages" -->
     <string-array name="language_entries">
-        <item>@string/system_default</item>
-        <item>ⵣⴰⵎⴰⵣⵉⵖⵝ</item>
-        <item>Català</item>
-        <item>Čeština</item>
-        <item>Cymraeg</item>
-        <item>Deutsch</item>
-        <item>English</item>
-        <item>English (United Kingdom)</item>
-        <item>Español</item>
-        <item>Esperanto</item>
-        <item>Euskara</item>
-        <item>Français</item>
-        <item>Frysk</item>
-        <item>Gaeilge</item>
-        <item>Gàidhlig</item>
-        <item>Galego</item>
-        <item>Indonesia</item>
-        <item>Íslenska</item>
-        <item>Italiano</item>
-        <item>Latviešu</item>
-        <item>Magyar</item>
-        <item>Nederlands</item>
-        <item>Norsk Bokmål (Norge)</item>
-        <item>Occitan</item>
-        <item>Polski</item>
-        <item>Português (Brasil)</item>
-        <item>Português (Portugal)</item>
-        <item>Slovenčina</item>
-        <item>Slovenščina</item>
-        <item>Suomi</item>
-        <item>Svenska</item>
-        <item>Taqbaylit</item>
-        <item>Tiếng Việt</item>
-        <item>Türkçe</item>
-        <item>Ελληνικά</item>
-        <item>Беларуская</item>
-        <item>Български</item>
-        <item>Русский</item>
-        <item>Українська</item>
-        <item>العربية</item>
-        <item>فارسی</item>
-        <item>کوردیی ناوەندی</item>
-        <item>संस्कृत भाषा</item>
-        <item>हिन्दी</item>
-        <item>বাংলা (বাংলাদেশ)</item>
-        <item>বাংলা (ভারত)</item>
-        <item>தமிழ்</item>
-        <item>മലയാളം</item>
-        <item>සිංහල</item>
-        <item>ไทย</item>
-        <item>한국어</item>
-        <item>中文（中国）</item>
-        <item>中文（中國澳門特別行政區）</item>
-        <item>中文（中國香港特別行政區）</item>
-        <item>中文（台灣）</item>
-        <item>中文（新加坡）</item>
-        <item>日本語</item>
+        <item>@string/system_default</item> <!-- default: System default -->
+        <item>Català</item> <!-- ca: Catalan -->
+        <item>Central Atlas Tamazight (Tifinagh)</item> <!-- tzm-Tfng: Central Atlas Tamazight (Tifinagh) -->
+        <item>Čeština</item> <!-- cs: Czech -->
+        <item>Cymraeg</item> <!-- cy: Welsh -->
+        <item>Deutsch</item> <!-- de: German -->
+        <item>English</item> <!-- en: English -->
+        <item>English (United Kingdom)</item> <!-- en-GB: English (United Kingdom) -->
+        <item>Español</item> <!-- es: Spanish -->
+        <item>Esperanto</item> <!-- eo: Esperanto -->
+        <item>Euskara</item> <!-- eu: Basque -->
+        <item>Français</item> <!-- fr: French -->
+        <item>Frysk</item> <!-- fy: Western Frisian -->
+        <item>Gaeilge</item> <!-- ga: Irish -->
+        <item>Gàidhlig</item> <!-- gd: Scottish Gaelic -->
+        <item>Galego</item> <!-- gl: Galician -->
+        <item>Indonesia</item> <!-- in: Indonesian -->
+        <item>Íslenska</item> <!-- is: Icelandic -->
+        <item>Italiano</item> <!-- it: Italian -->
+        <item>Latviešu</item> <!-- lv: Latvian -->
+        <item>Magyar</item> <!-- hu: Hungarian -->
+        <item>Nederlands</item> <!-- nl: Dutch -->
+        <item>Norsk Bokmål (Norge)</item> <!-- nb-NO: Norwegian Bokmål (Norway) -->
+        <item>Occitan</item> <!-- oc: Occitan -->
+        <item>Polski</item> <!-- pl: Polish -->
+        <item>Português (Brasil)</item> <!-- pt-BR: Portuguese (Brazil) -->
+        <item>Português (Portugal)</item> <!-- pt-PT: Portuguese (Portugal) -->
+        <item>Slovenčina</item> <!-- sk: Slovak -->
+        <item>Slovenščina</item> <!-- sl: Slovenian -->
+        <item>Suomi</item> <!-- fi: Finnish -->
+        <item>Svenska</item> <!-- sv: Swedish -->
+        <item>Taqbaylit</item> <!-- kab: Kabyle -->
+        <item>Tiếng Việt</item> <!-- vi: Vietnamese -->
+        <item>Türkçe</item> <!-- tr: Turkish -->
+        <item>Ελληνικά</item> <!-- el: Greek -->
+        <item>Беларуская</item> <!-- be: Belarusian -->
+        <item>Български</item> <!-- bg: Bulgarian -->
+        <item>Русский</item> <!-- ru: Russian -->
+        <item>Українська</item> <!-- uk: Ukrainian -->
+        <item>עברית</item> <!-- iw: Hebrew -->
+        <item>العربية</item> <!-- ar: Arabic -->
+        <item>فارسی</item> <!-- fa: Persian -->
+        <item>کوردیی ناوەندی</item> <!-- ckb: Central Kurdish -->
+        <item>संस्कृत भाषा</item> <!-- sa: Sanskrit -->
+        <item>हिन्दी</item> <!-- hi: Hindi -->
+        <item>বাংলা (বাংলাদেশ)</item> <!-- bn-BD: Bangla (Bangladesh) -->
+        <item>বাংলা (ভারত)</item> <!-- bn-IN: Bangla (India) -->
+        <item>ଓଡ଼ିଆ</item> <!-- or: Odia -->
+        <item>தமிழ்</item> <!-- ta: Tamil -->
+        <item>മലയാളം</item> <!-- ml: Malayalam -->
+        <item>සිංහල</item> <!-- si: Sinhala -->
+        <item>ไทย</item> <!-- th: Thai -->
+        <item>한국어</item> <!-- ko: Korean -->
+        <item>中文（中国）</item> <!-- zh-CN: Chinese (China) -->
+        <item>中文（中國澳門特別行政區）</item> <!-- zh-MO: Chinese (Macao SAR China) -->
+        <item>中文（中國香港特別行政區）</item> <!-- zh-HK: Chinese (Hong Kong SAR China) -->
+        <item>中文（台灣）</item> <!-- zh-TW: Chinese (Taiwan) -->
+        <item>中文（新加坡）</item> <!-- zh-SG: Chinese (Singapore) -->
+        <item>日本語</item> <!-- ja: Japanese -->
     </string-array>
 
+    <!-- Do not edit this list, create it with "runtools mklanguages" -->
     <string-array name="language_values">
         <item>default</item>
-        <item>ber</item>
         <item>ca</item>
+        <item>tzm-Tfng</item>
         <item>cs</item>
         <item>cy</item>
         <item>de</item>
@@ -141,6 +141,7 @@
         <item>bg</item>
         <item>ru</item>
         <item>uk</item>
+        <item>iw</item>
         <item>ar</item>
         <item>fa</item>
         <item>ckb</item>
@@ -148,6 +149,7 @@
         <item>hi</item>
         <item>bn-BD</item>
         <item>bn-IN</item>
+        <item>or</item>
         <item>ta</item>
         <item>ml</item>
         <item>si</item>
@@ -186,6 +188,7 @@
         <item>gab.com</item>
         <item>gab.ai</item>
         <item>spinster.xyz</item>
+        <item>truthsocial.com</item>
     </string-array>
 
     <string name="rick_roll_url">https://www.youtube.com/watch?v=dQw4w9WgXcQ</string>

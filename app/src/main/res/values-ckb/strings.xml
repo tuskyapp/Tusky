@@ -261,7 +261,6 @@
     <string name="create_poll_title">ڕاپرسی</string>
     <string name="pref_title_enable_swipe_for_tabs">چالاککردنی ئاماژەکردنی لێدانی چالاک بۆ گۆڕین لە نێوان خشتەبەندەکان</string>
     <string name="license_description">تاسکی کۆد و سەرمایەکانی تێدایە لەم پڕۆژە کراوەی سەرچاوە:</string>
-    <string name="pref_title_show_notifications_filter">فلتەری ئاگانامەکان نیشان بدە</string>
     <string name="failed_search">گەڕانەکە سەرکەوتوو نەبوو</string>
     <string name="title_accounts">ئەژمێرەکان</string>
     <string name="report_description_remote_instance">هەژمارەلە ڕاژەیەکی دیکەیە ترە. کۆپیەکی بێ سەروبەر بنێرە بۆ ڕاپۆرتەکە لەوێ؟</string>
@@ -390,7 +389,6 @@
     <string name="action_remove_from_list">لابردنی ئەژمێر لە لیستەکە</string>
     <string name="action_add_to_list">زیادکردنی ئەژمێر بۆ لیستەکە</string>
     <string name="hint_search_people_list">گەڕان بەدوای ئەو کەسانەی کە پەیڕەوی ان دەکەیت</string>
-    <string name="action_edit_list">دەستکاریکردنی لیستەکە</string>
     <string name="action_delete_list">سڕینەوەی لیستەکە</string>
     <string name="action_rename_list">ناونانەوەی لیستەکە</string>
     <string name="action_create_list">دروستکردنی لیستێک</string>

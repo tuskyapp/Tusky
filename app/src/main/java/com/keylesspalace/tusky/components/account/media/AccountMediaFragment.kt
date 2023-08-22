@@ -51,7 +51,6 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -83,13 +82,10 @@ class AccountMediaFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
         adapter = AccountMediaGridAdapter(
-            alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
             useBlurhash = useBlurhash,
             context = view.context,
             onAttachmentClickListener = ::onAttachmentClick
@@ -133,12 +129,7 @@ class AccountMediaFragment :
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-
-                        if ((loadState.refresh as LoadState.Error).error is IOException) {
-                            binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network, null)
-                        } else {
-                            binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic, null)
-                        }
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error)
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()

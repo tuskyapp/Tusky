@@ -37,7 +37,7 @@
                 android:layout_gravity="center"
                 android:src="@android:color/transparent"
                 android:visibility="gone"
-                tools:src="@drawable/elephant_error"
+                tools:src="@drawable/errorphant_error"
                 tools:visibility="visible" />
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

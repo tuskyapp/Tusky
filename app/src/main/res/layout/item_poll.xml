@@ -35,8 +35,6 @@
         android:id="@+id/status_poll_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="?attr/status_text_medium"
         app:buttonTint="@color/compound_button_color"

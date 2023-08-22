@@ -60,7 +60,6 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class ViewThreadFragment :
@@ -201,21 +200,7 @@ class ViewThreadFragment :
                         binding.recyclerView.hide()
                         binding.statusView.show()
 
-                        if (uiState.throwable is IOException) {
-                            binding.statusView.setup(
-                                R.drawable.elephant_offline,
-                                R.string.error_network
-                            ) {
-                                viewModel.retry(thisThreadsStatusId)
-                            }
-                        } else {
-                            binding.statusView.setup(
-                                R.drawable.elephant_error,
-                                R.string.error_generic
-                            ) {
-                                viewModel.retry(thisThreadsStatusId)
-                            }
-                        }
+                        binding.statusView.setup(uiState.throwable) { viewModel.retry(thisThreadsStatusId) }
                     }
                     is ThreadUiState.Success -> {
                         if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
@@ -351,7 +336,11 @@ class ViewThreadFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = adapter.currentList[position].status
-        super.viewMedia(attachmentIndex, list(status), view)
+        super.viewMedia(
+            attachmentIndex,
+            list(status, alwaysShowSensitiveMedia),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {
@@ -416,13 +405,14 @@ class ViewThreadFragment :
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.currentList[position]
-        if (status.isDetailed) {
-            // the main status we are viewing is being removed, finish the activity
-            activity?.finish()
-            return
+        adapter.currentList.getOrNull(position)?.let { status ->
+            if (status.isDetailed) {
+                // the main status we are viewing is being removed, finish the activity
+                activity?.finish()
+                return
+            }
+            viewModel.removeStatus(status)
         }
-        viewModel.removeStatus(status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {

@@ -28,7 +28,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
@@ -41,10 +40,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
@@ -105,7 +105,7 @@ class NotificationsFragment :
 
         adapter = NotificationsPagingAdapter(
             notificationDiffCallback,
-            accountId = accountManager.activeAccount!!.accountId,
+            accountId = viewModel.account.accountId,
             statusActionListener = this,
             notificationActionListener = this,
             accountActionListener = this,
@@ -119,21 +119,6 @@ class NotificationsFragment :
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_timeline_notifications, container, false)
-    }
-
-    private fun updateFilterVisibility(showFilter: Boolean) {
-        val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
-        if (showFilter) {
-            binding.appBarOptions.setExpanded(true, false)
-            binding.appBarOptions.visibility = View.VISIBLE
-            // Set content behaviour to hide filter on scroll
-            params.behavior = ScrollingViewBehavior()
-        } else {
-            binding.appBarOptions.setExpanded(false, false)
-            binding.appBarOptions.visibility = View.GONE
-            // Clear behaviour to hide app bar
-            params.behavior = null
-        }
     }
 
     private fun confirmClearNotifications() {
@@ -193,6 +178,19 @@ class NotificationsFragment :
                     }
                 }
             }
+
+            @Suppress("SyntheticAccessor")
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                newState != SCROLL_STATE_IDLE && return
+
+                // Save the ID of the first notification visible in the list, so the user's
+                // reading position is always restorable.
+                layoutManager.findFirstVisibleItemPosition().takeIf { it != NO_POSITION }?.let { position ->
+                    adapter.snapshot().getOrNull(position)?.id?.let { id ->
+                        viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
+                    }
+                }
+            }
         })
 
         binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -200,8 +198,6 @@ class NotificationsFragment :
             footer = NotificationsLoadStateAdapter { adapter.retry() }
         )
 
-        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
-        binding.buttonFilter.setOnClickListener { showFilterDialog() }
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
@@ -211,7 +207,9 @@ class NotificationsFragment :
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
-                        binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                        }
                     }
                 }
             }
@@ -251,7 +249,7 @@ class NotificationsFragment :
                         Log.d(TAG, error.toString())
                         val message = getString(
                             error.message,
-                            error.exception.localizedMessage
+                            error.throwable.localizedMessage
                                 ?: getString(R.string.ui_error_unknown)
                         )
                         val snackbar = Snackbar.make(
@@ -276,7 +274,7 @@ class NotificationsFragment :
                             val position = adapter.snapshot().indexOfFirst {
                                 it?.statusViewData?.status?.id == (action as StatusAction).statusViewData.id
                             }
-                            if (position != RecyclerView.NO_POSITION) {
+                            if (position != NO_POSITION) {
                                 adapter.notifyItemChanged(position)
                             }
                         }
@@ -352,10 +350,10 @@ class NotificationsFragment :
                     }
                 }
 
-                // Update filter option visibility from uiState
-                launch {
-                    viewModel.uiState.collectLatest { updateFilterVisibility(it.showFilterOptions) }
-                }
+                // Collect the uiState. Nothing is done with it, but if you don't collect it then
+                // accessing viewModel.uiState.value (e.g., when the filter dialog is created)
+                // returns an empty object.
+                launch { viewModel.uiState.collect() }
 
                 // Update status display from statusDisplayOptions. If the new options request
                 // relative time display collect the flow to periodically update the timestamp in the list gui elements.
@@ -401,13 +399,13 @@ class NotificationsFragment :
                             when ((loadState.refresh as LoadState.Error).error) {
                                 is IOException -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_offline,
+                                        R.drawable.errorphant_offline,
                                         R.string.error_network
                                     ) { adapter.retry() }
                                 }
                                 else -> {
                                     binding.statusView.setup(
-                                        R.drawable.elephant_error,
+                                        R.drawable.errorphant_error,
                                         R.string.error_generic
                                     ) { adapter.retry() }
                                 }
@@ -422,10 +420,17 @@ class NotificationsFragment :
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_notifications, menu)
+        val iconColor = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
         menu.findItem(R.id.action_refresh)?.apply {
             icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
                 sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+                colorInt = iconColor
+            }
+        }
+        menu.findItem(R.id.action_edit_notification_filter)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_tune).apply {
+                sizeDp = 20
+                colorInt = iconColor
             }
         }
     }
@@ -437,6 +442,18 @@ class NotificationsFragment :
                 onRefresh()
                 true
             }
+            R.id.load_newest -> {
+                viewModel.accept(InfallibleUiAction.LoadNewest)
+                true
+            }
+            R.id.action_edit_notification_filter -> {
+                showFilterDialog()
+                true
+            }
+            R.id.action_clear_notifications -> {
+                confirmClearNotifications()
+                true
+            }
             else -> false
         }
     }
@@ -444,7 +461,7 @@ class NotificationsFragment :
     override fun onRefresh() {
         binding.progressBar.isVisible = false
         adapter.refresh()
-        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
+        NotificationHelper.clearNotificationsForAccount(requireContext(), viewModel.account)
     }
 
     override fun onPause() {
@@ -453,7 +470,7 @@ class NotificationsFragment :
         // Save the ID of the first notification visible in the list
         val position = layoutManager.findFirstVisibleItemPosition()
         if (position >= 0) {
-            adapter.snapshot()[position]?.id?.let { id ->
+            adapter.snapshot().getOrNull(position)?.id?.let { id ->
                 viewModel.accept(InfallibleUiAction.SaveVisibleId(visibleId = id))
             }
         }
@@ -461,7 +478,7 @@ class NotificationsFragment :
 
     override fun onResume() {
         super.onResume()
-        NotificationHelper.clearNotificationsForActiveAccount(requireContext(), accountManager)
+        NotificationHelper.clearNotificationsForAccount(requireContext(), viewModel.account)
     }
 
     override fun onReply(position: Int) {
@@ -497,7 +514,11 @@ class NotificationsFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         val status = adapter.peek(position)?.statusViewData?.status ?: return
-        super.viewMedia(attachmentIndex, list(status), view)
+        super.viewMedia(
+            attachmentIndex,
+            list(status, viewModel.statusDisplayOptions.value.showSensitiveMedia),
+            view
+        )
     }
 
     override fun onViewThread(position: Int) {
@@ -590,7 +611,7 @@ class NotificationsFragment :
 
     override fun onViewReport(reportId: String) {
         requireContext().openLink(
-            "https://${accountManager.activeAccount!!.domain}/admin/reports/$reportId"
+            "https://${viewModel.account.domain}/admin/reports/$reportId"
         )
     }
 
@@ -600,13 +621,12 @@ class NotificationsFragment :
 
     override fun onReselect() {
         if (isAdded) {
-            binding.appBarOptions.setExpanded(true, false)
             layoutManager.scrollToPosition(0)
         }
     }
 
     companion object {
-        private const val TAG = "NotificationF"
+        private const val TAG = "NotificationsFragment"
         fun newInstance() = NotificationsFragment()
 
         private val notificationDiffCallback: DiffUtil.ItemCallback<NotificationViewData> =

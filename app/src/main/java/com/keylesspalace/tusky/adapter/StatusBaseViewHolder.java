@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
 import com.keylesspalace.tusky.util.CardViewMode;
+import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -67,6 +68,7 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -114,10 +116,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView cardDescription;
     private final TextView cardUrl;
     private final PollAdapter pollAdapter;
-    protected LinearLayout filteredPlaceholder;
-    protected TextView filteredPlaceholderLabel;
-    protected Button filteredPlaceholderShowButton;
-    protected ConstraintLayout statusContainer;
+    protected final LinearLayout filteredPlaceholder;
+    protected final TextView filteredPlaceholderLabel;
+    protected final Button filteredPlaceholderShowButton;
+    protected final ConstraintLayout statusContainer;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
@@ -328,14 +330,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
             ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp,
-                    statusDisplayOptions.animateAvatars());
+                    statusDisplayOptions.animateAvatars(), null);
 
             avatarRadius = avatarRadius36dp;
         }
 
         ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
-                statusDisplayOptions.animateAvatars());
-
+            statusDisplayOptions.animateAvatars(),
+            Collections.singletonList(new CompositeWithOpaqueBackground(avatar)));
     }
 
     protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
@@ -392,11 +394,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    protected void setReplyCount(int repliesCount) {
+    protected void setReplyCount(int repliesCount, boolean fullStats) {
         // This label only exists in the non-detailed view (to match the web ui)
-        if (replyCountLabel != null) {
-            replyCountLabel.setText(NumberUtils.shortNumber(repliesCount));
+        if (replyCountLabel == null) return;
+
+        if (fullStats) {
+            replyCountLabel.setText(NumberUtils.formatNumber(repliesCount, 1000));
+            return;
         }
+
+        // Show "0", "1", or "1+" for replies otherwise, so the user knows if there is a thread
+        // that they can click through to read.
+        replyCountLabel.setText((repliesCount > 1 ? replyCountLabel.getContext().getString(R.string.status_count_one_plus) : Integer.toString(repliesCount)));
     }
 
     private void setReblogged(boolean reblogged) {
@@ -630,10 +639,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         avatar.setOnClickListener(profileButtonClickListener);
         displayName.setOnClickListener(profileButtonClickListener);
 
-        if (replyCountLabel != null) {
-            replyCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
-        }
-
         replyButton.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
@@ -762,7 +767,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setUsername(status.getUsername());
             setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
-            setReplyCount(actionable.getRepliesCount());
+            setReplyCount(actionable.getRepliesCount(), statusDisplayOptions.showStatsInline());
             setAvatar(actionable.getAccount().getAvatar(), status.getRebloggedAvatar(),
                     actionable.getAccount().getBot(), statusDisplayOptions);
             setReblogged(actionable.getReblogged());
@@ -824,21 +829,18 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         showFilteredPlaceholder(true);
 
-        String matchedKeyword = null;
+        Filter matchedFilter = null;
 
         for (FilterResult result : status.getActionable().getFiltered()) {
             Filter filter = result.getFilter();
-            List<String> keywords = result.getKeywordMatches();
-            if (filter.getAction() == Filter.Action.WARN && !keywords.isEmpty()) {
-                matchedKeyword = keywords.get(0);
+            if (filter.getAction() == Filter.Action.WARN) {
+                matchedFilter = filter;
                 break;
             }
         }
 
-        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedKeyword));
-        filteredPlaceholderShowButton.setOnClickListener(view -> {
-            listener.clearWarningAction(getBindingAdapterPosition());
-        });
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilter.getTitle()));
+        filteredPlaceholderShowButton.setOnClickListener(view -> listener.clearWarningAction(getBindingAdapterPosition()));
     }
 
     protected static boolean hasPreviewableAttachment(List<Attachment> attachments) {

@@ -41,7 +41,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023022701
+const val SCHEMA_VERSION = 2023072401
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
@@ -61,7 +61,6 @@ object PrefKeys {
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
-    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
@@ -101,4 +100,12 @@ object PrefKeys {
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
+
+    /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
+    const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
+
+    /** Keys that are no longer used (e.g., the preference has been removed */
+    object Deprecated {
+        const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
+    }
 }

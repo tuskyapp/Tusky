@@ -1,15 +1,18 @@
 package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.IntentCompat
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -23,7 +26,9 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.util.Date
 import javax.inject.Inject
 
@@ -47,7 +52,7 @@ class EditFilterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        originalFilter = intent?.getParcelableExtra(FILTER_TO_EDIT)
+        originalFilter = IntentCompat.getParcelableExtra(intent, FILTER_TO_EDIT, Filter::class.java)
         filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
         binding.apply {
             contextSwitches = mapOf(
@@ -77,6 +82,13 @@ class EditFilterActivity : BaseActivity() {
 
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }
+        binding.filterDeleteButton.setOnClickListener {
+            lifecycleScope.launch {
+                if (showDeleteFilterDialog(filter.title) == BUTTON_POSITIVE) deleteFilter()
+            }
+        }
+        binding.filterDeleteButton.visible(originalFilter != null)
+
         for (switch in contextSwitches.keys) {
             switch.setOnCheckedChangeListener { _, isChecked ->
                 val context = contextSwitches[switch]!!
@@ -254,6 +266,32 @@ class EditFilterActivity : BaseActivity() {
                 finish()
             } else {
                 Snackbar.make(binding.root, "Error saving filter '${viewModel.title.value}'", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun deleteFilter() {
+        originalFilter?.let { filter ->
+            lifecycleScope.launch {
+                api.deleteFilter(filter.id).fold(
+                    {
+                        finish()
+                    },
+                    { throwable ->
+                        if (throwable is HttpException && throwable.code() == 404) {
+                            api.deleteFilterV1(filter.id).fold(
+                                {
+                                    finish()
+                                },
+                                {
+                                    Snackbar.make(binding.root, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                                }
+                            )
+                        } else {
+                            Snackbar.make(binding.root, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
+                )
             }
         }
     }

@@ -321,7 +321,6 @@
     <string name="action_create_list">Criar uma lista</string>
     <string name="action_rename_list">Renomear lista</string>
     <string name="action_delete_list">Excluir lista</string>
-    <string name="action_edit_list">Editar lista</string>
     <string name="hint_search_people_list">Pesquisar pessoas que você segue</string>
     <string name="action_add_to_list">Adicionar conta à lista</string>
     <string name="action_remove_from_list">Remover conta da lista</string>
@@ -423,7 +422,6 @@
     <string name="confirmation_domain_unmuted">%s desbloqueada</string>
     <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
-    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
     <string name="filter_dialog_whole_word">Toda palavra</string>
     <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
     <string name="action_add_poll">Adicionar enquete</string>
@@ -562,7 +560,7 @@
     <string name="failed_to_unpin">Falha ao desafixar</string>
     <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
     <string name="tips_push_notification_migration">Faça login novamente em todas as contas para habilitar o suporte de notificação push.</string>
-    <string name="status_created_info">%1$s publicou em %2$s</string>
+    <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
     <string name="pref_title_notification_filter_reports">há uma nova denúncia</string>
@@ -587,7 +585,7 @@
     <string name="description_login">Funciona na maioria dos casos. Nenhum dado é vazado para outros aplicativos.</string>
     <string name="description_browser_login">Pode oferecer suporte a métodos de autenticação adicionais, mas requer um navegador compatível.</string>
     <string name="failed_to_remove_from_list">Falha ao remover a conta da lista</string>
-    <string name="status_edit_info">%1$s editou em %2$s</string>
+    <string name="status_edit_info">%1$s editou</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Você tem alterações não salvas.</string>
     <string name="description_post_edited">Editado</string>

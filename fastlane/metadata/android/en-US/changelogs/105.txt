@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3
+
+Fixes including:
+
+- Fixed crash when viewing a thread
+- Fixed crash processing Mastodon filters
+- Links in bios of follow/follow request notifications are clickable
+- Android Notifications updates
+  - Android notification for a Mastodon notification should only be shown once
+  - Android notifications are grouped by Mastodon notification type (follow, mention, boost, etc)
+  - Potential for missing notifications has been removed

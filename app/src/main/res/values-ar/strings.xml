@@ -273,7 +273,6 @@
     <string name="action_create_list">إنشاء قائمة</string>
     <string name="action_rename_list">إعادة تسمية القائمة</string>
     <string name="action_delete_list">حذف القائمة</string>
-    <string name="action_edit_list">تعديل القائمة</string>
     <string name="hint_search_people_list">البحث عن أشخاص قصد متابعتهم</string>
     <string name="action_add_to_list">إضافة الحساب إلى القائمة</string>
     <string name="action_remove_from_list">إزالة الحساب مِن القائمة</string>
@@ -451,7 +450,6 @@
     <string name="report_remote_instance">أعد تحويله إلى %s</string>
     <string name="failed_report">فشل الابلاغ</string>
     <string name="failed_fetch_posts">فشلت عملية جلب المنشورات</string>
-    <string name="pref_title_show_notifications_filter">اعرض مصفاة الإشعارات</string>
     <string name="filter_dialog_whole_word">الكلمة كاملة</string>
     <string name="description_poll">استطلاع رأي بالخيارات: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="mute_domain_warning">هل أنت متأكد من أنك تريد حجب كافة %s؟ سوف لن يكون باستطاعتك رؤية أي محتوى قادم من هذا النطاق بعد الآن ، لا في الخيوط الزمنية العامة ولا في إخطاراتك. سيتم إزالة متابِعيك الذين هم على هذا النطاق.</string>
@@ -577,8 +575,8 @@
     <string name="no_lists">ليس لديك أي قوائم.</string>
     <string name="post_edited">عدَّلَ %s</string>
     <string name="notification_report_format">شكوى جديدة عن %s</string>
-    <string name="status_edit_info">عدّله %1$s في %2$s</string>
-    <string name="status_created_info">أنشأه %1$s في %2$s</string>
+    <string name="status_edit_info">عدّله %1$s</string>
+    <string name="status_created_info">أنشأه %1$s</string>
     <string name="wellbeing_mode_notice">سيتم إخفاء بعض المعلومات التي قد تؤثر على صحتك العقلية. هذا يتضمن:
 \n
 \n- المفضلة/المشاركات/متابعة الاشعارات

@@ -189,7 +189,6 @@
 \n
 \nअधिकमत्र प्राप्यते <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="hint_search_people_list">येषामुसरणं करोषि तेष्वन्विष्यताम्</string>
-    <string name="action_edit_list">सूचिः सम्पाद्यताम्</string>
     <string name="action_delete_list">सूचिर्नश्यताम्</string>
     <string name="action_rename_list">पुनः सूचिनामकरणं क्रियताम्</string>
     <string name="action_create_list">सूचिः निर्मीयताम्</string>
@@ -379,7 +378,6 @@
     <string name="duration_5_min">५ निमेषाः</string>
     <string name="create_poll_title">मतपेटिका</string>
     <string name="pref_title_enable_swipe_for_tabs">सारणहावभावस्य संयुतनं पीठिकापरिवर्तनार्थं कार्यम्</string>
-    <string name="pref_title_show_notifications_filter">सूचनाशोधकं दृश्यताम्</string>
     <string name="failed_search">अन्वेषणे विफलता जाता</string>
     <string name="title_accounts">व्यक्तित्वविवरणलेखाः</string>
     <string name="report_description_remote_instance">अन्यजालवितारकादियं व्यक्तित्वविवरणलेखा । आवेदनस्य रक्षितप्रतिलिपिरपि प्रेष्यतां वा \?</string>
@@ -508,8 +506,8 @@
     <string name="action_post_failed_do_nothing">उत्सृज्यताम्</string>
     <string name="action_post_failed_show_drafts">लेखविकर्षान् दर्शयतु</string>
     <string name="description_post_edited">सम्पादनं कृतम्</string>
-    <string name="status_created_info">%1$s निर्मितम् %2$s</string>
-    <string name="status_edit_info">%1$s सम्पादितम् %2$s</string>
+    <string name="status_created_info">%1$s निर्मितम्</string>
+    <string name="status_edit_info">%1$s सम्पादितम्</string>
     <string name="action_subscribe_account">ग्राहकता</string>
     <string name="draft_deleted">प्रारूपं निष्कासितम्</string>
     <string name="report_category_violation">नियम-उल्लङ्घनम्</string>

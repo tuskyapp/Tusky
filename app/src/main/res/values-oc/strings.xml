@@ -315,13 +315,12 @@
     <string name="action_create_list">Crear una lista</string>
     <string name="action_rename_list">Renomenar la lista</string>
     <string name="action_delete_list">Suprimir la lista</string>
-    <string name="action_edit_list">Modificar la lista</string>
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descriure lo contengut pels mal vesents (%d caractèr maximum)</item>
-        <item quantity="other">"Descriure  los contenguts pels mal vesents (%d caractèrs maximum)"</item>
+        <item quantity="other">Descriure los contenguts pels mal vesents (%d caractèrs maximum)</item>
     </plurals>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -412,7 +411,6 @@
     <string name="confirmation_domain_unmuted">%s es pas mai rescondut</string>
     <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
-    <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar las publicacions marcadas amb un avertiment de contengut</string>
@@ -590,9 +588,9 @@
     <string name="description_post_edited">Modificada</string>
     <string name="error_status_source_load">Fracàs del cargament de l’estatut a partir del servidor.</string>
     <string name="mute_notifications_switch">Amudir las notificacions</string>
-    <string name="status_created_info">%1$s creèt %2$s</string>
+    <string name="status_created_info">%1$s creèt</string>
     <string name="title_edits">Modificacions</string>
-    <string name="status_edit_info">%1$s modifiquèt %2$s</string>
+    <string name="status_edit_info">%1$s modifiquèt</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Ignorar las modificacions</string>
     <string name="action_continue_edit">Téner de modificar</string>
@@ -663,4 +661,25 @@
     <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %s</string>
     <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %s</string>
     <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
+\n
+\nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància [iconics gmd_group], siá los trapar per lor nom [iconics gmd_search], per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
+    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
+\n
+\nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
+    <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
+    <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
+    <string name="pref_ui_text_size">talha tèxte UI</string>
+    <string name="notification_listenable_worker_name">activitat en rèireplan</string>
+    <string name="notification_listenable_worker_description">Notificacions quand Tuska s’executa en rèireplan</string>
+    <string name="notification_notification_worker">Recuperacion de las notificacions…</string>
+    <string name="notification_prune_cache">Manteniment del cache…</string>
+    <string name="about_device_info_title">Vòstre aparelh</string>
+    <string name="about_device_info">%s %s
+\nversion d’Android : %s
+\nversion del SDK : %d</string>
+    <string name="about_account_info_title">Vòstre compte</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion : %s</string>
+    <string name="error_media_upload_sending_fmt">Fracàs del mandadís : %s</string>
 </resources>

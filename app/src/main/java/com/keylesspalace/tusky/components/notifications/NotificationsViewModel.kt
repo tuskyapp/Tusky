@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -40,11 +41,12 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,26 +54,25 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 data class UiState(
     /** Filtered notification types */
     val activeFilter: Set<Notification.Type> = emptySet(),
-
-    /** True if the UI to filter and clear notifications should be shown */
-    val showFilterOptions: Boolean = false,
 
     /** True if the FAB should be shown while scrolling */
     val showFabWhileScrolling: Boolean = true
@@ -79,14 +80,12 @@ data class UiState(
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val showFabWhileScrolling: Boolean,
-    val showFilter: Boolean
+    val showFabWhileScrolling: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
-            PrefKeys.FAB_HIDE,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER
+            PrefKeys.FAB_HIDE
         )
     }
 }
@@ -97,7 +96,7 @@ sealed class UiAction
 /** Actions the user can trigger from the UI. These actions may fail. */
 sealed class FallibleUiAction : UiAction() {
     /** Clear all notifications */
-    object ClearNotifications : FallibleUiAction()
+    data object ClearNotifications : FallibleUiAction()
 }
 
 /**
@@ -118,6 +117,12 @@ sealed class InfallibleUiAction : UiAction() {
      * can do.
      */
     data class SaveVisibleId(val visibleId: String) : InfallibleUiAction()
+
+    /** Ignore the saved reading position, load the page with the newest items */
+    // Resets the account's `lastNotificationId`, which can't fail, which is why this is
+    // infallible. Reloading the data may fail, but that's handled by the paging system /
+    // adapter refresh logic.
+    data object LoadNewest : InfallibleUiAction()
 }
 
 /** Actions the user can trigger on an individual notification. These may fail. */
@@ -134,13 +139,13 @@ sealed class UiSuccess {
     // of these three should trigger the UI to refresh.
 
     /** A user was blocked */
-    object Block : UiSuccess()
+    data object Block : UiSuccess()
 
     /** A user was muted */
-    object Mute : UiSuccess()
+    data object Mute : UiSuccess()
 
     /** A conversation was muted */
-    object MuteConversation : UiSuccess()
+    data object MuteConversation : UiSuccess()
 }
 
 /** The result of a successful action on a notification */
@@ -218,7 +223,7 @@ sealed class StatusActionSuccess(open val action: StatusAction) : UiSuccess() {
 /** Errors from fallible view model actions that the UI will need to show */
 sealed class UiError(
     /** The exception associated with the error */
-    open val exception: Exception,
+    open val throwable: Throwable,
 
     /** String resource with an error message to show the user */
     @StringRes val message: Int,
@@ -226,55 +231,55 @@ sealed class UiError(
     /** The action that failed. Can be resent to retry the action */
     open val action: UiAction? = null
 ) {
-    data class ClearNotifications(override val exception: Exception) : UiError(
-        exception,
+    data class ClearNotifications(override val throwable: Throwable) : UiError(
+        throwable,
         R.string.ui_error_clear_notifications
     )
 
     data class Bookmark(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Bookmark
-    ) : UiError(exception, R.string.ui_error_bookmark, action)
+    ) : UiError(throwable, R.string.ui_error_bookmark, action)
 
     data class Favourite(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Favourite
-    ) : UiError(exception, R.string.ui_error_favourite, action)
+    ) : UiError(throwable, R.string.ui_error_favourite, action)
 
     data class Reblog(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.Reblog
-    ) : UiError(exception, R.string.ui_error_reblog, action)
+    ) : UiError(throwable, R.string.ui_error_reblog, action)
 
     data class VoteInPoll(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: StatusAction.VoteInPoll
-    ) : UiError(exception, R.string.ui_error_vote, action)
+    ) : UiError(throwable, R.string.ui_error_vote, action)
 
     data class AcceptFollowRequest(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: NotificationAction.AcceptFollowRequest
-    ) : UiError(exception, R.string.ui_error_accept_follow_request, action)
+    ) : UiError(throwable, R.string.ui_error_accept_follow_request, action)
 
     data class RejectFollowRequest(
-        override val exception: Exception,
+        override val throwable: Throwable,
         override val action: NotificationAction.RejectFollowRequest
-    ) : UiError(exception, R.string.ui_error_reject_follow_request, action)
+    ) : UiError(throwable, R.string.ui_error_reject_follow_request, action)
 
     companion object {
-        fun make(exception: Exception, action: FallibleUiAction) = when (action) {
-            is StatusAction.Bookmark -> Bookmark(exception, action)
-            is StatusAction.Favourite -> Favourite(exception, action)
-            is StatusAction.Reblog -> Reblog(exception, action)
-            is StatusAction.VoteInPoll -> VoteInPoll(exception, action)
-            is NotificationAction.AcceptFollowRequest -> AcceptFollowRequest(exception, action)
-            is NotificationAction.RejectFollowRequest -> RejectFollowRequest(exception, action)
-            FallibleUiAction.ClearNotifications -> ClearNotifications(exception)
+        fun make(throwable: Throwable, action: FallibleUiAction) = when (action) {
+            is StatusAction.Bookmark -> Bookmark(throwable, action)
+            is StatusAction.Favourite -> Favourite(throwable, action)
+            is StatusAction.Reblog -> Reblog(throwable, action)
+            is StatusAction.VoteInPoll -> VoteInPoll(throwable, action)
+            is NotificationAction.AcceptFollowRequest -> AcceptFollowRequest(throwable, action)
+            is NotificationAction.RejectFollowRequest -> RejectFollowRequest(throwable, action)
+            FallibleUiAction.ClearNotifications -> ClearNotifications(throwable)
         }
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
     private val preferences: SharedPreferences,
@@ -282,6 +287,8 @@ class NotificationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val eventHub: EventHub
 ) : ViewModel() {
+    /** The account to display notifications for */
+    val account = accountManager.activeAccount!!
 
     val uiState: StateFlow<UiState>
 
@@ -293,15 +300,25 @@ class NotificationsViewModel @Inject constructor(
     /** Flow of user actions received from the UI */
     private val uiAction = MutableSharedFlow<UiAction>()
 
+    /** Flow that can be used to trigger a full reload */
+    private val reload = MutableStateFlow(0)
+
     /** Flow of successful action results */
-    // Note: These are a SharedFlow instead of a StateFlow because success or error state does not
-    // need to be retained. A message is shown once to a user and then dismissed. Re-collecting the
-    // flow (e.g., after a device orientation change) should not re-show the most recent success or
-    // error message, as it will be confusing to the user.
+    // Note: This is a SharedFlow instead of a StateFlow because success state does not need to be
+    // retained. A message is shown once to a user and then dismissed. Re-collecting the flow
+    // (e.g., after a device orientation change) should not re-show the most recent success
+    // message, as it will be confusing to the user.
     val uiSuccess = MutableSharedFlow<UiSuccess>()
 
-    /** Flow of transient errors for the UI to present */
-    val uiError = MutableSharedFlow<UiError>()
+    /** Channel for error results */
+    // Errors are sent to a channel to ensure that any errors that occur *before* there are any
+    // subscribers are retained. If this was a SharedFlow any errors would be dropped, and if it
+    // was a StateFlow any errors would be retained, and there would need to be an explicit
+    // mechanism to dismiss them.
+    private val _uiErrorChannel = Channel<UiError>()
+
+    /** Expose UI errors as a flow */
+    val uiError = _uiErrorChannel.receiveAsFlow()
 
     /** Accept UI actions in to actionStateFlow */
     val accept: (UiAction) -> Unit = { action ->
@@ -316,19 +333,29 @@ class NotificationsViewModel @Inject constructor(
             // Save each change back to the active account
             .onEach { action ->
                 Log.d(TAG, "notificationFilter: $action")
-                accountManager.activeAccount?.let { account ->
-                    account.notificationsFilter = serialize(action.filter)
-                    accountManager.saveAccount(account)
-                }
+                account.notificationsFilter = serialize(action.filter)
+                accountManager.saveAccount(account)
             }
             // Load the initial filter from the active account
             .onStart {
                 emit(
                     InfallibleUiAction.ApplyFilter(
-                        filter = deserialize(accountManager.activeAccount?.notificationsFilter)
+                        filter = deserialize(account.notificationsFilter)
                     )
                 )
             }
+
+        // Reset the last notification ID to "0" to fetch the newest notifications, and
+        // increment `reload` to trigger creation of a new PagingSource.
+        viewModelScope.launch {
+            uiAction
+                .filterIsInstance<InfallibleUiAction.LoadNewest>()
+                .collectLatest {
+                    account.lastNotificationId = "0"
+                    accountManager.saveAccount(account)
+                    reload.getAndUpdate { it + 1 }
+                }
+        }
 
         // Save the visible notification ID
         viewModelScope.launch {
@@ -336,11 +363,9 @@ class NotificationsViewModel @Inject constructor(
                 .filterIsInstance<InfallibleUiAction.SaveVisibleId>()
                 .distinctUntilChanged()
                 .collectLatest { action ->
-                    Log.d(TAG, "Saving visible ID: ${action.visibleId}")
-                    accountManager.activeAccount?.let { account ->
-                        account.lastNotificationId = action.visibleId
-                        accountManager.saveAccount(account)
-                    }
+                    Log.d(TAG, "Saving visible ID: ${action.visibleId}, active account = ${account.id}")
+                    account.lastNotificationId = action.visibleId
+                    accountManager.saveAccount(account)
                 }
         }
 
@@ -351,7 +376,7 @@ class NotificationsViewModel @Inject constructor(
         statusDisplayOptions = MutableStateFlow(
             StatusDisplayOptions.from(
                 preferences,
-                accountManager.activeAccount!!
+                account
             )
         )
 
@@ -363,7 +388,7 @@ class NotificationsViewModel @Inject constructor(
                     statusDisplayOptions.value.make(
                         preferences,
                         it.preferenceKey,
-                        accountManager.activeAccount!!
+                        account
                     )
                 }
                 .collect {
@@ -380,11 +405,11 @@ class NotificationsViewModel @Inject constructor(
                             if (this.isSuccessful) {
                                 repository.invalidate()
                             } else {
-                                uiError.emit(UiError.make(HttpException(this), it))
+                                _uiErrorChannel.send(UiError.make(HttpException(this), it))
                             }
                         }
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, it)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, it)) }
                     }
                 }
         }
@@ -392,7 +417,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle NotificationAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<NotificationAction>()
-                .debounce(DEBOUNCE_TIMEOUT_MS)
+                .throttleFirst(THROTTLE_TIMEOUT)
                 .collect { action ->
                     try {
                         when (action) {
@@ -403,7 +428,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                        ifExpected(e) { _uiErrorChannel.send(UiError.make(e, action)) }
                     }
                 }
         }
@@ -411,7 +436,7 @@ class NotificationsViewModel @Inject constructor(
         // Handle StatusAction.*
         viewModelScope.launch {
             uiAction.filterIsInstance<StatusAction>()
-                .debounce(DEBOUNCE_TIMEOUT_MS) // avoid double-taps
+                .throttleFirst(THROTTLE_TIMEOUT) // avoid double-taps
                 .collect { action ->
                     try {
                         when (action) {
@@ -436,10 +461,10 @@ class NotificationsViewModel @Inject constructor(
                                     action.poll.id,
                                     action.choices
                                 )
-                        }
+                        }.getOrThrow()
                         uiSuccess.emit(StatusActionSuccess.from(action))
-                    } catch (e: Exception) {
-                        ifExpected(e) { uiError.emit(UiError.make(e, action)) }
+                    } catch (t: Throwable) {
+                        _uiErrorChannel.send(UiError.make(t, action))
                     }
                 }
         }
@@ -455,24 +480,16 @@ class NotificationsViewModel @Inject constructor(
             }
         }
 
-        // The database stores "0" as the last notification ID if notifications have not been
-        // fetched. Convert to null to ensure a full fetch in this case
-        val lastNotificationId = when (val id = accountManager.activeAccount?.lastNotificationId) {
-            "0" -> null
-            else -> id
-        }
-        Log.d(TAG, "Restoring at $lastNotificationId")
-
-        pagingData = notificationFilter
+        // Re-fetch notifications if either of `notificationFilter` or `reload` flows have
+        // new items.
+        pagingData = combine(notificationFilter, reload) { action, _ -> action }
             .flatMapLatest { action ->
-                getNotifications(filters = action.filter, initialKey = lastNotificationId)
-            }
-            .cachedIn(viewModelScope)
+                getNotifications(filters = action.filter, initialKey = getInitialKey())
+            }.cachedIn(viewModelScope)
 
         uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
-                showFilterOptions = prefs.showFilter,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
@@ -499,6 +516,17 @@ class NotificationsViewModel @Inject constructor(
             }
     }
 
+    // The database stores "0" as the last notification ID if notifications have not been
+    // fetched. Convert to null to ensure a full fetch in this case
+    private fun getInitialKey(): String? {
+        val initialKey = when (val id = account.lastNotificationId) {
+            "0" -> null
+            else -> id
+        }
+        Log.d(TAG, "Restoring at $initialKey")
+        return initialKey
+    }
+
     /**
      * @return Flow of relevant preferences that change the UI
      */
@@ -510,12 +538,11 @@ class NotificationsViewModel @Inject constructor(
         .onStart { emit(toPrefs()) }
 
     private fun toPrefs() = UiPrefs(
-        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
-        showFilter = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
+        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false)
     )
 
     companion object {
         private const val TAG = "NotificationsViewModel"
-        private const val DEBOUNCE_TIMEOUT_MS = 500L
+        private val THROTTLE_TIMEOUT = 500.milliseconds
     }
 }

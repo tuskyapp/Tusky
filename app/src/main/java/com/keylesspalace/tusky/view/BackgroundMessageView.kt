@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import androidx.annotation.StringRes
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ViewBackgroundMessageBinding
 import com.keylesspalace.tusky.util.addDrawables
+import com.keylesspalace.tusky.util.getDrawableRes
+import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.visible
 
 /**
@@ -30,9 +33,19 @@ class BackgroundMessageView @JvmOverloads constructor(
         orientation = VERTICAL
 
         if (isInEditMode) {
-            setup(R.drawable.elephant_offline, R.string.error_network) {}
+            setup(R.drawable.errorphant_offline, R.string.error_network) {}
         }
     }
+
+    fun setup(throwable: Throwable, listener: ((v: View) -> Unit)? = null) {
+        setup(throwable.getDrawableRes(), throwable.getErrorString(context), listener)
+    }
+
+    fun setup(
+        @DrawableRes imageRes: Int,
+        @StringRes messageRes: Int,
+        clickListener: ((v: View) -> Unit)? = null
+    ) = setup(imageRes, context.getString(messageRes), clickListener)
 
     /**
      * Setup image, message and button.
@@ -40,10 +53,11 @@ class BackgroundMessageView @JvmOverloads constructor(
      */
     fun setup(
         @DrawableRes imageRes: Int,
-        @StringRes messageRes: Int,
+        message: String,
         clickListener: ((v: View) -> Unit)? = null
     ) {
-        binding.messageTextView.setText(messageRes)
+        binding.messageTextView.text = message
+        binding.messageTextView.movementMethod = LinkMovementMethod.getInstance()
         binding.imageView.setImageResource(imageRes)
         binding.button.setOnClickListener(clickListener)
         binding.button.visible(clickListener != null)

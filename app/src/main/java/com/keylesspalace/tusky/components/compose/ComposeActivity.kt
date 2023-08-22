@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
-import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
@@ -53,7 +52,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.IntentCompat
 import androidx.core.content.res.use
+import androidx.core.os.BundleCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -76,6 +77,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
+import com.keylesspalace.tusky.components.compose.ComposeViewModel.ConfirmationKind
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
@@ -142,6 +144,9 @@ class ComposeActivity :
     private lateinit var emojiBehavior: BottomSheetBehavior<*>
     private lateinit var scheduleBehavior: BottomSheetBehavior<*>
 
+    /** The account that is being used to compose the status */
+    private lateinit var activeAccount: AccountEntity
+
     private var photoUploadUri: Uri? = null
 
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -201,17 +206,7 @@ class ComposeActivity :
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
-        if (notificationId != -1) {
-            // ComposeActivity was opened from a notification, delete the notification
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.cancel(notificationId)
-        }
-
-        val accountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
-        if (accountId != -1L) {
-            accountManager.setActiveAccount(accountId)
-        }
+        activeAccount = accountManager.activeAccount ?: return
 
         val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
         if (theme == "black") {
@@ -220,8 +215,6 @@ class ComposeActivity :
         setContentView(binding.root)
 
         setupActionBar()
-        // do not do anything when not logged in, activity will be finished in super.onCreate() anyway
-        val activeAccount = accountManager.activeAccount ?: return
 
         setupAvatar(activeAccount)
         val mediaAdapter = MediaPreviewAdapter(
@@ -245,7 +238,7 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val composeOptions: ComposeOptions? = intent.getParcelableExtra(COMPOSE_OPTIONS_EXTRA)
+        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(intent, COMPOSE_OPTIONS_EXTRA, ComposeOptions::class.java)
         viewModel.setup(composeOptions)
 
         setupButtons()
@@ -271,7 +264,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, accountManager.activeAccount))
+        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -279,7 +272,7 @@ class ComposeActivity :
 
         /* Finally, overwrite state with data from saved instance state. */
         savedInstanceState?.let {
-            photoUploadUri = it.getParcelable(PHOTO_UPLOAD_URI_KEY)
+            photoUploadUri = BundleCompat.getParcelable(it, PHOTO_UPLOAD_URI_KEY, Uri::class.java)
 
             (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
                 setStatusVisibility(this)
@@ -308,12 +301,12 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
+                            IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.forEach { uri ->
+                            IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
@@ -476,7 +469,12 @@ class ComposeActivity :
                 if (throwable is UploadServerError) {
                     displayTransientMessage(throwable.errorMessage)
                 } else {
-                    displayTransientMessage(R.string.error_media_upload_sending)
+                    displayTransientMessage(
+                        getString(
+                            R.string.error_media_upload_sending_fmt,
+                            throwable.message
+                        )
+                    )
                 }
             }
         }
@@ -934,7 +932,10 @@ class ComposeActivity :
             val split = contentInfo.partition { item: ClipData.Item -> item.uri != null }
             split.first?.let { content ->
                 for (i in 0 until content.clip.itemCount) {
-                    pickMedia(content.clip.getItemAt(i).uri)
+                    pickMedia(
+                        content.clip.getItemAt(i).uri,
+                        contentInfo.clip.description.label as String?
+                    )
                 }
             }
             return split.second
@@ -955,7 +956,7 @@ class ComposeActivity :
             enableButtons(true, viewModel.editing)
         } else if (characterCount <= maximumTootCharacters) {
             lifecycleScope.launch {
-                viewModel.sendStatus(contentText, spoilerText)
+                viewModel.sendStatus(contentText, spoilerText, activeAccount.id)
                 deleteDraftAndFinish()
             }
         } else {
@@ -1055,9 +1056,9 @@ class ComposeActivity :
         viewModel.removeMediaFromQueue(item)
     }
 
-    private fun pickMedia(uri: Uri) {
+    private fun pickMedia(uri: Uri, description: String? = null) {
         lifecycleScope.launch {
-            viewModel.pickMedia(uri).onFailure { throwable ->
+            viewModel.pickMedia(uri, description).onFailure { throwable ->
                 val errorString = when (throwable) {
                     is FileSizeException -> {
                         val decimalFormat = DecimalFormat("0.##")
@@ -1118,16 +1119,19 @@ class ComposeActivity :
     private fun handleCloseButton() {
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
-        if (viewModel.didChange(contentText, contentWarning)) {
-            when (viewModel.composeKind) {
-                ComposeKind.NEW -> getSaveAsDraftOrDiscardDialog(contentText, contentWarning)
-                ComposeKind.EDIT_DRAFT -> getUpdateDraftOrDiscardDialog(contentText, contentWarning)
-                ComposeKind.EDIT_POSTED -> getContinueEditingOrDiscardDialog()
-                ComposeKind.EDIT_SCHEDULED -> getContinueEditingOrDiscardDialog()
-            }.show()
-        } else {
-            viewModel.stopUploads()
-            finishWithoutSlideOutAnimation()
+        when (viewModel.handleCloseButton(contentText, contentWarning)) {
+            ConfirmationKind.NONE -> {
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+            ConfirmationKind.SAVE_OR_DISCARD ->
+                getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
+            ConfirmationKind.UPDATE_OR_DISCARD ->
+                getUpdateDraftOrDiscardDialog(contentText, contentWarning).show()
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES ->
+                getContinueEditingOrDiscardDialog().show()
+            ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT ->
+                getDeleteEmptyDraftOrContinueEditing().show()
         }
     }
 
@@ -1189,6 +1193,23 @@ class ComposeActivity :
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
                 finishWithoutSlideOutAnimation()
+            }
+    }
+
+    /**
+     * User is editing an existing draft and making it empty.
+     * The user can either delete the empty draft or go back to editing.
+     */
+    private fun getDeleteEmptyDraftOrContinueEditing(): AlertDialog.Builder {
+        return AlertDialog.Builder(this)
+            .setMessage(R.string.compose_delete_draft)
+            .setPositiveButton(R.string.action_delete) { _, _ ->
+                viewModel.deleteDraft()
+                viewModel.stopUploads()
+                finishWithoutSlideOutAnimation()
+            }
+            .setNegativeButton(R.string.action_continue_edit) { _, _ ->
+                // Do nothing, dialog will dismiss, user can continue editing
             }
     }
 
@@ -1318,8 +1339,6 @@ class ComposeActivity :
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
-        private const val NOTIFICATION_ID_EXTRA = "NOTIFICATION_ID"
-        private const val ACCOUNT_ID_EXTRA = "ACCOUNT_ID"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
         private const val VISIBILITY_KEY = "VISIBILITY"
         private const val SCHEDULED_TIME_KEY = "SCHEDULE"
@@ -1327,26 +1346,15 @@ class ComposeActivity :
 
         /**
          * @param options ComposeOptions to configure the ComposeActivity
-         * @param notificationId the id of the notification that starts the Activity
-         * @param accountId the id of the account to compose with, null for the current account
          * @return an Intent to start the ComposeActivity
          */
         @JvmStatic
-        @JvmOverloads
         fun startIntent(
             context: Context,
-            options: ComposeOptions,
-            notificationId: Int? = null,
-            accountId: Long? = null
+            options: ComposeOptions
         ): Intent {
             return Intent(context, ComposeActivity::class.java).apply {
                 putExtra(COMPOSE_OPTIONS_EXTRA, options)
-                if (notificationId != null) {
-                    putExtra(NOTIFICATION_ID_EXTRA, notificationId)
-                }
-                if (accountId != null) {
-                    putExtra(ACCOUNT_ID_EXTRA, accountId)
-                }
             }
         }
 

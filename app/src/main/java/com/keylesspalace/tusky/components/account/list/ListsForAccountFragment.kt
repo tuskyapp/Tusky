@@ -40,7 +40,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class ListsForAccountFragment : DialogFragment(), Injectable {
@@ -103,16 +102,7 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
                 binding.listsView.hide()
                 binding.messageView.apply {
                     show()
-
-                    if (error is IOException) {
-                        setup(R.drawable.elephant_offline, R.string.error_network) {
-                            load()
-                        }
-                    } else {
-                        setup(R.drawable.elephant_error, R.string.error_generic) {
-                            load()
-                        }
-                    }
+                    setup(error) { load() }
                 }
             }
         }
