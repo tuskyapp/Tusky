@@ -421,7 +421,6 @@
     <string name="report_description_remote_instance">该账户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜索失败</string>
-    <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
     <string name="create_poll_title">投票</string>
     <string name="duration_5_min">5 分钟</string>
     <string name="duration_30_min">30 分钟</string>

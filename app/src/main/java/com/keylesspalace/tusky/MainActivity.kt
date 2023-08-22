@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
@@ -34,6 +35,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -46,6 +48,8 @@ import androidx.core.content.IntentCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -102,7 +106,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateShortcut
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -177,6 +180,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -253,7 +257,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
-        setSupportActionBar(binding.mainToolbar)
 
         glide = Glide.with(this)
 
@@ -262,8 +265,21 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             startActivity(composeIntent)
         }
 
+        // Determine which of the three toolbars should be the supportActionBar (which hosts
+        // the options menu).
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
-        binding.mainToolbar.visible(!hideTopToolbar)
+        if (hideTopToolbar) {
+            when (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top")) {
+                "top" -> setSupportActionBar(binding.topNav)
+                "bottom" -> setSupportActionBar(binding.bottomNav)
+            }
+            binding.mainToolbar.hide()
+            // There's not enough space in the top/bottom bars to show the title as well.
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        } else {
+            setSupportActionBar(binding.mainToolbar)
+            binding.mainToolbar.show()
+        }
 
         loadDrawerAvatar(activeAccount.profilePictureUrl, true)
 
@@ -359,6 +375,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 colorInt = MaterialColors.getColor(binding.mainToolbar, android.R.attr.textColorPrimary)
             }
         }
+    }
+
+    override fun onPrepareMenu(menu: Menu) {
+        super.onPrepareMenu(menu)
+
+        // If the main toolbar is hidden then there's no space in the top/bottomNav to show
+        // the menu items as icons, so forceably disable them
+        if (!binding.mainToolbar.isVisible) menu.forEach { it.setShowAsAction(SHOW_AS_ACTION_NEVER) }
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -458,8 +482,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
         binding.mainToolbar.setNavigationOnClickListener(drawerOpenClickListener)
-        binding.topNavAvatar.setOnClickListener(drawerOpenClickListener)
-        binding.bottomNavAvatar.setOnClickListener(drawerOpenClickListener)
+        binding.topNav.setNavigationOnClickListener(drawerOpenClickListener)
+        binding.bottomNav.setNavigationOnClickListener(drawerOpenClickListener)
 
         header = AccountHeaderView(this).apply {
             headerBackgroundScaleType = ImageView.ScaleType.CENTER_CROP
@@ -894,112 +918,75 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
 
-        if (hideTopToolbar) {
+        val activeToolbar = if (hideTopToolbar) {
             val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
-
-            val avatarView = if (navOnBottom) {
-                binding.bottomNavAvatar.show()
-                binding.bottomNavAvatar
+            if (navOnBottom) {
+                binding.bottomNav
             } else {
-                binding.topNavAvatar.show()
-                binding.topNavAvatar
-            }
-
-            if (animateAvatars) {
-                Glide.with(this)
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarView)
-            } else {
-                Glide.with(this)
-                    .asBitmap()
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .into(avatarView)
+                binding.topNav
             }
         } else {
-            binding.bottomNavAvatar.hide()
-            binding.topNavAvatar.hide()
+            binding.mainToolbar
+        }
 
-            val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
+        val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
-            if (animateAvatars) {
-                glide.asDrawable()
-                    .load(avatarUrl)
-                    .transform(
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                    )
-                    .apply {
-                        if (showPlaceholder) {
-                            placeholder(R.drawable.avatar_default)
+        if (animateAvatars) {
+            glide.asDrawable().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .apply {
+                    if (showPlaceholder) placeholder(R.drawable.avatar_default)
+                }
+                .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
+
+                    override fun onLoadStarted(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
                     }
-                    .into(object : CustomTarget<Drawable>(navIconSize, navIconSize) {
 
-                        override fun onLoadStarted(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
-                        }
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        if (resource is Animatable) resource.start()
+                        activeToolbar.navigationIcon = FixedSizeDrawable(resource, navIconSize, navIconSize)
+                    }
 
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            if (resource is Animatable) {
-                                resource.start()
-                            }
-                            binding.mainToolbar.navigationIcon =
-                                FixedSizeDrawable(resource, navIconSize, navIconSize)
-                        }
-
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
-                        }
-                    })
-            } else {
-                glide.asBitmap()
-                    .load(avatarUrl)
-                    .transform(
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
-                    )
-                    .apply {
-                        if (showPlaceholder) {
-                            placeholder(R.drawable.avatar_default)
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
                     }
-                    .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
-
-                        override fun onLoadStarted(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
+                })
+        } else {
+            glide.asBitmap().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .apply {
+                    if (showPlaceholder) placeholder(R.drawable.avatar_default)
+                }
+                .into(object : CustomTarget<Bitmap>(navIconSize, navIconSize) {
+                    override fun onLoadStarted(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
+                    }
 
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            binding.mainToolbar.navigationIcon = FixedSizeDrawable(
-                                BitmapDrawable(resources, resource),
-                                navIconSize,
-                                navIconSize
-                            )
-                        }
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        activeToolbar.navigationIcon = FixedSizeDrawable(
+                            BitmapDrawable(resources, resource),
+                            navIconSize,
+                            navIconSize
+                        )
+                    }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            if (placeholder != null) {
-                                binding.mainToolbar.navigationIcon =
-                                    FixedSizeDrawable(placeholder, navIconSize, navIconSize)
-                            }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        placeholder?.let {
+                            activeToolbar.navigationIcon = FixedSizeDrawable(it, navIconSize, navIconSize)
                         }
-                    })
-            }
+                    }
+                })
         }
     }
 
