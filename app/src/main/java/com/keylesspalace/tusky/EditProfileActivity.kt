@@ -206,19 +206,18 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         val onBackCallback = object : OnBackPressedCallback(enabled = true) {
-            override fun handleOnBackPressed() {
-                if (!viewModel.hasUnsavedChanges(profileData)) finish()
-
-                lifecycleScope.launch {
-                    when (showConfirmationDialog()) {
-                        AlertDialog.BUTTON_POSITIVE -> save()
-                        else -> finish()
-                    }
-                }
-            }
+            override fun handleOnBackPressed() = checkForPotentialUnsavedChanges()
         }
 
         onBackPressedDispatcher.addCallback(this, onBackCallback)
+    }
+
+    fun checkForPotentialUnsavedChanges() {
+        if (hasUnsavedChanges()) {
+            showUnsavedChangesDialog()
+        } else {
+            finish()
+        }
     }
 
     override fun onStop() {
@@ -228,7 +227,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    internal val profileData
+    private val profileData
         get() = ProfileData(
             displayName = binding.displayNameEditText.text.toString(),
             note = binding.noteEditText.text.toString(),
@@ -322,7 +321,16 @@ class EditProfileActivity : BaseActivity(), Injectable {
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
     }
 
-    private suspend fun showConfirmationDialog() = AlertDialog.Builder(this)
+    private fun showUnsavedChangesDialog() = lifecycleScope.launch {
+        when (launchAlertDialog()) {
+            AlertDialog.BUTTON_POSITIVE -> save()
+            else -> finish()
+        }
+    }
+
+    private fun hasUnsavedChanges() = viewModel.hasUnsavedChanges(profileData)
+
+    private suspend fun launchAlertDialog() = AlertDialog.Builder(this)
         .setTitle(getString(R.string.title_edit_profile_save_changes_prompt))
         .setMessage(getString(R.string.message_edit_profile_save_changes_prompt))
         .create()
