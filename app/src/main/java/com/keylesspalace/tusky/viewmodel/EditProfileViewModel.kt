@@ -76,7 +76,7 @@ class EditProfileViewModel @Inject constructor(
     val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
-    private var oldProfileData: Account? = null
+    private var apiProfileAccount: Account? = null
 
     fun obtainProfile() = viewModelScope.launch {
         if (profileData.value == null || profileData.value is Error) {
@@ -84,7 +84,7 @@ class EditProfileViewModel @Inject constructor(
 
             mastodonApi.accountVerifyCredentials().fold(
                 { profile ->
-                    oldProfileData = profile
+                    apiProfileAccount = profile
                     profileData.postValue(Success(profile))
                 },
                 {
@@ -113,21 +113,21 @@ class EditProfileViewModel @Inject constructor(
 
         saveData.value = Loading()
 
-        val encoded = encodeChangedProfileFields(newProfileData)
-        if (encoded.allFieldsAreNull()) {
-            // if nothing has changed, there is no need to make a network request
+        val diff = getProfileDiff(apiProfileAccount, newProfileData)
+        if (diff.hasNoChanges()) {
+            // if nothing has changed, there is no need to make an api call
             saveData.postValue(Success())
             return
         }
 
         viewModelScope.launch {
             mastodonApi.accountUpdateCredentials(
-                encoded.displayName, encoded.note, encoded.locked, encoded.avatar, encoded.header,
-                encoded.field1?.first, encoded.field1?.second, encoded.field2?.first, encoded.field2?.second, encoded.field3?.first, encoded.field3?.second, encoded.field4?.first, encoded.field4?.second
+                diff.displayName, diff.note, diff.locked, diff.avatar, diff.header,
+                diff.field1?.first, diff.field1?.second, diff.field2?.first, diff.field2?.second, diff.field3?.first, diff.field3?.second, diff.field4?.first, diff.field4?.second
             ).fold(
-                { newProfileData ->
+                { newAccountData ->
                     saveData.postValue(Success())
-                    eventHub.dispatch(ProfileEditedEvent(newProfileData))
+                    eventHub.dispatch(ProfileEditedEvent(newAccountData))
                 },
                 { throwable ->
                     saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
@@ -151,25 +151,25 @@ class EditProfileViewModel @Inject constructor(
     }
 
     internal fun hasUnsavedChanges(newProfileData: ProfileData): Boolean {
-        val encoded = encodeChangedProfileFields(newProfileData)
+        val diff = getProfileDiff(apiProfileAccount, newProfileData)
         // If all fields are null, there are no changes.
-        return !encoded.allFieldsAreNull()
+        return !diff.hasNoChanges()
     }
 
-    private fun encodeChangedProfileFields(newProfileData: ProfileData): EncodedProfileData {
-        val displayName = if (oldProfileData?.displayName == newProfileData.displayName) {
+    private fun getProfileDiff(oldProfileAccount: Account?, newProfileData: ProfileData): DiffProfileData {
+        val displayName = if (oldProfileAccount?.displayName == newProfileData.displayName) {
             null
         } else {
             newProfileData.displayName.toRequestBody(MultipartBody.FORM)
         }
 
-        val note = if (oldProfileData?.source?.note == newProfileData.note) {
+        val note = if (oldProfileAccount?.source?.note == newProfileData.note) {
             null
         } else {
             newProfileData.note.toRequestBody(MultipartBody.FORM)
         }
 
-        val locked = if (oldProfileData?.locked == newProfileData.locked) {
+        val locked = if (oldProfileAccount?.locked == newProfileData.locked) {
             null
         } else {
             newProfileData.locked.toString().toRequestBody(MultipartBody.FORM)
@@ -190,13 +190,13 @@ class EditProfileViewModel @Inject constructor(
         }
 
         // when one field changed, all have to be sent or they unchanged ones would get overridden
-        val fieldsUnchanged = oldProfileData?.source?.fields == newProfileData.fields
+        val fieldsUnchanged = oldProfileAccount?.source?.fields == newProfileData.fields
         val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), fieldsUnchanged)
         val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), fieldsUnchanged)
         val field3 = calculateFieldToUpdate(newProfileData.fields.getOrNull(2), fieldsUnchanged)
         val field4 = calculateFieldToUpdate(newProfileData.fields.getOrNull(3), fieldsUnchanged)
 
-        return EncodedProfileData(
+        return DiffProfileData(
             displayName, note, locked, field1, field2, field3, field4, header, avatar
         )
     }
@@ -215,7 +215,7 @@ class EditProfileViewModel @Inject constructor(
         return File(application.cacheDir, filename)
     }
 
-    private data class EncodedProfileData(
+    private data class DiffProfileData(
         val displayName: RequestBody?,
         val note: RequestBody?,
         val locked: RequestBody?,
@@ -226,7 +226,7 @@ class EditProfileViewModel @Inject constructor(
         val header: MultipartBody.Part?,
         val avatar: MultipartBody.Part?
     ) {
-        fun allFieldsAreNull() = displayName == null && note == null && locked == null &&
+        fun hasNoChanges() = displayName == null && note == null && locked == null &&
             avatar == null && header == null && field1 == null && field2 == null &&
             field3 == null && field4 == null
     }
