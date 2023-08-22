@@ -214,17 +214,20 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         val onBackCallback = object : OnBackPressedCallback(enabled = true) {
-            override fun handleOnBackPressed() {
-                if (viewModel.hasUnsavedChanges(currentProfileData)) {
-                    showUnsavedChangesDialog()
-                } else {
-                    finish()
-                }
-            }
+            override fun handleOnBackPressed() = checkForUnsavedChanges()
         }
 
         onBackPressedDispatcher.addCallback(this, onBackCallback)
     }
+
+    fun checkForUnsavedChanges() {
+        if (viewModel.hasUnsavedChanges(currentProfileData)) {
+            showUnsavedChangesDialog()
+        } else {
+            finish()
+        }
+    }
+
 
     override fun onStop() {
         super.onStop()
