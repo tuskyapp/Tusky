@@ -48,7 +48,6 @@
     <string name="hint_display_name">දර්ශන නාමය</string>
     <string name="post_text_size_medium">මධ්‍යම</string>
     <string name="post_media_audio">ශ්‍රව්‍ය</string>
-    <string name="pref_title_show_notifications_filter">දැනුම්දීම් පෙරහන පෙන්වන්න</string>
     <string name="abbreviated_days_ago">දව. %d</string>
     <string name="action_logout">නික්මෙන්න</string>
     <string name="filter_edit_title">පෙරහන සංස්කරණය</string>

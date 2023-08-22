@@ -157,7 +157,7 @@ class PageCache : TreeMap<String, Page>(compareBy({ it.length }, { it })) {
      * Logs the current state of the cache
      */
     fun debug() {
-        if (BuildConfig.DEBUG) {  // Makes it easier for Proguard to optimise this out
+        if (BuildConfig.DEBUG) { // Makes it easier for Proguard to optimise this out
             Log.d(TAG, "Page cache state:")
             if (this.isEmpty()) {
                 Log.d(TAG, "  ** empty **")

@@ -410,7 +410,6 @@
     <string name="confirmation_domain_unmuted">%s es pas mai rescondut</string>
     <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
-    <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar las publicacions marcadas amb un avertiment de contengut</string>

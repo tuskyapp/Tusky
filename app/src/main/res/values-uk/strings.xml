@@ -472,7 +472,6 @@
     <string name="no_drafts">У вас немає чернеток.</string>
     <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
-    <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати анонімізовану копію звіту й туди\?</string>
     <string name="report_description_1">Скаргу буде надіслано вашому модератору сервера. Ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис знизу:</string>

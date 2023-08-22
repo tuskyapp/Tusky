@@ -41,7 +41,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023042601
+const val SCHEMA_VERSION = 2023082201
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
@@ -53,9 +53,6 @@ object PrefKeys {
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
-
-    /** Deprecated reading order preference key */
-    const val DEPRECATED_READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"
     const val HIDE_TOP_TOOLBAR = "hideTopToolbar"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"
@@ -63,7 +60,6 @@ object PrefKeys {
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
-    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
@@ -106,4 +102,10 @@ object PrefKeys {
 
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
+
+    /** Keys that are no longer used (e.g., the preference has been removed */
+    object Deprecated {
+        const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
+        const val READING_ORDER = "readingOrder"
+    }
 }

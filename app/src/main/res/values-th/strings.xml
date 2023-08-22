@@ -10,7 +10,6 @@
     <string name="duration_5_min">5 นาที</string>
     <string name="create_poll_title">โพล</string>
     <string name="pref_title_enable_swipe_for_tabs">เปิดใช้งานการเลื่อนนิ้วเพื่อสลับระหว่างแท็บ</string>
-    <string name="pref_title_show_notifications_filter">แสดงตัวกรองการแจ้งเตือน</string>
     <string name="failed_search">ค้นหาล้มเหลว</string>
     <string name="title_accounts">บัญชี</string>
     <string name="report_description_remote_instance">บัญชีนี้มาจากเซิร์ฟเวอร์อื่น ส่งสำเนารายงานที่ไม่ระบุชื่อไปที่นั่นด้วยหรือไม่\?</string>
