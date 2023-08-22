@@ -228,7 +228,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    private val profileData
+    internal val profileData
         get() = ProfileData(
             displayName = binding.displayNameEditText.text.toString(),
             note = binding.noteEditText.text.toString(),
