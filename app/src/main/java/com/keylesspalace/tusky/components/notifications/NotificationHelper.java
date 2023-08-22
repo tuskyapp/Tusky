@@ -238,7 +238,7 @@ public class NotificationHelper {
         Bundle extras = new Bundle();
         // Add the sending account's name, so it can be used when summarising this notification
         extras.putString(EXTRA_ACCOUNT_NAME, body.getAccount().getName());
-        extras.putString(EXTRA_NOTIFICATION_TYPE, body.getType().toString());
+        extras.putSerializable(EXTRA_NOTIFICATION_TYPE, body.getType());
         builder.addExtras(extras);
 
         // Only alert for the first notification of a batch to avoid multiple alerts at once
