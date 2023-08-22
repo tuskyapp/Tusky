@@ -290,10 +290,7 @@ abstract class SFragment : Fragment(), Injectable {
                 }
                 R.id.status_translate -> {
                     lifecycleScope.launch {
-                        if (status.translationResult == null) {
-                            timelineCases.translate(status.actionableId)
-                        } else
-                            timelineCases.dispatchNullTranslation(status.actionableId)
+                        timelineCases.translate(status.actionableId, status.translationResult == null)
                     }
                     return@setOnMenuItemClickListener true
                 }

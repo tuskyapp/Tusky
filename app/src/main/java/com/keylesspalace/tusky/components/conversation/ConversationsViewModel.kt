@@ -89,14 +89,12 @@ class ConversationsViewModel @Inject constructor(
         }
     }
 
-    fun translate(alreadyTranslated: Boolean, conversation: ConversationViewData) {
+    fun translate(translate: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             try {
-                val translationResult = if (alreadyTranslated) {
-                    timelineCases.dispatchNullTranslation(conversation.lastStatus.actionableId)
-                    null
-                } else
-                    timelineCases.translate(conversation.lastStatus.actionableId)
+                val translationResult = timelineCases.translate(
+                    conversation.lastStatus.actionableId, translate
+                )
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,

@@ -61,14 +61,14 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    suspend fun translate(statusId: String): TranslationResult {
-        val translation = mastodonApi.translateStatus(statusId).await()
+    suspend fun translate(statusId: String, translate: Boolean): TranslationResult?  {
+        val translation = if (translate) {
+            mastodonApi.translateStatus(statusId).await()
+        } else {
+            null
+        }
         eventHub.dispatch(TranslationEvent(statusId, translation))
         return translation
-    }
-
-    suspend fun dispatchNullTranslation(statusId: String) {
-        eventHub.dispatch(TranslationEvent(statusId, null))
     }
 
     suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {

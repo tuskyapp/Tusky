@@ -27,7 +27,7 @@ public interface StatusActionListener extends LinkListener {
     void onReblog(final boolean reblog, final int position);
     void onFavourite(final boolean favourite, final int position);
     void onBookmark(final boolean bookmark, final int position);
-    void onTranslate(final boolean alreadyTranslated, final int position);
+    void onTranslate(final boolean translate, final int position);
     void onMore(@NonNull View view, final int position);
     void onViewMedia(int position, int attachmentIndex, @Nullable View view);
     void onViewThread(int position);
@@ -65,7 +65,7 @@ public interface StatusActionListener extends LinkListener {
     void onVoteInPoll(int position, @NonNull List<Integer> choices);
 
     default void onShowEdits(int position) {}
-    
+
     void clearWarningAction(int position);
 
 }

@@ -122,9 +122,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
+    override fun onTranslate(translate: Boolean, position: Int) {
         searchAdapter.peek(position)?.let { status ->
-            viewModel.translate(status, alreadyTranslated)
+            viewModel.translate(status, translate)
         }
     }
 

@@ -159,13 +159,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun translate(statusViewData: StatusViewData.Concrete, alreadyTranslated: Boolean) {
-        if (alreadyTranslated)
-            updateStatus(statusViewData.status.copy(translationResult = null))
+    fun translate(statusViewData: StatusViewData.Concrete, translate: Boolean) {
         viewModelScope.launch {
-            if (alreadyTranslated)
-                timelineCases.dispatchNullTranslation(statusViewData.actionableId)
-            updateStatus(statusViewData.status.copy(translationResult = timelineCases.translate(statusViewData.actionableId)))
+            val translation = timelineCases.translate(statusViewData.actionableId, translate)
+            updateStatus(statusViewData.status.copy(translationResult = translation))
         }
     }
 

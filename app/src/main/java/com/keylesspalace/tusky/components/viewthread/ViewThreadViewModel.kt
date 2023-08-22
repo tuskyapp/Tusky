@@ -203,12 +203,9 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun translate(alreadyTranslated: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun translate(translate: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            if (alreadyTranslated)
-                timelineCases.dispatchNullTranslation(status.actionableId)
-            else
-                timelineCases.translate(status.actionableId)
+            timelineCases.translate(status.actionableId, translate)
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)

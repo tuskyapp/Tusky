@@ -263,9 +263,9 @@ class ConversationsFragment :
         }
     }
 
-    override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
+    override fun onTranslate(translate: Boolean, position: Int) {
         adapter.peek(position)?.let { conversation ->
-            viewModel.translate(alreadyTranslated, conversation)
+            viewModel.translate(translate, conversation)
         }
     }
 

@@ -137,16 +137,12 @@ abstract class TimelineViewModel(
         }
     }
 
-    fun translate(alreadyTranslated: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        if (alreadyTranslated) {
-            timelineCases.dispatchNullTranslation(status.actionableId)
-        } else {
-            try {
-                timelineCases.translate(status.actionableId)
-            } catch (t: Exception) {
-                ifExpected(t) {
-                    Log.d(TAG, "Failed to translate status " + status.actionableId, t)
-                }
+    fun translate(translate: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        try {
+            timelineCases.translate(status.actionableId, translate)
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to translate status " + status.actionableId, t)
             }
         }
     }

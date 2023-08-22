@@ -330,9 +330,9 @@ class ViewThreadFragment :
         viewModel.bookmark(bookmark, status)
     }
 
-    override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
+    override fun onTranslate(translate: Boolean, position: Int) {
         val status = adapter.currentList[position]
-        viewModel.translate(alreadyTranslated, status)
+        viewModel.translate(translate, status)
     }
 
     override fun onMore(view: View, position: Int) {

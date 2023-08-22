@@ -501,8 +501,8 @@ class NotificationsFragment :
         viewModel.accept(StatusAction.Bookmark(bookmark, statusViewData))
     }
 
-    override fun onTranslate(alreadyTranslated: Boolean, position: Int) {
-        return
+    override fun onTranslate(translate: Boolean, position: Int) {
+        return // TODO
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {

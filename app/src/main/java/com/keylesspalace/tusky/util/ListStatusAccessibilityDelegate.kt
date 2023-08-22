@@ -110,8 +110,8 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_unfavourite -> statusActionListener.onFavourite(false, pos)
                 R.id.action_bookmark -> statusActionListener.onBookmark(true, pos)
                 R.id.action_unbookmark -> statusActionListener.onBookmark(false, pos)
-                R.id.action_translate -> statusActionListener.onTranslate(false, pos)
-                R.id.action_untranslate -> statusActionListener.onTranslate(true, pos)
+                R.id.action_translate -> statusActionListener.onTranslate(true, pos)
+                R.id.action_untranslate -> statusActionListener.onTranslate(false, pos)
                 R.id.action_reblog -> statusActionListener.onReblog(true, pos)
                 R.id.action_unreblog -> statusActionListener.onReblog(false, pos)
                 R.id.action_open_profile -> {
