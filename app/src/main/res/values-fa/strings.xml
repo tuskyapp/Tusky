@@ -683,4 +683,6 @@
     <string name="about_copied">اطّلاعات افزاره و نگارش رونوشت شد</string>
     <string name="list_exclusive_label">نهفتن از خط زمانی خانگی</string>
     <string name="error_media_playback">پخش شکست خورد: %s</string>
+    <string name="dialog_delete_filter_positive_action">حذف</string>
+    <string name="dialog_delete_filter_text">حذف پالایهٔ «%1$s»؟</string>
 </resources>
