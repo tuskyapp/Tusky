@@ -119,7 +119,7 @@
     <string name="hint_content_warning">İçerik uyarısı</string>
     <string name="hint_display_name">Görünen ad</string>
     <string name="hint_note">Biyografi</string>
-    <string name="hint_search">Hesaplarda ara…</string>
+    <string name="hint_search">Ara…</string>
     <string name="search_no_results">Sonuç bulunamadı</string>
     <string name="label_quick_reply">Yanıt…</string>
     <string name="label_avatar">Profil Görseli</string>
@@ -213,10 +213,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Projenin internet sitesi:
-\n https://tusky.app</string>
-    <string name="about_bug_feature_request_site">Özellik istekleri ve hata raporları:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Proje web sayfası: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">"Hata raporları ve özellik istekleri:  
+\nhttps://github.com/tuskyapp/Tusky/issues"</string>
     <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="post_share_content">Gönderinin içeriğini paylaş</string>
     <string name="post_share_link">Gönderinin adresini paylaş</string>
@@ -334,12 +333,11 @@
     <string name="filter_dialog_whole_word_description">Bir anahtar kelime veya kelime öbeği sadece alfanümerik olduğunda, yalnızca tüm kelimeyle eşleşirse uygulanır</string>
     <string name="filter_add_description">Süzgeçlenecek ifade</string>
     <string name="error_create_list">Liste oluşturulamadı</string>
-    <string name="error_rename_list">Liste yeniden adlandırılamadı</string>
+    <string name="error_rename_list">Liste oluşturulamadı</string>
     <string name="error_delete_list">Liste silinemedi</string>
     <string name="action_create_list">Liste oluştur</string>
-    <string name="action_rename_list">Listeyi yeniden adlandır</string>
+    <string name="action_rename_list">Listeyi güncelle</string>
     <string name="action_delete_list">Listeyi sil</string>
-    <string name="action_edit_list">Listeyi düzenle</string>
     <string name="hint_search_people_list">Takip ettiğim kişilerde ara</string>
     <string name="action_add_to_list">Listeye hesap ekle</string>
     <string name="action_remove_from_list">Hesabı listeden kaldır</string>
@@ -397,7 +395,6 @@
     <string name="failed_fetch_posts">Yayınlar getirilemedi</string>
     <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden bildirdiğinizle ilgili açıklama yapabilirsiniz:</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
-    <string name="pref_title_show_notifications_filter">Bildirim süzgecini göster</string>
     <string name="action_mentions">Bahsedenler</string>
     <string name="action_open_reblogger">Gönderi yazanını aç</string>
     <string name="action_open_reblogged_by">Yeniden paylaşımları göster</string>
@@ -675,4 +672,15 @@
 \n
 \nBu <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon sorununu #25398</a>.</string>
     <string name="error_media_upload_sending_fmt">Yükleme başarısız oldu: %s</string>
+    <string name="about_device_info_title">Cihazınız</string>
+    <string name="about_device_info">%s %s
+\nAndroid sürüm: %s
+\nSDK sürüm: %d</string>
+    <string name="about_account_info_title">Hesabınız</string>
+    <string name="about_account_info">\@%s@%s
+\nSürüm: %s</string>
+    <string name="about_copy">Sürüm ve cihaz bilgilerini kopyala</string>
+    <string name="about_copied">Kopyalanan sürüm ve cihaz bilgileri</string>
+    <string name="list_exclusive_label">Anasayfa ağ akışından gizle</string>
+    <string name="error_media_playback">Oynatma başarısız oldu: %s</string>
 </resources>

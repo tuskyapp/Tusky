@@ -24,36 +24,34 @@ import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 
-class ConversationLineItemDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
-
+class ConversationLineItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private val divider: Drawable = ContextCompat.getDrawable(context, R.drawable.conversation_thread_line)!!
 
-    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        val dividerStart = parent.paddingStart + context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
-        val dividerEnd = dividerStart + divider.intrinsicWidth
+    private val avatarTopMargin = context.resources.getDimensionPixelSize(R.dimen.account_avatar_margin)
+    private val halfAvatarHeight = context.resources.getDimensionPixelSize(R.dimen.timeline_status_avatar_height) / 2
+    private val statusLineMarginStart = context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
 
-        val avatarMargin = context.resources.getDimensionPixelSize(R.dimen.account_avatar_margin)
+    override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        val dividerStart = parent.paddingStart + statusLineMarginStart
+        val dividerEnd = dividerStart + divider.intrinsicWidth
 
         val items = (parent.adapter as ThreadAdapter).currentList
 
-        parent.forEach { child ->
+        parent.forEach { statusItemView ->
+            val position = parent.getChildAdapterPosition(statusItemView)
 
-            val position = parent.getChildAdapterPosition(child)
-
-            val current = items.getOrNull(position)
-
-            if (current != null) {
+            items.getOrNull(position)?.let { current ->
                 val above = items.getOrNull(position - 1)
                 val dividerTop = if (above != null && above.id == current.status.inReplyToId) {
-                    child.top
+                    statusItemView.top
                 } else {
-                    child.top + avatarMargin
+                    statusItemView.top + avatarTopMargin + halfAvatarHeight
                 }
                 val below = items.getOrNull(position + 1)
                 val dividerBottom = if (below != null && current.id == below.status.inReplyToId && !current.isDetailed) {
-                    child.bottom
+                    statusItemView.bottom
                 } else {
-                    child.top + avatarMargin
+                    statusItemView.top + avatarTopMargin + halfAvatarHeight
                 }
 
                 if (parent.layoutDirection == View.LAYOUT_DIRECTION_LTR) {

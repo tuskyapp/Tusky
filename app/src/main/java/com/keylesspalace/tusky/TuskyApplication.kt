@@ -133,14 +133,21 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
         }
 
-        if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023071701) {
-            // Default value for appTheme is now THEME_SYSTEM, so let’s save the old default value as preference to
-            // avoid upgrading user to see their theme change without action.
+        if (oldVersion < 2023072401) {
+            // The notifications filter / clear options are shown on a menu, not a separate bar,
+            // the preference to display them is not needed.
+            editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
+        }
+
+        if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {
+            // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
+            // didn't have an explicit preference set use the previous default, so the
+            // theme does not unexpectedly change.
             if (!sharedPreferences.contains(APP_THEME)) {
                 editor.putString(APP_THEME, THEME_NIGHT)
             }
         }
-
+        
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }

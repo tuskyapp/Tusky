@@ -292,7 +292,6 @@
     <string name="action_create_list">Búa til lista</string>
     <string name="action_rename_list">Endurnefna listann</string>
     <string name="action_delete_list">Eyða listanum</string>
-    <string name="action_edit_list">Sýsla með listann</string>
     <string name="hint_search_people_list">Leita að fólki sem þú fylgist með</string>
     <string name="action_add_to_list">Bæta notandaaðgangi á listann</string>
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
@@ -397,7 +396,6 @@
     <string name="report_description_remote_instance">Notandaaðgangurinn er af öðrum vefþjóni. Á einnig að senda nafnlaust afrit af kærunni þangað\?</string>
     <string name="title_accounts">Notandaaðgangar</string>
     <string name="failed_search">Tókst ekki að leita</string>
-    <string name="pref_title_show_notifications_filter">Birta tilkynningasíu</string>
     <string name="create_poll_title">Athuga</string>
     <string name="duration_5_min">5 mínútur</string>
     <string name="duration_30_min">30 mínútur</string>

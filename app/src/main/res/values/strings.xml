@@ -460,12 +460,11 @@
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="error_create_list">Could not create list</string>
-    <string name="error_rename_list">Could not rename list</string>
+    <string name="error_rename_list">Could not update list</string>
     <string name="error_delete_list">Could not delete list</string>
     <string name="action_create_list">Create a list</string>
-    <string name="action_rename_list">Rename the list</string>
+    <string name="action_rename_list">Update the list</string>
     <string name="action_delete_list">Delete the list</string>
-    <string name="action_edit_list">Edit the list</string>
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
@@ -609,9 +608,10 @@
     <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
     <string name="error_list_load">Error loading lists</string>
+    <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Clear</string>
-    <string name="notifications_apply_filter">Filter</string>
+    <string name="notifications_clear">Delete notifications</string>
+    <string name="notifications_apply_filter">Filter notifications</string>
     <string name="filter_apply">Apply</string>
 
     <string name="compose_shortcut_long_label">Compose post</string>
@@ -670,7 +670,6 @@
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Failed to search</string>
 
-    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
     <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
 
@@ -817,4 +816,7 @@
     <string name="load_newest_notifications">Load newest notifications</string>
     <string name="about_copy">Copy version and device information</string>
     <string name="about_copied">Copied version and device information</string>
+    <string name="error_media_playback">Playback failed: %s</string>
+    <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
+    <string name="dialog_delete_filter_positive_action">Delete</string>
 </resources>

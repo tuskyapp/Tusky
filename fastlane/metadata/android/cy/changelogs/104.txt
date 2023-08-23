@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Cywiriadau sydd yn ychwanegu:
+
+- Llwytho hysbysiadau'n gyflymach
+- Dangos 0/1/1+ ar gyfer ymatebion eto
+- Dangos teitlau hidlydd, yn lle allweddeiriau hidlydd, yn negeseuon wedi'u hidlo
+- Cywirwyd gwallau sydd yn perthyn ag y posibilrwydd agor dolen amherthynol wrth agor statws
+- Dangos botym "Ychwanegu" yn y lle cywir pan nad oes unrhyw hidlyddion
+- Cywirwyd chwalfa eraill

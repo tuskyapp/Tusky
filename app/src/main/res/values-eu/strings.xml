@@ -341,7 +341,6 @@
     <string name="action_create_list">Zerrenda sortu</string>
     <string name="action_rename_list">Zerrenda berrizendatu</string>
     <string name="action_delete_list">Ezabatu zerrenda</string>
-    <string name="action_edit_list">Editatu zerrenda</string>
     <string name="hint_search_people_list">Bilatu jarraitzen dituzun pertsonak</string>
     <string name="action_add_to_list">Gehitu kontua zerrendan</string>
     <string name="action_remove_from_list">Kendu kontua zerrendatik</string>
@@ -418,7 +417,6 @@
     <string name="report_description_remote_instance">Kontua beste zerbitzari batekoa da. Bidali txostenaren kopia anonimatua hara ere\?</string>
     <string name="title_accounts">Kontuak</string>
     <string name="failed_search">Bilaketa huts egin du</string>
-    <string name="pref_title_show_notifications_filter">Erakutsi jakinarazpenen iragazkia</string>
     <string name="create_poll_title">Inkesta</string>
     <string name="duration_5_min">5 minutu</string>
     <string name="duration_30_min">30 minutu</string>

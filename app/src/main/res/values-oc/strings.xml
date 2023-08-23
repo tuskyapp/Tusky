@@ -315,7 +315,6 @@
     <string name="action_create_list">Crear una lista</string>
     <string name="action_rename_list">Renomenar la lista</string>
     <string name="action_delete_list">Suprimir la lista</string>
-    <string name="action_edit_list">Modificar la lista</string>
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
     <string name="action_remove_from_list">Suprimir aqueste compte de la lista</string>
@@ -412,7 +411,6 @@
     <string name="confirmation_domain_unmuted">%s es pas mai rescondut</string>
     <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
-    <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
     <string name="pref_title_alway_open_spoiler">Totjorn desplegar las publicacions marcadas amb un avertiment de contengut</string>

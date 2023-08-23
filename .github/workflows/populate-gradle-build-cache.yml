@@ -20,9 +20,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
-  
+
       - name: Run app:buildGreenDebug
         run: ./gradlew app:buildGreenDebug
