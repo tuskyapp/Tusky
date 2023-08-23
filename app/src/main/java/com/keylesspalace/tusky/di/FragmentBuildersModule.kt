@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.components.search.fragments.SearchAccountsFragmen
 import com.keylesspalace.tusky.components.search.fragments.SearchHashtagsFragment
 import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
+import com.keylesspalace.tusky.components.trending.TrendingLinksFragment
 import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import com.keylesspalace.tusky.components.viewthread.ViewThreadFragment
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
@@ -100,6 +101,9 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun trendingTagsFragment(): TrendingTagsFragment
+
+    @ContributesAndroidInjector
+    abstract fun trendingLinksFragment(): TrendingLinksFragment
 
     @ContributesAndroidInjector
     abstract fun viewVideoFragment(): ViewVideoFragment

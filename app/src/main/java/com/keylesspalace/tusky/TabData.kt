@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationsFragment
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
+import com.keylesspalace.tusky.components.trending.TrendingLinksFragment
 import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
 import java.util.Objects
 
@@ -34,6 +35,7 @@ const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
 const val TRENDING_TAGS = "TrendingTags"
+const val TRENDING_LINKS = "TrendingLinks"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
 
@@ -97,6 +99,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             text = R.string.title_public_trending_hashtags,
             icon = R.drawable.ic_trending_up_24px,
             fragment = { TrendingTagsFragment.newInstance() }
+        )
+        TRENDING_LINKS -> TabData(
+            id = TRENDING_LINKS,
+            text = R.string.title_public_trending_links,
+            icon = R.drawable.ic_trending_up_24px,
+            fragment = { TrendingLinksFragment.newInstance() }
         )
         HASHTAG -> TabData(
             id = HASHTAG,
