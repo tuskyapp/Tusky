@@ -100,6 +100,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
+    private val currentProfileData
+        get() = ProfileData(
+            displayName = binding.displayNameEditText.text.toString(),
+            note = binding.noteEditText.text.toString(),
+            locked = binding.lockedCheckBox.isChecked,
+            fields = accountFieldEditAdapter.getFieldData()
+        )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -206,14 +214,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         val onBackCallback = object : OnBackPressedCallback(enabled = true) {
-            override fun handleOnBackPressed() = checkForPotentialUnsavedChanges()
+            override fun handleOnBackPressed() = checkForUnsavedChanges()
         }
 
         onBackPressedDispatcher.addCallback(this, onBackCallback)
     }
 
-    fun checkForPotentialUnsavedChanges() {
-        if (hasUnsavedChanges()) {
+    fun checkForUnsavedChanges() {
+        if (viewModel.hasUnsavedChanges(currentProfileData)) {
             showUnsavedChangesDialog()
         } else {
             finish()
@@ -223,17 +231,9 @@ class EditProfileActivity : BaseActivity(), Injectable {
     override fun onStop() {
         super.onStop()
         if (!isFinishing) {
-            viewModel.updateProfile(profileData)
+            viewModel.updateProfile(currentProfileData)
         }
     }
-
-    private val profileData
-        get() = ProfileData(
-            displayName = binding.displayNameEditText.text.toString(),
-            note = binding.noteEditText.text.toString(),
-            locked = binding.lockedCheckBox.isChecked,
-            fields = accountFieldEditAdapter.getFieldData()
-        )
 
     private fun observeImage(
         liveData: LiveData<Uri>,
@@ -308,7 +308,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun save() = viewModel.save(profileData)
+    private fun save() = viewModel.save(currentProfileData)
 
     private fun onSaveFailure(msg: String?) {
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
@@ -327,8 +327,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
             else -> finish()
         }
     }
-
-    private fun hasUnsavedChanges() = viewModel.hasUnsavedChanges(profileData)
 
     private suspend fun launchAlertDialog() = AlertDialog.Builder(this)
         .setTitle(getString(R.string.title_edit_profile_save_changes_prompt))
