@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -123,12 +122,12 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             var avatarFileBody: MultipartBody.Part? = null
             diff.avatarFile?.let {
-                avatarFileBody = MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12),  it.asRequestBody("image/png".toMediaTypeOrNull()))
+                avatarFileBody = MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), it.asRequestBody("image/png".toMediaTypeOrNull()))
             }
 
             var headerFileBody: MultipartBody.Part? = null
             diff.headerFile?.let {
-                headerFileBody = MultipartBody.Part.createFormData("header", randomAlphanumericString(12),  it.asRequestBody("image/png".toMediaTypeOrNull()))
+                headerFileBody = MultipartBody.Part.createFormData("header", randomAlphanumericString(12), it.asRequestBody("image/png".toMediaTypeOrNull()))
             }
 
             mastodonApi.accountUpdateCredentials(
@@ -144,7 +143,7 @@ class EditProfileViewModel @Inject constructor(
                 diff.field3?.first?.toRequestBody(MultipartBody.FORM),
                 diff.field3?.second?.toRequestBody(MultipartBody.FORM),
                 diff.field4?.first?.toRequestBody(MultipartBody.FORM),
-                diff.field4?.second?.toRequestBody(MultipartBody.FORM),
+                diff.field4?.second?.toRequestBody(MultipartBody.FORM)
             ).fold(
                 { newAccountData ->
                     saveData.postValue(Success())
@@ -226,7 +225,7 @@ class EditProfileViewModel @Inject constructor(
         }
         return Pair(
             newField.name,
-            newField.value,
+            newField.value
         )
     }
 

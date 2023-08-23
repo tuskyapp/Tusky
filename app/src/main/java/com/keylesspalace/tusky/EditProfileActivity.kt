@@ -228,7 +228,6 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-
     override fun onStop() {
         super.onStop()
         if (!isFinishing) {
