@@ -147,7 +147,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
                 editor.putString(APP_THEME, THEME_NIGHT)
             }
         }
-        
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }
