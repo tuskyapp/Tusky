@@ -439,7 +439,7 @@
     <string name="add_poll_choice">Ajouter un choix</string>
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
-    <string name="edit_poll">Éditer</string>
+    <string name="edit_poll">Modifier</string>
     <string name="title_scheduled_posts">Pouets planifiés</string>
     <string name="action_edit">Modifier</string>
     <string name="action_access_scheduled_posts">Messages programmés</string>

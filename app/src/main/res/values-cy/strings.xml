@@ -731,4 +731,6 @@
     <string name="about_copied">Copïwyd fersiwn a gwybodaeth dyfais</string>
     <string name="list_exclusive_label">Cuddio o\'r ffrwd cartref</string>
     <string name="error_media_playback">Methodd chwarae: %s</string>
+    <string name="dialog_delete_filter_positive_action">Dileu</string>
+    <string name="dialog_delete_filter_text">Dileu\'r hidlydd \'%1$s\'\?</string>
 </resources>
