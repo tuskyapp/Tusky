@@ -25,10 +25,13 @@ import androidx.work.WorkManager
 import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.settings.NEW_INSTALL_SCHEMA_VERSION
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.LocaleManager
+import com.keylesspalace.tusky.util.THEME_NIGHT
 import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.worker.PruneCacheWorker
 import com.keylesspalace.tusky.worker.WorkerFactory
@@ -76,7 +79,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         AppInjector.init(this)
 
         // Migrate shared preference keys and defaults from version to version.
-        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, 0)
+        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, NEW_INSTALL_SCHEMA_VERSION)
         if (oldVersion != SCHEMA_VERSION) {
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
@@ -87,7 +90,7 @@ class TuskyApplication : Application(), HasAndroidInjector {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = sharedPreferences.getString("appTheme", APP_THEME_DEFAULT)
+        val theme = sharedPreferences.getString(APP_THEME, APP_THEME_DEFAULT)
         setAppNightMode(theme)
 
         localeManager.setLocale()
@@ -136,6 +139,14 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
         }
 
+        if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {
+            // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
+            // didn't have an explicit preference set use the previous default, so the
+            // theme does not unexpectedly change.
+            if (!sharedPreferences.contains(APP_THEME)) {
+                editor.putString(APP_THEME, THEME_NIGHT)
+            }
+        }
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }
