@@ -367,12 +367,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d innych</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maksymalna liczba zakładek (%1$d) osiągnięta</item>
-        <item quantity="few">maksymalna liczba zakładek (%1$d) osiągnięta</item>
-        <item quantity="many">maksymalna liczba zakładek (%1$d) osiągnięta</item>
-        <item quantity="other">maksymalna liczba zakładek (%1$d) osiągnięta</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Ostrzeżenie o zawartości: %s</string>
     <string name="description_post_media_no_description_placeholder">Brak opisu</string>

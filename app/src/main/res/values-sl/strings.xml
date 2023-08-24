@@ -312,9 +312,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s in %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s in %3$d več</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">doseženih maksimalnih %1$d zavihkov</item>
-    </plurals>
     <string name="description_post_media">Mediji: %s</string>
     <string name="description_post_cw">Opozorila o vsebini: %s</string>
     <string name="description_post_media_no_description_placeholder">Brez opisa</string>

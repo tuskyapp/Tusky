@@ -12,10 +12,6 @@
     <string name="description_post_media_no_description_placeholder">বর্ণনা নাই</string>
     <string name="description_post_cw">সতর্কবার্তা: %s</string>
     <string name="description_post_media">মিডিয়া: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">সর্বোচ্চ %1$dটি ট্যাব পৌঁছেছে</item>
-        <item quantity="other">সর্বোচ্চ %1$dটি ট্যাব পৌঁছেছে</item>
-    </plurals>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="pin_action">পিন</string>

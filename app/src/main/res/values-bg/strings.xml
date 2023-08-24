@@ -75,9 +75,6 @@
     <string name="description_post_media_no_description_placeholder">Без описание</string>
     <string name="description_post_cw">Предупреждение за съдържание: %s</string>
     <string name="description_post_media">Мултимедия: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">достигнати са максималните %1$d раздела</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s и %3$d други</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>

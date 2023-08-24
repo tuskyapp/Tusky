@@ -360,10 +360,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s eta %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s eta %3$d gehiago</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">gehienezko %1$d fitxa iritsita</item>
-        <item quantity="other">gehienezko %1$d fitxa iritsita</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Edukiarekiko abisua: %s</string>
     <string name="description_post_media_no_description_placeholder">Deskribapenik ez</string>

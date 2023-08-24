@@ -489,11 +489,6 @@
         <item quantity="one"><b>%s</b> pastiprinājums</item>
         <item quantity="other"><b>%s</b> pastiprinājumi</item>
     </plurals>
-    <plurals name="max_tab_number_reached">
-        <item quantity="zero">sasniegts maksimālais ciļņu skaits %1$d</item>
-        <item quantity="one">sasniegts maksimālais ciļņu skaits %1$d</item>
-        <item quantity="other">sasniegts maksimālais ciļņu skaits %1$d</item>
-    </plurals>
     <string name="title_favourites">Izlases</string>
     <string name="notification_favourite_format">%s pievienoja tavu ierakstu izlasei</string>
     <string name="action_favourite">Pievienot izlasei</string>

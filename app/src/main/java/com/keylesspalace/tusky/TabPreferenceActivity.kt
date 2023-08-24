@@ -164,18 +164,12 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             toggleFab(false)
         }
 
-        binding.maxTabsInfo.text = resources.getQuantityString(R.plurals.max_tab_number_reached, MAX_TAB_COUNT, MAX_TAB_COUNT)
-
         updateAvailableTabs()
 
         onBackPressedDispatcher.addCallback(onFabDismissedCallback)
     }
 
     override fun onTabAdded(tab: TabData) {
-        if (currentTabs.size >= MAX_TAB_COUNT) {
-            return
-        }
-
         toggleFab(false)
 
         if (tab.id == HASHTAG) {
@@ -392,7 +386,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
         addTabAdapter.updateData(addableTabs)
 
-        binding.maxTabsInfo.visible(addableTabs.size == 0 || currentTabs.size >= MAX_TAB_COUNT)
         currentTabsAdapter.setRemoveButtonVisible(currentTabs.size > MIN_TAB_COUNT)
     }
 
@@ -425,6 +418,5 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     companion object {
         private const val MIN_TAB_COUNT = 2
-        private const val MAX_TAB_COUNT = 5
     }
 }

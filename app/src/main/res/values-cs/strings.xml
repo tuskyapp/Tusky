@@ -349,11 +349,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s a %3$d další</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">bylo dosaženo maxima %1$d panelu</item>
-        <item quantity="few">bylo dosaženo maxima %1$d panelů</item>
-        <item quantity="other"/>
-    </plurals>
     <string name="description_post_media">Média %s</string>
     <string name="description_post_cw">Varování o obsahu: %s</string>
     <string name="description_post_media_no_description_placeholder">Žádný popis</string>
