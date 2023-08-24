@@ -119,7 +119,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = BOOKMARKS,
             text = R.string.title_bookmarks,
             icon = R.drawable.ic_bookmark_active_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS)}
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS) }
         )
         else -> throw IllegalArgumentException("unknown tab type")
     }
