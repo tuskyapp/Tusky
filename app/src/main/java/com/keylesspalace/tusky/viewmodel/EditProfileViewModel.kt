@@ -50,10 +50,7 @@ import javax.inject.Inject
 private const val HEADER_FILE_NAME = "header.png"
 private const val AVATAR_FILE_NAME = "avatar.png"
 
-/**
- * Conveniently groups Profile Data users can modify in the UI.
- */
-internal data class ProfileData(
+internal data class ProfileDataInUi(
     val displayName: String,
     val note: String,
     val locked: Boolean,
@@ -105,7 +102,7 @@ class EditProfileViewModel @Inject constructor(
         headerData.value = getHeaderUri()
     }
 
-    internal fun save(newProfileData: ProfileData) {
+    internal fun save(newProfileData: ProfileDataInUi) {
         if (saveData.value is Loading || profileData.value !is Success) {
             return
         }
@@ -115,7 +112,7 @@ class EditProfileViewModel @Inject constructor(
         val diff = getProfileDiff(apiProfileAccount, newProfileData)
         if (!diff.hasChanges()) {
             // if nothing has changed, there is no need to make an api call
-            saveData.postValue(Success())
+            saveData.value = Success()
             return
         }
 
@@ -157,7 +154,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     // cache activity state for rotation change
-    internal fun updateProfile(newProfileData: ProfileData) {
+    internal fun updateProfile(newProfileData: ProfileDataInUi) {
         if (profileData.value is Success) {
             val newProfileSource = profileData.value?.data?.source?.copy(note = newProfileData.note, fields = newProfileData.fields)
             val newProfile = profileData.value?.data?.copy(
@@ -166,17 +163,17 @@ class EditProfileViewModel @Inject constructor(
                 source = newProfileSource
             )
 
-            profileData.postValue(Success(newProfile))
+            profileData.value = Success(newProfile)
         }
     }
 
-    internal fun hasUnsavedChanges(newProfileData: ProfileData): Boolean {
+    internal fun hasUnsavedChanges(newProfileData: ProfileDataInUi): Boolean {
         val diff = getProfileDiff(apiProfileAccount, newProfileData)
 
         return diff.hasChanges()
     }
 
-    private fun getProfileDiff(oldProfileAccount: Account?, newProfileData: ProfileData): DiffProfileData {
+    private fun getProfileDiff(oldProfileAccount: Account?, newProfileData: ProfileDataInUi): DiffProfileData {
         val displayName = if (oldProfileAccount?.displayName == newProfileData.displayName) {
             null
         } else {

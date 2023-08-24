@@ -52,7 +52,7 @@ import com.keylesspalace.tusky.util.await
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
-import com.keylesspalace.tusky.viewmodel.ProfileData
+import com.keylesspalace.tusky.viewmodel.ProfileDataInUi
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -101,7 +101,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private val currentProfileData
-        get() = ProfileData(
+        get() = ProfileDataInUi(
             displayName = binding.displayNameEditText.text.toString(),
             note = binding.noteEditText.text.toString(),
             locked = binding.lockedCheckBox.isChecked,
@@ -322,15 +322,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun showUnsavedChangesDialog() = lifecycleScope.launch {
-        when (launchAlertDialog()) {
+        when (launchSaveDialog()) {
             AlertDialog.BUTTON_POSITIVE -> save()
             else -> finish()
         }
     }
 
-    private suspend fun launchAlertDialog() = AlertDialog.Builder(this)
-        .setTitle(getString(R.string.title_edit_profile_save_changes_prompt))
-        .setMessage(getString(R.string.message_edit_profile_save_changes_prompt))
+    private suspend fun launchSaveDialog() = AlertDialog.Builder(this)
+        .setMessage(getString(R.string.dialog_save_profile_changes_message))
         .create()
         .await(R.string.action_save, R.string.action_discard)
 }
