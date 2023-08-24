@@ -21,7 +21,31 @@ abstract class GitShaValueSource implements ValueSource<String, ValueSourceParam
     }
 }
 
+abstract class GitRevCountSource implements ValueSource<Integer, ValueSourceParameters.None> {
+    @Inject abstract ExecOperations getExecOperations()
+
+    @Override Integer obtain() {
+        try {
+            def output = new ByteArrayOutputStream()
+
+            execOperations.exec {
+                it.commandLine 'git', 'rev-list', '--first-parent', '--count', 'HEAD'
+                it.standardOutput = output
+            }
+
+            return output.toString().trim().toInteger()
+        } catch (GradleException ignore) {
+            // Git executable unavailable, or we are not building in a git repo. Fall through:
+        }
+        return -1
+    }
+}
+
 // Export closure
 ext.getGitSha = {
     providers.of(GitShaValueSource) {}.get()
+}
+
+ext.getGitRevCount = {
+    providers.of(GitRevCountSource) {}.get()
 }

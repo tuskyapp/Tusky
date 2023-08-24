@@ -6,9 +6,10 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
-apply from: 'getGitSha.gradle'
+apply from: 'gitTools.gradle'
 
 final def gitSha = ext.getGitSha()
+final def gitRevCount = ext.getGitRevCount()
 
 // The app name
 final def APP_NAME = "Tusky"
@@ -105,8 +106,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
+            // Set the "green" release versionCode to the number of commits on the
+            // branch, to ensure the versionCode updates on every release.
+            //
+            // "+ 8000" to ensure this doesn't clash with versionCodes from Bitrise.
+            if (variant.buildType.name == "release" && variant.flavorName == "green") {
+                versionCodeOverride = gitRevCount + 8000
+            }
             outputFileName = "Tusky_${variant.versionName}_${variant.versionCode}_${gitSha}_" +
                 "${variant.flavorName}_${buildType.name}.apk"
         }
