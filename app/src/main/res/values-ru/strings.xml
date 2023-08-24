@@ -366,12 +366,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">достигнут лимит в %1$d вкладку</item>
-        <item quantity="few">достигнут лимит в %1$d вкладок</item>
-        <item quantity="many">достигнут лимит в %1$d вкладок</item>
-        <item quantity="other">достигнут лимит в %1$d вкладок</item>
-    </plurals>
     <string name="description_post_media">
         Медиафайл: %s
     </string>

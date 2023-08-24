@@ -309,10 +309,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s und %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s und %3$d mehr</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">Maximum von %1$d Tab erreicht</item>
-        <item quantity="other">Maximum von %1$d Tabs erreicht</item>
-    </plurals>
     <string name="description_post_media_no_description_placeholder">        Keine Beschreibung    </string>
     <string name="description_post_favourited">Favorisiert    </string>
     <string name="description_visibility_public">Öffentlich    </string>

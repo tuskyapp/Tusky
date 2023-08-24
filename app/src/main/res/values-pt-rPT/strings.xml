@@ -390,11 +390,6 @@
     <string name="title_favourited_by">Adicionado aos favoritos por</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mais</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">atingiu o máximo de %1$d separador</item>
-        <item quantity="many">atingiu o máximo de %1$d separadores</item>
-        <item quantity="other">atingiu o máximo de %1$d separadores</item>
-    </plurals>
     <string name="description_post_media">Conteúdo multimédia: %s</string>
     <string name="description_post_cw">Aviso de Conteúdo: %s</string>
     <string name="description_post_media_no_description_placeholder">Sem descrição</string>

@@ -379,9 +379,6 @@
     <string name="description_post_reblogged">Đã đăng lại</string>
     <string name="description_post_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_post_cw">Nội dung ẩn: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">tối đa %1$d tab</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>

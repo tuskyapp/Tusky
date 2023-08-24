@@ -273,10 +273,6 @@
     <string name="title_reblogged_by">Megtolta</string>
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">elérted a fülek maximális számát (%1$d)</item>
-        <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
-    </plurals>
     <string name="description_post_media_no_description_placeholder">Nincs leírás</string>
     <string name="description_visibility_public">Nyilvános</string>
     <string name="description_visibility_private">Követők</string>

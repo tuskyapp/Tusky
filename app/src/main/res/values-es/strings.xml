@@ -317,11 +317,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">máximo de %1$d pestaña alcanzada</item>
-        <item quantity="many">máximo de %1$d pestañas alcanzadas</item>
-        <item quantity="other">máximo de %1$d pestañas alcanzadas</item>
-    </plurals>
     <string name="action_mentions">Menciones</string>
     <string name="action_open_faved_by">Mostrar favoritos</string>
     <string name="title_mentions_dialog">Menciones</string>

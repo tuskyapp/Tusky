@@ -348,10 +348,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d til viðbótar</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">hámarksfjölda %1$d flipa náð</item>
-        <item quantity="other">hámarksfjölda %1$d flipa náð</item>
-    </plurals>
     <string name="description_post_media">Myndefni: %s</string>
     <string name="description_post_cw">Aðvörun vegna efnis: %s</string>
     <string name="description_post_media_no_description_placeholder">Engin lýsing</string>

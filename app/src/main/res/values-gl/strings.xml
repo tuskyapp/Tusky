@@ -194,10 +194,6 @@
     <string name="description_post_media_no_description_placeholder">Sen descrición</string>
     <string name="description_post_cw">Aviso sobre o contido: %s</string>
     <string name="description_post_media">Multimedia: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">acadouse o máximo de %1$d lapela</item>
-        <item quantity="other">acadouse o máximo de %1$d lapelas</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d máis</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="title_favourited_by">Favorecido por</string>
@@ -304,7 +300,7 @@
     <string name="post_share_link">Compartir ligazón ao toot</string>
     <string name="post_share_content">Compartir contido do toot</string>
     <string name="about_tusky_account">Perfil de Tusky</string>
-    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións: 
+    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_project_site">Web do proxecto: https://tusky.app</string>
     <string name="about_tusky_license">Tusky é software libre e de código aberto. Está baixo a licenza GNU General Public License Version 3. Podes ver a licenza aquí: https://www.gnu.org/licenses/gpl-3.0.en.html</string>

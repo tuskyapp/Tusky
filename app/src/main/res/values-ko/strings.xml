@@ -348,9 +348,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s와 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 외 %3$d명</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">최대 탭 수 %1$d에 도달했습니다</item>
-    </plurals>
     <string name="description_post_media">미디어: %s</string>
     <string name="description_post_cw">열람주의: %s</string>
     <string name="description_post_media_no_description_placeholder">설명 없음</string>

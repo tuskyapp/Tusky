@@ -338,14 +338,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="zero">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="one">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="two">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="few">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="many">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="other">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-    </plurals>
     <string name="description_post_media">الوسائط: %s    </string>
     <string name="description_post_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_post_media_no_description_placeholder">مِن دون وصف    </string>
