@@ -36,6 +36,7 @@ const val DIRECT = "Direct"
 const val TRENDING_TAGS = "TrendingTags"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
+const val BOOKMARKS = "Bookmarks"
 
 data class TabData(
     val id: String,
@@ -113,6 +114,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             fragment = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
             arguments = arguments,
             title = { arguments.getOrNull(1).orEmpty() }
+        )
+        BOOKMARKS -> TabData(
+            id = BOOKMARKS,
+            text = R.string.title_bookmarks,
+            icon = R.drawable.ic_bookmark_active_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS)}
         )
         else -> throw IllegalArgumentException("unknown tab type")
     }
