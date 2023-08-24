@@ -186,9 +186,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 { filters ->
                     mutedFilter = filters.firstOrNull { filter ->
                         // TODO shouldn't this be an exact match (only one keyword; exactly the hashtag)?
-                        filter.context.contains(Filter.Kind.HOME.kind) && filter.keywords.any {
-                            it.keyword == hashedTag
-                        }
+                        filter.context.contains(Filter.Kind.HOME.kind) && filter.title == hashedTag
                     }
                     updateTagMuteState(mutedFilter != null)
                 },
