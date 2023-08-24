@@ -1,0 +1,35 @@
+name: reviewdog-suggester
+on: pull_request
+jobs:
+  ktlint:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'gradle'
+
+      - run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - uses: gradle/wrapper-validation-action@v1
+
+      - uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - run: chmod +x ./gradlew
+
+      - run: ./gradlew ktlintFormat
+
+      - uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: ktlintFormat
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
