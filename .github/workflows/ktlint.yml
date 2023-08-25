@@ -1,5 +1,11 @@
 name: reviewdog-suggester
 on: pull_request
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   ktlint:
     timeout-minutes: 5
@@ -29,7 +35,4 @@ jobs:
         with:
           tool_name: ktlintFormat
 
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
+
