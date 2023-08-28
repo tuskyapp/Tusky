@@ -36,4 +36,7 @@
     <item
         android:id="@+id/status_translate"
         android:title="@string/action_translate" />
+    <item
+        android:id="@+id/status_untranslate"
+        android:title="@string/action_untranslate" />
 </menu>

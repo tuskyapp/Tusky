@@ -191,6 +191,13 @@ abstract class SFragment : Fragment(), Injectable {
                 }
             )
         }
+        menu.findItem(
+            if (status.translationResult == null) {
+                R.id.status_untranslate
+            } else {
+                R.id.status_translate
+            }
+        ).isVisible = false
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.post_share_content -> {
@@ -290,7 +297,13 @@ abstract class SFragment : Fragment(), Injectable {
                 }
                 R.id.status_translate -> {
                     lifecycleScope.launch {
-                        timelineCases.translate(status.actionableId, status.translationResult == null)
+                        timelineCases.translate(status.actionableId, true)
+                    }
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.status_untranslate -> {
+                    lifecycleScope.launch {
+                        timelineCases.translate(status.actionableId, false)
                     }
                     return@setOnMenuItemClickListener true
                 }
