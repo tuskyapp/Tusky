@@ -25,7 +25,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -46,9 +48,11 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.await
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
+import com.keylesspalace.tusky.viewmodel.ProfileDataInUi
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -95,6 +99,14 @@ class EditProfileActivity : BaseActivity(), Injectable {
             viewModel.newHeaderPicked()
         }
     }
+
+    private val currentProfileData
+        get() = ProfileDataInUi(
+            displayName = binding.displayNameEditText.text.toString(),
+            note = binding.noteEditText.text.toString(),
+            locked = binding.lockedCheckBox.isChecked,
+            fields = accountFieldEditAdapter.getFieldData()
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,17 +212,26 @@ class EditProfileActivity : BaseActivity(), Injectable {
                 }
             }
         }
+
+        val onBackCallback = object : OnBackPressedCallback(enabled = true) {
+            override fun handleOnBackPressed() = checkForUnsavedChanges()
+        }
+
+        onBackPressedDispatcher.addCallback(this, onBackCallback)
+    }
+
+    fun checkForUnsavedChanges() {
+        if (viewModel.hasUnsavedChanges(currentProfileData)) {
+            showUnsavedChangesDialog()
+        } else {
+            finish()
+        }
     }
 
     override fun onStop() {
         super.onStop()
         if (!isFinishing) {
-            viewModel.updateProfile(
-                binding.displayNameEditText.text.toString(),
-                binding.noteEditText.text.toString(),
-                binding.lockedCheckBox.isChecked,
-                accountFieldEditAdapter.getFieldData()
-            )
+            viewModel.updateProfile(currentProfileData)
         }
     }
 
@@ -287,14 +308,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun save() {
-        viewModel.save(
-            binding.displayNameEditText.text.toString(),
-            binding.noteEditText.text.toString(),
-            binding.lockedCheckBox.isChecked,
-            accountFieldEditAdapter.getFieldData()
-        )
-    }
+    private fun save() = viewModel.save(currentProfileData)
 
     private fun onSaveFailure(msg: String?) {
         val errorMsg = msg ?: getString(R.string.error_media_upload_sending)
@@ -306,4 +320,16 @@ class EditProfileActivity : BaseActivity(), Injectable {
         Log.w("EditProfileActivity", "failed to pick media", throwable)
         Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
     }
+
+    private fun showUnsavedChangesDialog() = lifecycleScope.launch {
+        when (launchSaveDialog()) {
+            AlertDialog.BUTTON_POSITIVE -> save()
+            else -> finish()
+        }
+    }
+
+    private suspend fun launchSaveDialog() = AlertDialog.Builder(this)
+        .setMessage(getString(R.string.dialog_save_profile_changes_message))
+        .create()
+        .await(R.string.action_save, R.string.action_discard)
 }
