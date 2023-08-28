@@ -695,7 +695,7 @@ public class NotificationHelper {
     }
 
     @Nullable
-    public static String getChannelId(AccountEntity account, Notification notification) {
+    private static String getChannelId(AccountEntity account, Notification notification) {
         return getChannelId(account, notification.getType());
     }
 
