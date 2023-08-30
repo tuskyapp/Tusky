@@ -68,7 +68,7 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
     val spannableContent = markupHiddenUrls(view.context, content)
 
     view.text = spannableContent.apply {
-        getSpans(0, content.length, URLSpan::class.java).forEach {
+        getSpans(0, spannableContent.length, URLSpan::class.java).forEach {
             setClickableText(it, this, mentions, tags, listener)
         }
     }
