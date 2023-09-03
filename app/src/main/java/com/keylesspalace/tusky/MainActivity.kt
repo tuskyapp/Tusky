@@ -336,7 +336,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                     is NewNotificationsEvent -> {
                         directMessageTab?.let { tab ->
-                            if (event.accountId == accountManager.activeAccount?.accountId) {
+                            if (event.accountId == activeAccount.accountId) {
                                 val hasDirectMessageNotification =
                                     event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
 
@@ -347,12 +347,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         }
                     }
                     is NotificationsLoadingEvent -> {
-                        if (event.accountId == accountManager.activeAccount?.accountId) {
+                        if (event.accountId == activeAccount.accountId) {
                             showDirectMessageBadge(false)
                         }
                     }
                     is ConversationsLoadingEvent -> {
-                        if (event.accountId == accountManager.activeAccount?.accountId) {
+                        if (event.accountId == activeAccount.accountId) {
                             showDirectMessageBadge(false)
                         }
                     }
