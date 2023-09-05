@@ -284,6 +284,8 @@ fun openLinkInCustomTab(uri: Uri, context: Context) {
 // https://gts.foo.bar/@goblin/statuses/01GH9XANCJ0TA8Y95VE9H3Y0Q2
 // https://gts.foo.bar/@goblin
 // https://foo.microblog.pub/o/5b64045effd24f48a27d7059f6cb38f5
+// https://bookwyrm.foo.bar/user/User
+// https://bookwyrm.foo.bar/user/User/comment/123456
 fun looksLikeMastodonUrl(urlString: String): Boolean {
     val uri: URI
     try {
@@ -304,6 +306,8 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
             it.matches("^/@[^/]+/\\d+$".toRegex()) ||
             it.matches("^/users/[^/]+/statuses/\\d+$".toRegex()) ||
             it.matches("^/users/\\w+$".toRegex()) ||
+            it.matches("^/user/[^/]+/comment/\\d+$".toRegex()) ||
+            it.matches("^/user/\\w+$".toRegex()) ||
             it.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
             it.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
             it.matches("^/notes/[a-z0-9]+$".toRegex()) ||
