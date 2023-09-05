@@ -332,7 +332,7 @@ class AccountListFragment :
 
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
-            } catch (exception: IOException) {
+            } catch (exception: Exception) {
                 onFetchAccountsFailure(exception)
             }
         }
