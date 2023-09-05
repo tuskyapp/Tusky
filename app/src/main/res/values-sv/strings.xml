@@ -62,7 +62,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logga in med Tusky</string>
     <string name="action_logout">Logga ut</string>
-    <string name="action_logout_confirm">Är du säker på att du vill logga ut från %1$s\? Alla lokala data om kontot kommer att raderas, inklusive utkast och inställningar.</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från %1$s? Alla lokala data om kontot kommer att raderas, inklusive utkast och inställningar.</string>
     <string name="action_follow">Följ</string>
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
@@ -658,7 +658,7 @@
     <string name="about_copy">Kopiera versions- och enhetsinformation</string>
     <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
     <string name="dialog_delete_filter_positive_action">Radera</string>
-    <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Radera filter \'%1$s\'?</string>
     <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem. 
 \n 
 \n OBS att du bara kan lägga till konton på dina listor som du följer. 
@@ -669,7 +669,7 @@
     <string name="following_hashtag_success_format">Följer hashtaggen #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
-    <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
+    <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil?</string>
     <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
 \n 
 \nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten. 
