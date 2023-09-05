@@ -614,6 +614,12 @@
     <string name="notifications_apply_filter">Filter notifications</string>
     <string name="filter_apply">Apply</string>
 
+    <string name="muting_hashtag_success_format">Muting hashtag #%s as a warning</string>
+    <string name="unmuting_hashtag_success_format">Unmuting hashtag #%s</string>
+    <string name="action_view_filter">View filter</string>
+    <string name="following_hashtag_success_format">Now following hashtag #%s</string>
+    <string name="unfollowing_hashtag_success_format">No longer following hashtag #%s</string>
+
     <string name="compose_shortcut_long_label">Compose post</string>
     <string name="compose_shortcut_short_label">Compose</string>
 
