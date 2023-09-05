@@ -62,7 +62,7 @@
     <string name="action_compose">Bericht schrijven</string>
     <string name="action_login">Aanmelden met Tusky</string>
     <string name="action_logout">Uitloggen</string>
-    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden\? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
+    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
     <string name="action_follow">Volgen</string>
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>
@@ -637,11 +637,11 @@
     <string name="error_media_upload_sending_fmt">Het uploaden is mislukt: %1$s</string>
     <string name="socket_timeout_exception">Contact zoeken met je server duurde te lang</string>
     <string name="dialog_delete_filter_positive_action">Verwijderen</string>
-    <string name="dialog_delete_filter_text">Verwijder filter \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Verwijder filter \'%1$s\'?</string>
     <string name="pref_ui_text_size">UI tekstgrootte</string>
     <string name="notification_prune_cache">Cache onderhoud…</string>
     <string name="about_device_info_title">Je apparaat</string>
-    <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
+    <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren?</string>
     <string name="notification_policies_title">Meldingsbeleid</string>
     <string name="label_translated">Uit het %1$s met %2$s vertaald</string>
     <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 \u0020
