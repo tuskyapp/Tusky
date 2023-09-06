@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3
+
+Javítások:
+
+- Szálak nézegetése közbeni programleállás javítása
+- Mastodon szűrők feldolgozása közbeni programleállás javítása
+- Profilokon a követési hivatkozások kattinthatóak
+- Androidos értesítés-kezelési frissítések
+  - Android értesítés a Mastodonról csak egyszer mutatandó
+  - Android értesítések Mastodon értesítési típus (követés, említés, megtolás, stb) szerint vannak csoportosítva
+  - Lehetséges értesítés-elhagyás megoldva

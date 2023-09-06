@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3 
+ 
+Fikser som: 
+ 
+- Fikset krasj ved visning av en tråd 
+- Fikset krasj ved behandilg av Mastodonfiltre 
+- Lenker i beskrivelser av følgere/følgerforespørsler er klikkbare 
+- Android varselsoppdateringer 
+  - Androidvarsler for mastodonvarsler skal bare bli vist én gang
+  - Androidvarsler blir gruppert etter mastodonvarselstype (følger, nevnt, delt osv)
+  - Mulighet for savnede varsler har blitt fjernet.

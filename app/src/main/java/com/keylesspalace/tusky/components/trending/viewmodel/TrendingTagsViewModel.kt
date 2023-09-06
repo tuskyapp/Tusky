@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-class TrendingViewModel @Inject constructor(
+class TrendingTagsViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
 ) : ViewModel() {
@@ -43,13 +43,13 @@ class TrendingViewModel @Inject constructor(
         INITIAL, LOADING, REFRESHING, LOADED, ERROR_NETWORK, ERROR_OTHER
     }
 
-    data class TrendingUiState(
+    data class TrendingTagsUiState(
         val trendingViewData: List<TrendingViewData>,
         val loadingState: LoadingState
     )
 
-    val uiState: Flow<TrendingUiState> get() = _uiState
-    private val _uiState = MutableStateFlow(TrendingUiState(listOf(), LoadingState.INITIAL))
+    val uiState: Flow<TrendingTagsUiState> get() = _uiState
+    private val _uiState = MutableStateFlow(TrendingTagsUiState(listOf(), LoadingState.INITIAL))
 
     init {
         invalidate()
@@ -73,38 +73,42 @@ class TrendingViewModel @Inject constructor(
      */
     fun invalidate(refresh: Boolean = false) = viewModelScope.launch {
         if (refresh) {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.REFRESHING)
+            _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.REFRESHING)
         } else {
-            _uiState.value = TrendingUiState(emptyList(), LoadingState.LOADING)
+            _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.LOADING)
         }
 
         val deferredFilters = async { mastodonApi.getFilters() }
 
         mastodonApi.trendingTags().fold(
             { tagResponse ->
-                val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
-                    filter.context.contains(Filter.Kind.HOME.kind)
-                }
-                val tags = tagResponse
-                    .filter { tag ->
-                        homeFilters?.none { filter ->
-                            filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
-                        } ?: false
+
+                val firstTag = tagResponse.firstOrNull()
+                _uiState.value = if (firstTag == null) {
+                    TrendingTagsUiState(emptyList(), LoadingState.LOADED)
+                } else {
+                    val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
+                        filter.context.contains(Filter.Kind.HOME.kind)
                     }
-                    .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
-                    .toViewData()
+                    val tags = tagResponse
+                        .filter { tag ->
+                            homeFilters?.none { filter ->
+                                filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
+                            } ?: false
+                        }
+                        .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
+                        .toViewData()
 
-                val firstTag = tagResponse.first()
-                val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
-
-                _uiState.value = TrendingUiState(listOf(header) + tags, LoadingState.LOADED)
+                    val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
+                    TrendingTagsUiState(listOf(header) + tags, LoadingState.LOADED)
+                }
             },
             { error ->
                 Log.w(TAG, "failed loading trending tags", error)
                 if (error is IOException) {
-                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_NETWORK)
+                    _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.ERROR_NETWORK)
                 } else {
-                    _uiState.value = TrendingUiState(emptyList(), LoadingState.ERROR_OTHER)
+                    _uiState.value = TrendingTagsUiState(emptyList(), LoadingState.ERROR_OTHER)
                 }
             }
         )

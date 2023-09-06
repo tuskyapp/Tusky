@@ -275,7 +275,6 @@
     <string name="action_create_list">Krei liston</string>
     <string name="action_rename_list">Ŝanĝi la nomon de la listo</string>
     <string name="action_delete_list">Forigi la liston</string>
-    <string name="action_edit_list">Redakti la liston</string>
     <string name="hint_search_people_list">Serĉi homojn, kiujn vi sekvas</string>
     <string name="action_add_to_list">Aldoni konton al la listo</string>
     <string name="action_remove_from_list">Forigi konton el la listo</string>
@@ -404,7 +403,6 @@
     <string name="failed_fetch_posts">Venigo de statusoj malsukcesis</string>
     <string name="report_description_1">La signalo estos sendita al la kontrolantoj de via servilo. Vi povas doni klarigon pri kial vi signalas ĉi tiun konton sube:</string>
     <string name="report_description_remote_instance">La konto estas en alia servilo. Ĉu sendi sennomigitan kopion de la signalo ankaŭ tien\?</string>
-    <string name="pref_title_show_notifications_filter">Montri filtrilon de sciigoj</string>
     <string name="filter_dialog_whole_word">Tuta vorto</string>
     <string name="filter_dialog_whole_word_description">Ŝlosilvorto aŭ frazo litercifera aplikiĝos, nur se ĝi kongruas kun la tuta vorto</string>
     <string name="title_accounts">Kontoj</string>

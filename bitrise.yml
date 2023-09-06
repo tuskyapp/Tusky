@@ -11,6 +11,9 @@ trigger_map:
 workflows:
   nightly:
     steps:
+    - set-java-version@1:
+        inputs:
+          - set_java_version: '17'
     - activate-ssh-key:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@8.0: {}
@@ -47,6 +50,9 @@ workflows:
     - cache-push@2.7: {}
   primary:
     steps:
+    - set-java-version@1:
+        inputs:
+          - set_java_version: '17'
     - activate-ssh-key:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
@@ -83,6 +89,9 @@ workflows:
     - cache-push@2.7: {}
   release:
     steps:
+    - set-java-version@1:
+        inputs:
+          - set_java_version: '17'
     - activate-ssh-key:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}

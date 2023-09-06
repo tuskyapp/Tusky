@@ -156,6 +156,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
             it.defaultPostLanguage = account.source?.language.orEmpty()
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
             it.emojis = account.emojis.orEmpty()
+            it.locked = account.locked
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)

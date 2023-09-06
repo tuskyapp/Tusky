@@ -89,6 +89,11 @@ interface MastodonApi {
     @GET("api/v1/filters")
     suspend fun getFiltersV1(): NetworkResult<List<FilterV1>>
 
+    @GET("api/v2/filters/{filterId}")
+    suspend fun getFilter(
+        @Path("filterId") filterId: String
+    ): NetworkResult<Filter>
+
     @GET("api/v2/filters")
     suspend fun getFilters(): NetworkResult<List<Filter>>
 
@@ -538,14 +543,16 @@ interface MastodonApi {
     @FormUrlEncoded
     @POST("api/v1/lists")
     suspend fun createList(
-        @Field("title") title: String
+        @Field("title") title: String,
+        @Field("exclusive") exclusive: Boolean?
     ): NetworkResult<MastoList>
 
     @FormUrlEncoded
     @PUT("api/v1/lists/{listId}")
     suspend fun updateList(
         @Path("listId") listId: String,
-        @Field("title") title: String
+        @Field("title") title: String,
+        @Field("exclusive") exclusive: Boolean?
     ): NetworkResult<MastoList>
 
     @DELETE("api/v1/lists/{listId}")
