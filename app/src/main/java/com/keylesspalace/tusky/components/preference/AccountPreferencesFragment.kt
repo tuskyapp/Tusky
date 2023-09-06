@@ -30,9 +30,9 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
-import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountManager
@@ -156,7 +156,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setTitle(R.string.title_domain_mutes)
                 setIcon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
-                    val intent = Intent(context, InstanceListActivity::class.java)
+                    val intent = Intent(context, DomainBlocksActivity::class.java)
                     activity?.startActivity(intent)
                     activity?.overridePendingTransition(
                         R.anim.slide_from_right,

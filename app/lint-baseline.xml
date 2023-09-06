@@ -872,7 +872,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="777"
+            line="780"
             column="5"/>
     </issue>
 
@@ -1928,7 +1928,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="450"
+            line="453"
             column="13"/>
     </issue>
 
@@ -2071,7 +2071,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="615"
+            line="618"
             column="13"/>
     </issue>
 
@@ -2082,7 +2082,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="617"
+            line="620"
             column="13"/>
     </issue>
 
@@ -2093,7 +2093,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="618"
+            line="621"
             column="13"/>
     </issue>
 
@@ -2104,7 +2104,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="621"
+            line="624"
             column="13"/>
     </issue>
 
@@ -2115,7 +2115,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="666"
+            line="669"
             column="13"/>
     </issue>
 
@@ -2126,7 +2126,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="715"
+            line="718"
             column="13"/>
     </issue>
 
@@ -2137,7 +2137,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="721"
+            line="724"
             column="13"/>
     </issue>
 
@@ -2148,7 +2148,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="762"
+            line="765"
             column="13"/>
     </issue>
 
@@ -2159,7 +2159,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="798"
+            line="801"
             column="13"/>
     </issue>
 
@@ -2734,17 +2734,7 @@
             line="202"
             column="21"/>
     </issue>
-
-    <issue
-        id="SyntheticAccessor"
-        message="Access to `private` method `fetchInstances` of class `InstanceListFragment` requires synthetic accessor"
-        errorLine1="                    fetchInstances(bottomId)"
-        errorLine2="                    ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/instancemute/fragment/InstanceListFragment.kt"
             line="56"
-            column="21"/>
-    </issue>
 
     <issue
         id="SyntheticAccessor"
@@ -4243,13 +4233,6 @@
     </issue>
 
     <issue
-        id="ConvertToWebp"
-        message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
-        <location
-            file="src/blue/res/mipmap-xxxhdpi/ic_launcher.png"/>
-    </issue>
-
-    <issue
         id="SelectableText"
         message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
         errorLine1="                    &lt;TextView"
@@ -4574,6 +4557,17 @@
         errorLine1="    &lt;TextView"
         errorLine2="     ~~~~~~~~">
         <location
+            file="src/main/res/layout/item_blocked_domain.xml"
+            line="27"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="SelectableText"
+        message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
+        errorLine1="    &lt;TextView"
+        errorLine2="     ~~~~~~~~">
+        <location
             file="src/main/res/layout/item_blocked_user.xml"
             line="30"
             column="6"/>
@@ -4774,17 +4768,6 @@
         <location
             file="src/main/res/layout/item_list.xml"
             line="14"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="SelectableText"
-        message="Consider making the text value selectable by specifying `android:textIsSelectable=&quot;true&quot;`"
-        errorLine1="    &lt;TextView"
-        errorLine2="     ~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_muted_domain.xml"
-            line="27"
             column="6"/>
     </issue>
 

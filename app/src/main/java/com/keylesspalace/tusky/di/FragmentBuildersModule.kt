@@ -20,7 +20,7 @@ import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
 import com.keylesspalace.tusky.components.account.media.AccountMediaFragment
 import com.keylesspalace.tusky.components.accountlist.AccountListFragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
-import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
+import com.keylesspalace.tusky.components.domainblocks.DomainBlocksFragment
 import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.components.preference.NotificationPreferencesFragment
@@ -81,7 +81,7 @@ abstract class FragmentBuildersModule {
     abstract fun reportDoneFragment(): ReportDoneFragment
 
     @ContributesAndroidInjector
-    abstract fun instanceListFragment(): InstanceListFragment
+    abstract fun instanceListFragment(): DomainBlocksFragment
 
     @ContributesAndroidInjector
     abstract fun searchStatusesFragment(): SearchStatusesFragment

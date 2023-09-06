@@ -148,7 +148,7 @@
         <activity
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".components.instancemute.InstanceListActivity" />
+        <activity android:name=".components.domainblocks.DomainBlocksActivity" />
         <activity android:name=".components.scheduled.ScheduledStatusActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />

@@ -457,11 +457,11 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @GET("api/v1/domain_blocks")
-    fun domainBlocks(
+    suspend fun domainBlocks(
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<String>>>
+    ): Response<List<String>>
 
     @FormUrlEncoded
     @POST("api/v1/domain_blocks")
