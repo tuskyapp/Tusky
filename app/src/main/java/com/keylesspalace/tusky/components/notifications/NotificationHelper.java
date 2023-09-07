@@ -149,7 +149,7 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {
+    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isFirstOfBatch) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -270,7 +270,7 @@ public class NotificationHelper {
      * @param notificationManager the system's NotificationManager
      * @param account the account for which the notification should be shown
      */
-    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {
+    public static void updateSummaryNotifications(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account) {
         // Map from the channel ID to a list of notifications in that channel. Those are the
         // notifications that will be summarised.
         Map<String, List<StatusBarNotification>> channelGroups = new HashMap<>();
@@ -608,7 +608,7 @@ public class NotificationHelper {
 
     }
 
-    public static void enablePullNotifications(Context context) {
+    public static void enablePullNotifications(@NonNull Context context) {
         WorkManager workManager = WorkManager.getInstance(context);
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
 
@@ -636,7 +636,7 @@ public class NotificationHelper {
         Log.d(TAG, "enabled notification checks with "+ PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval");
     }
 
-    public static void disablePullNotifications(Context context) {
+    public static void disablePullNotifications(@NonNull Context context) {
         WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
         Log.d(TAG, "disabled notification checks");
     }
@@ -652,7 +652,7 @@ public class NotificationHelper {
         }
     }
 
-    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {
+    public static boolean filterNotification(@NonNull NotificationManager notificationManager, @NonNull AccountEntity account, @NonNull Notification notification) {
         return filterNotification(notificationManager, account, notification.getType());
     }
 
