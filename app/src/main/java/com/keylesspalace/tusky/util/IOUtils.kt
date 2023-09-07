@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.util
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.net.Uri
 import java.io.Closeable
@@ -34,6 +35,7 @@ fun Closeable?.closeQuietly() {
     }
 }
 
+@SuppressLint("Recycle") // The linter can't tell that the stream gets closed by a helper method
 fun Uri.copyToFile(
     contentResolver: ContentResolver,
     file: File

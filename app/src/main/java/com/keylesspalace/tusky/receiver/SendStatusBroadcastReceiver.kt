@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.receiver
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -39,6 +40,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var accountManager: AccountManager
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 

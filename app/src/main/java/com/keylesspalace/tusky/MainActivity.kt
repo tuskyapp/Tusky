@@ -535,7 +535,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
                 if (tag == DrawerImageLoader.Tags.PROFILE.name || tag == DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name) {
-                    return ctx.getDrawable(R.drawable.avatar_default)!!
+                    return AppCompatResources.getDrawable(ctx, R.drawable.avatar_default)!!
                 }
 
                 return super.placeholder(ctx, tag)
