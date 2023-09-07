@@ -202,18 +202,3 @@ tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask) {
         "--add-opens", "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
         "--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"])
 }
-
-tasks.register("newLintBaseline") {
-    description 'Deletes and then recreates the lint baseline'
-
-    // This task should always run, irrespective of caching
-    notCompatibleWithConfigurationCache("Is always out of date")
-    outputs.upToDateWhen { false }
-
-    doLast {
-        delete android.lint.baseline.path
-    }
-
-    // Regenerate the lint baseline
-    it.finalizedBy tasks.named("lintBlueDebug")
-}
