@@ -19,6 +19,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:src="@drawable/ic_drag_indicator_24dp"
+        tools:ignore="ContentDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/textView"/>

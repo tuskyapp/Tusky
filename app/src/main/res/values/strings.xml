@@ -241,6 +241,7 @@
     <string name="label_quick_reply">Reply…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>
+    <string name="label_image">Image</string>
 
     <string name="link_whats_an_instance">What\'s an instance?</string>
 

@@ -28,6 +28,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -180,6 +181,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -355,7 +357,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         )
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (
+            Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -914,6 +919,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
+    @SuppressLint("CheckResult")
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)

@@ -318,6 +318,7 @@
         android:layout_marginStart="-14dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
+        tools:ignore="NegativeMargin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
