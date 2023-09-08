@@ -36,8 +36,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyBoolean
-import org.mockito.Mockito.eq
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
 import java.util.Date
 
@@ -102,11 +103,12 @@ class BottomSheetActivityTest {
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
+
         apiMock = mock {
-            onBlocking { search(eq(accountQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountResponse
-            onBlocking { search(eq(statusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn statusResponse
-            onBlocking { search(eq(nonexistentStatusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountResponse
-            onBlocking { search(eq(nonMastodonQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn emptyResponse
+            onBlocking { search(eq(accountQuery)!!, isNull(), anyBoolean(), isNull(), isNull(), isNull()) } doReturn accountResponse
+            onBlocking { search(eq(statusQuery), isNull(), anyBoolean(), isNull(), isNull(), isNull()) } doReturn statusResponse
+            onBlocking { search(eq(nonexistentStatusQuery), isNull(), anyBoolean(), isNull(), isNull(), isNull()) } doReturn accountResponse
+            onBlocking { search(eq(nonMastodonQuery), isNull(), anyBoolean(), isNull(), isNull(), isNull()) } doReturn emptyResponse
         }
 
         activity = FakeBottomSheetActivity(apiMock)

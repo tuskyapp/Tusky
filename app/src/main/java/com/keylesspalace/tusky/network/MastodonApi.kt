@@ -725,7 +725,7 @@ interface MastodonApi {
 
     @GET("api/v2/search")
     fun searchSync(
-        @Query("q") query: String?,
+        @Query("q") query: String,
         @Query("type") type: String? = null,
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
