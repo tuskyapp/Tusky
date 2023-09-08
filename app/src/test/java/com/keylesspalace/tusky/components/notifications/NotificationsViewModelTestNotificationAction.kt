@@ -18,9 +18,9 @@
 package com.keylesspalace.tusky.components.notifications
 
 import app.cash.turbine.test
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.entity.Relationship
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -66,7 +66,7 @@ class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestB
     fun `accepting follow request succeeds && emits UiSuccess`() = runTest {
         // Given
         timelineCases.stub {
-            onBlocking { acceptFollowRequest(any()) } doReturn Single.just(relationship)
+            onBlocking { acceptFollowRequest(any()) } doReturn NetworkResult.success(relationship)
         }
 
         viewModel.uiSuccess.test {
@@ -105,7 +105,7 @@ class NotificationsViewModelTestNotificationAction : NotificationsViewModelTestB
     @Test
     fun `rejecting follow request succeeds && emits UiSuccess`() = runTest {
         // Given
-        timelineCases.stub { onBlocking { rejectFollowRequest(any()) } doReturn Single.just(relationship) }
+        timelineCases.stub { onBlocking { rejectFollowRequest(any()) } doReturn NetworkResult.success(relationship) }
 
         viewModel.uiSuccess.test {
             // When

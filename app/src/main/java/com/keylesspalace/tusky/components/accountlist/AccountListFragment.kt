@@ -19,7 +19,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
@@ -28,8 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BottomSheetActivity
@@ -58,7 +55,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -204,16 +200,20 @@ class AccountListFragment :
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                if (!block) {
-                    api.unblockAccount(id)
-                } else {
-                    api.blockAccount(id)
-                }
+            if (!block) {
+                api.unblockAccount(id)
+            } else {
+                api.blockAccount(id)
+            }.fold({
                 onBlockSuccess(block, id, position)
-            } catch (_: Throwable) {
-                onBlockFailure(block, id)
-            }
+            }, { throwable ->
+                val verb = if (block) {
+                    "block"
+                } else {
+                    "unblock"
+                }
+                Log.e(TAG, "Failed to $verb account accountId $id", throwable)
+            })
         }
     }
 
@@ -234,39 +234,27 @@ class AccountListFragment :
         }
     }
 
-    private fun onBlockFailure(block: Boolean, accountId: String) {
-        val verb = if (block) {
-            "block"
-        } else {
-            "unblock"
-        }
-        Log.e(TAG, "Failed to $verb account accountId $accountId")
-    }
-
     override fun onRespondToFollowRequest(
         accept: Boolean,
         accountId: String,
         position: Int
     ) {
-        if (accept) {
-            api.authorizeFollowRequest(accountId)
-        } else {
-            api.rejectFollowRequest(accountId)
-        }.observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                {
-                    onRespondToFollowRequestSuccess(position)
-                },
-                { throwable ->
-                    val verb = if (accept) {
-                        "accept"
-                    } else {
-                        "reject"
-                    }
-                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (accept) {
+                api.authorizeFollowRequest(accountId)
+            } else {
+                api.rejectFollowRequest(accountId)
+            }.fold({
+                onRespondToFollowRequestSuccess(position)
+            }, { throwable ->
+                val verb = if (accept) {
+                    "accept"
+                } else {
+                    "reject"
                 }
-            )
+                Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+            })
+        }
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {

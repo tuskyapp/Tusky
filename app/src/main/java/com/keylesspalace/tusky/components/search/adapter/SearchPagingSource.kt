@@ -17,10 +17,10 @@ package com.keylesspalace.tusky.components.search.adapter
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.rx3.await
 
 class SearchPagingSource<T : Any>(
     private val mastodonApi: MastodonApi,
@@ -53,16 +53,14 @@ class SearchPagingSource<T : Any>(
 
         val currentKey = params.key ?: 0
 
-        try {
-            val data = mastodonApi.searchObservable(
-                query = searchRequest,
-                type = searchType.apiParameter,
-                resolve = true,
-                limit = params.loadSize,
-                offset = currentKey,
-                following = false
-            ).await()
-
+        return mastodonApi.search(
+            query = searchRequest,
+            type = searchType.apiParameter,
+            resolve = true,
+            limit = params.loadSize,
+            offset = currentKey,
+            following = false
+        ).fold({ data ->
             val res = parser(data)
 
             val nextKey = if (res.isEmpty()) {
@@ -71,13 +69,13 @@ class SearchPagingSource<T : Any>(
                 currentKey + res.size
             }
 
-            return LoadResult.Page(
+            LoadResult.Page(
                 data = res,
                 prevKey = null,
                 nextKey = nextKey
             )
-        } catch (e: Exception) {
-            return LoadResult.Error(e)
-        }
+        }, { e ->
+            LoadResult.Error(e)
+        })
     }
 }

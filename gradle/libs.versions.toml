@@ -133,7 +133,6 @@ mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
@@ -163,7 +162,7 @@ glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]
 mockito = ["mockito-kotlin", "mockito-inline"]
 okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
-retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
+retrofit = ["retrofit-core", "retrofit-converter-gson"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
 xmldiff = ["diffx", "xmlwriter"]

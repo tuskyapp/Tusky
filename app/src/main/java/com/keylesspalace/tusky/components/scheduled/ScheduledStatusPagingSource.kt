@@ -18,9 +18,9 @@ package com.keylesspalace.tusky.components.scheduled
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.rx3.await
 
 class ScheduledStatusPagingSourceFactory(
     private val mastodonApi: MastodonApi
@@ -59,21 +59,19 @@ class ScheduledStatusPagingSource(
                 nextKey = scheduledStatusesCache.lastOrNull()?.id
             )
         } else {
-            try {
-                val result = mastodonApi.scheduledStatuses(
-                    maxId = params.key,
-                    limit = params.loadSize
-                ).await()
-
+            return mastodonApi.scheduledStatuses(
+                maxId = params.key,
+                limit = params.loadSize
+            ).fold({ result ->
                 LoadResult.Page(
                     data = result,
                     prevKey = null,
                     nextKey = result.lastOrNull()?.id
                 )
-            } catch (e: Exception) {
+            }, { e ->
                 Log.w("ScheduledStatuses", "Error loading scheduled statuses", e)
                 LoadResult.Error(e)
-            }
+            })
         }
     }
 }

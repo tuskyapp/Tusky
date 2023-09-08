@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.report.adapter
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.Dispatchers
@@ -72,17 +73,17 @@ class StatusesPagingSource(
     }
 
     private suspend fun getSingleStatus(statusId: String): Status {
-        return mastodonApi.statusObservable(statusId).await()
+        return mastodonApi.status(statusId).getOrThrow()
     }
 
     private suspend fun getStatusList(minId: String? = null, maxId: String? = null, limit: Int): List<Status> {
-        return mastodonApi.accountStatusesObservable(
+        return mastodonApi.accountStatuses(
             accountId = accountId,
             maxId = maxId,
             sinceId = null,
             minId = minId,
             limit = limit,
             excludeReblogs = true
-        ).await()
+        ).body() ?: throw IllegalStateException("accountStatuses response body is empty")
     }
 }

@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.TrendingTag
-import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -300,10 +299,10 @@ interface MastodonApi {
     ): NetworkResult<Status>
 
     @GET("api/v1/scheduled_statuses")
-    fun scheduledStatuses(
+    suspend fun scheduledStatuses(
         @Query("limit") limit: Int? = null,
         @Query("max_id") maxId: String? = null
-    ): Single<List<ScheduledStatus>>
+    ): NetworkResult<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
     suspend fun deleteScheduledStatus(
@@ -366,19 +365,23 @@ interface MastodonApi {
     /**
      * Method to fetch statuses for the specified account.
      * @param accountId ID for account for which statuses will be requested
-     * @param maxId Only statuses with ID less than maxID will be returned
-     * @param sinceId Only statuses with ID bigger than sinceID will be returned
+     * @param maxId All results returned will be lesser than this ID. In effect, sets an upper bound on results.
+     * @param minId  Returns results immediately newer than this ID. In effect, sets a cursor at this ID and paginates forward.
+     * @param sinceId All results returned will be greater than this ID. In effect, sets a lower bound on results.
      * @param limit Limit returned statuses (current API limits: default - 20, max - 40)
      * @param excludeReplies only return statuses that are no replies
+     * @param excludeReblogs only return statuses that are no reblogs
      * @param onlyMedia only return statuses that have media attached
      */
     @GET("api/v1/accounts/{id}/statuses")
     suspend fun accountStatuses(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String? = null,
+        @Query("min_id") minId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null,
         @Query("exclude_replies") excludeReplies: Boolean? = null,
+        @Query("exclude_reblogs") excludeReblogs: Boolean? = null,
         @Query("only_media") onlyMedia: Boolean? = null,
         @Query("pinned") pinned: Boolean? = null
     ): Response<List<Status>>
@@ -494,14 +497,14 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
-    fun authorizeFollowRequest(
+    suspend fun authorizeFollowRequest(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): NetworkResult<Relationship>
 
     @POST("api/v1/follow_requests/{id}/reject")
-    fun rejectFollowRequest(
+    suspend fun rejectFollowRequest(
         @Path("id") accountId: String
-    ): Single<Relationship>
+    ): NetworkResult<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/apps")
@@ -701,30 +704,24 @@ interface MastodonApi {
         @Field("forward") isNotifyRemote: Boolean?
     ): NetworkResult<Unit>
 
-    @GET("api/v1/accounts/{id}/statuses")
-    fun accountStatusesObservable(
-        @Path("id") accountId: String,
-        @Query("max_id") maxId: String?,
-        @Query("since_id") sinceId: String?,
-        @Query("min_id") minId: String?,
-        @Query("limit") limit: Int?,
-        @Query("exclude_reblogs") excludeReblogs: Boolean?
-    ): Single<List<Status>>
-
-    @GET("api/v1/statuses/{id}")
-    fun statusObservable(
-        @Path("id") statusId: String
-    ): Single<Status>
-
+    /**
+     * Search for content in accounts, statuses and hashtags.
+     * @param q The search query.
+     * @param type Specify whether to search for only accounts, hashtags, statuses.
+     * @param resolve Attempt WebFinger lookup? Defaults to false.
+     * @param limit Maximum number of results to return, per type. Defaults to 20 results per category. Max 40 results per category.
+     * @param offset Skip the first n results.
+     * @param following Only include accounts that the user is following? Defaults to false.
+     */
     @GET("api/v2/search")
-    fun searchObservable(
-        @Query("q") query: String?,
+    suspend fun search(
+        @Query("q") query: String,
         @Query("type") type: String? = null,
         @Query("resolve") resolve: Boolean? = null,
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: Int? = null,
         @Query("following") following: Boolean? = null
-    ): Single<SearchResult>
+    ): NetworkResult<SearchResult>
 
     @GET("api/v2/search")
     fun searchSync(

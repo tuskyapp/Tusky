@@ -65,7 +65,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -422,9 +421,9 @@ class NotificationsViewModel @Inject constructor(
                     try {
                         when (action) {
                             is NotificationAction.AcceptFollowRequest ->
-                                timelineCases.acceptFollowRequest(action.accountId).await()
+                                timelineCases.acceptFollowRequest(action.accountId)
                             is NotificationAction.RejectFollowRequest ->
-                                timelineCases.rejectFollowRequest(action.accountId).await()
+                                timelineCases.rejectFollowRequest(action.accountId)
                         }
                         uiSuccess.emit(NotificationActionSuccess.from(action))
                     } catch (e: Exception) {

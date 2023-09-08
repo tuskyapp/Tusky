@@ -22,16 +22,15 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.Lifecycle
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
-import autodispose2.autoDispose
+import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.looksLikeMastodonUrl
 import com.keylesspalace.tusky.util.openLink
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /** this is the base class for all activities that open links
@@ -70,41 +69,39 @@ abstract class BottomSheetActivity : BaseActivity() {
             return
         }
 
-        mastodonApi.searchObservable(
-            query = url,
-            resolve = true
-        ).observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                { (accounts, statuses) ->
-                    if (getCancelSearchRequested(url)) {
-                        return@subscribe
-                    }
-
-                    onEndSearch(url)
-
-                    if (statuses.isNotEmpty()) {
-                        viewThread(statuses[0].id, statuses[0].url)
-                        return@subscribe
-                    }
-                    accounts.firstOrNull { it.url.equals(url, ignoreCase = true) }?.let { account ->
-                        // Some servers return (unrelated) accounts for url searches (#2804)
-                        // Verify that the account's url matches the query
-                        viewAccount(account.id)
-                        return@subscribe
-                    }
-
-                    performUrlFallbackAction(url, lookupFallbackBehavior)
-                },
-                {
-                    if (!getCancelSearchRequested(url)) {
-                        onEndSearch(url)
-                        performUrlFallbackAction(url, lookupFallbackBehavior)
-                    }
-                }
-            )
-
         onBeginSearch(url)
+
+        lifecycleScope.launch {
+            mastodonApi.search(
+                query = url,
+                resolve = true
+            ).fold({ r ->
+                val (accounts, statuses) = r
+                if (getCancelSearchRequested(url)) {
+                    return@fold
+                }
+
+                onEndSearch(url)
+
+                if (statuses.isNotEmpty()) {
+                    viewThread(statuses[0].id, statuses[0].url)
+                    return@fold
+                }
+                accounts.firstOrNull { it.url.equals(url, ignoreCase = true) }?.let { account ->
+                    // Some servers return (unrelated) accounts for url searches (#2804)
+                    // Verify that the account's url matches the query
+                    viewAccount(account.id)
+                    return@fold
+                }
+
+                performUrlFallbackAction(url, lookupFallbackBehavior)
+            }, {
+                if (!getCancelSearchRequested(url)) {
+                    onEndSearch(url)
+                    performUrlFallbackAction(url, lookupFallbackBehavior)
+                }
+            })
+        }
     }
 
     open fun viewThread(statusId: String, url: String?) {

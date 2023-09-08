@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 /**
@@ -136,11 +135,11 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun acceptFollowRequest(accountId: String): Single<Relationship> {
+    suspend fun acceptFollowRequest(accountId: String): NetworkResult<Relationship> {
         return mastodonApi.authorizeFollowRequest(accountId)
     }
 
-    fun rejectFollowRequest(accountId: String): Single<Relationship> {
+    suspend fun rejectFollowRequest(accountId: String): NetworkResult<Relationship> {
         return mastodonApi.rejectFollowRequest(accountId)
     }
 

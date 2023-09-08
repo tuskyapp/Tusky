@@ -279,28 +279,28 @@ class NetworkTimelineViewModel @Inject constructor(
                 api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
             }
             Kind.USER -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
+                accountId = id!!,
+                maxId = fromId,
+                sinceId = uptoId,
+                limit = limit,
                 excludeReplies = true,
                 onlyMedia = null,
                 pinned = null
             )
             Kind.USER_PINNED -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
+                accountId = id!!,
+                maxId = fromId,
+                sinceId = uptoId,
+                limit = limit,
                 excludeReplies = null,
                 onlyMedia = null,
                 pinned = true
             )
             Kind.USER_WITH_REPLIES -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
+                accountId = id!!,
+                maxId = fromId,
+                sinceId = uptoId,
+                limit = limit,
                 excludeReplies = null,
                 onlyMedia = null,
                 pinned = null
