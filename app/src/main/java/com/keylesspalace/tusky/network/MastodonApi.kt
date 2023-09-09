@@ -144,6 +144,14 @@ interface MastodonApi {
         @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
     ): Response<List<Notification>>
 
+    @GET("api/v1/notifications")
+    fun notificationsOld(
+        @Query("max_id") maxId: String?,
+        @Query("since_id") sinceId: String?,
+        @Query("limit") limit: Int?,
+        @Query("exclude_types[]") excludes: Set<Notification.Type>?
+    ): Single<Response<List<Notification>>>
+
     /** Fetch a single notification */
     @GET("api/v1/notifications/{id}")
     suspend fun notification(
@@ -176,6 +184,9 @@ interface MastodonApi {
 
     @POST("api/v1/notifications/clear")
     suspend fun clearNotifications(): Response<ResponseBody>
+
+    @POST("api/v1/notifications/clear")
+    fun clearNotificationsOld(): Single<ResponseBody>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")

@@ -21,12 +21,10 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.notifications.NotificationsPagingAdapter
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.LinkListener
-import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
@@ -35,33 +33,12 @@ import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
-import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
-    private val accountActionListener: AccountActionListener,
     private val linkListener: LinkListener,
     private val showHeader: Boolean
-) : NotificationsPagingAdapter.ViewHolder, RecyclerView.ViewHolder(binding.root) {
-
-    override fun bind(
-        viewData: NotificationViewData,
-        payloads: List<*>?,
-        statusDisplayOptions: StatusDisplayOptions
-    ) {
-        // Skip updates with payloads. That indicates a timestamp update, and
-        // this view does not have timestamps.
-        if (!payloads.isNullOrEmpty()) return
-
-        setupWithAccount(
-            viewData.account,
-            statusDisplayOptions.animateAvatars,
-            statusDisplayOptions.animateEmojis,
-            statusDisplayOptions.showBotOverlay
-        )
-
-        setupActionListener(accountActionListener, viewData.account.id)
-    }
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun setupWithAccount(
         account: TimelineAccount,
@@ -70,24 +47,12 @@ class FollowRequestViewHolder(
         showBotOverlay: Boolean
     ) {
         val wrappedName = account.name.unicodeWrap()
-        val emojifiedName: CharSequence = wrappedName.emojify(
-            account.emojis,
-            itemView,
-            animateEmojis
-        )
+        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView, animateEmojis)
         binding.displayNameTextView.text = emojifiedName
         if (showHeader) {
-            val wholeMessage: String = itemView.context.getString(
-                R.string.notification_follow_request_format,
-                wrappedName
-            )
+            val wholeMessage: String = itemView.context.getString(R.string.notification_follow_request_format, wrappedName)
             binding.notificationTextView.text = SpannableStringBuilder(wholeMessage).apply {
-                setSpan(
-                    StyleSpan(Typeface.BOLD),
-                    0,
-                    wrappedName.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+                setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }.emojify(account.emojis, itemView, animateEmojis)
         }
         binding.notificationTextView.visible(showHeader)

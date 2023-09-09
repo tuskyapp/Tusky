@@ -55,12 +55,13 @@ fun Status.toViewData(
     )
 }
 
+@JvmName("notificationToViewData")
 fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean
-): NotificationViewData {
-    return NotificationViewData(
+): NotificationViewData.Concrete {
+    return NotificationViewData.Concrete(
         this.type,
         this.id,
         this.account,

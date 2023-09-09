@@ -34,7 +34,7 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.TimelineAccount
 
-data class NotificationViewData(
+data class NotificationViewDataX(
     val type: Notification.Type,
     val id: String,
     val account: TimelineAccount,
