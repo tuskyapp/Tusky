@@ -389,7 +389,6 @@
     <string name="error_rename_list">No se pudo renombrar la lista</string>
     <string name="error_delete_list">No se pudo eliminar la lista</string>
     <string name="action_delete_list">Eliminar la lista</string>
-    <string name="action_edit_list">Editar la lista</string>
     <string name="hint_search_people_list">Buscar personas que sigues</string>
     <string name="description_post_media">Contenido: %s</string>
     <string name="description_post_cw">Aviso de contenido: %s</string>
@@ -432,7 +431,6 @@
     <string name="failed_fetch_posts">Fallo al obtener estados</string>
     <string name="report_description_1">El reporte será enviado a un moderador de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
-    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificaciones</string>
     <string name="pref_title_alway_open_spoiler">Mostrar siempre publicaciones marcadas con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
     <string name="failed_search">Error al buscar</string>

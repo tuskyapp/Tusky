@@ -274,7 +274,6 @@
     <string name="action_create_list">Crea una lista</string>
     <string name="action_rename_list">Rinomina la lista</string>
     <string name="action_delete_list">Elimina la lista</string>
-    <string name="action_edit_list">Modifica la lista</string>
     <string name="hint_search_people_list">Cerca tra le persone che segui</string>
     <string name="action_add_to_list">Aggiungi un account alla lista</string>
     <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
@@ -440,7 +439,6 @@
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
-    <string name="pref_title_show_notifications_filter">Mostra il filtro delle notifiche</string>
     <string name="create_poll_title">Sondaggio</string>
     <string name="duration_5_min">5 minuti</string>
     <string name="duration_30_min">30 minuti</string>

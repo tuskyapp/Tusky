@@ -280,7 +280,6 @@
     <string name="action_create_list">Crear una llista</string>
     <string name="action_rename_list">Reanomenar la llista</string>
     <string name="action_delete_list">Suprimir la llista</string>
-    <string name="action_edit_list">Modificar la llista</string>
     <string name="hint_search_people_list">Cercar persones que segueixes</string>
     <string name="action_add_to_list">Afegir un compte a la llista</string>
     <string name="action_remove_from_list">Suprimir un compte de la llista</string>
@@ -398,7 +397,6 @@
     <string name="failed_fetch_posts">Error obtenint els estats</string>
     <string name="report_description_1">L\'informe s\'enviarà al moderador del teu servidor. Pots afegir una explicació del motiu d\'aquest informe del compte a sota:</string>
     <string name="title_accounts">Comptes</string>
-    <string name="pref_title_show_notifications_filter">Mostrar el filtre de les notificacions</string>
     <string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %s\? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
     <string name="filter_dialog_whole_word_description">Quan la paraula o la frase siguin només alfanumèrica , només s\'aplicarà si coincideix amb tota la paraula</string>
     <string name="report_sent_success">\@%s reportat satisfactoriament</string>

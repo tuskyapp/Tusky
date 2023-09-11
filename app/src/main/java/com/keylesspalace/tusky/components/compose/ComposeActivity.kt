@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
-import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
@@ -95,6 +94,7 @@ import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
@@ -207,24 +207,9 @@ class ComposeActivity :
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
-        if (notificationId != -1) {
-            // ComposeActivity was opened from a notification, delete the notification
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.cancel(notificationId)
-        }
+        activeAccount = accountManager.activeAccount ?: return
 
-        // If started from an intent then compose as the account ID from the intent.
-        // Otherwise use the active account. If null then the user is not logged in,
-        // and return from the activity.
-        val intentAccountId = intent.getLongExtra(ACCOUNT_ID_EXTRA, -1)
-        activeAccount = if (intentAccountId != -1L) {
-            accountManager.getAccountById(intentAccountId)
-        } else {
-            accountManager.activeAccount
-        } ?: return
-
-        val theme = preferences.getString("appTheme", APP_THEME_DEFAULT)
+        val theme = preferences.getString(APP_THEME, APP_THEME_DEFAULT)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -280,7 +265,7 @@ class ComposeActivity :
             binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
         }
 
-        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, accountManager.activeAccount))
+        setupLanguageSpinner(getInitialLanguages(composeOptions?.language, activeAccount))
         setupComposeField(preferences, viewModel.startingText)
         setupContentWarningField(composeOptions?.contentWarning)
         setupPollView()
@@ -485,7 +470,12 @@ class ComposeActivity :
                 if (throwable is UploadServerError) {
                     displayTransientMessage(throwable.errorMessage)
                 } else {
-                    displayTransientMessage(R.string.error_media_upload_sending)
+                    displayTransientMessage(
+                        getString(
+                            R.string.error_media_upload_sending_fmt,
+                            throwable.message
+                        )
+                    )
                 }
             }
         }
@@ -1350,8 +1340,6 @@ class ComposeActivity :
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
-        private const val NOTIFICATION_ID_EXTRA = "NOTIFICATION_ID"
-        private const val ACCOUNT_ID_EXTRA = "ACCOUNT_ID"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
         private const val VISIBILITY_KEY = "VISIBILITY"
         private const val SCHEDULED_TIME_KEY = "SCHEDULE"
@@ -1359,26 +1347,15 @@ class ComposeActivity :
 
         /**
          * @param options ComposeOptions to configure the ComposeActivity
-         * @param notificationId the id of the notification that starts the Activity
-         * @param accountId the id of the account to compose with, null for the current account
          * @return an Intent to start the ComposeActivity
          */
         @JvmStatic
-        @JvmOverloads
         fun startIntent(
             context: Context,
-            options: ComposeOptions,
-            notificationId: Int? = null,
-            accountId: Long? = null
+            options: ComposeOptions
         ): Intent {
             return Intent(context, ComposeActivity::class.java).apply {
                 putExtra(COMPOSE_OPTIONS_EXTRA, options)
-                if (notificationId != null) {
-                    putExtra(NOTIFICATION_ID_EXTRA, notificationId)
-                }
-                if (accountId != null) {
-                    putExtra(ACCOUNT_ID_EXTRA, accountId)
-                }
             }
         }
 

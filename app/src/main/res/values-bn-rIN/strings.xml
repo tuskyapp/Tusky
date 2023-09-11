@@ -279,7 +279,6 @@
     <string name="action_create_list">একটি তালিকা তৈরি করুন</string>
     <string name="action_rename_list">তালিকা পুনঃ নামকরণ কর</string>
     <string name="action_delete_list">তালিকা মুছে দিন</string>
-    <string name="action_edit_list">তালিকা সম্পাদনা করুন</string>
     <string name="hint_search_people_list">আপনি অনুসরণ মানুষের জন্য অনুসন্ধান করুন</string>
     <string name="action_add_to_list">তালিকায় অ্যাকাউন্ট যোগ করুন</string>
     <string name="action_remove_from_list">তালিকা থেকে অ্যাকাউন্ট সরান</string>
@@ -390,7 +389,6 @@
     <string name="mute_domain_warning_dialog_ok">পুরো ডোমেইন লুকান</string>
     <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
     <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
-    <string name="pref_title_show_notifications_filter">বিজ্ঞপ্তি ফিল্টার দেখান</string>
     <string name="pref_title_alway_open_spoiler">সর্বদা সামগ্রী সতর্কতা সহ চিহ্নিত টুটগুলি প্রসারিত করুন</string>
     <string name="title_accounts">অক্কোউন্টগুলি</string>
     <string name="failed_search">অনুসন্ধান করতে ব্যর্থ</string>

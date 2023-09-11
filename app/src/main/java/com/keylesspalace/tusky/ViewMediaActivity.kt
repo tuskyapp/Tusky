@@ -59,6 +59,8 @@ import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -67,10 +69,13 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
+import javax.inject.Inject
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
-class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener, ViewVideoFragment.VideoActionsListener {
+class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.PhotoActionsListener, ViewVideoFragment.VideoActionsListener {
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
@@ -336,6 +341,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
 
         shareFile(file, mimeType)
     }
+
+    override fun androidInjector() = androidInjector
 
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"

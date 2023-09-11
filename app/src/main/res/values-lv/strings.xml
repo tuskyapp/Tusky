@@ -130,7 +130,6 @@
     <string name="action_create_list">Izveidot sarakstu</string>
     <string name="action_rename_list">Pārsaukt sarakstu</string>
     <string name="action_delete_list">Dzēst sarakstu</string>
-    <string name="action_edit_list">Labot sarakstu</string>
     <string name="action_add_to_list">Pievienot kontu sarakstam</string>
     <string name="action_remove_from_list">Noņemt kontu no saraksta</string>
     <string name="action_edit_image">Labot attēlu</string>
@@ -426,7 +425,6 @@
     <string name="pref_title_show_self_username">Rādīt lietotājvārdu rīkjoslās</string>
     <string name="pref_title_confirm_reblogs">Pirms pastiprināšanas rādīt apstiprināšanas dialogu</string>
     <string name="failed_search">Meklēšana neizdevās</string>
-    <string name="pref_title_show_notifications_filter">Rādīt paziņojumu filtru</string>
     <string name="pref_title_enable_swipe_for_tabs">Iespējot vilkšanas žestu, lai pārslēgtos starp cilnēm</string>
     <string name="pref_title_hide_top_toolbar">Paslēpt augšējās rīkjoslas virsrakstu</string>
     <string name="pref_title_notification_filter_reports">iesniegts jauns ziņojums</string>

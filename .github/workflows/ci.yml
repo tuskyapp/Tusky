@@ -17,23 +17,28 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
 
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2
-  
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
       - name: ktlint
         run: ./gradlew clean ktlintCheck
-        
+
       - name: Regular lint
-        run: ./gradlew lintGreenDebug
-        
+        run: ./gradlew app:lintGreenDebug
+
       - name: Test
         run: ./gradlew app:testGreenDebugUnitTest
-        
+
       - name: Build
-        run: ./gradlew app:greenDebug
+        run: ./gradlew app:buildGreenDebug

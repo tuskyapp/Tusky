@@ -274,7 +274,6 @@
     <string name="action_create_list">Skapa en lista</string>
     <string name="action_rename_list">Byt namn på listan</string>
     <string name="action_delete_list">Ta bort listan</string>
-    <string name="action_edit_list">Redigera lista</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
     <string name="action_remove_from_list">Ta bort kontot från listan</string>
@@ -419,7 +418,6 @@
     <string name="failed_fetch_posts">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
     <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
-    <string name="pref_title_show_notifications_filter">Visa notifikationsfilter</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
     <string name="pref_title_alway_open_spoiler">Expandera alltid inlägg med innehållsvarningar</string>

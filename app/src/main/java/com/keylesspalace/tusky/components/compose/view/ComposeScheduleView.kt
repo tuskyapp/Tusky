@@ -57,7 +57,9 @@ class ComposeScheduleView
     ).apply {
         timeZone = TimeZone.getTimeZone("UTC")
     }
-    private var scheduleDateTime: Calendar? = null
+
+    /** The date/time the user has chosen to schedule the status, in UTC */
+    private var scheduleDateTimeUtc: Calendar? = null
 
     init {
         binding.scheduledDateTime.setOnClickListener { openPickDateDialog() }
@@ -71,13 +73,13 @@ class ComposeScheduleView
     }
 
     private fun updateScheduleUi() {
-        if (scheduleDateTime == null) {
+        if (scheduleDateTimeUtc == null) {
             binding.scheduledDateTime.text = ""
             binding.invalidScheduleWarning.visibility = GONE
             return
         }
 
-        val scheduled = scheduleDateTime!!.time
+        val scheduled = scheduleDateTimeUtc!!.time
         binding.scheduledDateTime.text = String.format(
             "%s %s",
             dateFormat.format(scheduled),
@@ -98,21 +100,37 @@ class ComposeScheduleView
     }
 
     fun resetSchedule() {
-        scheduleDateTime = null
+        scheduleDateTimeUtc = null
         updateScheduleUi()
     }
 
     fun openPickDateDialog() {
-        val yesterday = Calendar.getInstance().timeInMillis - 24 * 60 * 60 * 1000
+        // The earliest point in time the calendar should display. Start with current date/time
+        val earliest = calendar().apply {
+            // Add the minimum scheduling interval. This may roll the calendar over to the
+            // next day (e.g. if the current time is 23:57).
+            add(Calendar.SECOND, MINIMUM_SCHEDULED_SECONDS)
+            // Clear out the time components, so it's midnight
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
         val calendarConstraints = CalendarConstraints.Builder()
-            .setValidator(
-                DateValidatorPointForward.from(yesterday)
-            )
+            .setValidator(DateValidatorPointForward.from(earliest.timeInMillis))
             .build()
         initializeSuggestedTime()
+
+        // Work around a misfeature in MaterialDatePicker. The `selection` is treated as
+        // millis-from-epoch, in UTC, which is good. However, it is also *displayed* in UTC
+        // instead of converting to the user's local timezone.
+        //
+        // So we have to add the TZ offset before setting it in the picker
+        val tzOffset = TimeZone.getDefault().getOffset(scheduleDateTimeUtc!!.timeInMillis)
+
         val picker = MaterialDatePicker.Builder
             .datePicker()
-            .setSelection(scheduleDateTime!!.timeInMillis)
+            .setSelection(scheduleDateTimeUtc!!.timeInMillis + tzOffset)
             .setCalendarConstraints(calendarConstraints)
             .build()
         picker.addOnPositiveButtonClickListener { selection: Long -> onDateSet(selection) }
@@ -129,11 +147,12 @@ class ComposeScheduleView
 
     private fun openPickTimeDialog() {
         val pickerBuilder = MaterialTimePicker.Builder()
-        scheduleDateTime?.let {
+        scheduleDateTimeUtc?.let {
             pickerBuilder.setHour(it[Calendar.HOUR_OF_DAY])
                 .setMinute(it[Calendar.MINUTE])
         }
 
+        pickerBuilder.setTitleText(dateFormat.format(scheduleDateTimeUtc!!.timeInMillis))
         pickerBuilder.setTimeFormat(getTimeFormat(context))
 
         val picker = pickerBuilder.build()
@@ -154,7 +173,7 @@ class ComposeScheduleView
     fun setDateTime(scheduledAt: String?) {
         val date = getDateTime(scheduledAt) ?: return
         initializeSuggestedTime()
-        scheduleDateTime!!.time = date
+        scheduleDateTimeUtc!!.time = date
         updateScheduleUi()
     }
 
@@ -180,24 +199,24 @@ class ComposeScheduleView
         // see https://github.com/material-components/material-components-android/issues/882
         newDate.timeZone = TimeZone.getTimeZone("UTC")
         newDate.timeInMillis = selection
-        scheduleDateTime!![newDate[Calendar.YEAR], newDate[Calendar.MONTH]] = newDate[Calendar.DATE]
+        scheduleDateTimeUtc!![newDate[Calendar.YEAR], newDate[Calendar.MONTH]] = newDate[Calendar.DATE]
         openPickTimeDialog()
     }
 
     private fun onTimeSet(hourOfDay: Int, minute: Int) {
         initializeSuggestedTime()
-        scheduleDateTime?.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        scheduleDateTime?.set(Calendar.MINUTE, minute)
+        scheduleDateTimeUtc?.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        scheduleDateTimeUtc?.set(Calendar.MINUTE, minute)
         updateScheduleUi()
         listener?.onTimeSet(time)
     }
 
     val time: String?
-        get() = scheduleDateTime?.time?.let { iso8601.format(it) }
+        get() = scheduleDateTimeUtc?.time?.let { iso8601.format(it) }
 
     private fun initializeSuggestedTime() {
-        if (scheduleDateTime == null) {
-            scheduleDateTime = calendar().apply {
+        if (scheduleDateTimeUtc == null) {
+            scheduleDateTimeUtc = calendar().apply {
                 add(Calendar.MINUTE, 15)
             }
         }

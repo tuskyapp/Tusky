@@ -33,12 +33,21 @@
     <!-- Logs are stripped in release builds. -->
     <issue id="LogConditional" severity="ignore" />
 
+    <!-- Newer dependencies are handled by Renovate, and don't need a warning -->
+    <issue id="GradleDependency" severity="ignore" />
+
+    <!-- Typographical quotes are not something we care about at the moment -->
+    <issue id="TypographyQuotes" severity="ignore" />
+
     <!-- Ensure we are warned about errors in the baseline -->
     <issue id="LintBaseline" severity="warning" />
 
     <!-- Warn about typos. The typo database in lint is not exhaustive, and it's unclear
          how to add to it when it's wrong. -->
     <issue id="Typos" severity="warning" />
+
+    <!-- Set OldTargetApi back to warning -->
+    <issue id="OldTargetApi" severity="warning" />
 
     <!-- Mark all other lint issues as errors -->
     <issue id="all" severity="error" />
