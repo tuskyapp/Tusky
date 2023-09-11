@@ -10,11 +10,29 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
+
+/** Models next/prev links from the "Links" header in an API response */
+data class Links(val next: String?, val prev: String?) {
+    companion object {
+        fun from(linkHeader: String?): Links {
+            val links = HttpHeaderLink.parse(linkHeader)
+            return Links(
+                next = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter(
+                    "max_id"
+                ),
+                prev = HttpHeaderLink.findByRelationType(links, "prev")?.uri?.getQueryParameter(
+                    "min_id"
+                )
+            )
+        }
+    }
+}
 
 /**
  * Fetch Mastodon notifications and show Android notifications, with summaries, for them.
