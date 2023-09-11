@@ -201,10 +201,13 @@ class NotificationsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator?)!!.supportsChangeAnimations =
             false
 
-        // Signal the user that a refresh has loaded new items above their current position
-        // by scrolling up slightly to disclose the new content
+
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                removeDuplicateOlderEntries(positionStart)
+
+                // Signal the user that a refresh has loaded new items above their current position
+                // by scrolling up slightly to disclose the new content
                 if (positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
@@ -231,6 +234,7 @@ class NotificationsFragment :
                     viewModel.pagingData.collectLatest { pagingData ->
                         Log.d(TAG, "Submitting data to adapter")
                         adapter.submitData(pagingData)
+                        // TODO why is this called always _before_ anything from NotificationsPagingSource is loaded (and with what data)?
                     }
                 }
 
@@ -414,6 +418,23 @@ class NotificationsFragment :
                             binding.statusView.isVisible = true
                         }
                     }
+            }
+        }
+    }
+
+    private fun removeDuplicateOlderEntries(positionStart: Int) {
+        val dataList = adapter.snapshot().items
+
+        for (pos in dataList.lastIndex downTo  positionStart) {
+            val notificationViewData = dataList[pos]
+
+            val status = notificationViewData.statusViewData?.status
+                ?: continue
+
+            if (!viewModel.hasNewestNotificationId(notificationViewData.type, status.id, notificationViewData.id)) {
+                Log.d(TAG, "Removing old notification at "+pos+" for "+status.id+" at "+status.createdAt)
+
+                adapter.notifyItemRemoved(pos)
             }
         }
     }

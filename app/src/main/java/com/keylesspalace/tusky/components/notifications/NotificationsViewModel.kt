@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.R
@@ -40,6 +41,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.deserialize
+import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.util.throttleFirst
 import com.keylesspalace.tusky.util.toViewData
@@ -381,6 +383,7 @@ class NotificationsViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
+            // TODO small: With this starting with filterIsInstance from a flow I cannot handle any other events?
             eventHub.events
                 .filterIsInstance<PreferenceChangedEvent>()
                 .filter { StatusDisplayOptions.prefKeys.contains(it.preferenceKey) }
@@ -499,13 +502,32 @@ class NotificationsViewModel @Inject constructor(
         )
     }
 
+    // Status id -> (highest) Notification id
+    private val seenFavorites = HashMap<String, String>()
+    private val seenBoosts = HashMap<String, String>()
+
     private fun getNotifications(
         filters: Set<Notification.Type>,
         initialKey: String? = null
     ): Flow<PagingData<NotificationViewData>> {
+        var n = 0
+
         return repository.getNotificationsStream(filter = filters, initialKey = initialKey)
             .map { pagingData ->
-                pagingData.map { notification ->
+                pagingData.filter { notification ->
+                    val status = notification.status
+                        ?: return@filter true
+
+                    n += 1
+
+                    return@filter if (hasNewestNotificationId(notification.type, status.id, notification.id)) {
+                        true
+                    } else {
+                        Log.d(TAG, "Filtering notification "+(n-1)+" for "+status.id+"/"+notification.id+" at "+status.createdAt)
+                        false
+                    }
+                }
+               .map { notification ->
                     notification.toViewData(
                         isShowingContent = statusDisplayOptions.value.showSensitiveMedia ||
                             !(notification.status?.actionableStatus?.sensitive ?: false),
@@ -525,6 +547,28 @@ class NotificationsViewModel @Inject constructor(
         }
         Log.d(TAG, "Restoring at $initialKey")
         return initialKey
+    }
+
+    fun hasNewestNotificationId(type: Notification.Type, statusId: String, notificationId: String): Boolean {
+        val trackerArray = when(type) {
+            Notification.Type.FAVOURITE -> seenFavorites
+            Notification.Type.REBLOG -> seenBoosts
+            else -> null
+        } ?: return true
+
+        val highestNotificationId = trackerArray[statusId]
+
+        return if (highestNotificationId == null || highestNotificationId.isLessThanOrEqual(notificationId)) {
+            trackerArray[statusId] = notificationId
+
+            true
+        } else {
+            // TODO edge case: a newer favorite has been removed: the old notification will not be added again
+            //    (because the removed id is still in the seen array)
+            //    The code could find this out only heuristically: "looking at these notification ids (range), one in the array is not amongst them"
+
+            false
+        }
     }
 
     /**

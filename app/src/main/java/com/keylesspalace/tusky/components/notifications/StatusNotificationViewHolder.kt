@@ -242,7 +242,9 @@ internal class StatusNotificationViewHolder(
         animateEmojis: Boolean
     ) {
         val statusViewData = notificationViewData.statusViewData
-        val displayName = notificationViewData.account.name.unicodeWrap()
+        val favoritesCount = statusViewData?.status?.favouritesCount ?: 0
+        val reblogCount = statusViewData?.status?.reblogsCount ?: 0
+        var userPart = notificationViewData.account.name.unicodeWrap()
         val type = notificationViewData.type
         val context = binding.notificationTopText.context
         val format: String
@@ -251,10 +253,16 @@ internal class StatusNotificationViewHolder(
             Notification.Type.FAVOURITE -> {
                 icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange)
                 format = context.getString(R.string.notification_favourite_format)
+                if (favoritesCount > 1) {
+                    userPart += " +" + (favoritesCount - 1)
+                }
             }
             Notification.Type.REBLOG -> {
                 icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_reblog_format)
+                if (reblogCount > 1) {
+                    userPart += " +" + (reblogCount - 1)
+                }
             }
             Notification.Type.STATUS -> {
                 icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue)
@@ -275,13 +283,13 @@ internal class StatusNotificationViewHolder(
             null,
             null
         )
-        val wholeMessage = String.format(format, displayName)
+        val wholeMessage = String.format(format, userPart)
         val str = SpannableStringBuilder(wholeMessage)
         val displayNameIndex = format.indexOf("%s")
         str.setSpan(
             StyleSpan(Typeface.BOLD),
             displayNameIndex,
-            displayNameIndex + displayName.length,
+            displayNameIndex + userPart.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         val emojifiedText = str.emojify(
