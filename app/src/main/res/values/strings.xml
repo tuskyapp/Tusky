@@ -680,7 +680,7 @@
 
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
     <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
-
+    <string name="pref_title_decrease_swipe_sensitivity">Swipe sensitivity</string>
 
     <string name="create_poll_title">Poll</string>
     <string name="label_duration">Duration</string>

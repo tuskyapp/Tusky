@@ -285,7 +285,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         addMenuProvider(this)
 
-        binding.viewPager.reduceSwipeSensitivity()
+        binding.viewPager.reduceSwipeSensitivity(Math.round(preferences.getFloat(PrefKeys.DECREASE_SWIPE_SENSITIVITY, -4.0f)).toInt())
 
         setupDrawer(
             savedInstanceState,

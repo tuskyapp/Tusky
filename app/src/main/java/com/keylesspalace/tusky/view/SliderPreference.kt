@@ -103,7 +103,6 @@ class SliderPreference @JvmOverloads constructor(
         valueTo = a.getFloat(R.styleable.SliderPreference_android_valueTo, defaultValueTo)
         stepSize = a.getFloat(R.styleable.SliderPreference_android_stepSize, defaultStepSize)
         format = a.getString(R.styleable.SliderPreference_format) ?: defaultFormat
-
         val decrementIconResource = a.getResourceId(R.styleable.SliderPreference_iconStart, -1)
         if (decrementIconResource != -1) {
             decrementIcon = AppCompatResources.getDrawable(context, decrementIconResource)
