@@ -21,6 +21,7 @@ import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import java.util.Date
 
+/** A Mastodon status as the server sees it. (Distinct from ConversationStatusEntity or StatusViewData.Concrete). */
 data class Status(
     val id: String,
     val url: String?, // not present if it's reblog
@@ -38,7 +39,9 @@ data class Status(
     val reblogged: Boolean,
     val favourited: Boolean,
     val bookmarked: Boolean,
+    /** If true, post attachments are marked as sensitive content. */
     val sensitive: Boolean,
+    /** If nonempty, post text has a spoiler/content warning. */
     @SerializedName("spoiler_text") val spoilerText: String,
     val visibility: Visibility,
     @SerializedName("media_attachments") val attachments: List<Attachment>,
@@ -46,16 +49,19 @@ data class Status(
     val tags: List<HashTag>?,
     val application: Application?,
     val pinned: Boolean?,
+    /** If true, the user has chosen not to see further notifications for this status. */
     val muted: Boolean?,
     val poll: Poll?,
     val card: Card?,
     val language: String?,
+    /** If true, the server reports a user-custom content filter applies to the status. */
     val filtered: List<FilterResult>?
 ) {
 
     val actionableId: String
         get() = reblog?.id ?: id
 
+    /** If status is a reblog, the "true" status, otherwise self. */
     val actionableStatus: Status
         get() = reblog ?: this
 
