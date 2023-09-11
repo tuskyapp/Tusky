@@ -417,17 +417,17 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onReblog(final boolean reblog, final int position) {
-//        final Notification notification = notifications.get(position).asRight();
-//        final Status status = notification.getStatus();
-//        Objects.requireNonNull(status, "Reblog on notification without status");
-//        timelineCases.reblog(status.getId(), reblog)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .to(autoDisposable(from(this)))
-//                .subscribe(
-//                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
-//                        (t) -> Log.d(getClass().getSimpleName(),
-//                                "Failed to reblog status: " + status.getId(), t)
-//                );
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+        Objects.requireNonNull(status, "Reblog on notification without status");
+        timelineCases.reblogOld(status.getId(), reblog)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to reblog status: " + status.getId(), t)
+                );
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
@@ -436,17 +436,17 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onFavourite(final boolean favourite, final int position) {
-//        final Notification notification = notifications.get(position).asRight();
-//        final Status status = notification.getStatus();
-//
-//        timelineCases.favourite(status.getId(), favourite)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .to(autoDisposable(from(this)))
-//                .subscribe(
-//                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
-//                        (t) -> Log.d(getClass().getSimpleName(),
-//                                "Failed to favourite status: " + status.getId(), t)
-//                );
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.favouriteOld(status.getId(), favourite)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to favourite status: " + status.getId(), t)
+                );
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
@@ -455,17 +455,17 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onBookmark(final boolean bookmark, final int position) {
-//        final Notification notification = notifications.get(position).asRight();
-//        final Status status = notification.getStatus();
-//
-//        timelineCases.bookmark(status.getActionableId(), bookmark)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .to(autoDisposable(from(this)))
-//                .subscribe(
-//                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
-//                        (t) -> Log.d(getClass().getSimpleName(),
-//                                "Failed to bookmark status: " + status.getId(), t)
-//                );
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+
+        timelineCases.bookmarkOld(status.getActionableId(), bookmark)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(autoDisposable(from(this)))
+                .subscribe(
+                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
+                        (t) -> Log.d(getClass().getSimpleName(),
+                                "Failed to bookmark status: " + status.getId(), t)
+                );
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
@@ -473,16 +473,16 @@ public class NotificationsFragment extends SFragment implements
     }
 
     public void onVoteInPoll(int position, @NonNull List<Integer> choices) {
-//        final Notification notification = notifications.get(position).asRight();
-//        final Status status = notification.getStatus().getActionableStatus();
-//        timelineCases.voteInPoll(status.getId(), status.getPoll().getId(), choices)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .to(autoDisposable(from(this)))
-//                .subscribe(
-//                        (newPoll) -> setVoteForPoll(status, newPoll),
-//                        (t) -> Log.d(TAG,
-//                                "Failed to vote in poll: " + status.getId(), t)
-//                );
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus().getActionableStatus();
+        timelineCases.voteInPollOld(status.getId(), status.getPoll().getId(), choices)
+                .observeOn(AndroidSchedulers.mainThread())
+                .to(autoDisposable(from(this)))
+                .subscribe(
+                        (newPoll) -> setVoteForPoll(status, newPoll),
+                        (t) -> Log.d(TAG,
+                                "Failed to vote in poll: " + status.getId(), t)
+                );
     }
 
     @Override

@@ -23,4 +23,8 @@ class EventHub @Inject constructor() {
         sharedEventFlow.emit(event)
         eventsSubject.onNext(event)
     }
+
+    fun dispatchOld(event: Event) {
+        eventsSubject.onNext(event)
+    }
 }
