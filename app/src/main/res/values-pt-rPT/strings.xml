@@ -10,7 +10,6 @@
         <item quantity="other">%d novas interações</item>
     </plurals>
     <string name="replying_to">A responder a @%s</string>
-    <string name="action_edit_list">Editar a lista</string>
     <string name="lock_account_label_description">Necessita de aprovar manualmente os seguidores</string>
     <string name="compose_save_draft">Guardar rascunho\?</string>
     <string name="later">Depois</string>
@@ -468,7 +467,6 @@
     <string name="report_description_remote_instance">A conta está noutra instância. Quer enviar uma cópia anónima da denúncia para lá\?</string>
     <string name="title_accounts">Contas</string>
     <string name="failed_search">Erro ao pesquisar</string>
-    <string name="pref_title_show_notifications_filter">Mostrar Filtro das Notificações</string>
     <string name="pref_title_enable_swipe_for_tabs">Ativar gesto de deslizar para alternar entre separadores</string>
     <string name="create_poll_title">Votação</string>
     <string name="label_duration">Duração</string>

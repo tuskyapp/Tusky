@@ -48,7 +48,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainCoroutineRule constructor(private val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) : TestWatcher() {
+class MainCoroutineRule(private val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) : TestWatcher() {
     override fun starting(description: Description) {
         super.starting(description)
         Dispatchers.setMain(dispatcher)
@@ -62,7 +62,6 @@ class MainCoroutineRule constructor(private val dispatcher: TestDispatcher = Unc
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
-@OptIn(ExperimentalCoroutinesApi::class)
 abstract class NotificationsViewModelTestBase {
     protected lateinit var notificationsRepository: NotificationsRepository
     protected lateinit var sharedPreferencesMap: MutableMap<String, Boolean>
@@ -73,7 +72,7 @@ abstract class NotificationsViewModelTestBase {
     protected lateinit var viewModel: NotificationsViewModel
 
     /** Empty success response, for API calls that return one */
-    protected var emptySuccess = Response.success("".toResponseBody())
+    protected var emptySuccess: Response<ResponseBody> = Response.success("".toResponseBody())
 
     /** Empty error response, for API calls that return one */
     protected var emptyError: Response<ResponseBody> = Response.error(404, "".toResponseBody())
@@ -100,7 +99,6 @@ abstract class NotificationsViewModelTestBase {
             PrefKeys.CONFIRM_REBLOGS to true,
             PrefKeys.CONFIRM_FAVOURITES to false,
             PrefKeys.WELLBEING_HIDE_STATS_POSTS to false,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER to true,
             PrefKeys.FAB_HIDE to false
         )
 

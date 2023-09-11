@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -273,7 +274,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
     }
 
     private fun showSelectListDialog() {
-        val adapter = ArrayAdapter<MastoList>(this, android.R.layout.simple_list_item_1)
+        val adapter = object : ArrayAdapter<MastoList>(this, android.R.layout.simple_list_item_1) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                getItem(position)?.let { item -> (view as TextView).text = item.title }
+                return view
+            }
+        }
 
         val statusLayout = LinearLayout(this)
         statusLayout.gravity = Gravity.CENTER
@@ -371,9 +378,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if (!currentTabs.contains(directMessagesTab)) {
             addableTabs.add(directMessagesTab)
         }
-        val trendingTab = createTabDataFromId(TRENDING)
-        if (!currentTabs.contains(trendingTab)) {
-            addableTabs.add(trendingTab)
+        val trendingTagsTab = createTabDataFromId(TRENDING_TAGS)
+        if (!currentTabs.contains(trendingTagsTab)) {
+            addableTabs.add(trendingTagsTab)
+        }
+        val bookmarksTab = createTabDataFromId(BOOKMARKS)
+        if (!currentTabs.contains(trendingTagsTab)) {
+            addableTabs.add(bookmarksTab)
         }
 
         addableTabs.add(createTabDataFromId(HASHTAG))

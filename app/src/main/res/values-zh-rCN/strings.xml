@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">出错了。</string>
-    <string name="error_network">网络请求出错，请检查互联网连接并重试！</string>
+    <string name="error_network">网络请求出错，请检查互联网连接并重试。</string>
     <string name="error_empty">内容不能为空。</string>
     <string name="error_invalid_domain">该域名无效</string>
     <string name="error_failed_app_registration">未能通过该实例的身份验证。如果这个问题持续，请从菜单处尝试“在浏览器中登录”。</string>
@@ -62,7 +62,7 @@
     <string name="action_compose">发表嘟文</string>
     <string name="action_login">用 Tusky 登录</string>
     <string name="action_logout">注销</string>
-    <string name="action_logout_confirm">确定要退出账号 %1$s 吗？</string>
+    <string name="action_logout_confirm">你确定要退出登录 %1$s 吗？这会删除账户的所有本地数据，包括草稿和选项。</string>
     <string name="action_follow">关注</string>
     <string name="action_unfollow">取消关注</string>
     <string name="action_block">屏蔽</string>
@@ -234,14 +234,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">
-        项目地址：\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">
-        问题反馈：\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">项目地址：https://tusky.app</string>
+    <string name="about_bug_feature_request_site">问题反馈及功能请求：
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky 官方账号</string>
     <string name="post_share_content">分享嘟文内容</string>
     <string name="post_share_link">分享嘟文链接</string>
@@ -276,12 +271,11 @@
     <string name="action_lists">列表</string>
     <string name="title_lists">列表</string>
     <string name="error_create_list">无法新建列表</string>
-    <string name="error_rename_list">无法重命名列表</string>
+    <string name="error_rename_list">无法更新列表</string>
     <string name="error_delete_list">无法删除列表</string>
     <string name="action_create_list">新建列表</string>
-    <string name="action_rename_list">重命名列表</string>
+    <string name="action_rename_list">更新列表</string>
     <string name="action_delete_list">删除列表</string>
-    <string name="action_edit_list">编辑列表</string>
     <string name="hint_search_people_list">搜索已关注的用户</string>
     <string name="action_add_to_list">添加用户到列表</string>
     <string name="action_remove_from_list">从列表中移除用户</string>
@@ -427,7 +421,6 @@
     <string name="report_description_remote_instance">该账户来自其他服务器。向那里发送一份匿名的报告副本？</string>
     <string name="title_accounts">账户</string>
     <string name="failed_search">搜索失败</string>
-    <string name="pref_title_show_notifications_filter">显示通知过滤器</string>
     <string name="create_poll_title">投票</string>
     <string name="duration_5_min">5 分钟</string>
     <string name="duration_30_min">30 分钟</string>
@@ -441,7 +434,7 @@
     <string name="poll_new_choice_hint">选择 %d</string>
     <string name="edit_poll">编辑</string>
     <string name="post_lookup_error_format">查找嘟文时出错 %s</string>
-    <string name="no_drafts">你没有草稿</string>
+    <string name="no_drafts">你没有草稿。</string>
     <string name="no_scheduled_posts">您没有任何定时嘟文。</string>
     <string name="warning_scheduling_interval">Mastodon的最小预订时间为5分钟。</string>
     <string name="notification_follow_request_name">关注请求</string>
@@ -669,4 +662,23 @@
     <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
 \n
 \n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
+    <string name="pref_ui_text_size">用户界面文本大小</string>
+    <string name="notification_listenable_worker_description">Tusky 在后台工作时进行提示</string>
+    <string name="notification_notification_worker">获取通知中…</string>
+    <string name="notification_prune_cache">缓存维护…</string>
+    <string name="notification_listenable_worker_name">后台活动</string>
+    <string name="error_media_upload_sending_fmt">上传失败了：%s</string>
+    <string name="about_account_info_title">你的账户</string>
+    <string name="about_account_info">\@%s@%s
+\n版本: %s</string>
+    <string name="about_copied">已复制版本和设备信息</string>
+    <string name="about_device_info_title">你的设备</string>
+    <string name="about_device_info">%s %s
+\nAndroid 系统版本: %s
+\nSDK 版本: %d</string>
+    <string name="about_copy">复制版本及设备信息</string>
+    <string name="list_exclusive_label">不出现在首页时间线中</string>
+    <string name="error_media_playback">播放失败了：%s</string>
+    <string name="dialog_delete_filter_text">删除筛选器\'%1$s\'吗？</string>
+    <string name="dialog_delete_filter_positive_action">删除</string>
 </resources>

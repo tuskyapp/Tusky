@@ -63,4 +63,7 @@
     <dimen name="graph_line_thickness">1dp</dimen>
 
     <dimen name="minimum_touch_target">48dp</dimen>
+
+    <dimen name="timeline_status_avatar_height">48dp</dimen>
+    <dimen name="timeline_status_avatar_width">48dp</dimen>
 </resources>

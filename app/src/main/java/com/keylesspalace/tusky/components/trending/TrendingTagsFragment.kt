@@ -33,8 +33,8 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
-import com.keylesspalace.tusky.components.trending.viewmodel.TrendingViewModel
-import com.keylesspalace.tusky.databinding.FragmentTrendingBinding
+import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
+import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -48,8 +48,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TrendingFragment :
-    Fragment(R.layout.fragment_trending),
+class TrendingTagsFragment :
+    Fragment(R.layout.fragment_trending_tags),
     OnRefreshListener,
     Injectable,
     ReselectableFragment,
@@ -58,11 +58,11 @@ class TrendingFragment :
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: TrendingViewModel by viewModels { viewModelFactory }
+    private val viewModel: TrendingTagsViewModel by viewModels { viewModelFactory }
 
-    private val binding by viewBinding(FragmentTrendingBinding::bind)
+    private val binding by viewBinding(FragmentTrendingTagsBinding::bind)
 
-    private val adapter = TrendingAdapter(::onViewTag)
+    private val adapter = TrendingTagsAdapter(::onViewTag)
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -111,8 +111,8 @@ class TrendingFragment :
             spanSizeLookup = object : SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (adapter.getItemViewType(position)) {
-                        TrendingAdapter.VIEW_TYPE_HEADER -> columnCount
-                        TrendingAdapter.VIEW_TYPE_TAG -> 1
+                        TrendingTagsAdapter.VIEW_TYPE_HEADER -> columnCount
+                        TrendingTagsAdapter.VIEW_TYPE_TAG -> 1
                         else -> -1
                     }
                 }
@@ -139,15 +139,15 @@ class TrendingFragment :
         (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
     }
 
-    private fun processViewState(uiState: TrendingViewModel.TrendingUiState) {
+    private fun processViewState(uiState: TrendingTagsViewModel.TrendingTagsUiState) {
         Log.d(TAG, uiState.loadingState.name)
         when (uiState.loadingState) {
-            TrendingViewModel.LoadingState.INITIAL -> clearLoadingState()
-            TrendingViewModel.LoadingState.LOADING -> applyLoadingState()
-            TrendingViewModel.LoadingState.REFRESHING -> applyRefreshingState()
-            TrendingViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
-            TrendingViewModel.LoadingState.ERROR_NETWORK -> networkError()
-            TrendingViewModel.LoadingState.ERROR_OTHER -> otherError()
+            TrendingTagsViewModel.LoadingState.INITIAL -> clearLoadingState()
+            TrendingTagsViewModel.LoadingState.LOADING -> applyLoadingState()
+            TrendingTagsViewModel.LoadingState.REFRESHING -> applyRefreshingState()
+            TrendingTagsViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
+            TrendingTagsViewModel.LoadingState.ERROR_NETWORK -> networkError()
+            TrendingTagsViewModel.LoadingState.ERROR_OTHER -> otherError()
         }
     }
 
@@ -194,7 +194,7 @@ class TrendingFragment :
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
-            R.drawable.elephant_offline,
+            R.drawable.errorphant_offline,
             R.string.error_network
         ) { refreshContent() }
     }
@@ -206,7 +206,7 @@ class TrendingFragment :
 
         binding.swipeRefreshLayout.isRefreshing = false
         binding.messageView.setup(
-            R.drawable.elephant_error,
+            R.drawable.errorphant_error,
             R.string.error_generic
         ) { refreshContent() }
     }
@@ -247,8 +247,8 @@ class TrendingFragment :
     }
 
     companion object {
-        private const val TAG = "TrendingFragment"
+        private const val TAG = "TrendingTagsFragment"
 
-        fun newInstance() = TrendingFragment()
+        fun newInstance() = TrendingTagsFragment()
     }
 }

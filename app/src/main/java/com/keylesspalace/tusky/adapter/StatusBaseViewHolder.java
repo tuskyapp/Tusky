@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
 import com.keylesspalace.tusky.util.CardViewMode;
+import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
@@ -67,6 +68,7 @@ import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -114,10 +116,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView cardDescription;
     private final TextView cardUrl;
     private final PollAdapter pollAdapter;
-    protected LinearLayout filteredPlaceholder;
-    protected TextView filteredPlaceholderLabel;
-    protected Button filteredPlaceholderShowButton;
-    protected ConstraintLayout statusContainer;
+    protected final LinearLayout filteredPlaceholder;
+    protected final TextView filteredPlaceholderLabel;
+    protected final Button filteredPlaceholderShowButton;
+    protected final ConstraintLayout statusContainer;
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
@@ -328,14 +330,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarInset.setVisibility(View.VISIBLE);
             avatarInset.setBackground(null);
             ImageLoadingHelper.loadAvatar(rebloggedUrl, avatarInset, avatarRadius24dp,
-                    statusDisplayOptions.animateAvatars());
+                    statusDisplayOptions.animateAvatars(), null);
 
             avatarRadius = avatarRadius36dp;
         }
 
         ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
-                statusDisplayOptions.animateAvatars());
-
+            statusDisplayOptions.animateAvatars(),
+            Collections.singletonList(new CompositeWithOpaqueBackground(avatar)));
     }
 
     protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
@@ -838,9 +840,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         }
 
         filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilter.getTitle()));
-        filteredPlaceholderShowButton.setOnClickListener(view -> {
-            listener.clearWarningAction(getBindingAdapterPosition());
-        });
+        filteredPlaceholderShowButton.setOnClickListener(view -> listener.clearWarningAction(getBindingAdapterPosition()));
     }
 
     protected static boolean hasPreviewableAttachment(List<Attachment> attachments) {

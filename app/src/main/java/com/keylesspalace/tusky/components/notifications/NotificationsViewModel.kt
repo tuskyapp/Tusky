@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -70,14 +69,10 @@ import kotlinx.coroutines.rx3.await
 import retrofit2.HttpException
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.ExperimentalTime
 
 data class UiState(
     /** Filtered notification types */
     val activeFilter: Set<Notification.Type> = emptySet(),
-
-    /** True if the UI to filter and clear notifications should be shown */
-    val showFilterOptions: Boolean = false,
 
     /** True if the FAB should be shown while scrolling */
     val showFabWhileScrolling: Boolean = true
@@ -85,14 +80,12 @@ data class UiState(
 
 /** Preferences the UI reacts to */
 data class UiPrefs(
-    val showFabWhileScrolling: Boolean,
-    val showFilter: Boolean
+    val showFabWhileScrolling: Boolean
 ) {
     companion object {
         /** Relevant preference keys. Changes to any of these trigger a display update */
         val prefKeys = setOf(
-            PrefKeys.FAB_HIDE,
-            PrefKeys.SHOW_NOTIFICATIONS_FILTER
+            PrefKeys.FAB_HIDE
         )
     }
 }
@@ -103,7 +96,7 @@ sealed class UiAction
 /** Actions the user can trigger from the UI. These actions may fail. */
 sealed class FallibleUiAction : UiAction() {
     /** Clear all notifications */
-    object ClearNotifications : FallibleUiAction()
+    data object ClearNotifications : FallibleUiAction()
 }
 
 /**
@@ -129,7 +122,7 @@ sealed class InfallibleUiAction : UiAction() {
     // Resets the account's `lastNotificationId`, which can't fail, which is why this is
     // infallible. Reloading the data may fail, but that's handled by the paging system /
     // adapter refresh logic.
-    object LoadNewest : InfallibleUiAction()
+    data object LoadNewest : InfallibleUiAction()
 }
 
 /** Actions the user can trigger on an individual notification. These may fail. */
@@ -146,13 +139,13 @@ sealed class UiSuccess {
     // of these three should trigger the UI to refresh.
 
     /** A user was blocked */
-    object Block : UiSuccess()
+    data object Block : UiSuccess()
 
     /** A user was muted */
-    object Mute : UiSuccess()
+    data object Mute : UiSuccess()
 
     /** A conversation was muted */
-    object MuteConversation : UiSuccess()
+    data object MuteConversation : UiSuccess()
 }
 
 /** The result of a successful action on a notification */
@@ -286,7 +279,7 @@ sealed class UiError(
     }
 }
 
-@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel @Inject constructor(
     private val repository: NotificationsRepository,
     private val preferences: SharedPreferences,
@@ -497,7 +490,6 @@ class NotificationsViewModel @Inject constructor(
         uiState = combine(notificationFilter, getUiPrefs()) { filter, prefs ->
             UiState(
                 activeFilter = filter.filter,
-                showFilterOptions = prefs.showFilter,
                 showFabWhileScrolling = prefs.showFabWhileScrolling
             )
         }.stateIn(
@@ -546,8 +538,7 @@ class NotificationsViewModel @Inject constructor(
         .onStart { emit(toPrefs()) }
 
     private fun toPrefs() = UiPrefs(
-        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false),
-        showFilter = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
+        showFabWhileScrolling = !preferences.getBoolean(PrefKeys.FAB_HIDE, false)
     )
 
     companion object {

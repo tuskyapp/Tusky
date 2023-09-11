@@ -32,4 +32,4 @@ If you have any bug reports, feature requests or questions please open an issue 
 We always welcome new contributors! Please read our [contribution guide](https://github.com/tuskyapp/Tusky/blob/develop/CONTRIBUTING.md) to get started.
 
 ### Development chatroom
-https://riot.im/app/#/room/#Tusky:matrix.org
+https://matrix.to/#/#Tusky:matrix.org

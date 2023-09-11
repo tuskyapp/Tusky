@@ -61,7 +61,6 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 class AccountListFragment :
@@ -107,13 +106,15 @@ class AccountListFragment :
         val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val showBotOverlay = pm.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
 
+        val activeAccount = accountManager.activeAccount!!
+
         adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.FOLLOW_REQUESTS -> {
                 val headerAdapter = FollowRequestsHeaderAdapter(
-                    instanceName = accountManager.activeAccount!!.domain,
-                    accountLocked = arguments?.getBoolean(ARG_ACCOUNT_LOCKED) == true
+                    instanceName = activeAccount.domain,
+                    accountLocked = activeAccount.locked
                 )
                 val followRequestsAdapter = FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
@@ -330,7 +331,7 @@ class AccountListFragment :
 
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
-            } catch (exception: IOException) {
+            } catch (exception: Exception) {
                 onFetchAccountsFailure(exception)
             }
         }
@@ -404,14 +405,12 @@ class AccountListFragment :
         private const val TAG = "AccountList" // logging tag
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
-        private const val ARG_ACCOUNT_LOCKED = "acc_locked"
 
-        fun newInstance(type: Type, id: String? = null, accountLocked: Boolean = false): AccountListFragment {
+        fun newInstance(type: Type, id: String? = null): AccountListFragment {
             return AccountListFragment().apply {
                 arguments = Bundle(3).apply {
                     putSerializable(ARG_TYPE, type)
                     putString(ARG_ID, id)
-                    putBoolean(ARG_ACCOUNT_LOCKED, accountLocked)
                 }
             }
         }

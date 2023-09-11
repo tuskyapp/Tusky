@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.service
 import android.content.Intent
 import android.service.quicksettings.TileService
 import com.keylesspalace.tusky.MainActivity
+import com.keylesspalace.tusky.components.compose.ComposeActivity
 
 /**
  * Small Addition that adds in a QuickSettings tile
@@ -26,11 +27,8 @@ import com.keylesspalace.tusky.MainActivity
 class TuskyTileService : TileService() {
 
     override fun onClick() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-        }
+        val intent = MainActivity.composeIntent(this, ComposeActivity.ComposeOptions())
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivityAndCollapse(intent)
     }
 }

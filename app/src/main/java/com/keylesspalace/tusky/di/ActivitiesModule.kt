@@ -29,11 +29,11 @@ import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
+import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
-import com.keylesspalace.tusky.components.instancemute.InstanceListActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.login.LoginWebViewActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
@@ -94,7 +94,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesPreferencesActivity(): PreferencesActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesViewMediaActivity(): ViewMediaActivity
 
     @ContributesAndroidInjector
@@ -113,7 +113,7 @@ abstract class ActivitiesModule {
     abstract fun contributesReportActivity(): ReportActivity
 
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
-    abstract fun contributesInstanceListActivity(): InstanceListActivity
+    abstract fun contributesInstanceListActivity(): DomainBlocksActivity
 
     @ContributesAndroidInjector
     abstract fun contributesScheduledStatusActivity(): ScheduledStatusActivity

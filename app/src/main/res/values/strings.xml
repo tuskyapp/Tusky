@@ -38,12 +38,15 @@
     <string name="error_media_download_permission">Permission to store media is required.</string>
     <string name="error_media_upload_image_or_video">Images and videos cannot both be attached to the same post.</string>
     <string name="error_media_upload_sending">The upload failed.</string>
+    <string name="error_media_upload_sending_fmt">The upload failed: %s</string>
     <string name="error_sender_account_gone">Error sending post.</string>
     <string name="error_following_hashtag_format">Error following #%s</string>
     <string name="error_unfollowing_hashtag_format">Error unfollowing #%s</string>
     <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
     <string name="error_muting_hashtag_format">Error muting #%s</string>
     <string name="error_unmuting_hashtag_format">Error unmuting #%s</string>
+    <string name="error_blocking_domain">Failed to mute %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Failed to unmute %1$s: %2$s</string>
     <string name="error_status_source_load">Failed to load the status source from the server.</string>
 
     <string name="title_login">Login</string>
@@ -120,7 +123,7 @@
     <string name="action_login">Login with Tusky</string>
     <string name="action_browser_login">Login with Browser</string>
     <string name="action_logout">Log out</string>
-    <string name="action_logout_confirm">Are you sure you want to log out of the account %1$s?</string>
+    <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
     <string name="action_post_failed">Upload failed</string>
     <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.\n\nEither the server could not be contacted, or it rejected the post.</string>
     <string name="action_post_failed_detail_plural">Your posts failed to upload and have been saved to drafts.\n\nEither the server could not be contacted, or it rejected the posts.</string>
@@ -390,6 +393,10 @@
 
     <string name="about_title_activity">About</string>
     <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_device_info_title">Your device</string>
+    <string name="about_device_info">%s %s\nAndroid version: %s\nSDK version: %d</string>
+    <string name="about_account_info_title">Your account</string>
+    <string name="about_account_info">\@%s\@%s\nVersion: %s</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_license">Tusky is free and open-source software.
         It is licensed under the GNU General Public License Version 3.
@@ -400,14 +407,8 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">
-        Project website:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">
-        Bug reports &amp; feature requests:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Project website: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Bug reports &amp; feature requests:\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s Profile</string>
 
     <string name="post_share_content">Share content of post</string>
@@ -461,12 +462,11 @@
     <string name="action_lists">Lists</string>
     <string name="title_lists">Lists</string>
     <string name="error_create_list">Could not create list</string>
-    <string name="error_rename_list">Could not rename list</string>
+    <string name="error_rename_list">Could not update list</string>
     <string name="error_delete_list">Could not delete list</string>
     <string name="action_create_list">Create a list</string>
-    <string name="action_rename_list">Rename the list</string>
+    <string name="action_rename_list">Update the list</string>
     <string name="action_delete_list">Delete the list</string>
-    <string name="action_edit_list">Edit the list</string>
     <string name="hint_search_people_list">Search for people you follow</string>
     <string name="action_add_to_list">Add account to the list</string>
     <string name="action_remove_from_list">Remove account from the list</string>
@@ -610,10 +610,17 @@
     <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
     <string name="error_list_load">Error loading lists</string>
+    <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Clear</string>
-    <string name="notifications_apply_filter">Filter</string>
+    <string name="notifications_clear">Delete notifications</string>
+    <string name="notifications_apply_filter">Filter notifications</string>
     <string name="filter_apply">Apply</string>
+
+    <string name="muting_hashtag_success_format">Muting hashtag #%s as a warning</string>
+    <string name="unmuting_hashtag_success_format">Unmuting hashtag #%s</string>
+    <string name="action_view_filter">View filter</string>
+    <string name="following_hashtag_success_format">Now following hashtag #%s</string>
+    <string name="unfollowing_hashtag_success_format">No longer following hashtag #%s</string>
 
     <string name="compose_shortcut_long_label">Compose post</string>
     <string name="compose_shortcut_short_label">Compose</string>
@@ -671,7 +678,6 @@
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Failed to search</string>
 
-    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
     <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
 
@@ -815,5 +821,23 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).
+        \n\nPrivate messages are created by setting the visibility [iconics gmd_public] of a post to [iconics gmd_mail] <i>Direct</i> and
+        mentioning one or more users in the text.
+        \n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.
+    </string>
+    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.
+        \n\n
+        NOTE that you can only add accounts you follow to your lists.
+        \n\n
+        These lists can be used as a tab in Account preferences [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs.
+    </string>
+
     <string name="load_newest_notifications">Load newest notifications</string>
+    <string name="about_copy">Copy version and device information</string>
+    <string name="about_copied">Copied version and device information</string>
+    <string name="error_media_playback">Playback failed: %s</string>
+    <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
+    <string name="dialog_delete_filter_positive_action">Delete</string>
+    <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
 </resources>

@@ -22,7 +22,6 @@ import com.google.common.truth.Truth.assertThat
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.PrefKeys
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -32,12 +31,10 @@ import org.junit.Test
  * - Is the initial value taken from values in sharedPreferences and account?
  * - Is the correct update emitted when a relevant preference changes?
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModelTestUiState : NotificationsViewModelTestBase() {
 
     private val initialUiState = UiState(
         activeFilter = setOf(Notification.Type.FOLLOW),
-        showFilterOptions = true,
         showFabWhileScrolling = true
     )
 
@@ -64,25 +61,6 @@ class NotificationsViewModelTestUiState : NotificationsViewModelTestBase() {
         // Then
         viewModel.uiState.test {
             assertThat(expectMostRecentItem().showFabWhileScrolling).isFalse()
-        }
-    }
-
-    @Test
-    fun `showFilterOptions depends on SHOW_NOTIFICATIONS_FILTER preference`() = runTest {
-        // Prior
-        viewModel.uiState.test {
-            assertThat(expectMostRecentItem().showFilterOptions).isTrue()
-        }
-
-        // Given
-        sharedPreferencesMap[PrefKeys.SHOW_NOTIFICATIONS_FILTER] = false
-
-        // When
-        eventHub.dispatch(PreferenceChangedEvent(PrefKeys.SHOW_NOTIFICATIONS_FILTER))
-
-        // Then
-        viewModel.uiState.test {
-            assertThat(expectMostRecentItem().showFilterOptions).isFalse()
         }
     }
 }

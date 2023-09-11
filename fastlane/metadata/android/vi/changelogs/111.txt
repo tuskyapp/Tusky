@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1
+
+Mới:
+
+- Tăng cỡ chữ
+
+Sửa:
+
+- Lưu đúng thông tin tài khoản
+- "đẩy" thông báo trên Android 11 trở xuống
+- Sửa lỗi Android quên copy/paste
+- Hiện "diffs" trong lịch sử sửa tút
+- Sửa lỗi crash
+- Thêm nút "Xóa" khi sửa bộ lọc
+- Hiện đúng emoji không vuông

@@ -280,7 +280,6 @@
     <string name="action_create_list">Créer une liste</string>
     <string name="action_rename_list">Renommer la liste</string>
     <string name="action_delete_list">Supprimer la liste</string>
-    <string name="action_edit_list">Modifier la liste</string>
     <string name="hint_search_people_list">Chercher des personnes que vous suivez</string>
     <string name="action_add_to_list">Ajouter un compte à la liste</string>
     <string name="action_remove_from_list">Supprimer un compte de la liste</string>
@@ -423,7 +422,6 @@
     <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
     <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
-    <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
     <string name="filter_dialog_whole_word">Mot entier</string>
     <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliqué·e seulement s’il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
@@ -441,7 +439,7 @@
     <string name="add_poll_choice">Ajouter un choix</string>
     <string name="poll_allow_multiple_choices">Choix multiples</string>
     <string name="poll_new_choice_hint">Choix %d</string>
-    <string name="edit_poll">Éditer</string>
+    <string name="edit_poll">Modifier</string>
     <string name="title_scheduled_posts">Pouets planifiés</string>
     <string name="action_edit">Modifier</string>
     <string name="action_access_scheduled_posts">Messages programmés</string>
