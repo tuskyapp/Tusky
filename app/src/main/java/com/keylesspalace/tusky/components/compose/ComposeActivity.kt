@@ -578,7 +578,7 @@ class ComposeActivity :
             a.getDimensionPixelSize(0, 1)
         }
 
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         loadAvatar(
             activeAccount.profilePictureUrl,
             binding.composeAvatar,

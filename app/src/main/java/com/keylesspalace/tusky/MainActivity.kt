@@ -508,7 +508,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
@@ -916,10 +916,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
         val activeToolbar = if (hideTopToolbar) {
-            val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
+            val navOnBottom = preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom"
             if (navOnBottom) {
                 binding.bottomNav
             } else {
