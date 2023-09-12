@@ -62,7 +62,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logga in med Tusky</string>
     <string name="action_logout">Logga ut</string>
-    <string name="action_logout_confirm">Är du säker på att du vill logga ut från kontot %1$s?</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från %1$s\? Alla lokala data om kontot kommer att raderas, inklusive utkast och inställningar.</string>
     <string name="action_follow">Följ</string>
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
@@ -229,12 +229,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Tuskys webbsida:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Buggrapporter &amp; funktionsförslag:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Tuskys webbsida: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Buggrapporter &amp; funktionsförslag:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskys Profil</string>
     <string name="post_share_content">Dela innehåll av toot</string>
     <string name="post_share_link">Dela länk till toot</string>
@@ -269,10 +266,10 @@
     <string name="action_lists">Listor</string>
     <string name="title_lists">Listor</string>
     <string name="error_create_list">Kunde inte skapa lista</string>
-    <string name="error_rename_list">Kunde inte byta namn på lista</string>
+    <string name="error_rename_list">Kunde inte uppdatera listan</string>
     <string name="error_delete_list">Kunde inte radera lista</string>
     <string name="action_create_list">Skapa en lista</string>
-    <string name="action_rename_list">Byt namn på listan</string>
+    <string name="action_rename_list">Uppdatera listan</string>
     <string name="action_delete_list">Ta bort listan</string>
     <string name="hint_search_people_list">Sök efter personer du följer</string>
     <string name="action_add_to_list">Lägg till konto i listan</string>
@@ -362,8 +359,8 @@
     <string name="edit_hashtag_hint">Hashtag utan #</string>
     <string name="compose_shortcut_long_label">Skriv inlägg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-    <string name="notifications_clear">Rensa</string>
-    <string name="notifications_apply_filter">Filtrera</string>
+    <string name="notifications_clear">Radera aviseringar</string>
+    <string name="notifications_apply_filter">Filtrera aviseringar</string>
     <string name="filter_apply">Utför</string>
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
     <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
@@ -681,4 +678,33 @@
     <string name="error_missing_edits">Din server vet att det här inlägget har redigerats, men har ingen kopia av ändringarna, så de kan inte visas för dig.
 \n
 \nDet är <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon problem #25398</a>.</string>
+    <string name="about_device_info_title">Din enhet</string>
+    <string name="about_device_info">%s %s
+\nAndroidversion: %s
+\nSDK-version: %d</string>
+    <string name="about_account_info_title">Ditt konto</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion: %s</string>
+    <string name="about_copied">Version- och enhetsinformation har kopierats</string>
+    <string name="about_copy">Kopiera versions- och enhetsinformation</string>
+    <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
+    <string name="dialog_delete_filter_positive_action">Radera</string>
+    <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
+    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem.
+\n
+\n OBS att du bara kan lägga till konton på dina listor som du följer.
+\n
+\n De här listorna kan användas som en flik i Kontospecifika inställningar [iconics gmd_account_circle] [iconics gmd_navigate_next] Flikar. </string>
+    <string name="muting_hashtag_success_format">Tystar hasttaggen #%s som en varning</string>
+    <string name="unmuting_hashtag_success_format">Slutar tysta hashtaggen #%s</string>
+    <string name="following_hashtag_success_format">Följer hashtaggen #%s</string>
+    <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%s</string>
+    <string name="error_media_playback">Kunde inte spela upp: %s</string>
+    <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM).
+\n
+\nMeddelanden blir privata när ett inläggs synlighet [iconics gmd_public] ändras till [iconics gmd_mail] <i>Direkt</i>, och en eller flera användare nämns i texten.
+\n
+\nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
+    <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %s</string>
 </resources>
