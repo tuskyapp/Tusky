@@ -175,8 +175,8 @@
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="compose_shortcut_long_label">Redactar publicación</string>
     <string name="filter_apply">Aplicar</string>
-    <string name="notifications_apply_filter">Filtrar</string>
-    <string name="notifications_clear">Despexar</string>
+    <string name="notifications_apply_filter">Filtrar as notificacións</string>
+    <string name="notifications_clear">Desbotar as notificacións</string>
     <string name="list">Listaxe</string>
     <string name="select_list_title">Elexir listaxe</string>
     <string name="hashtags">Cancelos</string>
@@ -304,7 +304,7 @@
     <string name="post_share_link">Compartir ligazón ao toot</string>
     <string name="post_share_content">Compartir contido do toot</string>
     <string name="about_tusky_account">Perfil de Tusky</string>
-    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións: 
+    <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_project_site">Web do proxecto: https://tusky.app</string>
     <string name="about_tusky_license">Tusky é software libre e de código aberto. Está baixo a licenza GNU General Public License Version 3. Podes ver a licenza aquí: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
@@ -677,4 +677,23 @@
     <string name="dialog_delete_filter_positive_action">Eliminar</string>
     <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
     <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'\?</string>
+    <string name="error_media_playback">Fallou a reprodución: %s</string>
+    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM);
+\n
+\nAs mensaxes privadas créanse establecendo a visibilidade [iconics gmd_public] da publicación como [iconics gmd_mail] <i>Directa</i> e mencionando a unha ou máis usuarias no texto.
+\n
+\nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir [iconics gmd_edit] e cambiar a visibilidade. </string>
+    <string name="muting_hashtag_success_format">Acalar o cancelo #%s cun aviso</string>
+    <string name="unmuting_hashtag_success_format">Reactivar o cancelo #%s</string>
+    <string name="action_view_filter">Ver filtro</string>
+    <string name="following_hashtag_success_format">Agora segues o cancelo #%s</string>
+    <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%s</string>
+    <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas.
+\n
+\nTEN EN CONTA que só podes engadir contas que estás a seguir.
+\n
+\nEstas listas pódense usar como lapelas configurando as Lapelas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+    <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
 </resources>

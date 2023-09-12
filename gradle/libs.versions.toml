@@ -1,5 +1,5 @@
 [versions]
-agp = "8.0.2"
+agp = "8.1.1"
 androidx-activity = "1.7.2"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.5.0"
@@ -30,7 +30,7 @@ diffx = "1.1.1"
 emoji2 = "1.3.0"
 espresso = "3.5.1"
 filemoji-compat = "3.2.7"
-glide = "4.15.1"
+glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
 gson = "2.10.1"
@@ -48,7 +48,7 @@ robolectric = "4.10.3"
 rxandroid3 = "3.0.2"
 rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
-sparkbutton = "4.1.0"
+sparkbutton = "4.2.0"
 touchimageview = "3.5"
 truth = "1.1.5"
 turbine = "1.0.0"
@@ -140,7 +140,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid3" }
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
-sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }

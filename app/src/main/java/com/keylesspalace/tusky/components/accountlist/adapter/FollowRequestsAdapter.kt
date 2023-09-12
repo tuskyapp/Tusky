@@ -44,7 +44,6 @@ class FollowRequestsAdapter(
         )
         return FollowRequestViewHolder(
             binding,
-            accountActionListener,
             linkListener,
             showHeader = false
         )

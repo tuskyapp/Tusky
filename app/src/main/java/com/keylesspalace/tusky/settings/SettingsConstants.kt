@@ -52,7 +52,6 @@ object PrefKeys {
 
     const val SCHEMA_VERSION: String = "schema_version"
     const val APP_THEME = "appTheme"
-    const val EMOJI = "selected_emoji_font"
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
