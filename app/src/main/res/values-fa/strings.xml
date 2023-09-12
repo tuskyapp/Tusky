@@ -365,8 +365,8 @@
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام سیاهه</string>
     <string name="edit_hashtag_hint">برچسب بدون #</string>
-    <string name="notifications_clear">پاک‌سازی</string>
-    <string name="notifications_apply_filter">پالایش</string>
+    <string name="notifications_clear">حذف آگاهی‌ها</string>
+    <string name="notifications_apply_filter">پالایش آگاهی‌ها</string>
     <string name="filter_apply">اعمال</string>
     <string name="compose_shortcut_long_label">ایجاد فرسته</string>
     <string name="compose_shortcut_short_label">ایجاد</string>
@@ -685,4 +685,22 @@
     <string name="error_media_playback">پخش شکست خورد: %s</string>
     <string name="dialog_delete_filter_positive_action">حذف</string>
     <string name="dialog_delete_filter_text">حذف پالایهٔ «%1$s»؟</string>
+    <string name="dialog_save_profile_changes_message">می‌خواهید تغییرات نمایه‌تان را ذخیره کنید؟</string>
+    <string name="action_view_filter">دیدن پالایه</string>
+    <string name="muting_hashtag_success_format">خموش کردن برچسب #%s به عنوان هشدار</string>
+    <string name="unmuting_hashtag_success_format">ناخموش کردن برچسب #%s</string>
+    <string name="following_hashtag_success_format">اکنون برچسب #%s دنبال می‌شود</string>
+    <string name="unfollowing_hashtag_success_format">دیگر برچسب #%s دنبال نمی‌شود</string>
+    <string name="help_empty_conversations"><b>پیام‌های خصوصی</b>تان که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جا قرار دارند.
+\n
+\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربران در متن ایجاد می‌شود.
+\n
+\nبرای مثال می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. </string>
+    <string name="help_empty_lists">این <b>نمایهٔ سیاهه</b>‌تان است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید.
+\n
+\n به خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید.
+\n
+\n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. </string>
+    <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
+    <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
 </resources>
