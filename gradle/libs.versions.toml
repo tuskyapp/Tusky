@@ -48,7 +48,7 @@ robolectric = "4.10.3"
 rxandroid3 = "3.0.2"
 rxjava3 = "3.1.6"
 rxkotlin3 = "3.0.1"
-sparkbutton = "4.1.0"
+sparkbutton = "4.2.0"
 touchimageview = "3.5"
 truth = "1.1.5"
 turbine = "1.0.0"
@@ -140,7 +140,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid3" }
 rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
-sparkbutton = { module = "com.github.connyduck:sparkbutton", version.ref = "sparkbutton" }
+sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
