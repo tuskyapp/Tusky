@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
-        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
         getTheme().applyStyle(style, true);
 
         if(requiresLogin()) {
