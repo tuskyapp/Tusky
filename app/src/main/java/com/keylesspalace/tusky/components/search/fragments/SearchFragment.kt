@@ -107,7 +107,7 @@ abstract class SearchFragment<T : Any> :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.fragment_timeline, menu)
+        menuInflater.inflate(R.menu.fragment_search, menu)
         menu.findItem(R.id.action_refresh)?.apply {
             icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
                 sizeDp = 20
