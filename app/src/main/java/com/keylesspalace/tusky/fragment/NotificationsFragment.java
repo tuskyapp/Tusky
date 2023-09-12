@@ -275,6 +275,9 @@ public class NotificationsFragment extends SFragment implements
 
         updateAdapter();
 
+        binding.buttonClear.setOnClickListener(v -> confirmClearNotifications());
+        binding.buttonFilter.setOnClickListener(v -> showFilterMenu());
+
         if (notifications.isEmpty()) {
             binding.swipeRefreshLayout.setEnabled(false);
             sendFetchNotificationsRequest(null, null, FetchEnd.BOTTOM, -1);
@@ -306,25 +309,31 @@ public class NotificationsFragment extends SFragment implements
             binding.swipeRefreshLayout.setRefreshing(true);
             onRefresh();
             return true;
+        } else if (menuItem.getItemId() == R.id.action_edit_notification_filter) {
+            showFilterMenu();
+            return true;
+        } else if (menuItem.getItemId() == R.id.action_clear_notifications) {
+            confirmClearNotifications();
+            return true;
         }
 
         return false;
     }
 
     private void updateFilterVisibility() {
-//        CoordinatorLayout.LayoutParams params =
-//                (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
-//        if (showNotificationsFilter && !showingError) {
-//            binding.appBarOptions.setExpanded(true, false);
-//            binding.appBarOptions.setVisibility(View.VISIBLE);
-//            // Set content behaviour to hide filter on scroll
-//            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-//        } else {
-//            binding.appBarOptions.setExpanded(false, false);
-//            binding.appBarOptions.setVisibility(View.GONE);
-//            // Clear behaviour to hide app bar
-//            params.setBehavior(null);
-//        }
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
+        if (showNotificationsFilter && !showingError) {
+            binding.appBarOptions.setExpanded(true, false);
+            binding.appBarOptions.setVisibility(View.VISIBLE);
+            // Set content behaviour to hide filter on scroll
+            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        } else {
+            binding.appBarOptions.setExpanded(false, false);
+            binding.appBarOptions.setVisibility(View.GONE);
+            // Clear behaviour to hide app bar
+            params.setBehavior(null);
+        }
     }
 
     private void confirmClearNotifications() {
