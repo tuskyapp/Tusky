@@ -213,7 +213,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         final StatusActionListener listener) {
 
         Status actionable = status.getActionable();
-        String spoilerText = status.getSpoilerText();
+        String spoilerText = actionable.getSpoilerText();
         List<Emoji> emojis = actionable.getEmojis();
 
         boolean sensitive = !TextUtils.isEmpty(spoilerText);
@@ -764,7 +764,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (payloads == null) {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
-            setUsername(status.getUsername());
+            setUsername(actionable.getAccount().getUsername());
             setMetaData(status, statusDisplayOptions, listener);
             setIsReply(actionable.getInReplyToId() != null);
             setReplyCount(actionable.getRepliesCount(), statusDisplayOptions.showStatsInline());
@@ -860,11 +860,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         String description = context.getString(R.string.description_status,
                 actionable.getAccount().getDisplayName(),
                 getContentWarningDescription(context, status),
-                (TextUtils.isEmpty(status.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
+                (TextUtils.isEmpty(actionable.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
                 getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
                 actionable.getEditedAt() != null ? context.getString(R.string.description_post_edited) : "",
                 getReblogDescription(context, status),
-                status.getUsername(),
+                actionable.getAccount().getUsername(),
                 actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
                 actionable.getFavourited() ? context.getString(R.string.description_post_favourited) : "",
                 actionable.getBookmarked() ? context.getString(R.string.description_post_bookmarked) : "",
@@ -911,8 +911,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private static CharSequence getContentWarningDescription(Context context,
                                                              @NonNull StatusViewData.Concrete status) {
-        if (!TextUtils.isEmpty(status.getSpoilerText())) {
-            return context.getString(R.string.description_post_cw, status.getSpoilerText());
+        if (!TextUtils.isEmpty(status.getActionable().getSpoilerText())) {
+            return context.getString(R.string.description_post_cw, status.getActionable().getSpoilerText());
         } else {
             return "";
         }

@@ -36,7 +36,7 @@
 
     <issue
         id="InlinedApi"
-        message="Field requires API level 33 (current min is 23): `android.Manifest.permission#POST_NOTIFICATIONS`"
+        message="Field requires API level 33 (current min is 24): `android.Manifest.permission#POST_NOTIFICATIONS`"
         errorLine1="                arrayOf(Manifest.permission.POST_NOTIFICATIONS),"
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -71,17 +71,6 @@
         message="Invalid package reference in org.pageseeder.diffx:pso-diffx; not included in Android: `javax.xml.stream`. Referenced from `org.pageseeder.diffx.format.StrictXMLDiffOutput`.">
         <location
             file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        message="Call requires API level 24 (current min is 23): `java.lang.Iterable#forEach`"
-        errorLine1="        media.value.forEach { item ->"
-        errorLine2="                    ~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeViewModel.kt"
-            line="278"
-            column="21"/>
     </issue>
 
     <issue
@@ -471,13 +460,46 @@
 
     <issue
         id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 23"
-        errorLine1="            return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);"
-        errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="        if (Build.VERSION.SDK_INT > 23) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="862"
-            column="57"/>
+            file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
+            line="252"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is never &lt; 24"
+        errorLine1="        if (Build.VERSION.SDK_INT &lt;= 23 || player == null) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
+            line="261"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is never &lt; 24"
+        errorLine1="        if (Build.VERSION.SDK_INT &lt;= 23) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
+            line="284"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="Unnecessary; SDK_INT is always >= 24"
+        errorLine1="        if (Build.VERSION.SDK_INT > 23) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
+            line="296"
+            column="13"/>
     </issue>
 
     <issue
@@ -1103,7 +1125,7 @@
         errorLine2="                                                  ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="273"
             column="51"/>
     </issue>
 
@@ -1114,7 +1136,7 @@
         errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="273"
             column="68"/>
     </issue>
 
@@ -1125,7 +1147,7 @@
         errorLine2="                                                                                                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="274"
+            line="273"
             column="109"/>
     </issue>
 
@@ -1136,7 +1158,7 @@
         errorLine2="                                               ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="612"
+            line="611"
             column="48"/>
     </issue>
 
@@ -1147,7 +1169,7 @@
         errorLine2="                                                ~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="640"
+            line="639"
             column="49"/>
     </issue>
 
@@ -1158,7 +1180,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="656"
+            line="655"
             column="46"/>
     </issue>
 
@@ -1169,7 +1191,7 @@
         errorLine2="                                                                                      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/notifications/NotificationHelper.java"
-            line="656"
+            line="655"
             column="87"/>
     </issue>
 

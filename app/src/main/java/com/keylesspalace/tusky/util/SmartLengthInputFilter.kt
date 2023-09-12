@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.util
 
+import android.icu.text.BreakIterator
 import android.text.InputFilter
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -72,20 +73,10 @@ object SmartLengthInputFilter : InputFilter {
         if (source[keep].isLetterOrDigit()) {
             var boundary: Int
 
-            // Android N+ offer a clone of the ICU APIs in Java for better internationalization and
-            // unicode support. Using the ICU version of BreakIterator grants better support for
-            // those without having to add the ICU4J library at a minimum Api trade-off.
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                val iterator = android.icu.text.BreakIterator.getWordInstance()
-                iterator.setText(source.toString())
-                boundary = iterator.following(keep)
-                if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-            } else {
-                val iterator = java.text.BreakIterator.getWordInstance()
-                iterator.setText(source.toString())
-                boundary = iterator.following(keep)
-                if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
-            }
+            val iterator = BreakIterator.getWordInstance()
+            iterator.setText(source.toString())
+            boundary = iterator.following(keep)
+            if (keep - boundary > RUNWAY) boundary = iterator.preceding(keep)
 
             keep = boundary
         } else {

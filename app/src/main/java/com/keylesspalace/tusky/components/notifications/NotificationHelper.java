@@ -201,8 +201,7 @@ public class NotificationHelper {
         builder.setLargeIcon(accountAvatar);
 
         // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
-        if (body.getType() == Notification.Type.MENTION
-                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (body.getType() == Notification.Type.MENTION) {
             RemoteInput replyRemoteInput = new RemoteInput.Builder(KEY_REPLY)
                     .setLabel(context.getString(R.string.label_quick_reply))
                     .build();
@@ -859,7 +858,7 @@ public class NotificationHelper {
         if (mutable) {
             return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0);
         } else {
-            return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
+            return PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
         }
     }
 }
