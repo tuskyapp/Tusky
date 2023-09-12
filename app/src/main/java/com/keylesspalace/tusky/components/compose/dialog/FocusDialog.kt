@@ -49,12 +49,12 @@ fun <T> T.makeFocusDialog(
         .load(previewUri)
         .downsample(DownsampleStrategy.CENTER_INSIDE)
         .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(p0: GlideException?, p1: Any?, p2: Target<Drawable?>?, p3: Boolean): Boolean {
+            override fun onLoadFailed(p0: GlideException?, p1: Any?, p2: Target<Drawable?>, p3: Boolean): Boolean {
                 return false
             }
 
-            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                val width = resource!!.intrinsicWidth
+            override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                val width = resource.intrinsicWidth
                 val height = resource.intrinsicHeight
 
                 dialogBinding.focusIndicator.setImageSize(width, height)

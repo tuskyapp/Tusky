@@ -22,8 +22,9 @@ We try to follow the [Guide to app architecture](https://developer.android.com/t
 
 ### Kotlin
 Tusky was originally written in Java, but is in the process of migrating to Kotlin. All new code must be written in Kotlin.
-We try to follow the [Kotlin Style Guide](https://developer.android.com/kotlin/style-guide) and make format the code according to the default [ktlint codestyle](https://github.com/pinterest/ktlint).
-You can check the codestyle by running `./gradlew ktlintCheck`.
+We try to follow the [Kotlin Style Guide](https://developer.android.com/kotlin/style-guide) and format the code according to the default [ktlint codestyle](https://github.com/pinterest/ktlint).
+You can check the codestyle by running `./gradlew ktlintCheck lint`. This will fail if you have any errors, and produces a detailed report which also lists warnings.
+We intentionally have very few hard linting errors, so that new contributors can focus on what they want to achieve instead of fighting the linter.
 
 ### Text
 All English text that will be visible to users must be put in `app/src/main/res/values/strings.xml` so it is translateable into other languages.

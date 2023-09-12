@@ -306,7 +306,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
         override fun onLoadFailed(
             e: GlideException?,
-            model: Any,
+            model: Any?,
             target: Target<Drawable>,
             isFirstResource: Boolean
         ): Boolean {

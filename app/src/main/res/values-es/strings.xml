@@ -45,7 +45,7 @@
     <string name="post_content_warning_show_less">Mostrar menos</string>
     <string name="post_content_show_more">Expandir</string>
     <string name="post_content_show_less">Ocultar</string>
-    <string name="message_empty">Nada aquí.</string>
+    <string name="message_empty">Nada por aquí.</string>
     <string name="footer_empty">Nada por aquí. ¡Arrastra hacia abajo para recargar!</string>
     <string name="notification_reblog_format">%s impulsó tu publicación</string>
     <string name="notification_favourite_format">%s marcó como favorita tu publicación</string>
@@ -141,8 +141,8 @@
     <string name="dialog_message_cancel_follow_request">¿Cancelar petición de amistad?</string>
     <string name="dialog_unfollow_warning">¿Dejar de seguir esta cuenta?</string>
     <string name="dialog_delete_post_warning">¿Eliminar este toot\?</string>
-    <string name="visibility_public">Público: Mostrar en historias públicas</string>
-    <string name="visibility_unlisted">Oculto: No mostrar en historias públicas</string>
+    <string name="visibility_public">Público: Mostrar en cronologías públicas</string>
+    <string name="visibility_unlisted">Oculto: No mostrar en cronologías públicas</string>
     <string name="visibility_private">Privado: Sólo visible para seguidores</string>
     <string name="visibility_direct">Directo: Sólo visible para cuentas mencionadas</string>
     <string name="pref_title_edit_notification_settings">Notificaciones</string>
@@ -158,13 +158,13 @@
     <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema de la app</string>
-    <string name="pref_title_timelines">Cronologia</string>
+    <string name="pref_title_timelines">Cronología</string>
     <string name="app_them_dark">Oscuro</string>
     <string name="app_theme_light">Claro</string>
     <string name="app_theme_black">Negro</string>
     <string name="app_theme_auto">Automático</string>
     <string name="pref_title_browser_settings">Navegador</string>
-    <string name="pref_title_custom_tabs">Usar pestañas de Chrome</string>
+    <string name="pref_title_custom_tabs">Usar Chrome Custom Tabs</string>
     <string name="pref_title_hide_follow_button">Ocultar botón de redacción al bajar</string>
     <string name="pref_title_post_filter">Filtros de cronología</string>
     <string name="pref_title_post_tabs">Pestañas</string>

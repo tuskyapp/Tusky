@@ -29,6 +29,7 @@
 
          Disable these for the time being. -->
     <issue id="UnusedIds" severity="ignore" />
+    <issue id="UnusedResources" severity="ignore" />
 
     <!-- Logs are stripped in release builds. -->
     <issue id="LogConditional" severity="ignore" />
@@ -36,19 +37,39 @@
     <!-- Newer dependencies are handled by Renovate, and don't need a warning -->
     <issue id="GradleDependency" severity="ignore" />
 
-    <!-- Typographical quotes are not something we care about at the moment -->
+    <!-- Typographical punctuation is not something we care about at the moment -->
     <issue id="TypographyQuotes" severity="ignore" />
+    <issue id="TypographyDashes" severity="ignore" />
+    <issue id="TypographyEllipsis" severity="ignore" />
 
-    <!-- Ensure we are warned about errors in the baseline -->
-    <issue id="LintBaseline" severity="warning" />
+    <!-- Translations come from external parties -->
+    <issue id="MissingQuantity" severity="ignore" />
+    <issue id="ImpliedQuantity" severity="ignore" />
+    <!-- Most alleged typos are in translations -->
+    <issue id="Typos" severity="ignore" />
 
-    <!-- Warn about typos. The typo database in lint is not exhaustive, and it's unclear
-         how to add to it when it's wrong. -->
-    <issue id="Typos" severity="warning" />
+    <!-- Basically all of our vectors are external -->
+    <issue id="VectorPath" severity="ignore" />
+    <issue id="Overdraw" severity="ignore" />
 
-    <!-- Set OldTargetApi back to warning -->
-    <issue id="OldTargetApi" severity="warning" />
+    <!-- Irrelevant api version warnings -->
+    <issue id="OldTargetApi" severity="ignore" />
+    <issue id="UnusedAttribute" severity="ignore" />
 
-    <!-- Mark all other lint issues as errors -->
-    <issue id="all" severity="error" />
+    <!-- We do not *want* all the text in the app to be selectable -->
+    <issue id="SelectableText" severity="ignore" />
+
+    <!-- This is heavily used by the viewbinding helper -->
+    <issue id="SyntheticAccessor" severity="ignore" />
+
+    <!-- Things we would actually question in a code review -->
+    <issue id="MissingPermission" severity="error" />
+    <issue id="InvalidPackage" severity="error" />
+    <issue id="UseCompatLoadingForDrawables" severity="error" />
+    <issue id="UseCompatTextViewDrawableXml" severity="error" />
+    <issue id="Recycle" severity="error" />
+    <issue id="KeyboardInaccessibleWidget" severity="error" />
+
+    <!-- Mark all other lint issues as warnings -->
+    <issue id="all" severity="warning" />
 </lint>
