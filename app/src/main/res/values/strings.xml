@@ -613,8 +613,8 @@
     <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Delete notifications</string>
-    <string name="notifications_apply_filter">Filter notifications</string>
+    <string name="notifications_clear">Delete</string>
+    <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Apply</string>
 
     <string name="muting_hashtag_success_format">Muting hashtag #%s as a warning</string>
