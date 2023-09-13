@@ -302,6 +302,7 @@
     <string name="app_theme_black">Black</string>
     <string name="app_theme_auto">Automatic at sunset</string>
     <string name="app_theme_system">Use System Design</string>
+    <string name="app_theme_system_black">Use System Design (black)</string>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
