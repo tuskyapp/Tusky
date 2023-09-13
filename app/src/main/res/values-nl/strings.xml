@@ -18,7 +18,7 @@
     <string name="error_media_upload_sending">Uploaden mislukt.</string>
     <string name="error_sender_account_gone">Fout tijdens verzenden bericht.</string>
     <string name="title_home">Start</string>
-    <string name="title_notifications">Notificaties</string>
+    <string name="title_notifications">Meldingen</string>
     <string name="title_public_local">Lokaal</string>
     <string name="title_public_federated">Globaal</string>
     <string name="title_direct_messages">Directe berichten</string>
@@ -47,7 +47,7 @@
     <string name="post_content_show_less">Inklappen</string>
     <string name="message_empty">Hier is niets.</string>
     <string name="footer_empty">Niets te zien. Swipe naar beneden om te verversen!</string>
-    <string name="notification_reblog_format">%s boostte jou bericht</string>
+    <string name="notification_reblog_format">%s boostte jouw bericht</string>
     <string name="notification_favourite_format">%s markeerde jouw bericht als favoriet</string>
     <string name="notification_follow_format">%s volgt jou</string>
     <string name="report_username_format">Rapporteer @%s</string>
@@ -227,10 +227,10 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Projectwebsite:\n
-                    https://tusky.app</string>
-    <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:\n
-                    https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Projectwebsite:
+\nhttps://tusky.app</string>
+    <string name="about_bug_feature_request_site">Foutmeldingen &amp; nieuwe functies aanvragen:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'s profiel</string>
     <string name="post_share_content">Inhoud van bericht delen</string>
     <string name="post_share_link">Link van het bericht delen</string>
@@ -259,9 +259,8 @@
     <string name="title_lists">Lijsten</string>
     <string name="compose_active_account_description">Berichten plaatsen als %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one"/>
-        <item quantity="other">Omschrijf dit voor mensen met een visuele beperking
-\n(tekenlimiet is %d)</item>
+        <item quantity="one">Omschrijf inhoud voor iemand met een visuele beperking (tekenlimiet is %d)</item>
+        <item quantity="other">Omschrijf inhoud voor mensen met een visuele beperking (tekenlimiet is %d)</item>
     </plurals>
     <string name="action_set_caption">Beschrijving toevoegen</string>
     <string name="action_remove">Verwijderen</string>
@@ -342,10 +341,10 @@
     <string name="filter_dialog_update_button">Bijwerken</string>
     <string name="filter_add_description">Zinsdeel om te filteren</string>
     <string name="error_create_list">Kon geen lijst aanmaken</string>
-    <string name="error_rename_list">Kon de lijst niet hernoemen</string>
+    <string name="error_rename_list">Kan lijst niet updaten</string>
     <string name="error_delete_list">Kon de lijst niet verwijderen</string>
     <string name="action_create_list">Lijst aanmaken</string>
-    <string name="action_rename_list">Lijst hernoemen</string>
+    <string name="action_rename_list">Lijst updaten</string>
     <string name="action_delete_list">Lijst verwijderen</string>
     <string name="hint_search_people_list">Naar mensen zoeken die je volgt</string>
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
@@ -354,8 +353,8 @@
     <string name="edit_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
-    <string name="notifications_clear">Leegmaken</string>
-    <string name="notifications_apply_filter">Filter</string>
+    <string name="notifications_clear">Verwijder meldingen</string>
+    <string name="notifications_apply_filter">Filter meldingen</string>
     <string name="filter_apply">Toepassen</string>
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
@@ -410,7 +409,6 @@
     <string name="failed_fetch_posts">Het ophalen van berichten is mislukt</string>
     <string name="report_description_1">Deze rapportage wordt naar jouw servermoderator(en) gestuurd. Je kunt hieronder een uitleg geven over waarom je het account wilt rapporteren:</string>
     <string name="report_description_remote_instance">Het account is van een andere server. Wil je ook een geanonimiseerde kopie van de rapportage daarnaartoe sturen\?</string>
-    <string name="pref_title_show_notifications_filter">Meldingenfilter tonen</string>
     <string name="filter_dialog_whole_word">Heel woord</string>
     <string name="filter_dialog_whole_word_description">Wanneer het trefwoord of zinsdeel alfanumeriek is, wordt het alleen gefilterd wanneer het hele woord overeenkomt</string>
     <string name="duration_5_min">5 minuten</string>
@@ -602,7 +600,7 @@
     <string name="action_post_failed_do_nothing">Afwijzen</string>
     <string name="action_post_failed_show_drafts">Concepten tonen</string>
     <string name="error_unmuting_hashtag_format">Fout bij unmuting #%s</string>
-    <string name="action_browser_login">Inloggen met een Browser</string>
+    <string name="action_browser_login">Inloggen met een browser</string>
     <string name="action_add_reaction">reactie toevoegen</string>
     <string name="action_discard">Veranderingen ongedaan maken</string>
     <string name="post_edited">Bewerkt %s</string>
@@ -650,4 +648,23 @@
     <string name="label_filter_title">Titel</string>
     <string name="load_newest_notifications">Laad nieuwste meldingen</string>
     <string name="compose_delete_draft">Verwijder concept\?</string>
+    <string name="notification_notification_worker">Meldingen ophalen…</string>
+    <string name="notification_listenable_worker_name">Achtergrond activiteit</string>
+    <string name="notification_listenable_worker_description">Meldingen als Tusky werkt op de achtergrond</string>
+    <string name="about_device_info">%s %s
+\nAndroid versie: %s
+\nSDK versie: %d</string>
+    <string name="about_account_info_title">Je account</string>
+    <string name="about_account_info">\@%s@%s
+\nVersie: %s</string>
+    <string name="about_copy">Kopieer versie en apparaatinformatie</string>
+    <string name="about_copied">Versie en apparaatinformatie gekopieerd</string>
+    <string name="error_media_upload_sending_fmt">De upload is mislukt: %s</string>
+    <string name="socket_timeout_exception">Contact zoeken met je server duurde te lang</string>
+    <string name="dialog_delete_filter_positive_action">Verwijder</string>
+    <string name="dialog_delete_filter_text">Verwijder filter \'%1$s\'\?</string>
+    <string name="pref_ui_text_size">UI tekstgrootte</string>
+    <string name="notification_prune_cache">Cache onderhoud…</string>
+    <string name="about_device_info_title">Je apparaat</string>
+    <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
 </resources>

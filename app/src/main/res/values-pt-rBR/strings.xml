@@ -56,7 +56,7 @@
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Tusky</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Tem certeza de que deseja sair da conta %1$s\?</string>
+    <string name="action_logout_confirm">Tem certeza de que deseja sair de %1$s\? Isso excluirá todos os dados locais da conta, incluindo rascunhos e preferências.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -215,10 +215,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Site do projeto:\n
-            https://tusky.app</string>
+    <string name="about_project_site">Site do projeto: https://tusky.app</string>
     <string name="about_bug_feature_request_site">Reporte bugs e solicite funcionalidades:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil do Tusky</string>
     <string name="post_share_content">Compartilhar conteúdo do toot</string>
     <string name="post_share_link">Compartilhar link do toot</string>
@@ -287,7 +286,7 @@
     <string name="title_favourited_by">Favoritado por</string>
     <string name="description_visibility_public">Público</string>
     <string name="description_visibility_private">Seguidores</string>
-    <string name="error_network">Ocorreu um erro de conexão! Por favor, verifique sua internet e tente novamente!</string>
+    <string name="error_network">Ocorreu um erro de rede. Por favor verifique sua conexão e tente novamente.</string>
     <string name="title_posts_pinned">Fixado</string>
     <string name="post_username_format">\@%s</string>
     <string name="post_content_show_more">Mostrar mais</string>
@@ -316,21 +315,18 @@
     <string name="filter_dialog_update_button">Atualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
     <string name="error_create_list">Não foi possível criar a lista</string>
-    <string name="error_rename_list">Não foi possível renomear a lista</string>
+    <string name="error_rename_list">Não foi possível atualizar a lista</string>
     <string name="error_delete_list">Não foi possível excluir a lista</string>
     <string name="action_create_list">Criar uma lista</string>
-    <string name="action_rename_list">Renomear lista</string>
+    <string name="action_rename_list">Atualizar a lista</string>
     <string name="action_delete_list">Excluir lista</string>
     <string name="hint_search_people_list">Pesquisar pessoas que você segue</string>
     <string name="action_add_to_list">Adicionar conta à lista</string>
     <string name="action_remove_from_list">Remover conta da lista</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Descreva para deficientes visuais
-\n(até %d caractere)</item>
-        <item quantity="many">Descreva para deficientes visuais
-\n(até %d caracteres)</item>
-        <item quantity="other">Descreva para deficientes visuais
-\n(até %d caracteres)</item>
+        <item quantity="one">Descreva os conteúdos para deficientes visuais (até %d caractere)</item>
+        <item quantity="many">Descreva os conteúdos para deficientes visuais (até %d caracteres)</item>
+        <item quantity="other">Descreva os conteúdos para deficientes visuais (até %d caracteres)</item>
     </plurals>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -364,8 +360,8 @@
     <string name="description_visibility_direct">Direto</string>
     <string name="hint_list_name">Nome da lista</string>
     <string name="edit_hashtag_hint">Hashtag sem #</string>
-    <string name="notifications_clear">Limpar</string>
-    <string name="notifications_apply_filter">Filtro</string>
+    <string name="notifications_clear">Excluir notificações</string>
+    <string name="notifications_apply_filter">Filtrar notificações</string>
     <string name="filter_apply">Salvar</string>
     <string name="compose_shortcut_long_label">Compor toot</string>
     <string name="compose_shortcut_short_label">Compor</string>
@@ -422,7 +418,6 @@
     <string name="confirmation_domain_unmuted">%s desbloqueada</string>
     <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
-    <string name="pref_title_show_notifications_filter">Mostrar filtro de notificações</string>
     <string name="filter_dialog_whole_word">Toda palavra</string>
     <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
     <string name="action_add_poll">Adicionar enquete</string>
@@ -607,4 +602,35 @@
     <string name="saving_draft">Salvando rascunho…</string>
     <string name="title_login">Entrar</string>
     <string name="instance_rule_title">%s regras</string>
+    <string name="pref_ui_text_size">Tamanho do texto da IU</string>
+    <string name="accessibility_talking_about_tag">%1$d pessoas estão falando sobre a hashtag %2$s</string>
+    <string name="total_usage">Uso total</string>
+    <string name="notification_listenable_worker_name">Atividade em segundo plano</string>
+    <string name="notification_listenable_worker_description">Notificações quando o Tusky está trabalhando em segundo plano</string>
+    <string name="notification_notification_worker">Buscando notificações…</string>
+    <string name="about_device_info_title">Seu dispositivo</string>
+    <string name="about_device_info">%s %s
+\nVersão Android: %s
+\nVersão do SDK: %d</string>
+    <string name="about_account_info">\@%s@%s
+\nVersão: %s</string>
+    <string name="about_account_info_title">Sua conta</string>
+    <string name="action_refresh">Atualizar</string>
+    <string name="hint_description">Descrição</string>
+    <string name="action_add">Adicionar</string>
+    <string name="notification_unknown_name">Desconhecido</string>
+    <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Excluir</string>
+    <string name="dialog_save_profile_changes_message">Você deseja salvar as alterações do seu perfil\?</string>
+    <string name="about_copied">Versão e informações do dispositivo copiadas</string>
+    <string name="status_filter_placeholder_label_format">Filtrado: %s</string>
+    <string name="pref_title_account_filter_keywords">Perfis</string>
+    <string name="post_media_image">Imagem</string>
+    <string name="muting_hashtag_success_format">Silenciando a hashtag #%s com um aviso</string>
+    <string name="label_filter_title">Título</string>
+    <string name="filter_action_warn">Aviso</string>
+    <string name="filter_action_hide">Esconder</string>
+    <string name="about_copy">Copiar a versão e as informações do dispositivo</string>
+    <string name="load_newest_notifications">Carregar notificações mais recentes</string>
+    <string name="compose_delete_draft">Excluir rascunho\?</string>
 </resources>

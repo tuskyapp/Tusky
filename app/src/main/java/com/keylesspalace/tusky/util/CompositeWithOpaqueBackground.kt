@@ -26,7 +26,6 @@ import android.graphics.Paint
 import android.graphics.Shader
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
@@ -79,7 +78,6 @@ class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
         // If the input bitmap has no alpha channel then there's nothing to do
         if (!toTransform.hasAlpha()) return toTransform
 
-        Log.d(TAG, "toTransform: ${toTransform.width} ${toTransform.height}")
         // Get the background drawable for this view, falling back to the given attribute
         val backgroundDrawable = view.getFirstNonNullBackgroundOrAttr(android.R.attr.colorBackground)
         backgroundDrawable ?: return toTransform

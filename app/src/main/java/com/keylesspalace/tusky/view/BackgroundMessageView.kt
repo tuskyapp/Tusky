@@ -61,6 +61,7 @@ class BackgroundMessageView @JvmOverloads constructor(
         binding.imageView.setImageResource(imageRes)
         binding.button.setOnClickListener(clickListener)
         binding.button.visible(clickListener != null)
+        binding.helpText.visible(false)
     }
 
     fun showHelp(@StringRes helpRes: Int) {

@@ -299,7 +299,7 @@
     <string name="pref_title_thread_filter_keywords">Sgyrsiau</string>
     <string name="mute_domain_warning_dialog_ok">Cuddio parth i gyd</string>
     <string name="action_mute_conversation">Tewi\'r sgwrs</string>
-    <string name="notifications_apply_filter">Hidlo</string>
+    <string name="notifications_apply_filter">Hidlo\'r hysbysiadau</string>
     <string name="notification_poll_description">Hysbysiadau am bolau sydd wedi eu cwblhau</string>
     <string name="account_date_joined">Ymunodd %1$s</string>
     <string name="no_scheduled_posts">Does gennych ddim negeseuon amserlenwyd.</string>
@@ -307,7 +307,6 @@
     <string name="notification_clear_text">Ydych chi\'n siŵr eich bod chi am glirio\'ch holl hysbysiadau\'n barhaol\?</string>
     <string name="error_multimedia_size_limit">Ni all ffeiliau fideo a sain fod yn fwy na %s MB.</string>
     <string name="url_domain_notifier">%s (🔗 %s)</string>
-    <string name="pref_title_show_notifications_filter">Dangos yr hidlydd hysbysiadau</string>
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%s</string>
     <string name="action_unmute_domain">Dad-dewi %s</string>
@@ -336,7 +335,7 @@
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
-    <string name="notifications_clear">Clirio</string>
+    <string name="notifications_clear">Clirio\'r hysbysiadau</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
     <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
@@ -706,7 +705,7 @@
     <string name="select_list_empty">Nid oes gennych restrau, eto</string>
     <string name="select_list_manage">Rheoli rhestrau</string>
     <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
-    <string name="help_empty_home">Hwn yw\'ch <b>ffrwd cartref</b>. Mae’n dangos negeseuon diweddar y cyfrifon rydych yn eu dilyn.
+    <string name="help_empty_home">Hwn yw\'ch <b>ffrwd cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rydych yn eu dilyn.
 \n
 \nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, mae llinell amser eich enghraifft chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
     <string name="pref_title_show_stat_inline">Dangos ystadegau negeseuon mewn llinell amser</string>
@@ -731,4 +730,8 @@
     <string name="about_copy">Copïo fersiwn a gwybodaeth dyfais</string>
     <string name="about_copied">Copïwyd fersiwn a gwybodaeth dyfais</string>
     <string name="list_exclusive_label">Cuddio o\'r ffrwd cartref</string>
+    <string name="error_media_playback">Methodd chwarae: %s</string>
+    <string name="dialog_delete_filter_positive_action">Dileu</string>
+    <string name="dialog_delete_filter_text">Dileu\'r hidlydd \'%1$s\'\?</string>
+    <string name="dialog_save_profile_changes_message">Hoffech gadw eich newidiadau proffil\?</string>
 </resources>

@@ -35,7 +35,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
     private static final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
 
-    public StatusDetailedViewHolder(View view) {
+    public StatusDetailedViewHolder(@NonNull View view) {
         super(view);
         reblogs = view.findViewById(R.id.status_reblogs);
         favourites = view.findViewById(R.id.status_favourites);
@@ -43,7 +43,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     @Override
-    protected void setMetaData(StatusViewData.Concrete statusViewData, StatusDisplayOptions statusDisplayOptions, StatusActionListener listener) {
+    protected void setMetaData(@NonNull StatusViewData.Concrete statusViewData, @NonNull StatusDisplayOptions statusDisplayOptions, @NonNull StatusActionListener listener) {
 
         Status status = statusViewData.getActionable();
 

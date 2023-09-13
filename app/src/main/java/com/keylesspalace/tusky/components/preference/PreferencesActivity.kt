@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
@@ -145,8 +146,8 @@ class PreferencesActivity :
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "appTheme" -> {
-                val theme = sharedPreferences.getNonNullString("appTheme", APP_THEME_DEFAULT)
+            APP_THEME -> {
+                val theme = sharedPreferences.getNonNullString(APP_THEME, APP_THEME_DEFAULT)
                 Log.d("activeTheme", theme)
                 setAppNightMode(theme)
 
@@ -157,9 +158,9 @@ class PreferencesActivity :
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.restartCurrentActivity()
             }
-            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
-            "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
-            "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {
+            PrefKeys.STATUS_TEXT_SIZE, PrefKeys.ABSOLUTE_TIME_VIEW, PrefKeys.SHOW_BOT_OVERLAY, PrefKeys.ANIMATE_GIF_AVATARS, PrefKeys.USE_BLURHASH,
+            PrefKeys.SHOW_SELF_USERNAME, PrefKeys.SHOW_CARDS_IN_TIMELINES, PrefKeys.CONFIRM_REBLOGS, PrefKeys.CONFIRM_FAVOURITES,
+            PrefKeys.ENABLE_SWIPE_FOR_TABS, PrefKeys.MAIN_NAV_POSITION, PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
             }
         }

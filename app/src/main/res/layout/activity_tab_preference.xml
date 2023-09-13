@@ -66,7 +66,6 @@
                 android:layout_height="48dp"
                 android:layout_gravity="bottom"
                 android:background="?attr/colorPrimary"
-                android:drawableStart="@drawable/ic_plus_24dp"
                 android:drawablePadding="12dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -75,7 +74,8 @@
                 android:paddingEnd="8dp"
                 android:text="@string/action_add_tab"
                 android:textColor="?attr/colorOnPrimary"
-                android:textSize="?attr/status_text_large" />
+                android:textSize="?attr/status_text_large"
+                app:drawableStartCompat="@drawable/ic_plus_24dp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

@@ -277,7 +277,7 @@ class TimelineFragment :
 
         if (actionButtonPresent()) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            hideFab = preferences.getBoolean("fabHide", false)
+            hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                     val composeButton = (activity as ActionButtonActivity).actionButton

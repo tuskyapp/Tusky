@@ -148,7 +148,7 @@
         <activity
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".components.instancemute.InstanceListActivity" />
+        <activity android:name=".components.domainblocks.DomainBlocksActivity" />
         <activity android:name=".components.scheduled.ScheduledStatusActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
@@ -188,8 +188,7 @@
             android:icon="@drawable/ic_quicksettings"
             android:label="@string/tusky_compose_post_quicksetting_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true"
-            tools:targetApi="24">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>

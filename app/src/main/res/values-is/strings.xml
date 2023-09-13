@@ -249,10 +249,9 @@
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_powered_by_tusky">Keyrir á Tusky</string>
     <string name="about_tusky_license">Tusky er frjáls hugbúnaður með opinn grunnkóða. Hann er gefinn út með GNU General Public notkunarleyfi, útgáfu 3. Þú getur skoðað notkunarleyfið hér: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <string name="about_project_site">Vefsvæði verkefnisins:
-\n https://tusky.app</string>
-    <string name="about_bug_feature_request_site">Villutilkynningar og beiðnir um nýja eiginleika:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Vefsvæði verkefnisins: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Villutilkynningar og beiðnir um nýja eiginleika: 
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Notandasnið Tusky</string>
     <string name="post_share_content">Deila efni úr færslu</string>
     <string name="post_share_link">Deila tengli á færslu</string>
@@ -287,10 +286,10 @@
     <string name="add_account_name">Bæta við aðgang</string>
     <string name="add_account_description">Bæta við nýjum Mastodon-aðgangi</string>
     <string name="error_create_list">Ekki tókst að búa til lista</string>
-    <string name="error_rename_list">Ekki tókst að endurnefna lista</string>
+    <string name="error_rename_list">Ekki tókst að uppfæra lista</string>
     <string name="error_delete_list">Ekki tókst að eyða lista</string>
     <string name="action_create_list">Búa til lista</string>
-    <string name="action_rename_list">Endurnefna listann</string>
+    <string name="action_rename_list">Uppfæra listann</string>
     <string name="action_delete_list">Eyða listanum</string>
     <string name="hint_search_people_list">Leita að fólki sem þú fylgist með</string>
     <string name="action_add_to_list">Bæta notandaaðgangi á listann</string>
@@ -367,8 +366,8 @@
     <string name="edit_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
-    <string name="notifications_clear">Hreinsa</string>
-    <string name="notifications_apply_filter">Sía</string>
+    <string name="notifications_clear">Eyða tilkynningum</string>
+    <string name="notifications_apply_filter">Sía tilkynningar</string>
     <string name="filter_apply">Virkja</string>
     <string name="compose_shortcut_long_label">Semja færslu</string>
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
@@ -396,7 +395,6 @@
     <string name="report_description_remote_instance">Notandaaðgangurinn er af öðrum vefþjóni. Á einnig að senda nafnlaust afrit af kærunni þangað\?</string>
     <string name="title_accounts">Notandaaðgangar</string>
     <string name="failed_search">Tókst ekki að leita</string>
-    <string name="pref_title_show_notifications_filter">Birta tilkynningasíu</string>
     <string name="create_poll_title">Athuga</string>
     <string name="duration_5_min">5 mínútur</string>
     <string name="duration_30_min">30 mínútur</string>
@@ -666,4 +664,36 @@
     <string name="error_missing_edits">Þjónninn þinn veit að þessari færslu hefur verið breytt, en er hins vegar ekki með afrit af breytingunum, þannig að ekki er hægt að sýna þér þær.
 \n
 \nÞetta er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon verkbeiðni #25398</a>.</string>
+    <string name="about_device_info_title">Tækið þitt</string>
+    <string name="about_device_info">%s %s
+\nAndroid-útgáfa: %s
+\nSDK-útgáfa: %d</string>
+    <string name="about_account_info_title">Notandaaðgangurinn þinn</string>
+    <string name="about_account_info">\@%s@%s
+\nÚtgáfa: %s</string>
+    <string name="about_copy">Afrita upplýsingar um útgáfu og tæki</string>
+    <string name="about_copied">Afritaði upplýsingar um útgáfu og tæki</string>
+    <string name="list_exclusive_label">Fela frá tímalínu</string>
+    <string name="error_media_playback">Afspilun mistókst: %s</string>
+    <string name="dialog_delete_filter_text">Eyða síunni \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Eyða</string>
+    <string name="muting_hashtag_success_format">Þagga niður í myllumerkinu #%s sem aðvörun</string>
+    <string name="unmuting_hashtag_success_format">Hætti að þagga niður í myllumerkinu #%s</string>
+    <string name="action_view_filter">Skoða síu</string>
+    <string name="following_hashtag_success_format">Fylgist núna með myllumerkinu #%s</string>
+    <string name="unfollowing_hashtag_success_format">Fylgist ekki lengur með myllumerkinu #%s</string>
+    <string name="dialog_save_profile_changes_message">Viltu vista breytingarnar á notandasniðinu þínu\?</string>
+    <string name="error_blocking_domain">Mistókst að þagga niður í %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Mistókst að hætta að þagga niður í %1$s: %2$s</string>
+    <string name="error_media_upload_sending_fmt">Innsendingin mistókst: %s</string>
+    <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM).
+\n
+\nEinkaskilaboð eru gerð með því að stilla sýnileika [iconics gmd_public] færslu [iconics gmd_mail] á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum.
+\n
+\nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum. </string>
+    <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá.
+\n
+\n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
+\n
+\n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs. </string>
 </resources>

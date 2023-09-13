@@ -56,10 +56,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
+
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
     private static final String TAG = "BaseActivity";
 
     @Inject
+    @NonNull
     public AccountManager accountManager;
 
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
@@ -74,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String theme = preferences.getString("appTheme", ThemeUtils.APP_THEME_DEFAULT);
+        String theme = preferences.getString(APP_THEME, ThemeUtils.APP_THEME_DEFAULT);
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
@@ -87,7 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
 
-        int style = textStyle(preferences.getString("statusTextSize", "medium"));
+        int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
         getTheme().applyStyle(style, true);
 
         if(requiresLogin()) {
@@ -162,13 +165,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    public void startActivityWithSlideInAnimation(Intent intent) {
+    public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
         super.startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             getOnBackPressedDispatcher().onBackPressed();
             return true;
@@ -196,7 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {
+    protected void showErrorDialog(@Nullable View anyView, @StringRes int descriptionId, @StringRes int actionId, @Nullable View.OnClickListener listener) {
         if (anyView != null) {
             Snackbar bar = Snackbar.make(anyView, getString(descriptionId), Snackbar.LENGTH_SHORT);
             bar.setAction(actionId, listener);
@@ -204,7 +207,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    public void showAccountChooserDialog(CharSequence dialogTitle, boolean showActiveAccount, AccountSelectionListener listener) {
+    public void showAccountChooserDialog(@Nullable CharSequence dialogTitle, boolean showActiveAccount, @NonNull AccountSelectionListener listener) {
         List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
         AccountEntity activeAccount = accountManager.getActiveAccount();
 
@@ -256,9 +259,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
         accountManager.setActiveAccount(account.getId());
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(MainActivity.REDIRECT_URL, url);
+        Intent intent = MainActivity.redirectIntent(this, account.getId(), url);
+
         startActivity(intent);
         finishWithoutSlideOutAnimation();
     }
@@ -272,7 +274,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    public void requestPermissions(String[] permissions, PermissionRequester requester) {
+    public void requestPermissions(@NonNull String[] permissions, @NonNull PermissionRequester requester) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for(String permission: permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {

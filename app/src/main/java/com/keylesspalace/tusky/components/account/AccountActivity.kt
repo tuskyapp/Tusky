@@ -173,9 +173,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        animateAvatar = sharedPrefs.getBoolean("animateGifAvatars", false)
+        animateAvatar = sharedPrefs.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         animateEmojis = sharedPrefs.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        hideFab = sharedPrefs.getBoolean("fabHide", false)
+        hideFab = sharedPrefs.getBoolean(PrefKeys.FAB_HIDE, false)
 
         handleWindowInsets()
         setupToolbar()
@@ -772,13 +772,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             loadedAccount?.let { loadedAccount ->
                 val muteDomain = menu.findItem(R.id.action_mute_domain)
                 domain = getDomain(loadedAccount.url)
-                if (domain.isEmpty()) {
+                when {
                     // If we can't get the domain, there's no way we can mute it anyway...
-                    menu.removeItem(R.id.action_mute_domain)
-                } else {
-                    if (blockingDomain) {
+                    // If the account is from our own domain, muting it is no-op
+                    domain.isEmpty() || viewModel.isFromOwnDomain -> {
+                        menu.removeItem(R.id.action_mute_domain)
+                    }
+                    blockingDomain -> {
                         muteDomain.title = getString(R.string.action_unmute_domain, domain)
-                    } else {
+                    }
+                    else -> {
                         muteDomain.title = getString(R.string.action_mute_domain, domain)
                     }
                 }

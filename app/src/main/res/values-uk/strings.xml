@@ -473,7 +473,6 @@
     <string name="no_drafts">У вас немає чернеток.</string>
     <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
-    <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати анонімізовану копію звіту й туди\?</string>
     <string name="report_description_1">Скаргу буде надіслано вашому модератору сервера. Ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис знизу:</string>
@@ -483,8 +482,8 @@
     <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
     <string name="compose_shortcut_long_label">Створити допис</string>
     <string name="filter_apply">Застосувати</string>
-    <string name="notifications_apply_filter">Фільтр</string>
-    <string name="notifications_clear">Очистити</string>
+    <string name="notifications_apply_filter">Фільтр сповіщень</string>
+    <string name="notifications_clear">Видалити сповіщення</string>
     <string name="list">Список</string>
     <string name="select_list_title">Вибрати список</string>
     <string name="edit_hashtag_hint">Хештег без #</string>
@@ -635,7 +634,7 @@
 \n
 \nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
     <string name="accessibility_talking_about_tag">%1$d людей обговорюють хештеґ %2$s</string>
-    <string name="title_public_trending_hashtags">Популярні хештеґи</string>
+    <string name="title_public_trending_hashtags">Популярні хештеги</string>
     <string name="total_usage">Усього використано</string>
     <string name="total_accounts">Усього облікових записів</string>
     <string name="dialog_follow_hashtag_title">Стежити за хештегом</string>
@@ -700,4 +699,25 @@
     <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
+    <string name="help_empty_conversations">Тут знаходяться ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM).
+\n
+\nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів.
+\n
+\nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. </string>
+    <string name="error_media_playback">Не вдалося відтворити: %s</string>
+    <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Видалити</string>
+    <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
+    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи.
+\n
+\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте.
+\n
+\nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+    <string name="muting_hashtag_success_format">Ігнорувати хештег #%s як попередження</string>
+    <string name="unmuting_hashtag_success_format">Перестати ігнорувати #%s</string>
+    <string name="action_view_filter">Переглянути фільтр</string>
+    <string name="following_hashtag_success_format">Хештег #%s відстежується</string>
+    <string name="unfollowing_hashtag_success_format">Хештег #%s більше не відстежується</string>
+    <string name="error_blocking_domain">Не вдається ігнорувати %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Не вдалося перестати ігнорувати %1$s: %2$s</string>
 </resources>

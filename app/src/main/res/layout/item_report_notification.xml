@@ -43,6 +43,7 @@
         android:id="@+id/notification_reporter_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:contentDescription="@string/action_view_profile"
         app:layout_constraintRight_toRightOf="@id/notification_reportee_avatar"
         app:layout_constraintBottom_toBottomOf="@id/notification_reportee_avatar"
         />
@@ -60,6 +61,7 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        tools:ignore="NegativeMargin"
         tools:text="30 minutes ago - 2 posts" />
 
     <TextView

@@ -31,13 +31,13 @@ import com.google.android.material.color.MaterialColors
  * the ability to do so is not supported in resource files.
  */
 
-private const val THEME_NIGHT = "night"
-private const val THEME_DAY = "day"
-private const val THEME_BLACK = "black"
-private const val THEME_AUTO = "auto"
-private const val THEME_SYSTEM = "auto_system"
-private const val THEME_SYSTEM_BLACK = "auto_system_black"
-const val APP_THEME_DEFAULT = THEME_NIGHT
+const val THEME_NIGHT = "night"
+const val THEME_DAY = "day"
+const val THEME_BLACK = "black"
+const val THEME_AUTO = "auto"
+const val THEME_SYSTEM = "auto_system"
+const val THEME_SYSTEM_BLACK = "auto_system_black"
+const val APP_THEME_DEFAULT = THEME_SYSTEM
 
 fun getDimension(context: Context, @AttrRes attribute: Int): Int {
     return context.obtainStyledAttributes(intArrayOf(attribute)).use { array ->

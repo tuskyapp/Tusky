@@ -24,7 +24,12 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/load_newest"
-        android:title="@string/load_newest_notifications"
+        android:id="@+id/action_edit_notification_filter"
+        android:title="@string/notifications_apply_filter"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_clear_notifications"
+        android:title="@string/notifications_clear"
         app:showAsAction="never" />
 </menu>

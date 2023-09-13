@@ -85,13 +85,6 @@ public class NotificationHelper {
     /** Dynamic notification IDs start here */
     private static int notificationId = NOTIFICATION_ID_PRUNE_CACHE + 1;
 
-    /**
-     * constants used in Intents
-     */
-    public static final String ACCOUNT_ID = "account_id";
-
-    public static final String TYPE = APPLICATION_ID + ".notification.type";
-
     private static final String TAG = "NotificationHelper";
 
     public static final String REPLY_ACTION = "REPLY_ACTION";
@@ -156,7 +149,7 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final Context context, NotificationManager notificationManager, Notification body, AccountEntity account, boolean isFirstOfBatch) {
+    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isFirstOfBatch) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -208,8 +201,7 @@ public class NotificationHelper {
         builder.setLargeIcon(accountAvatar);
 
         // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
-        if (body.getType() == Notification.Type.MENTION
-                && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (body.getType() == Notification.Type.MENTION) {
             RemoteInput replyRemoteInput = new RemoteInput.Builder(KEY_REPLY)
                     .setLabel(context.getString(R.string.label_quick_reply))
                     .build();
@@ -245,7 +237,7 @@ public class NotificationHelper {
         Bundle extras = new Bundle();
         // Add the sending account's name, so it can be used when summarising this notification
         extras.putString(EXTRA_ACCOUNT_NAME, body.getAccount().getName());
-        extras.putString(EXTRA_NOTIFICATION_TYPE, body.getType().toString());
+        extras.putSerializable(EXTRA_NOTIFICATION_TYPE, body.getType());
         builder.addExtras(extras);
 
         // Only alert for the first notification of a batch to avoid multiple alerts at once
@@ -278,7 +270,7 @@ public class NotificationHelper {
      * @param notificationManager the system's NotificationManager
      * @param account the account for which the notification should be shown
      */
-    public static void updateSummaryNotifications(Context context, NotificationManager notificationManager, AccountEntity account) {
+    public static void updateSummaryNotifications(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account) {
         // Map from the channel ID to a list of notifications in that channel. Those are the
         // notifications that will be summarised.
         Map<String, List<StatusBarNotification>> channelGroups = new HashMap<>();
@@ -325,11 +317,10 @@ public class NotificationHelper {
             // Create a notification that summarises the other notifications in this group
 
             // All notifications in this group have the same type, so get it from the first.
-            String notificationType = members.get(0).getNotification().extras.getString(EXTRA_NOTIFICATION_TYPE);
+            Notification.Type notificationType = (Notification.Type)members.get(0).getNotification().extras.getSerializable(EXTRA_NOTIFICATION_TYPE);
 
-            Intent summaryResultIntent = new Intent(context, MainActivity.class);
-            summaryResultIntent.putExtra(ACCOUNT_ID, (long) accountId);
-            summaryResultIntent.putExtra(TYPE, notificationType);
+            Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, notificationType);
+
             TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
             summaryStackBuilder.addParentStack(MainActivity.class);
             summaryStackBuilder.addNextIntent(summaryResultIntent);
@@ -373,10 +364,8 @@ public class NotificationHelper {
 
     private static NotificationCompat.Builder newAndroidNotification(Context context, Notification body, AccountEntity account) {
 
-        // we have to switch account here
-        Intent eventResultIntent = new Intent(context, MainActivity.class);
-        eventResultIntent.putExtra(ACCOUNT_ID, account.getId());
-        eventResultIntent.putExtra(TYPE, body.getType().name());
+        Intent eventResultIntent = MainActivity.openNotificationIntent(context, account.getId(), body.getType());
+
         TaskStackBuilder eventStackBuilder = TaskStackBuilder.create(context);
         eventStackBuilder.addParentStack(MainActivity.class);
         eventStackBuilder.addNextIntent(eventResultIntent);
@@ -464,12 +453,7 @@ public class NotificationHelper {
         composeOptions.setLanguage(actionableStatus.getLanguage());
         composeOptions.setKind(ComposeActivity.ComposeKind.NEW);
 
-        Intent composeIntent = ComposeActivity.startIntent(
-                context,
-                composeOptions,
-                notificationId,
-                account.getId()
-        );
+        Intent composeIntent = MainActivity.composeIntent(context, composeOptions, account.getId(), body.getId(), (int)account.getId());
 
         composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -624,7 +608,7 @@ public class NotificationHelper {
 
     }
 
-    public static void enablePullNotifications(Context context) {
+    public static void enablePullNotifications(@NonNull Context context) {
         WorkManager workManager = WorkManager.getInstance(context);
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
 
@@ -652,7 +636,7 @@ public class NotificationHelper {
         Log.d(TAG, "enabled notification checks with "+ PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval");
     }
 
-    public static void disablePullNotifications(Context context) {
+    public static void disablePullNotifications(@NonNull Context context) {
         WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_PULL_TAG);
         Log.d(TAG, "disabled notification checks");
     }
@@ -668,7 +652,7 @@ public class NotificationHelper {
         }
     }
 
-    public static boolean filterNotification(NotificationManager notificationManager, AccountEntity account, @NonNull Notification notification) {
+    public static boolean filterNotification(@NonNull NotificationManager notificationManager, @NonNull AccountEntity account, @NonNull Notification notification) {
         return filterNotification(notificationManager, account, notification.getType());
     }
 
@@ -874,7 +858,7 @@ public class NotificationHelper {
         if (mutable) {
             return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0);
         } else {
-            return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
+            return PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
         }
     }
 }

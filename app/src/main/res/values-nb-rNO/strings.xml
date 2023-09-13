@@ -404,7 +404,6 @@
     <string name="confirmation_domain_unmuted">%s er ikke lenger skjult</string>
     <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
     <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
-    <string name="pref_title_show_notifications_filter">Vis varselfilter</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">Når nøkkelordet eller frasen kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
     <string name="title_accounts">Kontoer</string>

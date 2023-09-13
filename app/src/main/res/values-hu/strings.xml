@@ -412,7 +412,6 @@
     <string name="failed_fetch_posts">Sikertelen a bejegyzések letöltése</string>
     <string name="report_description_1">A bejelentést a szervered moderátorának küldjük el. Alább megadhatsz egy magyarázatot arra, hogy miért jelented be ezt a fiókot:</string>
     <string name="report_description_remote_instance">A fiók egy másik szerverről származik. Küldjünk oda is egy anonimizált másolatot a bejelentésről\?</string>
-    <string name="pref_title_show_notifications_filter">Értesítések szűrőjének mutatása</string>
     <string name="pref_title_alway_open_spoiler">Tartalomfigyelmeztetéssel ellátott bejegyzések kinyitása mindig</string>
     <string name="title_accounts">Fiókok</string>
     <string name="failed_search">Sikertelen keresés</string>

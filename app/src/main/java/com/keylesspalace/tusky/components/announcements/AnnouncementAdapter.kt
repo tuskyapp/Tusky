@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.view.ContextThemeWrapper
@@ -55,6 +56,7 @@ class AnnouncementAdapter(
         return BindingHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BindingHolder<ItemAnnouncementBinding>, position: Int) {
         val item = items[position]
 

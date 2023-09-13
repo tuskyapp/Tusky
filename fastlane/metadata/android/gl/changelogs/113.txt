@@ -1,0 +1,15 @@
+Tusky 23.0
+
+Novas características:
+
+- Novo axuste para o tamaño da letra na interface
+
+Arranxos:
+
+- Gardar correctamente a información da conta
+- "obter" notificacións en dispositivos con versión Android <=11
+- Problema en Android onde os campos de textos "esquecían" que poden copiar/pegar
+- Ver os cambios no historial de edicións e que non se extenda polos bordos da pantalla
+- Non falla se o servidor non ten o historial de edicións da publicación
+- Mostrar correctamente os emoji que non son cadrados
+- Posible fallo ao editar os campos do perfil de usuaria

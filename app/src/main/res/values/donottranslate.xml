@@ -29,14 +29,6 @@
         <item>largest</item>
     </string-array>
 
-    <string-array name="app_theme_values">
-        <item>night</item>
-        <item>day</item>
-        <item>black</item>
-        <item>auto</item>
-        <item>auto_system</item>
-    </string-array>
-
     <string-array name="language_entries">
         <item>@string/system_default</item>
         <item>Català</item>
@@ -258,19 +250,6 @@
     <string-array name="reading_order_values">
         <item>OLDEST_FIRST</item>
         <item>NEWEST_FIRST</item>
-    </string-array>
-
-    <string-array name="filter_action_values">
-        <item>warn</item>
-        <item>hide</item>
-    </string-array>
-
-    <string-array name="filter_context_values">
-        <item>home</item>
-        <item>notifications</item>
-        <item>public</item>
-        <item>thread</item>
-        <item>account</item>
     </string-array>
 
 </resources>
