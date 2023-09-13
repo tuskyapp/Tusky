@@ -103,7 +103,6 @@ import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
-import com.keylesspalace.tusky.util.isBlack
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.setDrawableTint
