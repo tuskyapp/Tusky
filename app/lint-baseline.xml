@@ -2,17 +2,6 @@
 <issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
 
     <issue
-        id="MissingPermission"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        errorLine1="                notificationManager.notify(notificationId, builder.build())"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/receiver/SendStatusBroadcastReceiver.kt"
-            line="78"
-            column="17"/>
-    </issue>
-
-    <issue
         id="CheckResult"
         message="The result of `placeholder` is not used"
         errorLine1="                    if (showPlaceholder) placeholder(R.drawable.avatar_default)"
@@ -72,8 +61,6 @@
         <location
             file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
     </issue>
-
-    <issue
         id="UseAppTint"
         message="Must use `app:tint` instead of `android:tint`"
         errorLine1="            android:tint=&quot;?android:attr/textColorTertiary&quot;"
@@ -82,72 +69,6 @@
             file="src/main/res/layout/activity_compose.xml"
             line="314"
             column="13"/>
-    </issue>
-
-    <issue
-        id="UseCompatLoadingForDrawables"
-        message="Use `AppCompatResources.getDrawable()`"
-        errorLine1="                    return ctx.getDrawable(R.drawable.avatar_default)!!"
-        errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/MainActivity.kt"
-            line="533"
-            column="28"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="                            android:drawableStart=&quot;@drawable/ic_briefcase&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_account.xml"
-            line="282"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="                android:drawableStart=&quot;@drawable/ic_plus_24dp&quot;"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/activity_tab_preference.xml"
-            line="69"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="        android:drawableStart=&quot;@drawable/ic_person_add_24dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_follow.xml"
-            line="17"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="        android:drawableStart=&quot;@drawable/ic_reblog_18dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_status.xml"
-            line="20"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UseCompatTextViewDrawableXml"
-        message="Use `app:drawableStartCompat` instead of `android:drawableStart`"
-        errorLine1="        android:drawableStart=&quot;@drawable/ic_poll_24dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/view_poll_preview.xml"
-            line="15"
-            column="9"/>
     </issue>
 
     <issue
@@ -437,28 +358,6 @@
     </issue>
 
     <issue
-        id="Recycle"
-        message="This `InputStream` should be freed up after use with `#close()`"
-        errorLine1="        from = contentResolver.openInputStream(this)"
-        errorLine2="                               ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/util/IOUtils.kt"
-            line="45"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="Recycle"
-        message="This `InputStream` should be freed up after use with `#close()`"
-        errorLine1="            val stream = contentResolver.openInputStream(media.uri)"
-        errorLine2="                                         ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/MediaUploader.kt"
-            line="274"
-            column="42"/>
-    </issue>
-
-    <issue
         id="ObsoleteSdkInt"
         message="Unnecessary; SDK_INT is always >= 24"
         errorLine1="        if (Build.VERSION.SDK_INT > 23) {"
@@ -734,15 +633,6 @@
     </issue>
 
     <issue
-        id="KeyboardInaccessibleWidget"
-        message="&apos;clickable&apos; attribute found, please also add &apos;focusable&apos;"
-        errorLine1="    android:clickable=&quot;true&quot;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/material_drawer_header.xml"
-            line="8"
-            column="5"/>
-    </issue>
 
     <issue
         id="SetTextI18n"

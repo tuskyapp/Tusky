@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/ic_person_add_24dp"
         android:drawablePadding="10dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
@@ -22,6 +21,7 @@
         android:paddingStart="28dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        app:drawableStartCompat="@drawable/ic_person_add_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Someone followed you" />

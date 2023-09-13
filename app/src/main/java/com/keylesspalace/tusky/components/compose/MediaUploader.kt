@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.compose
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.media.MediaMetadataRetriever
@@ -246,6 +247,7 @@ class MediaUploader @Inject constructor(
 
     private val contentResolver = context.contentResolver
 
+    @SuppressLint("Recycle") // stream is closed in ProgressRequestBody
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)

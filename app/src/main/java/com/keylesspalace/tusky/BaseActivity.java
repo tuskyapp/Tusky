@@ -62,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     private static final String TAG = "BaseActivity";
 
     @Inject
+    @NonNull
     public AccountManager accountManager;
 
     private static final int REQUESTER_NONE = Integer.MAX_VALUE;
@@ -164,13 +165,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    public void startActivityWithSlideInAnimation(Intent intent) {
+    public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
         super.startActivity(intent);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             getOnBackPressedDispatcher().onBackPressed();
             return true;
@@ -198,7 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    protected void showErrorDialog(View anyView, @StringRes int descriptionId, @StringRes int actionId, View.OnClickListener listener) {
+    protected void showErrorDialog(@Nullable View anyView, @StringRes int descriptionId, @StringRes int actionId, @Nullable View.OnClickListener listener) {
         if (anyView != null) {
             Snackbar bar = Snackbar.make(anyView, getString(descriptionId), Snackbar.LENGTH_SHORT);
             bar.setAction(actionId, listener);
@@ -206,7 +207,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    public void showAccountChooserDialog(CharSequence dialogTitle, boolean showActiveAccount, AccountSelectionListener listener) {
+    public void showAccountChooserDialog(@Nullable CharSequence dialogTitle, boolean showActiveAccount, @NonNull AccountSelectionListener listener) {
         List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
         AccountEntity activeAccount = accountManager.getActiveAccount();
 
@@ -273,7 +274,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
     }
 
-    public void requestPermissions(String[] permissions, PermissionRequester requester) {
+    public void requestPermissions(@NonNull String[] permissions, @NonNull PermissionRequester requester) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for(String permission: permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {

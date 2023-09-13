@@ -43,6 +43,7 @@
         android:id="@+id/notification_notification_avatar"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:contentDescription="@string/action_view_profile"
         app:layout_constraintBottom_toBottomOf="@id/notification_status_avatar"
         app:layout_constraintEnd_toEndOf="@id/notification_status_avatar" />
 
