@@ -540,7 +540,8 @@ class TimelineFragment :
         when (kind) {
             TimelineViewModel.Kind.HOME,
             TimelineViewModel.Kind.PUBLIC_FEDERATED,
-            TimelineViewModel.Kind.PUBLIC_LOCAL -> adapter.refresh()
+            TimelineViewModel.Kind.PUBLIC_LOCAL,
+            TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES -> adapter.refresh()
             TimelineViewModel.Kind.USER,
             TimelineViewModel.Kind.USER_WITH_REPLIES -> if (status.account.id == viewModel.id) {
                 adapter.refresh()

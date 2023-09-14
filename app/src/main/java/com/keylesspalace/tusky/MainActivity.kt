@@ -292,7 +292,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
+            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS),
+            addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_STATUSES),
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -317,7 +318,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS)
+                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
+                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES),
                         )
 
                         setupTabs(false)
@@ -482,7 +484,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun setupDrawer(
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
-        addTrendingTagsButton: Boolean
+        addTrendingTagsButton: Boolean,
+        addTrendingStatusesButton: Boolean,
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -543,12 +546,20 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingTagsButton)
+            refreshMainDrawerItems(
+                addSearchButton = addSearchButton,
+                addTrendingTagsButton = addTrendingTagsButton,
+                addTrendingStatusesButton = addTrendingStatusesButton,
+            )
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingTagsButton: Boolean) {
+    private fun refreshMainDrawerItems(
+        addSearchButton: Boolean,
+        addTrendingTagsButton: Boolean,
+        addTrendingStatusesButton: Boolean,
+    ) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
@@ -673,6 +684,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
                         onClick = {
                             startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
+                        }
+                    }
+                )
+            }
+
+            if (addTrendingStatusesButton) {
+                binding.mainDrawer.addItemsAtPosition(
+                    6,
+                    primaryDrawerItem {
+                        nameRes = R.string.title_public_trending_statuses
+                        iconicsIcon = GoogleMaterial.Icon.gmd_local_fire_department
+                        onClick = {
+                            startActivityWithSlideInAnimation(StatusListActivity.newTrendingIntent(context))
                         }
                     }
                 )

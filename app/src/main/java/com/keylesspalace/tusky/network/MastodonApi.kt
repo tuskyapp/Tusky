@@ -848,4 +848,10 @@ interface MastodonApi {
 
     @GET("api/v1/trends/tags")
     suspend fun trendingTags(): NetworkResult<List<TrendingTag>>
+
+    @GET("api/v1/trends/statuses")
+    suspend fun trendingStatuses(
+        @Query("limit") limit: Int? = null,
+        @Query("offset") offset: String? = null
+    ): Response<List<Status>>
 }

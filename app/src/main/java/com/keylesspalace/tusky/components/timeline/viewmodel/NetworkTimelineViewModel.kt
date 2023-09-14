@@ -308,6 +308,7 @@ class NetworkTimelineViewModel @Inject constructor(
             Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
             Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
             Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
+            Kind.PUBLIC_TRENDING_STATUSES -> api.trendingStatuses(limit = limit, offset = fromId)
         }
     }
 
