@@ -59,6 +59,7 @@ object PrefKeys {
     const val READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"
     const val HIDE_TOP_TOOLBAR = "hideTopToolbar"
+    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"
     const val SHOW_BOT_OVERLAY = "showBotOverlay"
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
@@ -109,6 +110,6 @@ object PrefKeys {
 
     /** Keys that are no longer used (e.g., the preference has been removed */
     object Deprecated {
-        const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
+
     }
 }
