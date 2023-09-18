@@ -15,7 +15,7 @@
 
 @file:JvmName("PushNotificationHelper")
 
-package com.keylesspalace.tusky.components.notifications
+package com.keylesspalace.tusky.components.systemnotifications
 
 import android.app.NotificationManager
 import android.content.Context

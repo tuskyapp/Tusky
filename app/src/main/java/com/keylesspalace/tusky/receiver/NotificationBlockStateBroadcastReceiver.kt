@@ -20,9 +20,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.notifications.canEnablePushNotifications
-import com.keylesspalace.tusky.components.notifications.isUnifiedPushNotificationEnabledForAccount
-import com.keylesspalace.tusky.components.notifications.updateUnifiedPushSubscription
+import com.keylesspalace.tusky.components.systemnotifications.canEnablePushNotifications
+import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushNotificationEnabledForAccount
+import com.keylesspalace.tusky.components.systemnotifications.updateUnifiedPushSubscription
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection

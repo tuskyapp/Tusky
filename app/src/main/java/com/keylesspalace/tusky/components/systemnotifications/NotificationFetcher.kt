@@ -1,10 +1,10 @@
-package com.keylesspalace.tusky.components.notifications
+package com.keylesspalace.tusky.components.systemnotifications
 
 import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
-import com.keylesspalace.tusky.components.notifications.NotificationHelper.filterNotification
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.filterNotification
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Marker

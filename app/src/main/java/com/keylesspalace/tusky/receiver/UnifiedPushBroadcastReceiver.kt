@@ -20,8 +20,8 @@ import android.content.Intent
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.notifications.registerUnifiedPushEndpoint
-import com.keylesspalace.tusky.components.notifications.unregisterUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.systemnotifications.registerUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.systemnotifications.unregisterUnifiedPushEndpoint
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.worker.NotificationWorker
