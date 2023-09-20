@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.adapter
+package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
 import androidx.core.content.ContextCompat
@@ -22,21 +22,30 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.NotificationsAdapter.NotificationActionListener
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
-import com.keylesspalace.tusky.entity.Report
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
+import com.keylesspalace.tusky.viewdata.NotificationViewData
 import java.util.Date
 
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
-) : RecyclerView.ViewHolder(binding.root) {
+    private val listener: NotificationActionListener
+) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
 
-    fun setupWithReport(reporter: TimelineAccount, report: Report, animateAvatar: Boolean, animateEmojis: Boolean) {
-        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, animateEmojis)
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, animateEmojis)
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>?,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
+
+        val report = viewData.report!!
+        val reporter = viewData.account
+
+        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, statusDisplayOptions.animateEmojis)
+        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, statusDisplayOptions.animateEmojis)
         val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
@@ -52,37 +61,36 @@ class ReportNotificationViewHolder(
             report.targetAccount.avatar,
             binding.notificationReporteeAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp),
-            animateAvatar,
+            statusDisplayOptions.animateAvatars,
         )
         loadAvatar(
             reporter.avatar,
             binding.notificationReporterAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_24dp),
-            animateAvatar,
+            statusDisplayOptions.animateAvatars,
         )
-    }
 
-    fun setupActionListener(listener: NotificationActionListener, reporteeId: String, reporterId: String, reportId: String) {
         binding.notificationReporteeAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onViewAccount(reporteeId)
+                listener.onViewAccount(report.targetAccount.id)
             }
         }
         binding.notificationReporterAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onViewAccount(reporterId)
+                listener.onViewAccount(reporter.id)
             }
         }
 
-        itemView.setOnClickListener { listener.onViewReport(reportId) }
+        itemView.setOnClickListener { listener.onViewReport(report.id) }
     }
 
     private fun getTranslatedCategory(context: Context, rawCategory: String): String {
         return when (rawCategory) {
             "violation" -> context.getString(R.string.report_category_violation)
             "spam" -> context.getString(R.string.report_category_spam)
+            "legal" -> context.getString(R.string.report_category_legal)
             "other" -> context.getString(R.string.report_category_other)
             else -> rawCategory
         }

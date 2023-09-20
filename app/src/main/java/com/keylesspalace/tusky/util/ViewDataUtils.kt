@@ -36,7 +36,7 @@ package com.keylesspalace.tusky.util
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
-import com.keylesspalace.tusky.viewdata.NotificationViewData
+import com.keylesspalace.tusky.viewdata.NotificationViewData2
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
@@ -60,8 +60,8 @@ fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean
-): NotificationViewData.Concrete {
-    return NotificationViewData.Concrete(
+): NotificationViewData2.Concrete {
+    return NotificationViewData2.Concrete(
         this.type,
         this.id,
         this.account,

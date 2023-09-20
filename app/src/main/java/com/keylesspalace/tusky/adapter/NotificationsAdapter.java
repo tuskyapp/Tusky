@@ -41,8 +41,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.keylesspalace.tusky.R;
+import com.keylesspalace.tusky.components.notifications.ReportNotificationViewHolder;
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding;
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding;
+import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Status;
@@ -59,7 +61,7 @@ import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.util.TimestampUtils;
-import com.keylesspalace.tusky.viewdata.NotificationViewData;
+import com.keylesspalace.tusky.viewdata.NotificationViewData2;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.Date;
@@ -92,11 +94,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final StatusActionListener statusListener;
     private final NotificationActionListener notificationActionListener;
     private final AccountActionListener accountActionListener;
-    private final AdapterDataSource<NotificationViewData> dataSource;
+    private final AdapterDataSource<NotificationViewData2> dataSource;
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
 
     public NotificationsAdapter(String accountId,
-                                AdapterDataSource<NotificationViewData> dataSource,
+                                AdapterDataSource<NotificationViewData2> dataSource,
                                 StatusDisplayOptions statusDisplayOptions,
                                 StatusActionListener statusListener,
                                 NotificationActionListener notificationActionListener,
@@ -137,11 +139,11 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             case VIEW_TYPE_PLACEHOLDER: {
                 View view = inflater
                         .inflate(R.layout.item_status_placeholder, parent, false);
-                return new PlaceholderViewHolder(view);
+                return new PlaceholderViewHolder(ItemStatusPlaceholderBinding.inflate(inflater, parent, false), statusListener);
             }
             case VIEW_TYPE_REPORT: {
                 ItemReportNotificationBinding binding = ItemReportNotificationBinding.inflate(inflater, parent, false);
-                return new ReportNotificationViewHolder(binding);
+                return new ReportNotificationViewHolder(binding, notificationActionListener);
             }
             default:
             case VIEW_TYPE_UNKNOWN: {
@@ -171,17 +173,17 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void bindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @Nullable List<Object> payloads) {
         Object payloadForHolder = payloads != null && !payloads.isEmpty() ? payloads.get(0) : null;
         if (position < this.dataSource.getItemCount()) {
-            NotificationViewData notification = dataSource.getItemAt(position);
-            if (notification instanceof NotificationViewData.Placeholder) {
+            NotificationViewData2 notification = dataSource.getItemAt(position);
+            if (notification instanceof NotificationViewData2.Placeholder) {
                 if (payloadForHolder == null) {
-                    NotificationViewData.Placeholder placeholder = ((NotificationViewData.Placeholder) notification);
+                    NotificationViewData2.Placeholder placeholder = ((NotificationViewData2.Placeholder) notification);
                     PlaceholderViewHolder holder = (PlaceholderViewHolder) viewHolder;
-                    holder.setup(statusListener, placeholder.isLoading());
+                    holder.setup(placeholder.isLoading());
                 }
                 return;
             }
-            NotificationViewData.Concrete concreteNotification =
-                    (NotificationViewData.Concrete) notification;
+            NotificationViewData2.Concrete concreteNotification =
+                    (NotificationViewData2.Concrete) notification;
             switch (viewHolder.getItemViewType()) {
                 case VIEW_TYPE_STATUS: {
                     StatusViewHolder holder = (StatusViewHolder) viewHolder;
@@ -261,8 +263,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 case VIEW_TYPE_REPORT: {
                     if (payloadForHolder == null) {
                         ReportNotificationViewHolder holder = (ReportNotificationViewHolder) viewHolder;
-                        holder.setupWithReport(concreteNotification.getAccount(), concreteNotification.getReport(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
-                        holder.setupActionListener(notificationActionListener, concreteNotification.getReport().getTargetAccount().getId(), concreteNotification.getAccount().getId(), concreteNotification.getReport().getId());
+                       // holder.setupWithReport(concreteNotification.getAccount(), concreteNotification.getReport(), statusDisplayOptions.animateAvatars(), statusDisplayOptions.animateEmojis());
+                      //  holder.setupActionListener(notificationActionListener, concreteNotification.getReport().getTargetAccount().getId(), concreteNotification.getAccount().getId(), concreteNotification.getReport().getId());
                     }
                 }
                 default:
@@ -299,9 +301,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        NotificationViewData notification = dataSource.getItemAt(position);
-        if (notification instanceof NotificationViewData.Concrete) {
-            NotificationViewData.Concrete concrete = ((NotificationViewData.Concrete) notification);
+        NotificationViewData2 notification = dataSource.getItemAt(position);
+        if (notification instanceof NotificationViewData2.Concrete) {
+            NotificationViewData2.Concrete concrete = ((NotificationViewData2.Concrete) notification);
             switch (concrete.getType()) {
                 case MENTION:
                 case POLL: {
@@ -327,7 +329,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     return VIEW_TYPE_UNKNOWN;
                 }
             }
-        } else if (notification instanceof NotificationViewData.Placeholder) {
+        } else if (notification instanceof NotificationViewData2.Placeholder) {
             return VIEW_TYPE_PLACEHOLDER;
         } else {
             throw new AssertionError("Unknown notification type");
@@ -355,14 +357,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onNotificationContentCollapsedChange(boolean isCollapsed, int position);
     }
 
-    private static class FollowViewHolder extends RecyclerView.ViewHolder {
+    public static class FollowViewHolder extends RecyclerView.ViewHolder {
         private final TextView message;
         private final TextView usernameView;
         private final TextView displayNameView;
         private final ImageView avatar;
         private final StatusDisplayOptions statusDisplayOptions;
 
-        FollowViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
+        public FollowViewHolder(View itemView, StatusDisplayOptions statusDisplayOptions) {
             super(itemView);
             message = itemView.findViewById(R.id.notification_text);
             usernameView = itemView.findViewById(R.id.notification_username);
@@ -404,7 +406,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
+    public static class StatusNotificationViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
         private final View container;
@@ -431,7 +433,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         private final int avatarRadius36dp;
         private final int avatarRadius24dp;
 
-        StatusNotificationViewHolder(
+        public StatusNotificationViewHolder(
             View itemView,
             StatusDisplayOptions statusDisplayOptions,
             AbsoluteTimeFormatter absoluteTimeFormatter
@@ -522,7 +524,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             return icon;
         }
 
-        void setMessage(NotificationViewData.Concrete notificationViewData, LinkListener listener) {
+        void setMessage(NotificationViewData2.Concrete notificationViewData, LinkListener listener) {
             this.statusViewData = notificationViewData.getStatusViewData();
 
             String displayName = StringUtils.unicodeWrap(notificationViewData.getAccount().getName());

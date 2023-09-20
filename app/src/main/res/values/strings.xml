@@ -767,6 +767,7 @@
 
     <string name="report_category_violation">Rule violation</string>
     <string name="report_category_spam">Spam</string>
+    <string name="report_category_legal">Legal</string>
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%s?</string>
@@ -843,4 +844,5 @@
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
     <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
+    <string name="unknown_notification_type">Unknown notification type</string>
 </resources>

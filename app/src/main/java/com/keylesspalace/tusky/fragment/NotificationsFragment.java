@@ -93,7 +93,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
 import com.keylesspalace.tusky.viewdata.AttachmentViewData;
-import com.keylesspalace.tusky.viewdata.NotificationViewData;
+import com.keylesspalace.tusky.viewdata.NotificationViewData2;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.io.IOException;
@@ -178,10 +178,10 @@ public class NotificationsFragment extends SFragment implements
     private boolean showingError;
 
     // Each element is either a Notification for loading data or a Placeholder
-    private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
+    private final PairedList<Either<Placeholder, Notification>, NotificationViewData2> notifications
             = new PairedList<>(new Function<>() {
         @Override
-        public NotificationViewData apply(Either<Placeholder, Notification> input) {
+        public NotificationViewData2 apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
                 Notification notification = input.asRight()
                     .rewriteToStatusTypeIfNeeded(accountManager.getActiveAccount().getAccountId());
@@ -195,7 +195,7 @@ public class NotificationsFragment extends SFragment implements
                     true
                 );
             } else {
-                return new NotificationViewData.Placeholder(input.asLeft().id, false);
+                return new NotificationViewData2.Placeholder(input.asLeft().id, false);
             }
         }
     });
@@ -236,10 +236,10 @@ public class NotificationsFragment extends SFragment implements
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.setAccessibilityDelegateCompat(
                 new ListStatusAccessibilityDelegate(binding.recyclerView, this, (pos) -> {
-                    NotificationViewData notification = notifications.getPairedItemOrNull(pos);
+                    NotificationViewData2 notification = notifications.getPairedItemOrNull(pos);
                     // We support replies only for now
-                    if (notification instanceof NotificationViewData.Concrete) {
-                        return ((NotificationViewData.Concrete) notification).getStatusViewData();
+                    if (notification instanceof NotificationViewData2.Concrete) {
+                        return ((NotificationViewData2.Concrete) notification).getStatusViewData();
                     } else {
                         return null;
                     }
@@ -557,8 +557,8 @@ public class NotificationsFragment extends SFragment implements
             }
             sendFetchNotificationsRequest(previous.getId(), next.getId(), FetchEnd.MIDDLE, position);
             Placeholder placeholder = notifications.get(position).asLeft();
-            NotificationViewData notificationViewData =
-                    new NotificationViewData.Placeholder(placeholder.id, true);
+            NotificationViewData2 notificationViewData =
+                    new NotificationViewData2.Placeholder(placeholder.id, true);
             notifications.setPairedItem(position, notificationViewData);
             updateAdapter();
         } else {
@@ -595,14 +595,14 @@ public class NotificationsFragment extends SFragment implements
         // 4. update notificationViewData
 
         Status oldStatus = notifications.get(index).asRight().getStatus();
-        NotificationViewData.Concrete oldViewData =
-                (NotificationViewData.Concrete) this.notifications.getPairedItem(index);
+        NotificationViewData2.Concrete oldViewData =
+                (NotificationViewData2.Concrete) this.notifications.getPairedItem(index);
         Status newStatus = mapper.apply(oldStatus);
         Notification newNotification = this.notifications.get(index).asRight()
                 .copyWithStatus(newStatus);
         StatusViewData.Concrete newStatusViewData =
                 Objects.requireNonNull(oldViewData.getStatusViewData()).copyWithStatus(newStatus);
-        NotificationViewData.Concrete newViewData = oldViewData.copyWithStatus(newStatusViewData);
+        NotificationViewData2.Concrete newViewData = oldViewData.copyWithStatus(newStatusViewData);
 
         notifications.set(index, new Either.Right<>(newNotification));
         notifications.setPairedItem(index, newViewData);
@@ -622,15 +622,15 @@ public class NotificationsFragment extends SFragment implements
             Log.e(TAG, message);
             return;
         }
-        NotificationViewData someViewData = this.notifications.getPairedItem(position);
-        if (!(someViewData instanceof NotificationViewData.Concrete)) {
+        NotificationViewData2 someViewData = this.notifications.getPairedItem(position);
+        if (!(someViewData instanceof NotificationViewData2.Concrete)) {
             return;
         }
-        NotificationViewData.Concrete oldViewData = (NotificationViewData.Concrete) someViewData;
+        NotificationViewData2.Concrete oldViewData = (NotificationViewData2.Concrete) someViewData;
         StatusViewData.Concrete oldStatusViewData = oldViewData.getStatusViewData();
         if (oldStatusViewData == null) return;
 
-        NotificationViewData.Concrete newViewData =
+        NotificationViewData2.Concrete newViewData =
                 oldViewData.copyWithStatus(mapper.apply(oldStatusViewData));
         notifications.setPairedItem(position, newViewData);
 
@@ -894,8 +894,8 @@ public class NotificationsFragment extends SFragment implements
             if (last.isRight()) {
                 final Placeholder placeholder = newPlaceholder();
                 notifications.add(new Either.Left<>(placeholder));
-                NotificationViewData viewData =
-                        new NotificationViewData.Placeholder(placeholder.id, true);
+                NotificationViewData2 viewData =
+                        new NotificationViewData2.Placeholder(placeholder.id, true);
                 notifications.setPairedItem(notifications.size() - 1, viewData);
                 updateAdapter();
             }
@@ -1011,8 +1011,8 @@ public class NotificationsFragment extends SFragment implements
         binding.swipeRefreshLayout.setRefreshing(false);
         if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
             Placeholder placeholder = notifications.get(position).asLeft();
-            NotificationViewData placeholderVD =
-                    new NotificationViewData.Placeholder(placeholder.id, false);
+            NotificationViewData2 placeholderVD =
+                    new NotificationViewData2.Placeholder(placeholder.id, false);
             notifications.setPairedItem(position, placeholderVD);
             updateAdapter();
         } else if (this.notifications.isEmpty()) {
@@ -1204,11 +1204,11 @@ public class NotificationsFragment extends SFragment implements
         }
     };
 
-    private final AsyncListDiffer<NotificationViewData>
+    private final AsyncListDiffer<NotificationViewData2>
             differ = new AsyncListDiffer<>(listUpdateCallback,
             new AsyncDifferConfig.Builder<>(diffCallback).build());
 
-    private final NotificationsAdapter.AdapterDataSource<NotificationViewData> dataSource =
+    private final NotificationsAdapter.AdapterDataSource<NotificationViewData2> dataSource =
         new NotificationsAdapter.AdapterDataSource<>() {
             @Override
             public int getItemCount() {
@@ -1216,27 +1216,27 @@ public class NotificationsFragment extends SFragment implements
             }
 
             @Override
-            public NotificationViewData getItemAt(int pos) {
+            public NotificationViewData2 getItemAt(int pos) {
                 return differ.getCurrentList().get(pos);
             }
         };
 
-    private static final DiffUtil.ItemCallback<NotificationViewData> diffCallback
+    private static final DiffUtil.ItemCallback<NotificationViewData2> diffCallback
             = new DiffUtil.ItemCallback<>() {
 
         @Override
-        public boolean areItemsTheSame(NotificationViewData oldItem, NotificationViewData newItem) {
+        public boolean areItemsTheSame(NotificationViewData2 oldItem, NotificationViewData2 newItem) {
             return oldItem.getViewDataId() == newItem.getViewDataId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
+        public boolean areContentsTheSame(@NonNull NotificationViewData2 oldItem, @NonNull NotificationViewData2 newItem) {
             return false;
         }
 
         @Nullable
         @Override
-        public Object getChangePayload(@NonNull NotificationViewData oldItem, @NonNull NotificationViewData newItem) {
+        public Object getChangePayload(@NonNull NotificationViewData2 oldItem, @NonNull NotificationViewData2 newItem) {
             if (oldItem.deepEquals(newItem)) {
                 //  If items are equal - update timestamp only
                 return Collections.singletonList(StatusBaseViewHolder.Key.KEY_CREATED);

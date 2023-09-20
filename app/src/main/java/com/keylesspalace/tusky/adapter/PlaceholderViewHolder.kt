@@ -14,54 +14,34 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
-import com.google.android.material.progressindicator.IndeterminateDrawable
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 
 /**
- * Placeholder for different timelines.
+ * Placeholder for missing parts in timelines.
  *
- * Displays a "Load more" button for a particular status ID, or a
- * circular progress wheel if the status' page is being loaded.
- *
- * The user can only have one "Load more" operation in progress at
- * a time (determined by the adapter), so the contents of the view
- * and the enabled state is driven by that.
+ * Displays a "Load more" button to load the gap, or a
+ * circular progress bar if the missing page is being loaded.
  */
-class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val loadMoreButton: MaterialButton = itemView.findViewById(R.id.button_load_more)
-    private val drawable = IndeterminateDrawable.createCircularDrawable(
-        itemView.context,
-        CircularProgressIndicatorSpec(itemView.context, null)
-    )
+class PlaceholderViewHolder(
+    private val binding: ItemStatusPlaceholderBinding,
+    private val listener: StatusActionListener
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setup(listener: StatusActionListener, loading: Boolean) {
-        itemView.isEnabled = !loading
-        loadMoreButton.isEnabled = !loading
+    fun setup(loading: Boolean) {
+        binding.loadMoreButton.visible(!loading)
+        binding.loadMoreProgressBar.visible(loading)
 
-        if (loading) {
-            loadMoreButton.text = ""
-            loadMoreButton.icon = drawable
-            return
-        }
-
-        loadMoreButton.text = itemView.context.getString(R.string.load_more_placeholder_text)
-        loadMoreButton.icon = null
-
-        // To allow the user to click anywhere in the layout to load more content set the click
-        // listener on the parent layout instead of loadMoreButton.
-        //
-        // See the comments in item_status_placeholder.xml for more details.
-        itemView.setOnClickListener {
-            itemView.isEnabled = false
-            loadMoreButton.isEnabled = false
-            loadMoreButton.icon = drawable
-            loadMoreButton.text = ""
-            listener.onLoadMore(bindingAdapterPosition)
+        if (!loading) {
+            binding.loadMoreButton.setOnClickListener {
+                binding.loadMoreButton.hide()
+                binding.loadMoreProgressBar.show()
+                listener.onLoadMore(bindingAdapterPosition)
+            }
         }
     }
 }
