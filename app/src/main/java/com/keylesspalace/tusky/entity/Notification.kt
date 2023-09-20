@@ -22,7 +22,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import com.google.gson.annotations.JsonAdapter
 import com.keylesspalace.tusky.R
-import java.io.Serializable
 
 data class Notification(
     val type: Type,
@@ -34,7 +33,7 @@ data class Notification(
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonAdapter(NotificationTypeAdapter::class)
-    enum class Type(val presentation: String, @StringRes val uiString: Int) : Serializable {
+    enum class Type(val presentation: String, @StringRes val uiString: Int) {
         UNKNOWN("unknown", R.string.notification_unknown_name),
 
         /** Someone mentioned you */
