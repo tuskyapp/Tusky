@@ -665,4 +665,24 @@
     <string name="about_device_info_title">Thiết bị của bạn</string>
     <string name="list_exclusive_label">Ẩn khỏi bảng tin</string>
     <string name="error_media_playback">Không thể phát: %s</string>
+    <string name="dialog_delete_filter_text">Xóa bộ lọc \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Xóa</string>
+    <string name="dialog_save_profile_changes_message">Bạn có chắc muốn lưu thay đổi\?</string>
+    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM).
+\n
+\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó.
+\n
+\nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. </string>
+    <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể xác định một số danh sách riêng tư và thêm người dùng vào đó.
+\n
+\n LƯU Ý rằng bạn chỉ có thể thêm những người bạn đã theo dõi vào danh sách của mình.
+\n
+\n Những danh sách này có thể được sử dụng như một tab trong thiết lập Tab Cá nhân [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+    <string name="muting_hashtag_success_format">Đang ẩn hashtag #%s như một cảnh báo</string>
+    <string name="unmuting_hashtag_success_format">Đang bỏ ẩn hashtag #%s</string>
+    <string name="action_view_filter">Xem bộ lọc</string>
+    <string name="following_hashtag_success_format">Đã theo dõi hashtag #%s</string>
+    <string name="unfollowing_hashtag_success_format">Đã bỏ theo dõi hashtag #%s</string>
+    <string name="error_blocking_domain">Không thể ẩn %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Không thể bỏ ẩn %1$s: %2$s</string>
 </resources>

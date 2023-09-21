@@ -28,6 +28,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -180,6 +181,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -290,7 +292,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS)
+            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS),
+            addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_STATUSES),
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -315,7 +318,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     is MainTabsChangedEvent -> {
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
-                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS)
+                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
+                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES),
                         )
 
                         setupTabs(false)
@@ -355,7 +359,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
         )
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (
+            Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -477,7 +484,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun setupDrawer(
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
-        addTrendingTagsButton: Boolean
+        addTrendingTagsButton: Boolean,
+        addTrendingStatusesButton: Boolean,
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -508,7 +516,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
         header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
@@ -530,7 +538,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
                 if (tag == DrawerImageLoader.Tags.PROFILE.name || tag == DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name) {
-                    return ctx.getDrawable(R.drawable.avatar_default)!!
+                    return AppCompatResources.getDrawable(ctx, R.drawable.avatar_default)!!
                 }
 
                 return super.placeholder(ctx, tag)
@@ -538,12 +546,20 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         })
 
         binding.mainDrawer.apply {
-            refreshMainDrawerItems(addSearchButton, addTrendingTagsButton)
+            refreshMainDrawerItems(
+                addSearchButton = addSearchButton,
+                addTrendingTagsButton = addTrendingTagsButton,
+                addTrendingStatusesButton = addTrendingStatusesButton,
+            )
             setSavedInstance(savedInstanceState)
         }
     }
 
-    private fun refreshMainDrawerItems(addSearchButton: Boolean, addTrendingTagsButton: Boolean) {
+    private fun refreshMainDrawerItems(
+        addSearchButton: Boolean,
+        addTrendingTagsButton: Boolean,
+        addTrendingStatusesButton: Boolean,
+    ) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
             tintStatusBar = true
@@ -668,6 +684,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
                         onClick = {
                             startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
+                        }
+                    }
+                )
+            }
+
+            if (addTrendingStatusesButton) {
+                binding.mainDrawer.addItemsAtPosition(
+                    6,
+                    primaryDrawerItem {
+                        nameRes = R.string.title_public_trending_statuses
+                        iconicsIcon = GoogleMaterial.Icon.gmd_local_fire_department
+                        onClick = {
+                            startActivityWithSlideInAnimation(StatusListActivity.newTrendingIntent(context))
                         }
                     }
                 )
@@ -914,12 +943,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         updateShortcut(this, accountManager.activeAccount!!)
     }
 
+    @SuppressLint("CheckResult")
     private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
-        val animateAvatars = preferences.getBoolean("animateGifAvatars", false)
+        val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
         val activeToolbar = if (hideTopToolbar) {
-            val navOnBottom = preferences.getString("mainNavPosition", "top") == "bottom"
+            val navOnBottom = preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom"
             if (navOnBottom) {
                 binding.bottomNav
             } else {

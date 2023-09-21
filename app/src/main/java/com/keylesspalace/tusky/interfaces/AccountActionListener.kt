@@ -12,12 +12,11 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.interfaces
 
-package com.keylesspalace.tusky.interfaces;
-
-public interface AccountActionListener {
-    void onViewAccount(String id);
-    void onMute(final boolean mute, final String id, final int position, final boolean notifications);
-    void onBlock(final boolean block, final String id, final int position);
-    void onRespondToFollowRequest(final boolean accept, final String id, final int position);
+interface AccountActionListener {
+    fun onViewAccount(id: String)
+    fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean)
+    fun onBlock(block: Boolean, id: String, position: Int)
+    fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int)
 }

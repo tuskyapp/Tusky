@@ -1,15 +1,14 @@
-package com.keylesspalace.tusky.components.instancemute
+package com.keylesspalace.tusky.components.domainblocks
 
 import android.os.Bundle
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.instancemute.fragment.InstanceListFragment
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class InstanceListActivity : BaseActivity(), HasAndroidInjector {
+class DomainBlocksActivity : BaseActivity(), HasAndroidInjector {
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
@@ -28,7 +27,7 @@ class InstanceListActivity : BaseActivity(), HasAndroidInjector {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, InstanceListFragment())
+            .replace(R.id.fragment_container, DomainBlocksFragment())
             .commit()
     }
 

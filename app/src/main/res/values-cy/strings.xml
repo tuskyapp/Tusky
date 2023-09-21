@@ -299,7 +299,7 @@
     <string name="pref_title_thread_filter_keywords">Sgyrsiau</string>
     <string name="mute_domain_warning_dialog_ok">Cuddio parth i gyd</string>
     <string name="action_mute_conversation">Tewi\'r sgwrs</string>
-    <string name="notifications_apply_filter">Hidlo</string>
+    <string name="notifications_apply_filter">Hidlo\'r hysbysiadau</string>
     <string name="notification_poll_description">Hysbysiadau am bolau sydd wedi eu cwblhau</string>
     <string name="account_date_joined">Ymunodd %1$s</string>
     <string name="no_scheduled_posts">Does gennych ddim negeseuon amserlenwyd.</string>
@@ -335,7 +335,7 @@
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
-    <string name="notifications_clear">Clirio</string>
+    <string name="notifications_clear">Clirio\'r hysbysiadau</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
     <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
@@ -731,4 +731,7 @@
     <string name="about_copied">Copïwyd fersiwn a gwybodaeth dyfais</string>
     <string name="list_exclusive_label">Cuddio o\'r ffrwd cartref</string>
     <string name="error_media_playback">Methodd chwarae: %s</string>
+    <string name="dialog_delete_filter_positive_action">Dileu</string>
+    <string name="dialog_delete_filter_text">Dileu\'r hidlydd \'%1$s\'\?</string>
+    <string name="dialog_save_profile_changes_message">Hoffech gadw eich newidiadau proffil\?</string>
 </resources>

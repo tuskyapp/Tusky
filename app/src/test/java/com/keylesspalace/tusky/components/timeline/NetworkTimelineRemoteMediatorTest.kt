@@ -9,6 +9,7 @@ import androidx.paging.RemoteMediator
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -379,6 +380,59 @@ class NetworkTimelineRemoteMediatorTest {
 
         assertTrue(result is RemoteMediator.MediatorResult.Success)
         assertTrue((result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
+        assertEquals(newStatusData, statuses)
+    }
+
+    @Test
+    @ExperimentalPagingApi
+    fun `should not append duplicates for trending statuses`() {
+        val statuses: MutableList<StatusViewData> = mutableListOf(
+            mockStatusViewData("5"),
+            mockStatusViewData("4"),
+            mockStatusViewData("3"),
+        )
+
+        val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { statusData } doReturn statuses
+            on { nextKey } doReturn "3"
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
+            onBlocking { fetchStatusesForKind("3", null, 20) } doReturn Response.success(
+                listOf(
+                    mockStatus("3"),
+                    mockStatus("2"),
+                    mockStatus("1"),
+                ),
+                Headers.headersOf(
+                    "Link",
+                    "<https://mastodon.example/api/v1/trends/statuses?offset=5>; rel=\"next\"",
+                )
+            )
+        }
+
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+
+        val state = state(
+            listOf(
+                PagingSource.LoadResult.Page(
+                    data = statuses,
+                    prevKey = null,
+                    nextKey = "3"
+                )
+            )
+        )
+
+        val result = runBlocking { remoteMediator.load(LoadType.APPEND, state) }
+
+        val newStatusData = mutableListOf(
+            mockStatusViewData("5"),
+            mockStatusViewData("4"),
+            mockStatusViewData("3"),
+            mockStatusViewData("2"),
+            mockStatusViewData("1")
+        )
+        verify(timelineViewModel).nextKey = "5"
+        assertTrue(result is RemoteMediator.MediatorResult.Success)
+        assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
         assertEquals(newStatusData, statuses)
     }
 

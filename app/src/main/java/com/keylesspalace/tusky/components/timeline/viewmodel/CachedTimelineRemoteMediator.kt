@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -117,6 +118,7 @@ class CachedTimelineRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
             return ifExpected(e) {
+                Log.w(TAG, "Failed to load timeline", e)
                 MediatorResult.Error(e)
             }
         }
@@ -174,5 +176,9 @@ class CachedTimelineRemoteMediator(
             )
         }
         return overlappedStatuses
+    }
+
+    companion object {
+        private const val TAG = "CachedTimelineRM"
     }
 }

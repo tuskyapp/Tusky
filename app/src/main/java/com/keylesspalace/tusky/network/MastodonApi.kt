@@ -90,6 +90,11 @@ interface MastodonApi {
     @GET("api/v1/filters")
     suspend fun getFiltersV1(): NetworkResult<List<FilterV1>>
 
+    @GET("api/v2/filters/{filterId}")
+    suspend fun getFilter(
+        @Path("filterId") filterId: String
+    ): NetworkResult<Filter>
+
     @GET("api/v2/filters")
     suspend fun getFilters(): NetworkResult<List<Filter>>
 
@@ -140,6 +145,14 @@ interface MastodonApi {
         @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
     ): Response<List<Notification>>
 
+    @GET("api/v1/notifications")
+    fun notificationsOld(
+        @Query("max_id") maxId: String?,
+        @Query("since_id") sinceId: String?,
+        @Query("limit") limit: Int?,
+        @Query("exclude_types[]") excludes: Set<Notification.Type>?
+    ): Single<Response<List<Notification>>>
+
     /** Fetch a single notification */
     @GET("api/v1/notifications/{id}")
     suspend fun notification(
@@ -172,6 +185,9 @@ interface MastodonApi {
 
     @POST("api/v1/notifications/clear")
     suspend fun clearNotifications(): Response<ResponseBody>
+
+    @POST("api/v1/notifications/clear")
+    fun clearNotificationsOld(): Single<ResponseBody>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
@@ -280,6 +296,36 @@ interface MastodonApi {
         @Path("id") statusId: String
     ): NetworkResult<Status>
 
+    @POST("api/v1/statuses/{id}/reblog")
+    fun reblogStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unreblog")
+    fun unreblogStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/favourite")
+    fun favouriteStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unfavourite")
+    fun unfavouriteStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/bookmark")
+    fun bookmarkStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unbookmark")
+    fun unbookmarkStatusOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
     @POST("api/v1/statuses/{id}/pin")
     suspend fun pinStatus(
         @Path("id") statusId: String
@@ -299,6 +345,16 @@ interface MastodonApi {
     suspend fun unmuteConversation(
         @Path("id") statusId: String
     ): NetworkResult<Status>
+
+    @POST("api/v1/statuses/{id}/mute")
+    fun muteConversationOld(
+        @Path("id") statusId: String
+    ): Single<Status>
+
+    @POST("api/v1/statuses/{id}/unmute")
+    fun unmuteConversationOld(
+        @Path("id") statusId: String
+    ): Single<Status>
 
     @GET("api/v1/scheduled_statuses")
     fun scheduledStatuses(
@@ -458,11 +514,11 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @GET("api/v1/domain_blocks")
-    fun domainBlocks(
+    suspend fun domainBlocks(
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
-    ): Single<Response<List<String>>>
+    ): Response<List<String>>
 
     @FormUrlEncoded
     @POST("api/v1/domain_blocks")
@@ -671,6 +727,13 @@ interface MastodonApi {
         @Field("choices[]") choices: List<Int>
     ): NetworkResult<Poll>
 
+    @FormUrlEncoded
+    @POST("api/v1/polls/{id}/votes")
+    fun voteInPollOld(
+        @Path("id") id: String,
+        @Field("choices[]") choices: List<Int>
+    ): Single<Poll>
+
     @GET("api/v1/announcements")
     suspend fun listAnnouncements(
         @Query("with_dismissed") withDismissed: Boolean = true
@@ -791,4 +854,10 @@ interface MastodonApi {
 
     @GET("api/v1/trends/tags")
     suspend fun trendingTags(): NetworkResult<List<TrendingTag>>
+
+    @GET("api/v1/trends/statuses")
+    suspend fun trendingStatuses(
+        @Query("limit") limit: Int? = null,
+        @Query("offset") offset: String? = null
+    ): Response<List<Status>>
 }

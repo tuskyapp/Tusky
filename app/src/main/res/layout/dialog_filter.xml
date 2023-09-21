@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/filter_add_description"
+        android:inputType="text"
+        android:importantForAutofill="no"
         app:layout_constraintTop_toTopOf="parent"
         />
     <CheckBox

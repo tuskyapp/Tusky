@@ -192,6 +192,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                         R.string.message_empty,
                         null
                     )
+                    binding.messageView.showHelp(R.string.help_empty_lists)
                 } else {
                     binding.messageView.hide()
                 }

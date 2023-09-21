@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.service
 
-import android.annotation.TargetApi
 import android.content.Intent
 import android.service.quicksettings.TileService
 import com.keylesspalace.tusky.MainActivity
@@ -25,8 +24,6 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
  * Small Addition that adds in a QuickSettings tile
  * opens the Compose activity or shows an account selector when multiple accounts are present
  */
-
-@TargetApi(24)
 class TuskyTileService : TileService() {
 
     override fun onClick() {

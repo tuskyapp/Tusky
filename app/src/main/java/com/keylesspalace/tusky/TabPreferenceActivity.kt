@@ -382,6 +382,14 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         if (!currentTabs.contains(trendingTagsTab)) {
             addableTabs.add(trendingTagsTab)
         }
+        val bookmarksTab = createTabDataFromId(BOOKMARKS)
+        if (!currentTabs.contains(trendingTagsTab)) {
+            addableTabs.add(bookmarksTab)
+        }
+        val trendingStatusesTab = createTabDataFromId(TRENDING_STATUSES)
+        if (!currentTabs.contains(trendingStatusesTab)) {
+            addableTabs.add(trendingStatusesTab)
+        }
 
         addableTabs.add(createTabDataFromId(HASHTAG))
         addableTabs.add(createTabDataFromId(LIST))

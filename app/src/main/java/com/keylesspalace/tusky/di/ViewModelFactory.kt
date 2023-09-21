@@ -27,12 +27,12 @@ import com.keylesspalace.tusky.components.account.media.AccountMediaViewModel
 import com.keylesspalace.tusky.components.announcements.AnnouncementsViewModel
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.conversation.ConversationsViewModel
+import com.keylesspalace.tusky.components.domainblocks.DomainBlocksViewModel
 import com.keylesspalace.tusky.components.drafts.DraftsViewModel
 import com.keylesspalace.tusky.components.filters.EditFilterViewModel
 import com.keylesspalace.tusky.components.filters.FiltersViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
-import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
@@ -167,11 +167,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(NotificationsViewModel::class)
-    internal abstract fun notificationsViewModel(viewModel: NotificationsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(TrendingTagsViewModel::class)
     internal abstract fun trendingTagsViewModel(viewModel: TrendingTagsViewModel): ViewModel
 
@@ -184,6 +179,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EditFilterViewModel::class)
     internal abstract fun editFilterViewModel(viewModel: EditFilterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DomainBlocksViewModel::class)
+    internal abstract fun instanceMuteViewModel(viewModel: DomainBlocksViewModel): ViewModel
 
     // Add more ViewModels here
 }

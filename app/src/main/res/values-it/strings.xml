@@ -62,7 +62,7 @@
     <string name="action_compose">Componi</string>
     <string name="action_login">Accedi con Tusky</string>
     <string name="action_logout">Disconnettiti</string>
-    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s?</string>
+    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s\? Questo cancellerà tutti i dati locali dell\'account, incluse bozze e preferenze.</string>
     <string name="action_follow">Segui</string>
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
@@ -71,8 +71,8 @@
     <string name="action_show_reblogs">Mostra ricondivisioni</string>
     <string name="action_report">Segnala</string>
     <string name="action_delete">Elimina</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">Pubblica</string>
+    <string name="action_send_public">Pubblica!</string>
     <string name="action_retry">Riprova</string>
     <string name="action_close">Chiudi</string>
     <string name="action_view_profile">Profilo</string>
@@ -231,10 +231,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">Sito web del progetto:\n
-		https://tusky.app</string>
+    <string name="about_project_site">Sito web del progetto: https://tusky.app</string>
     <string name="about_bug_feature_request_site">Segnala problemi e richiedi funzionalità:
-\n https://github.com/tuskyapp/Tusky/issues</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profilo di Tusky</string>
     <string name="post_share_content">Condividi contenuto del messaggio</string>
     <string name="post_share_link">Condividi collegamento al messaggio</string>
@@ -269,22 +268,19 @@
     <string name="action_lists">Liste</string>
     <string name="title_lists">Liste</string>
     <string name="error_create_list">Non è stato possibile creare la lista</string>
-    <string name="error_rename_list">Non è stato possibile rinominare la lista</string>
+    <string name="error_rename_list">Non è stato possibile aggiornare la lista</string>
     <string name="error_delete_list">Non è stato possibile eliminare la lista</string>
     <string name="action_create_list">Crea una lista</string>
-    <string name="action_rename_list">Rinomina la lista</string>
+    <string name="action_rename_list">Aggiorna la lista</string>
     <string name="action_delete_list">Elimina la lista</string>
     <string name="hint_search_people_list">Cerca tra le persone che segui</string>
     <string name="action_add_to_list">Aggiungi un account alla lista</string>
     <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
     <string name="compose_active_account_description">Pubblicando come %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Descrivi i contenuti per gli ipovedenti
-\n(limite di %d carattere)</item>
-        <item quantity="many">Descrivi i contenuti per gli ipovedenti
-\n(limite di %d caratteri)</item>
-        <item quantity="other">Descrivi i contenuti per gli ipovedenti
-\n(limite di %d caratteri)</item>
+        <item quantity="one">Descrivi i contenuti per gli ipovedenti (limite di %d carattere)</item>
+        <item quantity="many">Descrivi i contenuti per gli ipovedenti (limite di %d caratteri)</item>
+        <item quantity="other">Descrivi i contenuti per gli ipovedenti (limite di %d caratteri)</item>
     </plurals>
     <string name="action_set_caption">Inserisci descrizione</string>
     <string name="action_remove">Rimuovi</string>
@@ -365,8 +361,8 @@
     <string name="compose_shortcut_long_label">Componi messaggio</string>
     <string name="edit_hashtag_hint">Hashtag senza #</string>
     <string name="compose_shortcut_short_label">Componi</string>
-    <string name="notifications_clear">Svuota</string>
-    <string name="notifications_apply_filter">Filtra</string>
+    <string name="notifications_clear">Cancella notifiche</string>
+    <string name="notifications_apply_filter">Filtra notifiche</string>
     <string name="filter_apply">Applica</string>
     <string name="pref_title_bot_overlay">Mostra indicatore bot</string>
     <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
@@ -686,4 +682,24 @@
     <string name="error_missing_edits">Il tuo server sa che questo post è stato modificato, ma non ha una copia delle modifiche, quindi non ti può essere mostrato.
 \n
 \nQuesto è il <a href="https://github.com/mastodon/mastodon/issues/25398">problema Mastodon #25398</a>.</string>
+    <string name="pref_ui_text_size">Dimensione testo dell\'UI</string>
+    <string name="notification_listenable_worker_name">Attività in secondo piano</string>
+    <string name="notification_listenable_worker_description">Notifiche mentre Tusky è attivo in secondo piano</string>
+    <string name="notification_notification_worker">Recupero notifiche…</string>
+    <string name="notification_prune_cache">Manutenzione cache…</string>
+    <string name="about_device_info_title">Il tuo dispositivo</string>
+    <string name="about_device_info">%s %s
+\nVersione Android: %s
+\nVersione SDK: %d</string>
+    <string name="about_account_info_title">Il tuo account</string>
+    <string name="about_account_info">\@%s@%s
+\nVersione: %s</string>
+    <string name="list_exclusive_label">Nascondi dalla timeline principale</string>
+    <string name="error_media_playback">Playback fallito: %s</string>
+    <string name="dialog_delete_filter_text">Cancellare filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_positive_action">Cancella</string>
+    <string name="about_copy">Copia versione e informazioni dispositivo</string>
+    <string name="about_copied">Versione e informazioni dispositivo copiate</string>
+    <string name="dialog_save_profile_changes_message">Vuoi salvare le modifiche al tuo profilo\?</string>
+    <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %s</string>
 </resources>

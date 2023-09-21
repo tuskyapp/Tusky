@@ -14,12 +14,10 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.viewdata
 
-import android.os.Build
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
-import com.keylesspalace.tusky.util.replaceCrashingCharacters
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
 /**
@@ -48,17 +46,15 @@ sealed class StatusViewData {
         override val id: String
             get() = status.id
 
+        val content: Spanned = status.actionableStatus.content.parseAsMastodonHtml()
+
         /**
          * Specifies whether the content of this post is long enough to be automatically
          * collapsed or if it should show all content regardless.
          *
          * @return Whether the post is collapsible or never collapsed.
          */
-        val isCollapsible: Boolean
-
-        val content: Spanned
-        val spoilerText: String
-        val username: String
+        val isCollapsible: Boolean = shouldTrimStatus(this.content)
 
         val actionable: Status
             get() = status.actionableStatus
@@ -76,20 +72,19 @@ sealed class StatusViewData {
         val rebloggingStatus: Status?
             get() = if (status.reblog != null) status else null
 
-        init {
-            if (Build.VERSION.SDK_INT == 23) {
-                // https://github.com/tuskyapp/Tusky/issues/563
-                this.content = replaceCrashingCharacters(status.actionableStatus.displayedContent.parseAsMastodonHtml())
-                this.spoilerText =
-                    replaceCrashingCharacters(status.actionableStatus.spoilerText).toString()
-                this.username =
-                    replaceCrashingCharacters(status.actionableStatus.account.username).toString()
-            } else {
-                this.content = status.actionableStatus.displayedContent.parseAsMastodonHtml()
-                this.spoilerText = status.actionableStatus.spoilerText
-                this.username = status.actionableStatus.account.username
-            }
-            this.isCollapsible = shouldTrimStatus(this.content)
+        /** Helper for Java */
+        fun copyWithStatus(status: Status): Concrete {
+            return copy(status = status)
+        }
+
+        /** Helper for Java */
+        fun copyWithExpanded(isExpanded: Boolean): Concrete {
+            return copy(isExpanded = isExpanded)
+        }
+
+        /** Helper for Java */
+        fun copyWithShowingContent(isShowingContent: Boolean): Concrete {
+            return copy(isShowingContent = isShowingContent)
         }
 
         /** Helper for Java */

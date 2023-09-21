@@ -5,7 +5,8 @@ enum class AppTheme(val value: String) {
     DAY("day"),
     BLACK("black"),
     AUTO("auto"),
-    AUTO_SYSTEM("auto_system");
+    AUTO_SYSTEM("auto_system"),
+    AUTO_SYSTEM_BLACK("auto_system_black");
 
     companion object {
         fun stringValues() = values().map { it.value }.toTypedArray()
@@ -41,7 +42,10 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023072401
+const val SCHEMA_VERSION = 2023082301
+
+/** The schema version for fresh installs */
+const val NEW_INSTALL_SCHEMA_VERSION = 0
 
 object PrefKeys {
     // Note: not all of these keys are actually used as SharedPreferences keys but we must give
@@ -49,7 +53,6 @@ object PrefKeys {
 
     const val SCHEMA_VERSION: String = "schema_version"
     const val APP_THEME = "appTheme"
-    const val EMOJI = "selected_emoji_font"
     const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"

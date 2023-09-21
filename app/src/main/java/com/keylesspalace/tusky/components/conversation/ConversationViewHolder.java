@@ -78,7 +78,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         if (payloads == null) {
             TimelineAccount account = status.getAccount();
 
-            setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), statusViewData.getSpoilerText(), listener);
+            setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), status.getSpoilerText(), listener);
 
             setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
             setUsername(account.getUsername());

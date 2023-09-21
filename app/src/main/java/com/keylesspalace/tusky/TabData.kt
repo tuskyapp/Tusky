@@ -20,10 +20,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.keylesspalace.tusky.components.conversation.ConversationsFragment
-import com.keylesspalace.tusky.components.notifications.NotificationsFragment
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.components.trending.TrendingTagsFragment
+import com.keylesspalace.tusky.fragment.NotificationsFragment
 import java.util.Objects
 
 /** this would be a good case for a sealed class, but that does not work nice with Room */
@@ -34,8 +34,10 @@ const val LOCAL = "Local"
 const val FEDERATED = "Federated"
 const val DIRECT = "Direct"
 const val TRENDING_TAGS = "TrendingTags"
+const val TRENDING_STATUSES = "TrendingStatuses"
 const val HASHTAG = "Hashtag"
 const val LIST = "List"
+const val BOOKMARKS = "Bookmarks"
 
 data class TabData(
     val id: String,
@@ -98,6 +100,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             icon = R.drawable.ic_trending_up_24px,
             fragment = { TrendingTagsFragment.newInstance() }
         )
+        TRENDING_STATUSES -> TabData(
+            id = TRENDING_STATUSES,
+            text = R.string.title_public_trending_statuses,
+            icon = R.drawable.ic_hot_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) }
+        )
         HASHTAG -> TabData(
             id = HASHTAG,
             text = R.string.hashtags,
@@ -113,6 +121,12 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             fragment = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
             arguments = arguments,
             title = { arguments.getOrNull(1).orEmpty() }
+        )
+        BOOKMARKS -> TabData(
+            id = BOOKMARKS,
+            text = R.string.title_bookmarks,
+            icon = R.drawable.ic_bookmark_active_24dp,
+            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS) }
         )
         else -> throw IllegalArgumentException("unknown tab type")
     }

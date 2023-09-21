@@ -61,7 +61,6 @@ import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 class AccountListFragment :
@@ -332,7 +331,7 @@ class AccountListFragment :
 
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
-            } catch (exception: IOException) {
+            } catch (exception: Exception) {
                 onFetchAccountsFailure(exception)
             }
         }

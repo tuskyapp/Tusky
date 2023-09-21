@@ -357,8 +357,8 @@
     </string>
     <string name="hint_list_name">列表名</string>
     <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
-    <string name="notifications_clear">清空</string>
-    <string name="notifications_apply_filter">分类</string>
+    <string name="notifications_clear">删除通知</string>
+    <string name="notifications_apply_filter">筛选通知</string>
     <string name="filter_apply">应用</string>
     <string name="compose_shortcut_long_label">撰写嘟文</string>
     <string name="compose_shortcut_short_label">发表嘟文</string>
@@ -679,4 +679,24 @@
     <string name="about_copy">复制版本及设备信息</string>
     <string name="list_exclusive_label">不出现在首页时间线中</string>
     <string name="error_media_playback">播放失败了：%s</string>
+    <string name="dialog_delete_filter_text">删除筛选器\'%1$s\'吗？</string>
+    <string name="dialog_delete_filter_positive_action">删除</string>
+    <string name="dialog_save_profile_changes_message">你要保存你的个人资料更改吗？</string>
+    <string name="help_empty_conversations">这是你的 <b>私信</b>；有时也称为对话或直接消息 (DM)。
+\n
+\n私信需要将嘟文的可见性 [iconics gmd_public] 设为 [iconics gmd_mail] <i>Direct</i> 并在文本中提及一名或多名用户。
+\n
+\n你可以在账户的个人资料视图中，轻按“创建”按钮 [iconics gmd_edit] 并更改可见性。 </string>
+    <string name="muting_hashtag_success_format">以警告形式对话题标签 #%s 静音</string>
+    <string name="unmuting_hashtag_success_format">取消对话题标签 #%s 的静音</string>
+    <string name="action_view_filter">查看筛选器</string>
+    <string name="following_hashtag_success_format">正在关注话题标签 #%s</string>
+    <string name="unfollowing_hashtag_success_format">已不再关注话题标签 #%s</string>
+    <string name="help_empty_lists">这是你的 <b>列表视图</b>。你可以定义私人列表并添加联系人到列表中。
+\n
+\n 请注意，你只能将你已关注的账户添加到列表中。
+\n
+\n 这些列表可被用作“账户选项” [iconics gmd_account_circle] [iconics gmd_navigate_next] 选项卡中的标签页。 </string>
+    <string name="error_blocking_domain">未能静音 %1$s: %2$s</string>
+    <string name="error_unblocking_domain">未能取消对 %1$s: %2$s的静音</string>
 </resources>

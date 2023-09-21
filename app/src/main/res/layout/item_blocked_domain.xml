@@ -11,7 +11,7 @@
     >
 
     <ImageButton
-        android:id="@+id/muted_domain_unmute"
+        android:id="@+id/blocked_domain_unblock"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -25,7 +25,7 @@
         />
 
     <TextView
-        android:id="@+id/muted_domain"
+        android:id="@+id/blocked_domain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"

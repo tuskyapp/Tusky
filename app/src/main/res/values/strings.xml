@@ -45,6 +45,8 @@
     <string name="error_following_hashtags_unsupported">This instance does not support following hashtags.</string>
     <string name="error_muting_hashtag_format">Error muting #%s</string>
     <string name="error_unmuting_hashtag_format">Error unmuting #%s</string>
+    <string name="error_blocking_domain">Failed to mute %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Failed to unmute %1$s: %2$s</string>
     <string name="error_status_source_load">Failed to load the status source from the server.</string>
 
     <string name="title_login">Login</string>
@@ -52,6 +54,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_public_local">Local</string>
     <string name="title_public_trending_hashtags">Trending hashtags</string>
+    <string name="title_public_trending_statuses">Trending posts</string>
     <string name="title_public_federated">Federated</string>
     <string name="title_direct_messages">Direct messages</string>
     <string name="title_tab_preferences">Tabs</string>
@@ -241,6 +244,7 @@
     <string name="label_quick_reply">Reply…</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_header">Header</string>
+    <string name="label_image">Image</string>
 
     <string name="link_whats_an_instance">What\'s an instance?</string>
 
@@ -301,6 +305,7 @@
     <string name="app_theme_black">Black</string>
     <string name="app_theme_auto">Automatic at sunset</string>
     <string name="app_theme_system">Use System Design</string>
+    <string name="app_theme_system_black">Use System Design (black)</string>
 
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Use Chrome Custom Tabs</string>
@@ -612,9 +617,15 @@
     <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
-    <string name="notifications_clear">Delete notifications</string>
-    <string name="notifications_apply_filter">Filter notifications</string>
+    <string name="notifications_clear">Delete</string>
+    <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Apply</string>
+
+    <string name="muting_hashtag_success_format">Muting hashtag #%s as a warning</string>
+    <string name="unmuting_hashtag_success_format">Unmuting hashtag #%s</string>
+    <string name="action_view_filter">View filter</string>
+    <string name="following_hashtag_success_format">Now following hashtag #%s</string>
+    <string name="unfollowing_hashtag_success_format">No longer following hashtag #%s</string>
 
     <string name="compose_shortcut_long_label">Compose post</string>
     <string name="compose_shortcut_short_label">Compose</string>
@@ -815,10 +826,23 @@
         you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
         For example the local timeline of your instance [iconics gmd_group]. Or you can search them
         by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).
+        \n\nPrivate messages are created by setting the visibility [iconics gmd_public] of a post to [iconics gmd_mail] <i>Direct</i> and
+        mentioning one or more users in the text.
+        \n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.
+    </string>
+    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.
+        \n\n
+        NOTE that you can only add accounts you follow to your lists.
+        \n\n
+        These lists can be used as a tab in Account preferences [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs.
+    </string>
+
     <string name="load_newest_notifications">Load newest notifications</string>
     <string name="about_copy">Copy version and device information</string>
     <string name="about_copied">Copied version and device information</string>
     <string name="error_media_playback">Playback failed: %s</string>
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
+    <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
 </resources>
