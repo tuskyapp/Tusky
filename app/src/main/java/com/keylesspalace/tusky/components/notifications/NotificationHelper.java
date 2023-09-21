@@ -237,7 +237,7 @@ public class NotificationHelper {
         Bundle extras = new Bundle();
         // Add the sending account's name, so it can be used when summarising this notification
         extras.putString(EXTRA_ACCOUNT_NAME, body.getAccount().getName());
-        extras.putSerializable(EXTRA_NOTIFICATION_TYPE, body.getType());
+        extras.putString(EXTRA_NOTIFICATION_TYPE, body.getType().name());
         builder.addExtras(extras);
 
         // Only alert for the first notification of a batch to avoid multiple alerts at once
@@ -317,7 +317,8 @@ public class NotificationHelper {
             // Create a notification that summarises the other notifications in this group
 
             // All notifications in this group have the same type, so get it from the first.
-            Notification.Type notificationType = (Notification.Type)members.get(0).getNotification().extras.getSerializable(EXTRA_NOTIFICATION_TYPE);
+            String typeName = members.get(0).getNotification().extras.getString(EXTRA_NOTIFICATION_TYPE, Notification.Type.UNKNOWN.name());
+            Notification.Type notificationType = Notification.Type.byString(typeName);
 
             Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, notificationType);
 
