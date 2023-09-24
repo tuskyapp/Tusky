@@ -66,4 +66,11 @@
 
     <dimen name="timeline_status_avatar_height">48dp</dimen>
     <dimen name="timeline_status_avatar_width">48dp</dimen>
+
+    <dimen name="profile_badge_stroke_width">1dp</dimen>
+    <dimen name="profile_badge_min_height">24dp</dimen>
+    <dimen name="profile_badge_icon_size">16dp</dimen>
+    <dimen name="profile_badge_icon_start_padding">8dp</dimen>
+    <dimen name="profile_badge_icon_end_padding">0dp</dimen>
+
 </resources>

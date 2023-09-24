@@ -42,6 +42,9 @@ class AccountViewModel @Inject constructor(
     lateinit var accountId: String
     var isSelf = false
 
+    /** the domain of the viewed account **/
+    var domain = ""
+
     /** True if the viewed account has the same domain as the active account */
     var isFromOwnDomain = false
 
@@ -68,11 +71,12 @@ class AccountViewModel @Inject constructor(
                 mastodonApi.account(accountId)
                     .fold(
                         { account ->
+                            domain = getDomain(account.url)
+                            isFromOwnDomain = domain == activeAccount.domain
+
                             accountData.postValue(Success(account))
                             isDataLoading = false
                             isRefreshing.postValue(false)
-
-                            isFromOwnDomain = getDomain(account.url) == activeAccount.domain
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
