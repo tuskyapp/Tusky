@@ -318,7 +318,7 @@ public class NotificationHelper {
 
             // All notifications in this group have the same type, so get it from the first.
             String typeName = members.get(0).getNotification().extras.getString(EXTRA_NOTIFICATION_TYPE, Notification.Type.UNKNOWN.name());
-            Notification.Type notificationType = Notification.Type.byString(typeName);
+            Notification.Type notificationType = Notification.Type.valueOf(typeName);
 
             Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, notificationType);
 
