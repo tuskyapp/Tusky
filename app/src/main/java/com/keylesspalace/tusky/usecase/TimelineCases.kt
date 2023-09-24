@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.rx3.await
 import javax.inject.Inject
 
@@ -61,7 +62,7 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    suspend fun translate(statusId: String, translate: Boolean): TranslationResult?  {
+    suspend fun translate(statusId: String, translate: Boolean): TranslationResult? {
         val translation = if (translate) {
             mastodonApi.translateStatus(statusId).await()
         } else {
@@ -69,6 +70,13 @@ class TimelineCases @Inject constructor(
         }
         eventHub.dispatch(TranslationEvent(statusId, translation))
         return translation
+    }
+
+    fun translateOld(statusId: String, translate: Boolean): TranslationResult? {
+        // TODO: ?????
+        return runBlocking {
+             translate(statusId, translate)
+        }
     }
 
     suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {

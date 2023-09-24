@@ -52,6 +52,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.util.Collections.emptyList
 
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
@@ -144,6 +145,7 @@ abstract class TimelineViewModel(
             ifExpected(t) {
                 Log.d(TAG, "Failed to translate status " + status.actionableId, t)
             }
+            return@launch
         }
     }
 
@@ -183,13 +185,22 @@ abstract class TimelineViewModel(
 
     abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
 
-    abstract fun handleTranslationEvent(translationEvent: TranslationEvent)
-
     abstract fun handleFavEvent(favEvent: FavoriteEvent)
 
     abstract fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent)
 
     abstract fun handlePinEvent(pinEvent: PinEvent)
+
+    fun handleTranslationEvent(translationEvent: TranslationEvent) {
+        updateStatusById(translationEvent.statusId) {
+            it.copyWithTranslationResult(translationResult = translationEvent.translation)
+        }
+    }
+
+    abstract fun updateStatusById(
+        id: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete,
+    )
 
     abstract fun fullReload()
 
@@ -252,9 +263,9 @@ abstract class TimelineViewModel(
         when (event) {
             is FavoriteEvent -> handleFavEvent(event)
             is ReblogEvent -> handleReblogEvent(event)
-            is TranslationEvent -> handleTranslationEvent(event)
             is BookmarkEvent -> handleBookmarkEvent(event)
             is PinEvent -> handlePinEvent(event)
+            is TranslationEvent -> handleTranslationEvent(event)
             is MuteConversationEvent -> fullReload()
             is UnfollowEvent -> {
                 if (kind == Kind.HOME) {

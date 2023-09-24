@@ -140,7 +140,7 @@ abstract class SFragment : Fragment(), Injectable {
         requireActivity().startActivity(intent)
     }
 
-    protected fun more(status: Status, view: View, position: Int) {
+    protected fun more(status: Status, view: View, position: Int, translated: Boolean?) {
         val id = status.actionableId
         val accountId = status.actionableStatus.account.id
         val accountUsername = status.actionableStatus.account.username
@@ -191,13 +191,9 @@ abstract class SFragment : Fragment(), Injectable {
                 }
             )
         }
-        menu.findItem(
-            if (status.translationResult == null) {
-                R.id.status_untranslate
-            } else {
-                R.id.status_translate
-            }
-        ).isVisible = false
+        menu.findItem(R.id.status_untranslate).isVisible = translated ?: false
+        menu.findItem(R.id.status_translate).isVisible = translated?.not() ?: false;
+
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.post_share_content -> {

@@ -98,7 +98,7 @@ class ConversationsViewModel @Inject constructor(
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
-                    translationResult = translationResult
+                    translationResult = translationResult,
                 )
 
                 saveConversationToDb(newConversation)

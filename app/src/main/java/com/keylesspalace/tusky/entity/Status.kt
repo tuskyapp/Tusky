@@ -51,17 +51,7 @@ data class Status(
     val card: Card?,
     val language: String?,
     val filtered: List<FilterResult>?,
-    val translationResult: TranslationResult? = null,
 ) {
-
-    val displayedContent: String
-        get() {
-            if (translationResult == null) {
-                return content
-            }
-            return translationResult.displayedContent;
-        }
-
     val actionableId: String
         get() = reblog?.id ?: id
 
@@ -71,7 +61,6 @@ data class Status(
     /** Helpers for Java */
     fun copyWithFavourited(favourited: Boolean): Status = copy(favourited = favourited)
     fun copyWithReblogged(reblogged: Boolean): Status = copy(reblogged = reblogged)
-    fun copyWithTranslation(translationResult: TranslationResult?): Status = copy(translationResult = translationResult)
     fun copyWithBookmarked(bookmarked: Boolean): Status = copy(bookmarked = bookmarked)
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
     fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)

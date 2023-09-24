@@ -42,8 +42,6 @@ class CacheUpdater @Inject constructor(
                     }
                     is PinEvent ->
                         timelineDao.setPinned(accountId, event.statusId, event.pinned)
-                    is TranslationEvent ->
-                        timelineDao.setTranslation(accountId, event.statusId, event.translation)
                 }
             }
         }

@@ -60,7 +60,8 @@ class ListStatusAccessibilityDelegate(
                 }
                 info.addAction(if (actionable.favourited) unfavouriteAction else favouriteAction)
                 info.addAction(if (actionable.bookmarked) unbookmarkAction else bookmarkAction)
-                info.addAction(if (actionable.translationResult == null) translateAction else untranslateAction)
+
+                info.addAction(if (status.translationResult == null) translateAction else untranslateAction)
 
                 val mediaActions = intArrayOf(
                     R.id.action_open_media_1,

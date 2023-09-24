@@ -439,7 +439,7 @@ class TimelineFragment :
 
     override fun onMore(view: View, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        super.more(status.status, view, position)
+        super.more(status.status, view, position, status.translationResult != null)
     }
 
     override fun onOpenReblog(position: Int) {

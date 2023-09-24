@@ -685,11 +685,4 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("UPDATE `AccountEntity` SET `tabpreferences` = REPLACE(tabpreferences, 'Trending:', 'TrendingTags:')");
         }
     };
-
-    public static final Migration MIGRATION_53_54 = new Migration(53, 54) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE `TimelineStatusEntity` ADD COLUMN `translatedResult` TEXT DEFAULT NULL");
-        }
-    };
 }

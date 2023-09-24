@@ -134,11 +134,11 @@ data class ConversationStatusEntity(
                 card = null,
                 language = language,
                 filtered = null,
-                translationResult = translationResult,
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
-            isCollapsed = collapsed
+            isCollapsed = collapsed,
+            translationResult = translationResult,
         )
     }
 }
@@ -183,7 +183,7 @@ fun Status.toEntity(
         muted = muted ?: false,
         poll = poll,
         language = language,
-        translationResult = translationResult,
+        translationResult = null,
     )
 
 fun Conversation.toEntity(

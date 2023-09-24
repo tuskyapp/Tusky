@@ -162,7 +162,7 @@ class SearchViewModel @Inject constructor(
     fun translate(statusViewData: StatusViewData.Concrete, translate: Boolean) {
         viewModelScope.launch {
             val translation = timelineCases.translate(statusViewData.actionableId, translate)
-            updateStatus(statusViewData.status.copy(translationResult = translation))
+            updateStatusViewData(statusViewData.copyWithTranslationResult(translation))
         }
     }
 

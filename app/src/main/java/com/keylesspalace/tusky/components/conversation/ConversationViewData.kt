@@ -35,7 +35,7 @@ data class ConversationViewData(
         expanded: Boolean = lastStatus.isExpanded,
         collapsed: Boolean = lastStatus.isCollapsed,
         showingHiddenContent: Boolean = lastStatus.isShowingContent,
-        translationResult: TranslationResult? = lastStatus.status.translationResult,
+        translationResult: TranslationResult? = lastStatus.translationResult,
     ): ConversationEntity {
         return ConversationEntity(
             accountId = accountId,
@@ -51,8 +51,8 @@ data class ConversationViewData(
                 expanded = expanded,
                 collapsed = collapsed,
                 showingHiddenContent = showingHiddenContent,
-                translationResult = translationResult,
-            )
+                translation = translationResult,
+            ),
         )
     }
 }
@@ -65,7 +65,7 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
     expanded: Boolean = isExpanded,
     collapsed: Boolean = isCollapsed,
     showingHiddenContent: Boolean = isShowingContent,
-    translationResult: TranslationResult? = status.translationResult,
+    translation: TranslationResult? = translationResult,
 ): ConversationStatusEntity {
     return ConversationStatusEntity(
         id = id,
@@ -92,6 +92,6 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         muted = muted,
         poll = poll,
         language = status.language,
-        translationResult = translationResult,
+        translationResult = translation,
     )
 }

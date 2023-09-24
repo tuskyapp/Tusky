@@ -208,7 +208,7 @@ class ViewThreadViewModel @Inject constructor(
             timelineCases.translate(status.actionableId, translate)
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
+                Log.d(TAG, "Failed to translate status " + status.actionableId, t)
             }
         }
     }
@@ -302,11 +302,10 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     private fun handleTranslationEvent(event: TranslationEvent) {
-        updateStatus(event.statusId) { status ->
+        updateStatusViewData(event.statusId) { status ->
             status.copy(translationResult = event.translation)
         }
     }
-
 
     private fun handleBookmarkEvent(event: BookmarkEvent) {
         updateStatus(event.statusId) { status ->

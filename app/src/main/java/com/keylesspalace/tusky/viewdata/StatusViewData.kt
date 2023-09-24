@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.viewdata
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
@@ -34,6 +35,7 @@ sealed class StatusViewData {
         val status: Status,
         val isExpanded: Boolean,
         val isShowingContent: Boolean,
+        val translationResult: TranslationResult? = null,
         /**
          * Specifies whether the content of this post is currently limited in visibility to the first
          * 500 characters or not.
@@ -41,12 +43,16 @@ sealed class StatusViewData {
          * @return Whether the post is collapsed or fully expanded.
          */
         val isCollapsed: Boolean,
-        val isDetailed: Boolean = false
+        val isDetailed: Boolean = false,
     ) : StatusViewData() {
         override val id: String
             get() = status.id
 
-        val content: Spanned = status.actionableStatus.content.parseAsMastodonHtml()
+        private val stringContent: String
+            get() = translationResult?.displayedContent ?: actionable.content
+
+        val content: Spanned
+            get() = stringContent.parseAsMastodonHtml()
 
         /**
          * Specifies whether the content of this post is long enough to be automatically
@@ -90,6 +96,11 @@ sealed class StatusViewData {
         /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
+        }
+
+        /** Helper for Java */
+        fun copyWithTranslationResult(translationResult: TranslationResult?): Concrete {
+            return copy(translationResult = translationResult)
         }
     }
 

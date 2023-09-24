@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
@@ -226,12 +225,6 @@ class NetworkTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun handleTranslationEvent(translationEvent: TranslationEvent) {
-        updateStatusById(translationEvent.statusId) {
-            it.copy(status = it.status.copy(translationResult = translationEvent.translation))
-        }
-    }
-
     override fun handleFavEvent(favEvent: FavoriteEvent) {
         updateActionableStatusById(favEvent.statusId) {
             it.copy(favourited = favEvent.favourite)
@@ -325,7 +318,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    private inline fun updateStatusById(
+    override fun updateStatusById(
         id: String,
         updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
     ) {

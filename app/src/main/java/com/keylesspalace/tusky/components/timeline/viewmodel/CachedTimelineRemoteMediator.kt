@@ -171,7 +171,8 @@ class CachedTimelineRemoteMediator(
                     gson = gson,
                     expanded = expanded,
                     contentShowing = contentShowing,
-                    contentCollapsed = contentCollapsed
+                    contentCollapsed = contentCollapsed,
+                    translationResult = null,
                 )
             )
         }

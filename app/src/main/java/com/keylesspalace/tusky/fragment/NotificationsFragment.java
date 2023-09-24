@@ -76,6 +76,7 @@ import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;
 import com.keylesspalace.tusky.entity.Relationship;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TranslationResult;
 import com.keylesspalace.tusky.interfaces.AccountActionListener;
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity;
 import com.keylesspalace.tusky.interfaces.ReselectableFragment;
@@ -477,6 +478,17 @@ public class NotificationsFragment extends SFragment implements
                 );
     }
 
+    @Override
+    public void onTranslate(boolean translate, int position) {
+        final Notification notification = notifications.get(position).asRight();
+        final Status status = notification.getStatus();
+        final String statusId = status.getActionableId();
+
+        final TranslationResult trans = timelineCases.translateOld(statusId, translate);
+
+        updateViewDataAt(position, (vd) -> vd.copyWithTranslationResult(trans));
+    }
+
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
         updateStatus(statusId, (s) -> s.copyWithBookmarked(bookmark));
     }
@@ -506,7 +518,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
-        super.more(notification.getStatus(), view, position);
+        super.more(notification.getStatus(), view, position, null);
     }
 
     @Override

@@ -32,7 +32,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.ReblogEvent
-import com.keylesspalace.tusky.appstore.TranslationEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
 import com.keylesspalace.tusky.components.timeline.Placeholder
@@ -61,7 +60,7 @@ import javax.inject.Inject
  * TimelineViewModel that caches all statuses in a local database
  */
 class CachedTimelineViewModel @Inject constructor(
-    timelineCases: TimelineCases,
+    val timelineCases: TimelineCases,
     private val api: MastodonApi,
     eventHub: EventHub,
     accountManager: AccountManager,
@@ -216,7 +215,8 @@ class CachedTimelineViewModel @Inject constructor(
                                 gson = gson,
                                 expanded = activeAccount.alwaysOpenSpoiler,
                                 contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                                contentCollapsed = true
+                                contentCollapsed = true,
+                                translationResult = null,
                             )
                         )
                     }
@@ -258,10 +258,6 @@ class CachedTimelineViewModel @Inject constructor(
         // handled by CacheUpdater
     }
 
-    override fun handleTranslationEvent(translationEvent: TranslationEvent) {
-        // handled by CacheUpdater
-    }
-
     override fun handleFavEvent(favEvent: FavoriteEvent) {
         // handled by CacheUpdater
     }
@@ -272,6 +268,13 @@ class CachedTimelineViewModel @Inject constructor(
 
     override fun handlePinEvent(pinEvent: PinEvent) {
         // handled by CacheUpdater
+    }
+
+    override fun updateStatusById(
+        id: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+
     }
 
     override fun fullReload() {

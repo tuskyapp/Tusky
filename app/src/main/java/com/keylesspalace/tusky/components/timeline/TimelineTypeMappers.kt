@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.TranslationResult
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
 
@@ -116,7 +117,8 @@ fun Status.toEntity(
     gson: Gson,
     expanded: Boolean,
     contentShowing: Boolean,
-    contentCollapsed: Boolean
+    contentCollapsed: Boolean,
+    translationResult: TranslationResult?,
 ): TimelineStatusEntity {
     return TimelineStatusEntity(
         serverId = this.id,
@@ -153,7 +155,7 @@ fun Status.toEntity(
         repliesCount = actionableStatus.repliesCount,
         language = actionableStatus.language,
         filtered = actionableStatus.filtered,
-        translationResult = actionableStatus.translationResult,
+        translationResult = translationResult,
     )
 }
 

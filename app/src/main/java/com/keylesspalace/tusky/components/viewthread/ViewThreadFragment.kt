@@ -336,7 +336,8 @@ class ViewThreadFragment :
     }
 
     override fun onMore(view: View, position: Int) {
-        super.more(adapter.currentList[position].status, view, position)
+        val status = adapter.currentList[position]
+        super.more(status.status, view, position, status.translationResult != null)
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {

@@ -20,8 +20,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import androidx.room.TypeConverters
-import com.keylesspalace.tusky.entity.TranslationResult
 
 @Dao
 abstract class TimelineDao {
@@ -105,16 +103,6 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
     )
     abstract suspend fun setReblogged(accountId: Long, statusId: String, reblogged: Boolean)
 
-    @TypeConverters(Converters::class)
-    @Query(
-        """UPDATE TimelineStatusEntity SET translationResult = :translationResult
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
-    )
-    abstract fun setTranslation(
-        accountId: Long,
-        statusId: String,
-        translationResult: TranslationResult?
-    )
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
 (authorServerId = :userId OR reblogAccountId = :userId)"""
