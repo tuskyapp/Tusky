@@ -508,11 +508,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         }
 
         loadedAccount?.roles?.forEach { role ->
-            val badgeColor = if (role.color.isEmpty()) {
+            val badgeColor = if (role.color.isNotBlank()) {
+                Color.parseColor(role.color)
+            } else {
                 // sometimes the color is not set for a role, in this case fall back to our default blue
                 getColor(R.color.tusky_blue)
-            } else {
-                Color.parseColor(role.color)
             }
 
             val sb = SpannableStringBuilder("${role.name} ${viewModel.domain}")
