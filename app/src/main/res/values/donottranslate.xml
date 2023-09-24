@@ -252,4 +252,6 @@
         <item>NEWEST_FIRST</item>
     </string-array>
 
+    <string name="url_domain_notifier" translatable="false">%s (🔗 %s)</string>
+
 </resources>

@@ -523,7 +523,6 @@
     <string name="tusky_compose_post_quicksetting_label">Compausar una publicacion</string>
     <string name="account_date_joined">Arribada del %1$s</string>
     <string name="saving_draft">Enregistrament del borrolhon…</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_image_edit_failed">Se podiá pas modificar l’imatge.</string>
     <string name="pref_title_wellbeing_mode">Benestar</string>
     <string name="duration_no_change">(Cap de modificacion)</string>

@@ -34,6 +34,7 @@ import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
@@ -43,6 +44,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import java.lang.ref.WeakReference
 import java.net.URI
 import java.net.URISyntaxException
 
@@ -65,7 +67,7 @@ fun getDomain(urlString: String?): String {
  * @param listener to notify about particular spans that are clicked
  */
 fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
-    val spannableContent = markupHiddenUrls(view.context, content)
+    val spannableContent = markupHiddenUrls(view, content)
 
     view.text = spannableContent.apply {
         getSpans(0, spannableContent.length, URLSpan::class.java).forEach {
@@ -76,7 +78,7 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
 }
 
 @VisibleForTesting
-fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBuilder {
+fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuilder {
     val spannableContent = SpannableStringBuilder(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {
@@ -99,8 +101,22 @@ fun markupHiddenUrls(context: Context, content: CharSequence): SpannableStringBu
         val start = spannableContent.getSpanStart(span)
         val end = spannableContent.getSpanEnd(span)
         val originalText = spannableContent.subSequence(start, end)
-        val replacementText = context.getString(R.string.url_domain_notifier, originalText, getDomain(span.url))
+        val replacementText = view.context.getString(R.string.url_domain_notifier, originalText, getDomain(span.url))
         spannableContent.replace(start, end, replacementText) // this also updates the span locations
+
+        val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
+        // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
+        val linkDrawableSpan = EmojiSpan(WeakReference(view))
+        linkDrawableSpan.imageDrawable = linkDrawable
+
+        val placeholderIndex = replacementText.indexOf("🔗")
+
+        spannableContent.setSpan(
+            linkDrawableSpan,
+            start + placeholderIndex,
+            start + placeholderIndex + "🔗".length,
+            0
+        )
     }
 
     return spannableContent

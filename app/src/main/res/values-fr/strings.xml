@@ -563,7 +563,6 @@
     <string name="pref_show_self_username_never">Jamais</string>
     <string name="description_post_language">Langue du message</string>
     <string name="duration_no_change">(Aucune modification)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_reaction">ajouter une réaction</string>
     <string name="instance_rule_title">%s règles</string>
     <string name="a11y_label_loading_thread">Chargement du fil</string>

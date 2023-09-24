@@ -625,7 +625,6 @@
     <string name="description_post_language">لغة المنشور</string>
     <string name="delete_scheduled_post_warning">هل تريد حذف هذا المنشور المُبَرمَج؟</string>
     <string name="tips_push_notification_migration">أعد تسجيل الدخول إلى جميع الحسابات لتمكين دعم الإشعارات.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">ضبط نقطة التركيز</string>
     <string name="action_edit_image">تعديل الصورة</string>
     <string name="action_add_reaction">إضافة رد فعل</string>

@@ -550,7 +550,6 @@
     <string name="set_focus_description">Toca ou arrasta o círculo para escolher o ponto de focagem que estará sempre visível nas pré-visualizações.</string>
     <string name="filter_expiration_format">%s(%s)</string>
     <string name="duration_no_change">(Sem alteração)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_always">Sempre</string>
     <string name="pref_show_self_username_disambiguate">Quando autenticado em várias contas</string>
     <string name="pref_show_self_username_never">Nunca</string>

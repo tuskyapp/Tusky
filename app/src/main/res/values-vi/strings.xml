@@ -525,7 +525,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Không đổi)</string>
     <string name="description_post_language">Ngôn ngữ đăng</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
     <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
     <string name="pref_title_show_self_username">Hiện URL của tôi trên tab</string>

@@ -543,7 +543,6 @@
     <string name="set_focus_description">Tik of sleep de cirkel naar een centraal focuspunt dat op elke thumbnail zichtbaar moet blijven.</string>
     <string name="dialog_push_notification_migration">Om pushmeldingen via UnifiedPush te kunnen gebruiken, moet Tusky zich op meldingen van jouw Mastodon-server abonneren. Dit betekent dat je opnieuw moet inloggen om de OAuth-toestemmingen voor Tusky te wijzigen. Het hier of onder accountvoorkeuren opnieuw inloggen behoudt jouw lokale concepten en buffer.</string>
     <string name="dialog_push_notification_migration_other_accounts">Je hebt opnieuw op jouw huidige account ingelogd om toestemming voor pushmeldingen aan Tusky te verlenen. Je hebt echter nog andere accounts die nog niet op deze manier zijn overgezet. Ga naar deze accounts en log één voor één opnieuw in om UnifiedPush-meldingen ook daar in te schakelen.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_always">Altijd</string>
     <string name="pref_show_self_username_disambiguate">Wanneer meerdere accounts zijn ingelogd</string>
     <string name="pref_show_self_username_never">Nooit</string>

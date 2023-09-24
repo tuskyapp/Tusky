@@ -539,7 +539,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(无更改)</string>
     <string name="description_post_language">嘟文语言</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">设置焦点</string>
     <string name="set_focus_description">轻按或拖动圆圈选择始终在缩略图中可见的焦点。</string>
     <string name="pref_show_self_username_disambiguate">登录多个账户时</string>

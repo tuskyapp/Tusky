@@ -606,7 +606,6 @@
     <string name="wellbeing_hide_stats_posts">Схаваць колькасную статыстыку допісаў</string>
     <string name="wellbeing_hide_stats_profile">Схаваць колькасную статыстыку профіляў</string>
     <string name="report_category_violation">Парушэнне правіла</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="instance_rule_title">Правілы %s</string>
     <string name="language_display_name_format">%s (%s)</string>
     <string name="delete_scheduled_post_warning">Выдаліць гэты запланаваны допіс\?</string>

@@ -550,7 +550,6 @@
     <string name="pref_show_self_username_disambiguate">هنگام ورود چندین حساب</string>
     <string name="pref_show_self_username_never">هرگز</string>
     <string name="pref_title_show_self_username">نمایش نام کاربری در نوارابزارها</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_reaction">افزودن واکنش</string>
     <string name="action_set_focus">تنظیم نقطهٔ تمرکز</string>
     <string name="duration_no_change">(بدون تغییر)</string>

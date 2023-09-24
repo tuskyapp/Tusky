@@ -570,7 +570,6 @@
     <string name="error_multimedia_size_limit">Pliki wideo i audio nie mogą przekraczać rozmiarem %s MB.</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="description_post_language">Język wpisu</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="duration_no_change">(bez zmian)</string>
     <string name="error_following_hashtag_format">Wystąpił błąd podczas obserwowania #%s</string>
     <string name="error_unfollowing_hashtag_format">Wystąpił błąd podczas odobserwowywania #%s</string>
