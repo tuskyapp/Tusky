@@ -249,7 +249,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
-                if (intent.getSerializableExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST) {
+                if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
                     val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
                     startActivityWithSlideInAnimation(intent)
                 } else {
@@ -1102,7 +1102,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         @JvmStatic
         fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
-                putExtra(NOTIFICATION_TYPE, type)
+                putExtra(NOTIFICATION_TYPE, type.name)
             }
         }
 
