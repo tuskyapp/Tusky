@@ -353,8 +353,8 @@
     <string name="edit_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
-    <string name="notifications_clear">Verwijder meldingen</string>
-    <string name="notifications_apply_filter">Filter meldingen</string>
+    <string name="notifications_clear">Verwijder</string>
+    <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Toepassen</string>
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
