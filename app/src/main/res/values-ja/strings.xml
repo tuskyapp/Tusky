@@ -56,7 +56,7 @@
     <string name="action_favourite">お気に入り</string>
     <string name="action_more">その他</string>
     <string name="action_compose">投稿する</string>
-    <string name="action_login">TUsky でログイン</string>
+    <string name="action_login">Tusky でログイン</string>
     <string name="action_logout">ログアウト</string>
     <string name="action_logout_confirm">アカウント %1$s からログアウトしてもよろしいですか？ログアウトすると、下書きや詳細設定を含めて、ローカルに保存されているアカウントの全てのデータが削除されます。</string>
     <string name="action_follow">フォローする</string>
@@ -573,7 +573,7 @@
     <string name="action_add_reaction">リアクションを追加</string>
     <string name="action_discard">変更を破棄</string>
     <string name="action_continue_edit">編集を続ける</string>
-    <string name="action_share_account_link">アカウントにリンクを共有</string>
+    <string name="action_share_account_link">アカウントへのリンクを共有</string>
     <string name="action_share_account_username">アカウントのユーザー名を共有</string>
     <string name="send_account_link_to">アカウント URL を共有…</string>
     <string name="send_account_username_to">アカウントのユーザー名を共有…</string>
