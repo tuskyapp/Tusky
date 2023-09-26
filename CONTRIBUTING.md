@@ -43,7 +43,10 @@ All icons are from the Material iconset, find new icons [here](https://fonts.goo
 We try to make Tusky as accessible as possible for as many people as possible. Please make sure that all touch targets are at least 48dpx48dp in size, Text has sufficient contrast and images or icons have a image description. See [this guide](https://developer.android.com/guide/topics/ui/accessibility/apps) for more information.
 
 ### Supported servers
-Tusky is primarily a Mastodon client and aims to always support the newest Mastodon version. Other platforms implementing the Mastodon Api, e.g. Akkoma, GoToSocial or Pixelfed should also work with Tusky but no special effort is made to support their quirks or additional features.
+Tusky is primarily a Mastodon client and aims to always support the newest Mastodon version. Other platforms implementing the Mastodon API, e.g. Akkoma, GoToSocial or Pixelfed should also work with Tusky, but no special effort is made to support their quirks or additional features.
+
+### Payment Policy
+Our payment policy may be viewed [here](https://github.com/tuskyapp/Tusky/blob/develop/doc/PaymentPolicy.md).
 
 ## Troubleshooting / FAQ
 
@@ -51,4 +54,4 @@ Tusky is primarily a Mastodon client and aims to always support the newest Masto
 - Tusky comes with two sets of build variants, "blue" and "green", which can be installed simultaneously and are distinguished by the colors of their icons. Green is intended for local development and testing, whereas blue is for releases.
 
 ## Resources
-- [Mastodon Api documentation](https://docs.joinmastodon.org/api/)
+- [Mastodon API documentation](https://docs.joinmastodon.org/api/)
