@@ -660,4 +660,5 @@
     <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
 \n
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
+    <string name="title_public_trending_statuses">トレンドの投稿</string>
 </resources>
