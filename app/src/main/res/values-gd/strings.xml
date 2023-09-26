@@ -565,7 +565,6 @@
     <string name="pref_show_self_username_disambiguate">Nuair a bhios iomadh cunntas air an clàradh a-steach</string>
     <string name="pref_show_self_username_never">Chan ann idir</string>
     <string name="filter_expiration_format">%s (%s)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Suidhich puing an fhòcais</string>
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>

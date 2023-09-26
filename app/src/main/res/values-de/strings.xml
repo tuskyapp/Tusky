@@ -561,7 +561,6 @@
     <string name="pref_show_self_username_never">Niemals</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="description_post_language">Sprache des Beitrags</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Fokuspunkt setzen</string>
     <string name="action_add_reaction">Reaktion hinzufügen</string>
     <string name="failed_to_remove_from_list">Das Konto konnte nicht aus der Liste entfernt werden</string>

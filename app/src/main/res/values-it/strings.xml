@@ -568,7 +568,6 @@
     <string name="pref_show_self_username_disambiguate">Quando connesso con più account</string>
     <string name="duration_no_change">(nessuna modifica)</string>
     <string name="pref_title_show_self_username">Mostra nome utente nelle barre strumenti</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_or_remove_from_list">Aggiunti o rimuovi dalla lista</string>
     <string name="failed_to_add_to_list">Aggiunta dell\'account alla lista fallita</string>
     <string name="failed_to_remove_from_list">Rimozione dell\'account dalla lista fallita</string>

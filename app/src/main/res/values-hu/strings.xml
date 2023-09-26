@@ -549,7 +549,6 @@
     <string name="pref_show_self_username_disambiguate">Ha több fiók is be van jelentkezve</string>
     <string name="pref_show_self_username_never">Soha</string>
     <string name="duration_no_change">(Nincs változás)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Fókuszpont beállítása</string>
     <string name="error_following_hashtag_format">Hiba a #%s követésekor</string>
     <string name="error_unfollowing_hashtag_format">Hiba a #%s követésének befejezésekor</string>

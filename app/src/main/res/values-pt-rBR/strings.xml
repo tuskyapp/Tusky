@@ -566,7 +566,6 @@
     <string name="report_category_violation">Violação de regra</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Outros</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_disambiguate">Quando várias contas estão conectadas</string>
     <string name="pref_title_http_proxy_port_message">A porta deve estar entre %d e %d</string>
     <string name="status_count_one_plus">1+</string>

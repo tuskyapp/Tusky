@@ -266,5 +266,4 @@
     <string name="action_links">සබැඳි</string>
     <string name="pref_title_browser_settings">අතිරික්සුව</string>
     <string name="abbreviated_seconds_ago">තත්. %d</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
 </resources>

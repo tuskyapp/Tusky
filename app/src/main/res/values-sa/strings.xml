@@ -479,7 +479,6 @@
     <string name="duration_365_days">३६५ दिनानि</string>
     <string name="duration_no_change">(परिवर्तनं नास्ति)</string>
     <string name="review_notifications">सूचनाः सम्दृश्यन्ताम्</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_never">न कदापि</string>
     <string name="pref_default_post_language">पूर्वनिविष्टा प्रकाशका भाषा</string>
     <string name="notification_report_name">आवेदनानि</string>

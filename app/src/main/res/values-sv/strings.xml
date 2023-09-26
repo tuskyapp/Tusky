@@ -511,7 +511,6 @@
     <string name="dialog_push_notification_migration_other_accounts">Du har loggat in igen på ditt konto för att ge Tusky tillgång till push-prenumeration. Dock har du andra konton som inte har migrerats såhär ännu. Växla till dem och logga in igen för att aktivera stöd för UnifiedPush-notiser.</string>
     <string name="action_unsubscribe_account">Sluta prenumerera</string>
     <string name="description_post_language">Inläggsspråk</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_disambiguate">När flera konton är inloggade</string>
     <string name="pref_show_self_username_never">Aldrig</string>
     <string name="notification_sign_up_name">Registreringar</string>

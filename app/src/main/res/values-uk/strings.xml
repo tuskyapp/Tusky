@@ -560,7 +560,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="description_post_language">Мова допису</string>
     <string name="duration_no_change">(Не змінено)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
     <string name="pref_show_self_username_always">Завжди</string>
     <string name="set_focus_description">Торкніться або перетягніть коло, щоб вибрати точку фокусування, яку завжди буде видно на мініатюрах.</string>

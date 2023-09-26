@@ -260,7 +260,6 @@
     <string name="pref_title_http_proxy_server">HTTP starpniekserveris</string>
     <string name="pref_title_http_proxy_port_message">Portam būtu jābūt starp %d un %d</string>
     <string name="action_view_account_preferences">Konta iestatījumi</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="mute_domain_warning">Vai tiešām vēlaties bloķēt visu %s\? Šī domēna saturs netiks rādīts ne publiskajās laika līnijās, ne paziņojumos. Jūsu sekotāji no šī domēna tiks noņemti.</string>
     <string name="send_post_notification_saved_content">Ieraksta kopija tika saglabāta tavos melnrakstos</string>
     <string name="restart_emoji">Lai pielietotu šīs izmaiņas, ir jāpārstartē Tusky</string>

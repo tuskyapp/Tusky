@@ -500,7 +500,6 @@
     <string name="error_multimedia_size_limit">ビデオと音声ファイルのサイズは %s MB を超えることはできません。</string>
     <string name="error_image_edit_failed">画像が編集できませんでした。</string>
     <string name="title_login">ログイン</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_edit_image">画像の編集</string>
     <string name="instance_rule_title">%s のルール</string>
     <string name="error_following_hashtags_unsupported">このインスタンスはハッシュタグのフォローに対応していません。</string>

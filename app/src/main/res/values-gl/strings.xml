@@ -535,7 +535,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>

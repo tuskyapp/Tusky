@@ -560,7 +560,6 @@
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
     <string name="pref_show_self_username_disambiguate">Cuando hay varias cuentas ingresadas</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="notification_sign_up_description">Notificaciones de nuevos usuarios</string>
     <string name="notification_update_name">Ediciones de una publicación</string>
     <string name="notification_update_description">Notificaciones cuando se editan publicaciones con las que has interactuado</string>
