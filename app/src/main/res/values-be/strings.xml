@@ -7,7 +7,7 @@
     <string name="error_authorization_denied">Аўтарызацыя была адхілена. Калі ўпэўнены што ўвялі сапраўдныя ўліковыя даныя, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_loading_account_details">Дэталі ўліковага запісу не атрыманы</string>
     <string name="error_generic">Здарылася памылка.</string>
-    <string name="error_network">Здарылася сеткавая памылка! Калі ласка, праверце злучэнне і паспрабуйце зноў!</string>
+    <string name="error_network">Здарылася сеткавая памылка. Калі ласка, праверце злучэнне і паспрабуйце зноў.</string>
     <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_compose_character_limit">Допіс занадта доўгі!</string>
