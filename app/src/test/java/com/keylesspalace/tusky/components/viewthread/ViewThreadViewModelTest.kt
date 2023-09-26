@@ -7,10 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.components.timeline.mockStatusViewData
 import com.keylesspalace.tusky.db.AccountEntity
@@ -216,13 +214,13 @@ class ViewThreadViewModelTest {
     }
 
     @Test
-    fun `should handle favorite event`() {
+    fun `should handle status changed event`() {
         mockSuccessResponses()
 
         viewModel.loadThread(threadId)
 
         runBlocking {
-            eventHub.dispatch(FavoriteEvent(statusId = "1", false))
+            eventHub.dispatch(StatusChangedEvent(mockStatus(id = "1", spoilerText = "Test", favourited = false)))
 
             assertEquals(
                 ThreadUiState.Success(
@@ -230,54 +228,6 @@ class ViewThreadViewModelTest {
                         mockStatusViewData(id = "1", spoilerText = "Test", favourited = false),
                         mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
                         mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
-                    ),
-                    detailedStatusPosition = 1,
-                    revealButton = RevealButtonState.REVEAL
-                ),
-                viewModel.uiState.first()
-            )
-        }
-    }
-
-    @Test
-    fun `should handle reblog event`() {
-        mockSuccessResponses()
-
-        viewModel.loadThread(threadId)
-
-        runBlocking {
-            eventHub.dispatch(ReblogEvent(statusId = "2", true))
-
-            assertEquals(
-                ThreadUiState.Success(
-                    statusViewData = listOf(
-                        mockStatusViewData(id = "1", spoilerText = "Test"),
-                        mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test", reblogged = true),
-                        mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test")
-                    ),
-                    detailedStatusPosition = 1,
-                    revealButton = RevealButtonState.REVEAL
-                ),
-                viewModel.uiState.first()
-            )
-        }
-    }
-
-    @Test
-    fun `should handle bookmark event`() {
-        mockSuccessResponses()
-
-        viewModel.loadThread(threadId)
-
-        runBlocking {
-            eventHub.dispatch(BookmarkEvent(statusId = "3", false))
-
-            assertEquals(
-                ThreadUiState.Success(
-                    statusViewData = listOf(
-                        mockStatusViewData(id = "1", spoilerText = "Test"),
-                        mockStatusViewData(id = "2", inReplyToId = "1", inReplyToAccountId = "1", isDetailed = true, spoilerText = "Test"),
-                        mockStatusViewData(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test", bookmarked = false)
                     ),
                     detailedStatusPosition = 1,
                     revealButton = RevealButtonState.REVEAL
