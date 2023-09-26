@@ -357,8 +357,8 @@
     </string>
     <string name="hint_list_name">列表名</string>
     <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
-    <string name="notifications_clear">删除通知</string>
-    <string name="notifications_apply_filter">筛选通知</string>
+    <string name="notifications_clear">删除</string>
+    <string name="notifications_apply_filter">筛选</string>
     <string name="filter_apply">应用</string>
     <string name="compose_shortcut_long_label">撰写嘟文</string>
     <string name="compose_shortcut_short_label">发表嘟文</string>
@@ -699,4 +699,7 @@
 \n 这些列表可被用作“账户选项” [iconics gmd_account_circle] [iconics gmd_navigate_next] 选项卡中的标签页。 </string>
     <string name="error_blocking_domain">未能静音 %1$s: %2$s</string>
     <string name="error_unblocking_domain">未能取消对 %1$s: %2$s的静音</string>
+    <string name="label_image">图片</string>
+    <string name="app_theme_system_black">使用系统设计（黑色）</string>
+    <string name="title_public_trending_statuses">走红嘟文</string>
 </resources>
