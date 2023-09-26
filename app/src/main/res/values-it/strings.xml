@@ -361,8 +361,8 @@
     <string name="compose_shortcut_long_label">Componi messaggio</string>
     <string name="edit_hashtag_hint">Hashtag senza #</string>
     <string name="compose_shortcut_short_label">Componi</string>
-    <string name="notifications_clear">Cancella notifiche</string>
-    <string name="notifications_apply_filter">Filtra notifiche</string>
+    <string name="notifications_clear">Cancella</string>
+    <string name="notifications_apply_filter">Filtra</string>
     <string name="filter_apply">Applica</string>
     <string name="pref_title_bot_overlay">Mostra indicatore bot</string>
     <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
@@ -473,7 +473,7 @@
     <string name="account_note_hint">La tua nota privata su questo account</string>
     <string name="pref_title_hide_top_toolbar">Nascondi il titolo della barra degli strumenti in alto</string>
     <string name="pref_title_confirm_reblogs">Chiedi conferma prima di condividere</string>
-    <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timelines</string>
+    <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timeline</string>
     <string name="warning_scheduling_interval">Mastodon ha un intervallo di programmazione minimo di 5 minuti.</string>
     <string name="no_announcements">Non ci sono annunci.</string>
     <string name="no_scheduled_posts">Non hai messaggi programmati.</string>
@@ -702,4 +702,24 @@
     <string name="about_copied">Versione e informazioni dispositivo copiate</string>
     <string name="dialog_save_profile_changes_message">Vuoi salvare le modifiche al tuo profilo\?</string>
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %s</string>
+    <string name="label_image">Immagine</string>
+    <string name="app_theme_system_black">Usa design di sistema (nero)</string>
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni k messaggi diretti (DM).
+\n
+\nI messaggi privati sono creati impostando la visibilità [iconics gmd_public] di un post su [iconics gmd_mail] <i>Privato</i> e menzionando uno o più utenti nel testo.
+\n
+\nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità. </string>
+    <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%s</string>
+    <string name="unmuting_hashtag_success_format">Riattivazione dell\'hashtag #%s</string>
+    <string name="action_view_filter">Vedi filtro</string>
+    <string name="following_hashtag_success_format">Ora segui l\'hashtag #%s</string>
+    <string name="muting_hashtag_success_format">Hashtag #%s silenziato come avvertimento</string>
+    <string name="help_empty_lists">Questa è la <b>vista delle tue liste</b>. Puoi definire un numero di liste private a cui aggiungere account.
+\n
+\nRICORDA che puoi aggiungere alle liste solo account che già segui.
+\n
+\nQueste liste possono essere utilizzate come scheda dalle Impostazioni account [iconics gmd_account_circle] [iconics gmd_navigate_next] Schede </string>
+    <string name="title_public_trending_statuses">Post di tendenza</string>
+    <string name="error_blocking_domain">Silenziamento di %1$s fallito: %2$s</string>
+    <string name="error_unblocking_domain">Riattivazione di %1$s fallito: %2$s</string>
 </resources>
