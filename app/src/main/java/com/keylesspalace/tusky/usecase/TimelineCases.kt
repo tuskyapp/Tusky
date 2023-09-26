@@ -91,8 +91,8 @@ class TimelineCases @Inject constructor(
         } else {
             mastodonApi.unreblogStatusOld(statusId)
         }
-        return call.doAfterSuccess {
-            eventHub.dispatchOld(ReblogEvent(statusId, reblog))
+        return call.doAfterSuccess { status ->
+            eventHub.dispatchOld(StatusChangedEvent(status))
         }
     }
 
@@ -102,8 +102,8 @@ class TimelineCases @Inject constructor(
         } else {
             mastodonApi.unfavouriteStatusOld(statusId)
         }
-        return call.doAfterSuccess {
-            eventHub.dispatchOld(FavoriteEvent(statusId, favourite))
+        return call.doAfterSuccess { status ->
+            eventHub.dispatchOld(StatusChangedEvent(status))
         }
     }
 
@@ -113,8 +113,8 @@ class TimelineCases @Inject constructor(
         } else {
             mastodonApi.unbookmarkStatusOld(statusId)
         }
-        return call.doAfterSuccess {
-            eventHub.dispatchOld(BookmarkEvent(statusId, bookmark))
+        return call.doAfterSuccess { status ->
+            eventHub.dispatchOld(StatusChangedEvent(status))
         }
     }
 
