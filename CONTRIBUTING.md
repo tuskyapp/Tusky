@@ -50,7 +50,7 @@ Our payment policy may be viewed [here](https://github.com/tuskyapp/Tusky/blob/d
 
 ## Troubleshooting / FAQ
 
-- Tusky should be built with the newest version of Android Studio
+- Tusky should be built with the newest version of Android Studio.
 - Tusky comes with two sets of build variants, "blue" and "green", which can be installed simultaneously and are distinguished by the colors of their icons. Green is intended for local development and testing, whereas blue is for releases.
 
 ## Resources
