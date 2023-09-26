@@ -365,8 +365,8 @@
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام سیاهه</string>
     <string name="edit_hashtag_hint">برچسب بدون #</string>
-    <string name="notifications_clear">حذف آگاهی‌ها</string>
-    <string name="notifications_apply_filter">پالایش آگاهی‌ها</string>
+    <string name="notifications_clear">حذف</string>
+    <string name="notifications_apply_filter">پالایش</string>
     <string name="filter_apply">اعمال</string>
     <string name="compose_shortcut_long_label">ایجاد فرسته</string>
     <string name="compose_shortcut_short_label">ایجاد</string>
@@ -703,4 +703,7 @@
 \n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. </string>
     <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
     <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
+    <string name="label_image">تصویر</string>
+    <string name="app_theme_system_black">استفاده از طرّاحی سامانه (سیاه)</string>
+    <string name="title_public_trending_statuses">فرسته‌های داغ</string>
 </resources>
