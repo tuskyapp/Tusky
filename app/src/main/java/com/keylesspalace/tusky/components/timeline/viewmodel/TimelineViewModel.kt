@@ -24,16 +24,13 @@ import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
@@ -42,6 +39,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -170,13 +168,7 @@ abstract class TimelineViewModel(
 
     abstract fun loadMore(placeholderId: String)
 
-    abstract fun handleReblogEvent(reblogEvent: ReblogEvent)
-
-    abstract fun handleFavEvent(favEvent: FavoriteEvent)
-
-    abstract fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent)
-
-    abstract fun handlePinEvent(pinEvent: PinEvent)
+    abstract fun handleStatusChangedEvent(status: Status)
 
     abstract fun fullReload()
 
@@ -237,10 +229,7 @@ abstract class TimelineViewModel(
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is FavoriteEvent -> handleFavEvent(event)
-            is ReblogEvent -> handleReblogEvent(event)
-            is BookmarkEvent -> handleBookmarkEvent(event)
-            is PinEvent -> handlePinEvent(event)
+            is StatusChangedEvent -> handleStatusChangedEvent(event.status)
             is MuteConversationEvent -> fullReload()
             is UnfollowEvent -> {
                 if (kind == Kind.HOME) {

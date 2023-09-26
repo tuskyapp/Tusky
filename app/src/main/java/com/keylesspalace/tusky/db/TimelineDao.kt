@@ -20,6 +20,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.TypeConverters
+import com.google.gson.Gson
+import com.keylesspalace.tusky.entity.FilterResult
+import com.keylesspalace.tusky.entity.Status
 
 @Dao
 abstract class TimelineDao {
@@ -72,9 +76,10 @@ FROM TimelineStatusEntity s
 LEFT JOIN TimelineAccountEntity a ON (s.timelineUserId = a.timelineUserId AND s.authorServerId = a.serverId)
 LEFT JOIN TimelineAccountEntity rb ON (s.timelineUserId = rb.timelineUserId AND s.reblogAccountId = rb.serverId)
 WHERE (s.serverId = :statusId OR s.reblogServerId = :statusId)
-AND s.authorServerId IS NOT NULL"""
+AND s.authorServerId IS NOT NULL
+AND s.timelineUserId = :accountId"""
     )
-    abstract suspend fun getStatus(statusId: String): TimelineStatusWithAccount?
+    abstract suspend fun getStatus(accountId: Long, statusId: String): TimelineStatusWithAccount?
 
     @Query(
         """DELETE FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND
@@ -85,11 +90,85 @@ AND
     )
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
+    suspend fun update(accountId: Long, status: Status, gson: Gson) {
+        update(
+            accountId = accountId,
+            statusId = status.id,
+            content = status.content,
+            editedAt = status.editedAt?.time,
+            emojis = gson.toJson(status.emojis),
+            reblogsCount = status.reblogsCount,
+            favouritesCount = status.favouritesCount,
+            repliesCount = status.repliesCount,
+            reblogged = status.reblogged,
+            bookmarked = status.bookmarked,
+            favourited = status.favourited,
+            sensitive = status.sensitive,
+            spoilerText = status.spoilerText,
+            visibility = status.visibility,
+            attachments = gson.toJson(status.attachments),
+            mentions = gson.toJson(status.mentions),
+            tags = gson.toJson(status.tags),
+            poll = gson.toJson(status.poll),
+            muted = status.muted,
+            pinned = status.pinned ?: false,
+            card = gson.toJson(status.card),
+            language = status.language,
+            filtered = status.filtered
+        )
+    }
+
     @Query(
-        """UPDATE TimelineStatusEntity SET favourited = :favourited
-WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
+        """UPDATE TimelineStatusEntity
+           SET content = :content,
+           editedAt = :editedAt,
+           emojis = :emojis,
+           reblogsCount = :reblogsCount,
+           favouritesCount = :favouritesCount,
+           repliesCount = :repliesCount,
+           reblogged = :reblogged,
+           bookmarked = :bookmarked,
+           favourited = :favourited,
+           sensitive = :sensitive,
+           spoilerText = :spoilerText,
+           visibility = :visibility,
+           attachments = :attachments,
+           mentions = :mentions,
+           tags = :tags,
+           poll = :poll,
+           muted = :muted,
+           pinned = :pinned,
+           card = :card,
+           language = :language,
+           filtered = :filtered
+           WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
-    abstract suspend fun setFavourited(accountId: Long, statusId: String, favourited: Boolean)
+    @TypeConverters(Converters::class)
+    abstract suspend fun update(
+        accountId: Long,
+        statusId: String,
+        content: String?,
+        editedAt: Long?,
+        emojis: String?,
+        reblogsCount: Int,
+        favouritesCount: Int,
+        repliesCount: Int,
+        reblogged: Boolean,
+        bookmarked: Boolean,
+        favourited: Boolean,
+        sensitive: Boolean,
+        spoilerText: String,
+        visibility: Status.Visibility,
+        attachments: String?,
+        mentions: String?,
+        tags: String?,
+        poll: String?,
+        muted: Boolean?,
+        pinned: Boolean,
+        card: String?,
+        language: String?,
+        filtered: List<FilterResult>?
+    )
 
     @Query(
         """UPDATE TimelineStatusEntity SET bookmarked = :bookmarked

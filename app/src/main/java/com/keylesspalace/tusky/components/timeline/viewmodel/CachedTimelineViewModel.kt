@@ -27,11 +27,7 @@ import androidx.paging.filter
 import androidx.paging.map
 import androidx.room.withTransaction
 import com.google.gson.Gson
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
 import com.keylesspalace.tusky.components.timeline.Placeholder
@@ -43,6 +39,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -253,19 +250,7 @@ class CachedTimelineViewModel @Inject constructor(
             .insertStatus(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
     }
 
-    override fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        // handled by CacheUpdater
-    }
-
-    override fun handleFavEvent(favEvent: FavoriteEvent) {
-        // handled by CacheUpdater
-    }
-
-    override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        // handled by CacheUpdater
-    }
-
-    override fun handlePinEvent(pinEvent: PinEvent) {
+    override fun handleStatusChangedEvent(status: Status) {
         // handled by CacheUpdater
     }
 
