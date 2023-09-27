@@ -366,8 +366,8 @@
     <string name="edit_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
-    <string name="notifications_clear">Eyða tilkynningum</string>
-    <string name="notifications_apply_filter">Sía tilkynningar</string>
+    <string name="notifications_clear">Eyða</string>
+    <string name="notifications_apply_filter">Sía</string>
     <string name="filter_apply">Virkja</string>
     <string name="compose_shortcut_long_label">Semja færslu</string>
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
@@ -695,4 +695,7 @@
 \n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
 \n
 \n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs. </string>
+    <string name="label_image">Mynd</string>
+    <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
+    <string name="title_public_trending_statuses">Færslur í umræðunni</string>
 </resources>

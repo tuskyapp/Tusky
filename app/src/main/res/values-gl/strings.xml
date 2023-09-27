@@ -175,8 +175,8 @@
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="compose_shortcut_long_label">Redactar publicación</string>
     <string name="filter_apply">Aplicar</string>
-    <string name="notifications_apply_filter">Filtrar as notificacións</string>
-    <string name="notifications_clear">Desbotar as notificacións</string>
+    <string name="notifications_apply_filter">Filtrar</string>
+    <string name="notifications_clear">Borrar</string>
     <string name="list">Listaxe</string>
     <string name="select_list_title">Elexir listaxe</string>
     <string name="hashtags">Cancelos</string>
@@ -695,4 +695,7 @@
 \nEstas listas pódense usar como lapelas configurando as Lapelas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
+    <string name="label_image">Imaxe</string>
+    <string name="app_theme_system_black">Usar o deseño do Sistema (negro)</string>
+    <string name="title_public_trending_statuses">Publicacións en voga</string>
 </resources>
