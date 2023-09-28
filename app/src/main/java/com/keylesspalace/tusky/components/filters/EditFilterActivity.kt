@@ -19,6 +19,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
@@ -264,6 +265,9 @@ class EditFilterActivity : BaseActivity() {
         lifecycleScope.launch {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
+                // Possibly affected contexts: any context affected by the original filter OR any context affected by the updated filter
+                val affectedContexts = viewModel.contexts.value.map { it.kind }.union(originalFilter?.context ?: listOf()).distinct()
+                eventHub.dispatch(FilterUpdatedEvent(affectedContexts))
             } else {
                 Snackbar.make(binding.root, "Error saving filter '${viewModel.title.value}'", Snackbar.LENGTH_SHORT).show()
             }
