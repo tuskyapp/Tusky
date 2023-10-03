@@ -124,7 +124,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         } else {
             statusInfo.setText(context.getString(R.string.post_replied));
         }
-        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_24dp : R.drawable.ic_reblog_24dp, 0, 0, 0);
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
 
         statusInfo.setVisibility(View.VISIBLE);
     }
