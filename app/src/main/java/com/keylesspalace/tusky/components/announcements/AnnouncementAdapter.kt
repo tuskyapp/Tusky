@@ -16,8 +16,10 @@
 package com.keylesspalace.tusky.components.announcements
 
 import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.text.SpannableStringBuilder
+import android.text.format.DateFormat
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +39,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.visible
 import java.lang.ref.WeakReference
+import java.util.Locale
 
 interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -59,6 +62,11 @@ class AnnouncementAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BindingHolder<ItemAnnouncementBinding>, position: Int) {
         val item = items[position]
+
+        val local = Locale.getDefault()
+        val format = DateFormat.getBestDateTimePattern(local, "yMMMdHmm")
+        holder.binding.announcementDate.text = SimpleDateFormat(format, local).format(item.publishedAt)
+
 
         val text = holder.binding.text
         val chips = holder.binding.chipGroup
