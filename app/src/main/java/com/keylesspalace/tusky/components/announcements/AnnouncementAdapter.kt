@@ -67,7 +67,6 @@ class AnnouncementAdapter(
         val format = DateFormat.getBestDateTimePattern(local, "yMMMdHmm")
         holder.binding.announcementDate.text = SimpleDateFormat(format, local).format(item.publishedAt)
 
-
         val text = holder.binding.text
         val chips = holder.binding.chipGroup
         val addReactionChip = holder.binding.addReactionChip
