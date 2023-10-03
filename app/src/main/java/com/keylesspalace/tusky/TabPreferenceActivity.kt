@@ -282,18 +282,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
         saveTabs()
     }
 
-    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
-        start = CoroutineStart.LAZY
-    ) {
-        try {
-            delay(delayMs)
-            progressView.show()
-            awaitCancellation()
-        } finally {
-            progressView.hide()
-        }
-    }
-
     private fun validateHashtag(input: CharSequence?): Boolean {
         val trimmedInput = input?.trim() ?: ""
         return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
