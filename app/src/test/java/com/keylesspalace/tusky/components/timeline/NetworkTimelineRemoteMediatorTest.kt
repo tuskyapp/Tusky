@@ -421,7 +421,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel, db, gson)
 
         val state = state(
             listOf(
