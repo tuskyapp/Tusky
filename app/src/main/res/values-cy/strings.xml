@@ -299,7 +299,7 @@
     <string name="pref_title_thread_filter_keywords">Sgyrsiau</string>
     <string name="mute_domain_warning_dialog_ok">Cuddio parth i gyd</string>
     <string name="action_mute_conversation">Tewi\'r sgwrs</string>
-    <string name="notifications_apply_filter">Hidlo\'r hysbysiadau</string>
+    <string name="notifications_apply_filter">Hidlo</string>
     <string name="notification_poll_description">Hysbysiadau am bolau sydd wedi eu cwblhau</string>
     <string name="account_date_joined">Ymunodd %1$s</string>
     <string name="no_scheduled_posts">Does gennych ddim negeseuon amserlenwyd.</string>
@@ -334,7 +334,7 @@
     <string name="notification_update_format">Golygodd %s ei neges</string>
     <string name="filter_apply">Hidlo</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
-    <string name="notifications_clear">Clirio\'r hysbysiadau</string>
+    <string name="notifications_clear">Dileu</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
     <string name="pref_title_notification_filter_subscriptions">mae rhywun rwy\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
@@ -733,4 +733,19 @@
     <string name="dialog_delete_filter_positive_action">Dileu</string>
     <string name="dialog_delete_filter_text">Dileu\'r hidlydd \'%1$s\'\?</string>
     <string name="dialog_save_profile_changes_message">Hoffech gadw eich newidiadau proffil\?</string>
+    <string name="label_image">Delwedd</string>
+    <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
+    <string name="help_empty_conversations">Dyma eich <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM). 
+\n
+\nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] cofnod [iconics gmd_mail] i <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun.
+\n
+\nEr enghraifft gallwch ddechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu iconics gmd_edit] a newid y gwelededd. </string>
+    <string name="unmuting_hashtag_success_format">Dad-dewi hashnod #%s</string>
+    <string name="muting_hashtag_success_format">Yn tewi hashnod #%s fel rhybudd</string>
+    <string name="unfollowing_hashtag_success_format">Ddim yn dilyn hashnod #%s bellach</string>
+    <string name="title_public_trending_statuses">Cofnodion poblogaidd</string>
+    <string name="action_view_filter">Gweld hidl</string>
+    <string name="following_hashtag_success_format">Nawr yn dilyn hashnod #%s</string>
+    <string name="error_unblocking_domain">Wedi methu dad-dewi %1$s: %2$s</string>
+    <string name="error_blocking_domain">Wedi methu tewi %1$s: %2$s</string>
 </resources>
