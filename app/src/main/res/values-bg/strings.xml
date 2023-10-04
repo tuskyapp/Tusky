@@ -543,7 +543,6 @@
     <string name="description_post_language">Езика на публикация</string>
     <string name="action_browser_login">Вписване с Браузър</string>
     <string name="pref_title_notification_filter_sign_ups">някой се регистрира</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="status_created_at_now">сега</string>
     <string name="description_post_edited">Редактирано</string>
     <string name="action_refresh">Опресняване</string>
