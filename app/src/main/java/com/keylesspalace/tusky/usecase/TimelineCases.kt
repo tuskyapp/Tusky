@@ -51,7 +51,13 @@ class TimelineCases @Inject constructor(
         } else {
             mastodonApi.unreblogStatus(statusId)
         }.onSuccess { status ->
-            eventHub.dispatch(StatusChangedEvent(status))
+            if (status.reblog != null) {
+                // when reblogging, the Mastodon Api does not return the reblogged status directly
+                // but the newly created status with reblog set to the reblogged status
+                eventHub.dispatch(StatusChangedEvent(status.reblog))
+            } else {
+                eventHub.dispatch(StatusChangedEvent(status))
+            }
         }
     }
 
