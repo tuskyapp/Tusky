@@ -65,7 +65,8 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                boolean showStatusInfo) {
         if (payloads == null) {
             boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
             boolean expanded = status.isExpanded();
@@ -78,7 +79,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
             boolean hasStatusContext = reblogging != null || isReply;
 
-            if (!hasStatusContext || status.getFilterAction() == Filter.Action.WARN) {
+            if (!hasStatusContext || !showStatusInfo || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
                 String accountName = "";
@@ -105,7 +106,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         setFavouritedCount(status.getActionable().getFavouritesCount());
         setReblogsCount(status.getActionable().getReblogsCount());
 
-        super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
+        super.setupWithStatus(status, listener, statusDisplayOptions, payloads, showStatusInfo);
     }
 
     private void setStatusInfoText(final boolean isReply,
