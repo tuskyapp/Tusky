@@ -598,4 +598,6 @@
     <string name="notification_update_description">Известия, когато публикации с които сте взаимодействали, са редактирани</string>
     <string name="load_newest_notifications">Зареждане на най-новите известия</string>
     <string name="compose_delete_draft">Изтриване на чернова\?</string>
+    <string name="action_unfollow_hashtag_format">Отследване на #%s\?</string>
+    <string name="mute_notifications_switch">Заглушаване на известията</string>
 </resources>
