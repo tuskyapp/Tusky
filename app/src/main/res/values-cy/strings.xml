@@ -20,7 +20,7 @@
     <string name="title_notifications">Hysbysiadau</string>
     <string name="title_public_local">Lleol</string>
     <string name="title_public_federated">Ffedereiddiwyd</string>
-    <string name="title_view_thread">Trywydd</string>
+    <string name="title_view_thread">Edefyn</string>
     <string name="title_posts">Negeseuon</string>
     <string name="title_posts_with_replies">Gydag ymatebion</string>
     <string name="title_follows">Yn dilyn</string>
@@ -639,7 +639,7 @@
     <string name="action_discard">Hepgor newidiadau</string>
     <string name="compose_unsaved_changes">Mae gennych newidiadau heb eu cadw.</string>
     <string name="mute_notifications_switch">Tewi hysbysiadau</string>
-    <string name="a11y_label_loading_thread">Llwytho trywydd</string>
+    <string name="a11y_label_loading_thread">Llwytho edefyn</string>
     <string name="action_share_account_link">Rhannu ddolen i gyfrif</string>
     <string name="action_share_account_username">Rhannu enw defnyddiwr y cyfrif</string>
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
