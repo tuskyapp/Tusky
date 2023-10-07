@@ -725,6 +725,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             listener.onReblog(!buttonState, position);
             if(!buttonState) {
                 reblogButton.playAnimation();
+                reblogButton.setChecked(true);
             }
             return true;
         });
@@ -746,6 +747,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             listener.onFavourite(!buttonState, position);
             if(!buttonState) {
                 favouriteButton.playAnimation();
+                favouriteButton.setChecked(true);
             }
             return true;
         });
