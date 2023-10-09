@@ -11,14 +11,11 @@ import com.google.android.material.tabs.TabLayout
  *
  * Idea taken from https://stackoverflow.com/a/44894143
  */
-class AdaptiveTabLayout : TabLayout {
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
+class AdaptiveTabLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : TabLayout(context, attrs, defStyleAttr) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         tabMode = MODE_SCROLLABLE // make sure to only measure the "minimum width"
