@@ -20,7 +20,7 @@
     <string name="title_notifications">Hysbysiadau</string>
     <string name="title_public_local">Lleol</string>
     <string name="title_public_federated">Ffedereiddiwyd</string>
-    <string name="title_view_thread">Trywydd</string>
+    <string name="title_view_thread">Edefyn</string>
     <string name="title_posts">Negeseuon</string>
     <string name="title_posts_with_replies">Gydag ymatebion</string>
     <string name="title_follows">Yn dilyn</string>
@@ -639,7 +639,7 @@
     <string name="action_discard">Hepgor newidiadau</string>
     <string name="compose_unsaved_changes">Mae gennych newidiadau heb eu cadw.</string>
     <string name="mute_notifications_switch">Tewi hysbysiadau</string>
-    <string name="a11y_label_loading_thread">Llwytho trywydd</string>
+    <string name="a11y_label_loading_thread">Llwytho edefyn</string>
     <string name="action_share_account_link">Rhannu ddolen i gyfrif</string>
     <string name="action_share_account_username">Rhannu enw defnyddiwr y cyfrif</string>
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
@@ -706,7 +706,7 @@
     <string name="error_list_load">Gwall wrth lwytho rhestrau</string>
     <string name="help_empty_home">Hwn yw\'ch <b>ffrwd cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rydych yn eu dilyn.
 \n
-\nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, mae llinell amser eich enghraifft chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
+\nI archwilio cyfrifon gallwch un ai eu darganfod o fewn un o\'r llinellau amser eraill. Er enghraifft, llinell amser eich gweinydd chi [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwilio am Tusky i ganfod ein cyfrif Mastodon.</string>
     <string name="pref_title_show_stat_inline">Dangos ystadegau negeseuon mewn llinell amser</string>
     <string name="pref_ui_text_size">Maint testun rhyngwyneb</string>
     <string name="notification_listenable_worker_name">Gweithgaredd cefndirol</string>
@@ -739,7 +739,7 @@
 \n
 \nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] cofnod [iconics gmd_mail] i <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun.
 \n
-\nEr enghraifft gallwch ddechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu iconics gmd_edit] a newid y gwelededd. </string>
+\nEr enghraifft gallwch ddechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu [iconics gmd_edit] a newid y gwelededd. </string>
     <string name="unmuting_hashtag_success_format">Dad-dewi hashnod #%s</string>
     <string name="muting_hashtag_success_format">Yn tewi hashnod #%s fel rhybudd</string>
     <string name="unfollowing_hashtag_success_format">Ddim yn dilyn hashnod #%s bellach</string>
