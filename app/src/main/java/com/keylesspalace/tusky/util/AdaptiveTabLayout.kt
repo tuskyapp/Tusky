@@ -25,19 +25,15 @@ class AdaptiveTabLayout @JvmOverloads constructor(
             return
         }
 
-        try {
-            val tabLayout = getChildAt(0) as ViewGroup
-            var widthOfAllTabs = 0
-            for (i in 0 until tabLayout.childCount) {
-                widthOfAllTabs += tabLayout.getChildAt(i).measuredWidth
-            }
-            if (widthOfAllTabs <= measuredWidth) {
-                // fill all space if there is enough room
-                tabMode = MODE_FIXED
-                super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val tabLayout = getChildAt(0) as ViewGroup
+        var widthOfAllTabs = 0
+        for (i in 0 until tabLayout.childCount) {
+            widthOfAllTabs += tabLayout.getChildAt(i).measuredWidth
+        }
+        if (widthOfAllTabs <= measuredWidth) {
+            // fill all space if there is enough room
+            tabMode = MODE_FIXED
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         }
     }
 }
