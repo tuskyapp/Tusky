@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.util
+package com.keylesspalace.tusky.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 
 /**
+ * Workaround for "auto" mode not behaving as expected.
+ *
  * Switches the tab display mode depending on available size: start out with "scrollable" but
- * if there is enough room switch to "fixed" (an re-measure).
+ * if there is enough room switch to "fixed" (and re-measure).
  *
  * Idea taken from https://stackoverflow.com/a/44894143
  */
