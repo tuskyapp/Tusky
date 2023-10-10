@@ -1,0 +1,10 @@
+Tusky 22.0 beta 7
+
+Düzeltmeler:
+
+
+### Önemli hata düzeltmeleri
+
+- Android bildirimleri oluştururken tüm bekleyen Mastodon bildirimlerini getirin
+- Bir bildirimden “Oluştur”a tıklandığında yanlış hesap ayarlanır
+- “Son okunan bildirim kimliğinin” doğru hesaba kaydedildiğinden emin olun

@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Düzeltmeler:
+
+- Birden fazla hesapla yapılandırıldığında bildirimlerin tekrar tekrar alınması düzeltildi

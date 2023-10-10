@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Sonradan düzenleme desteği
+- Tercih edilen okuma yönünü kontrol etmek için yeni ayar
+- Daha büyük medya önizlemeleri ve medyayı açıklama ile gösteren yeni bir kaplama
+- Artık hesapları profillerinden listelere eklemek mümkün
+ve çok daha fazlası
