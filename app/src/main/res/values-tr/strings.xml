@@ -354,8 +354,8 @@
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
     <string name="edit_hashtag_hint"># Etiket olmadan</string>
-    <string name="notifications_clear">Bildirimleri sil</string>
-    <string name="notifications_apply_filter">Bildirimleri filtreleme</string>
+    <string name="notifications_clear">Sil</string>
+    <string name="notifications_apply_filter">Süzgeçle</string>
     <string name="filter_apply">Uygula</string>
     <string name="compose_shortcut_long_label">Yayın Oluştur</string>
     <string name="compose_shortcut_short_label">Oluştur</string>
@@ -702,4 +702,7 @@
     <string name="following_hashtag_success_format">Şimdi etiketi takip edin #%s</string>
     <string name="unfollowing_hashtag_success_format">Artık etiketi takip etmiyorum #%s</string>
     <string name="error_unblocking_domain">Sesi açılamadı %1$s: %2$s</string>
+    <string name="title_public_trending_statuses">Gündemdeki gönderiler</string>
+    <string name="label_image">Resim</string>
+    <string name="app_theme_system_black">Sistem Tasarımını Kullanın (siyah)</string>
 </resources>
