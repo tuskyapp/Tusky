@@ -52,7 +52,7 @@
     <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
     <string name="notification_follow_format">%s folgt dir</string>
     <string name="report_username_format">\@%s melden</string>
-    <string name="report_comment_hint">Zusätzliche Anmerkungen\?</string>
+    <string name="report_comment_hint">Ergänzende Hinweise\?</string>
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
     <string name="action_reblog">Teilen</string>
@@ -568,7 +568,7 @@
     <string name="failed_to_add_to_list">Das Konto konnte nicht zur Liste hinzugefügt werden</string>
     <string name="no_lists">Du hast keine Listen.</string>
     <string name="notification_summary_report_format">%s · %d Beiträge angehängt</string>
-    <string name="notification_header_report_format">%s hat %s gemeldet</string>
+    <string name="notification_header_report_format">%s meldete %s</string>
     <string name="confirmation_hashtag_unfollowed">#%s entfolgt</string>
     <string name="pref_default_post_language">Standard-Beitragssprache</string>
     <string name="report_category_violation">Regelverstoß</string>
@@ -579,12 +579,12 @@
     <string name="title_followed_hashtags">Gefolgte Hashtags</string>
     <string name="action_unfollow_hashtag_format">#%s entfolgen\?</string>
     <string name="description_post_edited">Bearbeitet</string>
-    <string name="a11y_label_loading_thread">Thread wird geladen</string>
+    <string name="a11y_label_loading_thread">Thread wird geladen …</string>
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
     <string name="pref_reading_order_newest_first">Neueste zuerst</string>
     <string name="pref_reading_order_oldest_first">Älteste zuerst</string>
     <string name="pref_title_reading_order">Lesereihenfolge</string>
-    <string name="title_edits">Bearbeitungen</string>
+    <string name="title_edits">Überarbeitete Beiträge</string>
     <string name="pref_summary_http_proxy_disabled">Deaktiviert</string>
     <string name="pref_summary_http_proxy_missing">&lt;nicht gesetzt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;ungültig&gt;</string>
@@ -616,7 +616,7 @@
     <string name="pref_title_notification_filter_reports">es eine neue Meldung gibt</string>
     <string name="error_unmuting_hashtag_format">Fehler beim Aufheben der Stummschaltung von #%s</string>
     <string name="description_login">Funktioniert in den meisten Fällen. Keine Daten werden mit anderen Apps geteilt.</string>
-    <string name="description_browser_login">Kann zusätzliche Authentifizierungsmethoden unterstützen, erfordert aber einen unterstützten Browser.</string>
+    <string name="description_browser_login">Zusätzliche Authentisierungsmethoden können unterstützt werden. Ein unterstützter Browser wird benötigt.</string>
     <string name="notification_report_name">Meldungen</string>
     <string name="error_status_source_load">Die Statusquelle konnte nicht vom Server geladen werden.</string>
     <string name="title_public_trending_hashtags">Angesagte Hashtags</string>
@@ -681,4 +681,28 @@
     <string name="about_copy">Version und Geräteinformationen kopieren</string>
     <string name="list_exclusive_label">Nicht in der Startseite anzeigen</string>
     <string name="error_media_upload_sending_fmt">Das Hochladen ist fehlgeschlagen: %s</string>
+    <string name="label_image">Bild</string>
+    <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen.
+\n
+\n BEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst.
+\n
+\n Diese Listen können als Tab in den Kontoeinstellungen [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs festgelegt werden. </string>
+    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
+\n
+\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit [iconics gmd_public] auf [iconics gmd_mail] <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
+\n
+\nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit. </string>
+    <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
+    <string name="error_media_playback">Wiedergabe fehlgeschlagen: %s</string>
+    <string name="dialog_delete_filter_positive_action">Entfernen</string>
+    <string name="dialog_delete_filter_text">Filter »%1$s« entfernen\?</string>
+    <string name="dialog_save_profile_changes_message">Möchtest du deine Änderungen am Profil speichern\?</string>
+    <string name="unmuting_hashtag_success_format">Hashtag #%s nicht mehr stummschalten</string>
+    <string name="action_view_filter">Filter ansehen</string>
+    <string name="muting_hashtag_success_format">Hashtag #%s als Warnung stummschalten</string>
+    <string name="following_hashtag_success_format">Hashtag #%s wird jetzt gefolgt</string>
+    <string name="unfollowing_hashtag_success_format">Hashtag #%s wird nicht länger gefolgt</string>
+    <string name="title_public_trending_statuses">Angesagte Beiträge</string>
+    <string name="error_blocking_domain">Fehler beim Stummschalten von %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Fehler beim Aufheben der Stummschaltung von %1$s: %2$s</string>
 </resources>
