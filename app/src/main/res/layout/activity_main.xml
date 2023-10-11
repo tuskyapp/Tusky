@@ -69,11 +69,12 @@
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"
+                style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
-                app:tabMode="scrollable" />
+                app:tabMode="scrollable"/>
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
