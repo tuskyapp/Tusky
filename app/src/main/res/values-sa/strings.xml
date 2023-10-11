@@ -444,9 +444,6 @@
     <string name="description_post_media_no_description_placeholder">विवरणं नास्ति</string>
     <string name="description_post_cw">विषयपूर्वसतर्कता: %s</string>
     <string name="description_post_media">सामग्र्यः %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">अधिकतमपीठिकासङ्ख्या %1$d भूता</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्येऽपि</string>
     <string name="conversation_2_recipients">%1$s तथैव %2$s</string>
     <string name="title_favourited_by">निम्नमित्रस्य प्रीतिः</string>

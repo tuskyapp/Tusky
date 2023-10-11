@@ -518,14 +518,6 @@
     </plurals>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="description_post_edited">Golygwyd</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="zero">uchafswm o %1$d tab wedi eu cyrraedd</item>
-        <item quantity="one">uchafswm o %1$d tab wedi ei gyrraedd</item>
-        <item quantity="two">uchafswm o %1$d dab wedi eu cyrraedd</item>
-        <item quantity="few">uchafswm o %1$d tab wedi eu cyrraedd</item>
-        <item quantity="many">uchafswm o %1$d tab wedi eu cyrraedd</item>
-        <item quantity="other">uchafswm o %1$d tab wedi eu cyrraedd</item>
-    </plurals>
     <string name="pref_show_self_username_disambiguate">Pan fydd cyfrifon lluosog wedi\'u mewngofnodi</string>
     <string name="drafts_failed_loading_reply">Wedi methu llwytho gwybodaeth Ateb</string>
     <string name="pref_title_alway_open_spoiler">Agor negeseuon wedi\'u marcio â rhybudd cynnwys bob tro</string>

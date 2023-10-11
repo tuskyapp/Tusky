@@ -318,10 +318,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d fler</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">grensen på %1$d fane er nådd</item>
-        <item quantity="other">grensen på %1$d faner er nådd</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innholdsadvarsel: %s</string>
     <string name="description_post_media_no_description_placeholder">Ingen beskrivelse</string>

@@ -468,12 +468,6 @@
     <string name="notifications_apply_filter">Фільтр</string>
     <string name="duration_365_days">365 дзён</string>
     <string name="duration_no_change">(Без змен)</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">абмежаванне ў %1$d ўкладку дасягнута</item>
-        <item quantity="few">абмежаванне ў %1$d ўкладкі дасягнута</item>
-        <item quantity="many">абмежаванне ў %1$d ўкладак дасягнута</item>
-        <item quantity="other">абмежаванне ў %1$d ўкладак дасягнута</item>
-    </plurals>
     <string name="compose_shortcut_long_label">Стварыць допіс</string>
     <string name="compose_shortcut_short_label">Стварыць</string>
     <string name="notification_clear_text">Вы ўпэўнены, што жадаеце выдаліць усе апавяшчэнні\?</string>

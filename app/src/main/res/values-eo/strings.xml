@@ -339,10 +339,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maksimumo da %1$d langeto atingita</item>
-        <item quantity="other">maksimumo da %1$d langetoj atingita</item>
-    </plurals>
     <string name="description_post_media">        Aŭdovidaĵo: %s
     </string>
     <string name="description_post_cw">        Enhava averto: %s

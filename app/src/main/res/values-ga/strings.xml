@@ -287,9 +287,6 @@
     <string name="caption_notoemoji">Sraith emoji reatha Google</string>
     <string name="license_description">Tá cód agus sócmhainní ó na tionscadail foinse oscailte seo a leanas i Tusky:</string>
     <string name="label_remote_account">Féadfaidh an fhaisnéis thíos próifíl an úsáideora a léiriú go neamhiomlán. Brúigh chun próifíl iomlán a oscailt sa bhrabhsálaí.</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">uasmhéid de chluaisíní %1$d sroichte</item>
-    </plurals>
     <string name="description_poll">Vótaíocht le roghanna: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="list">Liosta</string>
     <string name="compose_shortcut_long_label">Scríobh postáil</string>

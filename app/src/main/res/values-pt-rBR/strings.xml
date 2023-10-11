@@ -346,11 +346,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d outros</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">excedeu o máximo de %1$d aba</item>
-        <item quantity="many">excedeu o máximo de %1$d abas</item>
-        <item quantity="other">excedeu o máximo de %1$d abas</item>
-    </plurals>
     <string name="description_post_media">Mídia: %s</string>
     <string name="description_post_cw">Aviso de Conteúdo: %s</string>
     <string name="description_post_media_no_description_placeholder">Sem descrição</string>
