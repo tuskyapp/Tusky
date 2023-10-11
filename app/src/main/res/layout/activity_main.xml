@@ -73,7 +73,9 @@
                 android:layout_height="?attr/actionBarSize"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
-                app:tabMode="scrollable" />
+                app:tabMode="scrollable"
+                app:tabIconTint="@color/tab_color"
+                />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
