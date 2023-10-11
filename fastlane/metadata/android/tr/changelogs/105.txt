@@ -1,0 +1,11 @@
+Tusky 22.0 beta 3
+
+Düzeltmeler dahil:
+
+- Bir ileti dizisini görüntülerken oluşan çökme düzeltildi
+- Mastodon süzgeçlerini işleme çökmesi düzeltildi
+- Takip/takip isteği bildirimlerinin biyografilerindeki bağlantılar tıklanabilir
+- Android Bildirimleri güncellemeleri
+  - Mastodon bildirimi için Android bildirimi yalnızca bir kez gösterilmeli
+  - Android bildirimleri Mastodon bildirim türüne göre gruplandırılmıştır (takip et, bahset, destekle, vb.)
+  - Bildirimleri kaçırma potansiyeli ortadan kaldırıldı

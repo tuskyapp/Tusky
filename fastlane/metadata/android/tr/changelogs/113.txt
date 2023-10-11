@@ -1,0 +1,15 @@
+Tusky 23.0
+
+Yeni özellikler:
+
+- Kullanıcı arayüzü metnini ölçeklendirmek için yeni tercih
+
+Düzeltmeler:
+
+- Hesap bilgilerini doğru şekilde kaydedin
+- Android sürümleri <= 11 olan cihazlarda “çekme” bildirimleri
+- Metin alanlarının kopyalama/yapıştırma yapabildiklerini "unutmalarına" neden olan Android hatası
+- Düzenleme geçmişindeki değişikliklerin görüntülenmesi ekran kenarından taşmayacak
+- Sunucunuzun gönderi düzenleme geçmişi yoksa çökmeyin
+- Kare olmayan emojiyi doğru gösterme
+- Profil alanları düzenlenirken olası çökme

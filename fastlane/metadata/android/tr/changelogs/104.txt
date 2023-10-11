@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Düzeltmeler dahil:
+
+- Bildirim yükleme hızı iyileştirildi
+- Yanıtlar için 0/1/1+ göstermeyi geri yükle
+- Süzgeçlenen gönderilerde süzgeç anahtar kelimelerini değil, süzgeç başlıklarını gösterme
+- Bir durum açıldığında ilgisiz bir bağlantının açılmasına neden olan bir hata düzeltildi
+- Süzgeç olmadığında "Ekle" düğmesini doğru yerde göster
+- Çeşitli çökmeler düzeltildi
