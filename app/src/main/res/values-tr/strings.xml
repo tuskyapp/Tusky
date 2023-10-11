@@ -299,10 +299,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ve %3$d dahası</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">azami %1$d sekme sayısına ulaşıldı</item>
-        <item quantity="other">azami %1$d sekmeler sayısına ulaşıldı</item>
-    </plurals>
     <string name="title_domain_mutes">Gizli alan adları</string>
     <string name="action_unreblog">Yeniden paylaşmaktan vazgeç</string>
     <string name="action_unfavourite">Gözdeyi kaldır</string>

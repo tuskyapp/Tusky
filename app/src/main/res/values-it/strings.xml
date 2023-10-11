@@ -339,11 +339,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ed altri %3$d</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">limite massimo di %1$d scheda raggiunto</item>
-        <item quantity="many">limite massimo di %1$d schede raggiunto</item>
-        <item quantity="other">limite massimo di %1$d schede raggiunto</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Contenuto sensibile: %s</string>
     <string name="description_post_media_no_description_placeholder">Nessuna descrizione</string>
@@ -722,4 +717,3 @@
     <string name="error_blocking_domain">Silenziamento di %1$s fallito: %2$s</string>
     <string name="error_unblocking_domain">Riattivazione di %1$s fallito: %2$s</string>
 </resources>
-

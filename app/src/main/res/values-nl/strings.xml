@@ -317,10 +317,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum van %1$d tab bereikt</item>
-        <item quantity="other">maximum van %1$d tabs bereikt</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Inhoudswaarschuwing: %s</string>
     <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>

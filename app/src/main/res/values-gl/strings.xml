@@ -194,10 +194,6 @@
     <string name="description_post_media_no_description_placeholder">Sen descrición</string>
     <string name="description_post_cw">Aviso sobre o contido: %s</string>
     <string name="description_post_media">Multimedia: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">acadouse o máximo de %1$d lapela</item>
-        <item quantity="other">acadouse o máximo de %1$d lapelas</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d máis</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="title_favourited_by">Favorecido por</string>

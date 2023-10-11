@@ -349,10 +349,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s، %2$s و %3$d بیش‌تر</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">رسیده به بیشینهٔ %1$d زبانه</item>
-        <item quantity="other">رسیده به بیشینهٔ %1$d زبانه</item>
-    </plurals>
     <string name="description_post_media">رسانه: %s</string>
     <string name="description_post_cw">هشدار محتوا: %s</string>
     <string name="description_post_media_no_description_placeholder">بدون شرح</string>

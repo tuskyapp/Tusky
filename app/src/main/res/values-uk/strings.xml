@@ -493,12 +493,6 @@
     <string name="description_visibility_direct">Безпосередньо</string>
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Поширено</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">досягнено обмеження %1$d вкладку</item>
-        <item quantity="few">досягнено обмеження %1$d вкладки</item>
-        <item quantity="many">досягнено обмеження %1$d вкладок</item>
-        <item quantity="other">досягнено обмеження %1$d вкладок</item>
-    </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> поширення</item>
         <item quantity="few"><b>%s</b> поширення</item>

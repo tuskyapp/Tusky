@@ -182,12 +182,6 @@
     <string name="description_post_media_no_description_placeholder">Gun tuairisgeul</string>
     <string name="description_post_cw">Rabhadh susbainte: %s</string>
     <string name="description_post_media">Meadhan: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">ràinig thu na tha ceadaichte dhe %1$d taba</item>
-        <item quantity="two">ràinig thu na tha ceadaichte dhe %1$d thaba</item>
-        <item quantity="few">ràinig thu na tha ceadaichte dhe %1$d tabaichean</item>
-        <item quantity="other">ràinig thu na tha ceadaichte dhe %1$d taba</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s ’s %3$d eile</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="title_favourited_by">’Na annsachd aig</string>
