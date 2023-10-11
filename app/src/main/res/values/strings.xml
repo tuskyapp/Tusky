@@ -559,10 +559,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum of %1$d tab reached</item>
-        <item quantity="other">maximum of %1$d tabs reached</item>
-    </plurals>
 
     <string name="description_post_media">
         Media: %s
