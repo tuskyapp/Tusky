@@ -47,6 +47,7 @@ import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
+import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -77,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String theme = preferences.getString(APP_THEME, ThemeUtils.APP_THEME_DEFAULT);
+        String theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.getValue());
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);

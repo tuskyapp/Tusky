@@ -10,6 +10,9 @@ enum class AppTheme(val value: String) {
 
     companion object {
         fun stringValues() = values().map { it.value }.toTypedArray()
+
+        @JvmField
+        val DEFAULT = AUTO_SYSTEM
     }
 }
 
