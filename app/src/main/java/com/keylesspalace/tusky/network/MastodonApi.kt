@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Instance
+import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
@@ -84,7 +85,10 @@ interface MastodonApi {
     suspend fun getCustomEmojis(): NetworkResult<List<Emoji>>
 
     @GET("api/v1/instance")
-    suspend fun getInstance(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<Instance>
+    suspend fun getInstanceV1(@Header(DOMAIN_HEADER) domain: String? = null): NetworkResult<InstanceV1>
+
+    @GET("api/v2/instance")
+    suspend fun getInstance(): NetworkResult<Instance>
 
     @GET("api/v1/filters")
     suspend fun getFiltersV1(): NetworkResult<List<FilterV1>>

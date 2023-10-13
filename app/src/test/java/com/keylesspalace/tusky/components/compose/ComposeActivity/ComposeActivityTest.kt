@@ -33,10 +33,12 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceDao
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
-import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
+import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -51,6 +53,8 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
+import retrofit2.HttpException
+import retrofit2.Response
 import java.util.Locale
 
 /**
@@ -87,7 +91,7 @@ class ComposeActivityTest {
         notificationVibration = true,
         notificationLight = true
     )
-    private var instanceResponseCallback: (() -> Instance)? = null
+    private var instanceResponseCallback: (() -> InstanceV1)? = null
     private var composeOptions: ComposeActivity.ComposeOptions? = null
 
     @Before
@@ -101,7 +105,8 @@ class ComposeActivityTest {
 
         apiMock = mock {
             onBlocking { getCustomEmojis() } doReturn NetworkResult.success(emptyList())
-            onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
+            onBlocking { getInstance() } doReturn NetworkResult.failure(HttpException(Response.error<ResponseBody>(404, "Not found".toResponseBody())))
+            onBlocking { getInstanceV1() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
                     NetworkResult.failure(Throwable())
                 } else {
@@ -491,8 +496,8 @@ class ComposeActivityTest {
         activity.findViewById<EditText>(R.id.composeEditField).setText(text ?: "Some text")
     }
 
-    private fun getInstanceWithCustomConfiguration(maximumLegacyTootCharacters: Int? = null, configuration: InstanceConfiguration? = null): Instance {
-        return Instance(
+    private fun getInstanceWithCustomConfiguration(maximumLegacyTootCharacters: Int? = null, configuration: InstanceConfiguration? = null): InstanceV1 {
+        return InstanceV1(
             uri = "https://example.token",
             version = "2.6.3",
             maxTootChars = maximumLegacyTootCharacters,
