@@ -104,7 +104,10 @@ data class AccountEntity(
 
     /** true if the connected Mastodon account is locked (has to manually approve all follow requests **/
     @ColumnInfo(defaultValue = "0")
-    var locked: Boolean = false
+    var locked: Boolean = false,
+
+    @ColumnInfo(defaultValue = "0")
+    var hasDirectMessageBadge: Boolean = false
 ) {
 
     val identifier: String
