@@ -1059,16 +1059,16 @@ class ComposeActivity :
 
     private fun sanitizePickMediaDescription(description: String?): String? {
         if (description == null) {
-            return null;
+            return null
         }
 
         // The Gboard android keyboard attaches this text whenever the user
         // pastes something from the keyboard's suggestion bar.
         if (description == "Image from Gboard clipboard") {
-            return null;
+            return null
         }
 
-        return description;
+        return description
     }
 
     private fun pickMedia(uri: Uri, description: String? = null) {
