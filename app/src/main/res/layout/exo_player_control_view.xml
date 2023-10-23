@@ -22,10 +22,13 @@
          entirety of the parent in code, after the parent's size has been
          determined. See: https://github.com/google/ExoPlayer/issues/8726.
     -->
+    <!-- Change from media3 default: hide "dark curtain" background element -->
+    <!--
     <View android:id="@id/exo_controls_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/exo_black_opacity_60"/>
+    -->
 
     <FrameLayout android:id="@id/exo_bottom_bar"
         android:layout_width="match_parent"
