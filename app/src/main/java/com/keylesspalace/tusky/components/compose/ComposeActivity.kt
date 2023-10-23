@@ -1064,7 +1064,10 @@ class ComposeActivity :
 
         // The Gboard android keyboard attaches this text whenever the user
         // pastes something from the keyboard's suggestion bar.
-        if (description == "Image from Gboard clipboard") {
+        // Due to different end user locales, the exact text may vary, but at
+        // least in version 13.4.08, all of the translations contained the
+        // string "Gboard".
+        if ("Gboard" in description) {
             return null
         }
 
