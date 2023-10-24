@@ -42,4 +42,11 @@
         <item>@string/filter_action_warn</item>
         <item>@string/filter_action_hide</item>
     </string-array>
+
+    <!-- Order must be synchronized with MastoList.ReplyPolicy -->
+    <string-array name="list_reply_policies_display">
+        <item>@string/list_reply_policy_none</item>
+        <item>@string/list_reply_policy_list</item>
+        <item>@string/list_reply_policy_followed</item>
+    </string-array>
 </resources>

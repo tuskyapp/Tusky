@@ -124,7 +124,9 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private fun showlistNameDialog(list: MastoList?) {
-        val binding = DialogListBinding.inflate(layoutInflater)
+        val binding = DialogListBinding.inflate(layoutInflater).apply {
+            replyPolicySpinner.setSelection(MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal)
+        }
         val dialog = AlertDialog.Builder(this)
             .setView(binding.root)
             .setPositiveButton(
@@ -134,7 +136,12 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                     R.string.action_rename_list
                 }
             ) { _, _ ->
-                onPickedDialogName(binding.nameText.text.toString(), list?.id, binding.exclusiveCheckbox.isChecked)
+                onPickedDialogName(
+                    binding.nameText.text.toString(),
+                    list?.id,
+                    binding.exclusiveCheckbox.isChecked,
+                    MastoList.ReplyPolicy.entries[binding.replyPolicySpinner.selectedItemPosition].policy
+                )
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
@@ -288,11 +295,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
     }
 
-    private fun onPickedDialogName(name: String, listId: String?, exclusive: Boolean) {
+    private fun onPickedDialogName(name: String, listId: String?, exclusive: Boolean, replyPolicy: String) {
         if (listId == null) {
-            viewModel.createNewList(name, exclusive)
+            viewModel.createNewList(name, exclusive, replyPolicy)
         } else {
-            viewModel.updateList(listId, name, exclusive)
+            viewModel.updateList(listId, name, exclusive, replyPolicy)
         }
     }
 

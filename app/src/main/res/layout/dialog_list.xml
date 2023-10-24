@@ -34,4 +34,14 @@
         android:text="@string/list_exclusive_label"
         />
 
+    <Spinner
+        android:id="@+id/replyPolicySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/exclusiveCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"
+        android:entries="@array/list_reply_policies_display"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
