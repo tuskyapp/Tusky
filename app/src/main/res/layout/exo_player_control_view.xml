@@ -30,6 +30,33 @@
         android:background="@color/exo_black_opacity_60"/>
     -->
 
+    <!-- Changes from media3 default: Background is gray rather than transparent; moved before (underneath on Z axis) exo_bottom_bar -->
+    <LinearLayout
+        android:id="@id/exo_center_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/exo_bottom_bar_background"
+        android:gravity="center"
+        android:padding="@dimen/exo_styled_controls_padding"
+        android:clipToPadding="false"
+        android:layoutDirection="ltr">
+
+        <ImageButton android:id="@id/exo_prev"
+            style="@style/ExoStyledControls.Button.Center.Previous"/>
+
+        <include layout="@layout/exo_player_control_rewind_button" />
+
+        <ImageButton android:id="@id/exo_play_pause"
+            style="@style/ExoStyledControls.Button.Center.PlayPause"/>
+
+        <include layout="@layout/exo_player_control_ffwd_button" />
+
+        <ImageButton android:id="@id/exo_next"
+            style="@style/ExoStyledControls.Button.Center.Next"/>
+
+    </LinearLayout>
+
     <FrameLayout android:id="@id/exo_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/exo_styled_bottom_bar_height"
@@ -125,32 +152,6 @@
 
         <ImageButton android:id="@id/exo_minimal_fullscreen"
             style="@style/ExoStyledControls.Button.Bottom.FullScreen"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@id/exo_center_controls"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:padding="@dimen/exo_styled_controls_padding"
-        android:clipToPadding="false"
-        android:layoutDirection="ltr">
-
-        <ImageButton android:id="@id/exo_prev"
-            style="@style/ExoStyledControls.Button.Center.Previous"/>
-
-        <include layout="@layout/exo_player_control_rewind_button" />
-
-        <ImageButton android:id="@id/exo_play_pause"
-            style="@style/ExoStyledControls.Button.Center.PlayPause"/>
-
-        <include layout="@layout/exo_player_control_ffwd_button" />
-
-        <ImageButton android:id="@id/exo_next"
-            style="@style/ExoStyledControls.Button.Center.Next"/>
 
     </LinearLayout>
 
