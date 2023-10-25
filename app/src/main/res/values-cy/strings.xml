@@ -94,7 +94,7 @@
     <string name="action_toggle_visibility">Gwelededd y neges</string>
     <string name="action_content_warning">Rhybudd cynnwys</string>
     <string name="action_emoji_keyboard">Bysellfwrdd emoji</string>
-    <string name="download_image">Lawrlwytho %1$s</string>
+    <string name="download_image">Yn lawrlwytho %1$s</string>
     <string name="action_copy_link">Copïo\'r ddolen</string>
     <string name="send_post_link_to">Rhannu URL y neges â…</string>
     <string name="send_post_content_to">Rhannu\'r neges â…</string>
@@ -363,7 +363,7 @@
     <string name="title_mentions_dialog">Crybwylliadau</string>
     <string name="action_open_media_n">Agor cyfryngau #%d</string>
     <string name="action_share_as">Rhannu fel …</string>
-    <string name="downloading_media">Yn llwytho cyfryngau</string>
+    <string name="downloading_media">Yn lawrlwytho cyfryngau</string>
     <string name="download_media">Llwytho cyfryngau</string>
     <string name="dialog_redraft_post_warning">Dileu ac ailddrafftio\'r neges hon\?</string>
     <string name="dialog_delete_conversation_warning">Dileu\'r sgwrs hon\?</string>
@@ -476,7 +476,7 @@
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="hint_media_description_missing">Dylai fod gan y cyfryngau ddisgrifiad.</string>
     <string name="description_post_cw">Rhybudd cynnwys: %s</string>
-    <string name="pref_title_confirm_reblogs">Dangos cadarnhâd cyn hybu</string>
+    <string name="pref_title_confirm_reblogs">Dangos cadarnhad cyn hybu</string>
     <string name="review_notifications">Adolygu hysbysiadau</string>
     <string name="notification_report_format">Adroddiad newydd ar %s</string>
     <string name="notification_header_report_format">Adroddodd %s %s</string>
@@ -631,7 +631,7 @@
     <string name="action_discard">Hepgor newidiadau</string>
     <string name="compose_unsaved_changes">Mae gennych newidiadau heb eu cadw.</string>
     <string name="mute_notifications_switch">Tewi hysbysiadau</string>
-    <string name="a11y_label_loading_thread">Llwytho edefyn</string>
+    <string name="a11y_label_loading_thread">Yn llwytho edefyn</string>
     <string name="action_share_account_link">Rhannu ddolen i gyfrif</string>
     <string name="action_share_account_username">Rhannu enw defnyddiwr y cyfrif</string>
     <string name="send_account_link_to">Rhannu URL cyfrif i…</string>
@@ -727,17 +727,22 @@
     <string name="dialog_save_profile_changes_message">Hoffech gadw eich newidiadau proffil\?</string>
     <string name="label_image">Delwedd</string>
     <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
-    <string name="help_empty_conversations">Dyma eich <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM). 
+    <string name="help_empty_conversations">Dyma eich <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM).
 \n
 \nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] cofnod [iconics gmd_mail] i <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun.
 \n
-\nEr enghraifft gallwch ddechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu [iconics gmd_edit] a newid y gwelededd. </string>
-    <string name="unmuting_hashtag_success_format">Dad-dewi hashnod #%s</string>
+\nEr enghraifft gallwch ddechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu [iconics gmd_edit] a newid y gwelededd.· </string>
+    <string name="unmuting_hashtag_success_format">Yn dad-dewi hashnod #%s</string>
     <string name="muting_hashtag_success_format">Yn tewi hashnod #%s fel rhybudd</string>
     <string name="unfollowing_hashtag_success_format">Ddim yn dilyn hashnod #%s bellach</string>
-    <string name="title_public_trending_statuses">Cofnodion poblogaidd</string>
+    <string name="title_public_trending_statuses">Cofnodion tueddiadol</string>
     <string name="action_view_filter">Gweld hidl</string>
     <string name="following_hashtag_success_format">Nawr yn dilyn hashnod #%s</string>
     <string name="error_unblocking_domain">Wedi methu dad-dewi %1$s: %2$s</string>
     <string name="error_blocking_domain">Wedi methu tewi %1$s: %2$s</string>
+    <string name="help_empty_lists">Dyma eich <b>golwg rhestri</b>. Gallwch ddiffinio nifer o restri preifat ac yn ychwanegu cyfrifiadau atynt.
+\n
+\n·NODWCH y gallwch ychwanegu dim ond cyfrifiadau eich bod chi\'n dilyn i\'ch rhestri.
+\n
+\n·Gall y rhestri yma yn cael eu ddefynyddio fel tab yn Tabiau [iconics gmd_account_circle] [iconics gmd_navigate_next] dewision y Cyfrif.· </string>
 </resources>
