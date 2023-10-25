@@ -1057,9 +1057,28 @@ class ComposeActivity :
         viewModel.removeMediaFromQueue(item)
     }
 
+    private fun sanitizePickMediaDescription(description: String?): String? {
+        if (description == null) {
+            return null
+        }
+
+        // The Gboard android keyboard attaches this text whenever the user
+        // pastes something from the keyboard's suggestion bar.
+        // Due to different end user locales, the exact text may vary, but at
+        // least in version 13.4.08, all of the translations contained the
+        // string "Gboard".
+        if ("Gboard" in description) {
+            return null
+        }
+
+        return description
+    }
+
     private fun pickMedia(uri: Uri, description: String? = null) {
+        var sanitizedDescription = sanitizePickMediaDescription(description)
+
         lifecycleScope.launch {
-            viewModel.pickMedia(uri, description).onFailure { throwable ->
+            viewModel.pickMedia(uri, sanitizedDescription).onFailure { throwable ->
                 val errorString = when (throwable) {
                     is FileSizeException -> {
                         val decimalFormat = DecimalFormat("0.##")
