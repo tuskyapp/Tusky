@@ -841,4 +841,5 @@
     <string name="list_reply_policy_none">No one</string>
     <string name="list_reply_policy_list">Members of the list</string>
     <string name="list_reply_policy_followed">Any followed user</string>
+    <string name="list_reply_policy_label">Show replies to</string>
 </resources>
