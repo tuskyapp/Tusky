@@ -691,7 +691,6 @@
     <string name="filter_keyword_addition_title">Ychwanegu allweddair</string>
     <string name="filter_edit_keyword_title">Golygu allweddair</string>
     <string name="filter_description_format">%s: %s</string>
-    <string name="hint_description">Disgrifiad</string>
     <string name="post_media_image">Delwedd</string>
     <string name="select_list_empty">Nid oes gennych restrau, eto</string>
     <string name="select_list_manage">Rheoli rhestrau</string>

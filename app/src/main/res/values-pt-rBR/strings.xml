@@ -610,7 +610,6 @@
 \nVersão: %s</string>
     <string name="about_account_info_title">Sua conta</string>
     <string name="action_refresh">Atualizar</string>
-    <string name="hint_description">Descrição</string>
     <string name="action_add">Adicionar</string>
     <string name="notification_unknown_name">Desconhecido</string>
     <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'\?</string>

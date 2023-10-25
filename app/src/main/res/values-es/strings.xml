@@ -638,7 +638,6 @@
     <string name="total_accounts">Cuentas totales</string>
     <string name="dialog_follow_hashtag_title">Seguir etiqueta</string>
     <string name="dialog_follow_hashtag_hint">#etiqueta</string>
-    <string name="hint_description">Descripción</string>
     <string name="post_media_image">Imagen</string>
     <string name="pref_title_account_filter_keywords">Perfiles</string>
     <string name="action_refresh">Volver a cargar</string>

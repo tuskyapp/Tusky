@@ -641,7 +641,6 @@
     <string name="filter_keyword_addition_title">Bæta við stikkorði</string>
     <string name="filter_edit_keyword_title">Breyta stikkorði</string>
     <string name="filter_description_format">%s: %s</string>
-    <string name="hint_description">Lýsing</string>
     <string name="post_media_image">Mynd</string>
     <string name="select_list_empty">Þú ert ekki með neina lista</string>
     <string name="select_list_manage">Sýsla með lista</string>

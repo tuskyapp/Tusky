@@ -510,7 +510,6 @@
     <string name="notification_header_report_format">%s докладва %s</string>
     <string name="notification_report_format">Ново докладване на %s</string>
     <string name="action_delete_conversation">Изтриване на разговор</string>
-    <string name="hint_description">Описание</string>
     <string name="post_media_image">Изображение</string>
     <string name="duration_60_days">60 дни</string>
     <string name="dialog_delete_conversation_warning">Изтриване на този разговор\?</string>

@@ -634,7 +634,6 @@
     <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện tút gần đây từ những người bạn theo dõi.
 \n
 \nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
-    <string name="hint_description">Mô tả</string>
     <string name="post_media_image">Hình ảnh</string>
     <string name="select_list_manage">Quản lý danh sách</string>
     <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>

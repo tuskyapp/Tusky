@@ -621,7 +621,6 @@
     <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>
     <string name="total_usage">Total användning</string>
     <string name="total_accounts">Totala konton</string>
-    <string name="hint_description">Beskrivning</string>
     <string name="post_media_image">Bild</string>
     <string name="description_browser_login">Kan stödja ytterligare autentiseringsmetoder, men kräver en webbläsare som stöds.</string>
     <string name="filter_description_format">%s: %s</string>

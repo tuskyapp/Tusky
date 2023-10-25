@@ -597,7 +597,6 @@
     <string name="status_edit_info">%1$s düzenledi</string>
     <string name="action_refresh">Yenile</string>
     <string name="title_edits">Düzenlemeler</string>
-    <string name="hint_description">Açıklama</string>
     <string name="post_media_image">Görsel</string>
     <string name="label_filter_action">Süzgeçleme eylemi</string>
     <string name="action_add">Ekle</string>

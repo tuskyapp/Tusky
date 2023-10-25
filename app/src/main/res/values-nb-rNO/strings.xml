@@ -596,7 +596,6 @@
     <string name="status_edit_info">Endret: %1$s</string>
     <string name="hint_media_description_missing">Media bør ha en beskrivelse.</string>
     <string name="action_refresh">Oppdater</string>
-    <string name="hint_description">Beskrivelse</string>
     <string name="post_media_image">Bilde</string>
     <string name="ui_error_bookmark">Å bokmerke innlegget misslyktes: %s</string>
     <string name="hint_filter_title">Mitt filter</string>

@@ -608,7 +608,6 @@
 \nサーバーと接続できなかったか、投稿が拒否されました。</string>
     <string name="dialog_follow_hashtag_title">ハッシュタグをフォロー</string>
     <string name="dialog_follow_hashtag_hint">#ハッシュタグ</string>
-    <string name="hint_description">説明</string>
     <string name="post_media_image">画像</string>
     <string name="notification_unknown_name">不明</string>
     <string name="select_list_manage">リストを管理する</string>

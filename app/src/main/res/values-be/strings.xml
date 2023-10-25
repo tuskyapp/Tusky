@@ -634,7 +634,6 @@
     <string name="pref_title_account_filter_keywords">Профілі</string>
     <string name="title_public_trending_hashtags">Папулярныя хэштэгі</string>
     <string name="description_browser_login">Можа падтрымліваць дадатковыя метады праверкі сапраўднасці, але для гэтага патрэбны адпаведны браузер.</string>
-    <string name="hint_description">Апісанне</string>
     <string name="post_media_image">Відарыс</string>
     <string name="action_refresh">Абнавіць</string>
     <string name="select_list_empty">Яшчэ няма спісаў</string>

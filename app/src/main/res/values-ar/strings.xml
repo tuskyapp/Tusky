@@ -661,7 +661,6 @@
     <string name="dialog_follow_hashtag_hint">#وسم</string>
     <string name="pref_ui_text_size">حجم خط واجهة المستخدم</string>
     <string name="label_image">صورة</string>
-    <string name="hint_description">الوصف</string>
     <string name="about_account_info_title">حسابُك</string>
     <string name="post_media_image">صورة</string>
     <string name="about_copy">نسخ معلومات الإصدار والجهاز</string>

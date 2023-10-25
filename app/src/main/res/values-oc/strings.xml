@@ -645,7 +645,6 @@
     <string name="filter_edit_keyword_title">Modificar mot clau</string>
     <string name="filter_description_format">%s : %s</string>
     <string name="label_filter_keywords">Mots clau o frasas de filtrar</string>
-    <string name="hint_description">Descripcion</string>
     <string name="post_media_image">Imatge</string>
     <string name="select_list_empty">Avètz pas encara de lista</string>
     <string name="select_list_manage">Gerir las listas</string>
