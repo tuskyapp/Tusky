@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.compose.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -26,7 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
+import android.widget.LinearLayout
 import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -36,6 +35,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.viewBinding
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
@@ -44,11 +45,26 @@ class CaptionDialog : DialogFragment() {
     private lateinit var listener: Listener
     private lateinit var input: EditText
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val context = requireContext()
+    private val binding by viewBinding(DialogImageDescriptionBinding::bind)
 
-        val binding = DialogImageDescriptionBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
+            input.setText(it)
+        }
+
+        return inflater.inflate(R.layout.dialog_image_description, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         input = binding.imageDescriptionText
         val imageView = binding.imageDescriptionView
         imageView.maxZoom = 6f
@@ -61,20 +77,19 @@ class CaptionDialog : DialogFragment() {
         input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
         input.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
 
+        binding.cancelButton.setOnClickListener {
+            dismiss()
+        }
         val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
-        val dialog = AlertDialog.Builder(context)
-            .setView(binding.root)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                listener.onUpdateDescription(localId, input.text.toString())
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
+        binding.okButton.setOnClickListener {
+            listener.onUpdateDescription(localId, input.text.toString())
+            dismiss()
+        }
 
         isCancelable = true
-        val window = dialog.window
-        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         val previewUri = BundleCompat.getParcelable(requireArguments(), PREVIEW_URI_ARG, Uri::class.java) ?: error("Preview Uri is null")
+
         // Load the image and manually set it into the ImageView because it doesn't have a fixed size.
         Glide.with(this)
             .load(previewUri)
@@ -90,25 +105,28 @@ class CaptionDialog : DialogFragment() {
                 ) {
                     imageView.setImageDrawable(resource)
                 }
-            })
 
-        return dialog
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    super.onLoadFailed(errorDrawable)
+                    imageView.hide()
+                }
+            })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.apply {
+            window?.setLayout(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(DESCRIPTION_KEY, input.text.toString())
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
-            input.setText(it)
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onAttach(context: Context) {
