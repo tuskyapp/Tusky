@@ -26,10 +26,10 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.util.Date
 import javax.inject.Inject
 
@@ -282,7 +282,7 @@ class EditFilterActivity : BaseActivity() {
                         finish()
                     },
                     { throwable ->
-                        if (throwable is HttpException && throwable.code() == 404) {
+                        if (throwable.isHttpNotFound()) {
                             api.deleteFilterV1(filter.id).fold(
                                 {
                                     finish()

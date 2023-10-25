@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,11 +37,25 @@ class LoginWebViewViewModel @Inject constructor(
         if (this.domain == null) {
             this.domain = domain
             viewModelScope.launch {
-                api.getInstance(domain).fold({ instance ->
-                    instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
-                }, { throwable ->
-                    Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
-                })
+                api.getInstance().fold(
+                    { instance ->
+                        instanceRules.value = instance.rules.map { rule -> rule.text }
+                    },
+                    { throwable ->
+                        if (throwable.isHttpNotFound()) {
+                            api.getInstanceV1(domain).fold(
+                                { instance ->
+                                    instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
+                                },
+                                { throwable ->
+                                    Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
+                                }
+                            )
+                        } else {
+                            Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
+                        }
+                    }
+                )
             }
         }
     }

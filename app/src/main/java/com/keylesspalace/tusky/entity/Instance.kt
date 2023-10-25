@@ -1,98 +1,71 @@
-/* Copyright 2018 Levi Bard
- *
- * This file is a part of Tusky.
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 3 of the
- * License, or (at your option) any later version.
- *
- * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
-
 package com.keylesspalace.tusky.entity
 
 import com.google.gson.annotations.SerializedName
 
 data class Instance(
-    val uri: String,
-    // val title: String,
-    // val description: String,
-    // val email: String,
+    val domain: String,
+//    val title: String,
     val version: String,
-    // val urls: Map<String, String>,
-    // val stats: Map<String, Int>?,
-    // val thumbnail: String?,
-    // val languages: List<String>,
-    // @SerializedName("contact_account") val contactAccount: Account,
-    @SerializedName("max_toot_chars") val maxTootChars: Int?,
-    @SerializedName("poll_limits") val pollConfiguration: PollConfiguration?,
-    val configuration: InstanceConfiguration?,
-    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
+//    @SerializedName("source_url") val sourceUrl: String,
+//    val description: String,
+//    val usage: Usage,
+//    val thumbnail: Thumbnail,
+//    val languages: List<String>,
+    val configuration: Configuration,
+//    val registrations: Registrations,
+//    val contact: Contact,
+    val rules: List<Rule>,
     val pleroma: PleromaConfiguration?,
-    @SerializedName("upload_limit") val uploadLimit: Int?,
-    val rules: List<InstanceRules>?
 ) {
-    override fun hashCode(): Int {
-        return uri.hashCode()
+    data class Usage(val users: Users) {
+        data class Users(@SerializedName("active_month") val activeMonth: Int)
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Instance) {
-            return false
-        }
-        val instance = other as Instance?
-        return instance?.uri.equals(uri)
+    data class Thumbnail(
+        val url: String,
+        val blurhash: String?,
+        val versions: Versions?,
+    ) {
+        data class Versions(
+            @SerializedName("@1x") val at1x: String?,
+            @SerializedName("@2x") val at2x: String?,
+        )
     }
+    data class Configuration(
+        val urls: Urls,
+        val accounts: Accounts,
+        val statuses: Statuses,
+        @SerializedName("media_attachments") val mediaAttachments: MediaAttachments,
+        val polls: Polls,
+        val translation: Translation,
+    ) {
+        data class Urls(@SerializedName("streaming_api") val streamingApi: String)
+        data class Accounts(@SerializedName("max_featured_tags") val maxFeaturedTags: Int)
+        data class Statuses(
+            @SerializedName("max_characters") val maxCharacters: Int,
+            @SerializedName("max_media_attachments") val maxMediaAttachments: Int,
+            @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int,
+        )
+        data class MediaAttachments(
+            @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>,
+            @SerializedName("image_size_limit") val imageSizeLimitBytes: Long,
+            @SerializedName("image_matrix_limit") val imagePixelCountLimit: Long,
+            @SerializedName("video_size_limit") val videoSizeLimitBytes: Long,
+            @SerializedName("video_matrix_limit") val videoPixelCountLimit: Long,
+            @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int,
+        )
+        data class Polls(
+            @SerializedName("max_options") val maxOptions: Int,
+            @SerializedName("max_characters_per_option") val maxCharactersPerOption: Int,
+            @SerializedName("min_expiration") val minExpirationSeconds: Int,
+            @SerializedName("max_expiration") val maxExpirationSeconds: Int,
+        )
+        data class Translation(val enabled: Boolean)
+    }
+    data class Registrations(
+        val enabled: Boolean,
+        @SerializedName("approval_required") val approvalRequired: Boolean,
+        val message: String?,
+    )
+    data class Contact(val email: String, val account: Account)
+    data class Rule(val id: String, val text: String)
 }
-
-data class PollConfiguration(
-    @SerializedName("max_options") val maxOptions: Int?,
-    @SerializedName("max_option_chars") val maxOptionChars: Int?,
-    @SerializedName("max_characters_per_option") val maxCharactersPerOption: Int?,
-    @SerializedName("min_expiration") val minExpiration: Int?,
-    @SerializedName("max_expiration") val maxExpiration: Int?
-)
-
-data class InstanceConfiguration(
-    val statuses: StatusConfiguration?,
-    @SerializedName("media_attachments") val mediaAttachments: MediaAttachmentConfiguration?,
-    val polls: PollConfiguration?
-)
-
-data class StatusConfiguration(
-    @SerializedName("max_characters") val maxCharacters: Int?,
-    @SerializedName("max_media_attachments") val maxMediaAttachments: Int?,
-    @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int?
-)
-
-data class MediaAttachmentConfiguration(
-    @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>?,
-    @SerializedName("image_size_limit") val imageSizeLimit: Int?,
-    @SerializedName("image_matrix_limit") val imageMatrixLimit: Int?,
-    @SerializedName("video_size_limit") val videoSizeLimit: Int?,
-    @SerializedName("video_frame_rate_limit") val videoFrameRateLimit: Int?,
-    @SerializedName("video_matrix_limit") val videoMatrixLimit: Int?
-)
-
-data class PleromaConfiguration(
-    val metadata: PleromaMetadata?
-)
-
-data class PleromaMetadata(
-    @SerializedName("fields_limits") val fieldLimits: PleromaFieldLimits
-)
-
-data class PleromaFieldLimits(
-    @SerializedName("max_fields") val maxFields: Int?,
-    @SerializedName("name_length") val nameLength: Int?,
-    @SerializedName("value_length") val valueLength: Int?
-)
-
-data class InstanceRules(
-    val id: String,
-    val text: String
-)

@@ -45,11 +45,11 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 abstract class TimelineViewModel(
     private val timelineCases: TimelineCases,
@@ -281,7 +281,7 @@ abstract class TimelineViewModel(
                     invalidate()
                 },
                 { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
+                    if (throwable.isHttpNotFound()) {
                         // Fallback to client-side filter code
                         val filters = api.getFiltersV1().getOrElse {
                             Log.e(TAG, "Failed to fetch filters", it)

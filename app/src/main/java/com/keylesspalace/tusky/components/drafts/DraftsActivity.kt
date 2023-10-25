@@ -35,11 +35,11 @@ import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class DraftsActivity : BaseActivity(), DraftActionListener {
@@ -131,7 +131,7 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
                         Log.w(TAG, "failed loading reply information", throwable)
 
-                        if (throwable is HttpException && throwable.code() == 404) {
+                        if (throwable.isHttpNotFound()) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
                             Toast.makeText(context, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()

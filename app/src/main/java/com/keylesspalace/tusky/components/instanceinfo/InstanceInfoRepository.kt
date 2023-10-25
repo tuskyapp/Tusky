@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -63,27 +64,31 @@ class InstanceInfoRepository @Inject constructor(
                 { instance ->
                     val instanceEntity = InstanceInfoEntity(
                         instance = instanceName,
-                        maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                        maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
-                        maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
-                        minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
-                        maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
-                        charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
+                        maximumTootCharacters = instance.configuration.statuses.maxCharacters,
+                        maxPollOptions = instance.configuration.polls.maxOptions,
+                        maxPollOptionLength = instance.configuration.polls.maxCharactersPerOption,
+                        minPollDuration = instance.configuration.polls.minExpirationSeconds,
+                        maxPollDuration = instance.configuration.polls.maxExpirationSeconds,
+                        charactersReservedPerUrl = instance.configuration.statuses.charactersReservedPerUrl,
                         version = instance.version,
-                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
-                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
-                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
-                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
+                        videoSizeLimit = instance.configuration.mediaAttachments.videoSizeLimitBytes.toInt(),
+                        imageSizeLimit = instance.configuration.mediaAttachments.imageSizeLimitBytes.toInt(),
+                        imageMatrixLimit = instance.configuration.mediaAttachments.imagePixelCountLimit.toInt(),
+                        maxMediaAttachments = instance.configuration.statuses.maxMediaAttachments,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
                     )
                     dao.upsert(instanceEntity)
                     instanceEntity
                 },
                 { throwable ->
-                    Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
-                    dao.getInstanceInfo(instanceName)
+                    if (throwable.isHttpNotFound()) {
+                        getInstanceInfoV1()
+                    } else {
+                        Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                        dao.getInstanceInfo(instanceName)
+                    }
                 }
             ).let { instanceInfo: InstanceInfoEntity? ->
                 InstanceInfo(
@@ -100,9 +105,40 @@ class InstanceInfoRepository @Inject constructor(
                     maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
                     maxFieldNameLength = instanceInfo?.maxFieldNameLength,
                     maxFieldValueLength = instanceInfo?.maxFieldValueLength,
-                    version = instanceInfo?.version
+                    version = instanceInfo?.version,
                 )
             }
+    }
+
+    private suspend fun getInstanceInfoV1(): InstanceInfoEntity? = withContext(Dispatchers.IO) {
+        api.getInstanceV1()
+            .fold(
+                { instance ->
+                    val instanceEntity = InstanceInfoEntity(
+                        instance = instanceName,
+                        maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
+                        maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
+                        maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
+                        minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
+                        maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
+                        charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
+                        version = instance.version,
+                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
+                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
+                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
+                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
+                        maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
+                        maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
+                    )
+                    dao.upsert(instanceEntity)
+                    instanceEntity
+                },
+                { throwable ->
+                    Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                    dao.getInstanceInfo(instanceName)
+                }
+            )
     }
 
     companion object {
