@@ -610,7 +610,6 @@
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
     <string name="dialog_follow_hashtag_hint">#cancelo</string>
-    <string name="hint_description">Descrición</string>
     <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
 \n
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia [iconics gmd_group]. Ou buscalas polo seu nome [iconics gmd_search]; por exemplo busca Tusky para atopar a nosa conta en Mastodon.</string>

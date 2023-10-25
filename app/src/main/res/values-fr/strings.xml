@@ -580,7 +580,6 @@
     <string name="error_multimedia_size_limit">Les fichiers vidéo et audio ne peuvent pas dépasser %s Mo.</string>
     <string name="pref_title_http_proxy_port_message">Le port doit être entre %d et %d</string>
     <string name="action_set_focus">Définir le point focal</string>
-    <string name="hint_description">Description</string>
     <string name="post_media_image">Image</string>
     <string name="pref_show_self_username_disambiguate">Quand plusieurs comptes sont connectés</string>
     <string name="action_post_failed">Le téléversement a échoué</string>

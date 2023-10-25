@@ -653,7 +653,6 @@
     <string name="help_empty_home">Ez a <b>kezdő idővonalad</b>. Megjeleníti a követett fiókok legfrissebb bejegyzéseit.
 \n
 \nMás fiókokat másik idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán [iconics gmd_group]. Vagy megkeresheted őket név szerint [iconics gmd_search]; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
-    <string name="hint_description">Leírás</string>
     <string name="post_media_image">Kép</string>
     <string name="select_list_empty">Még nincsenek listáid</string>
     <string name="select_list_manage">Listák kezelése</string>

@@ -562,7 +562,6 @@
     <string name="title_edits">Edições</string>
     <string name="pref_title_notification_filter_reports">existe um novo relatório</string>
     <string name="hint_media_description_missing">Imagem/Vídeo precisa de uma descrição.</string>
-    <string name="hint_description">Descrição</string>
     <string name="pref_title_http_proxy_port_message">Porta deve ser entre %d e %d</string>
     <string name="action_post_failed">Falha ao fazer upload</string>
     <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi salva nos rascunhos.

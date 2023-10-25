@@ -132,7 +132,6 @@
     <string name="hint_display_name">Anzeigename</string>
     <string name="hint_note">Über mich</string>
     <string name="hint_search">Suchen …</string>
-    <string name="hint_description">Beschreibung</string>
     <string name="hint_media_description_missing">Medien sollten Beschreibungen haben.</string>
     <string name="search_no_results">Keine Ergebnisse</string>
     <string name="label_quick_reply">Antworten …</string>

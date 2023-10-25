@@ -587,7 +587,6 @@
     <string name="label_filter_action">Filtra darbība</string>
     <string name="hint_filter_title">Mans filtrs</string>
     <string name="label_filter_title">Nosaukums</string>
-    <string name="hint_description">Apraksts</string>
     <string name="ui_success_accepted_follow_request">Sekošanas pieprasījums pieņemts</string>
     <string name="ui_success_rejected_follow_request">Sekošanas pieprasījums bloķēts</string>
     <string name="post_privacy_followers_only">Tikai sekotājiem</string>

@@ -628,7 +628,6 @@
     <string name="send_account_username_to">Co-roinn ainm-cleachdaiche a’ chunntais le…</string>
     <string name="dialog_follow_hashtag_title">Lean an taga hais</string>
     <string name="dialog_follow_hashtag_hint">#TagaHais</string>
-    <string name="hint_description">Tuairisgeul</string>
     <string name="post_media_image">Dealbh</string>
     <string name="filter_action_warn">Thoir rabhadh</string>
     <string name="filter_action_hide">Falaich</string>
