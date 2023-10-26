@@ -599,7 +599,8 @@ interface MastodonApi {
     @POST("api/v1/lists")
     suspend fun createList(
         @Field("title") title: String,
-        @Field("exclusive") exclusive: Boolean?
+        @Field("exclusive") exclusive: Boolean?,
+        @Field("replies_policy") replyPolicy: String,
     ): NetworkResult<MastoList>
 
     @FormUrlEncoded
@@ -607,7 +608,8 @@ interface MastodonApi {
     suspend fun updateList(
         @Path("listId") listId: String,
         @Field("title") title: String,
-        @Field("exclusive") exclusive: Boolean?
+        @Field("exclusive") exclusive: Boolean?,
+        @Field("replies_policy") replyPolicy: String,
     ): NetworkResult<MastoList>
 
     @DELETE("api/v1/lists/{listId}")

@@ -837,4 +837,8 @@
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
     <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
+    <string name="list_reply_policy_none">No one</string>
+    <string name="list_reply_policy_list">Members of the list</string>
+    <string name="list_reply_policy_followed">Any followed user</string>
+    <string name="list_reply_policy_label">Show replies to</string>
 </resources>

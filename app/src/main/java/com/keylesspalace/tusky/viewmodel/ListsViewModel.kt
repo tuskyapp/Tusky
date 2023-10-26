@@ -84,9 +84,9 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun createNewList(listName: String, exclusive: Boolean) {
+    fun createNewList(listName: String, exclusive: Boolean, replyPolicy: String) {
         viewModelScope.launch {
-            api.createList(listName, exclusive).fold(
+            api.createList(listName, exclusive, replyPolicy).fold(
                 { list ->
                     updateState {
                         copy(lists = lists + list)
@@ -99,9 +99,9 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun updateList(listId: String, listName: String, exclusive: Boolean) {
+    fun updateList(listId: String, listName: String, exclusive: Boolean, replyPolicy: String) {
         viewModelScope.launch {
-            api.updateList(listId, listName, exclusive).fold(
+            api.updateList(listId, listName, exclusive, replyPolicy).fold(
                 { list ->
                     updateState {
                         copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
