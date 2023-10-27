@@ -232,7 +232,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun clearWarning(status: StatusViewData.Concrete) {
-        updateActionableStatusById(status.actionableId) {
+        updateActionableStatusById(status.id) {
             it.copy(filtered = null)
         }
     }
