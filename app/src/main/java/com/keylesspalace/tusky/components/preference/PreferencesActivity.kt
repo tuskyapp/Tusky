@@ -144,7 +144,9 @@ class PreferencesActivity :
         super.onSaveInstanceState(outState)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        sharedPreferences ?: return
+        key ?: return
         when (key) {
             APP_THEME -> {
                 val theme = sharedPreferences.getNonNullString(APP_THEME, AppTheme.DEFAULT.value)
