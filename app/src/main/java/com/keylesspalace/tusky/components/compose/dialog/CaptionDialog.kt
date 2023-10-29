@@ -25,10 +25,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.target.CustomTarget
@@ -37,11 +35,12 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.FullScreenDialogFragment
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 
-class CaptionDialog : DialogFragment() {
+class CaptionDialog : FullScreenDialogFragment() {
     private lateinit var listener: Listener
     private lateinit var input: EditText
 
@@ -116,10 +115,6 @@ class CaptionDialog : DialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.apply {
-            window?.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
     }

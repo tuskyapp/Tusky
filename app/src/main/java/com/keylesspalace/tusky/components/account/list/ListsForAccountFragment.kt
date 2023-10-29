@@ -20,8 +20,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
@@ -38,11 +36,12 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.view.FullScreenDialogFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ListsForAccountFragment : DialogFragment(), Injectable {
+class ListsForAccountFragment : FullScreenDialogFragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,16 +56,6 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
         setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
 
         viewModel.setup(requireArguments().getString(ARG_ACCOUNT_ID)!!)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.apply {
-            window?.setLayout(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-        }
     }
 
     override fun onCreateView(
