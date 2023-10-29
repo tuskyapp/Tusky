@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_dialog_width_dp">800</integer>
+    <integer name="max_dialog_height_dp">1000</integer>
+</resources>

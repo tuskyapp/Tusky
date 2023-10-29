@@ -16,11 +16,14 @@
 
 package com.keylesspalace.tusky.util
 
+import android.content.res.Resources
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import kotlin.math.roundToInt
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -77,4 +80,16 @@ fun ViewPager2.reduceSwipeSensitivity() {
 fun TextView.fixTextSelection() {
     setTextIsSelectable(false)
     post { setTextIsSelectable(true) }
+}
+
+fun Float.dpToPx(resource: Resources): Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this,
+        resource.displayMetrics
+    )
+}
+
+fun Int.dpToPx(resource: Resources): Int {
+    return this.toFloat().dpToPx(resource).roundToInt()
 }

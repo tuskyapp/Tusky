@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2023 Tusky contributors
  *
  * This file is a part of Tusky.
  *
@@ -20,9 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -43,6 +41,7 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.FullScreenDialogFragment
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import kotlinx.coroutines.launch
@@ -50,7 +49,7 @@ import javax.inject.Inject
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
-class AccountsInListFragment : DialogFragment(), Injectable {
+class AccountsInListFragment : FullScreenDialogFragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -76,14 +75,6 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         listName = args.getString(LIST_NAME_ARG)!!
 
         viewModel.load(listId)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.apply {
-            // Stretch dialog to the window
-            window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -257,3 +248,4 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         }
     }
 }
+
