@@ -67,8 +67,11 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
+import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.appstore.NewNotificationsEvent
+import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -90,6 +93,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.FabFragment
@@ -181,6 +185,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     /** Adapter for the different timeline tabs */
     private lateinit var tabAdapter: MainPagerAdapter
 
+    private var directMessageTab: TabLayout.Tab? = null
+
     @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -249,7 +255,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
-                if (intent.getSerializableExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST) {
+                if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
                     val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
                     startActivityWithSlideInAnimation(intent)
                 } else {
@@ -324,10 +330,31 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
                         setupTabs(false)
                     }
-
                     is AnnouncementReadEvent -> {
                         unreadAnnouncementsCount--
                         updateAnnouncementsBadge()
+                    }
+                    is NewNotificationsEvent -> {
+                        directMessageTab?.let { tab ->
+                            if (event.accountId == activeAccount.accountId) {
+                                val hasDirectMessageNotification =
+                                    event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
+
+                                if (hasDirectMessageNotification) {
+                                    showDirectMessageBadge(true)
+                                }
+                            }
+                        }
+                    }
+                    is NotificationsLoadingEvent -> {
+                        if (event.accountId == activeAccount.accountId) {
+                            showDirectMessageBadge(false)
+                        }
+                    }
+                    is ConversationsLoadingEvent -> {
+                        if (event.accountId == activeAccount.accountId) {
+                            showDirectMessageBadge(false)
+                        }
                     }
                 }
             }
@@ -372,6 +399,20 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this, true)
+    }
+
+    private fun showDirectMessageBadge(showBadge: Boolean) {
+        directMessageTab?.let { tab ->
+            tab.badge?.isVisible = showBadge
+
+            // TODO a bit cumbersome (also for resetting)
+            accountManager.activeAccount?.let {
+                if (it.hasDirectMessageBadge != showBadge) {
+                    it.hasDirectMessageBadge = showBadge
+                    accountManager.saveAccount(it)
+                }
+            }
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -770,6 +811,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         // Detach any existing mediator before changing tab contents and attaching a new mediator
         tabLayoutMediator?.detach()
 
+        directMessageTab = null
+
         tabAdapter.tabs = tabs
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
 
@@ -779,6 +822,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tab.contentDescription = when (tabs[position].id) {
                 LIST -> tabs[position].arguments[1]
                 else -> getString(tabs[position].text)
+            }
+            if (tabs[position].id == DIRECT) {
+                tab.orCreateBadge
+                tab.badge?.isVisible = accountManager.activeAccount?.hasDirectMessageBadge ?: false
+                directMessageTab = tab
             }
         }.also { it.attach() }
 
@@ -808,6 +856,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 binding.mainToolbar.title = tab.contentDescription
 
                 refreshComposeButtonState(tabAdapter, tab.position)
+
+                if (tab == directMessageTab) {
+                    tab.badge?.isVisible = false
+
+                    accountManager.activeAccount?.let {
+                        if (it.hasDirectMessageBadge) {
+                            it.hasDirectMessageBadge = false
+                            accountManager.saveAccount(it)
+                        }
+                    }
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -1102,7 +1161,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         @JvmStatic
         fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
-                putExtra(NOTIFICATION_TYPE, type)
+                putExtra(NOTIFICATION_TYPE, type.name)
             }
         }
 

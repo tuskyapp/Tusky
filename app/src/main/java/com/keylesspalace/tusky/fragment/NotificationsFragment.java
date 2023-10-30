@@ -61,13 +61,10 @@ import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.adapter.NotificationsAdapter;
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder;
 import com.keylesspalace.tusky.appstore.BlockEvent;
-import com.keylesspalace.tusky.appstore.BookmarkEvent;
 import com.keylesspalace.tusky.appstore.EventHub;
-import com.keylesspalace.tusky.appstore.FavoriteEvent;
-import com.keylesspalace.tusky.appstore.PinEvent;
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent;
-import com.keylesspalace.tusky.appstore.ReblogEvent;
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper;
+import com.keylesspalace.tusky.appstore.StatusChangedEvent;
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding;
 import com.keylesspalace.tusky.db.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
@@ -389,14 +386,9 @@ public class NotificationsFragment extends SFragment implements
             .observeOn(AndroidSchedulers.mainThread())
             .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
             .subscribe(event -> {
-                if (event instanceof FavoriteEvent) {
-                    setFavouriteForStatus(((FavoriteEvent) event).getStatusId(), ((FavoriteEvent) event).getFavourite());
-                } else if (event instanceof BookmarkEvent) {
-                    setBookmarkForStatus(((BookmarkEvent) event).getStatusId(), ((BookmarkEvent) event).getBookmark());
-                } else if (event instanceof ReblogEvent) {
-                    setReblogForStatus(((ReblogEvent) event).getStatusId(), ((ReblogEvent) event).getReblog());
-                } else if (event instanceof PinEvent) {
-                    setPinForStatus(((PinEvent) event).getStatusId(), ((PinEvent) event).getPinned());
+                if (event instanceof StatusChangedEvent) {
+                    Status updatedStatus = ((StatusChangedEvent) event).getStatus();
+                    updateStatus(updatedStatus.getActionableId(), s -> updatedStatus);
                 } else if (event instanceof BlockEvent) {
                     removeAllByAccountId(((BlockEvent) event).getAccountId());
                 } else if (event instanceof PreferenceChangedEvent) {

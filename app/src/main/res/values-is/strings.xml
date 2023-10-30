@@ -250,7 +250,7 @@
     <string name="about_powered_by_tusky">Keyrir á Tusky</string>
     <string name="about_tusky_license">Tusky er frjáls hugbúnaður með opinn grunnkóða. Hann er gefinn út með GNU General Public notkunarleyfi, útgáfu 3. Þú getur skoðað notkunarleyfið hér: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Vefsvæði verkefnisins: https://tusky.app</string>
-    <string name="about_bug_feature_request_site">Villutilkynningar og beiðnir um nýja eiginleika: 
+    <string name="about_bug_feature_request_site">Villutilkynningar og beiðnir um nýja eiginleika:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Notandasnið Tusky</string>
     <string name="post_share_content">Deila efni úr færslu</string>
@@ -347,10 +347,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d til viðbótar</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">hámarksfjölda %1$d flipa náð</item>
-        <item quantity="other">hámarksfjölda %1$d flipa náð</item>
-    </plurals>
     <string name="description_post_media">Myndefni: %s</string>
     <string name="description_post_cw">Aðvörun vegna efnis: %s</string>
     <string name="description_post_media_no_description_placeholder">Engin lýsing</string>
@@ -366,8 +362,8 @@
     <string name="edit_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
-    <string name="notifications_clear">Eyða tilkynningum</string>
-    <string name="notifications_apply_filter">Sía tilkynningar</string>
+    <string name="notifications_clear">Eyða</string>
+    <string name="notifications_apply_filter">Sía</string>
     <string name="filter_apply">Virkja</string>
     <string name="compose_shortcut_long_label">Semja færslu</string>
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
@@ -546,7 +542,6 @@
     <string name="failed_to_unpin">Mistókst að losa</string>
     <string name="pref_show_self_username_always">Alltaf</string>
     <string name="pref_show_self_username_disambiguate">Þegar er skráð inn á mörgum aðgöngum</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Setja virknistað</string>
     <string name="pref_show_self_username_never">Aldrei</string>
     <string name="pref_title_show_self_username">Birta notandanafn á verkfærastikum</string>
@@ -646,7 +641,6 @@
     <string name="filter_keyword_addition_title">Bæta við stikkorði</string>
     <string name="filter_edit_keyword_title">Breyta stikkorði</string>
     <string name="filter_description_format">%s: %s</string>
-    <string name="hint_description">Lýsing</string>
     <string name="post_media_image">Mynd</string>
     <string name="select_list_empty">Þú ert ekki með neina lista</string>
     <string name="select_list_manage">Sýsla með lista</string>
@@ -696,4 +690,7 @@
 \n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
 \n
 \n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs. </string>
+    <string name="label_image">Mynd</string>
+    <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
+    <string name="title_public_trending_statuses">Færslur í umræðunni</string>
 </resources>

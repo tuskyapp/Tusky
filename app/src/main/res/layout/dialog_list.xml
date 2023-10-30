@@ -34,4 +34,31 @@
         android:text="@string/list_exclusive_label"
         />
 
+    <TextView
+        android:id="@+id/replyPolicyLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/exclusiveCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="0dp"
+        android:text="@string/list_reply_policy_label"
+        />
+
+    <Spinner
+        android:id="@+id/replyPolicySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/replyPolicyLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="0dp"
+        android:entries="@array/list_reply_policies_display"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

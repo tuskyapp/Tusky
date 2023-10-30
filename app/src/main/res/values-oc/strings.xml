@@ -337,10 +337,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mai</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">nombre maximum d’onglet %1$d atengut</item>
-        <item quantity="other">nombre maximum d’onglets %1$d atengut</item>
-    </plurals>
     <string name="description_post_media">Mèdia : %s</string>
     <string name="description_post_cw">Avertiment : %s</string>
     <string name="description_post_media_no_description_placeholder">Cap de descripcion</string>
@@ -523,7 +519,6 @@
     <string name="tusky_compose_post_quicksetting_label">Compausar una publicacion</string>
     <string name="account_date_joined">Arribada del %1$s</string>
     <string name="saving_draft">Enregistrament del borrolhon…</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="error_image_edit_failed">Se podiá pas modificar l’imatge.</string>
     <string name="pref_title_wellbeing_mode">Benestar</string>
     <string name="duration_no_change">(Cap de modificacion)</string>
@@ -650,7 +645,6 @@
     <string name="filter_edit_keyword_title">Modificar mot clau</string>
     <string name="filter_description_format">%s : %s</string>
     <string name="label_filter_keywords">Mots clau o frasas de filtrar</string>
-    <string name="hint_description">Descripcion</string>
     <string name="post_media_image">Imatge</string>
     <string name="select_list_empty">Avètz pas encara de lista</string>
     <string name="select_list_manage">Gerir las listas</string>

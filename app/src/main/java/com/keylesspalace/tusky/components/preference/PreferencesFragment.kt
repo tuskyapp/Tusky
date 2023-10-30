@@ -75,7 +75,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
         makePreferenceScreen {
             preferenceCategory(R.string.pref_title_appearance_settings) {
                 listPreference {
-                    setDefaultValue(AppTheme.NIGHT.value)
+                    setDefaultValue(AppTheme.DEFAULT.value)
                     setEntries(R.array.app_theme_names)
                     entryValues = AppTheme.stringValues()
                     key = PrefKeys.APP_THEME

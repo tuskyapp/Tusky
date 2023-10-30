@@ -482,8 +482,8 @@
     <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
     <string name="compose_shortcut_long_label">Створити допис</string>
     <string name="filter_apply">Застосувати</string>
-    <string name="notifications_apply_filter">Фільтр сповіщень</string>
-    <string name="notifications_clear">Видалити сповіщення</string>
+    <string name="notifications_apply_filter">Фільтр</string>
+    <string name="notifications_clear">Видалити</string>
     <string name="list">Список</string>
     <string name="select_list_title">Вибрати список</string>
     <string name="edit_hashtag_hint">Хештег без #</string>
@@ -493,12 +493,6 @@
     <string name="description_visibility_direct">Безпосередньо</string>
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Поширено</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">досягнено обмеження %1$d вкладку</item>
-        <item quantity="few">досягнено обмеження %1$d вкладки</item>
-        <item quantity="many">досягнено обмеження %1$d вкладок</item>
-        <item quantity="other">досягнено обмеження %1$d вкладок</item>
-    </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%s</b> поширення</item>
         <item quantity="few"><b>%s</b> поширення</item>
@@ -560,7 +554,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="description_post_language">Мова допису</string>
     <string name="duration_no_change">(Не змінено)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
     <string name="pref_show_self_username_always">Завжди</string>
     <string name="set_focus_description">Торкніться або перетягніть коло, щоб вибрати точку фокусування, яку завжди буде видно на мініатюрах.</string>
@@ -673,7 +666,6 @@
     <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
 \n
 \nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
-    <string name="hint_description">Опис</string>
     <string name="post_media_image">Зображення</string>
     <string name="error_list_load">Помилка завантаження списків</string>
     <string name="select_list_empty">У вас ще немає списків</string>
@@ -720,4 +712,7 @@
     <string name="unfollowing_hashtag_success_format">Хештег #%s більше не відстежується</string>
     <string name="error_blocking_domain">Не вдається ігнорувати %1$s: %2$s</string>
     <string name="error_unblocking_domain">Не вдалося перестати ігнорувати %1$s: %2$s</string>
+    <string name="label_image">Зображення</string>
+    <string name="app_theme_system_black">Тема системи (чорна)</string>
+    <string name="title_public_trending_statuses">Популярні дописи</string>
 </resources>

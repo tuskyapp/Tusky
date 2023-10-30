@@ -175,8 +175,8 @@
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="compose_shortcut_long_label">Redactar publicación</string>
     <string name="filter_apply">Aplicar</string>
-    <string name="notifications_apply_filter">Filtrar as notificacións</string>
-    <string name="notifications_clear">Desbotar as notificacións</string>
+    <string name="notifications_apply_filter">Filtrar</string>
+    <string name="notifications_clear">Borrar</string>
     <string name="list">Listaxe</string>
     <string name="select_list_title">Elexir listaxe</string>
     <string name="hashtags">Cancelos</string>
@@ -194,10 +194,6 @@
     <string name="description_post_media_no_description_placeholder">Sen descrición</string>
     <string name="description_post_cw">Aviso sobre o contido: %s</string>
     <string name="description_post_media">Multimedia: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">acadouse o máximo de %1$d lapela</item>
-        <item quantity="other">acadouse o máximo de %1$d lapelas</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d máis</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="title_favourited_by">Favorecido por</string>
@@ -535,7 +531,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Establece foco</string>
     <string name="error_following_hashtag_format">Erro ao seguir #%s</string>
     <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%s</string>
@@ -615,7 +610,6 @@
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
     <string name="dialog_follow_hashtag_hint">#cancelo</string>
-    <string name="hint_description">Descrición</string>
     <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
 \n
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia [iconics gmd_group]. Ou buscalas polo seu nome [iconics gmd_search]; por exemplo busca Tusky para atopar a nosa conta en Mastodon.</string>
@@ -696,4 +690,7 @@
 \nEstas listas pódense usar como lapelas configurando as Lapelas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
+    <string name="label_image">Imaxe</string>
+    <string name="app_theme_system_black">Usar o deseño do Sistema (negro)</string>
+    <string name="title_public_trending_statuses">Publicacións en voga</string>
 </resources>

@@ -349,11 +349,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s a %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s a %3$d další</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">bylo dosaženo maxima %1$d panelu</item>
-        <item quantity="few">bylo dosaženo maxima %1$d panelů</item>
-        <item quantity="other"/>
-    </plurals>
     <string name="description_post_media">Média %s</string>
     <string name="description_post_cw">Varování o obsahu: %s</string>
     <string name="description_post_media_no_description_placeholder">Žádný popis</string>
@@ -534,7 +529,6 @@
     <string name="duration_14_days">14 dní</string>
     <string name="duration_30_days">30 dní</string>
     <string name="drafts_post_reply_removed">Příspěvek, na který jste připravili odpověď, byl odstraněn</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Nastavit bod zaostření</string>
     <string name="tips_push_notification_migration">Znovu se přihlaste ke všem účtům, abyste povolili podporu push oznámení.</string>
     <string name="dialog_push_notification_migration">Aby bylo možné používat push oznámení prostřednictvím UnifiedPush, Tusky potřebuje oprávnění k odběru oznámení na vašem serveru Mastodon. To vyžaduje opětovné přihlášení ke změně rozsahů OAuth udělených aplikaci Tusky. Použitím možnosti opětovného přihlášení zde nebo v předvolbách účtu zachováte všechny vaše místní koncepty a mezipaměť.</string>

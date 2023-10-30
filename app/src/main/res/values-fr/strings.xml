@@ -346,11 +346,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum de %1$d onglet atteint</item>
-        <item quantity="many">maximum de %1$d onglets atteint</item>
-        <item quantity="other">maximum de %1$d onglets atteint</item>
-    </plurals>
     <string name="description_post_media">Média : %s</string>
     <string name="description_post_cw">        Avertissement : %s
     </string>
@@ -563,7 +558,6 @@
     <string name="pref_show_self_username_never">Jamais</string>
     <string name="description_post_language">Langue du message</string>
     <string name="duration_no_change">(Aucune modification)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_reaction">ajouter une réaction</string>
     <string name="instance_rule_title">%s règles</string>
     <string name="a11y_label_loading_thread">Chargement du fil</string>
@@ -586,7 +580,6 @@
     <string name="error_multimedia_size_limit">Les fichiers vidéo et audio ne peuvent pas dépasser %s Mo.</string>
     <string name="pref_title_http_proxy_port_message">Le port doit être entre %d et %d</string>
     <string name="action_set_focus">Définir le point focal</string>
-    <string name="hint_description">Description</string>
     <string name="post_media_image">Image</string>
     <string name="pref_show_self_username_disambiguate">Quand plusieurs comptes sont connectés</string>
     <string name="action_post_failed">Le téléversement a échoué</string>

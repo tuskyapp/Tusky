@@ -9,10 +9,10 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class FiltersViewModel @Inject constructor(
@@ -38,14 +38,13 @@ class FiltersViewModel @Inject constructor(
                     this@FiltersViewModel._state.value = State(filters, LoadingState.LOADED)
                 },
                 { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
+                    if (throwable.isHttpNotFound()) {
                         api.getFiltersV1().fold(
                             { filters ->
                                 this@FiltersViewModel._state.value = State(filters.map { it.toFilter() }, LoadingState.LOADED)
                             },
-                            { throwable ->
+                            { _ ->
                                 // TODO log errors (also below)
-
                                 this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.ERROR_OTHER)
                             }
                         )
@@ -68,7 +67,7 @@ class FiltersViewModel @Inject constructor(
                     }
                 },
                 { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
+                    if (throwable.isHttpNotFound()) {
                         api.deleteFilterV1(filter.id).fold(
                             {
                                 this@FiltersViewModel._state.value = State(this@FiltersViewModel._state.value.filters.filter { it.id != filter.id }, LoadingState.LOADED)

@@ -23,11 +23,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
@@ -219,27 +215,13 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun handleReblogEvent(reblogEvent: ReblogEvent) {
-        updateStatusById(reblogEvent.statusId) {
-            it.copy(status = it.status.copy(reblogged = reblogEvent.reblog))
-        }
-    }
-
-    override fun handleFavEvent(favEvent: FavoriteEvent) {
-        updateActionableStatusById(favEvent.statusId) {
-            it.copy(favourited = favEvent.favourite)
-        }
-    }
-
-    override fun handleBookmarkEvent(bookmarkEvent: BookmarkEvent) {
-        updateActionableStatusById(bookmarkEvent.statusId) {
-            it.copy(bookmarked = bookmarkEvent.bookmark)
-        }
-    }
-
-    override fun handlePinEvent(pinEvent: PinEvent) {
-        updateActionableStatusById(pinEvent.statusId) {
-            it.copy(pinned = pinEvent.pinned)
+    override fun handleStatusChangedEvent(status: Status) {
+        updateStatusById(status.id) { oldViewData ->
+            status.toViewData(
+                isShowingContent = oldViewData.isShowingContent,
+                isExpanded = oldViewData.isExpanded,
+                isCollapsed = oldViewData.isCollapsed
+            )
         }
     }
 
@@ -250,7 +232,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun clearWarning(status: StatusViewData.Concrete) {
-        updateActionableStatusById(status.actionableId) {
+        updateActionableStatusById(status.id) {
             it.copy(filtered = null)
         }
     }

@@ -390,11 +390,6 @@
     <string name="title_favourited_by">Adicionado aos favoritos por</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s e %3$d mais</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">atingiu o máximo de %1$d separador</item>
-        <item quantity="many">atingiu o máximo de %1$d separadores</item>
-        <item quantity="other">atingiu o máximo de %1$d separadores</item>
-    </plurals>
     <string name="description_post_media">Conteúdo multimédia: %s</string>
     <string name="description_post_cw">Aviso de Conteúdo: %s</string>
     <string name="description_post_media_no_description_placeholder">Sem descrição</string>
@@ -550,7 +545,6 @@
     <string name="set_focus_description">Toca ou arrasta o círculo para escolher o ponto de focagem que estará sempre visível nas pré-visualizações.</string>
     <string name="filter_expiration_format">%s(%s)</string>
     <string name="duration_no_change">(Sem alteração)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_always">Sempre</string>
     <string name="pref_show_self_username_disambiguate">Quando autenticado em várias contas</string>
     <string name="pref_show_self_username_never">Nunca</string>
@@ -568,7 +562,6 @@
     <string name="title_edits">Edições</string>
     <string name="pref_title_notification_filter_reports">existe um novo relatório</string>
     <string name="hint_media_description_missing">Imagem/Vídeo precisa de uma descrição.</string>
-    <string name="hint_description">Descrição</string>
     <string name="pref_title_http_proxy_port_message">Porta deve ser entre %d e %d</string>
     <string name="action_post_failed">Falha ao fazer upload</string>
     <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi salva nos rascunhos.

@@ -317,10 +317,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s en %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s en %3$d meer</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum van %1$d tab bereikt</item>
-        <item quantity="other">maximum van %1$d tabs bereikt</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Inhoudswaarschuwing: %s</string>
     <string name="description_post_media_no_description_placeholder">Geen omschrijving</string>
@@ -353,8 +349,8 @@
     <string name="edit_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
-    <string name="notifications_clear">Verwijder meldingen</string>
-    <string name="notifications_apply_filter">Filter meldingen</string>
+    <string name="notifications_clear">Verwijder</string>
+    <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Toepassen</string>
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
@@ -543,7 +539,6 @@
     <string name="set_focus_description">Tik of sleep de cirkel naar een centraal focuspunt dat op elke thumbnail zichtbaar moet blijven.</string>
     <string name="dialog_push_notification_migration">Om pushmeldingen via UnifiedPush te kunnen gebruiken, moet Tusky zich op meldingen van jouw Mastodon-server abonneren. Dit betekent dat je opnieuw moet inloggen om de OAuth-toestemmingen voor Tusky te wijzigen. Het hier of onder accountvoorkeuren opnieuw inloggen behoudt jouw lokale concepten en buffer.</string>
     <string name="dialog_push_notification_migration_other_accounts">Je hebt opnieuw op jouw huidige account ingelogd om toestemming voor pushmeldingen aan Tusky te verlenen. Je hebt echter nog andere accounts die nog niet op deze manier zijn overgezet. Ga naar deze accounts en log één voor één opnieuw in om UnifiedPush-meldingen ook daar in te schakelen.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_always">Altijd</string>
     <string name="pref_show_self_username_disambiguate">Wanneer meerdere accounts zijn ingelogd</string>
     <string name="pref_show_self_username_never">Nooit</string>
@@ -589,7 +584,6 @@
     <string name="title_followed_hashtags">Gevolgde hashtags</string>
     <string name="dialog_follow_hashtag_title">Volg hashtag</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
-    <string name="hint_description">Beschrijving</string>
     <string name="action_post_failed">Upload mislukt</string>
     <string name="action_post_failed_detail">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
 \n

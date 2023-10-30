@@ -7,7 +7,7 @@
     <string name="error_authorization_denied">Аўтарызацыя была адхілена. Калі ўпэўнены што ўвялі сапраўдныя ўліковыя даныя, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_loading_account_details">Дэталі ўліковага запісу не атрыманы</string>
     <string name="error_generic">Здарылася памылка.</string>
-    <string name="error_network">Здарылася сеткавая памылка! Калі ласка, праверце злучэнне і паспрабуйце зноў!</string>
+    <string name="error_network">Здарылася сеткавая памылка. Калі ласка, праверце злучэнне і паспрабуйце зноў.</string>
     <string name="error_authorization_unknown">Адбылася невядомая памылка праверкі сапраўднасці. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_retrieving_oauth_token">Токен уваходу не атрыманы. Калі праблема застаецца, паспрабуйце ўвайсці з браўзера з меню.</string>
     <string name="error_compose_character_limit">Допіс занадта доўгі!</string>
@@ -468,12 +468,6 @@
     <string name="notifications_apply_filter">Фільтр</string>
     <string name="duration_365_days">365 дзён</string>
     <string name="duration_no_change">(Без змен)</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">абмежаванне ў %1$d ўкладку дасягнута</item>
-        <item quantity="few">абмежаванне ў %1$d ўкладкі дасягнута</item>
-        <item quantity="many">абмежаванне ў %1$d ўкладак дасягнута</item>
-        <item quantity="other">абмежаванне ў %1$d ўкладак дасягнута</item>
-    </plurals>
     <string name="compose_shortcut_long_label">Стварыць допіс</string>
     <string name="compose_shortcut_short_label">Стварыць</string>
     <string name="notification_clear_text">Вы ўпэўнены, што жадаеце выдаліць усе апавяшчэнні\?</string>
@@ -606,7 +600,6 @@
     <string name="wellbeing_hide_stats_posts">Схаваць колькасную статыстыку допісаў</string>
     <string name="wellbeing_hide_stats_profile">Схаваць колькасную статыстыку профіляў</string>
     <string name="report_category_violation">Парушэнне правіла</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="instance_rule_title">Правілы %s</string>
     <string name="language_display_name_format">%s (%s)</string>
     <string name="delete_scheduled_post_warning">Выдаліць гэты запланаваны допіс\?</string>
@@ -641,7 +634,6 @@
     <string name="pref_title_account_filter_keywords">Профілі</string>
     <string name="title_public_trending_hashtags">Папулярныя хэштэгі</string>
     <string name="description_browser_login">Можа падтрымліваць дадатковыя метады праверкі сапраўднасці, але для гэтага патрэбны адпаведны браузер.</string>
-    <string name="hint_description">Апісанне</string>
     <string name="post_media_image">Відарыс</string>
     <string name="action_refresh">Абнавіць</string>
     <string name="select_list_empty">Яшчэ няма спісаў</string>

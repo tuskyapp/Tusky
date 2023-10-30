@@ -317,11 +317,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s y %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s y %3$d más</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">máximo de %1$d pestaña alcanzada</item>
-        <item quantity="many">máximo de %1$d pestañas alcanzadas</item>
-        <item quantity="other">máximo de %1$d pestañas alcanzadas</item>
-    </plurals>
     <string name="action_mentions">Menciones</string>
     <string name="action_open_faved_by">Mostrar favoritos</string>
     <string name="title_mentions_dialog">Menciones</string>
@@ -560,7 +555,6 @@
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
     <string name="pref_show_self_username_disambiguate">Cuando hay varias cuentas ingresadas</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="notification_sign_up_description">Notificaciones de nuevos usuarios</string>
     <string name="notification_update_name">Ediciones de una publicación</string>
     <string name="notification_update_description">Notificaciones cuando se editan publicaciones con las que has interactuado</string>
@@ -644,7 +638,6 @@
     <string name="total_accounts">Cuentas totales</string>
     <string name="dialog_follow_hashtag_title">Seguir etiqueta</string>
     <string name="dialog_follow_hashtag_hint">#etiqueta</string>
-    <string name="hint_description">Descripción</string>
     <string name="post_media_image">Imagen</string>
     <string name="pref_title_account_filter_keywords">Perfiles</string>
     <string name="action_refresh">Volver a cargar</string>

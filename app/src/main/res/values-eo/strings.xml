@@ -339,10 +339,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s kaj %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s kaj %3$d aliaj</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maksimumo da %1$d langeto atingita</item>
-        <item quantity="other">maksimumo da %1$d langetoj atingita</item>
-    </plurals>
     <string name="description_post_media">        Aŭdovidaĵo: %s
     </string>
     <string name="description_post_cw">        Enhava averto: %s
@@ -561,5 +557,4 @@
     <string name="description_post_language">Mesaĝolingvo</string>
     <string name="dialog_push_notification_migration">Por ricevi sciigoj per UnifiedPush, Tusky bezonas taŭgan permeson el Mastodon-servilo. Tio postulas re-ensaluton por ŝanĝi OAuth-rajtoj donitaj al Tusky. Se vi uzas la opcion re-ensaluti ĉi tie aŭ en la agordoj de la konto, viaj malnetoj kaj kaŝmemoroj estos konservitaj.</string>
     <string name="dialog_push_notification_migration_other_accounts">Vi re-ensalutis en tiu konto por doni sciigo-permeson al Tusky. Vi havas tamen aliajn kontojn, ĉe kiuj vi devas re-sensaluti. Iru al ili, kaj re-ensalutu por ebligi ricevon de sciigoj per UnifiedPush.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
 </resources>

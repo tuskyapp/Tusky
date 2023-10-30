@@ -273,10 +273,6 @@
     <string name="title_reblogged_by">Megtolta</string>
     <string name="title_favourited_by">Kedvencnek jelölte</string>
     <string name="conversation_2_recipients">%1$s és %2$s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">elérted a fülek maximális számát (%1$d)</item>
-        <item quantity="other">elérted a fülek maximális számát (%1$d)</item>
-    </plurals>
     <string name="description_post_media_no_description_placeholder">Nincs leírás</string>
     <string name="description_visibility_public">Nyilvános</string>
     <string name="description_visibility_private">Követők</string>
@@ -549,7 +545,6 @@
     <string name="pref_show_self_username_disambiguate">Ha több fiók is be van jelentkezve</string>
     <string name="pref_show_self_username_never">Soha</string>
     <string name="duration_no_change">(Nincs változás)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Fókuszpont beállítása</string>
     <string name="error_following_hashtag_format">Hiba a #%s követésekor</string>
     <string name="error_unfollowing_hashtag_format">Hiba a #%s követésének befejezésekor</string>
@@ -658,7 +653,6 @@
     <string name="help_empty_home">Ez a <b>kezdő idővonalad</b>. Megjeleníti a követett fiókok legfrissebb bejegyzéseit.
 \n
 \nMás fiókokat másik idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán [iconics gmd_group]. Vagy megkeresheted őket név szerint [iconics gmd_search]; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
-    <string name="hint_description">Leírás</string>
     <string name="post_media_image">Kép</string>
     <string name="select_list_empty">Még nincsenek listáid</string>
     <string name="select_list_manage">Listák kezelése</string>

@@ -334,10 +334,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s och %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">max antal flikar %1$d uppnådd</item>
-        <item quantity="other">max antal flikar %1$d uppnådda</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innehållsvarning: %s</string>
     <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
@@ -511,7 +507,6 @@
     <string name="dialog_push_notification_migration_other_accounts">Du har loggat in igen på ditt konto för att ge Tusky tillgång till push-prenumeration. Dock har du andra konton som inte har migrerats såhär ännu. Växla till dem och logga in igen för att aktivera stöd för UnifiedPush-notiser.</string>
     <string name="action_unsubscribe_account">Sluta prenumerera</string>
     <string name="description_post_language">Inläggsspråk</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_show_self_username_disambiguate">När flera konton är inloggade</string>
     <string name="pref_show_self_username_never">Aldrig</string>
     <string name="notification_sign_up_name">Registreringar</string>
@@ -626,7 +621,6 @@
     <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>
     <string name="total_usage">Total användning</string>
     <string name="total_accounts">Totala konton</string>
-    <string name="hint_description">Beskrivning</string>
     <string name="post_media_image">Bild</string>
     <string name="description_browser_login">Kan stödja ytterligare autentiseringsmetoder, men kräver en webbläsare som stöds.</string>
     <string name="filter_description_format">%s: %s</string>

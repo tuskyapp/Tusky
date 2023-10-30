@@ -19,16 +19,17 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.util.Date
 import javax.inject.Inject
 
@@ -264,6 +265,9 @@ class EditFilterActivity : BaseActivity() {
         lifecycleScope.launch {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
+                // Possibly affected contexts: any context affected by the original filter OR any context affected by the updated filter
+                val affectedContexts = viewModel.contexts.value.map { it.kind }.union(originalFilter?.context ?: listOf()).distinct()
+                eventHub.dispatch(FilterUpdatedEvent(affectedContexts))
             } else {
                 Snackbar.make(binding.root, "Error saving filter '${viewModel.title.value}'", Snackbar.LENGTH_SHORT).show()
             }
@@ -278,7 +282,7 @@ class EditFilterActivity : BaseActivity() {
                         finish()
                     },
                     { throwable ->
-                        if (throwable is HttpException && throwable.code() == 404) {
+                        if (throwable.isHttpNotFound()) {
                             api.deleteFilterV1(filter.id).fold(
                                 {
                                     finish()

@@ -56,7 +56,7 @@
     <string name="action_favourite">お気に入り</string>
     <string name="action_more">その他</string>
     <string name="action_compose">投稿する</string>
-    <string name="action_login">TUsky でログイン</string>
+    <string name="action_login">Tusky でログイン</string>
     <string name="action_logout">ログアウト</string>
     <string name="action_logout_confirm">アカウント %1$s からログアウトしてもよろしいですか？ログアウトすると、下書きや詳細設定を含めて、ローカルに保存されているアカウントの全てのデータが削除されます。</string>
     <string name="action_follow">フォローする</string>
@@ -310,9 +310,6 @@
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">タブは %1$d 個が上限です</item>
-    </plurals>
     <string name="description_visibility_public">        公開
     </string>
     <string name="description_visibility_unlisted">        未収載
@@ -500,7 +497,6 @@
     <string name="error_multimedia_size_limit">ビデオと音声ファイルのサイズは %s MB を超えることはできません。</string>
     <string name="error_image_edit_failed">画像が編集できませんでした。</string>
     <string name="title_login">ログイン</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_edit_image">画像の編集</string>
     <string name="instance_rule_title">%s のルール</string>
     <string name="error_following_hashtags_unsupported">このインスタンスはハッシュタグのフォローに対応していません。</string>
@@ -573,7 +569,7 @@
     <string name="action_add_reaction">リアクションを追加</string>
     <string name="action_discard">変更を破棄</string>
     <string name="action_continue_edit">編集を続ける</string>
-    <string name="action_share_account_link">アカウントにリンクを共有</string>
+    <string name="action_share_account_link">アカウントへのリンクを共有</string>
     <string name="action_share_account_username">アカウントのユーザー名を共有</string>
     <string name="send_account_link_to">アカウント URL を共有…</string>
     <string name="send_account_username_to">アカウントのユーザー名を共有…</string>
@@ -612,7 +608,6 @@
 \nサーバーと接続できなかったか、投稿が拒否されました。</string>
     <string name="dialog_follow_hashtag_title">ハッシュタグをフォロー</string>
     <string name="dialog_follow_hashtag_hint">#ハッシュタグ</string>
-    <string name="hint_description">説明</string>
     <string name="post_media_image">画像</string>
     <string name="notification_unknown_name">不明</string>
     <string name="select_list_manage">リストを管理する</string>
@@ -660,4 +655,5 @@
     <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
 \n
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
+    <string name="title_public_trending_statuses">トレンドの投稿</string>
 </resources>

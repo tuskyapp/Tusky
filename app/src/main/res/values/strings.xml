@@ -234,7 +234,6 @@
     <string name="hint_display_name">Display name</string>
     <string name="hint_note">Bio</string>
     <string name="hint_search">Search…</string>
-    <string name="hint_description">Description</string>
     <string name="hint_media_description_missing">Media should have a description.</string>
 
     <string name="search_no_results">No results</string>
@@ -559,10 +558,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s and %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s and %3$d more</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum of %1$d tab reached</item>
-        <item quantity="other">maximum of %1$d tabs reached</item>
-    </plurals>
 
     <string name="description_post_media">
         Media: %s
@@ -757,7 +752,6 @@
     <string name="tips_push_notification_migration">Re-login all accounts to enable push notification support.</string>
     <string name="dialog_push_notification_migration">In order to use push notifications via UnifiedPush, Tusky needs permission to subscribe to notifications on your Mastodon server. This requires a re-login to change the OAuth scopes granted to Tusky. Using the re-login option here or in "Account preferences" will preserve all of your local drafts and cache.</string>
     <string name="dialog_push_notification_migration_other_accounts">You have re-logged into your current account to grant push subscription permission to Tusky. However, you still have other accounts that have not been migrated this way. Switch to them and re-login one by one in order to enable UnifiedPush notifications support.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
 
     <string name="delete_scheduled_post_warning">Delete this scheduled post?</string>
 
@@ -844,5 +838,11 @@
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
     <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
+
+    <string name="list_reply_policy_none">No one</string>
+    <string name="list_reply_policy_list">Members of the list</string>
+    <string name="list_reply_policy_followed">Any followed user</string>
+    <string name="list_reply_policy_label">Show replies to</string>
+
     <string name="unknown_notification_type">Unknown notification type</string>
 </resources>

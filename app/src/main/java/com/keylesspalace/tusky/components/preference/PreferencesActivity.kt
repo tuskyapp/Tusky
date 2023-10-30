@@ -33,9 +33,9 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
+import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
-import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
 import dagger.android.DispatchingAndroidInjector
@@ -147,7 +147,7 @@ class PreferencesActivity :
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             APP_THEME -> {
-                val theme = sharedPreferences.getNonNullString(APP_THEME, APP_THEME_DEFAULT)
+                val theme = sharedPreferences.getNonNullString(APP_THEME, AppTheme.DEFAULT.value)
                 Log.d("activeTheme", theme)
                 setAppNightMode(theme)
 

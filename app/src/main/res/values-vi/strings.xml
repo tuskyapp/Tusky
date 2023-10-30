@@ -379,9 +379,6 @@
     <string name="description_post_reblogged">Đã đăng lại</string>
     <string name="description_post_media_no_description_placeholder">Không có mô tả</string>
     <string name="description_post_cw">Nội dung ẩn: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">tối đa %1$d tab</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s và %3$d người nữa</string>
     <string name="conversation_2_recipients">%1$s và %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
@@ -437,9 +434,9 @@
     <string name="compose_active_account_description">Đăng với tư cách %1$s</string>
     <string name="action_add_to_list">Thêm người này vào danh sách</string>
     <string name="action_remove_from_list">Xóa người này khỏi danh sách</string>
-    <string name="hint_search_people_list">Tìm người để theo dõi</string>
+    <string name="hint_search_people_list">Tìm người bạn đã theo dõi</string>
     <string name="action_delete_list">Xóa danh sách</string>
-    <string name="action_rename_list">Cập nhật danh sách</string>
+    <string name="action_rename_list">Đổi tên danh sách</string>
     <string name="action_create_list">Tạo danh sách</string>
     <string name="add_account_description">Thêm tài khoản Mastodon</string>
     <string name="add_account_name">Thêm tài khoản</string>
@@ -525,7 +522,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Không đổi)</string>
     <string name="description_post_language">Ngôn ngữ đăng</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Chọn tâm điểm</string>
     <string name="set_focus_description">Nhấn hoặc kéo vòng tròn để chọn tiêu điểm sẽ hiển thị trong hình thu nhỏ.</string>
     <string name="pref_title_show_self_username">Hiện URL của tôi trên tab</string>
@@ -540,7 +536,7 @@
     <string name="failed_to_pin">Không thể ghim</string>
     <string name="action_add_reaction">biểu cảm</string>
     <string name="notification_report_description">Thông báo báo cáo kiểm duyệt</string>
-    <string name="action_add_or_remove_from_list">Thêm hoặc xoá khỏi danh sách</string>
+    <string name="action_add_or_remove_from_list">Sửa danh sách</string>
     <string name="failed_to_add_to_list">Không thể thêm người vào danh sách</string>
     <string name="failed_to_remove_from_list">Không thể xoá người khỏi danh sách</string>
     <string name="action_unfollow_hashtag_format">Bỏ theo dõi #%s\?</string>
@@ -635,10 +631,9 @@
     <string name="filter_edit_keyword_title">Sửa từ</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="pref_title_show_stat_inline">Hiện số tương tác trên tút</string>
-    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện những tút gần đây từ những người bạn theo dõi.
+    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện tút gần đây từ những người bạn theo dõi.
 \n
 \nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
-    <string name="hint_description">Mô tả</string>
     <string name="post_media_image">Hình ảnh</string>
     <string name="select_list_manage">Quản lý danh sách</string>
     <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
@@ -673,11 +668,11 @@
 \nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó.
 \n
 \nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. </string>
-    <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể xác định một số danh sách riêng tư và thêm người dùng vào đó.
+    <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể tạo nhiều danh sách riêng và thêm người dùng vào đó.
 \n
-\n LƯU Ý rằng bạn chỉ có thể thêm những người bạn đã theo dõi vào danh sách của mình.
+\nBạn chỉ có thể thêm những người MÀ BẠN THEO DÕI vào danh sách.
 \n
-\n Những danh sách này có thể được sử dụng như một tab trong thiết lập Tab Cá nhân [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+\nDanh sách có thể được sử dụng như một tab trong thiết lập Cá nhân [iconics gmd_account_circle] [iconics gmd_navigate_next] Xếp tab. </string>
     <string name="muting_hashtag_success_format">Đang ẩn hashtag #%s như một cảnh báo</string>
     <string name="unmuting_hashtag_success_format">Đang bỏ ẩn hashtag #%s</string>
     <string name="action_view_filter">Xem bộ lọc</string>
@@ -685,4 +680,7 @@
     <string name="unfollowing_hashtag_success_format">Đã bỏ theo dõi hashtag #%s</string>
     <string name="error_blocking_domain">Không thể ẩn %1$s: %2$s</string>
     <string name="error_unblocking_domain">Không thể bỏ ẩn %1$s: %2$s</string>
+    <string name="label_image">Hình ảnh</string>
+    <string name="app_theme_system_black">Mặc định của thiết bị (Đen)</string>
+    <string name="title_public_trending_statuses">Tút hay</string>
 </resources>

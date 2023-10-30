@@ -337,9 +337,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s，%2$s 和 %3$d 等人</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">标签页不能超过 %1$d 个</item>
-    </plurals>
     <string name="description_post_media">媒体：%s</string>
     <string name="description_post_cw">内容警告：%s</string>
     <string name="description_post_media_no_description_placeholder">没有描述信息</string>
@@ -357,8 +354,8 @@
     </string>
     <string name="hint_list_name">列表名</string>
     <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
-    <string name="notifications_clear">删除通知</string>
-    <string name="notifications_apply_filter">筛选通知</string>
+    <string name="notifications_clear">删除</string>
+    <string name="notifications_apply_filter">筛选</string>
     <string name="filter_apply">应用</string>
     <string name="compose_shortcut_long_label">撰写嘟文</string>
     <string name="compose_shortcut_short_label">发表嘟文</string>
@@ -539,7 +536,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(无更改)</string>
     <string name="description_post_language">嘟文语言</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">设置焦点</string>
     <string name="set_focus_description">轻按或拖动圆圈选择始终在缩略图中可见的焦点。</string>
     <string name="pref_show_self_username_disambiguate">登录多个账户时</string>
@@ -653,7 +649,6 @@
 \n
 \n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
     <string name="post_media_image">图片</string>
-    <string name="hint_description">描述</string>
     <string name="select_list_manage">管理列表</string>
     <string name="error_list_load">加载列表出错</string>
     <string name="select_list_empty">你还没有列表</string>
@@ -699,4 +694,11 @@
 \n 这些列表可被用作“账户选项” [iconics gmd_account_circle] [iconics gmd_navigate_next] 选项卡中的标签页。 </string>
     <string name="error_blocking_domain">未能静音 %1$s: %2$s</string>
     <string name="error_unblocking_domain">未能取消对 %1$s: %2$s的静音</string>
+    <string name="label_image">图片</string>
+    <string name="app_theme_system_black">使用系统设计（黑色）</string>
+    <string name="title_public_trending_statuses">走红嘟文</string>
+    <string name="list_reply_policy_none">一个也没有</string>
+    <string name="list_reply_policy_list">列表成员</string>
+    <string name="list_reply_policy_followed">任何已关注的用户</string>
+    <string name="list_reply_policy_label">显示哪些回复</string>
 </resources>

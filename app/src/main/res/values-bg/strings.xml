@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_view_thread">Публикация</string>
+    <string name="title_view_thread">Нишка</string>
     <string name="drafts_post_reply_removed">Публикацията, на която сте изготвили отговор, е премахната</string>
     <string name="duration_1_hour">1 час</string>
     <string name="duration_30_min">30 минути</string>
@@ -13,7 +13,7 @@
     <string name="title_accounts">Акаунти</string>
     <string name="report_description_remote_instance">Акаунтът е от друг сървър. Да изпратите ли и там анонимно копие на доклада\?</string>
     <string name="report_description_1">Докладът ще бъде изпратен на модератора на вашия сървър. Можете да предоставите обяснение защо докладвате този акаунт по-долу:</string>
-    <string name="failed_fetch_posts">Извличането на състояния бе неуспешно</string>
+    <string name="failed_fetch_posts">Извличането на публикации бе неуспешно</string>
     <string name="failed_report">Докладването бе неуспешно</string>
     <string name="report_remote_instance">Препращане към %s</string>
     <string name="hint_additional_info">Допълнителни коментари</string>
@@ -50,8 +50,7 @@
         <item quantity="one">%s глас</item>
         <item quantity="other">%s гласа</item>
     </plurals>
-    <string name="poll_info_format">" &lt;!-- 15 votes • 1 hour left --&gt; %1$s • %2$s"<!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 гласа • остава 1 час --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Действия за изображение %s</string>
     <string name="notification_clear_text">Сигурни ли сте, че искате да изчистите окончателно всичките си известия\?</string>
     <string name="compose_shortcut_short_label">Композиране</string>
@@ -72,12 +71,9 @@
     <string name="description_post_bookmarked">Отметнато</string>
     <string name="description_post_favourited">Поставено в любими</string>
     <string name="description_post_reblogged">Реблог</string>
-    <string name="description_post_media_no_description_placeholder">Без описание</string>
+    <string name="description_post_media_no_description_placeholder">Няма описание</string>
     <string name="description_post_cw">Предупреждение за съдържание: %s</string>
     <string name="description_post_media">Мултимедия: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">достигнати са максималните %1$d раздела</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s и %3$d други</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
@@ -118,7 +114,7 @@
     <string name="restart_emoji">Ще трябва да рестартирате Tusky, за да приложите тези промени</string>
     <string name="restart_required">Изисква се рестартиране на приложението</string>
     <string name="action_open_post">Отваряне на публикация</string>
-    <string name="expand_collapse_all_posts">Разгъване/свиване на всички състояния</string>
+    <string name="expand_collapse_all_posts">Разгъване/сгъване на всички публикации</string>
     <string name="performing_lookup_title">Извършва се търсене…</string>
     <string name="system_default">По подразбиране от системата</string>
     <string name="emoji_style">Стил на емоджи</string>
@@ -135,19 +131,19 @@
     <string name="action_remove">Премахване</string>
     <string name="action_set_caption">Задаване на надпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Опишете за хора със зрителни увреждания
-\n(%d ограничение на знаците)</item>
+        <item quantity="one">Опишете за хора със зрителни увреждания (ограничение до %d знак)</item>
+        <item quantity="other">Опишете за хора със зрителни увреждания (ограничение до %d знака)</item>
     </plurals>
-    <string name="compose_active_account_description">Публикуване с акаунт %1$s</string>
+    <string name="compose_active_account_description">Публикуване като %1$s</string>
     <string name="action_remove_from_list">Премахване на акаунт от списъка</string>
     <string name="action_add_to_list">Добавяне на акаунт към списъка</string>
     <string name="hint_search_people_list">Търсене на хора, които следвате</string>
     <string name="action_delete_list">Изтриване на списъка</string>
-    <string name="action_rename_list">Преименуване на списъка</string>
+    <string name="action_rename_list">Обновяване на списъка</string>
     <string name="action_create_list">Създаване на списък</string>
     <string name="error_delete_list">Списъкът не можа да се изтрие</string>
     <string name="error_create_list">Списъкът не можа да се създаде</string>
-    <string name="error_rename_list">Списъкът не можа да се преименува</string>
+    <string name="error_rename_list">Списъкът не можа да се обнови</string>
     <string name="title_lists">Списъци</string>
     <string name="action_lists">Списъци</string>
     <string name="add_account_description">Добавяне на нов Mastodon акаунт</string>
@@ -155,7 +151,7 @@
     <string name="filter_add_description">Фраза за филтриране</string>
     <string name="filter_dialog_whole_word_description">Когато ключовата дума или фраза е само буквено-цифрова, тя ще бъде приложена само ако съответства на цялата дума</string>
     <string name="filter_dialog_whole_word">Цяла дума</string>
-    <string name="filter_dialog_update_button">Актуализиране</string>
+    <string name="filter_dialog_update_button">Обновяване</string>
     <string name="filter_dialog_remove_button">Премахване</string>
     <string name="filter_edit_title">Редакция на филтър</string>
     <string name="filter_addition_title">Добавяне на филтър</string>
@@ -186,15 +182,15 @@
     <string name="post_share_content">Споделяне на съдържание на публикация</string>
     <string name="about_tusky_account">Профилът на Tusky</string>
     <string name="about_bug_feature_request_site">Доклади за грешки и заявки за функции:
-\n https://github.com/tuskyapp/Tusky/issues</string>
-    <string name="about_project_site">Уебсайт на проекта:
-\n https://tusky.app</string>
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Уебсайт на проекта: https://tusky.app</string>
     <string name="about_tusky_license">Tusky е свободен софтуер с отворен код. Той е лицензиран под Общият публичен лиценз на GNU Версия 3. Можете да видите лиценза тук: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Осъществено от Tusky</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="about_title_activity">Относно</string>
     <string name="description_account_locked">Заключен акаунт</string>
     <plurals name="notification_title_summary">
+        <item quantity="one">%d ново взаимодействие</item>
         <item quantity="other">%d нови взаимодействия</item>
     </plurals>
     <string name="notification_summary_small">%1$s и %2$s</string>
@@ -258,19 +254,13 @@
     <string name="dialog_download_image">Изтегляне</string>
     <string name="dialog_message_uploading_media">Качване…</string>
     <string name="dialog_title_finishing_media_upload">Завършване на мултимедийно качване</string>
-    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и &lt;a href=\"https://instances.social\"&gt;други!&lt;/a&gt;
+    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">други!</a>
 \n
-\nАко все още нямате акаунт, можете да въведете името на инстанцията, към който искате да се присъедините, и да създадете акаунт там.
+\nАко все още нямате акаунт, можете да въведете името на инстанцията, към която искате да се присъедините, и да създадете акаунт там.
 \n
 \nИнстанцията е единично място, където се хоства акаунтът ви, но можете лесно да комуникирате и да следвате хора в други инстанции, сякаш сте на същия сайт.
 \n
-\nПовече информация можете да намерите на &lt;a href=\"https://joinmastodon.org\"&gt;joinmastodon.org&lt;/a&gt;. <a href="https://instances.social">more!</a>
-\n
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
-\n
-\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site.
-\n
-\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nПовече информация можете да намерите на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Свързване…</string>
     <string name="link_whats_an_instance">Какво е инстанция\?</string>
     <string name="label_header">Заглавна част</string>
@@ -337,7 +327,7 @@
     <string name="action_photo_take">Снимане</string>
     <string name="action_add_poll">Добавяне на анкета</string>
     <string name="action_add_media">Добавяне на мултимедия</string>
-    <string name="action_open_in_web">Отваряне в браузър</string>
+    <string name="action_open_in_web">Отваряне в браузъра</string>
     <string name="action_view_media">Мултимедия</string>
     <string name="action_view_follow_requests">Заявки за последване</string>
     <string name="action_view_domain_mutes">Скрити домейни</string>
@@ -345,7 +335,7 @@
     <string name="action_view_mutes">Заглушени потребители</string>
     <string name="action_view_bookmarks">Отметки</string>
     <string name="action_view_favourites">Любими</string>
-    <string name="action_view_account_preferences">Предпочитания за акаунт</string>
+    <string name="action_view_account_preferences">Предпочитания за акаунта</string>
     <string name="action_view_preferences">Предпочитания</string>
     <string name="action_view_profile">Профил</string>
     <string name="action_close">Затваряне</string>
@@ -362,9 +352,9 @@
     <string name="action_block">Блокиране</string>
     <string name="action_unfollow">Отследване</string>
     <string name="action_follow">Последване</string>
-    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от акаунта %1$s\?</string>
+    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от %1$s\? Това ще изтрие всички локални данни на акаунта, включително чернови и предпочитания.</string>
     <string name="action_logout">Излизане</string>
-    <string name="action_login">Влизане с Mastodon</string>
+    <string name="action_login">Вписване с Tusky</string>
     <string name="action_compose">Композиране</string>
     <string name="action_more">Още</string>
     <string name="action_unfavourite">Премахване от любими</string>
@@ -383,7 +373,7 @@
     <string name="notification_reblog_format">%s сподели вашата публикация</string>
     <string name="footer_empty">Нищо тук. Дръпнете надолу, за да опресните!</string>
     <string name="message_empty">Нищо тук.</string>
-    <string name="post_content_show_less">Свиване</string>
+    <string name="post_content_show_less">Сгъване</string>
     <string name="post_content_show_more">Разгъване</string>
     <string name="post_content_warning_show_less">Покажи по-малко</string>
     <string name="post_content_warning_show_more">Покажи повече</string>
@@ -410,31 +400,32 @@
     <string name="title_posts">Публикации</string>
     <string name="title_tab_preferences">Раздели</string>
     <string name="title_direct_messages">Директни съобщения</string>
-    <string name="title_public_local">Локално</string>
+    <string name="title_public_local">Местни</string>
     <string name="title_notifications">Известия</string>
     <string name="title_home">Начало</string>
     <string name="error_sender_account_gone">Грешка при изпращане на публикация.</string>
     <string name="error_media_upload_sending">Качването бе неуспешно.</string>
     <string name="error_media_upload_image_or_video">Изображения и видеоклипове не могат да бъдат прикачени към една и съща публикация.</string>
     <string name="error_media_download_permission">Изисква се разрешение за съхранение на мултимедия.</string>
-    <string name="error_media_upload_permission">Изисква се разрешение за четене на носител.</string>
+    <string name="error_media_upload_permission">Изисква се разрешение за четене на мултимедия.</string>
     <string name="error_media_upload_opening">Този файл не можа да бъде отворен.</string>
     <string name="error_media_upload_type">Този тип файл не може да бъде качен.</string>
-    <string name="error_compose_character_limit">Състоянието е твърде дълго!</string>
-    <string name="error_retrieving_oauth_token">Получаването на токен за вход бе неуспешно.</string>
-    <string name="error_authorization_denied">Упълномощаването е отказано.</string>
-    <string name="error_authorization_unknown">Възникна неидентифицирана грешка при упълномощаване.</string>
+    <string name="error_compose_character_limit">Публикацията е твърде дълга!</string>
+    <string name="error_retrieving_oauth_token">Получаването на токен за вход бе неуспешно. Ако това продължава, опитайте да се впишете в браузъра от менюто.</string>
+    <string name="error_authorization_denied">Упълномощаването е отказано. Ако сте сигурни, че сте предоставили правилните данни, опитайте да се впишете в браузъра от менюто.</string>
+    <string name="error_authorization_unknown">Възникна неидентифицирана грешка при упълномощаване. Ако това продължава, опитайте да се впишете в браузъра от менюто.</string>
     <string name="error_no_web_browser_found">Неуспешно намиране на уеб браузър, който да се използва.</string>
-    <string name="error_failed_app_registration">Неуспешно удостоверяване с тази инстанция.</string>
+    <string name="error_failed_app_registration">Неуспешно удостоверяване с тази инстанция. Ако това продължава, опитайте да се впишете в браузъра от менюто.</string>
     <string name="error_invalid_domain">Въведен е невалиден домейн</string>
     <string name="error_empty">Това не може да бъде празно.</string>
-    <string name="error_network">Възникна грешка в мрежата! Моля, проверете връзката си и опитайте отново!</string>
+    <string name="error_network">Възникна грешка в мрежата. Моля, проверете връзката си и опитайте отново.</string>
     <string name="error_generic">Възникна грешка.</string>
     <string name="draft_deleted">Черновата е изтрита</string>
     <string name="drafts_failed_loading_reply">Неуспешно зареждане на информация за отговор</string>
     <string name="drafts_post_failed_to_send">Тази публикация не успя да се изпрати!</string>
     <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %s\?</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one">Не можете да качите повече от %1$d мултимедиен прикачен файл.</item>
         <item quantity="other">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Скриване на количествена статистика на профили</string>
@@ -452,11 +443,11 @@
     <string name="account_note_hint">Вашата лична бележка за този акаунт</string>
     <string name="pref_title_wellbeing_mode">Благосъстояние</string>
     <string name="pref_title_hide_top_toolbar">Скриване на заглавието на горната лента с инструменти</string>
-    <string name="pref_title_confirm_reblogs">Показване на диалоговия прозорец за потвърждение преди споделяне</string>
+    <string name="pref_title_confirm_reblogs">Питане за потвърждение преди споделяне</string>
     <string name="pref_title_show_cards_in_timelines">Показване на визуализации на връзки в емисии</string>
     <string name="warning_scheduling_interval">Mastodon има минимален интервал за планиране от 5 минути.</string>
     <string name="no_announcements">Няма оповестявания.</string>
-    <string name="no_scheduled_posts">Нямате планирани състояния.</string>
+    <string name="no_scheduled_posts">Нямате планирани публикации.</string>
     <string name="no_drafts">Нямате чернови.</string>
     <string name="post_lookup_error_format">Грешка при търсенето на публикация %s</string>
     <string name="edit_poll">Редакция</string>
@@ -479,12 +470,12 @@
     <string name="post_text_size_medium">Среден</string>
     <string name="post_text_size_small">Малък</string>
     <string name="visibility_unlisted">Скрито: Не се показва в публични емисии</string>
-    <string name="pref_post_text_size">Размер на текста на състоянието</string>
+    <string name="pref_post_text_size">Размер на текста на публикация</string>
     <string name="post_privacy_followers_only">Само за последователи</string>
     <string name="post_privacy_unlisted">Скрито</string>
     <string name="post_privacy_public">Публично</string>
-    <string name="pref_main_nav_position_option_bottom">Долу</string>
-    <string name="pref_main_nav_position_option_top">Горе</string>
+    <string name="pref_main_nav_position_option_bottom">Отдолу</string>
+    <string name="pref_main_nav_position_option_top">Отгоре</string>
     <string name="pref_main_nav_position">Основна навигационна позиция</string>
     <string name="pref_failed_to_sync">Синхронизирането на настройките бе неуспешно</string>
     <string name="pref_publishing">Публикуване (синхронизирано със сървър)</string>
@@ -499,5 +490,109 @@
     <string name="pref_title_show_replies">Показване на отговори</string>
     <string name="pref_title_show_boosts">Показване на споделяния</string>
     <string name="error_multimedia_size_limit">Видео и аудио файловете не може да превишават %s МБ в размер.</string>
-    <string name="error_image_edit_failed">Тази снимка не може да абъде редактирана.</string>
+    <string name="error_image_edit_failed">Изображението не може да бъде редактирано.</string>
+    <string name="a11y_label_loading_thread">Зареждане на нишка</string>
+    <string name="pref_ui_text_size">Размер на текста на интерфейса</string>
+    <string name="dialog_follow_hashtag_hint">#хаштаг</string>
+    <string name="dialog_follow_hashtag_title">Последване на хаштаг</string>
+    <string name="label_image">Изображение</string>
+    <string name="hint_media_description_missing">Мултимедията трябва да има описание.</string>
+    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="title_login">Вписване</string>
+    <string name="action_unsubscribe_account">Отписване</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="tusky_compose_post_quicksetting_label">Композиране на публикация</string>
+    <string name="title_edits">Редакции</string>
+    <string name="notification_sign_up_description">Известия за нови потребители</string>
+    <string name="notification_sign_up_name">Регистрации</string>
+    <string name="action_post_failed">Неуспешно качване</string>
+    <string name="post_edited">Редактирано %s</string>
+    <string name="notification_header_report_format">%s докладва %s</string>
+    <string name="notification_report_format">Ново докладване на %s</string>
+    <string name="action_delete_conversation">Изтриване на разговор</string>
+    <string name="post_media_image">Изображение</string>
+    <string name="duration_60_days">60 дни</string>
+    <string name="dialog_delete_conversation_warning">Изтриване на този разговор\?</string>
+    <string name="pref_show_self_username_always">Винаги</string>
+    <string name="pref_default_post_language">Език на публикуване по подразбиране</string>
+    <string name="pref_show_self_username_never">Никога</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;невалидно&gt;</string>
+    <string name="notification_report_name">Докладвания</string>
+    <string name="about_account_info_title">Вашият акаунт</string>
+    <string name="about_device_info_title">Вашето устройство</string>
+    <string name="notification_listenable_worker_description">Известия, когато Tusky работи във фонов режим</string>
+    <string name="error_following_hashtags_unsupported">Тази инстанция не поддържа следване на хаштагове.</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="action_subscribe_account">Абониране</string>
+    <string name="pref_summary_http_proxy_missing">&lt;не е зададено&gt;</string>
+    <string name="instance_rule_info">С вписването вие се съгласявате с правилата на %s.</string>
+    <string name="error_muting_hashtag_format">Грешка при заглушаване на #%s</string>
+    <string name="error_unmuting_hashtag_format">Грешка при раззаглушаване на #%s</string>
+    <string name="action_unbookmark">Премахване на отметка</string>
+    <string name="action_dismiss">Отхвърляне</string>
+    <string name="action_continue_edit">Продължаване на редактирането</string>
+    <string name="action_discard">Отхвърляне на промените</string>
+    <string name="action_details">Подробности</string>
+    <string name="duration_no_change">(Няма промяна)</string>
+    <string name="post_media_alt">Алт текст</string>
+    <string name="description_post_language">Езика на публикация</string>
+    <string name="action_browser_login">Вписване с Браузър</string>
+    <string name="pref_title_notification_filter_sign_ups">някой се регистрира</string>
+    <string name="status_created_at_now">сега</string>
+    <string name="description_post_edited">Редактирано</string>
+    <string name="action_refresh">Опресняване</string>
+    <string name="action_add_reaction">добавяне на реакция</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="account_username_copied">Потребителското име бе копирано</string>
+    <string name="failed_to_pin">Неуспешно закачане</string>
+    <string name="failed_to_unpin">Неуспешно разкачане</string>
+    <string name="notification_update_name">Редакции на публикации</string>
+    <string name="pref_reading_order_newest_first">Първо най-новите</string>
+    <string name="pref_reading_order_oldest_first">Първо най-старите</string>
+    <string name="pref_title_confirm_favourites">Питане за потвърждение преди слагане в любими</string>
+    <string name="dialog_delete_filter_positive_action">Изтриване</string>
+    <string name="dialog_delete_filter_text">Изтриване на филтър \'%1$s\'\?</string>
+    <string name="no_lists">Нямате списъци.</string>
+    <string name="pref_title_notification_filter_reports">има ново докладване</string>
+    <string name="error_following_hashtag_format">Грешка при последване на #%s</string>
+    <string name="error_unfollowing_hashtag_format">Грешка при отследване на #%s</string>
+    <string name="title_public_federated">Федерирани</string>
+    <string name="error_list_load">Грешка при зареждане на списъци</string>
+    <string name="select_list_manage">Управление на списъци</string>
+    <string name="notification_update_format">%s редактира публикацията си</string>
+    <string name="pref_title_account_filter_keywords">Профили</string>
+    <string name="filter_description_hide">Пълно скриване</string>
+    <string name="duration_30_days">30 дни</string>
+    <string name="title_public_trending_statuses">Налагащи се публикации</string>
+    <string name="filter_action_warn">Предупреди</string>
+    <string name="status_edit_info">Редактирано: %1$s</string>
+    <string name="action_add">Добавяне</string>
+    <string name="filter_keyword_addition_title">Добавяне на ключова дума</string>
+    <string name="filter_edit_keyword_title">Редакция на ключова дума</string>
+    <string name="filter_keyword_display_format">%s (цяла дума)</string>
+    <string name="filter_action_hide">Скриване</string>
+    <string name="filter_description_warn">Скриване с предупреждение</string>
+    <string name="duration_90_days">90 дни</string>
+    <string name="duration_180_days">180 дни</string>
+    <string name="duration_365_days">365 дни</string>
+    <string name="instance_rule_title">%s правила</string>
+    <string name="label_filter_title">Заглавие</string>
+    <string name="error_blocking_domain">Неуспешно заглушаване на %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Неуспешно раззаглушаване на %1$s: %2$s</string>
+    <string name="confirmation_hashtag_unfollowed">#%s отследвано</string>
+    <string name="list_exclusive_label">Скриване от началната емисия</string>
+    <string name="title_public_trending_hashtags">Налагащи се хаштагове</string>
+    <string name="action_post_failed_do_nothing">Отхвърляне</string>
+    <string name="error_media_upload_sending_fmt">Качването бе неуспешно: %s</string>
+    <string name="title_followed_hashtags">Последвани хаштагове</string>
+    <string name="notification_sign_up_format">%s се регистрира</string>
+    <string name="action_post_failed_show_drafts">Покажи чернови</string>
+    <string name="duration_14_days">14 дни</string>
+    <string name="report_category_violation">Нарушение на правилата</string>
+    <string name="action_edit_image">Редакция на изображение</string>
+    <string name="notification_update_description">Известия, когато публикации с които сте взаимодействали, са редактирани</string>
+    <string name="load_newest_notifications">Зареждане на най-новите известия</string>
+    <string name="compose_delete_draft">Изтриване на чернова\?</string>
+    <string name="action_unfollow_hashtag_format">Отследване на #%s\?</string>
+    <string name="mute_notifications_switch">Заглушаване на известията</string>
 </resources>

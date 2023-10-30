@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">وقع هناك خطأ.</string>
-    <string name="error_network">حدث خطأ في الشبكة! يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
+    <string name="error_network">حدث خطأ في الشبكة. يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
     <string name="error_empty">لا يجب أن يترك هذا الحقل فارغا.</string>
     <string name="error_invalid_domain">اسم النطاق الذي قمتَ بإدخاله غير صالح</string>
     <string name="error_failed_app_registration">أخففت المصادقة مع مثيل الخادم هذا.</string>
     <string name="error_no_web_browser_found">تعذر العثور على متصفح ويب صالح للإستعمال.</string>
-    <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح.</string>
+    <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح. إن استمرّ ذلك، يُرجى إعادة محاولة التسجيل بمساعدة متصفح الويب وذلك عبر القائمة.</string>
     <string name="error_authorization_denied">تم رفض التصريح.</string>
     <string name="error_retrieving_oauth_token">فشل الحصول على رمز الولوج.</string>
     <string name="error_compose_character_limit">إنّ المنشور طويل جدا!</string>
@@ -55,7 +55,7 @@
     <string name="action_quick_reply">رد سريع</string>
     <string name="action_reply">رد</string>
     <string name="action_reblog">شارك</string>
-    <string name="action_unreblog">إزالة المشاركة</string>
+    <string name="action_unreblog">إلغاء إعادة المشاركة</string>
     <string name="action_favourite">تفضيل</string>
     <string name="action_unfavourite">إزالة المفضلة</string>
     <string name="action_more">المزيد</string>
@@ -162,7 +162,7 @@
     <string name="pref_title_notification_filters">أخطرني عندما</string>
     <string name="pref_title_notification_filter_mentions">يشار إلي</string>
     <string name="pref_title_notification_filter_follows">يتبعني أحدهم</string>
-    <string name="pref_title_notification_filter_reblogs">منشوراتي المشاركة</string>
+    <string name="pref_title_notification_filter_reblogs">أُعيدَ نشر منشوراتي</string>
     <string name="pref_title_notification_filter_favourites">يُعجَب أحد ما بمنشوراتي</string>
     <string name="pref_title_appearance_settings">المظهر</string>
     <string name="pref_title_app_theme">مظهر التطبيق</string>
@@ -205,7 +205,7 @@
     <string name="notification_follow_name">متابِعون جدد</string>
     <string name="notification_follow_description">إخطارات عند تلقي متابعين جدد</string>
     <string name="notification_boost_name">المشاركات</string>
-    <string name="notification_boost_description">إشعاري عندما يقوم أحدهم بمشاركة منشوراتي</string>
+    <string name="notification_boost_description">إشعاري عندما يقوم أحدهم بإعادة نشر منشوراتي</string>
     <string name="notification_favourite_name">المفضلة</string>
     <string name="notification_favourite_description">الإشعار عندما يقوم أحدهم بإضافة منشوراتك إلى مفضلاته</string>
     <string name="notification_mention_format">%s أشار إليك</string>
@@ -230,10 +230,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">موقع المشروع :\n
-                   https://tusky.app</string>
-    <string name="about_bug_feature_request_site">تقارير الأخطاء و طلبات التحسينات على  :\n
-                   https://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">موقع ويب المشروع: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">تقارير الأخطاء وطلبات التحسينات:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">الملف الشخصي لتوسكي</string>
     <string name="post_share_content">شارك محتوى التبويق</string>
     <string name="post_share_link">شارك الرابط إلى التبويق</string>
@@ -268,10 +267,10 @@
     <string name="action_lists">القوائم</string>
     <string name="title_lists">القوائم</string>
     <string name="error_create_list">لا يمكن إنشاء قائمة</string>
-    <string name="error_rename_list">لا يمكن إعادة تسمية القائمة</string>
+    <string name="error_rename_list">تعذّر تحديث القائمة</string>
     <string name="error_delete_list">لا يمكن حذف القائمة</string>
     <string name="action_create_list">إنشاء قائمة</string>
-    <string name="action_rename_list">إعادة تسمية القائمة</string>
+    <string name="action_rename_list">تحديث القائمة</string>
     <string name="action_delete_list">حذف القائمة</string>
     <string name="hint_search_people_list">البحث عن أشخاص قصد متابعتهم</string>
     <string name="action_add_to_list">إضافة الحساب إلى القائمة</string>
@@ -319,8 +318,8 @@
     <string name="download_failed">فشلت عملية التنزيل</string>
     <string name="profile_badge_bot_text">روبوت</string>
     <string name="account_moved_description">إنتقَلَ %1$s إلى :</string>
-    <string name="reblog_private">المشاركة إلى الجمهور الأصلي</string>
-    <string name="unreblog_private">إلغاء المشاركة</string>
+    <string name="reblog_private">إعادة النشر إلى الجمهور الأصلي</string>
+    <string name="unreblog_private">إلغاء إعادة النشر</string>
     <string name="license_description">يحتوي توسكي على شيفرة وأوصول صادرة مِن المشاريع المفتوحة التالية :</string>
     <string name="license_apache_2">مرخص تحت رخصة أباتشي (النسخة أسفله)</string>
     <string name="license_cc_by_4">المشاع الإبداعي CC-BY 4.0</string>
@@ -338,14 +337,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s و %2$s و %3$d آخَرون</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="zero">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="one">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="two">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="few">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="many">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-        <item quantity="other">لقد بلغت الحد الأقصى مِن الألسنة %1$d</item>
-    </plurals>
     <string name="description_post_media">الوسائط: %s    </string>
     <string name="description_post_cw">تحذير عن المحتوى: %s    </string>
     <string name="description_post_media_no_description_placeholder">مِن دون وصف    </string>
@@ -356,7 +347,7 @@
     <string name="description_visibility_direct">مباشر    </string>
     <string name="hint_list_name">اسم القائمة</string>
     <string name="action_delete_and_redraft">حذف وإعادة الصياغة</string>
-    <string name="action_open_reblogger">إظهار صاحب المشاركة</string>
+    <string name="action_open_reblogger">إظهار صاحب إعادة النشر</string>
     <string name="action_open_media_n">افتح الوسيط #%d</string>
     <string name="download_media">نزّل الوسائط</string>
     <string name="downloading_media">جارٍ تنزيل الوسائط</string>
@@ -394,12 +385,12 @@
         <item quantity="other"><b>%1$s</b> مفضلات</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="zero"><b>%s</b> مشاركة</item>
-        <item quantity="one"><b>%s</b> مشاركة</item>
-        <item quantity="two"><b>%s</b> مشاركتين</item>
-        <item quantity="few"><b>%s</b> مشاركات</item>
-        <item quantity="many"><b>%s</b> مشاركات</item>
-        <item quantity="other"><b>%s</b> مشاركات</item>
+        <item quantity="zero">لا إعادة نشر</item>
+        <item quantity="one">إعادة نشر واحدة</item>
+        <item quantity="two">أعيد نشره مرّتان</item>
+        <item quantity="few"><b>%s</b> إعادات نشر</item>
+        <item quantity="many"><b>%s</b> إعادة نشر</item>
+        <item quantity="other"><b>%s</b> إعادة نشر</item>
     </plurals>
     <string name="pref_title_bot_overlay">إظهار علامة البوتات</string>
     <plurals name="poll_timespan_days">
@@ -491,7 +482,7 @@
     <string name="warning_scheduling_interval">تُقدّر أدنى فترة لبرمجة النشر في ماستدون بـ 5 دقائق.</string>
     <string name="pref_title_enable_swipe_for_tabs">تمكين حركات السحب للانتقال بين الألسنة</string>
     <string name="pref_title_notification_filter_follow_requests">طلب متابعة</string>
-    <string name="pref_title_confirm_reblogs">أظهر نافذة لطلب التأكيد قبل المشاركة</string>
+    <string name="pref_title_confirm_reblogs">أظهر نافذة للتأكيد قبل إعادة النشر</string>
     <string name="pref_title_show_cards_in_timelines">أظهر معاينات الروابط على الخيوط</string>
     <plurals name="poll_info_people">
         <item quantity="zero">لا شخص</item>
@@ -541,7 +532,7 @@
     <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>
     <string name="wellbeing_hide_stats_profile">إخفاء الإحصائيات الكمية عن الملفات التعريفية</string>
     <string name="action_unbookmark">احذف الفاصلة المرجعية</string>
-    <string name="pref_title_confirm_favourites">أظهر نافذة لطلب التأكيد قبل الإضافة إلى المفضلة</string>
+    <string name="pref_title_confirm_favourites">إظهار تأكيد قبل الإضافة إلى المفضلة</string>
     <string name="drafts_failed_loading_reply">فشل في تحميل معلومات الرد</string>
     <string name="duration_indefinite">غير محددة</string>
     <string name="limit_notifications">وضع حد لإشعارات الخيط الزمني</string>
@@ -625,7 +616,6 @@
     <string name="description_post_language">لغة المنشور</string>
     <string name="delete_scheduled_post_warning">هل تريد حذف هذا المنشور المُبَرمَج؟</string>
     <string name="tips_push_notification_migration">أعد تسجيل الدخول إلى جميع الحسابات لتمكين دعم الإشعارات.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">ضبط نقطة التركيز</string>
     <string name="action_edit_image">تعديل الصورة</string>
     <string name="action_add_reaction">إضافة رد فعل</string>
@@ -667,4 +657,42 @@
     <string name="ui_error_unknown">سبب مجهول</string>
     <string name="socket_timeout_exception">طال الاتصال بخادمك كثيرًا</string>
     <string name="action_add">إضافة</string>
+    <string name="dialog_follow_hashtag_title">تابِع الوسم</string>
+    <string name="dialog_follow_hashtag_hint">#وسم</string>
+    <string name="pref_ui_text_size">حجم خط واجهة المستخدم</string>
+    <string name="label_image">صورة</string>
+    <string name="about_account_info_title">حسابُك</string>
+    <string name="post_media_image">صورة</string>
+    <string name="about_copy">نسخ معلومات الإصدار والجهاز</string>
+    <string name="notification_listenable_worker_name">النشاط في الخلفية</string>
+    <string name="about_device_info_title">جهازك</string>
+    <string name="action_refresh">أنعِش</string>
+    <string name="notification_notification_worker">جارٍ جلب الإشعارات…</string>
+    <string name="app_theme_system_black">استخدم حُلّة النظام (أسوَد)</string>
+    <string name="notification_unknown_name">مجهول</string>
+    <string name="total_accounts">الحسابات</string>
+    <string name="list_exclusive_label">أخفيه مِن الخيط الرئيسي</string>
+    <string name="dialog_save_profile_changes_message">هل تريد حفط التغييرات التي طرأت على ملفك التعريفي؟</string>
+    <string name="dialog_delete_filter_text">أتريد حذف عامل التصفية ”%1$s“؟</string>
+    <string name="dialog_delete_filter_positive_action">حذف</string>
+    <string name="select_list_empty">ليس لديك أية قائمة بعدُ</string>
+    <string name="select_list_manage">إدارة القوائم</string>
+    <string name="error_list_load">خطأ أثناء تحميل القوائم</string>
+    <string name="status_filtered_show_anyway">أظهره على أي حال</string>
+    <string name="filter_description_hide">إخفاء بالكامل</string>
+    <string name="ui_success_accepted_follow_request">تم قبول طلب المتابَعة</string>
+    <string name="title_public_trending_statuses">المنشورات المتداوَلة</string>
+    <string name="label_filter_title">التسمية</string>
+    <string name="ui_success_rejected_follow_request">تم رفض طلب المتابَعة</string>
+    <string name="filter_action_warn">تحذير</string>
+    <string name="filter_action_hide">إخفاء</string>
+    <string name="filter_description_warn">إخفاء وراء تحذير</string>
+    <string name="filter_keyword_addition_title">إضافة كلمة مفتاحية</string>
+    <string name="filter_edit_keyword_title">تعديل الكلمة المفتاحية</string>
+    <string name="pref_title_account_filter_keywords">الملفات التعريفية</string>
+    <string name="pref_title_show_stat_inline">إظهار إحصائيات المنشورات في الخيوط الزمنية</string>
+    <string name="filter_description_format">%s: %s</string>
+    <string name="error_media_upload_sending_fmt">فَشِلَ التحميل: %s</string>
+    <string name="load_newest_notifications">تحميل الإشعارات الجديدة</string>
+    <string name="compose_delete_draft">أتريد حذف المسودّة؟</string>
 </resources>

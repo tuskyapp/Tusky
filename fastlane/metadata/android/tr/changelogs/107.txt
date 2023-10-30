@@ -1,0 +1,6 @@
+Tusky 22.0 beta 5
+
+Düzeltmeler:
+
+- Bozuk animasyonlu emojileri düzeltmek için APNG kütüphanesi geri alındı
+- Sunucunun API'yi desteklememesi durumunda bildirim işaretleyicisinin yerel kopyasını kaydetme

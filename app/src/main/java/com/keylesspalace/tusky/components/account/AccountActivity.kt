@@ -22,9 +22,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -32,10 +35,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.annotation.Px
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -48,6 +53,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -475,10 +481,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         accountFieldAdapter.notifyDataSetChanged()
 
         binding.accountLockedImageView.visible(account.locked)
-        binding.accountBadgeTextView.visible(account.bot)
 
         updateAccountAvatar()
         updateToolbar()
+        updateBadges()
         updateMovedAccount()
         updateRemoteAccount()
         updateAccountJoinedDate()
@@ -488,6 +494,33 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         binding.accountMuteButton.setOnClickListener {
             viewModel.unmuteAccount()
             updateMuteButton()
+        }
+    }
+
+    private fun updateBadges() {
+        binding.accountBadgeContainer.removeAllViews()
+
+        val isLight = resources.getBoolean(R.bool.lightNavigationBar)
+
+        if (loadedAccount?.bot == true) {
+            val badgeView = getBadge(getColor(R.color.tusky_grey_50), R.drawable.ic_bot_24dp, getString(R.string.profile_badge_bot_text), isLight)
+            binding.accountBadgeContainer.addView(badgeView)
+        }
+
+        loadedAccount?.roles?.forEach { role ->
+            val badgeColor = if (role.color.isNotBlank()) {
+                Color.parseColor(role.color)
+            } else {
+                // sometimes the color is not set for a role, in this case fall back to our default blue
+                getColor(R.color.tusky_blue)
+            }
+
+            val sb = SpannableStringBuilder("${role.name} ${viewModel.domain}")
+            sb.setSpan(StyleSpan(Typeface.BOLD), 0, role.name.length, 0)
+
+            val badgeView = getBadge(badgeColor, R.drawable.profile_badge_person_24dp, sb, isLight)
+
+            binding.accountBadgeContainer.addView(badgeView)
         }
     }
 
@@ -1001,6 +1034,46 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             val domain = accountManager.activeAccount!!.domain
             "@$localUsername@$domain"
         }
+    }
+
+    private fun getBadge(
+        @ColorInt baseColor: Int,
+        @DrawableRes icon: Int,
+        text: CharSequence,
+        isLight: Boolean
+    ): Chip {
+        val badge = Chip(this)
+
+        // text color with maximum contrast
+        val textColor = if (isLight) Color.BLACK else Color.WHITE
+        // badge color with 50% transparency so it blends in with the theme background
+        val backgroundColor = Color.argb(128, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor))
+        // a color between the text color and the badge color
+        val outlineColor = ColorUtils.blendARGB(textColor, baseColor, 0.7f)
+
+        // configure the badge
+        badge.text = text
+        badge.setTextColor(textColor)
+        badge.chipStrokeWidth = resources.getDimension(R.dimen.profile_badge_stroke_width)
+        badge.chipStrokeColor = ColorStateList.valueOf(outlineColor)
+        badge.setChipIconResource(icon)
+        badge.isChipIconVisible = true
+        badge.chipIconSize = resources.getDimension(R.dimen.profile_badge_icon_size)
+        badge.chipIconTint = ColorStateList.valueOf(outlineColor)
+        badge.chipBackgroundColor = ColorStateList.valueOf(backgroundColor)
+
+        // badge isn't clickable, so disable all related behavior
+        badge.isClickable = false
+        badge.isFocusable = false
+        badge.setEnsureMinTouchTargetSize(false)
+
+        // reset some chip defaults so it looks better for our badge usecase
+        badge.iconStartPadding = resources.getDimension(R.dimen.profile_badge_icon_start_padding)
+        badge.iconEndPadding = resources.getDimension(R.dimen.profile_badge_icon_end_padding)
+        badge.minHeight = resources.getDimensionPixelSize(R.dimen.profile_badge_min_height)
+        badge.chipMinHeight = resources.getDimension(R.dimen.profile_badge_min_height)
+        badge.updatePadding(top = 0, bottom = 0)
+        return badge
     }
 
     override fun androidInjector() = dispatchingAndroidInjector

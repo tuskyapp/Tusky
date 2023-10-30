@@ -21,8 +21,8 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
-import com.keylesspalace.tusky.appstore.StatusEditedEvent
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.compose.UploadEvent
@@ -253,7 +253,7 @@ class SendStatusService : Service(), Injectable {
                 if (scheduled) {
                     eventHub.dispatch(StatusScheduledEvent(sentStatus))
                 } else if (!isNew) {
-                    eventHub.dispatch(StatusEditedEvent(statusToSend.statusId!!, sentStatus))
+                    eventHub.dispatch(StatusChangedEvent(sentStatus))
                 } else {
                     eventHub.dispatch(StatusComposedEvent(sentStatus))
                 }

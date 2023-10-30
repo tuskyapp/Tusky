@@ -182,12 +182,6 @@
     <string name="description_post_media_no_description_placeholder">Gun tuairisgeul</string>
     <string name="description_post_cw">Rabhadh susbainte: %s</string>
     <string name="description_post_media">Meadhan: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">ràinig thu na tha ceadaichte dhe %1$d taba</item>
-        <item quantity="two">ràinig thu na tha ceadaichte dhe %1$d thaba</item>
-        <item quantity="few">ràinig thu na tha ceadaichte dhe %1$d tabaichean</item>
-        <item quantity="other">ràinig thu na tha ceadaichte dhe %1$d taba</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s ’s %3$d eile</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="title_favourited_by">’Na annsachd aig</string>
@@ -565,7 +559,6 @@
     <string name="pref_show_self_username_disambiguate">Nuair a bhios iomadh cunntas air an clàradh a-steach</string>
     <string name="pref_show_self_username_never">Chan ann idir</string>
     <string name="filter_expiration_format">%s (%s)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Suidhich puing an fhòcais</string>
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %s.</string>
@@ -635,7 +628,6 @@
     <string name="send_account_username_to">Co-roinn ainm-cleachdaiche a’ chunntais le…</string>
     <string name="dialog_follow_hashtag_title">Lean an taga hais</string>
     <string name="dialog_follow_hashtag_hint">#TagaHais</string>
-    <string name="hint_description">Tuairisgeul</string>
     <string name="post_media_image">Dealbh</string>
     <string name="filter_action_warn">Thoir rabhadh</string>
     <string name="filter_action_hide">Falaich</string>

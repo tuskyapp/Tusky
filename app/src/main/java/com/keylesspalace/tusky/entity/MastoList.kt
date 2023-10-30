@@ -16,6 +16,8 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Created by charlag on 1/4/18.
  */
@@ -23,5 +25,16 @@ package com.keylesspalace.tusky.entity
 data class MastoList(
     val id: String,
     val title: String,
-    val exclusive: Boolean?
-)
+    val exclusive: Boolean?,
+    @SerializedName("replies_policy") val repliesPolicy: String?,
+) {
+    enum class ReplyPolicy(val policy: String) {
+        NONE("none"),
+        LIST("list"),
+        FOLLOWED("followed");
+
+        companion object {
+            fun from(policy: String?): ReplyPolicy = values().firstOrNull { it.policy == policy } ?: LIST
+        }
+    }
+}

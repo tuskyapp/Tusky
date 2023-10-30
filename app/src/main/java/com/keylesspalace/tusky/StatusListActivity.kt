@@ -34,11 +34,11 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.K
 import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
@@ -192,7 +192,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     updateTagMuteState(mutedFilter != null)
                 },
                 { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
+                    if (throwable.isHttpNotFound()) {
                         mastodonApi.getFiltersV1().fold(
                             { filters ->
                                 mutedFilterV1 = filters.firstOrNull { filter ->
@@ -251,7 +251,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     }
                 },
                 { throwable ->
-                    if (throwable is HttpException && throwable.code() == 404) {
+                    if (throwable.isHttpNotFound()) {
                         mastodonApi.createFilterV1(
                             hashedTag,
                             listOf(FilterV1.HOME),

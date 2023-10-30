@@ -318,10 +318,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d fler</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">grensen på %1$d fane er nådd</item>
-        <item quantity="other">grensen på %1$d faner er nådd</item>
-    </plurals>
     <string name="description_post_media">Media: %s</string>
     <string name="description_post_cw">Innholdsadvarsel: %s</string>
     <string name="description_post_media_no_description_placeholder">Ingen beskrivelse</string>
@@ -539,7 +535,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="duration_no_change">(Ingen endring)</string>
     <string name="description_post_language">Innleggspråk</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_set_focus">Sett fokuspunkt</string>
     <string name="set_focus_description">Trykk eller dra sirkelen for å velge fokuspunktet som alltid skal være synlig i miniatyrbilder.</string>
     <string name="pref_show_self_username_always">Alltid</string>
@@ -601,7 +596,6 @@
     <string name="status_edit_info">Endret: %1$s</string>
     <string name="hint_media_description_missing">Media bør ha en beskrivelse.</string>
     <string name="action_refresh">Oppdater</string>
-    <string name="hint_description">Beskrivelse</string>
     <string name="post_media_image">Bilde</string>
     <string name="ui_error_bookmark">Å bokmerke innlegget misslyktes: %s</string>
     <string name="hint_filter_title">Mitt filter</string>

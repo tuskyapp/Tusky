@@ -323,9 +323,6 @@
     <string name="description_post_media_no_description_placeholder">هیچ وەسفێک</string>
     <string name="description_post_cw">ئاگاداری ناوەڕۆک: %s</string>
     <string name="description_post_media">میدیا: %s</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">بەرزترین رێژەی خشتەبەندەکانی %1$d گەیشت</item>
-    </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s و %3$d زیاتر</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>

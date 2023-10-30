@@ -343,9 +343,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s এবং %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">সর্বাধিক %1$d টি ট্যাব পৌঁছেছে</item>
-    </plurals>
     <string name="description_post_media">মিডিয়া: %s</string>
     <string name="description_post_cw">সতর্কবার্তা: %s</string>
     <string name="description_post_media_no_description_placeholder">বর্ণনা নাই</string>

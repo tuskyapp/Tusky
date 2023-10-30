@@ -260,7 +260,6 @@
     <string name="pref_title_http_proxy_server">HTTP starpniekserveris</string>
     <string name="pref_title_http_proxy_port_message">Portam būtu jābūt starp %d un %d</string>
     <string name="action_view_account_preferences">Konta iestatījumi</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="mute_domain_warning">Vai tiešām vēlaties bloķēt visu %s\? Šī domēna saturs netiks rādīts ne publiskajās laika līnijās, ne paziņojumos. Jūsu sekotāji no šī domēna tiks noņemti.</string>
     <string name="send_post_notification_saved_content">Ieraksta kopija tika saglabāta tavos melnrakstos</string>
     <string name="restart_emoji">Lai pielietotu šīs izmaiņas, ir jāpārstartē Tusky</string>
@@ -489,11 +488,6 @@
         <item quantity="one"><b>%s</b> pastiprinājums</item>
         <item quantity="other"><b>%s</b> pastiprinājumi</item>
     </plurals>
-    <plurals name="max_tab_number_reached">
-        <item quantity="zero">sasniegts maksimālais ciļņu skaits %1$d</item>
-        <item quantity="one">sasniegts maksimālais ciļņu skaits %1$d</item>
-        <item quantity="other">sasniegts maksimālais ciļņu skaits %1$d</item>
-    </plurals>
     <string name="title_favourites">Izlases</string>
     <string name="notification_favourite_format">%s pievienoja tavu ierakstu izlasei</string>
     <string name="action_favourite">Pievienot izlasei</string>
@@ -593,7 +587,6 @@
     <string name="label_filter_action">Filtra darbība</string>
     <string name="hint_filter_title">Mans filtrs</string>
     <string name="label_filter_title">Nosaukums</string>
-    <string name="hint_description">Apraksts</string>
     <string name="ui_success_accepted_follow_request">Sekošanas pieprasījums pieņemts</string>
     <string name="ui_success_rejected_follow_request">Sekošanas pieprasījums bloķēts</string>
     <string name="post_privacy_followers_only">Tikai sekotājiem</string>

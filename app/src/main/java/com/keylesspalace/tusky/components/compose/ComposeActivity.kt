@@ -93,9 +93,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
-import com.keylesspalace.tusky.util.APP_THEME_DEFAULT
 import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.getInitialLanguages
@@ -209,7 +209,7 @@ class ComposeActivity :
 
         activeAccount = accountManager.activeAccount ?: return
 
-        val theme = preferences.getString(APP_THEME, APP_THEME_DEFAULT)
+        val theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.value)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
@@ -1057,9 +1057,28 @@ class ComposeActivity :
         viewModel.removeMediaFromQueue(item)
     }
 
+    private fun sanitizePickMediaDescription(description: String?): String? {
+        if (description == null) {
+            return null
+        }
+
+        // The Gboard android keyboard attaches this text whenever the user
+        // pastes something from the keyboard's suggestion bar.
+        // Due to different end user locales, the exact text may vary, but at
+        // least in version 13.4.08, all of the translations contained the
+        // string "Gboard".
+        if ("Gboard" in description) {
+            return null
+        }
+
+        return description
+    }
+
     private fun pickMedia(uri: Uri, description: String? = null) {
+        var sanitizedDescription = sanitizePickMediaDescription(description)
+
         lifecycleScope.launch {
-            viewModel.pickMedia(uri, description).onFailure { throwable ->
+            viewModel.pickMedia(uri, sanitizedDescription).onFailure { throwable ->
                 val errorString = when (throwable) {
                     is FileSizeException -> {
                         val decimalFormat = DecimalFormat("0.##")

@@ -342,9 +342,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s 和 %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s 和 %3$d 等人</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="other">標籤頁不能超過 %1$d 個</item>
-    </plurals>
     <string name="description_post_media">
         媒體: %s
     </string>
@@ -524,7 +521,6 @@
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="set_focus_description">輕按或拖動圓圈來選擇總是在縮圖中可視的關注點。</string>
     <string name="description_post_language">嘟文語言</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="compose_save_draft_loses_media">是否要儲存草稿？（當你重開草稿時附檔將會被再次上傳。）</string>
     <string name="tusky_compose_post_quicksetting_label">編寫嘟文</string>
     <string name="failed_to_pin">釘選失敗</string>

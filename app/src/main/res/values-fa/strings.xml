@@ -349,10 +349,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s و %2$s</string>
     <string name="conversation_more_recipients">%1$s، %2$s و %3$d بیش‌تر</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">رسیده به بیشینهٔ %1$d زبانه</item>
-        <item quantity="other">رسیده به بیشینهٔ %1$d زبانه</item>
-    </plurals>
     <string name="description_post_media">رسانه: %s</string>
     <string name="description_post_cw">هشدار محتوا: %s</string>
     <string name="description_post_media_no_description_placeholder">بدون شرح</string>
@@ -365,8 +361,8 @@
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام سیاهه</string>
     <string name="edit_hashtag_hint">برچسب بدون #</string>
-    <string name="notifications_clear">حذف آگاهی‌ها</string>
-    <string name="notifications_apply_filter">پالایش آگاهی‌ها</string>
+    <string name="notifications_clear">حذف</string>
+    <string name="notifications_apply_filter">پالایش</string>
     <string name="filter_apply">اعمال</string>
     <string name="compose_shortcut_long_label">ایجاد فرسته</string>
     <string name="compose_shortcut_short_label">ایجاد</string>
@@ -550,7 +546,6 @@
     <string name="pref_show_self_username_disambiguate">هنگام ورود چندین حساب</string>
     <string name="pref_show_self_username_never">هرگز</string>
     <string name="pref_title_show_self_username">نمایش نام کاربری در نوارابزارها</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="action_add_reaction">افزودن واکنش</string>
     <string name="action_set_focus">تنظیم نقطهٔ تمرکز</string>
     <string name="duration_no_change">(بدون تغییر)</string>
@@ -656,7 +651,6 @@
     <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد.
 \n
 \nبرای کاوش حساب‌ها می‌توانید آن‌ها را در دیگر خط‌های زمانی (برای نمونه خط زمانی محلّی نمونه‌تان [iconics gmd_group]) یافته یا با نام (برای نمونه Tusky برای حساب ماستودونمان) بجوییدشان [iconics gmd_search].</string>
-    <string name="hint_description">شرح</string>
     <string name="post_media_image">تصویر</string>
     <string name="select_list_empty">هنوز هیچ سیاهه‌ای ندارید</string>
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
@@ -703,4 +697,7 @@
 \n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. </string>
     <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
     <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
+    <string name="label_image">تصویر</string>
+    <string name="app_theme_system_black">استفاده از طرّاحی سامانه (سیاه)</string>
+    <string name="title_public_trending_statuses">فرسته‌های داغ</string>
 </resources>

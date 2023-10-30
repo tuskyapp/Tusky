@@ -214,7 +214,7 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">Proje web sayfası: https://tusky.app</string>
-    <string name="about_bug_feature_request_site">"Hata raporları ve özellik istekleri:  
+    <string name="about_bug_feature_request_site">"Hata raporları ve özellik istekleri:
 \nhttps://github.com/tuskyapp/Tusky/issues"</string>
     <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="post_share_content">Gönderinin içeriğini paylaş</string>
@@ -299,10 +299,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s ve %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s ve %3$d dahası</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">azami %1$d sekme sayısına ulaşıldı</item>
-        <item quantity="other">azami %1$d sekmeler sayısına ulaşıldı</item>
-    </plurals>
     <string name="title_domain_mutes">Gizli alan adları</string>
     <string name="action_unreblog">Yeniden paylaşmaktan vazgeç</string>
     <string name="action_unfavourite">Gözdeyi kaldır</string>
@@ -354,8 +350,8 @@
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
     <string name="edit_hashtag_hint"># Etiket olmadan</string>
-    <string name="notifications_clear">Bildirimleri sil</string>
-    <string name="notifications_apply_filter">Bildirimleri filtreleme</string>
+    <string name="notifications_clear">Sil</string>
+    <string name="notifications_apply_filter">Süzgeçle</string>
     <string name="filter_apply">Uygula</string>
     <string name="compose_shortcut_long_label">Yayın Oluştur</string>
     <string name="compose_shortcut_short_label">Oluştur</string>
@@ -517,7 +513,6 @@
     <string name="duration_180_days">180 gün</string>
     <string name="duration_60_days">60 gün</string>
     <string name="duration_90_days">90 gün</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_default_post_language">Varsayılan gönderme dili</string>
     <string name="notification_report_name">Raporlar</string>
     <string name="notification_report_description">Denetleme raporlarıyla ilgili bildirimler</string>
@@ -602,7 +597,6 @@
     <string name="status_edit_info">%1$s düzenledi</string>
     <string name="action_refresh">Yenile</string>
     <string name="title_edits">Düzenlemeler</string>
-    <string name="hint_description">Açıklama</string>
     <string name="post_media_image">Görsel</string>
     <string name="label_filter_action">Süzgeçleme eylemi</string>
     <string name="action_add">Ekle</string>
@@ -703,4 +697,7 @@
     <string name="following_hashtag_success_format">Şimdi etiketi takip edin #%s</string>
     <string name="unfollowing_hashtag_success_format">Artık etiketi takip etmiyorum #%s</string>
     <string name="error_unblocking_domain">Sesi açılamadı %1$s: %2$s</string>
+    <string name="title_public_trending_statuses">Gündemdeki gönderiler</string>
+    <string name="label_image">Resim</string>
+    <string name="app_theme_system_black">Sistem Tasarımını Kullanın (siyah)</string>
 </resources>

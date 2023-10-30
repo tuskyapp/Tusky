@@ -8,9 +8,9 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isHttpNotFound
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub: EventHub) : ViewModel() {
@@ -108,7 +108,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
             },
             { throwable ->
                 return (
-                    throwable is HttpException && throwable.code() == 404 &&
+                    throwable.isHttpNotFound() &&
                         // Endpoint not found, fall back to v1 api
                         createFilterV1(contexts, expiresInSeconds)
                     )
@@ -141,7 +141,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
                 return results.none { it.isFailure }
             },
             { throwable ->
-                if (throwable is HttpException && throwable.code() == 404) {
+                if (throwable.isHttpNotFound()) {
                     // Endpoint not found, fall back to v1 api
                     if (updateFilterV1(contexts, expiresInSeconds)) {
                         return true

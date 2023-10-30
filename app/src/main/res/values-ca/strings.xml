@@ -343,10 +343,6 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d més</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">S\'ha arribat al màxim de %1$d pestanya</item>
-        <item quantity="other">S\'han arribat al màxim de %1$d pestanyes</item>
-    </plurals>
     <string name="description_post_media">Mèdia : %s</string>
     <string name="description_post_media_no_description_placeholder">Sense descripció</string>
     <string name="description_post_favourited">Favorits</string>
@@ -591,7 +587,6 @@
     <string name="action_unfollow_hashtag_format">Deixar de seguir #%s\?</string>
     <string name="compose_unsaved_changes">Tens canvis no desats.</string>
     <string name="set_focus_description">Toqueu o arrossegueu el cercle per triar el punt focal que sempre serà visible a les miniatures.</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
     <string name="pref_title_show_self_username">Mostra el nom d\'usuari a les barres d\'eines</string>
     <string name="action_set_focus">Estableix el punt d\'enfocament</string>
     <string name="description_login">Funciona en la majoria dels casos. No es filtra cap dada a altres aplicacions.</string>
