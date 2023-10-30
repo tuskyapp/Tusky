@@ -42,7 +42,9 @@ class FollowViewHolder(
         val avatarRadius = context.resources
             .getDimensionPixelSize(R.dimen.avatar_radius_42dp)
         loadAvatar(
-            account.avatar, binding.notificationAvatar, avatarRadius,
+            account.avatar,
+            binding.notificationAvatar,
+            avatarRadius,
             statusDisplayOptions.animateAvatars, null
         )
 

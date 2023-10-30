@@ -136,6 +136,7 @@ interface MastodonApi {
     suspend fun notifications(
         /** Return results older than this ID */
         @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
         /** Return results immediately newer than this ID */
         @Query("min_id") minId: String? = null,
         /** Maximum number of results to return. Defaults to 15, max is 30 */

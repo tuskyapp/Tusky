@@ -77,13 +77,13 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canHandleMimeType
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
+import com.keylesspalace.tusky.components.preference.PreferencesActivity
+import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
+import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
 import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.components.systemnotifications.showMigrationNoticeIfNecessary
-import com.keylesspalace.tusky.components.preference.PreferencesActivity
-import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
-import com.keylesspalace.tusky.components.search.SearchActivity
 import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.AccountEntity

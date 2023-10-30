@@ -35,7 +35,6 @@ interface NotificationsViewHolder {
 class NotificationsPagingAdapter(
     private val accountId: String,
     private val statusDisplayOptions: StatusDisplayOptions,
-    private val linkListener: LinkListener,
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationsAdapter.NotificationActionListener,
     private val accountActionListener: AccountActionListener
@@ -76,31 +75,31 @@ class NotificationsPagingAdapter(
             VIEW_TYPE_STATUS -> StatusViewHolder(
                 ItemStatusBinding.inflate(inflater, parent, false),
                 statusListener,
-                    accountId
-                )
+                accountId
+            )
             VIEW_TYPE_STATUS_NOTIFICATION -> StatusNotificationViewHolder(
                 ItemStatusNotificationBinding.inflate(inflater, parent, false),
-                    statusListener,
+                statusListener,
                 notificationActionListener,
-                    absoluteTimeFormatter
-                )
+                absoluteTimeFormatter
+            )
             VIEW_TYPE_FOLLOW -> FollowViewHolder(
-                    ItemFollowBinding.inflate(inflater, parent, false),
-                    notificationActionListener
-                )
+                ItemFollowBinding.inflate(inflater, parent, false),
+                notificationActionListener
+            )
             VIEW_TYPE_FOLLOW_REQUEST -> FollowRequestViewHolder(
                 ItemFollowRequestBinding.inflate(inflater, parent, false),
-                linkListener,
+                statusListener,
                 true
             )
             VIEW_TYPE_PLACEHOLDER -> PlaceholderViewHolder(
-                    ItemStatusPlaceholderBinding.inflate(inflater, parent, false),
-                    statusListener
-                )
+                ItemStatusPlaceholderBinding.inflate(inflater, parent, false),
+                statusListener
+            )
             VIEW_TYPE_REPORT -> ReportNotificationViewHolder(
-                    ItemReportNotificationBinding.inflate(inflater, parent, false),
-                    notificationActionListener
-                )
+                ItemReportNotificationBinding.inflate(inflater, parent, false),
+                notificationActionListener
+            )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )

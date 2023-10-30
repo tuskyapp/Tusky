@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineView
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
 import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsViewModel
+import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel
@@ -184,6 +185,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DomainBlocksViewModel::class)
     internal abstract fun instanceMuteViewModel(viewModel: DomainBlocksViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationsViewModel::class)
+    internal abstract fun notificationsViewModel(viewModel: NotificationsViewModel): ViewModel
 
     // Add more ViewModels here
 }

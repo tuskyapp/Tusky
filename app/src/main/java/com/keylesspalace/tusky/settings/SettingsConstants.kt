@@ -110,6 +110,5 @@ object PrefKeys {
 
     /** Keys that are no longer used (e.g., the preference has been removed */
     object Deprecated {
-
     }
 }

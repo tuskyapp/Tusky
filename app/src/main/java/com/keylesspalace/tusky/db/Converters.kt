@@ -175,4 +175,14 @@ class Converters @Inject constructor(
     fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
         return gson.fromJson(filterResultListJson, object : TypeToken<List<FilterResult>>() {}.type)
     }
+
+    @TypeConverter
+    fun stringListToJson(list: List<String>?): String? {
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun jsonToStringList(listJson: String?): List<String>? {
+        return gson.fromJson(listJson, object : TypeToken<List<String>>() {}.type)
+    }
 }

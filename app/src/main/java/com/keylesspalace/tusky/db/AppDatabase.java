@@ -40,7 +40,11 @@ import java.io.File;
         InstanceEntity.class,
         TimelineStatusEntity.class,
         TimelineAccountEntity.class,
-        ConversationEntity.class
+        ConversationEntity.class,
+        NotificationEntity.class,
+        NotificationStatusEntity.class,
+        NotificationReportEntity.class,
+        NotificationAccountEntity.class
     },
     version = 53,
     autoMigrations = {
@@ -57,6 +61,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract ConversationsDao conversationDao();
     @NonNull public abstract TimelineDao timelineDao();
     @NonNull public abstract DraftDao draftDao();
+    @NonNull public abstract NotificationsDao notificationsDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
