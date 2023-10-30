@@ -697,4 +697,8 @@
     <string name="label_image">图片</string>
     <string name="app_theme_system_black">使用系统设计（黑色）</string>
     <string name="title_public_trending_statuses">走红嘟文</string>
+    <string name="list_reply_policy_none">一个也没有</string>
+    <string name="list_reply_policy_list">列表成员</string>
+    <string name="list_reply_policy_followed">任何已关注的用户</string>
+    <string name="list_reply_policy_label">显示哪些回复</string>
 </resources>
