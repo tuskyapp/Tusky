@@ -744,4 +744,8 @@
 \n·NODWCH y gallwch ychwanegu dim ond cyfrifiadau eich bod chi\'n dilyn i\'ch rhestri.
 \n
 \n·Gall y rhestri yma yn cael eu ddefynyddio fel tab yn Tabiau [iconics gmd_account_circle] [iconics gmd_navigate_next] dewision y Cyfrif.· </string>
+    <string name="list_reply_policy_list">Aelodau\'r restr</string>
+    <string name="list_reply_policy_followed">Unrhyw ddefnyddiwr a ddilynwyd</string>
+    <string name="list_reply_policy_label">Dangos atebion at</string>
+    <string name="list_reply_policy_none">Neb</string>
 </resources>
