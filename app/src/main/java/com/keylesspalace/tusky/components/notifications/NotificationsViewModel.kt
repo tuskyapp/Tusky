@@ -41,11 +41,14 @@ import com.keylesspalace.tusky.db.NotificationDataEntity
 import com.keylesspalace.tusky.db.NotificationEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
+import com.keylesspalace.tusky.viewdata.NotificationViewData
+import com.keylesspalace.tusky.viewdata.NotificationViewData2
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
@@ -64,7 +67,7 @@ class NotificationsViewModel @Inject constructor(
     eventHub: EventHub,
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
-    filterModel: FilterModel,
+    private val filterModel: FilterModel,
     private val db: AppDatabase,
     private val gson: Gson
 ) : ViewModel() {
@@ -89,13 +92,26 @@ class NotificationsViewModel @Inject constructor(
         .map { pagingData ->
             pagingData.map(Dispatchers.Default.asExecutor()) { notification ->
                 notification.toViewData(gson)
-            }/*.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
-            }*/
+            }.filter(Dispatchers.Default.asExecutor()) { notificationViewData ->
+                shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
+            }
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
+
+    private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
+        return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
+            Notification.Type.MENTION, Notification.Type.STATUS, Notification.Type.POLL -> {
+                notificationViewData.statusViewData?.let { statusViewData ->
+                    statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
+                    return statusViewData.filterAction
+                }
+                Filter.Action.NONE
+            }
+            else -> Filter.Action.NONE
+        }
+    }
 
     companion object {
         private const val LOAD_AT_ONCE = 30
