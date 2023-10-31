@@ -34,6 +34,7 @@ fun String.parseAsMastodonHtml(tagHandler: TagHandler? = tuskyTagHandler): Spann
     return this.replace("<br> ", "<br>&nbsp;")
         .replace("<br /> ", "<br />&nbsp;")
         .replace("<br/> ", "<br/>&nbsp;")
+        .replace("\n", "<br/>")
         .replace("  ", "&nbsp;&nbsp;")
         .parseAsHtml(tagHandler = tagHandler)
         /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
@@ -78,7 +79,7 @@ open class TuskyTagHandler : TagHandler {
     }
 
     /**
-     * Set a [span] over the [text] most from the point recently marked with [mark] to the end
+     * Set a [span] over the [text] from the point recently marked with [mark] to the end
      * of the text.
      */
     protected fun <T> end(text: SpannableStringBuilder, mark: Class<T>, span: Any) {
