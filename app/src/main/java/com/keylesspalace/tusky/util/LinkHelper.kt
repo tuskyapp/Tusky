@@ -22,11 +22,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.QuoteSpan
 import android.text.style.URLSpan
 import android.util.Log
 import android.view.MotionEvent
@@ -38,7 +41,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import androidx.core.text.getSpans
 import androidx.preference.PreferenceManager
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
@@ -70,8 +75,9 @@ fun setClickableText(view: TextView, content: CharSequence, mentions: List<Menti
     val spannableContent = markupHiddenUrls(view, content)
 
     view.text = spannableContent.apply {
-        getSpans(0, spannableContent.length, URLSpan::class.java).forEach {
-            setClickableText(it, this, mentions, tags, listener)
+        styleQuoteSpans(view)
+        getSpans(0, spannableContent.length, URLSpan::class.java).forEach { span ->
+            setClickableText(span, this, mentions, tags, listener)
         }
     }
     view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
@@ -174,6 +180,32 @@ private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, list
 private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
     return object : MentionSpan(url) {
         override fun onClick(view: View) = listener.onViewAccount(mentionId)
+    }
+}
+
+private fun SpannableStringBuilder.styleQuoteSpans(view: TextView) {
+    getSpans(0, length, QuoteSpan::class.java).forEach { span ->
+        val start = getSpanStart(span)
+        val end = getSpanEnd(span)
+        val flags = getSpanFlags(span)
+
+        val quoteColor = MaterialColors.getColor(view, android.R.attr.textColorTertiary)
+
+        val newQuoteSpan = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            QuoteSpan(
+                quoteColor,
+                Utils.dpToPx(view.context, 3),
+                Utils.dpToPx(view.context, 8)
+            )
+        } else {
+            QuoteSpan(quoteColor)
+        }
+
+        val quoteColorSpan = ForegroundColorSpan(quoteColor)
+
+        removeSpan(span)
+        setSpan(newQuoteSpan, start, end, flags)
+        setSpan(quoteColorSpan, start, end, flags)
     }
 }
 
