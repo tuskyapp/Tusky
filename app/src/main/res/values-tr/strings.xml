@@ -700,4 +700,8 @@
     <string name="title_public_trending_statuses">Gündemdeki gönderiler</string>
     <string name="label_image">Resim</string>
     <string name="app_theme_system_black">Sistem Tasarımını Kullanın (siyah)</string>
+    <string name="list_reply_policy_list">Liste üyeleri</string>
+    <string name="list_reply_policy_followed">Takip edilen herhangi bir kullanıcı</string>
+    <string name="list_reply_policy_label">Yanıtları göster</string>
+    <string name="list_reply_policy_none">Hiç kimse</string>
 </resources>
