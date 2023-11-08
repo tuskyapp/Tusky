@@ -22,6 +22,7 @@ import android.os.Looper.getMainLooper
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.google.gson.Gson
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeViewModel
@@ -95,6 +96,7 @@ class ComposeActivityTest {
     private var instanceV1ResponseCallback: (() -> InstanceV1)? = null
     private var instanceResponseCallback: (() -> Instance)? = null
     private var composeOptions: ComposeActivity.ComposeOptions? = null
+    private val gson = Gson()
 
     @Before
     fun setupActivity() {
@@ -528,6 +530,15 @@ class ComposeActivityTest {
         assertEquals(language, activity.selectedLanguage)
     }
 
+    @Test
+    fun sampleFriendicaInstanceResponseIsDeserializable() {
+        // https://github.com/tuskyapp/Tusky/issues/4100
+        instanceResponseCallback = { getSampleFriendicaInstance() }
+        setupActivity()
+        shadowOf(getMainLooper()).idle()
+        assertEquals(friendicaMaximum, activity.maximumTootCharacters)
+    }
+
     private fun clickUp() {
         val menuItem = RoboMenuItem(android.R.id.home)
         activity.onOptionsItemSelected(menuItem)
@@ -560,7 +571,7 @@ class ComposeActivityTest {
                 InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS,
                 charactersReservedPerUrl ?: InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL
             ),
-            Instance.Configuration.MediaAttachments(emptyList(), 0, 0, 0, 0, 0),
+            Instance.Configuration.MediaAttachments(0, 0, 0, 0, 0),
             Instance.Configuration.Polls(0, 0, 0, 0),
             Instance.Configuration.Translation(false),
         )
@@ -590,5 +601,84 @@ class ComposeActivityTest {
             mediaAttachments = null,
             polls = null
         )
+    }
+
+    private fun getSampleFriendicaInstance(): Instance {
+        return gson.fromJson(sampleFriendicaResponse, Instance::class.java)
+    }
+
+    companion object {
+        private const val friendicaMaximum = 200000
+
+        // https://github.com/tuskyapp/Tusky/issues/4100
+        private const val sampleFriendicaResponse = "{\n" +
+            "    \"domain\": \"loma.ml\",\n" +
+            "    \"title\": \"[ˈloma]\",\n" +
+            "    \"version\": \"2.8.0 (compatible; Friendica 2023.09-rc)\",\n" +
+            "    \"source_url\": \"https://git.friendi.ca/friendica/friendica\",\n" +
+            "    \"description\": \"loma.ml ist eine Friendica Community im Fediverse auf der vorwiegend DE \uD83C\uDDE9\uD83C\uDDEA gesprochen wird. \\r\\nServer in Germany/EU \uD83C\uDDE9\uD83C\uDDEA \uD83C\uDDEA\uD83C\uDDFA. Open to all with fun in new. \\r\\nServer in Deutschland. Offen für alle mit Spaß an Neuen.\",\n" +
+            "    \"usage\": {\n" +
+            "        \"users\": {\n" +
+            "            \"active_month\": 125\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"thumbnail\": {\n" +
+            "        \"url\": \"https://loma.ml/ad/friendica-banner.jpg\"\n" +
+            "    },\n" +
+            "    \"languages\": [\n" +
+            "        \"de\"\n" +
+            "    ],\n" +
+            "    \"configuration\": {\n" +
+            "        \"statuses\": {\n" +
+            "            \"max_characters\": ${friendicaMaximum}\n" +
+            "        },\n" +
+            "        \"media_attachments\": {\n" +
+            "            \"supported_mime_types\": {\n" +
+            "                \"image/jpeg\": \"jpg\",\n" +
+            "                \"image/jpg\": \"jpg\",\n" +
+            "                \"image/png\": \"png\",\n" +
+            "                \"image/gif\": \"gif\"\n" +
+            "            },\n" +
+            "            \"image_size_limit\": 10485760\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"registrations\": {\n" +
+            "        \"enabled\": true,\n" +
+            "        \"approval_required\": false\n" +
+            "    },\n" +
+            "    \"contact\": {\n" +
+            "        \"email\": \"anony@miz.ed\",\n" +
+            "        \"account\": {\n" +
+            "            \"id\": \"9632\",\n" +
+            "            \"username\": \"webm\",\n" +
+            "            \"acct\": \"webm\",\n" +
+            "            \"display_name\": \"web m \uD83C\uDDEA\uD83C\uDDFA\",\n" +
+            "            \"locked\": false,\n" +
+            "            \"bot\": false,\n" +
+            "            \"discoverable\": true,\n" +
+            "            \"group\": false,\n" +
+            "            \"created_at\": \"2018-05-21T11:24:55.000Z\",\n" +
+            "            \"note\": \"\uD83C\uDDE9\uD83C\uDDEA Über diesen Account werden Änderungen oder geplante Beeinträchtigungen angekündigt. Wenn du einen Account auf Loma.ml besitzt, dann solltest du dich mit mir verbinden.\uD83C\uDDEA\uD83C\uDDFA Changes or planned impairments are announced via this account. If you have an account on Loma.ml, you should connect to me.\uD83C\uDD98 Fallbackaccount @webm@joinfriendica.de\",\n" +
+            "            \"url\": \"https://loma.ml/profile/webm\",\n" +
+            "            \"avatar\": \"https://loma.ml/photo/contact/320/373ebf56355ac895a09cb99264485383?ts=1686417730\",\n" +
+            "            \"avatar_static\": \"https://loma.ml/photo/contact/320/373ebf56355ac895a09cb99264485383?ts=1686417730&static=1\",\n" +
+            "            \"header\": \"https://loma.ml/photo/header/373ebf56355ac895a09cb99264485383?ts=1686417730\",\n" +
+            "            \"header_static\": \"https://loma.ml/photo/header/373ebf56355ac895a09cb99264485383?ts=1686417730&static=1\",\n" +
+            "            \"followers_count\": 23,\n" +
+            "            \"following_count\": 25,\n" +
+            "            \"statuses_count\": 15,\n" +
+            "            \"last_status_at\": \"2023-09-19T00:00:00.000Z\",\n" +
+            "            \"emojis\": [],\n" +
+            "            \"fields\": []\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"rules\": [\n" +
+            "    ],\n" +
+            "    \"friendica\": {\n" +
+            "        \"version\": \"2023.09-rc\",\n" +
+            "        \"codename\": \"Giant Rhubarb\",\n" +
+            "        \"db_version\": 1539\n" +
+            "    }\n" +
+            "}"
     }
 }
