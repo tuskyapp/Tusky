@@ -683,4 +683,8 @@
     <string name="label_image">Hình ảnh</string>
     <string name="app_theme_system_black">Mặc định của thiết bị (Đen)</string>
     <string name="title_public_trending_statuses">Tút hay</string>
+    <string name="list_reply_policy_none">Không ai</string>
+    <string name="list_reply_policy_list">Người trong danh sách</string>
+    <string name="list_reply_policy_followed">Người đã theo dõi</string>
+    <string name="list_reply_policy_label">Hiện lượt trả lời</string>
 </resources>
