@@ -679,6 +679,6 @@ class ComposeActivityTest {
                     "db_version": 1539
                 }
             }
-        """.trimIndent()  
+        """.trimIndent()
     }
 }
