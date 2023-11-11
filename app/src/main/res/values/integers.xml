@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="max_dialog_width_dp">-1</integer>
+    <integer name="max_dialog_height_dp">-1</integer>
     <integer name="profile_media_column_count">3</integer>
-
     <integer name="trending_column_count">1</integer>
 </resources>
