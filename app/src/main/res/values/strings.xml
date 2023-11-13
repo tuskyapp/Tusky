@@ -138,6 +138,8 @@
     <string name="action_share_account_username">Share username of account</string>
     <string name="action_hide_reblogs">Hide boosts</string>
     <string name="action_show_reblogs">Show boosts</string>
+    <string name="pref_title_show_self_boosts">Show self-boosts</string>
+    <string name="pref_title_show_self_boosts_description">Someone boosting their own post</string>
     <string name="action_report">Report</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>

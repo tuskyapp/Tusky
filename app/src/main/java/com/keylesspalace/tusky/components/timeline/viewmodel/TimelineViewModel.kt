@@ -73,6 +73,7 @@ abstract class TimelineViewModel(
     private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
+    private var filterRemoveSelfReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
     fun init(
@@ -91,6 +92,8 @@ abstract class TimelineViewModel(
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
             filterRemoveReblogs =
                 !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+            filterRemoveSelfReblogs =
+                !sharedPreferences.getBoolean(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS, true)
         }
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
@@ -185,7 +188,8 @@ abstract class TimelineViewModel(
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
         return if (
             (status.inReplyToId != null && filterRemoveReplies) ||
-            (status.reblog != null && filterRemoveReblogs)
+            (status.reblog != null && filterRemoveReblogs) ||
+            ((status.account.id == status.reblog?.account?.id) && filterRemoveSelfReblogs)
         ) {
             return Filter.Action.HIDE
         } else {
@@ -209,6 +213,14 @@ abstract class TimelineViewModel(
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
+                    fullReload()
+                }
+            }
+            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
+                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS, true)
+                val oldRemoveSelfReblogs = filterRemoveSelfReblogs
+                filterRemoveSelfReblogs = kind == Kind.HOME && !filter
+                if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
                     fullReload()
                 }
             }
