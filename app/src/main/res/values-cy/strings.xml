@@ -332,7 +332,7 @@
     <string name="filter_dialog_update_button">Diweddaru</string>
     <string name="pref_title_notification_filter_updates">golygwyd neges rwy wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
-    <string name="filter_apply">Hidlo</string>
+    <string name="filter_apply">Gosod</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
     <string name="notifications_clear">Dileu</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>

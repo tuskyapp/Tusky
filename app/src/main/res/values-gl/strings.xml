@@ -270,7 +270,7 @@
     <string name="filter_add_description">Frase a filtrar</string>
     <string name="filter_dialog_whole_word_description">Cando a palabra ou frase é só alfanumérica, só se aplicará se concorda a palabra completa</string>
     <string name="filter_dialog_whole_word">Palabra completa</string>
-    <string name="filter_dialog_update_button">Actualizar</string>
+    <string name="filter_dialog_update_button">Actualiza</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
     <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_addition_title">Engadir filtro</string>
