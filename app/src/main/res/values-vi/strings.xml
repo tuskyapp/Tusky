@@ -687,4 +687,6 @@
     <string name="list_reply_policy_list">Người trong danh sách</string>
     <string name="list_reply_policy_followed">Người đã theo dõi</string>
     <string name="list_reply_policy_label">Hiện lượt trả lời</string>
+    <string name="pref_title_show_self_boosts">Hiện lượt tự đăng lại</string>
+    <string name="pref_title_show_self_boosts_description">Ai đó đăng lại tút của chính họ</string>
 </resources>
