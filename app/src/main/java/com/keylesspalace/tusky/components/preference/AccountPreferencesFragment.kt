@@ -267,6 +267,13 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     preferenceDataStore = accountPreferenceDataStore
                 }
             }
+
+            preferenceCategory(R.string.pref_title_timeline_filters) {
+                preference {
+                    setTitle(R.string.pref_title_post_tabs)
+                    fragment = TabFilterPreferencesFragment::class.qualifiedName
+                }
+            }
         }
     }
 

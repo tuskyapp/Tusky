@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.components.domainblocks.DomainBlocksFragment
 import com.keylesspalace.tusky.components.preference.AccountPreferencesFragment
 import com.keylesspalace.tusky.components.preference.NotificationPreferencesFragment
 import com.keylesspalace.tusky.components.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.preference.TabFilterPreferencesFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportDoneFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
@@ -103,4 +104,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun viewVideoFragment(): ViewVideoFragment
+
+    @ContributesAndroidInjector
+    abstract fun tabFilterPreferencesFragment(): TabFilterPreferencesFragment
 }

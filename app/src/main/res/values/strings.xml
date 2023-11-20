@@ -297,7 +297,7 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
-    <string name="pref_title_timeline_filters">Filters</string>
+    <string name="pref_title_timeline_filters">Per-timeline preferences</string>
 
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
@@ -316,7 +316,7 @@
     <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
     <string name="pref_title_post_filter">Timeline filtering</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Home timeline</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
