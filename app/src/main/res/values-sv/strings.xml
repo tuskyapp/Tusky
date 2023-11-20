@@ -711,4 +711,6 @@
     <string name="list_reply_policy_list">Medlemmar av listan</string>
     <string name="list_reply_policy_followed">Alla följda användare</string>
     <string name="list_reply_policy_label">Visa svar till</string>
+    <string name="pref_title_show_self_boosts">Visa egna-knuffar</string>
+    <string name="pref_title_show_self_boosts_description">Någon knuffar sitt egna inlägg</string>
 </resources>
