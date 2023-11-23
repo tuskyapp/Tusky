@@ -94,6 +94,15 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
 
+    /** Have we received at least one "READY" event? */
+    private var haveStarted = false
+
+    /** Is there a pending autohide? (We can't rely on Android's tracking because that clears on suspend.) */
+    private var pendingHideToolbar = false
+
+    /** Prevent the next play start from queueing a toolbar hide. */
+    private var suppressNextHideToolbar = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -205,13 +214,27 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
                     Player.STATE_READY -> {
-                        // Wait until the media is loaded before accepting taps as we don't want toolbar to
-                        // be hidden until then.
-                        binding.videoView.setOnTouchListener(touchListener)
+                        if (!haveStarted) {
+                            // Wait until the media is loaded before accepting taps as we don't want toolbar to
+                            // be hidden until then.
+                            binding.videoView.setOnTouchListener(touchListener)
 
-                        binding.progressBar.hide()
-                        binding.videoView.useController = true
-                        binding.videoView.showController()
+                            binding.progressBar.hide()
+                            binding.videoView.useController = true
+                            binding.videoView.showController()
+                            haveStarted = true;
+                        } else {
+                            // This isn't a real "done loading"; this is a resume event after backgrounding.
+                            if (mediaActivity.isToolbarVisible) {
+                                // Before suspend, the toolbar/description were visible, so description is visible already.
+                                // But media3 will have automatically hidden the video controls on suspend, so we need to match the description state.
+                                binding.videoView.showController()
+                                if (!pendingHideToolbar)
+                                    suppressNextHideToolbar = true // The user most recently asked us to show the toolbar, so don't hide it when play starts.
+                            } else {
+                                mediaActivity.onPhotoTap()
+                            }
+                        }
                     }
                     else -> { /* do nothing */ }
                 }
@@ -220,7 +243,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (isAudio) return
                 if (isPlaying) {
-                    hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                    if (suppressNextHideToolbar) {
+                        suppressNextHideToolbar = false
+                    } else {
+                        hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                    }
                 } else {
                     handler.removeCallbacks(hideToolbar)
                 }
@@ -260,9 +287,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         if (Build.VERSION.SDK_INT <= 23 || player == null) {
             initializePlayer()
-            if (mediaActivity.isToolbarVisible && !isAudio) {
-                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-            }
+
             binding.videoView.onResume()
         }
     }
@@ -368,6 +393,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     private fun hideToolbarAfterDelay(delayMilliseconds: Int) {
+        pendingHideToolbar = true
         handler.postDelayed(hideToolbar, delayMilliseconds.toLong())
     }
 
@@ -402,11 +428,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             binding.videoView.hideController()
         }
 
-        if (visible && (binding.videoView.player?.isPlaying == true) && !isAudio) {
-            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-        } else {
-            handler.removeCallbacks(hideToolbar)
-        }
+        // Either the user just requested toolbar display, or we just hid it.
+        // Either way, any pending hides are no longer appropriate.
+        pendingHideToolbar = false
+        handler.removeCallbacks(hideToolbar)
     }
 
     override fun onTransitionEnd() { }
