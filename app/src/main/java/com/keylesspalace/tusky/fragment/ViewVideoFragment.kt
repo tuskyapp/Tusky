@@ -45,7 +45,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
-import androidx.media3.ui.PlayerControlView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -150,7 +149,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                     /** A single tap should show/hide the media description */
                     override fun onSingleTapUp(e: MotionEvent): Boolean {
                         mediaActivity.onPhotoTap()
-                        return false
+                        return true // Do not pass gestures through to media3
                     }
 
                     /** A fling up/down should dismiss the fragment */
@@ -164,7 +163,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                             videoActionsListener.onDismiss()
                             return true
                         }
-                        return false
+                        return true  // Do not pass gestures through to media3
                     }
                 }
             )
@@ -193,9 +192,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
                 simpleGestureDetector.onTouchEvent(event)
 
-                // Allow the player's normal onTouch handler to run as well (e.g., to show the
-                // player controls on tap)
-                return false
+                // Do not pass gestures through to media3
+                // We have to do this because otherwise taps to hide will be double-handled and media3 will re-show itself
+                // media3 has a property to disable "hide on tap" but "show on tap" is unconditional
+                return true
             }
         }
 
@@ -395,6 +395,13 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             })
             .start()
 
+        // media3 controls bar
+        if (visible) {
+            binding.videoView.showController()
+        } else {
+            binding.videoView.hideController()
+        }
+
         if (visible && (binding.videoView.player?.isPlaying == true) && !isAudio) {
             hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
         } else {
@@ -406,7 +413,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     companion object {
         private const val TAG = "ViewVideoFragment"
-        private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+        private const val TOOLBAR_HIDE_DELAY_MS = 4_000
         private const val SEEK_POSITION = "seekPosition"
     }
 }
