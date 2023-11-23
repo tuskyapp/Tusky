@@ -34,7 +34,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:use_controller="false"
         app:show_previous_button="false"
-        app:show_next_button="false" />
+        app:show_next_button="false"
+        app:show_timeout="0"
+        app:hide_on_touch="false" />
 
     <ProgressBar
         android:id="@+id/progressBar"
