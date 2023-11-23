@@ -149,7 +149,7 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isFirstOfBatch) {
+    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isOnlyOneInGroup) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -241,7 +241,7 @@ public class NotificationHelper {
         builder.addExtras(extras);
 
         // Only alert for the first notification of a batch to avoid multiple alerts at once
-        if(!isFirstOfBatch) {
+        if(!isOnlyOneInGroup) {
             builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
         }
 
