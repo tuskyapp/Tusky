@@ -196,9 +196,7 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Site web del projècte :\n
-        https://tusky.app
-    </string>
+    <string name="about_project_site">Site web del projècte : https://tusky.app</string>
     <string name="about_bug_feature_request_site">        Rapòrts d\'errors e demandas de foncionalitats :\n
         https://github.com/tuskyapp/Tusky/issues
     </string>
@@ -265,7 +263,7 @@
     <string name="label_remote_account">Las informacions çai-jos son pas lo rebat del perfil complèt de l’utilizaire. Tocatz per dobrir lo perfil complèt dins lo navigador.</string>
     <string name="unpin_action">Tirar del perfil</string>
     <string name="pin_action">Penjar</string>
-    <string name="error_network">Una error ret s’es producha ! Mercés de verificar la connexion e tornar ensajar !</string>
+    <string name="error_network">Una error ret s’es producha. Mercés de verificar la connexion e tornar ensajar.</string>
     <string name="title_public_local">Local</string>
     <string name="title_direct_messages">Messatges dirèctes</string>
     <string name="title_tab_preferences">Onglets</string>
@@ -310,10 +308,10 @@
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frasa de filtrar</string>
     <string name="error_create_list">Creacion impossibla de la lsita</string>
-    <string name="error_rename_list">Impossible de renomenar la lista</string>
+    <string name="error_rename_list">Impossible d’actualizar la lista</string>
     <string name="error_delete_list">Supression impossibla de la lista</string>
     <string name="action_create_list">Crear una lista</string>
-    <string name="action_rename_list">Renomenar la lista</string>
+    <string name="action_rename_list">Actualizar la lista</string>
     <string name="action_delete_list">Suprimir la lista</string>
     <string name="hint_search_people_list">Cercar lo monde que seguètz</string>
     <string name="action_add_to_list">Ajustar un compte a la lista</string>
@@ -353,7 +351,7 @@
     <string name="action_delete_and_redraft">Suprimir e reformular</string>
     <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut \?</string>
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
-    <string name="notifications_clear">Netejar</string>
+    <string name="notifications_clear">Suprimir</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
@@ -676,4 +674,18 @@
     <string name="about_account_info">\@%s@%s
 \nVersion : %s</string>
     <string name="error_media_upload_sending_fmt">Fracàs del mandadís : %s</string>
+    <string name="label_image">Imatge</string>
+    <string name="about_copied">Version e info aparelh copiadas</string>
+    <string name="about_copy">Copiar la version e las info aparelh</string>
+    <string name="error_media_playback">La lectura a fraccasat : %s</string>
+    <string name="dialog_delete_filter_positive_action">Suprimir</string>
+    <string name="dialog_delete_filter_text">Suprimir lo filtre « %1$s » \?</string>
+    <string name="dialog_save_profile_changes_message">Volètz enregistrar las modificacions del perfil \?</string>
+    <string name="title_public_trending_statuses">Publicacions tendéncia</string>
+    <string name="error_blocking_domain">Impossible de rescondre %1$s : %2$s</string>
+    <string name="list_reply_policy_none">Degun</string>
+    <string name="list_reply_policy_label">Mostrar las responsas a</string>
+    <string name="list_reply_policy_followed">Totes los utilizaires seguits</string>
+    <string name="list_reply_policy_list">Membres de la lista</string>
+    <string name="action_view_filter">Veire filtre</string>
 </resources>

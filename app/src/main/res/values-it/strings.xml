@@ -9,14 +9,14 @@
     <string name="error_authorization_unknown">Sì è verificato un errore di autenticazione non identificato. Se il problema persiste, prova a collegarti dal browser nel menù.</string>
     <string name="error_authorization_denied">Autorizzazione negata. Se sei sicuro di aver usato le credenziali corrette, prova a collegarti con il browser nel menu.</string>
     <string name="error_retrieving_oauth_token">Acquisizione token di accesso fallita. Se il problema persiste, prova a collegarti dal browser nel menu.</string>
-    <string name="error_compose_character_limit">Il messaggio è troppo lungo!</string>
+    <string name="error_compose_character_limit">Il post è troppo lungo!</string>
     <string name="error_media_upload_type">Quel tipo di file non può essere caricato.</string>
     <string name="error_media_upload_opening">Non è stato possibile aprire quel file.</string>
     <string name="error_media_upload_permission">È richiesto il permesso di leggere file.</string>
     <string name="error_media_download_permission">È richiesto il permesso di salvare file.</string>
-    <string name="error_media_upload_image_or_video">Non è possibile allegare nello stesso messaggio immagini e video.</string>
+    <string name="error_media_upload_image_or_video">Non è possibile allegare nello stesso post immagini e video.</string>
     <string name="error_media_upload_sending">Il caricamento è fallito.</string>
-    <string name="error_sender_account_gone">Errore nell\'invio del messaggio.</string>
+    <string name="error_sender_account_gone">Errore nell\'invio del post.</string>
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifiche</string>
     <string name="title_public_local">Locale</string>
@@ -24,7 +24,7 @@
     <string name="title_direct_messages">Messaggi diretti</string>
     <string name="title_tab_preferences">Schede</string>
     <string name="title_view_thread">Conversazione</string>
-    <string name="title_posts">Messaggi</string>
+    <string name="title_posts">Post</string>
     <string name="title_posts_with_replies">Con risposte</string>
     <string name="title_posts_pinned">Fissati</string>
     <string name="title_follows">Seguiti</string>
@@ -100,7 +100,7 @@
     <string name="action_reject">Rifiuta</string>
     <string name="action_search">Cerca</string>
     <string name="action_access_drafts">Bozze</string>
-    <string name="action_toggle_visibility">Visibilità dei messaggi</string>
+    <string name="action_toggle_visibility">Visibilità dei post</string>
     <string name="action_content_warning">Avviso di contenuto sensibile</string>
     <string name="action_emoji_keyboard">Tastiera emoji</string>
     <string name="action_add_tab">Aggiungi scheda</string>
@@ -118,8 +118,8 @@
     <string name="action_copy_link">Copia collegamento</string>
     <string name="action_open_as">Apri come %s</string>
     <string name="action_share_as">Condividi come …</string>
-    <string name="send_post_link_to">Condividi URL del messaggio su…</string>
-    <string name="send_post_content_to">Condividi messaggio su…</string>
+    <string name="send_post_link_to">Condividi URL del post su…</string>
+    <string name="send_post_content_to">Condividi post su…</string>
     <string name="send_media_to">Condividi media su…</string>
     <string name="confirmation_reported">Inviato!</string>
     <string name="confirmation_unblocked">Utente sbloccato</string>
@@ -150,7 +150,7 @@
     <string name="dialog_download_image">Scarica</string>
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
-    <string name="dialog_delete_post_warning">Eliminare questo messaggio\?</string>
+    <string name="dialog_delete_post_warning">Eliminare questo post\?</string>
     <string name="visibility_public">Pubblico: visibile sulle timeline pubbliche</string>
     <string name="visibility_unlisted">Non in elenco: non visibile sulle timeline pubbliche</string>
     <string name="visibility_private">Solo chi ti segue: visibile solo da chi ti segue</string>
@@ -164,8 +164,8 @@
     <string name="pref_title_notification_filters">Notificami quando</string>
     <string name="pref_title_notification_filter_mentions">vengo menzionato</string>
     <string name="pref_title_notification_filter_follows">vengo seguito</string>
-    <string name="pref_title_notification_filter_reblogs">i miei messaggi vengono condivisi</string>
-    <string name="pref_title_notification_filter_favourites">i miei messaggi vengono messi negli apprezzamenti</string>
+    <string name="pref_title_notification_filter_reblogs">i miei post vengono condivisi</string>
+    <string name="pref_title_notification_filter_favourites">i miei post vengono messi negli apprezzamenti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
@@ -196,7 +196,7 @@
     <string name="post_privacy_public">Pubblico</string>
     <string name="post_privacy_unlisted">Non in elenco</string>
     <string name="post_privacy_followers_only">Solo seguaci</string>
-    <string name="pref_post_text_size">Dimensione del testo dei messaggi</string>
+    <string name="pref_post_text_size">Dimensione del testo dei post</string>
     <string name="post_text_size_smallest">Piccolissimo</string>
     <string name="post_text_size_small">Piccolo</string>
     <string name="post_text_size_medium">Normale</string>
@@ -207,9 +207,9 @@
     <string name="notification_follow_name">Nuovi seguaci</string>
     <string name="notification_follow_description">Notifiche su nuovi seguaci</string>
     <string name="notification_boost_name">Ricondivisioni</string>
-    <string name="notification_boost_description">Notifiche sui tuoi messaggi che vengono condivisi</string>
+    <string name="notification_boost_description">Notifiche sui tuoi post che vengono condivisi</string>
     <string name="notification_favourite_name">Apprezzati</string>
-    <string name="notification_favourite_description">Notifiche sui tuoi messaggi che vengono segnati come apprezzati</string>
+    <string name="notification_favourite_description">Notifiche sui tuoi post che vengono segnati come apprezzati</string>
     <string name="notification_mention_format">%s ti ha menzionato</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d altri</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -235,8 +235,8 @@
     <string name="about_bug_feature_request_site">Segnala problemi e richiedi funzionalità:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profilo di Tusky</string>
-    <string name="post_share_content">Condividi contenuto del messaggio</string>
-    <string name="post_share_link">Condividi collegamento al messaggio</string>
+    <string name="post_share_content">Condividi contenuto del post</string>
+    <string name="post_share_link">Condividi collegamento al post</string>
     <string name="post_media_images">Immagini</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Richiesta inviata</string>
@@ -287,19 +287,19 @@
     <string name="lock_account_label">Blocca account</string>
     <string name="lock_account_label_description">Richiedi una tua approvazione manuale per seguirti</string>
     <string name="compose_save_draft">Salvare bozza?</string>
-    <string name="send_post_notification_title">Inviando il messaggio…</string>
+    <string name="send_post_notification_title">Inviando il post…</string>
     <string name="send_post_notification_error_title">Errore durante l\'invio</string>
-    <string name="send_post_notification_channel_name">Invio messaggi</string>
+    <string name="send_post_notification_channel_name">Invio post</string>
     <string name="send_post_notification_cancel_title">Invio annullato</string>
-    <string name="send_post_notification_saved_content">Una copia del messaggio è stata salvata nelle tue bozze</string>
+    <string name="send_post_notification_saved_content">Una copia del post è stata salvata nelle tue bozze</string>
     <string name="action_compose_shortcut">Componi</string>
     <string name="error_no_custom_emojis">La tua istanza %s non ha nessuna emoji personalizzata</string>
     <string name="emoji_style">Stile delle emoji</string>
     <string name="system_default">Predefinite del sistema</string>
     <string name="download_fonts">Dovrai prima scaricare questo pacchetto di emoji</string>
     <string name="performing_lookup_title">Ricerca in corso…</string>
-    <string name="expand_collapse_all_posts">Espandi/riduci tutti i messaggi</string>
-    <string name="action_open_post">Apri messaggio</string>
+    <string name="expand_collapse_all_posts">Espandi/riduci tutti i post</string>
+    <string name="action_open_post">Apri post</string>
     <string name="restart_required">Riavvio dell\'app richiesto</string>
     <string name="restart_emoji">Devi riavviare Tusky per applicare queste modifiche</string>
     <string name="later">Più tardi</string>
@@ -310,7 +310,7 @@
     <string name="download_failed">Scaricamento fallito</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s si è spostato su:</string>
-    <string name="reblog_private">Condividi con la visibilità del messaggio originale</string>
+    <string name="reblog_private">Condividi con la visibilità originale</string>
     <string name="unreblog_private">Annulla condivisione</string>
     <string name="license_description">Tusky contiene codice e risorse dai seguenti progetti open source:</string>
     <string name="license_apache_2">Licenziata sotto la Licenza Apache (copia sotto)</string>
@@ -353,7 +353,7 @@
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
-    <string name="compose_shortcut_long_label">Componi messaggio</string>
+    <string name="compose_shortcut_long_label">Componi post</string>
     <string name="edit_hashtag_hint">Hashtag senza #</string>
     <string name="compose_shortcut_short_label">Componi</string>
     <string name="notifications_clear">Cancella</string>
@@ -362,7 +362,7 @@
     <string name="pref_title_bot_overlay">Mostra indicatore bot</string>
     <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
-    <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo messaggio\?</string>
+    <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo post\?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s voto</item>
         <item quantity="many">%s voti</item>
@@ -390,7 +390,7 @@
     <string name="action_view_bookmarks">Segnalibri</string>
     <string name="action_add_poll">Aggiungi sondaggio</string>
     <string name="about_powered_by_tusky">Fatto usando Tusky</string>
-    <string name="pref_title_alway_open_spoiler">Espandi sempre i messaggi segnalati come contenuto sensibile</string>
+    <string name="pref_title_alway_open_spoiler">Espandi sempre i post segnalati come contenuto sensibile</string>
     <string name="description_post_bookmarked">Messo nei segnalibri</string>
     <string name="description_poll">Sondaggio con scelte: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="select_list_title">Scegli lista</string>
@@ -425,7 +425,7 @@
     <string name="hint_additional_info">Altri commenti</string>
     <string name="report_remote_instance">Inoltra a %s</string>
     <string name="failed_report">Segnalazione fallita</string>
-    <string name="failed_fetch_posts">Scaricamento dei messaggio fallito</string>
+    <string name="failed_fetch_posts">Scaricamento dei post fallito</string>
     <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perchè stai segnalando l\'utente qui sotto:</string>
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
@@ -444,8 +444,8 @@
     <string name="edit_poll">Modifica</string>
     <string name="post_lookup_error_format">Errore nella ricerca del post %s</string>
     <string name="title_scheduled_posts">Post programmati</string>
-    <string name="action_access_scheduled_posts">Messaggi programmati</string>
-    <string name="action_schedule_post">Programma un messaggio</string>
+    <string name="action_access_scheduled_posts">Post programmati</string>
+    <string name="action_schedule_post">Programma un post</string>
     <string name="action_reset_schedule">Ripristina</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="no_drafts">Non hai bozze.</string>
@@ -471,7 +471,7 @@
     <string name="pref_title_show_cards_in_timelines">Mostra le anteprime dei collegamenti nelle timeline</string>
     <string name="warning_scheduling_interval">Mastodon ha un intervallo di programmazione minimo di 5 minuti.</string>
     <string name="no_announcements">Non ci sono annunci.</string>
-    <string name="no_scheduled_posts">Non hai messaggi programmati.</string>
+    <string name="no_scheduled_posts">Non hai post programmati.</string>
     <string name="pref_title_enable_swipe_for_tabs">Abilita il gesto di scorrimento per passare da una scheda all\'altra</string>
     <string name="notification_follow_request_description">Notifiche sulle richieste di essere seguiti</string>
     <string name="pref_main_nav_position_option_bottom">In fondo</string>
@@ -486,18 +486,18 @@
     <string name="limit_notifications">Limita le notifiche della timeline</string>
     <string name="review_notifications">Rivedi le notifiche</string>
     <string name="pref_title_wellbeing_mode">Benessere</string>
-    <string name="notification_subscription_description">Notifiche di nuovi messaggi di qualcuno a cui sei iscritto</string>
-    <string name="notification_subscription_name">Nuovi messaggi</string>
-    <string name="pref_title_notification_filter_subscriptions">qualcuno che seguo ha pubblicato un nuovo messaggio</string>
+    <string name="notification_subscription_description">Notifiche di nuovi post di qualcuno a cui sei iscritto</string>
+    <string name="notification_subscription_name">Nuovi post</string>
+    <string name="pref_title_notification_filter_subscriptions">qualcuno che seguo ha pubblicato un nuovo post</string>
     <string name="notification_subscription_format">%s ha appena pubblicato</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Non puoi caricare più di %1$d allegato multimediale.</item>
         <item quantity="many">Non puoi caricare più di %1$d allegati multimediali.</item>
         <item quantity="other">Non puoi caricare più di %1$d allegati multimediali.</item>
     </plurals>
-    <string name="drafts_post_reply_removed">Il messaggio a cui hai scritto una bozza di risposta è stato rimosso</string>
+    <string name="drafts_post_reply_removed">Il post a cui hai scritto una bozza di risposta è stato rimosso</string>
     <string name="draft_deleted">Bozza eliminata</string>
-    <string name="drafts_post_failed_to_send">L\'invio di questo messaggio è fallito!</string>
+    <string name="drafts_post_failed_to_send">L\'invio di questo post è fallito!</string>
     <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %s\?</string>
     <string name="duration_indefinite">Indefinita</string>
     <string name="label_duration">Durata</string>
@@ -528,13 +528,13 @@
     <string name="notification_sign_up_format">%s si è registrato</string>
     <string name="pref_title_notification_filter_sign_ups">qualcuno si è registrato</string>
     <string name="title_login">Accesso</string>
-    <string name="notification_update_format">%s ha modificato il suo messaggio</string>
-    <string name="pref_title_notification_filter_updates">un messaggio con cui ho interagito è stato modificato</string>
-    <string name="tusky_compose_post_quicksetting_label">Componi messaggio</string>
+    <string name="notification_update_format">%s ha modificato il suo post</string>
+    <string name="pref_title_notification_filter_updates">un post con cui ho interagito è stato modificato</string>
+    <string name="tusky_compose_post_quicksetting_label">Componi post</string>
     <string name="notification_sign_up_name">Registrazioni</string>
     <string name="notification_sign_up_description">Notifiche di quando qualcuno si è registrato</string>
-    <string name="notification_update_name">Modifiche ai messaggi</string>
-    <string name="notification_update_description">Notifiche di quando i messaggi con cui hai interagito vengono modificati</string>
+    <string name="notification_update_name">Modifiche ai post</string>
+    <string name="notification_update_description">Notifiche di quando i post con cui hai interagito vengono modificati</string>
     <string name="error_could_not_load_login_page">Non è stato possibile caricare la pagina di accesso.</string>
     <string name="action_edit_image">Modifica immagine</string>
     <string name="saving_draft">Salvataggio bozza…</string>
@@ -697,7 +697,7 @@
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %s</string>
     <string name="label_image">Immagine</string>
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
-    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni k messaggi diretti (DM).
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM).
 \n
 \nI messaggi privati sono creati impostando la visibilità [iconics gmd_public] di un post su [iconics gmd_mail] <i>Privato</i> e menzionando uno o più utenti nel testo.
 \n
@@ -715,4 +715,10 @@
     <string name="title_public_trending_statuses">Post di tendenza</string>
     <string name="error_blocking_domain">Silenziamento di %1$s fallito: %2$s</string>
     <string name="error_unblocking_domain">Riattivazione di %1$s fallito: %2$s</string>
+    <string name="pref_title_show_self_boosts">Mostra boost ai tuoi post</string>
+    <string name="list_reply_policy_none">Nessuno</string>
+    <string name="list_reply_policy_list">Membri della lista</string>
+    <string name="list_reply_policy_followed">Qualsiasi utente seguito</string>
+    <string name="list_reply_policy_label">Mostra risposte a</string>
+    <string name="pref_title_show_self_boosts_description">Qualcuno boosta il proprio post</string>
 </resources>
