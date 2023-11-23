@@ -172,7 +172,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                             videoActionsListener.onDismiss()
                             return true
                         }
-                        return true  // Do not pass gestures through to media3
+                        return true // Do not pass gestures through to media3
                     }
                 }
             )
@@ -222,15 +222,16 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                             binding.progressBar.hide()
                             binding.videoView.useController = true
                             binding.videoView.showController()
-                            haveStarted = true;
+                            haveStarted = true
                         } else {
                             // This isn't a real "done loading"; this is a resume event after backgrounding.
                             if (mediaActivity.isToolbarVisible) {
                                 // Before suspend, the toolbar/description were visible, so description is visible already.
                                 // But media3 will have automatically hidden the video controls on suspend, so we need to match the description state.
                                 binding.videoView.showController()
-                                if (!pendingHideToolbar)
+                                if (!pendingHideToolbar) {
                                     suppressNextHideToolbar = true // The user most recently asked us to show the toolbar, so don't hide it when play starts.
+                                }
                             } else {
                                 mediaActivity.onPhotoTap()
                             }
