@@ -704,4 +704,6 @@
     <string name="list_reply_policy_followed">Takip edilen herhangi bir kullanıcı</string>
     <string name="list_reply_policy_label">Yanıtları göster</string>
     <string name="list_reply_policy_none">Hiç kimse</string>
+    <string name="pref_title_show_self_boosts">Kendi yükseltmeleri göster</string>
+    <string name="pref_title_show_self_boosts_description">Birisi kendi gönderisini yükseltiyor</string>
 </resources>
