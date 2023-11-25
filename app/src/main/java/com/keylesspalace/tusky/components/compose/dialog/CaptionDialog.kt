@@ -67,7 +67,7 @@ class CaptionDialog : DialogFragment() {
         )
         binding.imageDescriptionText.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
         binding.imageDescriptionText.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
-        savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
+        savedInstanceState?.getCharSequence(DESCRIPTION_KEY)?.let {
             binding.imageDescriptionText.setText(it)
         }
 
@@ -119,7 +119,7 @@ class CaptionDialog : DialogFragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(DESCRIPTION_KEY, binding.imageDescriptionText.text.toString())
+        outState.putCharSequence(DESCRIPTION_KEY, binding.imageDescriptionText.text)
         super.onSaveInstanceState(outState)
     }
 
