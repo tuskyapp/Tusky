@@ -79,6 +79,7 @@ fun mockStatusViewData(
         favourited = favourited,
         bookmarked = bookmarked
     ),
+    inReplyToAccount = null,
     isExpanded = isExpanded,
     isShowingContent = isShowingContent,
     isCollapsed = isCollapsed,

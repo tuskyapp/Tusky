@@ -133,6 +133,7 @@ data class ConversationStatusEntity(
                 language = language,
                 filtered = null
             ),
+            inReplyToAccount = null, // TODO? implementation gap: not needed here atm, but inconsistent
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
             isCollapsed = collapsed

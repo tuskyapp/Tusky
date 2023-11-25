@@ -88,7 +88,8 @@ class TimelinePagingAdapter(
                 status,
                 statusListener,
                 statusDisplayOptions,
-                if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
+                if (payloads != null && payloads.isNotEmpty()) payloads[0] else null,
+                true
             )
         }
     }

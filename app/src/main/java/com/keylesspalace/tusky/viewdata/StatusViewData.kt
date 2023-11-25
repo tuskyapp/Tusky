@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.viewdata
 import android.text.Spanned
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
@@ -32,6 +33,7 @@ sealed class StatusViewData {
 
     data class Concrete(
         val status: Status,
+        val inReplyToAccount: TimelineAccount?,
         val isExpanded: Boolean,
         val isShowingContent: Boolean,
         /**

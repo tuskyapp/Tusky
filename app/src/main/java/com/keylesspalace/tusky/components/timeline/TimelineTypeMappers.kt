@@ -207,8 +207,8 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             id = status.serverId,
             url = null, // no url for reblogs
             account = this.reblogAccount!!.toAccount(gson),
-            inReplyToId = null,
-            inReplyToAccountId = null,
+            inReplyToId = status.inReplyToId,
+            inReplyToAccountId = status.inReplyToAccountId,
             reblog = reblog,
             content = "",
             createdAt = Date(status.createdAt), // lie but whatever?
@@ -269,6 +269,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
     }
     return StatusViewData.Concrete(
         status = status,
+        inReplyToAccount = this.inReplyToAccount?.toAccount(gson),
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
         isCollapsed = this.status.contentCollapsed,
