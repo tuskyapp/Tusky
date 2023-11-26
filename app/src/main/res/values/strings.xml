@@ -297,7 +297,8 @@
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
-    <string name="pref_title_timeline_filters">Per-timeline preferences</string>
+    <string name="pref_title_timeline_filters">Filters</string>
+    <string name="pref_title_per_timeline_preferences">Per-timeline preferences</string>
 
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
