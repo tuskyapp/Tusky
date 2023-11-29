@@ -113,8 +113,7 @@ AND
             muted = status.muted,
             pinned = status.pinned ?: false,
             card = gson.toJson(status.card),
-            language = status.language,
-            filtered = status.filtered
+            language = status.language
         )
     }
 
@@ -139,8 +138,7 @@ AND
            muted = :muted,
            pinned = :pinned,
            card = :card,
-           language = :language,
-           filtered = :filtered
+           language = :language
            WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     @TypeConverters(Converters::class)
@@ -166,8 +164,7 @@ AND
         muted: Boolean?,
         pinned: Boolean,
         card: String?,
-        language: String?,
-        filtered: List<FilterResult>?
+        language: String?
     )
 
     @Query(
