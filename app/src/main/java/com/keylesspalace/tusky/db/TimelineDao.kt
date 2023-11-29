@@ -22,7 +22,6 @@ import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Status
 
 @Dao
