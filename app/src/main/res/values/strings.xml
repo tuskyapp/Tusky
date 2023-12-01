@@ -334,7 +334,7 @@
     <string name="pref_default_post_language">Default posting language</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>
     <string name="pref_publishing">Publishing (synced with server)</string>
-    <string name="pref_failed_to_sync">Failed to sync settings</string>
+    <string name="pref_failed_to_sync">Failed to sync preferences</string>
 
     <string name="pref_main_nav_position">Main navigation position</string>
     <string name="pref_main_nav_position_option_top">Top</string>
