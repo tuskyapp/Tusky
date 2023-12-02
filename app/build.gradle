@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
 }
 
@@ -147,7 +146,7 @@ dependencies {
     implementation libs.bundles.autodispose
 
     implementation libs.bundles.dagger
-    kapt libs.bundles.dagger.processors
+    ksp libs.bundles.dagger.processors
 
     implementation libs.sparkbutton
 
