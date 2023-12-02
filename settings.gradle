@@ -10,6 +10,20 @@ pluginManagement {
     }
 }
 
+plugins {
+    id 'com.gradle.enterprise' version '3.15.1'
+}
+
+def isCI = providers.environmentVariable("CI").isPresent()
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlwaysIf(isCI)
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
