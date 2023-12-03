@@ -697,4 +697,6 @@
     <string name="list_reply_policy_list">Compoñentes da lista</string>
     <string name="list_reply_policy_followed">Calquera usuaria seguida</string>
     <string name="list_reply_policy_label">Mostrar respostas a</string>
+    <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
+    <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
 </resources>
