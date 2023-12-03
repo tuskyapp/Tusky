@@ -700,4 +700,10 @@
     <string name="title_public_trending_statuses">Angesagte Beiträge</string>
     <string name="error_blocking_domain">Fehler beim Stummschalten von %1$s: %2$s</string>
     <string name="error_unblocking_domain">Fehler beim Aufheben der Stummschaltung von %1$s: %2$s</string>
+    <string name="list_reply_policy_label">Antworten anzeigen für</string>
+    <string name="list_reply_policy_followed">Alle folgenden Profile</string>
+    <string name="list_reply_policy_list">Mitglieder der Liste</string>
+    <string name="list_reply_policy_none">Niemanden</string>
+    <string name="pref_title_show_self_boosts">Eigene geteilte Beiträge anzeigen</string>
+    <string name="pref_title_show_self_boosts_description">Die Person teilt ihre eigenen Beiträge</string>
 </resources>
