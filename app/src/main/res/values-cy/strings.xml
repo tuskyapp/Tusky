@@ -54,7 +54,7 @@
     <string name="action_compose">Creu</string>
     <string name="action_login">Mewngofnodi â Tusky</string>
     <string name="action_logout">Allgofnodi</string>
-    <string name="action_logout_confirm">Rwyt ti\'n siŵr dy fod am allgofnodi o %1$s\? Bydd hyn yn dileu\'r holl ddata lleol, gan gynnwys drafftiau a chyfeiriadau.</string>
+    <string name="action_logout_confirm">Rwyt ti\'n siŵr dy fod am allgofnodi o %1$s\? Bydd hyn yn dileu\'r holl ddata lleol, gan gynnwys drafftiau a dewisiadau.</string>
     <string name="action_follow">Dilyn</string>
     <string name="action_unfollow">Dad-ddilyn</string>
     <string name="action_block">Blocio</string>
@@ -96,14 +96,14 @@
     <string name="action_emoji_keyboard">Bysellfwrdd emoji</string>
     <string name="download_image">Yn lawrlwytho %1$s</string>
     <string name="action_copy_link">Copïo\'r ddolen</string>
-    <string name="send_post_link_to">Rhannu URL y neges â…</string>
-    <string name="send_post_content_to">Rhannu\'r neges â…</string>
-    <string name="send_media_to">Rhannu\'r cyfryngau â…</string>
+    <string name="send_post_link_to">Rhannu URL y neges i…</string>
+    <string name="send_post_content_to">Rhannu\'r neges i…</string>
+    <string name="send_media_to">Rhannu\'r cyfryngau i…</string>
     <string name="confirmation_reported">Anfonwyd!</string>
     <string name="confirmation_unblocked">Dadflociwyd y defnyddiwr</string>
     <string name="confirmation_unmuted">Dad-dawyd defnyddiwr</string>
     <string name="post_sent">Anfonwyd!</string>
-    <string name="post_sent_long">Anfonwyd yr ymateb yn llwyddiannus.</string>
+    <string name="post_sent_long">Anfonodd yr ymateb yn llwyddiannus.</string>
     <string name="hint_domain">Pa weinydd\?</string>
     <string name="hint_compose">Beth sy\'n digwydd?</string>
     <string name="hint_content_warning">Rhybudd cynnwys</string>
@@ -131,8 +131,8 @@
     <string name="dialog_delete_post_warning">Dileu\'r neges hon\?</string>
     <string name="visibility_public">Cyhoeddus: Postio i ffrydiau cyhoeddus</string>
     <string name="visibility_unlisted">Heb restru: Peidio â dangos ar ffrydiau cyhoeddus</string>
-    <string name="visibility_private">Dilynwyr yn unig: Postio i ddilynwyr yn unig</string>
-    <string name="visibility_direct">Uniongyrchol: Postio i ddefnyddwyr a grybwyllwyd yn unig</string>
+    <string name="visibility_private">Dilynwyr yn unig: Postio at ddilynwyr yn unig</string>
+    <string name="visibility_direct">Uniongyrchol: Postio at ddefnyddwyr a grybwyllwyd yn unig</string>
     <string name="pref_title_edit_notification_settings">Hysbysiadau</string>
     <string name="pref_title_notifications_enabled">Hysbysiadau</string>
     <string name="pref_title_notification_alerts">Rhybuddion</string>
@@ -278,7 +278,7 @@
     <string name="action_unreblog">Dileu hwb</string>
     <string name="action_unfavourite">Dileu ffefryn</string>
     <string name="action_delete_and_redraft">Dileu ac ailddrafftio</string>
-    <string name="action_view_account_preferences">Gosodiadau cyfrif</string>
+    <string name="action_view_account_preferences">Dewisiadau cyfrif</string>
     <string name="action_view_domain_mutes">Parthau cudd</string>
     <string name="action_mute_domain">Tewi %s</string>
     <string name="action_add_tab">Ychwanegu Tab</string>
@@ -370,7 +370,7 @@
     <string name="pref_title_language">Iaith</string>
     <string name="pref_title_bot_overlay">Dangos dangosydd botiau</string>
     <string name="pref_title_gradient_for_media">Dangos graddiannau lliwgar ar gyfer cyfryngau cudd</string>
-    <string name="pref_failed_to_sync">Methu cydweddu gosodiadau</string>
+    <string name="pref_failed_to_sync">Methu cydweddu dewisiadau</string>
     <string name="pref_main_nav_position_option_top">Brig</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="title_hashtags_dialog">Hashnodau</string>
@@ -424,7 +424,7 @@
     <string name="action_unsubscribe_account">Dad-danysgrifo</string>
     <string name="dialog_delete_list_warning">Wyt ti wir eisiau dileu rhestr %s\?</string>
     <string name="no_drafts">Does gennyt ti ddim drafftiau.</string>
-    <string name="pref_title_show_cards_in_timelines">Dangos rhagolygon ffrydiau</string>
+    <string name="pref_title_show_cards_in_timelines">Dangos rhagolygon dolen mewn ffrydiau</string>
     <string name="pref_title_wellbeing_mode">Llesiant</string>
     <string name="wellbeing_hide_stats_posts">Cuddio ystadegau meintiol negeseuon</string>
     <string name="wellbeing_hide_stats_profile">Cuddio ystadegau meintiol proffiliau</string>
@@ -454,7 +454,7 @@
     <string name="drafts_post_failed_to_send">Methodd anfon y neges hon!</string>
     <string name="tusky_compose_post_quicksetting_label">Ysgrifennu Neges</string>
     <string name="tips_push_notification_migration">Mewngofnodwch i\'th gyfrifon eto er mwyn galluogi hysbysiadau i\'th ffôn.</string>
-    <string name="dialog_push_notification_migration">Er mwyn derbyn hysbysiadau i\'th ffôn drwy UnifiedPush, mae angen caniatâd ar Tusky i danysgrifio i hysbysiadau ar dy weinydd Mastodon. Bydd rhaid i ti fewngofnodi eto i newid y sgôp OAuth sy\'n cael ei roi i Tusky. Bydd defnyddio\'r opsiwn ail-fewngofnodi yma neu yn newisiadau Cyfrif yn cadw dy holl ddrafftiau a\'th storfa leol.</string>
+    <string name="dialog_push_notification_migration">Er mwyn derbyn hysbysiadau i\'th ffôn drwy UnifiedPush, mae angen caniatâd ar Tusky i danysgrifio i hysbysiadau ar dy weinydd Mastodon. Bydd rhaid i ti fewngofnodi eto i newid y sgôp OAuth sy\'n cael ei roi i Tusky. Bydd defnyddio\'r opsiwn ail-fewngofnodi yma neu yn Newisiadau cyfrif yn cadw dy holl ddrafftiau a\'th storfa leol.</string>
     <string name="mute_domain_warning">Rwyt ti\'n siŵr dy fod am flocio %s gyfan\? Fyddi di ddim yn gweld dim cynnwys o\'r parth hwnnw mewn unrhyw ffrwd gyhoeddus na chwaith yn dy hysbysiadau. Bydd dy ddilynwyr o\'r parth hwnnw yn cael eu dileu.</string>
     <string name="duration_indefinite">Dim diwedd</string>
     <plurals name="favs">
@@ -493,7 +493,7 @@
     <string name="select_list_title">Dewiswch restr</string>
     <string name="button_done">Wedi gorffen</string>
     <string name="report_sent_success">Wedi adrodd ar @%s yn llwyddiannus</string>
-    <string name="limit_notifications">Cyfyngu ar hysbysiadau ffrydiau</string>
+    <string name="limit_notifications">Cyfyngu ar hysbysiadau ffrwd</string>
     <string name="post_lookup_error_format">Gwall wrth chwilio am y neges %s</string>
     <string name="pref_title_show_self_username">Dangos enw defnyddiwr mewn bariau offer</string>
     <string name="pref_title_confirm_favourites">Dangos cadarnhad cyn hoffi</string>
@@ -698,7 +698,7 @@
     <string name="help_empty_home">Dyma dy <b>ffrwd cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rwyt ti\'n eu dilyn.
 \n
 \nEr mwyn archwilio cyfrifon galli di ddod o hyd iddyn o fewn un o\'r ffrydiau eraill. Er enghraifft, ffrwd dy weinydd [iconics gmd_group]. Neu galli di eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwiliwch am Tusky i ddod o hyd ein cyfrif Mastodon.</string>
-    <string name="pref_title_show_stat_inline">Dangos ystadegau negeseuon mewn llinell amser</string>
+    <string name="pref_title_show_stat_inline">Dangos ystadegau negeseuon yn y ffrwd</string>
     <string name="pref_ui_text_size">Maint testun rhyngwyneb</string>
     <string name="notification_listenable_worker_name">Gweithgaredd cefndirol</string>
     <string name="notification_listenable_worker_description">Hysbysiadau pan fydd Tusky\'n gweithio\'n y cefndir</string>
@@ -726,7 +726,7 @@
     <string name="dialog_save_profile_changes_message">Wyt ti am gadw dy newidiadau proffil\?</string>
     <string name="label_image">Delwedd</string>
     <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
-    <string name="help_empty_conversations">Dyma dy <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM).
+    <string name="help_empty_conversations">Dyma dy <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol.
 \n
 \nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] neges [iconics gmd_mail] i <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun.
 \n
@@ -734,7 +734,7 @@
     <string name="unmuting_hashtag_success_format">Yn dad-dewi hashnod #%s</string>
     <string name="muting_hashtag_success_format">Yn tewi hashnod #%s fel rhybudd</string>
     <string name="unfollowing_hashtag_success_format">Ddim yn dilyn hashnod #%s bellach</string>
-    <string name="title_public_trending_statuses">Cofnodion tueddiadol</string>
+    <string name="title_public_trending_statuses">Negeseuon tueddiadol</string>
     <string name="action_view_filter">Gweld hidl</string>
     <string name="following_hashtag_success_format">Nawr yn dilyn hashnod #%s</string>
     <string name="error_unblocking_domain">Wedi methu dad-dewi %1$s: %2$s</string>
@@ -743,7 +743,7 @@
 \n
 \n·SYLWCH y galli di ychwanegu dim ond cyfrifiadau dy fod yn dilyn i\'th restri.
 \n
-\n·Gall y rhestri yma yn cael eu defynyddio fel tab yng Ngosodiadau cyfrif [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabiau.· </string>
+\n·Gall y rhestri yma yn cael eu defynyddio fel tab yn Newisiadau cyfrif [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabiau.· </string>
     <string name="list_reply_policy_list">Aelodau\'r restr</string>
     <string name="list_reply_policy_followed">Unrhyw ddefnyddiwr a ddilynwyd</string>
     <string name="list_reply_policy_label">Dangos atebion at</string>
