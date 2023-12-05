@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="error_generic">Произошла ошибка.</string>
-    <string name="error_network">Произошла ошибка сети! Пожалуйста, проверьте интернет-соединение и попробуйте снова!</string>
+    <string name="error_network">Произошла ошибка сети. Пожалуйста, проверьте интернет-соединение и попробуйте снова.</string>
     <string name="error_empty">Не может быть пустым.</string>
-    <string name="error_invalid_domain">Некорректный домен</string>
-    <string name="error_failed_app_registration">Ошибка аутентификации на этом узле. Если это повторится, попробуйте Вход через Браузер в меню.</string>
-    <string name="error_no_web_browser_found">Не удается найти веб-браузер.</string>
+    <string name="error_invalid_domain">Введён некорректный домен</string>
+    <string name="error_failed_app_registration">Ошибка аутентификации через этот сервер. Если это повторится, попробуйте Вход через Браузер в меню.</string>
+    <string name="error_no_web_browser_found">Не удаётся найти веб-браузер.</string>
     <string name="error_authorization_unknown">Произошла ошибка неопознанной авторизации. Если это повторится, попробуйте Вход через Браузер в меню.</string>
-    <string name="error_authorization_denied">Авторизация была отклонена.</string>
-    <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации.</string>
-    <string name="error_compose_character_limit">Статус слишком длинный!</string>
+    <string name="error_authorization_denied">Авторизация была отклонена. Если вы уверенны в ведённых данных входа, попробуйте Войти через браузер в меню.</string>
+    <string name="error_retrieving_oauth_token">Не удалось получить токен авторизации. Если это повторяется, попробуйте Войти через Браузер в меню.</string>
+    <string name="error_compose_character_limit">Запись слишком длинная!</string>
     <string name="error_media_upload_type">Данный тип файла не может быть загружен.</string>
     <string name="error_media_upload_opening">Файл не может быть открыт.</string>
     <string name="error_media_upload_permission">Необходимо разрешение на чтение медиаконтента.</string>
     <string name="error_media_download_permission">Необходимо разрешение для хранения медиаконтента.</string>
-    <string name="error_media_upload_image_or_video">Изображения и видео не могут быть прикреплены к статусу одновременно.</string>
+    <string name="error_media_upload_image_or_video">Изображения и видео не могут быть прикреплены к записи одновременно.</string>
     <string name="error_media_upload_sending">Загрузка не удалась.</string>
-    <string name="error_sender_account_gone">Ошибка при засвистывании.</string>
+    <string name="error_sender_account_gone">Ошибка отправки записи.</string>
     <string name="title_home">Главная</string>
     <string name="title_notifications">Уведомления</string>
     <string name="title_public_local">Местная лента</string>
@@ -536,4 +536,13 @@
     <string name="status_created_info">%1$s создали</string>
     <string name="title_login">Войти</string>
     <string name="action_browser_login">Вход через Браузер</string>
+    <string name="error_image_edit_failed">Изображение не удалось отредактировать.</string>
+    <string name="error_multimedia_size_limit">Видео и аудио не должны превышать %s Мбайт.</string>
+    <string name="error_muting_hashtag_format">Не удалось заглушить #%s</string>
+    <string name="error_following_hashtags_unsupported">Этот сервер не поддерживает подписку на хештеги.</string>
+    <string name="error_following_hashtag_format">Не удалось подписаться на #%s</string>
+    <string name="error_unfollowing_hashtag_format">Не удалось отписаться от #%s</string>
+    <string name="error_media_upload_sending_fmt">Не удалось загрузить: %s</string>
+    <string name="error_could_not_load_login_page">Не удалось загрузить страницу входа.</string>
+    <string name="error_loading_account_details">Не удалось загрузить данные учётной записи</string>
 </resources>

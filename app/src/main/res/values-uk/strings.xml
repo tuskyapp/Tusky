@@ -715,4 +715,9 @@
     <string name="label_image">Зображення</string>
     <string name="app_theme_system_black">Тема системи (чорна)</string>
     <string name="title_public_trending_statuses">Популярні дописи</string>
+    <string name="pref_title_show_self_boosts">Показати самоцитування</string>
+    <string name="pref_title_show_self_boosts_description">Хтось цитує власний допис</string>
+    <string name="list_reply_policy_none">Ніхто</string>
+    <string name="list_reply_policy_list">Учасники списку</string>
+    <string name="list_reply_policy_followed">Будь-який користувач, за яким ви стежите</string>
 </resources>
