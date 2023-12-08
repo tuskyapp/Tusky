@@ -1430,6 +1430,7 @@ class ComposeActivity :
             return length
         }
 
+        // String.length would count emojis as multiple characters but Mastodon counts them as 1, so we need this workaround
         private fun String.perceivedCharterLength(): Int {
             val breakIterator = BreakIterator.getCharacterInstance()
             breakIterator.setText(this)
