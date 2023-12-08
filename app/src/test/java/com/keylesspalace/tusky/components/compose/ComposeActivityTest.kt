@@ -15,7 +15,7 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.components.compose.ComposeActivity
+package com.keylesspalace.tusky.components.compose
 
 import android.content.Intent
 import android.os.Looper.getMainLooper
@@ -24,8 +24,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.gson.Gson
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.ComposeActivity
-import com.keylesspalace.tusky.components.compose.ComposeViewModel
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager

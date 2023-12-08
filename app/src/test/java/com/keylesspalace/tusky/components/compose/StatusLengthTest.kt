@@ -15,29 +15,29 @@
  * see <http://www.gnu.org/licenses>.
  */
 
-package com.keylesspalace.tusky.components.compose.ComposeActivity
+package com.keylesspalace.tusky.components.compose
 
 import com.keylesspalace.tusky.SpanUtilsTest
-import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.util.highlightSpans
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.robolectric.ParameterizedRobolectricTestRunner
 
-@RunWith(Parameterized::class)
+@RunWith(ParameterizedRobolectricTestRunner::class)
 class StatusLengthTest(
     private val text: String,
     private val expectedLength: Int
 ) {
     companion object {
-        @Parameterized.Parameters(name = "{0}")
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         @JvmStatic
         fun data(): Iterable<Any> {
             return listOf(
                 arrayOf("", 0),
                 arrayOf(" ", 1),
                 arrayOf("123", 3),
+                arrayOf("🫣", 1),
                 // "@user@server" should be treated as "@user"
                 arrayOf("123 @example@example.org", 12),
                 // URLs under 23 chars are treated as 23 chars
