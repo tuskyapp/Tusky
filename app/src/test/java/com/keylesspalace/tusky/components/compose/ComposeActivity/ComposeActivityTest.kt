@@ -252,7 +252,21 @@ class ComposeActivityTest {
     fun whenTextContainsNoUrl_everyCharacterIsCounted() {
         val content = "This is test content please ignore thx "
         insertSomeTextInContent(content)
-        assertEquals(activity.calculateTextLength(), content.length)
+        assertEquals(content.length, activity.calculateTextLength())
+    }
+
+    @Test
+    fun whenTextContainsEmoji_emojisAreCountedAsOneCharacter() {
+        val content = "Test 😜"
+        insertSomeTextInContent(content)
+        assertEquals(6, activity.calculateTextLength())
+    }
+
+    @Test
+    fun whenTextContainsUrlWithEmoji_ellipsizedUrlIsCountedCorrectly() {
+        val content = "https://🤪.com"
+        insertSomeTextInContent(content)
+        assertEquals(InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL, activity.calculateTextLength())
     }
 
     @Test
@@ -260,7 +274,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = "Check out this @image #search result: "
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL)
+        assertEquals(additionalContent.length + InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL, activity.calculateTextLength())
     }
 
     @Test
@@ -269,7 +283,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
+        assertEquals(additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2), activity.calculateTextLength())
     }
 
     @Test
@@ -277,7 +291,7 @@ class ComposeActivityTest {
         val url = "https://www.google.dk/search?biw=1920&bih=990&tbm=isch&sa=1&ei=bmDrWuOoKMv6kwWOkIaoDQ&q=indiana+jones+i+hate+snakes+animated&oq=indiana+jones+i+hate+snakes+animated&gs_l=psy-ab.3...54174.55443.0.55553.9.7.0.0.0.0.255.333.1j0j1.2.0....0...1c.1.64.psy-ab..7.0.0....0.40G-kcDkC6A#imgdii=PSp15hQjN1JqvM:&imgrc=H0hyE2JW5wrpBM:"
         val additionalContent = " Check out this @image #search result: "
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2))
+        assertEquals(additionalContent.length + (InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL * 2), activity.calculateTextLength())
     }
 
     @Test
@@ -289,7 +303,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + customUrlLength)
+        assertEquals(additionalContent.length + customUrlLength, activity.calculateTextLength())
     }
 
     @Test
@@ -301,7 +315,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + customUrlLength)
+        assertEquals(additionalContent.length + customUrlLength, activity.calculateTextLength())
     }
 
     @Test
@@ -314,7 +328,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (customUrlLength * 2))
+        assertEquals(additionalContent.length + (customUrlLength * 2), activity.calculateTextLength())
     }
 
     @Test
@@ -327,7 +341,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(shortUrl + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (customUrlLength * 2))
+        assertEquals(additionalContent.length + (customUrlLength * 2), activity.calculateTextLength())
     }
 
     @Test
@@ -339,7 +353,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (customUrlLength * 2))
+        assertEquals(additionalContent.length + (customUrlLength * 2), activity.calculateTextLength())
     }
 
     @Test
@@ -351,7 +365,7 @@ class ComposeActivityTest {
         setupActivity()
         shadowOf(getMainLooper()).idle()
         insertSomeTextInContent(url + additionalContent + url)
-        assertEquals(activity.calculateTextLength(), additionalContent.length + (customUrlLength * 2))
+        assertEquals(additionalContent.length + (customUrlLength * 2), activity.calculateTextLength())
     }
 
     @Test
