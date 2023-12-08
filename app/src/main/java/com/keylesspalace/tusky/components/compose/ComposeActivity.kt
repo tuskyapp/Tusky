@@ -1407,7 +1407,7 @@ class ComposeActivity :
          */
         @JvmStatic
         fun statusLength(body: Spanned, contentWarning: Spanned?, urlLength: Int): Int {
-            var length = body.toString().perceivedCharterLength() - body.getSpans(0, body.length, URLSpan::class.java)
+            var length = body.toString().perceivedCharacterLength() - body.getSpans(0, body.length, URLSpan::class.java)
                 .fold(0) { acc, span ->
                     // Accumulate a count of characters to be *ignored* in the final length
                     acc + when (span) {
@@ -1420,18 +1420,18 @@ class ComposeActivity :
                         }
                         else -> {
                             // Expected to be negative if the URL length < maxUrlLength
-                            span.url.perceivedCharterLength() - urlLength
+                            span.url.perceivedCharacterLength() - urlLength
                         }
                     }
                 }
 
             // Content warning text is treated as is, URLs or mentions there are not special
-            contentWarning?.let { length += it.toString().perceivedCharterLength() }
+            contentWarning?.let { length += it.toString().perceivedCharacterLength() }
             return length
         }
 
         // String.length would count emojis as multiple characters but Mastodon counts them as 1, so we need this workaround
-        private fun String.perceivedCharterLength(): Int {
+        private fun String.perceivedCharacterLength(): Int {
             val breakIterator = BreakIterator.getCharacterInstance()
             breakIterator.setText(this)
             var count = 0
