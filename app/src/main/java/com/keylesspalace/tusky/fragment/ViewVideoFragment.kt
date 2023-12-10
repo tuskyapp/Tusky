@@ -35,6 +35,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
 import androidx.core.view.GestureDetectorCompat
+import androidx.media3.common.C.WAKE_MODE_LOCAL
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -340,6 +341,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 addListener(mediaPlayerListener)
                 repeatMode = Player.REPEAT_MODE_ONE
                 playWhenReady = true
+                setWakeMode(WAKE_MODE_LOCAL)
                 seekTo(savedSeekPosition)
                 prepare()
                 player = this
