@@ -675,4 +675,5 @@
     <string name="filter_keyword_addition_title">Ajouter un mot-clé</string>
     <string name="filter_edit_keyword_title">Modifier mot-clé</string>
     <string name="filter_description_format">%s : %s</string>
+    <string name="pref_ui_text_size">Taille de police de l\'interface</string>
 </resources>

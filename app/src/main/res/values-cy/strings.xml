@@ -627,7 +627,7 @@
     <string name="status_edit_info">Golygwyd: %1$s</string>
     <string name="status_created_info">Crëwyd: %1$s</string>
     <string name="title_edits">Golygiadau</string>
-    <string name="post_media_alt">AMGEN</string>
+    <string name="post_media_alt">DISGRIFIAD</string>
     <string name="action_discard">Hepgor newidiadau</string>
     <string name="compose_unsaved_changes">Mae gennyt ti newidiadau heb eu cadw.</string>
     <string name="mute_notifications_switch">Tewi hysbysiadau</string>

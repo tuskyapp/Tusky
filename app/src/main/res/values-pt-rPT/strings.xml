@@ -152,8 +152,8 @@
     <string name="action_share_as">Partilhar como…</string>
     <string name="download_media">Descarregar conteúdo multimédia</string>
     <string name="downloading_media">A descarregar conteúdo multimédia</string>
-    <string name="send_post_link_to">Partilhar hiperligação do toot via…</string>
-    <string name="send_post_content_to">Partilhar toot via…</string>
+    <string name="send_post_link_to">Partilhar ligação da publicação via…</string>
+    <string name="send_post_content_to">Partilhar publicação via…</string>
     <string name="send_media_to">Partilhar conteúdo multimédia via…</string>
     <string name="confirmation_reported">Enviado!</string>
     <string name="confirmation_unblocked">Utilizador desbloqueado</string>
@@ -538,7 +538,7 @@
     <string name="action_edit_image">Editar imagem</string>
     <string name="error_image_edit_failed">Não foi possível editar a imagem.</string>
     <string name="saving_draft">A guardar rascunho…</string>
-    <string name="title_migration_relogin">Faz novamente login para as notificações push</string>
+    <string name="title_migration_relogin">Faça login novamente para ter notificações push</string>
     <string name="action_dismiss">Descartar</string>
     <string name="action_details">Detalhes</string>
     <string name="delete_scheduled_post_warning">Apagar esta publicação agendada\?</string>
@@ -563,28 +563,33 @@
     <string name="pref_title_notification_filter_reports">existe um novo relatório</string>
     <string name="hint_media_description_missing">Imagem/Vídeo precisa de uma descrição.</string>
     <string name="pref_title_http_proxy_port_message">Porta deve ser entre %d e %d</string>
-    <string name="action_post_failed">Falha ao fazer upload</string>
-    <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi salva nos rascunhos.
+    <string name="action_post_failed">Erro no upload</string>
+    <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi guardada nos rascunhos.
 \n
-\nO servidor não pode ser contactado, ou rejeitou a publicação.</string>
-    <string name="action_post_failed_detail_plural">As tuas publicações não conseguiram ser enviadas e foram salvas nos rascunhos.
+\nO servidor não pode ser contactado ou rejeitou a publicação.</string>
+    <string name="action_post_failed_detail_plural">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
 \n
-\nO servidor não pode ser contactado, ou rejeitou as publicações.</string>
+\nO servidor não pode ser contactado ou rejeitou as publicações.</string>
     <string name="action_post_failed_show_drafts">Mostrar rascunhos</string>
     <string name="action_post_failed_do_nothing">Descartar</string>
-    <string name="post_media_alt">ALT</string>
-    <string name="error_muting_hashtag_format">Erro a silenciar #%s</string>
-    <string name="action_browser_login">Iniciar sessão com navegador</string>
+    <string name="post_media_alt">Alternativo</string>
+    <string name="error_muting_hashtag_format">Erro ao silenciar #%s</string>
+    <string name="action_browser_login">Iniciar sessão com o navegador</string>
     <string name="notification_header_report_format">%s reportou %s</string>
     <string name="action_discard">Descartar alterações</string>
     <string name="action_continue_edit">Continuar a editar</string>
     <string name="action_share_account_link">Partilhar ligação para a conta</string>
     <string name="action_share_account_username">Partilhar nome de utilizador da conta</string>
-    <string name="send_account_link_to">Partilhar URL da conta para…</string>
+    <string name="send_account_link_to">Partilhar ligação da conta para…</string>
     <string name="send_account_username_to">Partilhar nome de utilizador da conta para…</string>
     <string name="account_username_copied">Nome de utilizador copiado</string>
     <string name="confirmation_hashtag_unfollowed">Parou de seguir #%s</string>
-    <string name="post_edited">Editado %s</string>
+    <string name="post_edited">Editado a %s</string>
     <string name="title_followed_hashtags">Hashtags seguidas</string>
     <string name="title_public_trending_hashtags">Hashtags populares</string>
+    <string name="pref_reading_order_newest_first">Mais recentes primeiro</string>
+    <string name="pref_reading_order_oldest_first">Mais antigas primeiro</string>
+    <string name="action_refresh">Atualizar</string>
+    <string name="report_category_other">Outro</string>
+    <string name="report_category_spam">Spam</string>
 </resources>
