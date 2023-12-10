@@ -35,6 +35,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ShareCompat
@@ -155,6 +156,10 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
                 window.sharedElementEnterTransition.removeListener(this)
             }
         })
+
+        // Prevent this activity from dimming or sleeping the screen if it is playing video or audio
+        if (attachments!![binding.viewPager.currentItem].attachment.type != Attachment.Type.IMAGE)
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
