@@ -342,7 +342,7 @@
     <string name="pref_main_nav_position_option_bottom">Abaixo</string>
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
-    <string name="pref_failed_to_sync">Fallou a sincronización dos axustes</string>
+    <string name="pref_failed_to_sync">Fallou a sincr. das preferencis</string>
     <string name="pref_publishing">Ao publicar (sincronizado co servidor)</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible</string>
     <string name="pref_default_post_privacy">Privacidade por defecto da publicación</string>
