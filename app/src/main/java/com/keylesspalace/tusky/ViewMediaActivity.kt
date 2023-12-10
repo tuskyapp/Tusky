@@ -158,8 +158,9 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         })
 
         // Prevent this activity from dimming or sleeping the screen if it is playing video or audio
-        if (attachments!![binding.viewPager.currentItem].attachment.type != Attachment.Type.IMAGE)
+        if (attachments!![binding.viewPager.currentItem].attachment.type != Attachment.Type.IMAGE) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
