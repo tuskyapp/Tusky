@@ -193,7 +193,7 @@
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
     <string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
     <string name="pref_publishing">Publicering (synkroniserad med server)</string>
-    <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
+    <string name="pref_failed_to_sync">Misslyckades med att synkronisera inställningarna</string>
     <string name="post_privacy_public">Offentlig</string>
     <string name="post_privacy_unlisted">Olistad</string>
     <string name="post_privacy_followers_only">Endast följare</string>
