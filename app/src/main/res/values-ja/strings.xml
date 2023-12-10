@@ -219,12 +219,8 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        プロジェクトのWebサイト（英語）：\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        バグ報告 &amp; 機能リクエスト（英語）：\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">プロジェクトのウェブサイト (英語): https://tusky.app</string>
+    <string name="about_bug_feature_request_site">バグ報告と機能リクエスト (英語): https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky公式アカウント</string>
     <string name="post_share_content">投稿の内容を共有</string>
     <string name="post_share_link">投稿へのリンクを共有</string>
@@ -254,11 +250,11 @@
     <string name="add_account_description">新しいMastodonアカウントを追加</string>
     <string name="action_lists">リスト</string>
     <string name="title_lists">リスト</string>
-    <string name="error_rename_list">リスト名を変更できませんでした</string>
-    <string name="action_rename_list">リスト名の変更</string>
+    <string name="error_rename_list">リスト名を更新できませんでした</string>
+    <string name="action_rename_list">リスト名の更新</string>
     <string name="compose_active_account_description">%1$sとして投稿</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">視覚障害者のための説明 (%d文字まで)</item>
+        <item quantity="other">視覚障害者のためのコンテキストを記入してください (%d文字まで)</item>
     </plurals>
     <string name="action_set_caption">説明を設定</string>
     <string name="action_remove">消去</string>
@@ -325,7 +321,7 @@
     <string name="download_media">メディアをダウンロード</string>
     <string name="downloading_media">メディアをダウンロード中</string>
     <string name="app_theme_system">システムの設定を利用</string>
-    <string name="notifications_clear">通知を削除</string>
+    <string name="notifications_clear">削除</string>
     <string name="notifications_apply_filter">フィルター</string>
     <string name="notification_clear_text">すべての通知を完全に削除してよろしいですか？</string>
     <plurals name="poll_info_votes">
@@ -656,4 +652,29 @@
 \n
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
     <string name="title_public_trending_statuses">トレンドの投稿</string>
+    <string name="about_device_info">%s %s
+\nAndroid バージョン: %s
+\nSDK バージョン: %d</string>
+    <string name="about_account_info_title">あなたのアカウント</string>
+    <string name="about_device_info_title">あなたのデバイス</string>
+    <string name="about_account_info">\@%s@%s
+\nバージョン: %s</string>
+    <string name="about_copy">バージョンとデバイス情報をコピー</string>
+    <string name="about_copied">バージョンとデバイス情報をコピーしました</string>
+    <string name="error_media_playback">再生に失敗しました: \t%s</string>
+    <string name="dialog_delete_filter_text">フィルタ「%1$s」を削除しますか？</string>
+    <string name="dialog_delete_filter_positive_action">削除する</string>
+    <string name="dialog_save_profile_changes_message">プロファイルの変更を保存しますか？</string>
+    <string name="app_theme_system_black">システムのデザインを使用 (ブラック)</string>
+    <string name="list_exclusive_label">ホームタイムラインで隠す</string>
+    <string name="notification_summary_report_format">%s · %d 個の投稿を添付</string>
+    <string name="unmuting_hashtag_success_format">ハッシュタグ #%s のミュートを解除</string>
+    <string name="action_view_filter">フィルタを表示</string>
+    <string name="status_filter_placeholder_label_format">フィルタ済み: %s</string>
+    <string name="error_unblocking_domain">%1$s のミュート解除に失敗しました: %2$s</string>
+    <string name="error_blocking_domain">%1$s のミュートに失敗しました: %2$s</string>
+    <string name="label_image">画像</string>
+    <string name="list_reply_policy_list">リストのメンバー</string>
+    <string name="pref_title_show_self_boosts">自己ブーストを表示</string>
+    <string name="pref_title_show_self_boosts_description">自分自身の投稿をブーストしている誰か</string>
 </resources>
