@@ -587,4 +587,9 @@
     <string name="post_edited">Editado a %s</string>
     <string name="title_followed_hashtags">Hashtags seguidas</string>
     <string name="title_public_trending_hashtags">Hashtags populares</string>
+    <string name="pref_reading_order_newest_first">Mais recentes primeiro</string>
+    <string name="pref_reading_order_oldest_first">Mais antigas primeiro</string>
+    <string name="action_refresh">Atualizar</string>
+    <string name="report_category_other">Outro</string>
+    <string name="report_category_spam">Spam</string>
 </resources>
