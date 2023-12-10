@@ -1,6 +1,6 @@
 Tusky 24.0
 
-- Blockcitat och kodblock i inlägg ser nu snyggare ut.
+– Blockcitat och kodblock i inlägg ser nu snyggare ut.
 - Det gamla beteendet för meddelandefliken har återställts.
 - Rollbrickor visas nu på profiler.
 – Videospelaren har förbättrats. Du kan nu välja uppspelningshastighet.
