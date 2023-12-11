@@ -341,7 +341,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 addListener(mediaPlayerListener)
                 repeatMode = Player.REPEAT_MODE_ONE
                 playWhenReady = true
-                setWakeMode(WAKE_MODE_LOCAL)
+                // When playing audio, allow the screen to sleep but not the CPU.
+                // See also KEEP_SCREEN_ON in ViewMediaActivity.kt.
+                if (isAudio) {
+                    setWakeMode(WAKE_MODE_LOCAL)
+                }
                 seekTo(savedSeekPosition)
                 prepare()
                 player = this
