@@ -592,4 +592,22 @@
     <string name="action_refresh">Atualizar</string>
     <string name="report_category_other">Outro</string>
     <string name="report_category_spam">Spam</string>
+    <string name="title_public_trending_statuses">Toots populares</string>
+    <string name="pref_ui_text_size">"Tamanho do texto da  IU"</string>
+    <string name="label_image">Imagem</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;inválido&gt;</string>
+    <string name="notification_listenable_worker_description">Notificações quando Tusky está ativo em background</string>
+    <string name="notification_notification_worker">Procurando notificações…</string>
+    <string name="notification_listenable_worker_name">"Atividade de  background"</string>
+    <string name="notification_prune_cache">Manutenção de cache</string>
+    <string name="pref_default_post_language">Linguagem de publicação padrão</string>
+    <string name="notification_report_name">Denúncias</string>
+    <string name="notification_report_description">Notificações acerca das denúncias de moderação</string>
+    <string name="about_device_info_title">O teu telemóvel</string>
+    <string name="notification_unknown_name">Desconhecido</string>
+    <string name="app_theme_system_black">"Usar tema  do Sistema (preto)"</string>
+    <string name="error_following_hashtags_unsupported">A instância não suporta as seguintes hashtags.</string>
+    <string name="error_media_upload_sending_fmt">O carregamento falhou:%s</string>
+    <string name="pref_title_show_self_boosts">Mostrar boosts do próprio</string>
+    <string name="pref_title_show_self_boosts_description">Alguém a dar boost ao seu próprio toot</string>
 </resources>
