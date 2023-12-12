@@ -613,4 +613,14 @@
     <string name="about_device_info">%s %s
 \nVersão Android: %s
 \nVersão SDK: %d</string>
+    <string name="failed_to_remove_from_list">Falha em remover a conta da lista</string>
+    <string name="action_add_or_remove_from_list">Adicionar ou remover da lista</string>
+    <string name="failed_to_add_to_list">Falha em adicionar a conta à lista</string>
+    <string name="failed_to_pin">Falha em afixar</string>
+    <string name="compose_save_draft_loses_media">Guardar rascunho\? (anexos serão carregados novamente quando recuperares o rascunho.)</string>
+    <string name="select_list_empty">Ainda não tens nenhuma lista</string>
+    <string name="select_list_manage">Organizar listas</string>
+    <string name="status_filter_placeholder_label_format">Filtrados: %s</string>
+    <string name="status_filtered_show_anyway">Mostrar à mesma</string>
+    <string name="description_post_edited">Editado</string>
 </resources>
