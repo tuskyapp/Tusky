@@ -125,6 +125,7 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.toolbar.title = getPageTitle(position)
+                adjustScreenWakefulness()
             }
         })
 
@@ -157,10 +158,7 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
             }
         })
 
-        // Prevent this activity from dimming or sleeping the screen if it is playing video or audio
-        if (attachments!![binding.viewPager.currentItem].attachment.type != Attachment.Type.IMAGE) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
+        adjustScreenWakefulness()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -346,6 +344,15 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         downloadManager.enqueue(request)
 
         shareFile(file, mimeType)
+    }
+
+    // Prevent this activity from dimming or sleeping the screen if, and only if, it is playing video or audio
+    private fun adjustScreenWakefulness() {
+        if (attachments!![binding.viewPager.currentItem].attachment.type == Attachment.Type.IMAGE) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     override fun androidInjector() = androidInjector
