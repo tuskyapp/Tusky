@@ -623,4 +623,12 @@
     <string name="status_filter_placeholder_label_format">Filtrados: %s</string>
     <string name="status_filtered_show_anyway">Mostrar à mesma</string>
     <string name="description_post_edited">Editado</string>
+    <string name="about_account_info_title">A tua conta</string>
+    <string name="about_account_info">\@%s@%s
+\nVersão: %s</string>
+    <string name="status_created_at_now">agora</string>
+    <string name="compose_unsaved_changes">Tens alterações não guardadas.</string>
+    <string name="pref_title_account_filter_keywords">Perfis</string>
+    <string name="compose_delete_draft">Apagar rascunho\?</string>
+    <string name="post_media_image">Imagem</string>
 </resources>
