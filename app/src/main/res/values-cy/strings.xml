@@ -28,7 +28,7 @@
     <string name="title_favourites">Ffefrynnau</string>
     <string name="title_mutes">Defnyddwyr a tawyd</string>
     <string name="title_blocks">Defnyddwyr a flociwyd</string>
-    <string name="title_follow_requests">Ceisiadau i\'th dilyn</string>
+    <string name="title_follow_requests">Ceisiadau i\'th ddilyn</string>
     <string name="title_edit_profile">Golygu dy broffil</string>
     <string name="title_drafts">Drafftiau</string>
     <string name="title_licenses">Trwyddedau</string>
@@ -72,7 +72,7 @@
     <string name="action_view_favourites">Ffefrynnau</string>
     <string name="action_view_mutes">Defnyddwyr a dawyd</string>
     <string name="action_view_blocks">Defnyddwyr a flociwyd</string>
-    <string name="action_view_follow_requests">Ceisiadau i\'th dilyn</string>
+    <string name="action_view_follow_requests">Ceisiadau i\'th ddilyn</string>
     <string name="action_view_media">Cyfryngau</string>
     <string name="action_open_in_web">Agor mewn porwr</string>
     <string name="action_add_media">Ychwanegu cyfryngau</string>
@@ -342,7 +342,7 @@
     <string name="action_open_as">Agor fel %s</string>
     <string name="action_reset_schedule">Ailosod</string>
     <string name="title_bookmarks">Tudalnodau</string>
-    <string name="notification_follow_request_format">Ceisiodd %s i\'th dilyn di</string>
+    <string name="notification_follow_request_format">Ceisiodd %s i\'th ddilyn di</string>
     <string name="title_login">Mewngofnodi</string>
     <string name="notification_sign_up_format">Cofrestrodd %s</string>
     <string name="action_unbookmark">Tynnu\'r tudalnod</string>
