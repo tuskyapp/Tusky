@@ -610,4 +610,7 @@
     <string name="error_media_upload_sending_fmt">O carregamento falhou:%s</string>
     <string name="pref_title_show_self_boosts">Mostrar boosts do próprio</string>
     <string name="pref_title_show_self_boosts_description">Alguém a dar boost ao seu próprio toot</string>
+    <string name="about_device_info">%s %s
+\nVersão Android: %s
+\nVersão SDK: %d</string>
 </resources>
