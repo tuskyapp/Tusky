@@ -607,7 +607,7 @@
     <string name="notification_unknown_name">Desconhecido</string>
     <string name="app_theme_system_black">"Usar tema  do Sistema (preto)"</string>
     <string name="error_following_hashtags_unsupported">A instância não suporta as seguintes hashtags.</string>
-    <string name="error_media_upload_sending_fmt">O carregamento falhou:%s</string>
+    <string name="error_media_upload_sending_fmt">O carregamento falhou: %s</string>
     <string name="pref_title_show_self_boosts">Mostrar boosts do próprio</string>
     <string name="pref_title_show_self_boosts_description">Alguém a dar boost ao seu próprio toot</string>
     <string name="about_device_info">%s %s
@@ -619,7 +619,7 @@
     <string name="failed_to_pin">Falha em afixar</string>
     <string name="compose_save_draft_loses_media">Guardar rascunho\? (anexos serão carregados novamente quando recuperares o rascunho.)</string>
     <string name="select_list_empty">Ainda não tens nenhuma lista</string>
-    <string name="select_list_manage">Organizar listas</string>
+    <string name="select_list_manage">Gerir listas</string>
     <string name="status_filter_placeholder_label_format">Filtrados: %s</string>
     <string name="status_filtered_show_anyway">Mostrar à mesma</string>
     <string name="description_post_edited">Editado</string>
@@ -648,4 +648,5 @@
     <string name="socket_timeout_exception">A tentativa de contato com o teu servidor demorou demasiado temp0</string>
     <string name="action_unfollow_hashtag_format">Deixar de seguir #%s\?</string>
     <string name="pref_title_show_stat_inline">Mostrar estatísticas dos toots na timeline</string>
+    <string name="action_view_filter">Ver filtro</string>
 </resources>
