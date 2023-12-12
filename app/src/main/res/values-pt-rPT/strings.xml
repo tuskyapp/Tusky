@@ -631,4 +631,21 @@
     <string name="pref_title_account_filter_keywords">Perfis</string>
     <string name="compose_delete_draft">Apagar rascunho\?</string>
     <string name="post_media_image">Imagem</string>
+    <string name="a11y_label_loading_thread">A carregar discussão</string>
+    <string name="language_display_name_format">%s (%s)</string>
+    <string name="instance_rule_info">Ao fazer login concordas com as regras de %s.</string>
+    <string name="instance_rule_title">%s regras</string>
+    <string name="ui_error_unknown">Razão desconhecida</string>
+    <string name="mute_notifications_switch">Silenciar notificações</string>
+    <string name="accessibility_talking_about_tag">%1$d pessoas estão a falar acerca da hashtag %2$s</string>
+    <string name="total_accounts">Total de contas</string>
+    <string name="status_edit_info">Editado: %1$s</string>
+    <string name="status_created_info">Criado: %1$s</string>
+    <string name="pref_title_reading_order">Ordem de leitura</string>
+    <string name="error_list_load">Erro ao carregar listas</string>
+    <string name="report_category_violation">Violação de regra</string>
+    <string name="no_lists">Não tens nenhuma lista.</string>
+    <string name="socket_timeout_exception">A tentativa de contato com o teu servidor demorou demasiado temp0</string>
+    <string name="action_unfollow_hashtag_format">Deixar de seguir #%s\?</string>
+    <string name="pref_title_show_stat_inline">Mostrar estatísticas dos toots na timeline</string>
 </resources>
