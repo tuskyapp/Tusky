@@ -45,9 +45,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ScheduledStatusActivity :
     BaseActivity(),
@@ -109,7 +109,10 @@ class ScheduledStatusActivity :
             if (loadState.refresh is LoadState.NotLoading) {
                 binding.progressBar.hide()
                 if (adapter.itemCount == 0) {
-                    binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_posts)
+                    binding.errorMessageView.setup(
+                        R.drawable.elephant_friend_empty,
+                        R.string.no_scheduled_posts
+                    )
                     binding.errorMessageView.show()
                 } else {
                     binding.errorMessageView.hide()

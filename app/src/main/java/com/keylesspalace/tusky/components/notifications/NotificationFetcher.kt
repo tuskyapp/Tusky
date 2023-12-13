@@ -14,10 +14,10 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
 
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?) {
@@ -55,12 +55,16 @@ class NotificationFetcher @Inject constructor(
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
-                    val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    val notificationManager = context.getSystemService(
+                        Context.NOTIFICATION_SERVICE
+                    ) as NotificationManager
 
                     // Create sorted list of new notifications
                     val notifications = fetchNewNotifications(account)
                         .filter { filterNotification(notificationManager, account, it) }
-                        .sortedWith(compareBy({ it.id.length }, { it.id })) // oldest notifications first
+                        .sortedWith(
+                            compareBy({ it.id.length }, { it.id })
+                        ) // oldest notifications first
                         .toMutableList()
 
                     // TODO do this before filter above? But one could argue that (for example) a tab badge is also a notification
@@ -74,13 +78,18 @@ class NotificationFetcher @Inject constructor(
                     // Err on the side of removing *older* notifications to make room for newer
                     // notifications.
                     val currentAndroidNotifications = notificationManager.activeNotifications
-                        .sortedWith(compareBy({ it.tag.length }, { it.tag })) // oldest notifications first
+                        .sortedWith(
+                            compareBy({ it.tag.length }, { it.tag })
+                        ) // oldest notifications first
 
                     // Check to see if any notifications need to be removed
                     val toRemove = currentAndroidNotifications.size + notifications.size - MAX_NOTIFICATIONS
                     if (toRemove > 0) {
                         // Prefer to cancel old notifications first
-                        currentAndroidNotifications.subList(0, min(toRemove, currentAndroidNotifications.size))
+                        currentAndroidNotifications.subList(
+                            0,
+                            min(toRemove, currentAndroidNotifications.size)
+                        )
                             .forEach { notificationManager.cancel(it.tag, it.id) }
 
                         // Still got notifications to remove? Trim the list of new notifications,
@@ -106,7 +115,11 @@ class NotificationFetcher @Inject constructor(
                                 account,
                                 notificationsGroup.value.size == 1
                             )
-                            notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
+                            notificationManager.notify(
+                                notification.id,
+                                account.id.toInt(),
+                                androidNotification
+                            )
 
                             // Android will rate limit / drop notifications if they're posted too
                             // quickly. There is no indication to the user that this happened.
@@ -158,7 +171,14 @@ class NotificationFetcher @Inject constructor(
         Log.d(TAG, "getting notification marker for ${account.fullName}")
         val remoteMarkerId = fetchMarker(authHeader, account)?.lastReadId ?: "0"
         val localMarkerId = account.notificationMarkerId
-        val markerId = if (remoteMarkerId.isLessThan(localMarkerId)) localMarkerId else remoteMarkerId
+        val markerId = if (remoteMarkerId.isLessThan(
+                localMarkerId
+            )
+        ) {
+            localMarkerId
+        } else {
+            remoteMarkerId
+        }
         val readingPosition = account.lastNotificationId
 
         var minId: String? = if (readingPosition.isLessThan(markerId)) markerId else readingPosition

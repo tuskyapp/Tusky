@@ -76,11 +76,7 @@ abstract class TimelineViewModel(
     private var filterRemoveSelfReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
-    fun init(
-        kind: Kind,
-        id: String?,
-        tags: List<String>
-    ) {
+    fun init(kind: Kind, id: String?, tags: List<String>) {
         this.kind = kind
         this.id = id
         this.tags = tags
@@ -138,23 +134,24 @@ abstract class TimelineViewModel(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${status.id}")
-            return@launch
-        }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
+        viewModelScope.launch {
+            val poll = status.status.actionableStatus.poll ?: run {
+                Log.w(TAG, "No poll on status ${status.id}")
+                return@launch
+            }
 
-        val votedPoll = poll.votedCopy(choices)
-        updatePoll(votedPoll, status)
+            val votedPoll = poll.votedCopy(choices)
+            updatePoll(votedPoll, status)
 
-        try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            try {
+                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+            } catch (t: Exception) {
+                ifExpected(t) {
+                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+                }
             }
         }
-    }
 
     abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
 
@@ -319,16 +316,23 @@ abstract class TimelineViewModel(
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
 
-        fun filterContextMatchesKind(
-            kind: Kind,
-            filterContext: List<String>
-        ): Boolean {
+        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean {
             return filterContext.contains(kind.toFilterKind().kind)
         }
     }
 
     enum class Kind {
-        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS, PUBLIC_TRENDING_STATUSES;
+        HOME,
+        PUBLIC_LOCAL,
+        PUBLIC_FEDERATED,
+        TAG,
+        USER,
+        USER_PINNED,
+        USER_WITH_REPLIES,
+        FAVOURITES,
+        LIST,
+        BOOKMARKS,
+        PUBLIC_TRENDING_STATUSES;
 
         fun toFilterKind(): Filter.Kind {
             return when (valueOf(name)) {

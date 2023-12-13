@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
@@ -86,7 +86,11 @@ class InstanceInfoRepository @Inject constructor(
                     if (throwable.isHttpNotFound()) {
                         getInstanceInfoV1()
                     } else {
-                        Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                        Log.w(
+                            TAG,
+                            "failed to instance, falling back to cache and default values",
+                            throwable
+                        )
                         dao.getInstanceInfo(instanceName)
                     }
                 }
@@ -135,7 +139,11 @@ class InstanceInfoRepository @Inject constructor(
                     instanceEntity
                 },
                 { throwable ->
-                    Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                    Log.w(
+                        TAG,
+                        "failed to instance, falling back to cache and default values",
+                        throwable
+                    )
                     dao.getInstanceInfo(instanceName)
                 }
             )

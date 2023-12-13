@@ -49,7 +49,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var localeManager: LocaleManager
 
-    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy {
+        resources.getDimensionPixelSize(
+            R.dimen.preference_icon_size
+        )
+    }
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */
@@ -260,7 +264,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
+                            val notificationFilter = deserialize(
+                                account.notificationsFilter
+                            ).toMutableSet()
 
                             if (value == true) {
                                 notificationFilter.add(Notification.Type.FAVOURITE)

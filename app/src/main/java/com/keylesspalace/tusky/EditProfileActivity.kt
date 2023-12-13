@@ -57,8 +57,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class EditProfileActivity : BaseActivity(), Injectable {
 
@@ -126,9 +126,17 @@ class EditProfileActivity : BaseActivity(), Injectable {
         binding.fieldList.layoutManager = LinearLayoutManager(this)
         binding.fieldList.adapter = accountFieldEditAdapter
 
-        val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).apply { sizeDp = 12; colorInt = Color.WHITE }
+        val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).apply {
+            sizeDp = 12
+            colorInt = Color.WHITE
+        }
 
-        binding.addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(plusDrawable, null, null, null)
+        binding.addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            plusDrawable,
+            null,
+            null,
+            null
+        )
 
         binding.addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()
@@ -162,7 +170,9 @@ class EditProfileActivity : BaseActivity(), Injectable {
                                 .placeholder(R.drawable.avatar_default)
                                 .transform(
                                     FitCenter(),
-                                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                                    RoundedCorners(
+                                        resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp)
+                                    )
                                 )
                                 .into(binding.avatarPreview)
                         }
@@ -175,7 +185,11 @@ class EditProfileActivity : BaseActivity(), Injectable {
                     }
                 }
                 is Error -> {
-                    Snackbar.make(binding.avatarButton, R.string.error_generic, Snackbar.LENGTH_LONG)
+                    Snackbar.make(
+                        binding.avatarButton,
+                        R.string.error_generic,
+                        Snackbar.LENGTH_LONG
+                    )
                         .setAction(R.string.action_retry) {
                             viewModel.obtainProfile()
                         }
@@ -188,7 +202,10 @@ class EditProfileActivity : BaseActivity(), Injectable {
         lifecycleScope.launch {
             viewModel.instanceData.collect { instanceInfo ->
                 maxAccountFields = instanceInfo.maxFields
-                accountFieldEditAdapter.setFieldLimits(instanceInfo.maxFieldNameLength, instanceInfo.maxFieldValueLength)
+                accountFieldEditAdapter.setFieldLimits(
+                    instanceInfo.maxFieldNameLength,
+                    instanceInfo.maxFieldValueLength
+                )
                 binding.addFieldButton.isVisible =
                     accountFieldEditAdapter.itemCount < maxAccountFields
             }
@@ -318,7 +335,11 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
     private fun onPickFailure(throwable: Throwable?) {
         Log.w("EditProfileActivity", "failed to pick media", throwable)
-        Snackbar.make(binding.avatarButton, R.string.error_media_upload_sending, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(
+            binding.avatarButton,
+            R.string.error_media_upload_sending,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     private fun showUnsavedChangesDialog() = lifecycleScope.launch {

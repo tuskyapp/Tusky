@@ -34,7 +34,8 @@ data class MastoList(
         FOLLOWED("followed");
 
         companion object {
-            fun from(policy: String?): ReplyPolicy = values().firstOrNull { it.policy == policy } ?: LIST
+            fun from(policy: String?): ReplyPolicy =
+                values().firstOrNull { it.policy == policy } ?: LIST
         }
     }
 }

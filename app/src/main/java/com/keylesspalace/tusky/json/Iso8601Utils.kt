@@ -82,19 +82,40 @@ internal fun String.parseIsoDate(): Date {
         var offset = 0
 
         // extract year
-        val year = parseInt(this, offset, 4.let { offset += it; offset })
+        val year = parseInt(
+            this,
+            offset,
+            4.let {
+                offset += it
+                offset
+            }
+        )
         if (checkOffset(this, offset, '-')) {
             offset += 1
         }
 
         // extract month
-        val month = parseInt(this, offset, 2.let { offset += it; offset })
+        val month = parseInt(
+            this,
+            offset,
+            2.let {
+                offset += it
+                offset
+            }
+        )
         if (checkOffset(this, offset, '-')) {
             offset += 1
         }
 
         // extract day
-        val day = parseInt(this, offset, 2.let { offset += it; offset })
+        val day = parseInt(
+            this,
+            offset,
+            2.let {
+                offset += it
+                offset
+            }
+        )
         // default time value
         var hour = 0
         var minutes = 0
@@ -109,11 +130,27 @@ internal fun String.parseIsoDate(): Date {
         }
         if (hasT) {
             // extract hours, minutes, seconds and milliseconds
-            hour = parseInt(this, 1.let { offset += it; offset }, 2.let { offset += it; offset })
+            hour = parseInt(
+                this,
+                1.let {
+                    offset += it
+                    offset
+                },
+                2.let {
+                    offset += it
+                    offset
+                }
+            )
             if (checkOffset(this, offset, ':')) {
                 offset += 1
             }
-            minutes = parseInt(this, offset, 2.let { offset += it; offset })
+            minutes = parseInt(
+                this, offset,
+                2.let {
+                    offset += it
+                    offset
+                }
+            )
             if (checkOffset(this, offset, ':')) {
                 offset += 1
             }
@@ -121,12 +158,21 @@ internal fun String.parseIsoDate(): Date {
             if (this.length > offset) {
                 val c = this[offset]
                 if (c != 'Z' && c != '+' && c != '-') {
-                    seconds = parseInt(this, offset, 2.let { offset += it; offset })
+                    seconds = parseInt(
+                        this, offset,
+                        2.let {
+                            offset += it
+                            offset
+                        }
+                    )
                     if (seconds in 60..62) seconds = 59 // truncate up to 3 leap seconds
                     // milliseconds can be optional in the format
                     if (checkOffset(this, offset, '.')) {
                         offset += 1
-                        val endOffset = indexOfNonDigit(this, offset + 1) // assume at least one digit
+                        val endOffset = indexOfNonDigit(
+                            this,
+                            offset + 1
+                        ) // assume at least one digit
                         val parseEndOffset = min(endOffset, offset + 3) // parse up to 3 digits
                         val fraction = parseInt(this, offset, parseEndOffset)
                         milliseconds =

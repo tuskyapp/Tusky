@@ -25,12 +25,14 @@ data class TimelineAccount(
     val id: String,
     @SerializedName("username") val localUsername: String,
     @SerializedName("acct") val username: String,
-    @SerializedName("display_name") val displayName: String?, // should never be null per Api definition, but some servers break the contract
+    // should never be null per Api definition, but some servers break the contract
+    @SerializedName("display_name") val displayName: String?,
     val url: String,
     val avatar: String,
     val note: String,
     val bot: Boolean = false,
-    val emojis: List<Emoji>? = emptyList() // nullable for backward compatibility
+    // nullable for backward compatibility
+    val emojis: List<Emoji>? = emptyList()
 ) {
 
     val name: String

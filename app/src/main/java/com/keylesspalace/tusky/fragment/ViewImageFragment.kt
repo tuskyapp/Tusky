@@ -85,7 +85,11 @@ class ViewImageFragment : ViewMediaFragment() {
         loadImageFromNetwork(url, previewUrl, binding.photoView)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         toolbar = (requireActivity() as ViewMediaActivity).toolbar
         this.transition = BehaviorSubject.create()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
@@ -96,7 +100,11 @@ class ViewImageFragment : ViewMediaFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val arguments = this.requireArguments()
-        val attachment = BundleCompat.getParcelable(arguments, ARG_ATTACHMENT, Attachment::class.java)
+        val attachment = BundleCompat.getParcelable(
+            arguments,
+            ARG_ATTACHMENT,
+            Attachment::class.java
+        )
         this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?
         var description: String? = null

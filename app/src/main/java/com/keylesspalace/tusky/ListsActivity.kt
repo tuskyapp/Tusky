@@ -60,8 +60,8 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 /**
  * Created by charlag on 1/4/18.
@@ -261,11 +261,22 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             return LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
                 .let(this::ListViewHolder)
                 .apply {
-                    val iconColor = MaterialColors.getColor(nameTextView, android.R.attr.textColorTertiary)
+                    val iconColor = MaterialColors.getColor(
+                        nameTextView,
+                        android.R.attr.textColorTertiary
+                    )
                     val context = nameTextView.context
-                    val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply { sizeDp = 20; colorInt = iconColor }
+                    val icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_list).apply {
+                        sizeDp = 20
+                        colorInt = iconColor
+                    }
 
-                    nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+                    nameTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        icon,
+                        null,
+                        null,
+                        null
+                    )
                 }
         }
 
@@ -295,7 +306,12 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
     }
 
-    private fun onPickedDialogName(name: String, listId: String?, exclusive: Boolean, replyPolicy: String) {
+    private fun onPickedDialogName(
+        name: String,
+        listId: String?,
+        exclusive: Boolean,
+        replyPolicy: String
+    ) {
         if (listId == null) {
             viewModel.createNewList(name, exclusive, replyPolicy)
         } else {

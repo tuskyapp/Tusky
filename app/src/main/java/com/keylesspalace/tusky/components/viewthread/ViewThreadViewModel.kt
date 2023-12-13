@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
@@ -48,7 +49,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
@@ -64,7 +64,12 @@ class ViewThreadViewModel @Inject constructor(
     val uiState: Flow<ThreadUiState>
         get() = _uiState
 
-    private val _errors = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _errors =
+        MutableSharedFlow<Throwable>(
+            replay = 0,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
     val errors: Flow<Throwable>
         get() = _errors
 
@@ -219,25 +224,26 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${status.id}")
-            return@launch
-        }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
+        viewModelScope.launch {
+            val poll = status.status.actionableStatus.poll ?: run {
+                Log.w(TAG, "No poll on status ${status.id}")
+                return@launch
+            }
 
-        val votedPoll = poll.votedCopy(choices)
-        updateStatus(status.id) { status ->
-            status.copy(poll = votedPoll)
-        }
+            val votedPoll = poll.votedCopy(choices)
+            updateStatus(status.id) { status ->
+                status.copy(poll = votedPoll)
+            }
 
-        try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            try {
+                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+            } catch (t: Exception) {
+                ifExpected(t) {
+                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+                }
             }
         }
-    }
 
     fun removeStatus(statusToRemove: StatusViewData.Concrete) {
         updateSuccess { uiState ->
@@ -430,10 +436,10 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun Status.toViewData(
-        isDetailed: Boolean = false
-    ): StatusViewData.Concrete {
-        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find { it.id == this.id }
+    private fun Status.toViewData(isDetailed: Boolean = false): StatusViewData.Concrete {
+        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find {
+            it.id == this.id
+        }
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
@@ -452,7 +458,10 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
+    private fun updateStatusViewData(
+        statusId: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
         updateSuccess { uiState ->
             uiState.copy(
                 statusViewData = uiState.statusViewData.map { viewData ->
@@ -510,5 +519,7 @@ sealed interface ThreadUiState {
 }
 
 enum class RevealButtonState {
-    NO_BUTTON, REVEAL, HIDE
+    NO_BUTTON,
+    REVEAL,
+    HIDE
 }

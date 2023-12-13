@@ -53,7 +53,10 @@ fun calculatePercent(fraction: Int, totalVoters: Int?, totalVotes: Int): Int {
 }
 
 fun buildDescription(title: String, percent: Int, voted: Boolean, context: Context): Spanned {
-    val builder = SpannableStringBuilder(context.getString(R.string.poll_percent_format, percent).parseAsHtml())
+    val builder =
+        SpannableStringBuilder(
+            context.getString(R.string.poll_percent_format, percent).parseAsHtml()
+        )
     if (voted) {
         builder.append(" ✓ ")
     } else {
@@ -71,7 +74,11 @@ fun Poll?.toViewData(): PollViewData? {
         multiple = multiple,
         votesCount = votesCount,
         votersCount = votersCount,
-        options = options.mapIndexed { index, option -> option.toViewData(ownVotes?.contains(index) == true) },
+        options = options.mapIndexed { index, option ->
+            option.toViewData(
+                ownVotes?.contains(index) == true
+            )
+        },
         voted = voted
     )
 }

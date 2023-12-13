@@ -36,10 +36,14 @@ abstract class WorkerModule {
     @Binds
     @IntoMap
     @WorkerKey(NotificationWorker::class)
-    internal abstract fun bindNotificationWorkerFactory(worker: NotificationWorker.Factory): ChildWorkerFactory
+    internal abstract fun bindNotificationWorkerFactory(
+        worker: NotificationWorker.Factory
+    ): ChildWorkerFactory
 
     @Binds
     @IntoMap
     @WorkerKey(PruneCacheWorker::class)
-    internal abstract fun bindPruneCacheWorkerFactory(worker: PruneCacheWorker.Factory): ChildWorkerFactory
+    internal abstract fun bindPruneCacheWorkerFactory(
+        worker: PruneCacheWorker.Factory
+    ): ChildWorkerFactory
 }

@@ -13,6 +13,7 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import java.io.IOException
 import kotlinx.coroutines.runBlocking
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -28,7 +29,6 @@ import org.mockito.kotlin.verify
 import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
 
 @Config(sdk = [29])
 @RunWith(AndroidJUnit4::class)

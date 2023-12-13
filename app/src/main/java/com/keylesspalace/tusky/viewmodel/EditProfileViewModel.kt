@@ -35,6 +35,8 @@ import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import java.io.File
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asFlow
@@ -44,8 +46,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
-import javax.inject.Inject
 
 private const val HEADER_FILE_NAME = "header.png"
 private const val AVATAR_FILE_NAME = "avatar.png"
@@ -119,12 +119,20 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             var avatarFileBody: MultipartBody.Part? = null
             diff.avatarFile?.let {
-                avatarFileBody = MultipartBody.Part.createFormData("avatar", randomAlphanumericString(12), it.asRequestBody("image/png".toMediaTypeOrNull()))
+                avatarFileBody = MultipartBody.Part.createFormData(
+                    "avatar",
+                    randomAlphanumericString(12),
+                    it.asRequestBody("image/png".toMediaTypeOrNull())
+                )
             }
 
             var headerFileBody: MultipartBody.Part? = null
             diff.headerFile?.let {
-                headerFileBody = MultipartBody.Part.createFormData("header", randomAlphanumericString(12), it.asRequestBody("image/png".toMediaTypeOrNull()))
+                headerFileBody = MultipartBody.Part.createFormData(
+                    "header",
+                    randomAlphanumericString(12),
+                    it.asRequestBody("image/png".toMediaTypeOrNull())
+                )
             }
 
             mastodonApi.accountUpdateCredentials(
@@ -156,7 +164,10 @@ class EditProfileViewModel @Inject constructor(
     // cache activity state for rotation change
     internal fun updateProfile(newProfileData: ProfileDataInUi) {
         if (profileData.value is Success) {
-            val newProfileSource = profileData.value?.data?.source?.copy(note = newProfileData.note, fields = newProfileData.fields)
+            val newProfileSource = profileData.value?.data?.source?.copy(
+                note = newProfileData.note,
+                fields = newProfileData.fields
+            )
             val newProfile = profileData.value?.data?.copy(
                 displayName = newProfileData.displayName,
                 locked = newProfileData.locked,
@@ -173,7 +184,10 @@ class EditProfileViewModel @Inject constructor(
         return diff.hasChanges()
     }
 
-    private fun getProfileDiff(oldProfileAccount: Account?, newProfileData: ProfileDataInUi): DiffProfileData {
+    private fun getProfileDiff(
+        oldProfileAccount: Account?,
+        newProfileData: ProfileDataInUi
+    ): DiffProfileData {
         val displayName = if (oldProfileAccount?.displayName == newProfileData.displayName) {
             null
         } else {
@@ -216,7 +230,10 @@ class EditProfileViewModel @Inject constructor(
         )
     }
 
-    private fun calculateFieldToUpdate(newField: StringField?, fieldsUnchanged: Boolean): Pair<String, String>? {
+    private fun calculateFieldToUpdate(
+        newField: StringField?,
+        fieldsUnchanged: Boolean
+    ): Pair<String, String>? {
         if (fieldsUnchanged || newField == null) {
             return null
         }

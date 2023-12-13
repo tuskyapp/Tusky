@@ -57,13 +57,13 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import java.util.regex.Pattern
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
-import javax.inject.Inject
 
 class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
 
@@ -82,9 +82,13 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
 
     private var tabsChanged = false
 
-    private val selectedItemElevation by unsafeLazy { resources.getDimension(R.dimen.selected_drag_item_elevation) }
+    private val selectedItemElevation by unsafeLazy {
+        resources.getDimension(R.dimen.selected_drag_item_elevation)
+    }
 
-    private val hashtagRegex by unsafeLazy { Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE) }
+    private val hashtagRegex by unsafeLazy {
+        Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE)
+    }
 
     private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
@@ -109,14 +113,19 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         currentTabsAdapter = TabAdapter(currentTabs, false, this, currentTabs.size <= MIN_TAB_COUNT)
         binding.currentTabsRecyclerView.adapter = currentTabsAdapter
         binding.currentTabsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.currentTabsRecyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        binding.currentTabsRecyclerView.addItemDecoration(
+            DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        )
 
         addTabAdapter = TabAdapter(listOf(createTabDataFromId(DIRECT)), true, this)
         binding.addTabRecyclerView.adapter = addTabAdapter
         binding.addTabRecyclerView.layoutManager = LinearLayoutManager(this)
 
         touchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
-            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
                 return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
             }
 
@@ -128,7 +137,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 return MIN_TAB_COUNT < currentTabs.size
             }
 
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 val temp = currentTabs[viewHolder.bindingAdapterPosition]
                 currentTabs[viewHolder.bindingAdapterPosition] = currentTabs[target.bindingAdapterPosition]
                 currentTabs[target.bindingAdapterPosition] = temp
@@ -148,7 +161,10 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 }
             }
 
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
                 super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.elevation = 0f
             }
@@ -326,7 +342,11 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
                 { throwable ->
                     dialog.hide()
                     Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                    Snackbar.make(binding.root, R.string.error_list_load, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        binding.root,
+                        R.string.error_list_load,
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             )
         }

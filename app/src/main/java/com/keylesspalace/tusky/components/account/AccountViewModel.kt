@@ -20,10 +20,10 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getDomain
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
@@ -97,7 +97,15 @@ class AccountViewModel @Inject constructor(
                 mastodonApi.relationships(listOf(accountId))
                     .fold(
                         { relationships ->
-                            relationshipData.postValue(if (relationships.isNotEmpty()) Success(relationships[0]) else Error())
+                            relationshipData.postValue(
+                                if (relationships.isNotEmpty()) {
+                                    Success(
+                                        relationships[0]
+                                    )
+                                } else {
+                                    Error()
+                                }
+                            )
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining relationships", t)
@@ -135,8 +143,8 @@ class AccountViewModel @Inject constructor(
 
     fun changeSubscribingState() {
         val relationship = relationshipData.value?.data
-        if (relationship?.notifying == true || /* Mastodon 3.3.0rc1 */
-            relationship?.subscribing == true /* Pleroma */
+        if (relationship?.notifying == true || // Mastodon 3.3.0rc1
+            relationship?.subscribing == true // Pleroma
         ) {
             changeRelationship(RelationShipAction.UNSUBSCRIBE)
         } else {
@@ -315,7 +323,14 @@ class AccountViewModel @Inject constructor(
     }
 
     enum class RelationShipAction {
-        FOLLOW, UNFOLLOW, BLOCK, UNBLOCK, MUTE, UNMUTE, SUBSCRIBE, UNSUBSCRIBE
+        FOLLOW,
+        UNFOLLOW,
+        BLOCK,
+        UNBLOCK,
+        MUTE,
+        UNMUTE,
+        SUBSCRIBE,
+        UNSUBSCRIBE
     }
 
     companion object {

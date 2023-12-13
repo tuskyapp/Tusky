@@ -38,9 +38,9 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ListsForAccountFragment : DialogFragment(), Injectable {
 
@@ -111,14 +111,22 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             viewModel.actionError.collectLatest { error ->
                 when (error.type) {
                     ActionError.Type.ADD -> {
-                        Snackbar.make(binding.root, R.string.failed_to_add_to_list, Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root,
+                            R.string.failed_to_add_to_list,
+                            Snackbar.LENGTH_LONG
+                        )
                             .setAction(R.string.action_retry) {
                                 viewModel.addAccountToList(error.listId)
                             }
                             .show()
                     }
                     ActionError.Type.REMOVE -> {
-                        Snackbar.make(binding.root, R.string.failed_to_remove_from_list, Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root,
+                            R.string.failed_to_remove_from_list,
+                            Snackbar.LENGTH_LONG
+                        )
                             .setAction(R.string.action_retry) {
                                 viewModel.removeAccountFromList(error.listId)
                             }
@@ -165,11 +173,18 @@ class ListsForAccountFragment : DialogFragment(), Injectable {
             viewType: Int
         ): BindingHolder<ItemAddOrRemoveFromListBinding> {
             val binding =
-                ItemAddOrRemoveFromListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemAddOrRemoveFromListBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             return BindingHolder(binding)
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemAddOrRemoveFromListBinding>, position: Int) {
+        override fun onBindViewHolder(
+            holder: BindingHolder<ItemAddOrRemoveFromListBinding>,
+            position: Int
+        ) {
             val item = getItem(position)
             holder.binding.listNameView.text = item.list.title
             holder.binding.addButton.apply {

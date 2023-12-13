@@ -74,7 +74,12 @@ import javax.inject.Inject
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
-class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.PhotoActionsListener, ViewVideoFragment.VideoActionsListener {
+class ViewMediaActivity :
+    BaseActivity(),
+    HasAndroidInjector,
+    ViewImageFragment.PhotoActionsListener,
+    ViewVideoFragment.VideoActionsListener {
+
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
@@ -103,7 +108,11 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = IntentCompat.getParcelableArrayListExtra(intent, EXTRA_ATTACHMENTS, AttachmentViewData::class.java)
+        attachments = IntentCompat.getParcelableArrayListExtra(
+            intent,
+            EXTRA_ATTACHMENTS,
+            AttachmentViewData::class.java
+        )
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
@@ -215,7 +224,11 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
     private fun downloadMedia() {
         val url = imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url
         val filename = Uri.parse(url).lastPathSegment
-        Toast.makeText(applicationContext, resources.getString(R.string.download_image, filename), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            applicationContext,
+            resources.getString(R.string.download_image, filename),
+            Toast.LENGTH_SHORT
+        ).show()
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
@@ -225,8 +238,13 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
 
     private fun requestDownloadMedia() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)) { _, grantResults ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ) { _, grantResults ->
+                if (
+                    grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
                     downloadMedia()
                 } else {
                     showErrorDialog(
@@ -243,7 +261,9 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
 
     private fun onOpenStatus() {
         val attach = attachments!![binding.viewPager.currentItem]
-        startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
+        startActivityWithSlideInAnimation(
+            ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl)
+        )
     }
 
     private fun copyLink() {
@@ -276,7 +296,9 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
     private fun shareFile(file: File, mimeType: String?) {
         ShareCompat.IntentBuilder(this)
             .setType(mimeType)
-            .addStream(FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file))
+            .addStream(
+                FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file)
+            )
             .setChooserTitle(R.string.send_media_to)
             .startChooser()
     }
@@ -364,7 +386,11 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         private const val TAG = "ViewMediaActivity"
 
         @JvmStatic
-        fun newIntent(context: Context?, attachments: List<AttachmentViewData>, index: Int): Intent {
+        fun newIntent(
+            context: Context?,
+            attachments: List<AttachmentViewData>,
+            index: Int
+        ): Intent {
             val intent = Intent(context, ViewMediaActivity::class.java)
             intent.putParcelableArrayListExtra(EXTRA_ATTACHMENTS, ArrayList(attachments))
             intent.putExtra(EXTRA_ATTACHMENT_INDEX, index)

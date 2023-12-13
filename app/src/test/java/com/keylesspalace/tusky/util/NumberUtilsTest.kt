@@ -1,13 +1,13 @@
 package com.keylesspalace.tusky.util
 
+import java.util.Locale
+import kotlin.math.pow
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.Locale
-import kotlin.math.pow
 
 @RunWith(Parameterized::class)
 class NumberUtilsTest(private val input: Long, private val want: String) {

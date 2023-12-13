@@ -37,12 +37,12 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.toViewData
+import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
@@ -196,7 +196,12 @@ class ReportViewModel @Inject constructor(
     fun doReport() {
         reportingStateMutable.value = Loading()
         viewModelScope.launch {
-            mastodonApi.report(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
+            mastodonApi.report(
+                accountId,
+                selectedIds.toList(),
+                reportNote,
+                if (isRemoteAccount) isRemoteNotify else null
+            )
                 .fold({
                     reportingStateMutable.value = Success(true)
                 }, { error ->

@@ -18,9 +18,9 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectable {
 
@@ -35,7 +35,9 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         val adapter = DomainBlocksAdapter(viewModel::unblock)
 
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        )
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
 
@@ -52,7 +54,9 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         }
 
         adapter.addLoadStateListener { loadState ->
-            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.progressBar.visible(
+                loadState.refresh == LoadState.Loading && adapter.itemCount == 0
+            )
 
             if (loadState.refresh is LoadState.Error) {
                 binding.recyclerView.hide()

@@ -95,7 +95,11 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.buttonBack.isEnabled = true
         binding.progressBar.hide()
 
-        Snackbar.make(binding.buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            binding.buttonBack,
+            if (error is IOException) R.string.error_network else R.string.error_generic,
+            Snackbar.LENGTH_LONG
+        )
             .setAction(R.string.action_retry) {
                 sendReport()
             }

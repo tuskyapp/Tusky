@@ -28,7 +28,10 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 
-class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
+class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(
+    context,
+    R.layout.item_autocomplete_account
+) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = if (convertView == null) {

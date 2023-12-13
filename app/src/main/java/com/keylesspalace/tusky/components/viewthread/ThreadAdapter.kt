@@ -43,7 +43,9 @@ class ThreadAdapter(
                 StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, parent, false))
             }
             VIEW_TYPE_STATUS_DETAILED -> {
-                StatusDetailedViewHolder(inflater.inflate(R.layout.item_status_detailed, parent, false))
+                StatusDetailedViewHolder(
+                    inflater.inflate(R.layout.item_status_detailed, parent, false)
+                )
             }
             else -> error("Unknown item type: $viewType")
         }

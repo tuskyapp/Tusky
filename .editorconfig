@@ -12,8 +12,14 @@ trim_trailing_whitespace = true
 ij_kotlin_name_count_to_use_star_import = 999
 ij_kotlin_name_count_to_use_star_import_for_members = 999
 ij_java_class_count_to_use_import_on_demand = 999
+
+ktlint_code_style = android_studio
+
 # Enable trailing comma
-ktlint_disabled_rules=trailing-comma-on-call-site,trailing-comma-on-declaration-site
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+
+max_line_length = off
 
 [*.{yml,yaml}]
 indent_size = 2

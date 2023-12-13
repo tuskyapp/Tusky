@@ -35,7 +35,10 @@ class DraftMediaAdapter(
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
+        override fun areContentsTheSame(
+            oldItem: DraftAttachment,
+            newItem: DraftAttachment
+        ): Boolean {
             return oldItem == newItem
         }
     }
@@ -75,7 +78,9 @@ class DraftMediaAdapter(
         RecyclerView.ViewHolder(imageView) {
         init {
             val thumbnailViewSize =
-                imageView.context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
+                imageView.context.resources.getDimensionPixelSize(
+                    R.dimen.compose_media_preview_size
+                )
             val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
             val margin = itemView.context.resources
                 .getDimensionPixelSize(R.dimen.compose_media_preview_margin)

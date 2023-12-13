@@ -29,9 +29,9 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
+import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ConversationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
@@ -91,7 +91,11 @@ class ConversationsViewModel @Inject constructor(
 
     fun voteInPoll(choices: List<Int>, conversation: ConversationViewData) {
         viewModelScope.launch {
-            timelineCases.voteInPoll(conversation.lastStatus.id, conversation.lastStatus.status.poll?.id!!, choices)
+            timelineCases.voteInPoll(
+                conversation.lastStatus.id,
+                conversation.lastStatus.status.poll?.id!!,
+                choices
+            )
                 .fold({ poll ->
                     val newConversation = conversation.toEntity(
                         accountId = accountManager.activeAccount!!.id,

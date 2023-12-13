@@ -68,7 +68,9 @@ class StatusViewHelper(private val itemView: View) {
             itemView.findViewById(R.id.status_media_overlay_3)
         )
 
-        val sensitiveMediaWarning = itemView.findViewById<TextView>(R.id.status_sensitive_media_warning)
+        val sensitiveMediaWarning = itemView.findViewById<TextView>(
+            R.id.status_sensitive_media_warning
+        )
         val sensitiveMediaShow = itemView.findViewById<View>(R.id.status_sensitive_media_button)
         val mediaLabel = itemView.findViewById<TextView>(R.id.status_media_label)
         if (statusDisplayOptions.mediaPreviewEnabled) {
@@ -86,7 +88,10 @@ class StatusViewHelper(private val itemView: View) {
             return
         }
 
-        val mediaPreviewUnloaded = ColorDrawable(MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK))
+        val mediaPreviewUnloaded =
+            ColorDrawable(
+                MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK)
+            )
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
@@ -246,7 +251,9 @@ class StatusViewHelper(private val itemView: View) {
     private fun getLabelTypeText(context: Context, type: Attachment.Type): String {
         return when (type) {
             Attachment.Type.IMAGE -> context.getString(R.string.post_media_images)
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.post_media_video)
+            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(
+                R.string.post_media_video
+            )
             Attachment.Type.AUDIO -> context.getString(R.string.post_media_audio)
             else -> context.getString(R.string.post_media_attachments)
         }
@@ -262,7 +269,11 @@ class StatusViewHelper(private val itemView: View) {
         }
     }
 
-    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, statusDisplayOptions: StatusDisplayOptions) {
+    fun setupPollReadonly(
+        poll: PollViewData?,
+        emojis: List<Emoji>,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         val pollResults = listOf<TextView>(
             itemView.findViewById(R.id.status_poll_option_result_0),
             itemView.findViewById(R.id.status_poll_option_result_1),
@@ -287,7 +298,12 @@ class StatusViewHelper(private val itemView: View) {
         }
     }
 
-    private fun getPollInfoText(timestamp: Long, poll: PollViewData, pollDescription: TextView, useAbsoluteTime: Boolean): CharSequence {
+    private fun getPollInfoText(
+        timestamp: Long,
+        poll: PollViewData,
+        pollDescription: TextView,
+        useAbsoluteTime: Boolean
+    ): CharSequence {
         val context = pollDescription.context
 
         val votesText = if (poll.votersCount == null) {
@@ -301,7 +317,10 @@ class StatusViewHelper(private val itemView: View) {
             context.getString(R.string.poll_info_closed)
         } else {
             if (useAbsoluteTime) {
-                context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.expiresAt, false))
+                context.getString(
+                    R.string.poll_info_time_absolute,
+                    absoluteTimeFormatter.format(poll.expiresAt, false)
+                )
             } else {
                 formatPollDuration(context, poll.expiresAt!!.time, timestamp)
             }
@@ -310,14 +329,26 @@ class StatusViewHelper(private val itemView: View) {
         return context.getString(R.string.poll_info_format, votesText, pollDurationInfo)
     }
 
-    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>, animateEmojis: Boolean) {
+    private fun setupPollResult(
+        poll: PollViewData,
+        emojis: List<Emoji>,
+        pollResults: List<TextView>,
+        animateEmojis: Boolean
+    ) {
         val options = poll.options
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
             if (i < options.size) {
-                val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
+                val percent =
+                    calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
-                val pollOptionText = buildDescription(options[i].title, percent, options[i].voted, pollResults[i].context)
+                val pollOptionText =
+                    buildDescription(
+                        options[i].title,
+                        percent,
+                        options[i].voted,
+                        pollResults[i].context
+                    )
                 pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE
 

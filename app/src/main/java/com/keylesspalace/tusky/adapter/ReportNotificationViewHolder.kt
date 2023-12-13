@@ -34,9 +34,22 @@ class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setupWithReport(reporter: TimelineAccount, report: Report, animateAvatar: Boolean, animateEmojis: Boolean) {
-        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, animateEmojis)
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, animateEmojis)
+    fun setupWithReport(
+        reporter: TimelineAccount,
+        report: Report,
+        animateAvatar: Boolean,
+        animateEmojis: Boolean
+    ) {
+        val reporterName = reporter.name.unicodeWrap().emojify(
+            reporter.emojis,
+            itemView,
+            animateEmojis
+        )
+        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(
+            report.targetAccount.emojis,
+            itemView,
+            animateEmojis
+        )
         val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
@@ -62,7 +75,12 @@ class ReportNotificationViewHolder(
         )
     }
 
-    fun setupActionListener(listener: NotificationActionListener, reporteeId: String, reporterId: String, reportId: String) {
+    fun setupActionListener(
+        listener: NotificationActionListener,
+        reporteeId: String,
+        reporterId: String,
+        reportId: String
+    ) {
         binding.notificationReporteeAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
