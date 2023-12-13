@@ -217,7 +217,7 @@
     <string name="pref_default_post_privacy">Sjálfgefin gagnaleynd færslna</string>
     <string name="pref_default_media_sensitivity">Alltaf merkja myndefni sem viðkvæmt</string>
     <string name="pref_publishing">Gefið út (samstillt við vefþjón)</string>
-    <string name="pref_failed_to_sync">Mistókst að samstilla stillingar</string>
+    <string name="pref_failed_to_sync">Mistókst að samstilla kjörstillingar</string>
     <string name="post_privacy_public">Opinbert</string>
     <string name="post_privacy_unlisted">Óskráð</string>
     <string name="post_privacy_followers_only">Einungis fylgjendur</string>
