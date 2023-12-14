@@ -8,6 +8,8 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.{java,kt}]
+ij_kotlin_imports_layout = *
+
 # Disable wildcard imports
 ij_kotlin_name_count_to_use_star_import = 999
 ij_kotlin_name_count_to_use_star_import_for_members = 999
