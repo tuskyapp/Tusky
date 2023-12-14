@@ -348,10 +348,12 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
 
     // Prevent this activity from dimming or sleeping the screen if, and only if, it is playing video or audio
     private fun adjustScreenWakefulness() {
-        if (attachments!![binding.viewPager.currentItem].attachment.type == Attachment.Type.IMAGE) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        } else {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        attachments?.run {
+            if (get(binding.viewPager.currentItem).attachment.type == Attachment.Type.IMAGE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            } else {
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
         }
     }
 
