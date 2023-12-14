@@ -15,7 +15,7 @@ ij_java_class_count_to_use_import_on_demand = 999
 
 ktlint_code_style = android_studio
 
-# Enable trailing comma
+# Disable trailing comma
 ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
 
