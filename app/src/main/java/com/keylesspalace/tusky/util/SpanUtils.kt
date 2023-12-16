@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
-import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
