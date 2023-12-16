@@ -6,12 +6,20 @@
 
 ### Significant bug fixes
 
+## v24.1
+
+- The screen will stay on again while a video is playing. [PR#4168](https://github.com/tuskyapp/Tusky/pull/4168)
+- A memory leak has been fixed. This should improve stability and performance. [PR#4150](https://github.com/tuskyapp/Tusky/pull/4150) [PR#4153](https://github.com/tuskyapp/Tusky/pull/4153)
+- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](hhttps://github.com/tuskyapp/Tusky/pull/4152)
+- Fixed a crash when text was selected on some devices. [PR#4166](https://github.com/tuskyapp/Tusky/pull/4166)
+- The icons in the help texts of empty timelines will now always be correctly aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)
+
 ## v24.0
 
 ### New features and other improvements
 
 - The number of tabs that can be configured is no longer limited. [PR#4058](https://github.com/tuskyapp/Tusky/pull/4058)
-- Blockquotes and code blocks in posts now look nicer [PR#4090](https://github.com/tuskyapp/Tusky/pull/4090)[PR#4091](https://github.com/tuskyapp/Tusky/pull/4091)
+- Blockquotes and code blocks in posts now look nicer [PR#4090](https://github.com/tuskyapp/Tusky/pull/4090) [PR#4091](https://github.com/tuskyapp/Tusky/pull/4091)
 - The old behavior of the notification tab (pre Tusky 22.0) has been restored. [PR#4015](https://github.com/tuskyapp/Tusky/pull/4015)
 - Role badges are now shown on profiles (Mastodon 4.2 feature). [PR#4029](https://github.com/tuskyapp/Tusky/pull/4029)
 - The video player has been upgraded to Google Jetpack Media3; video compatibility should be improved, and you can now adjust playback speed. [PR#3857](https://github.com/tuskyapp/Tusky/pull/3857)
