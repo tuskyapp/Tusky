@@ -141,6 +141,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -329,7 +330,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         updateAnnouncementsBadge()
                     }
                     is NewNotificationsEvent -> {
-                        directMessageTab?.let { tab ->
+                        directMessageTab?.let {
                             if (event.accountId == activeAccount.accountId) {
                                 val hasDirectMessageNotification =
                                     event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
@@ -400,10 +401,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tab.badge?.isVisible = showBadge
 
             // TODO a bit cumbersome (also for resetting)
-            accountManager.activeAccount?.let {
-                if (it.hasDirectMessageBadge != showBadge) {
-                    it.hasDirectMessageBadge = showBadge
-                    accountManager.saveAccount(it)
+            lifecycleScope.launch(Dispatchers.IO) {
+                accountManager.activeAccount?.let {
+                    if (it.hasDirectMessageBadge != showBadge) {
+                        it.hasDirectMessageBadge = showBadge
+                        accountManager.saveAccount(it)
+                    }
                 }
             }
         }
