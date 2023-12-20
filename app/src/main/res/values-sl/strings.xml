@@ -58,7 +58,7 @@
     <string name="action_compose">Sestavi</string>
     <string name="action_login">Prijavite se z Mastodonom</string>
     <string name="action_logout">Odjava</string>
-    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\? To bo izbrisalo vse lokalne podatke o računu, vključno z osnutki in preferencami.</string>
+    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s? To bo izbrisalo vse lokalne podatke o računu, vključno z osnutki in preferencami.</string>
     <string name="action_follow">Sledi</string>
     <string name="action_unfollow">Prenehaj slediti</string>
     <string name="action_block">Blokiraj</string>
