@@ -617,8 +617,8 @@
     <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
     <string name="action_unfollow_hashtag_format">Arrêter de suivre #%s \?</string>
     <string name="failed_to_pin">Échec de l\'épinglage</string>
-    <string name="status_edit_info">Modification de %1$s</string>
-    <string name="status_created_info">Création par %1$s</string>
+    <string name="status_edit_info">Modification : %1$s</string>
+    <string name="status_created_info">Création : %1$s</string>
     <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
     <string name="no_lists">Vous n\'avez aucune liste.</string>
     <string name="language_display_name_format">%s (%s)</string>
@@ -678,4 +678,19 @@
     <string name="pref_ui_text_size">Taille de police de l\'interface</string>
     <string name="pref_title_show_self_boosts">Afficher les auto-partages</string>
     <string name="pref_title_show_self_boosts_description">Quelqu\'un partageant son propre message</string>
+    <string name="label_image">Image</string>
+    <string name="dialog_delete_filter_positive_action">Supprimer</string>
+    <string name="notification_prune_cache">Maintenance du cache …</string>
+    <string name="about_device_info">%s %s
+\nVersion Android : %s
+\nVersion SDK : %d</string>
+    <string name="about_device_info_title">Votre appareil</string>
+    <string name="about_account_info_title">Votre compte</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion : %s</string>
+    <string name="about_copy">Copier les informations de la version et de l’appareil</string>
+    <string name="title_public_trending_statuses">Publications en tendance</string>
+    <string name="list_reply_policy_list">Membres de la liste</string>
+    <string name="list_reply_policy_label">Afficher les réponses à</string>
+    <string name="about_copied">Les informations de la version et de l’appareil ont été copiés</string>
 </resources>
