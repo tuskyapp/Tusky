@@ -203,7 +203,7 @@ class ClickableSpanTextView @JvmOverloads constructor(
             val endSelection = selectionEnd
 
             val content = text
-            if (startSelection < 0 || endSelection < 0) {
+            if (content is Spannable && (startSelection < 0 || endSelection < 0)) {
                 Selection.setSelection(content as Spannable?, content.length)
             } else if (startSelection != endSelection) {
                 if (event.actionMasked == ACTION_DOWN) {
