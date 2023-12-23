@@ -24,12 +24,6 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.graphics.Shader
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.util.TypedValue
-import android.view.View
-import androidx.annotation.AttrRes
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
@@ -48,25 +42,26 @@ import java.security.MessageDigest
  * Fix this, by:
  *
  * - Creating a mask that matches the partially transparent areas of the image
- * - Creating a new bitmap that, in the areas that match the mask, contains the same background
- *   drawable as the [ImageView].
+ * - Creating a new bitmap that, in the areas that match the mask, contains a background color
  * - Composite the original image over the top
  *
  * So the partially transparent areas on the original image are composited over the original
  * background, the fully transparent areas on the original image are left transparent.
  */
-class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
+class CompositeWithOpaqueBackground(val backgroundColor: Int) : BitmapTransformation() {
+
     override fun equals(other: Any?): Boolean {
         if (other is CompositeWithOpaqueBackground) {
-            return other.view == view
+            return other.backgroundColor == backgroundColor
         }
         return false
     }
 
-    override fun hashCode() = Util.hashCode(ID.hashCode(), view.hashCode())
+    override fun hashCode() = Util.hashCode(ID.hashCode(), backgroundColor.hashCode())
+
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)
-        messageDigest.update(ByteBuffer.allocate(4).putInt(view.hashCode()).array())
+        messageDigest.update(ByteBuffer.allocate(4).putInt(backgroundColor.hashCode()).array())
     }
 
     override fun transform(
@@ -78,20 +73,9 @@ class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
         // If the input bitmap has no alpha channel then there's nothing to do
         if (!toTransform.hasAlpha()) return toTransform
 
-        // Get the background drawable for this view, falling back to the given attribute
-        val backgroundDrawable = view.getFirstNonNullBackgroundOrAttr(android.R.attr.colorBackground)
-        backgroundDrawable ?: return toTransform
-
         // Convert the background to a bitmap.
         val backgroundBitmap = pool.get(outWidth, outHeight, Bitmap.Config.ARGB_8888)
-        when (backgroundDrawable) {
-            is ColorDrawable -> backgroundBitmap.eraseColor(backgroundDrawable.color)
-            else -> {
-                val backgroundCanvas = Canvas(backgroundBitmap)
-                backgroundDrawable.setBounds(0, 0, outWidth, outHeight)
-                backgroundDrawable.draw(backgroundCanvas)
-            }
-        }
+        backgroundBitmap.eraseColor(backgroundColor)
 
         // Convert the alphaBitmap (where the alpha channel has 8bpp) to a mask of 1bpp
         // TODO: toTransform.extractAlpha(paint, ...) could be used here, but I can't find any
@@ -143,24 +127,5 @@ class CompositeWithOpaqueBackground(val view: View) : BitmapTransformation() {
             )
             isAntiAlias = false
         }
-
-        /**
-         * @param attr attribute reference for the default drawable if no background is set on
-         *      this view or any of its ancestors.
-         * @return The first non-null background drawable from this view, or its ancestors,
-         *      falling back to the attribute resource given by `attr` if none of the views have a
-         *      background.
-         */
-        fun View.getFirstNonNullBackgroundOrAttr(@AttrRes attr: Int): Drawable? =
-            background ?: (parent as? View)?.getFirstNonNullBackgroundOrAttr(attr) ?: run {
-                val v = TypedValue()
-                context.theme.resolveAttribute(attr, v, true)
-                // TODO: On API 29 can use v.isColorType here
-                if (v.type >= TypedValue.TYPE_FIRST_COLOR_INT && v.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-                    ColorDrawable(v.data)
-                } else {
-                    ContextCompat.getDrawable(context, v.resourceId)
-                }
-            }
     }
 }

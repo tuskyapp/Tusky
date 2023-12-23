@@ -102,7 +102,7 @@
     <string name="action_content_warning">İçerik uyarısı</string>
     <string name="action_emoji_keyboard">İfade klavyesi</string>
     <string name="action_add_tab">Sekme ekle</string>
-    <string name="download_image">%1$s indiriliyor</string>
+    <string name="download_image">%1$s İndiriliyor</string>
     <string name="action_copy_link">Bağlantıyı kopyala</string>
     <string name="action_open_as">Farklı aç %s</string>
     <string name="action_share_as">Olarak paylaş …</string>
@@ -146,14 +146,14 @@
     <string name="pref_title_edit_notification_settings">Bildirimler</string>
     <string name="pref_title_notifications_enabled">Anlık bildirimler</string>
     <string name="pref_title_notification_alerts">Uyarılar</string>
-    <string name="pref_title_notification_alert_sound">Sesli bildir</string>
-    <string name="pref_title_notification_alert_vibrate">Titremeyle bildir</string>
-    <string name="pref_title_notification_alert_light">Işıkla bildir</string>
+    <string name="pref_title_notification_alert_sound">Sesli bildirim</string>
+    <string name="pref_title_notification_alert_vibrate">Titreşimli bildirim</string>
+    <string name="pref_title_notification_alert_light">Işıklı bildirim</string>
     <string name="pref_title_notification_filters">Bana bildir:</string>
-    <string name="pref_title_notification_filter_mentions">bahsedilince</string>
+    <string name="pref_title_notification_filter_mentions">bahsedildiğinde</string>
     <string name="pref_title_notification_filter_follows">takip edildiğimde</string>
     <string name="pref_title_notification_filter_reblogs">gönderilerim yeniden paylaşıldığında</string>
-    <string name="pref_title_notification_filter_favourites">gönderilerim favorilere eklendiğinde</string>
+    <string name="pref_title_notification_filter_favourites">gönderilerim gözdelere eklendiğinde</string>
     <string name="pref_title_appearance_settings">Görünüş</string>
     <string name="pref_title_app_theme">Uygulama teması</string>
     <string name="pref_title_timelines">Ağ akışı</string>
@@ -177,7 +177,7 @@
     <string name="pref_default_post_privacy">Varsayılan gönderi gizliliği</string>
     <string name="pref_default_media_sensitivity">Medyayı her zaman hassas olarak işaretle</string>
     <string name="pref_publishing">Yayınlama (sunucuyla eşitlenir)</string>
-    <string name="pref_failed_to_sync">Ayarları eşitleme başarısız</string>
+    <string name="pref_failed_to_sync">Ayarlar eşitlendirilemedi</string>
     <string name="post_privacy_public">Herkese açık</string>
     <string name="post_privacy_unlisted">Liste dışı</string>
     <string name="post_privacy_followers_only">Sadece takipçiler</string>
@@ -291,8 +291,8 @@
         <item quantity="other"><b>%1$s</b> Gözdeler</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Yeniden Paylaşan</item>
-        <item quantity="other"><b>%s</b> Yeniden Paylaşanlar</item>
+        <item quantity="one"><b>%s</b> Paylaşan</item>
+        <item quantity="other"><b>%s</b> Paylaşanlar</item>
     </plurals>
     <string name="title_reblogged_by">tarafından paylaşıldı</string>
     <string name="title_favourited_by">Tarafından gözdelendi</string>
@@ -466,7 +466,7 @@
     <string name="action_delete_conversation">Konuşmayı sil</string>
     <string name="title_announcements">Duyurular</string>
     <string name="error_multimedia_size_limit">Video ve ses dosyaları %s MB boyutunu aşamaz.</string>
-    <string name="error_image_edit_failed">Görsel düzenlemedi.</string>
+    <string name="error_image_edit_failed">Görsel düzenlenemedi.</string>
     <string name="error_following_hashtag_format">#%s\'i izleyen hata</string>
     <string name="title_login">Giriş</string>
     <string name="error_loading_account_details">Hesap detayları alınırken hata</string>
@@ -498,7 +498,7 @@
         <item quantity="other">adetten fazla %1$d medya ekleri yükleyemezsiniz.</item>
     </plurals>
     <string name="delete_scheduled_post_warning">Bu zamanlanmış yayını sil\?</string>
-    <string name="pref_title_notification_filter_updates">etkileşimde bulunduğun bir gönderi düzenlendi</string>
+    <string name="pref_title_notification_filter_updates">etkileşimde bulunduğun bir gönderi düzenledi</string>
     <string name="instance_rule_info">Giriş yaparak aşağıdaki kuralları kabul etmiş sayılırsınız %s.</string>
     <string name="instance_rule_title">%s kural</string>
     <string name="set_focus_description">Küçük görsellerde her zaman görülebilecek odak noktasını seçmek için daireye dokunun veya sürükleyin.</string>
@@ -551,13 +551,13 @@
     <string name="language_display_name_format">%s (%s)</string>
     <string name="report_category_violation">Kural ihlali</string>
     <string name="description_post_language">Gönderi dili</string>
-    <string name="dialog_push_notification_migration">UnifiedPush aracılığıyla push bildirimlerini kullanmak için Tusky\'nin Mastodon sunucundaki bildirimlere abone olma iznine ihtiyacı var. Bu, Tusky\'ye verilen OAuth kapsamlarını değiştirmek için yeniden oturum açmayı gerektirir. Burada veya Hesap tercihleri bölümünde yeniden giriş yapma seçeneğini kullanman tüm yerel taslaklarını ve önbelleğini koruyacaktır.</string>
+    <string name="dialog_push_notification_migration">Birleşikİtme aracılığıyla itme bildirimlerini kullanmak için Tusky\'nin Mastodon sunucundaki bildirimlere abone olma iznine ihtiyacı var. Bu, Tusky\'ye verilen OAuth kapsamlarını değiştirmek için yeniden oturum açmayı gerektirir. Burada veya Hesap tercihleri bölümünde yeniden giriş yapma seçeneğini kullanman tüm yerel taslaklarını ve önbelleğini koruyacaktır.</string>
     <string name="confirmation_hashtag_unfollowed">#%s takip edilmeyenler</string>
     <string name="action_subscribe_account">Abone Ol</string>
     <string name="follow_requests_info">Hesabınız kilitli olmasa da, %1$s kadro bu hesaplardan gelen takip isteklerini elle gözden geçirmek isteyebileceğinizi düşündü.</string>
     <string name="notification_report_format">Hakkında yeni rapor %s</string>
     <string name="action_add_reaction">tepki ekle</string>
-    <string name="action_dismiss">Yok Say</string>
+    <string name="action_dismiss">Yoksay</string>
     <string name="action_details">Ayrıntılar</string>
     <string name="notification_subscription_name">Yeni yayınlar</string>
     <string name="notification_subscription_description">abone olduğunuz birisi yeni gönderi yayınladığında gelen bildirimler</string>
@@ -643,7 +643,7 @@
     <string name="filter_description_hide">Tamamen gizle</string>
     <string name="hint_filter_title">Süzgecim</string>
     <string name="label_filter_title">Başlık</string>
-    <string name="filter_action_warn">Uyar</string>
+    <string name="filter_action_warn">Uyarı</string>
     <string name="filter_action_hide">Gizle</string>
     <string name="filter_description_warn">Bir uyarı ile gizle</string>
     <string name="status_filtered_show_anyway">Yine de göster</string>
@@ -678,7 +678,7 @@
     <string name="list_exclusive_label">Anasayfa ağ akışından gizle</string>
     <string name="error_media_playback">Oynatma başarısız oldu: %s</string>
     <string name="error_blocking_domain">Sessize alınamadı %1$s: %2$s</string>
-    <string name="dialog_delete_filter_text">Filtreyi sil \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Sil</string>
     <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz\?</string>
     <string name="help_empty_conversations">İşte <b>özel mesajlarınız</b>; bazen konuşmalar veya doğrudan mesajlar (DM) olarak da adlandırılır.
@@ -693,11 +693,17 @@
 \n \u0020Bu listeler Hesap tercihleri [iconics gmd_account_circle] [iconics gmd_navigate_next] Sekmelerinde sekme olarak kullanılabilir. </string>
     <string name="muting_hashtag_success_format">Uyarı olarak #%s etiketini susturma</string>
     <string name="unmuting_hashtag_success_format">Etiket sesi kapatılıyor #%s</string>
-    <string name="action_view_filter">Filtreyi görüntüle</string>
+    <string name="action_view_filter">Süzgeci görüntüle</string>
     <string name="following_hashtag_success_format">Şimdi etiketi takip edin #%s</string>
     <string name="unfollowing_hashtag_success_format">Artık etiketi takip etmiyorum #%s</string>
     <string name="error_unblocking_domain">Sesi açılamadı %1$s: %2$s</string>
     <string name="title_public_trending_statuses">Gündemdeki gönderiler</string>
     <string name="label_image">Resim</string>
     <string name="app_theme_system_black">Sistem Tasarımını Kullanın (siyah)</string>
+    <string name="list_reply_policy_list">Liste üyeleri</string>
+    <string name="list_reply_policy_followed">Takip edilen herhangi bir kullanıcı</string>
+    <string name="list_reply_policy_label">Yanıtları göster</string>
+    <string name="list_reply_policy_none">Hiç kimse</string>
+    <string name="pref_title_show_self_boosts">Kendi beğenmeleri göster</string>
+    <string name="pref_title_show_self_boosts_description">Birisi kendi gönderisini yükseltiyor</string>
 </resources>

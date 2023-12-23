@@ -256,7 +256,7 @@
     <string name="pref_main_nav_position_option_bottom">Dưới màn hình</string>
     <string name="pref_main_nav_position_option_top">Trên màn hình</string>
     <string name="pref_main_nav_position">Vị trí menu</string>
-    <string name="pref_failed_to_sync">Đồng bộ hoá thất bại</string>
+    <string name="pref_failed_to_sync">Không thể lưu thiết lập</string>
     <string name="pref_publishing">Đăng (đồng bộ với máy chủ)</string>
     <string name="pref_default_media_sensitivity">Tài khoản nhạy cảm</string>
     <string name="pref_default_post_privacy">Kiểu tút mặc định</string>
@@ -594,7 +594,7 @@
 \nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
     <string name="action_post_failed_show_drafts">Xem bản nháp</string>
     <string name="action_post_failed_do_nothing">Bỏ qua</string>
-    <string name="title_public_trending_hashtags">Hashtag nổi bật</string>
+    <string name="title_public_trending_hashtags">Hashtag xu hướng</string>
     <string name="accessibility_talking_about_tag">%1$d người đang thảo luận về %2$s</string>
     <string name="total_usage">lượt dùng</string>
     <string name="total_accounts">người dùng</string>
@@ -682,5 +682,11 @@
     <string name="error_unblocking_domain">Không thể bỏ ẩn %1$s: %2$s</string>
     <string name="label_image">Hình ảnh</string>
     <string name="app_theme_system_black">Mặc định của thiết bị (Đen)</string>
-    <string name="title_public_trending_statuses">Tút hay</string>
+    <string name="title_public_trending_statuses">Tút xu hướng</string>
+    <string name="list_reply_policy_none">Không ai</string>
+    <string name="list_reply_policy_list">Người trong danh sách</string>
+    <string name="list_reply_policy_followed">Người đã theo dõi</string>
+    <string name="list_reply_policy_label">Hiện lượt trả lời</string>
+    <string name="pref_title_show_self_boosts">Hiện lượt tự đăng lại</string>
+    <string name="pref_title_show_self_boosts_description">Ai đó đăng lại tút của chính họ</string>
 </resources>

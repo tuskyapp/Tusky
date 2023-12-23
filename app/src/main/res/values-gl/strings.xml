@@ -270,7 +270,7 @@
     <string name="filter_add_description">Frase a filtrar</string>
     <string name="filter_dialog_whole_word_description">Cando a palabra ou frase é só alfanumérica, só se aplicará se concorda a palabra completa</string>
     <string name="filter_dialog_whole_word">Palabra completa</string>
-    <string name="filter_dialog_update_button">Actualizar</string>
+    <string name="filter_dialog_update_button">Actualiza</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
     <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_addition_title">Engadir filtro</string>
@@ -342,7 +342,7 @@
     <string name="pref_main_nav_position_option_bottom">Abaixo</string>
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
-    <string name="pref_failed_to_sync">Fallou a sincronización dos axustes</string>
+    <string name="pref_failed_to_sync">Fallou a sincr. das preferencis</string>
     <string name="pref_publishing">Ao publicar (sincronizado co servidor)</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible</string>
     <string name="pref_default_post_privacy">Privacidade por defecto da publicación</string>
@@ -693,4 +693,10 @@
     <string name="label_image">Imaxe</string>
     <string name="app_theme_system_black">Usar o deseño do Sistema (negro)</string>
     <string name="title_public_trending_statuses">Publicacións en voga</string>
+    <string name="list_reply_policy_none">Ninguén</string>
+    <string name="list_reply_policy_list">Compoñentes da lista</string>
+    <string name="list_reply_policy_followed">Calquera usuaria seguida</string>
+    <string name="list_reply_policy_label">Mostrar respostas a</string>
+    <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
+    <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
 </resources>

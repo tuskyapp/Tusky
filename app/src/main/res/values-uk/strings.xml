@@ -83,7 +83,7 @@
     <string name="action_report">Поскаржитися</string>
     <string name="action_unblock">Розблокувати</string>
     <string name="action_block">Заблокувати</string>
-    <string name="action_unfollow">Відписатися</string>
+    <string name="action_unfollow">Не стежити</string>
     <string name="action_follow">Підписатися</string>
     <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s\? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
     <string name="action_compose">Написати</string>
@@ -715,4 +715,10 @@
     <string name="label_image">Зображення</string>
     <string name="app_theme_system_black">Тема системи (чорна)</string>
     <string name="title_public_trending_statuses">Популярні дописи</string>
+    <string name="pref_title_show_self_boosts">Показати самоцитування</string>
+    <string name="pref_title_show_self_boosts_description">Хтось цитує власний допис</string>
+    <string name="list_reply_policy_none">Ніхто</string>
+    <string name="list_reply_policy_list">Учасники списку</string>
+    <string name="list_reply_policy_followed">Будь-який користувач, за яким ви стежите</string>
+    <string name="list_reply_policy_label">Показати відповіді на</string>
 </resources>

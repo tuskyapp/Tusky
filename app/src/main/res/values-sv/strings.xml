@@ -193,7 +193,7 @@
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
     <string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
     <string name="pref_publishing">Publicering (synkroniserad med server)</string>
-    <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
+    <string name="pref_failed_to_sync">Misslyckades med att synkronisera inställningarna</string>
     <string name="post_privacy_public">Offentlig</string>
     <string name="post_privacy_unlisted">Olistad</string>
     <string name="post_privacy_followers_only">Endast följare</string>
@@ -355,8 +355,8 @@
     <string name="edit_hashtag_hint">Hashtag utan #</string>
     <string name="compose_shortcut_long_label">Skriv inlägg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
-    <string name="notifications_clear">Radera aviseringar</string>
-    <string name="notifications_apply_filter">Filtrera aviseringar</string>
+    <string name="notifications_clear">Radera</string>
+    <string name="notifications_apply_filter">Filtrera</string>
     <string name="filter_apply">Utför</string>
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
     <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
@@ -701,4 +701,16 @@
 \n
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %s</string>
+    <string name="title_public_trending_statuses">Populära inlägg</string>
+    <string name="label_image">Bild</string>
+    <string name="app_theme_system_black">Använd systemdesign (svart)</string>
+    <string name="action_view_filter">Visa filtrering</string>
+    <string name="error_blocking_domain">Misslyckades att tysta %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Misslyckades att avtysta %1$s: %2$s</string>
+    <string name="list_reply_policy_none">Ingen</string>
+    <string name="list_reply_policy_list">Medlemmar av listan</string>
+    <string name="list_reply_policy_followed">Alla följda användare</string>
+    <string name="list_reply_policy_label">Visa svar till</string>
+    <string name="pref_title_show_self_boosts">Visa egna-knuffar</string>
+    <string name="pref_title_show_self_boosts_description">Någon knuffar sitt egna inlägg</string>
 </resources>

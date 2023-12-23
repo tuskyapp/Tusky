@@ -150,7 +150,7 @@
     <string name="action_block">Estä</string>
     <string name="action_unfollow">Seurataan</string>
     <string name="action_follow">Seuraa</string>
-    <string name="action_send_public">TUUTAA!</string>
+    <string name="action_send_public">TUUT!</string>
     <string name="title_view_thread">Lanka</string>
     <string name="title_scheduled_posts">Ajastetut tuuttaukset</string>
     <string name="action_reply">Vastaa</string>

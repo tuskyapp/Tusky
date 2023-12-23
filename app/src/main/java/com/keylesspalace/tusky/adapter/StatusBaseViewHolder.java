@@ -335,9 +335,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             avatarRadius = avatarRadius36dp;
         }
 
-        ImageLoadingHelper.loadAvatar(url, avatar, avatarRadius,
+        ImageLoadingHelper.loadAvatar(
+            url,
+            avatar,
+            avatarRadius,
             statusDisplayOptions.animateAvatars(),
-            Collections.singletonList(new CompositeWithOpaqueBackground(avatar)));
+            Collections.singletonList(new CompositeWithOpaqueBackground(MaterialColors.getColor(avatar, android.R.attr.colorBackground)))
+        );
     }
 
     protected void setMetaData(@NonNull StatusViewData.Concrete statusViewData, @NonNull StatusDisplayOptions statusDisplayOptions, @NonNull StatusActionListener listener) {

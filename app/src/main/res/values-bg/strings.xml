@@ -477,7 +477,7 @@
     <string name="pref_main_nav_position_option_bottom">Отдолу</string>
     <string name="pref_main_nav_position_option_top">Отгоре</string>
     <string name="pref_main_nav_position">Основна навигационна позиция</string>
-    <string name="pref_failed_to_sync">Синхронизирането на настройките бе неуспешно</string>
+    <string name="pref_failed_to_sync">Синхронизирането на предпочитанията бе неуспешно</string>
     <string name="pref_publishing">Публикуване (синхронизирано със сървър)</string>
     <string name="pref_default_media_sensitivity">Винаги маркиране на мултимедия като чувствителна</string>
     <string name="pref_default_post_privacy">Поверителност на публикация по подразбиране</string>

@@ -217,7 +217,7 @@
     <string name="pref_default_post_privacy">Sjálfgefin gagnaleynd færslna</string>
     <string name="pref_default_media_sensitivity">Alltaf merkja myndefni sem viðkvæmt</string>
     <string name="pref_publishing">Gefið út (samstillt við vefþjón)</string>
-    <string name="pref_failed_to_sync">Mistókst að samstilla stillingar</string>
+    <string name="pref_failed_to_sync">Mistókst að samstilla kjörstillingar</string>
     <string name="post_privacy_public">Opinbert</string>
     <string name="post_privacy_unlisted">Óskráð</string>
     <string name="post_privacy_followers_only">Einungis fylgjendur</string>
@@ -693,4 +693,10 @@
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
     <string name="title_public_trending_statuses">Færslur í umræðunni</string>
+    <string name="list_reply_policy_label">Birta svör til</string>
+    <string name="list_reply_policy_none">Engra</string>
+    <string name="list_reply_policy_list">Meðlima listans</string>
+    <string name="list_reply_policy_followed">Hvers þess sem fylgst er með</string>
+    <string name="pref_title_show_self_boosts">Sýna sjálfs-endurbirtingar</string>
+    <string name="pref_title_show_self_boosts_description">Einhver endurbirtir sína eigin færslu</string>
 </resources>

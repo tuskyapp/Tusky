@@ -1,0 +1,6 @@
+Tusky 23.0 beta 2
+
+Arranxos:
+
+- fallo potencia ao editar os campos do perfil
+- menú contextual demasiado grando ao editar a descrición das imaxes

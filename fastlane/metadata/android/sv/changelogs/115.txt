@@ -1,0 +1,10 @@
+Tusky 24.0
+
+– Blockcitat och kodblock i inlägg ser nu snyggare ut.
+- Det gamla beteendet för meddelandefliken har återställts.
+- Rollbrickor visas nu på profiler.
+– Videospelaren har förbättrats. Du kan nu välja uppspelningshastighet.
+- Nytt temaalternativ för att använda det svarta temat när du följer systemdesignen.
+- En ny vy för att se trendiga inlägg är tillgänglig både i menyn och som anpassad flik.
+
+Och många andra förbättringar och korrigeringar!
