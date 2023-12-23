@@ -573,7 +573,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(imageView).clear(imageView)
+                // nothing to do, Glide already handles cancellation automatically
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
