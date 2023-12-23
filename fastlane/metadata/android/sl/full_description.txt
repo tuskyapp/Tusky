@@ -1,0 +1,12 @@
+Tusky je lahek odjemalec za Mastodon, brezplačen in odprtokoden družabni omrežni strežnik
+
+• Načrtovanje materialov
+• Vsebuje večino Mastodonovih API-jev
+• Podpira več profilov
+• Temna in svetla tema z možnostjo samodejnega preklapljanja glede na čas v dnevu
+• Osnutki - sestavite toote in jih shranite za pozneje
+• Izbira med različnimi slogi smeškotov
+• Optimizirano za vse velikosti ekranov
+• Popolnoma odprtokoden - brez odvisnosti od Googlovih storitev
+
+Za več informacij o Mastodonu obiščite https://joinmastodon.org/
