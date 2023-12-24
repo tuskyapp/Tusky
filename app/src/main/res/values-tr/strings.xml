@@ -214,8 +214,8 @@
          * the url can be changed to link to the localized version of the license.
     -->
     <string name="about_project_site">Proje web sayfası: https://tusky.app</string>
-    <string name="about_bug_feature_request_site">"Hata raporları ve özellik istekleri:
-\nhttps://github.com/tuskyapp/Tusky/issues"</string>
+    <string name="about_bug_feature_request_site">Hata raporları ve özellik istekleri:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="post_share_content">Gönderinin içeriğini paylaş</string>
     <string name="post_share_link">Gönderinin adresini paylaş</string>

@@ -167,7 +167,7 @@
     <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته</string>
     <string name="pref_default_media_sensitivity">علامت‌گذاری همیشگی رسانه به عنوان حساس</string>
     <string name="pref_publishing">در حال انتشار (همگام با کارساز)</string>
-    <string name="pref_failed_to_sync">ناتوانی در هم‌گام‌سازی تنظیمات</string>
+    <string name="pref_failed_to_sync">شکست در هم‌گام‌سازی ترجیحات</string>
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
     <string name="post_privacy_followers_only">فقط پی‌گیران</string>
