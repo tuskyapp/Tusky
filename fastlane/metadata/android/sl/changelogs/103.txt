@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Funkcije vsebujejo:
+
+- Ogled aktualnih ključnikov
+- Urejanje opisov datotek in osrednjih točk
+- “Osveži“ meni za dostopnost
+- Podpora Mastodon v4 filtrov
+- Prikaz natančnih sprememb po urejanju objave
+- Možnost prikaza statistike objav na časovnici
+
+Izboljšave vsebujejo:
+
+- Prikaz kontrolne plošče med zvočnim predvajanjem
+- Pravilne izračune dolžine objave
+- Vsakokratno objavljanje opisa datotek
+
+In še veliko več

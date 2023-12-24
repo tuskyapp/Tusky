@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Podpira naknadno urejanje
+- Nove nastavitve, ki urejajo želeno smer branja
+- Večji predogledi datotek in nova prosojnica za opisovanje datotek
+- Račune je zdaj mogoče dodajati na sezname iz profila
+in še veliko več

@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Fixes:
+
+- Fixed repeated fetch of notifications if configured with multiple accounts
