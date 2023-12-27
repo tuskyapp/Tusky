@@ -12,7 +12,9 @@
 - A memory leak has been fixed. This should improve stability and performance. [PR#4150](https://github.com/tuskyapp/Tusky/pull/4150) [PR#4153](https://github.com/tuskyapp/Tusky/pull/4153)
 - Emojis are now correctly counted as 1 character when composing a post. [PR#4152](hhttps://github.com/tuskyapp/Tusky/pull/4152)
 - Fixed a crash when text was selected on some devices. [PR#4166](https://github.com/tuskyapp/Tusky/pull/4166)
-- The icons in the help texts of empty timelines will now always be correctly aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)
+- The icons in the help texts of empty timelines will now always be correctly
+  aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)
+- Fixed ANR caused by direct message badge [PR#4182](https://github.com/tuskyapp/Tusky/pull/4182)
 
 ## v24.0
 
