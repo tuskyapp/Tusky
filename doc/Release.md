@@ -18,7 +18,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - Bitrise will automatically build and upload the release to the Internal Testing track on Google Play.
 - Do a quick check to make sure the build doesn't crash, e.g. by enrolling yourself into the test track.
     - In case there are any problems, delete the GitHub release, fix the problems and start again
-- Download the build as apk from Google Play (App Bundle Explorer -> chose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
+- Download the build as apk from Google Play (App Bundle Explorer -> choose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
 - Create a new Open Testing release on Google Play. Reuse the build from the Internal Testing track.
 - Create a merge request at F-Droid. [Example](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/11218) (F-Droid automatically picks up new release tags, but not beta ones. This could probably be changed somehow.)
 - Announce the release
@@ -37,8 +37,8 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 - Do a quick check to make sure the build doesn't crash, e.g. by enrolling yourself into the test track.
     - In case there are any problems, delete the GitHub release, fix the problems and start again
 - Download the build as apk from Google Play (App Bundle Explorer -> choose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
+- Update the download link in the [index.html of the website](https://github.com/tuskyapp/tuskyapp.github.io/blob/main/index.html) to point to the apk attached to the GitHub release.
 - Create a new full release on Google Play. Reuse the build from the Internal Testing track.
-- Update the download link on the homepage ([repo](https://github.com/tuskyapp/tuskyapp.github.io))
 - Announce the release
 
 ## Versioning
