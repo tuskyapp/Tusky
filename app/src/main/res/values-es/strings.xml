@@ -232,16 +232,36 @@
     <string name="state_follow_requested">Solicitud enviada</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="status_created_at_now">Ahora</string>
-    <string name="abbreviated_in_years">en %dy</string>
-    <string name="abbreviated_in_days">en %dd</string>
-    <string name="abbreviated_in_hours">en %dh</string>
-    <string name="abbreviated_in_minutes">en %dm</string>
-    <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">en %dy</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">en %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">en %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">en %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">en %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dy</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dd</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>
     <string name="follows_you">Te sigue</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar contenido NSFW</string>
     <string name="title_media">Multimedia</string>

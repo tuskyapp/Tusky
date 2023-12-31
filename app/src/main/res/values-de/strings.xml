@@ -457,10 +457,18 @@
     <string name="pref_main_nav_position">Position der Hauptnavigation</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
     <string name="action_unmute_desc">%s nicht mehr stummschalten</string>
-    <string name="abbreviated_seconds_ago">%d Sek.</string>
-    <string name="abbreviated_hours_ago">%d Std.</string>
-    <string name="abbreviated_in_days">in %d T.</string>
-    <string name="abbreviated_years_ago">%d J.</string>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%d Sek.</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d Std.</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">in %d T.</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d J.</item>
+    </plurals>
     <string name="account_note_saved">Gespeichert!</string>
     <string name="account_note_hint">Private Notiz über dieses Konto</string>
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation ausblenden</string>
@@ -484,7 +492,9 @@
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
     <string name="pref_title_notification_filter_subscriptions">jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%s hat gerade etwas veröffentlicht</string>
-    <string name="abbreviated_minutes_ago">%d Min.</string>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d Min.</item>
+    </plurals>
     <string name="review_notifications">Benachrichtigungen überprüfen</string>
     <string name="wellbeing_mode_notice">Informationen, die dein geistiges Wohlbefinden beeinflussen könnten, werden ausgeblendet. Dazu gehören:
 \n
@@ -499,12 +509,22 @@
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">Deabonnieren</string>
-    <string name="abbreviated_in_minutes">in %d Min.</string>
-    <string name="abbreviated_in_hours">in %d Std.</string>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">in %d Min.</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">in %d Std.</item>
+    </plurals>
     <string name="drafts_failed_loading_reply">Informationen zur Antwort konnten nicht geladen werden</string>
-    <string name="abbreviated_days_ago">%d T.</string>
-    <string name="abbreviated_in_years">in %d J.</string>
-    <string name="abbreviated_in_seconds">in %d Sek.</string>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d T.</item>
+    </plurals>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">in %d J.</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">in %d Sek.</item>
+    </plurals>
     <string name="action_unbookmark">Lesezeichen entfernen</string>
     <string name="pref_title_confirm_favourites">Vor dem Favorisieren bestätigen</string>
     <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>

@@ -196,16 +196,36 @@
     <string name="post_media_video">காணொளி</string>
     <string name="state_follow_requested">கோரிக்கையைப் பின்பற்றவும்</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%dஆ-முன்</string>
-    <string name="abbreviated_in_days">%dநா-முன்</string>
-    <string name="abbreviated_in_hours">%dம.நே-முன்</string>
-    <string name="abbreviated_in_minutes">%dநி-முன்</string>
-    <string name="abbreviated_in_seconds">%dவி-முன்</string>
-    <string name="abbreviated_years_ago">%dஆ</string>
-    <string name="abbreviated_days_ago">%dநா</string>
-    <string name="abbreviated_hours_ago">%dம.நே</string>
-    <string name="abbreviated_minutes_ago">%dநி</string>
-    <string name="abbreviated_seconds_ago">%dவி</string>
+        <plurals name="abbreviated_in_years">
+        <item quantity="other">%dஆ-முன்</item>
+    </plurals>>
+        <plurals name="abbreviated_in_days">
+        <item quantity="other">%dநா-முன்</item>
+    </plurals>>
+        <plurals name="abbreviated_in_hours">
+        <item quantity="other">%dம.நே-முன்</item>
+    </plurals>>
+        <plurals name="abbreviated_in_minutes">
+        <item quantity="other">%dநி-முன்</item>
+    </plurals>>
+        <plurals name="abbreviated_in_seconds">
+        <item quantity="other">%dவி-முன்</item>
+    </plurals>>
+        <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dஆ</item>
+    </plurals>>
+        <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dநா</item>
+    </plurals>>
+        <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dம.நே</item>
+    </plurals>>
+        <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dநி</item>
+    </plurals>>
+        <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%dவி</item>
+    </plurals>>
     <string name="follows_you">நீங்கள் பின் தொடரபடுகிறீர்கள்</string>
     <string name="pref_title_alway_show_sensitive_media">எல்லா nsfw(உணர்ச்சிகரமான) உள்ளடக்கத்தையும் எப்போதும் காண்பி</string>
     <string name="title_media">ஊடகம்</string>

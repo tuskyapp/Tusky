@@ -207,12 +207,24 @@
     <string name="post_media_video">Vidèo</string>
     <string name="state_follow_requested">Demanda d’abonament</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">en %d ans</string>
-    <string name="abbreviated_in_days">en %dd</string>
-    <string name="abbreviated_in_hours">en %dh</string>
-    <string name="abbreviated_in_minutes">en %dm</string>
-    <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%d ans</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">en %d ans</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">en %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">en %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">en %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">en %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d ans</item>
+    </plurals>
     <string name="follows_you">Vos sèc</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar lo contengut sensible (NSFW)</string>
     <string name="title_media">Mèdia</string>
@@ -296,10 +308,18 @@
     <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles</string>
     <string name="pref_failed_to_sync">Fracàs de la sincronizacion dels paramètres</string>
     <string name="about_tusky_version">Tusky %s</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dd</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>
     <string name="pref_title_public_filter_keywords">Flux publics</string>
     <string name="pref_title_thread_filter_keywords">Discutidas</string>
     <string name="filter_addition_title">Ajustar un filtre</string>

@@ -240,16 +240,36 @@
     <string name="post_media_video">فيديو</string>
     <string name="state_follow_requested">طلب متابعة</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">في %dy</string>
-    <string name="abbreviated_in_days">في %dd</string>
-    <string name="abbreviated_in_hours">في %dh</string>
-    <string name="abbreviated_in_minutes">في %dm</string>
-    <string name="abbreviated_in_seconds">في %ds</string>
-    <string name="abbreviated_years_ago">%dس</string>
-    <string name="abbreviated_days_ago">%dأيام</string>
-    <string name="abbreviated_hours_ago">%dسا</string>
-    <string name="abbreviated_minutes_ago">%dد</string>
-    <string name="abbreviated_seconds_ago">%dثا</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">في %dy</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">في %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">في %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">في %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">في %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dس</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dأيام</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dسا</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dد</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%dثا</item>
+    </plurals>
     <string name="follows_you">يتبعك الآن</string>
     <string name="pref_title_alway_show_sensitive_media">أظهر دائما المحتوى الحساس</string>
     <string name="title_media">الوسائط</string>

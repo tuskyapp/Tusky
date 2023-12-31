@@ -242,16 +242,36 @@
     <string name="post_media_video">影片</string>
     <string name="state_follow_requested">已請求關注</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%d 年內</string>
-    <string name="abbreviated_in_days">%d 天內</string>
-    <string name="abbreviated_in_hours">%d 小時內</string>
-    <string name="abbreviated_in_minutes">%d 分鐘內</string>
-    <string name="abbreviated_in_seconds">%d 秒內</string>
-    <string name="abbreviated_years_ago">%d 年前</string>
-    <string name="abbreviated_days_ago">%d 天前</string>
-    <string name="abbreviated_hours_ago">%d 小時前</string>
-    <string name="abbreviated_minutes_ago">%d 分鐘前</string>
-    <string name="abbreviated_seconds_ago">%d 秒前</string>
+        <plurals name="abbreviated_in_years">
+        <item quantity="other">%d 年內</item>
+    </plurals>>
+        <plurals name="abbreviated_in_days">
+        <item quantity="other">%d 天內</item>
+    </plurals>>
+        <plurals name="abbreviated_in_hours">
+        <item quantity="other">%d 小時內</item>
+    </plurals>>
+        <plurals name="abbreviated_in_minutes">
+        <item quantity="other">%d 分鐘內</item>
+    </plurals>>
+        <plurals name="abbreviated_in_seconds">
+        <item quantity="other">%d 秒內</item>
+    </plurals>>
+        <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d 年前</item>
+    </plurals>>
+        <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d 天前</item>
+    </plurals>>
+        <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d 小時前</item>
+    </plurals>>
+        <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d 分鐘前</item>
+    </plurals>>
+        <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%d 秒前</item>
+    </plurals>>
     <string name="follows_you">關注了你</string>
     <string name="pref_title_alway_show_sensitive_media">總是顯示所有敏感媒體內容</string>
     <string name="title_media">媒體</string>
