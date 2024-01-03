@@ -1,6 +1,6 @@
 Tusky 24.0
 
-- Blockqoutes and code blocks in posts now look nicer.
+- Blockquotes and code blocks in posts now look nicer.
 - The old behavior of the notification tab has been restored.
 - Role badges are now shown on profiles.
 - The video player has been improved. You can now select the playback speed.

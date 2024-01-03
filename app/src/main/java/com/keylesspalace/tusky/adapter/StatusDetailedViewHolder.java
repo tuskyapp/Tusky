@@ -95,6 +95,13 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             }
         }
 
+        String language = status.getLanguage();
+
+        if (language != null) {
+            sb.append(metadataJoiner);
+            sb.append(language.toUpperCase());
+        }
+
         Status.Application app = status.getApplication();
 
         if (app != null) {

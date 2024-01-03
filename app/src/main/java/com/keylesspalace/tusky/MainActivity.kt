@@ -56,7 +56,6 @@ import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
@@ -142,6 +141,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -174,8 +174,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
-    private lateinit var glide: RequestManager
-
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
 
@@ -187,7 +185,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private var directMessageTab: TabLayout.Tab? = null
 
-    @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -266,8 +263,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
 
-        glide = Glide.with(this)
-
         binding.composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
             startActivity(composeIntent)
@@ -335,7 +330,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         updateAnnouncementsBadge()
                     }
                     is NewNotificationsEvent -> {
-                        directMessageTab?.let { tab ->
+                        directMessageTab?.let {
                             if (event.accountId == activeAccount.accountId) {
                                 val hasDirectMessageNotification =
                                     event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
@@ -406,10 +401,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tab.badge?.isVisible = showBadge
 
             // TODO a bit cumbersome (also for resetting)
-            accountManager.activeAccount?.let {
-                if (it.hasDirectMessageBadge != showBadge) {
-                    it.hasDirectMessageBadge = showBadge
-                    accountManager.saveAccount(it)
+            lifecycleScope.launch(Dispatchers.IO) {
+                accountManager.activeAccount?.let {
+                    if (it.hasDirectMessageBadge != showBadge) {
+                        it.hasDirectMessageBadge = showBadge
+                        accountManager.saveAccount(it)
+                    }
                 }
             }
         }
@@ -562,11 +559,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
             override fun set(imageView: ImageView, uri: Uri, placeholder: Drawable, tag: String?) {
                 if (animateAvatars) {
-                    glide.load(uri)
+                    Glide.with(imageView)
+                        .load(uri)
                         .placeholder(placeholder)
                         .into(imageView)
                 } else {
-                    glide.asBitmap()
+                    Glide.with(imageView)
+                        .asBitmap()
                         .load(uri)
                         .placeholder(placeholder)
                         .into(imageView)
@@ -574,7 +573,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                glide.clear(imageView)
+                // nothing to do, Glide already handles cancellation automatically
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {
@@ -979,7 +978,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun onFetchUserInfoSuccess(me: Account) {
-        glide.asBitmap()
+        Glide.with(header.accountHeaderBackground)
+            .asBitmap()
             .load(me.header)
             .into(header.accountHeaderBackground)
 
@@ -1021,7 +1021,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 
         if (animateAvatars) {
-            glide.asDrawable().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+            Glide.with(this)
+                .asDrawable()
+                .load(avatarUrl)
+                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
                 .apply {
                     if (showPlaceholder) placeholder(R.drawable.avatar_default)
                 }
@@ -1048,7 +1051,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                     }
                 })
         } else {
-            glide.asBitmap().load(avatarUrl).transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+            Glide.with(this)
+                .asBitmap()
+                .load(avatarUrl)
+                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
                 .apply {
                     if (showPlaceholder) placeholder(R.drawable.avatar_default)
                 }

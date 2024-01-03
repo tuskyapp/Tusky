@@ -6,6 +6,40 @@
 
 ### Significant bug fixes
 
+## v24.1
+
+- The screen will stay on again while a video is playing. [PR#4168](https://github.com/tuskyapp/Tusky/pull/4168)
+- A memory leak has been fixed. This should improve stability and performance. [PR#4150](https://github.com/tuskyapp/Tusky/pull/4150) [PR#4153](https://github.com/tuskyapp/Tusky/pull/4153)
+- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](hhttps://github.com/tuskyapp/Tusky/pull/4152)
+- Fixed a crash when text was selected on some devices. [PR#4166](https://github.com/tuskyapp/Tusky/pull/4166)
+- The icons in the help texts of empty timelines will now always be correctly
+  aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)
+- Fixed ANR caused by direct message badge [PR#4182](https://github.com/tuskyapp/Tusky/pull/4182)
+
+## v24.0
+
+### New features and other improvements
+
+- The number of tabs that can be configured is no longer limited. [PR#4058](https://github.com/tuskyapp/Tusky/pull/4058)
+- Blockquotes and code blocks in posts now look nicer [PR#4090](https://github.com/tuskyapp/Tusky/pull/4090) [PR#4091](https://github.com/tuskyapp/Tusky/pull/4091)
+- The old behavior of the notification tab (pre Tusky 22.0) has been restored. [PR#4015](https://github.com/tuskyapp/Tusky/pull/4015)
+- Role badges are now shown on profiles (Mastodon 4.2 feature). [PR#4029](https://github.com/tuskyapp/Tusky/pull/4029)
+- The video player has been upgraded to Google Jetpack Media3; video compatibility should be improved, and you can now adjust playback speed. [PR#3857](https://github.com/tuskyapp/Tusky/pull/3857)
+- New theme option to use the black theme when following the system design. [PR#3957](https://github.com/tuskyapp/Tusky/pull/3957)
+- Following the system design is now the default theme setting. [PR#3813](https://github.com/tuskyapp/Tusky/pull/3957)
+- A new view to see trending posts is available both in the menu and as custom tab. [PR#4007](https://github.com/tuskyapp/Tusky/pull/4007)
+- A new option to hide self boosts has been added. [PR#4101](https://github.com/tuskyapp/Tusky/pull/4101)
+- The `api/v2/instance` endpoint is now supported. [PR#4062](https://github.com/tuskyapp/Tusky/pull/4062)
+- New settings for lists:
+    - Hide from the home timeline [PR#3932](https://github.com/tuskyapp/Tusky/pull/3932)
+    - Decide which replies should be shown in the list [PR#4072](https://github.com/tuskyapp/Tusky/pull/4072)
+- The oldest supported Android version is now Android 7 Nougat [PR#4014](https://github.com/tuskyapp/Tusky/pull/4014)
+
+### Significant bug fixes
+
+- **Empty trends no longer causes Tusky to crash**, [PR#3853](https://github.com/tuskyapp/Tusky/pull/3853)
+
+
 ## v23.0
 
 ### New features and other improvements

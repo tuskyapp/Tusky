@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- A pantalla permanece acendida mentras se reproduce un vídeo
+- Arranxadas as fugas de memoria. Debería mellorar o rendemento e estabilidade.
+- Os emojis cóntanse correctamente como 1 caracter ao escribir unha mensaxe.
+- Arranxo do fallo nalgúns dispositivos ao seleccionar texto.
+- As iconas nos texto de axuda en cronoloxías baleiras xa estarán aliñados correctamente.

@@ -35,6 +35,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ShareCompat
@@ -124,6 +125,7 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.toolbar.title = getPageTitle(position)
+                adjustScreenWakefulness()
             }
         })
 
@@ -155,6 +157,8 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
                 window.sharedElementEnterTransition.removeListener(this)
             }
         })
+
+        adjustScreenWakefulness()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -340,6 +344,17 @@ class ViewMediaActivity : BaseActivity(), HasAndroidInjector, ViewImageFragment.
         downloadManager.enqueue(request)
 
         shareFile(file, mimeType)
+    }
+
+    // Prevent this activity from dimming or sleeping the screen if, and only if, it is playing video or audio
+    private fun adjustScreenWakefulness() {
+        attachments?.run {
+            if (get(binding.viewPager.currentItem).attachment.type == Attachment.Type.IMAGE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            } else {
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+        }
     }
 
     override fun androidInjector() = androidInjector

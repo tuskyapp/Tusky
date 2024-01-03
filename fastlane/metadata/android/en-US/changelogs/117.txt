@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- The screen will stay on again while a video is playing.
+- A memory leak has been fixed. This should improve stability and performance.
+- Emojis are now correctly counted as 1 character when composing a post.
+- Fixed a crash when text was selected on some devices.
+- The icons in the help texts of empty timelines will now always be correctly aligned.
