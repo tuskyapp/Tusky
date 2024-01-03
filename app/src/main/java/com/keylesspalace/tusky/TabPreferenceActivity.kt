@@ -42,17 +42,12 @@ import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
