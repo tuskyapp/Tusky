@@ -31,7 +31,7 @@ import com.keylesspalace.tusky.util.unicodeWrap
 import java.util.Date
 
 class ReportNotificationViewHolder(
-    private val binding: ItemReportNotificationBinding,
+    private val binding: ItemReportNotificationBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun setupWithReport(
@@ -65,13 +65,13 @@ class ReportNotificationViewHolder(
             report.targetAccount.avatar,
             binding.notificationReporteeAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp),
-            animateAvatar,
+            animateAvatar
         )
         loadAvatar(
             reporter.avatar,
             binding.notificationReporterAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_24dp),
-            animateAvatar,
+            animateAvatar
         )
     }
 

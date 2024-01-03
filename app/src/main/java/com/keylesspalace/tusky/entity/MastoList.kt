@@ -26,7 +26,7 @@ data class MastoList(
     val id: String,
     val title: String,
     val exclusive: Boolean?,
-    @SerializedName("replies_policy") val repliesPolicy: String?,
+    @SerializedName("replies_policy") val repliesPolicy: String?
 ) {
     enum class ReplyPolicy(val policy: String) {
         NONE("none"),

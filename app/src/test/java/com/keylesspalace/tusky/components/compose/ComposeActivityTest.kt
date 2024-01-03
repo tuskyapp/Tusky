@@ -585,7 +585,7 @@ class ComposeActivityTest {
             ),
             Instance.Configuration.MediaAttachments(0, 0, 0, 0, 0),
             Instance.Configuration.Polls(0, 0, 0, 0),
-            Instance.Configuration.Translation(false),
+            Instance.Configuration.Translation(false)
         )
     }
 

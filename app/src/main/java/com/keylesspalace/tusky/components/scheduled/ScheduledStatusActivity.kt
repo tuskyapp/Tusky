@@ -166,8 +166,8 @@ class ScheduledStatusActivity :
                 visibility = item.params.visibility,
                 scheduledAt = item.scheduledAt,
                 sensitive = item.params.sensitive,
-                kind = ComposeActivity.ComposeKind.EDIT_SCHEDULED,
-            ),
+                kind = ComposeActivity.ComposeKind.EDIT_SCHEDULED
+            )
         )
         startActivity(intent)
     }

@@ -141,9 +141,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, MenuProvider {
@@ -304,7 +303,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             ),
             addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(
                 TRENDING_STATUSES
-            ),
+            )
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -330,7 +329,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
                             addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
-                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES),
+                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES)
                         )
 
                         setupTabs(false)
@@ -545,7 +544,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
         addTrendingTagsButton: Boolean,
-        addTrendingStatusesButton: Boolean,
+        addTrendingStatusesButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -613,7 +612,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             refreshMainDrawerItems(
                 addSearchButton = addSearchButton,
                 addTrendingTagsButton = addTrendingTagsButton,
-                addTrendingStatusesButton = addTrendingStatusesButton,
+                addTrendingStatusesButton = addTrendingStatusesButton
             )
             setSavedInstance(savedInstanceState)
         }
@@ -622,7 +621,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun refreshMainDrawerItems(
         addSearchButton: Boolean,
         addTrendingTagsButton: Boolean,
-        addTrendingStatusesButton: Boolean,
+        addTrendingStatusesButton: Boolean
     ) {
         binding.mainDrawer.apply {
             itemAdapter.clear()

@@ -113,7 +113,7 @@ data class AccountEntity(
 
     var isShowHomeBoosts: Boolean = true,
     var isShowHomeReplies: Boolean = true,
-    var isShowHomeSelfBoosts: Boolean = true,
+    var isShowHomeSelfBoosts: Boolean = true
 ) {
 
     val identifier: String

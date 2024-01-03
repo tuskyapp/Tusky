@@ -389,7 +389,7 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf(
             mockStatusViewData("5"),
             mockStatusViewData("4"),
-            mockStatusViewData("3"),
+            mockStatusViewData("3")
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
@@ -400,11 +400,11 @@ class NetworkTimelineRemoteMediatorTest {
                 listOf(
                     mockStatus("3"),
                     mockStatus("2"),
-                    mockStatus("1"),
+                    mockStatus("1")
                 ),
                 Headers.headersOf(
                     "Link",
-                    "<https://mastodon.example/api/v1/trends/statuses?offset=5>; rel=\"next\"",
+                    "<https://mastodon.example/api/v1/trends/statuses?offset=5>; rel=\"next\""
                 )
             )
         }
