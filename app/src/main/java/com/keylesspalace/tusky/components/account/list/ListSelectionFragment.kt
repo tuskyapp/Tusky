@@ -96,10 +96,6 @@ class ListSelectionFragment : DialogFragment(), Injectable {
             }
             .setNegativeButton(if (accountId != null) R.string.button_done else android.R.string.cancel, null)
 
-        if (accountId != null) {
-            dialogBuilder.setTitle(null)
-        }
-
         val dialog = dialogBuilder.create()
 
         val showProgressBarJob = getProgressBarJob(binding.progressBar, 500)
