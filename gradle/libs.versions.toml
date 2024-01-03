@@ -34,7 +34,7 @@ glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
 gson = "2.10.1"
-kotlin = "1.9.20"
+kotlin = "1.9.22"
 image-cropper = "4.3.2"
 material = "1.9.0"
 material-drawer = "8.4.5"
@@ -57,7 +57,7 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:1.9.20-1.0.13"
+google-ksp = "com.google.devtools.ksp:1.9.22-1.0.16"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ktlint = "org.jlleitschuh.gradle.ktlint:11.5.1"
