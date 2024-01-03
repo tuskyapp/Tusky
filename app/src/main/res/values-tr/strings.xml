@@ -628,9 +628,7 @@
     <string name="action_browser_login">Tarayıcı ile Giriş Yap</string>
     <string name="description_login">Çoğu durumda çalışır. Diğer uygulamalara veri sızmaz.</string>
     <string name="description_browser_login">Ek kimlik doğrulama yöntemlerini destekleyebilir ancak desteklenen bir tarayıcı gerektirir.</string>
-    <string name="select_list_empty">Henüz hiç listen yok</string>
     <string name="select_list_manage">Listeleri yönet</string>
-    <string name="error_list_load">Listeler yüklenirken hata oluştu</string>
     <string name="action_share_account_link">Hesaba bağlantı paylaş</string>
     <string name="action_share_account_username">Hesap adını paylaş</string>
     <string name="account_username_copied">Kullanıcı adı kopyalandı</string>

@@ -650,8 +650,6 @@
 \n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
     <string name="post_media_image">图片</string>
     <string name="select_list_manage">管理列表</string>
-    <string name="error_list_load">加载列表出错</string>
-    <string name="select_list_empty">你还没有列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
     <string name="compose_delete_draft">删除草稿？</string>
     <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。

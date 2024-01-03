@@ -421,9 +421,7 @@
     <string name="about_powered_by_tusky">Unterstützt von Tusky</string>
     <string name="description_post_bookmarked">Als Lesezeichen gespeichert</string>
     <string name="select_list_title">Liste auswählen</string>
-    <string name="select_list_empty">Du hast noch keine Listen</string>
     <string name="select_list_manage">Listen verwalten</string>
-    <string name="error_list_load">Fehler beim Laden der Listen</string>
     <string name="list">Liste</string>
     <string name="post_lookup_error_format">Fehler beim Nachschlagen von %s</string>
     <string name="no_drafts">Du hast keine Entwürfe.</string>

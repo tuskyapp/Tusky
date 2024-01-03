@@ -608,9 +608,7 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
-    <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
-    <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Delete</string>
