@@ -639,8 +639,6 @@
     <string name="about_copy">Копирование версии и информации об устройстве</string>
     <string name="about_copied">Версия и информация об устройстве скопировано</string>
     <string name="action_add_reaction">добавить реакцию</string>
-    <string name="error_list_load">Ошибка при загрузке списков</string>
-    <string name="select_list_empty">У вас нет списков, пока что</string>
     <string name="select_list_manage">Управлять списками</string>
     <string name="ui_error_reject_follow_request">Отклонение запроса на подписку не удалось: %s</string>
     <string name="ui_error_accept_follow_request">Принятие запроса на подписку не удалось: %s</string>

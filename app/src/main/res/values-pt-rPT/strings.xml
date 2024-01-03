@@ -617,7 +617,6 @@
     <string name="failed_to_add_to_list">Falha em adicionar a conta à lista</string>
     <string name="failed_to_pin">Falha em afixar</string>
     <string name="compose_save_draft_loses_media">Guardar rascunho\? (anexos serão carregados novamente quando recuperares o rascunho.)</string>
-    <string name="select_list_empty">Ainda não tens nenhuma lista</string>
     <string name="select_list_manage">Gerir listas</string>
     <string name="status_filter_placeholder_label_format">Filtrados: %s</string>
     <string name="status_filtered_show_anyway">Mostrar à mesma</string>
@@ -641,7 +640,6 @@
     <string name="status_edit_info">Editado: %1$s</string>
     <string name="status_created_info">Criado: %1$s</string>
     <string name="pref_title_reading_order">Ordem de leitura</string>
-    <string name="error_list_load">Erro ao carregar listas</string>
     <string name="report_category_violation">Violação de regra</string>
     <string name="no_lists">Não tens nenhuma lista.</string>
     <string name="socket_timeout_exception">A tentativa de contato com o teu servidor demorou demasiado temp0</string>
