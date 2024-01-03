@@ -42,13 +42,14 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 54,
+    version = 55,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
         @AutoMigration(from = 50, to = 51),
         @AutoMigration(from = 51, to = 52),
-        @AutoMigration(from = 53, to = 54) // hasDirectMessageBadge in AccountEntity
+        @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
+        @AutoMigration(from = 54, to = 55) // AccountEntity gets a 'unifiedDistributorName'
     }
 )
 public abstract class AppDatabase extends RoomDatabase {

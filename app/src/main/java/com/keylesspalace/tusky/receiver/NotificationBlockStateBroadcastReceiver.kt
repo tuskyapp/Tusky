@@ -20,29 +20,30 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.notifications.canEnablePushNotifications
-import com.keylesspalace.tusky.components.notifications.isUnifiedPushNotificationEnabledForAccount
-import com.keylesspalace.tusky.components.notifications.updateUnifiedPushSubscription
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * This listens for changed notification channel settings (from the Android system) and updates an account's push
+ * subscription if active.
+ */
 @DelicateCoroutinesApi
 class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     @Inject
-    lateinit var mastodonApi: MastodonApi
+    lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var accountManager: AccountManager
+    lateinit var notificationManager: PushNotificationManager
 
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
         if (Build.VERSION.SDK_INT < 28) return
-        if (!canEnablePushNotifications(context, accountManager)) return
+        if (!notificationManager.canEnablePushNotifications()) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -58,9 +59,11 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         } ?: return
 
         accountManager.getAccountByIdentifier(gid)?.let { account ->
-            if (isUnifiedPushNotificationEnabledForAccount(account)) {
+            // TODO how did the changed (system) setting end up in the account object here (for example in field AccountEntity:notificationsMentioned)?
+
+            if (notificationManager.hasPushNotificationsEnabled(account)) {
                 // Update UnifiedPush notification subscription
-                GlobalScope.launch { updateUnifiedPushSubscription(context, mastodonApi, accountManager, account) }
+                GlobalScope.launch { notificationManager.updateUnifiedPushSubscription(account) }
             }
         }
     }
