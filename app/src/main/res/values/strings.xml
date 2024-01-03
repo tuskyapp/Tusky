@@ -298,6 +298,7 @@
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
     <string name="pref_title_timeline_filters">Filters</string>
+    <string name="pref_title_per_timeline_preferences">Per-timeline preferences</string>
 
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
@@ -316,7 +317,7 @@
     <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
     <string name="pref_title_post_filter">Timeline filtering</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Home timeline</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
@@ -607,9 +608,7 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
-    <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
-    <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Delete</string>

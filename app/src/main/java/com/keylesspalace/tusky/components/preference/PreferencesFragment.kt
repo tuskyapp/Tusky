@@ -250,13 +250,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_post_tabs)
-                    fragment = TabFilterPreferencesFragment::class.qualifiedName
-                }
-            }
-
             preferenceCategory(R.string.pref_title_wellbeing_mode) {
                 switchPreference {
                     title = getString(R.string.limit_notifications)

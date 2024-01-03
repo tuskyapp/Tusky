@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- Bydd y sgrin yn aros ymlaen eto tra bod fideo yn chwarae.
+- Mae gollwng cof wedi cael ei gyweirio. Dylai hyn yn gwella sefydlogrwydd a pherfformiad.
+- Mae emojis nawr yn cael ei rhifo'n gywir fel 1 nod wrth greu neges.
+- Wedi cyweirio chwalfa pan ddetholwyd testun ar rai dyfeisiau.
+- Bydd yr eiconau yn nhestunau help ffrydiau gwag yn cael eu halinio yn gywir bob tro.

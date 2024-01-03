@@ -141,6 +141,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -338,7 +340,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         updateAnnouncementsBadge()
                     }
                     is NewNotificationsEvent -> {
-                        directMessageTab?.let { tab ->
+                        directMessageTab?.let {
                             if (event.accountId == activeAccount.accountId) {
                                 val hasDirectMessageNotification =
                                     event.notifications.any {
@@ -411,10 +413,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             tab.badge?.isVisible = showBadge
 
             // TODO a bit cumbersome (also for resetting)
-            accountManager.activeAccount?.let {
-                if (it.hasDirectMessageBadge != showBadge) {
-                    it.hasDirectMessageBadge = showBadge
-                    accountManager.saveAccount(it)
+            lifecycleScope.launch(Dispatchers.IO) {
+                accountManager.activeAccount?.let {
+                    if (it.hasDirectMessageBadge != showBadge) {
+                        it.hasDirectMessageBadge = showBadge
+                        accountManager.saveAccount(it)
+                    }
                 }
             }
         }
@@ -593,7 +597,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             }
 
             override fun cancel(imageView: ImageView) {
-                Glide.with(imageView).clear(imageView)
+                // nothing to do, Glide already handles cancellation automatically
             }
 
             override fun placeholder(ctx: Context, tag: String?): Drawable {

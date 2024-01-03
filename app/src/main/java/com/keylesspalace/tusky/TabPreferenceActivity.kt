@@ -15,18 +15,10 @@
 
 package com.keylesspalace.tusky
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -38,40 +30,36 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
+import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.getDimension
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import java.util.regex.Pattern
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineStart
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListener {
+class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, ItemInteractionListener, ListSelectionFragment.ListSelectionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
@@ -283,85 +271,24 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
         editText.requestFocus()
     }
 
+    private var listSelectDialog: ListSelectionFragment? = null
+
     private fun showSelectListDialog() {
-        val adapter = object : ArrayAdapter<MastoList>(this, android.R.layout.simple_list_item_1) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                getItem(position)?.let { item -> (view as TextView).text = item.title }
-                return view
-            }
-        }
+        listSelectDialog = ListSelectionFragment.newInstance(null)
+        listSelectDialog?.show(supportFragmentManager, null)
 
-        val statusLayout = LinearLayout(this)
-        statusLayout.gravity = Gravity.CENTER
-        val progress = ProgressBar(this)
-        val preferredPadding = getDimension(this, androidx.appcompat.R.attr.dialogPreferredPadding)
-        progress.setPadding(preferredPadding, 0, preferredPadding, 0)
-        progress.visible(false)
-
-        val noListsText = TextView(this)
-        noListsText.setPadding(preferredPadding, 0, preferredPadding, 0)
-        noListsText.text = getText(R.string.select_list_empty)
-        noListsText.visible(false)
-
-        statusLayout.addView(progress)
-        statusLayout.addView(noListsText)
-
-        val dialogBuilder = AlertDialog.Builder(this)
-            .setTitle(R.string.select_list_title)
-            .setNeutralButton(R.string.select_list_manage) { _, _ ->
-                val listIntent = Intent(applicationContext, ListsActivity::class.java)
-                startActivity(listIntent)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .setView(statusLayout)
-            .setAdapter(adapter) { _, position ->
-                adapter.getItem(position)?.let { item ->
-                    val newTab = createTabDataFromId(LIST, listOf(item.id, item.title))
-                    currentTabs.add(newTab)
-                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                    updateAvailableTabs()
-                    saveTabs()
-                }
-            }
-
-        val showProgressBarJob = getProgressBarJob(progress, 500)
-        showProgressBarJob.start()
-
-        val dialog = dialogBuilder.show()
-
-        lifecycleScope.launch {
-            mastodonApi.getLists().fold(
-                { lists ->
-                    showProgressBarJob.cancel()
-                    adapter.addAll(lists)
-                    if (lists.isEmpty()) {
-                        noListsText.show()
-                    }
-                },
-                { throwable ->
-                    dialog.hide()
-                    Log.e("TabPreferenceActivity", "failed to load lists", throwable)
-                    Snackbar.make(
-                        binding.root,
-                        R.string.error_list_load,
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            )
-        }
+        return
     }
 
-    private fun getProgressBarJob(progressView: View, delayMs: Long) = this.lifecycleScope.launch(
-        start = CoroutineStart.LAZY
-    ) {
-        try {
-            delay(delayMs)
-            progressView.show()
-            awaitCancellation()
-        } finally {
-            progressView.hide()
-        }
+    override fun onListSelected(list: MastoList) {
+        listSelectDialog?.dismiss()
+        listSelectDialog = null
+
+        val newTab = createTabDataFromId(LIST, listOf(list.id, list.title))
+        currentTabs.add(newTab)
+        currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+        updateAvailableTabs()
+        saveTabs()
     }
 
     private fun validateHashtag(input: CharSequence?): Boolean {
@@ -438,6 +365,8 @@ class TabPreferenceActivity : BaseActivity(), Injectable, ItemInteractionListene
             }
         }
     }
+
+    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         private const val MIN_TAB_COUNT = 2

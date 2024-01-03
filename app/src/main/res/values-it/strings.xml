@@ -652,9 +652,7 @@
     <string name="ui_error_accept_follow_request">Accettazione richiesta di follow fallita: %s</string>
     <string name="ui_success_accepted_follow_request">Richiesta di follow accettata</string>
     <string name="ui_success_rejected_follow_request">Richiesta di follow bloccata</string>
-    <string name="select_list_empty">Non hai ancora alcuna lista</string>
     <string name="select_list_manage">Gestisci liste</string>
-    <string name="error_list_load">Errore nel caricamento delle liste</string>
     <string name="status_filtered_show_anyway">Mostra comunque</string>
     <string name="status_filter_placeholder_label_format">Filtrato: %s</string>
     <string name="pref_title_account_filter_keywords">Profili</string>

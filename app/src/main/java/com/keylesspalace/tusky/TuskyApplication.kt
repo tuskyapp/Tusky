@@ -149,6 +149,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
                 editor.putString(APP_THEME, AppTheme.NIGHT.value)
             }
         }
+
+        if (oldVersion < 2023112001) {
+            editor.remove(PrefKeys.TAB_FILTER_HOME_REPLIES)
+            editor.remove(PrefKeys.TAB_FILTER_HOME_BOOSTS)
+            editor.remove(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS)
+        }
+
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }

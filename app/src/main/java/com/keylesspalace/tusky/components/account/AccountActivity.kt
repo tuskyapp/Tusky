@@ -66,7 +66,7 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
+import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
@@ -1050,9 +1050,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 return true
             }
             R.id.action_add_or_remove_from_list -> {
-                ListsForAccountFragment.newInstance(
-                    viewModel.accountId
-                ).show(supportFragmentManager, null)
+                ListSelectionFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
                 return true
             }
             R.id.action_mute_domain -> {

@@ -69,7 +69,9 @@ import kotlin.time.toDuration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class ConversationsFragment :
     SFragment(),
@@ -136,10 +138,8 @@ class ConversationsFragment :
             binding.progressBar.hide()
 
             if (loadState.isAnyLoading()) {
-                runBlocking {
-                    eventHub.dispatch(
-                        ConversationsLoadingEvent(accountManager.activeAccount?.accountId ?: "")
-                    )
+                lifecycleScope.launch {
+                    eventHub.dispatch(ConversationsLoadingEvent(accountManager.activeAccount?.accountId ?: ""))
                 }
             }
 

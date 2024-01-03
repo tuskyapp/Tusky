@@ -109,7 +109,11 @@ data class AccountEntity(
     var locked: Boolean = false,
 
     @ColumnInfo(defaultValue = "0")
-    var hasDirectMessageBadge: Boolean = false
+    var hasDirectMessageBadge: Boolean = false,
+
+    var isShowHomeBoosts: Boolean = true,
+    var isShowHomeReplies: Boolean = true,
+    var isShowHomeSelfBoosts: Boolean = true,
 ) {
 
     val identifier: String
