@@ -89,11 +89,11 @@ abstract class TimelineViewModel(
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
             filterRemoveReblogs =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                !(accountManager.activeAccount?.isShowHomeReplies ?: true)
             filterRemoveSelfReblogs =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS, true)
+                !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
         }
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
@@ -201,7 +201,7 @@ abstract class TimelineViewModel(
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                val filter = accountManager.activeAccount?.isShowHomeReplies ?: true
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
@@ -209,7 +209,7 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                val filter = accountManager.activeAccount?.isShowHomeBoosts ?: true
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
@@ -217,7 +217,7 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS, true)
+                val filter = accountManager.activeAccount?.isShowHomeSelfBoosts ?: true
                 val oldRemoveSelfReblogs = filterRemoveSelfReblogs
                 filterRemoveSelfReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
