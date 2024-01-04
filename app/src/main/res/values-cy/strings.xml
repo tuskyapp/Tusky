@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="error_generic">Bu gwall.</string>
-    <string name="error_empty">Ni all hwn fod yn wag.</string>
-    <string name="error_invalid_domain">Rhoddwyd parth annilys</string>
-    <string name="error_failed_app_registration">Methu awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisia Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_generic">Digwyddodd gwall.</string>
+    <string name="error_empty">Gall hwn ddim fod yn wag.</string>
+    <string name="error_invalid_domain">Wedi cynnig parth annilys</string>
+    <string name="error_failed_app_registration">Wedi methu ag awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
-    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys. Os bydd hyn yn parhau, ceisia Mewngofnodi yn Porwr o\'r ddewislen.</string>
-    <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os wyt ti\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisia Mewngofnodi yn Porwr o\'r ddewislen.</string>
-    <string name="error_retrieving_oauth_token">Methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisia Mewngofnodi yn Porwr o\'r ddewislen.</string>
+    <string name="error_authorization_unknown">Bu gwall awdurdodi anhysbys. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
+    <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os wyt ti\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
+    <string name="error_retrieving_oauth_token">Wedi methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'r neges yn rhy hir!</string>
     <string name="error_media_upload_type">Ni alli di lanlwytho\'r math hwnnw o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
@@ -305,7 +305,7 @@
     <string name="no_scheduled_posts">Does gennyt ti ddim negeseuon wedi\'u hamserlennu.</string>
     <string name="filter_expiration_format">%s (%s)</string>
     <string name="notification_clear_text">Wyt ti\'n siŵr dy fod am glirio dy holl hysbysiadau\'n barhaol\?</string>
-    <string name="error_multimedia_size_limit">Ni all ffeiliau fideo a sain fod yn fwy na %s MB.</string>
+    <string name="error_multimedia_size_limit">Nid yw ffeiliau fideo a sain yn gallu bod yn fwy na %s MB.</string>
     <string name="error_following_hashtag_format">Gwall wrth ddilyn #%s</string>
     <string name="error_unfollowing_hashtag_format">Gwall wrth ddad-ddilyn #%s</string>
     <string name="action_unmute_domain">Dad-dewi %s</string>
