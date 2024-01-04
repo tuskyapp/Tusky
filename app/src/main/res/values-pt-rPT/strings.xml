@@ -571,7 +571,7 @@
 \nO servidor não pode ser contactado ou rejeitou as publicações.</string>
     <string name="action_post_failed_show_drafts">Mostrar rascunhos</string>
     <string name="action_post_failed_do_nothing">Descartar</string>
-    <string name="post_media_alt">Alternativo</string>
+    <string name="post_media_alt">ALT</string>
     <string name="error_muting_hashtag_format">Erro ao silenciar #%s</string>
     <string name="action_browser_login">Iniciar sessão com o navegador</string>
     <string name="notification_header_report_format">%s reportou %s</string>
