@@ -66,7 +66,6 @@ import com.mikepenz.iconics.utils.sizeDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -132,7 +131,7 @@ class ConversationsFragment :
             binding.progressBar.hide()
 
             if (loadState.isAnyLoading()) {
-                runBlocking {
+                lifecycleScope.launch {
                     eventHub.dispatch(ConversationsLoadingEvent(accountManager.activeAccount?.accountId ?: ""))
                 }
             }

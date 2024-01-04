@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
-import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -98,8 +97,6 @@ fun highlightSpans(text: Spannable, colour: Int) {
  * Replaces text of the form [iconics name] with their spanned counterparts (ImageSpan).
  */
 fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
-    val alignment = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) DynamicDrawableSpan.ALIGN_CENTER else DynamicDrawableSpan.ALIGN_BASELINE
-
     val builder = SpannableStringBuilder(text)
 
     val pattern = Pattern.compile("\\[iconics ([0-9a-z_]+)\\]")
@@ -112,7 +109,7 @@ fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): S
         drawable.setBounds(0, 0, size, size)
         drawable.setTint(color)
 
-        builder.setSpan(ImageSpan(drawable, alignment), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BASELINE), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
 
     return builder

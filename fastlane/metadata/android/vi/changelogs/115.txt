@@ -1,0 +1,10 @@
+Tusky 24.0
+
+- Blockquotes đẹp hơn.
+- Tab thông báo trở về như cũ.
+- Hiện huy hiệu vai trò trên hồ sơ.
+- Cải thiện trình phát video. Cho chọn tốc độ phát.
+- Thêm chủ đề đen.
+- Hiện những tút thịnh hành.
+
+Và các cải thiện khác!

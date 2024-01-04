@@ -73,6 +73,7 @@ abstract class TimelineViewModel(
     private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
+    private var filterRemoveSelfReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
     fun init(
@@ -88,9 +89,11 @@ abstract class TimelineViewModel(
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
             filterRemoveReblogs =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                !(accountManager.activeAccount?.isShowHomeReplies ?: true)
+            filterRemoveSelfReblogs =
+                !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
         }
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
@@ -185,7 +188,8 @@ abstract class TimelineViewModel(
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
         return if (
             (status.inReplyToId != null && filterRemoveReplies) ||
-            (status.reblog != null && filterRemoveReblogs)
+            (status.reblog != null && filterRemoveReblogs) ||
+            ((status.account.id == status.reblog?.account?.id) && filterRemoveSelfReblogs)
         ) {
             return Filter.Action.HIDE
         } else {
@@ -197,7 +201,7 @@ abstract class TimelineViewModel(
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                val filter = accountManager.activeAccount?.isShowHomeReplies ?: true
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
@@ -205,10 +209,18 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                val filter = accountManager.activeAccount?.isShowHomeBoosts ?: true
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
+                    fullReload()
+                }
+            }
+            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
+                val filter = accountManager.activeAccount?.isShowHomeSelfBoosts ?: true
+                val oldRemoveSelfReblogs = filterRemoveSelfReblogs
+                filterRemoveSelfReblogs = kind == Kind.HOME && !filter
+                if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
                     fullReload()
                 }
             }

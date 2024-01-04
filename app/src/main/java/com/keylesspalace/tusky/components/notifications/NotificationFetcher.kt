@@ -90,23 +90,29 @@ class NotificationFetcher @Inject constructor(
                         }
                     }
 
+                    val notificationsByType = notifications.groupBy { it.type }
+
                     // Make and send the new notifications
                     // TODO: Use the batch notification API available in NotificationManagerCompat
                     // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
                     // when it is released.
-                    notifications.forEachIndexed { index, notification ->
-                        val androidNotification = NotificationHelper.make(
-                            context,
-                            notificationManager,
-                            notification,
-                            account,
-                            index == 0
-                        )
-                        notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
-                        // Android will rate limit / drop notifications if they're posted too
-                        // quickly. There is no indication to the user that this happened.
-                        // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-                        delay(1000.milliseconds)
+
+                    notificationsByType.forEach { notificationsGroup ->
+                        notificationsGroup.value.forEach { notification ->
+                            val androidNotification = NotificationHelper.make(
+                                context,
+                                notificationManager,
+                                notification,
+                                account,
+                                notificationsGroup.value.size == 1
+                            )
+                            notificationManager.notify(notification.id, account.id.toInt(), androidNotification)
+
+                            // Android will rate limit / drop notifications if they're posted too
+                            // quickly. There is no indication to the user that this happened.
+                            // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
+                            delay(1000.milliseconds)
+                        }
                     }
 
                     NotificationHelper.updateSummaryNotifications(

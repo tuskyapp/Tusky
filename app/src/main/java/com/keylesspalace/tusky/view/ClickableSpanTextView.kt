@@ -25,6 +25,9 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.os.Build
+import android.text.Selection
+import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.text.style.URLSpan
@@ -190,6 +193,26 @@ class ClickableSpanTextView @JvmOverloads constructor(
                 delegateRects[rect] = span
             }
         }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        // workaround to https://code.google.com/p/android/issues/detail?id=191430
+        // from https://stackoverflow.com/a/36740247
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
+            val startSelection = selectionStart
+            val endSelection = selectionEnd
+
+            val content = text
+            if (content is Spannable && (startSelection < 0 || endSelection < 0)) {
+                Selection.setSelection(content as Spannable?, content.length)
+            } else if (startSelection != endSelection) {
+                if (event.actionMasked == ACTION_DOWN) {
+                    text = null
+                    text = content
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     /**

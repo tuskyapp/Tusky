@@ -24,7 +24,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
@@ -43,7 +42,6 @@ private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 
 class CaptionDialog : DialogFragment() {
     private lateinit var listener: Listener
-    private lateinit var input: EditText
 
     private val binding by viewBinding(DialogImageDescriptionBinding::bind)
 
@@ -56,33 +54,29 @@ class CaptionDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        savedInstanceState?.getString(DESCRIPTION_KEY)?.let {
-            input.setText(it)
-        }
-
-        return inflater.inflate(R.layout.dialog_image_description, container, false)
-    }
+    ) = inflater.inflate(R.layout.dialog_image_description, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        input = binding.imageDescriptionText
         val imageView = binding.imageDescriptionView
         imageView.maxZoom = 6f
 
-        input.hint = resources.getQuantityString(
+        binding.imageDescriptionText.hint = resources.getQuantityString(
             R.plurals.hint_describe_for_visually_impaired,
             MEDIA_DESCRIPTION_CHARACTER_LIMIT,
             MEDIA_DESCRIPTION_CHARACTER_LIMIT
         )
-        input.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
-        input.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
+        binding.imageDescriptionText.filters = arrayOf(InputFilter.LengthFilter(MEDIA_DESCRIPTION_CHARACTER_LIMIT))
+        binding.imageDescriptionText.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
+        savedInstanceState?.getCharSequence(DESCRIPTION_KEY)?.let {
+            binding.imageDescriptionText.setText(it)
+        }
 
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
         val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
         binding.okButton.setOnClickListener {
-            listener.onUpdateDescription(localId, input.text.toString())
+            listener.onUpdateDescription(localId, binding.imageDescriptionText.text.toString())
             dismiss()
         }
 
@@ -125,7 +119,7 @@ class CaptionDialog : DialogFragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(DESCRIPTION_KEY, input.text.toString())
+        outState.putCharSequence(DESCRIPTION_KEY, binding.imageDescriptionText.text)
         super.onSaveInstanceState(outState)
     }
 

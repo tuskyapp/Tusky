@@ -636,9 +636,7 @@
     <string name="description_browser_login">Можа падтрымліваць дадатковыя метады праверкі сапраўднасці, але для гэтага патрэбны адпаведны браузер.</string>
     <string name="post_media_image">Відарыс</string>
     <string name="action_refresh">Абнавіць</string>
-    <string name="select_list_empty">Яшчэ няма спісаў</string>
     <string name="select_list_manage">Кіраванне спісамі</string>
-    <string name="error_list_load">Памылка загрузкі спісаў</string>
     <string name="total_usage">Усяго выкарыстана</string>
     <string name="total_accounts">Усяго ўліковых запісаў</string>
     <string name="accessibility_talking_about_tag">%1$d людзей кажуць пра хэштэг %2$s</string>

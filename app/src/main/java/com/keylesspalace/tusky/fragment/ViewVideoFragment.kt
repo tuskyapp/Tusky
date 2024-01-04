@@ -45,7 +45,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
-import androidx.media3.ui.PlayerControlView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -94,6 +93,15 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     private var savedSeekPosition: Long = 0
 
     private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
+
+    /** Have we received at least one "READY" event? */
+    private var haveStarted = false
+
+    /** Is there a pending autohide? (We can't rely on Android's tracking because that clears on suspend.) */
+    private var pendingHideToolbar = false
+
+    /** Prevent the next play start from queueing a toolbar hide. */
+    private var suppressNextHideToolbar = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -150,7 +158,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                     /** A single tap should show/hide the media description */
                     override fun onSingleTapUp(e: MotionEvent): Boolean {
                         mediaActivity.onPhotoTap()
-                        return false
+                        return true // Do not pass gestures through to media3
                     }
 
                     /** A fling up/down should dismiss the fragment */
@@ -164,7 +172,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                             videoActionsListener.onDismiss()
                             return true
                         }
-                        return false
+                        return true // Do not pass gestures through to media3
                     }
                 }
             )
@@ -193,9 +201,10 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
                 simpleGestureDetector.onTouchEvent(event)
 
-                // Allow the player's normal onTouch handler to run as well (e.g., to show the
-                // player controls on tap)
-                return false
+                // Do not pass gestures through to media3
+                // We have to do this because otherwise taps to hide will be double-handled and media3 will re-show itself
+                // media3 has a property to disable "hide on tap" but "show on tap" is unconditional
+                return true
             }
         }
 
@@ -205,13 +214,28 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when (playbackState) {
                     Player.STATE_READY -> {
-                        // Wait until the media is loaded before accepting taps as we don't want toolbar to
-                        // be hidden until then.
-                        binding.videoView.setOnTouchListener(touchListener)
+                        if (!haveStarted) {
+                            // Wait until the media is loaded before accepting taps as we don't want toolbar to
+                            // be hidden until then.
+                            binding.videoView.setOnTouchListener(touchListener)
 
-                        binding.progressBar.hide()
-                        binding.videoView.useController = true
-                        binding.videoView.showController()
+                            binding.progressBar.hide()
+                            binding.videoView.useController = true
+                            binding.videoView.showController()
+                            haveStarted = true
+                        } else {
+                            // This isn't a real "done loading"; this is a resume event after backgrounding.
+                            if (mediaActivity.isToolbarVisible) {
+                                // Before suspend, the toolbar/description were visible, so description is visible already.
+                                // But media3 will have automatically hidden the video controls on suspend, so we need to match the description state.
+                                binding.videoView.showController()
+                                if (!pendingHideToolbar) {
+                                    suppressNextHideToolbar = true // The user most recently asked us to show the toolbar, so don't hide it when play starts.
+                                }
+                            } else {
+                                mediaActivity.onPhotoTap()
+                            }
+                        }
                     }
                     else -> { /* do nothing */ }
                 }
@@ -220,7 +244,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (isAudio) return
                 if (isPlaying) {
-                    hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                    if (suppressNextHideToolbar) {
+                        suppressNextHideToolbar = false
+                    } else {
+                        hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+                    }
                 } else {
                     handler.removeCallbacks(hideToolbar)
                 }
@@ -260,9 +288,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         if (Build.VERSION.SDK_INT <= 23 || player == null) {
             initializePlayer()
-            if (mediaActivity.isToolbarVisible && !isAudio) {
-                hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
-            }
+
             binding.videoView.onResume()
         }
     }
@@ -368,6 +394,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     private fun hideToolbarAfterDelay(delayMilliseconds: Int) {
+        pendingHideToolbar = true
         handler.postDelayed(hideToolbar, delayMilliseconds.toLong())
     }
 
@@ -395,18 +422,24 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             })
             .start()
 
-        if (visible && (binding.videoView.player?.isPlaying == true) && !isAudio) {
-            hideToolbarAfterDelay(TOOLBAR_HIDE_DELAY_MS)
+        // media3 controls bar
+        if (visible) {
+            binding.videoView.showController()
         } else {
-            handler.removeCallbacks(hideToolbar)
+            binding.videoView.hideController()
         }
+
+        // Either the user just requested toolbar display, or we just hid it.
+        // Either way, any pending hides are no longer appropriate.
+        pendingHideToolbar = false
+        handler.removeCallbacks(hideToolbar)
     }
 
     override fun onTransitionEnd() { }
 
     companion object {
         private const val TAG = "ViewVideoFragment"
-        private const val TOOLBAR_HIDE_DELAY_MS = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+        private const val TOOLBAR_HIDE_DELAY_MS = 4_000
         private const val SEEK_POSITION = "seekPosition"
     }
 }

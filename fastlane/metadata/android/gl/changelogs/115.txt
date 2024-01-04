@@ -1,0 +1,10 @@
+Tusky 24.0
+
+- As citas e o código agora locen mellor nas publicacións.
+- Restablecemos o comportamento antigo na pestana de notificacións.
+- As insignias dos roles son visibles nos perfís.
+- Melloramos o reprodutor de vídeo. Podes escoller a velocidade de reprodución.
+- Nova opción para a aparencia, poder usar o decorado negro seguindo a sistema.
+- Nova vista para as publicacións en voga, dispoñible tanto no menú como pestana personal.
+
+E moitos outros arranxos e melloras!

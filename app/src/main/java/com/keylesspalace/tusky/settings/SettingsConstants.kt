@@ -45,7 +45,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023082301
+const val SCHEMA_VERSION = 2023112001
 
 /** The schema version for fresh installs */
 const val NEW_INSTALL_SCHEMA_VERSION = 0
@@ -106,6 +106,7 @@ object PrefKeys {
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"
+    const val TAB_SHOW_HOME_SELF_BOOSTS = "tabShowHomeSelfBoosts"
 
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"

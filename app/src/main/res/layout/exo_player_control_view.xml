@@ -47,8 +47,9 @@
 
         <include layout="@layout/exo_player_control_rewind_button" />
 
+        <!-- Changes from media3 default: Different style to add more margins -->
         <ImageButton android:id="@id/exo_play_pause"
-            style="@style/ExoStyledControls.Button.Center.PlayPause"/>
+            style="@style/TuskyExoPlayerPlayPause"/>
 
         <include layout="@layout/exo_player_control_ffwd_button" />
 

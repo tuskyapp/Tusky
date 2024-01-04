@@ -213,7 +213,7 @@ class ViewImageFragment : ViewMediaFragment() {
                 if (abs(view.translationY) > 180) {
                     photoActionsListener.onDismiss()
                 } else {
-                    view.animate().translationY(0f).scaleX(1f).start()
+                    view.animate().translationY(0f).scaleX(1f).scaleY(1f).start()
                 }
             }
         })
@@ -235,11 +235,6 @@ class ViewImageFragment : ViewMediaFragment() {
                 }
             })
             .start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Glide.with(this).clear(binding.photoView)
     }
 
     override fun onDestroyView() {

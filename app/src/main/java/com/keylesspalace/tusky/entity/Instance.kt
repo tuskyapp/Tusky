@@ -31,12 +31,12 @@ data class Instance(
         )
     }
     data class Configuration(
-        val urls: Urls,
-        val accounts: Accounts,
-        val statuses: Statuses,
-        @SerializedName("media_attachments") val mediaAttachments: MediaAttachments,
-        val polls: Polls,
-        val translation: Translation,
+        val urls: Urls?,
+        val accounts: Accounts?,
+        val statuses: Statuses?,
+        @SerializedName("media_attachments") val mediaAttachments: MediaAttachments?,
+        val polls: Polls?,
+        val translation: Translation?,
     ) {
         data class Urls(@SerializedName("streaming_api") val streamingApi: String)
         data class Accounts(@SerializedName("max_featured_tags") val maxFeaturedTags: Int)
@@ -46,7 +46,8 @@ data class Instance(
             @SerializedName("characters_reserved_per_url") val charactersReservedPerUrl: Int,
         )
         data class MediaAttachments(
-            @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>,
+            // Warning: This is an array in mastodon and a dictionary in friendica
+            // @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>,
             @SerializedName("image_size_limit") val imageSizeLimitBytes: Long,
             @SerializedName("image_matrix_limit") val imagePixelCountLimit: Long,
             @SerializedName("video_size_limit") val videoSizeLimitBytes: Long,

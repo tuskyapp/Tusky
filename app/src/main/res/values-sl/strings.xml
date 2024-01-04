@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Pojavila se je napaka.</string>
-    <string name="error_network">Prišlo je do omrežne napake! Preverite povezavo in poskusite znova!</string>
+    <string name="error_network">Prišlo je do omrežne napake. Preverite povezavo in poskusite znova.</string>
     <string name="error_empty">To ne sme biti prazno.</string>
     <string name="error_invalid_domain">Vnesena je neveljavna domena</string>
     <string name="error_no_web_browser_found">Spletnega brskalnika ni bilo mogoče najti.</string>
-    <string name="error_authorization_denied">Pooblastitev je bila zavrnjena.</string>
-    <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo.</string>
-    <string name="error_compose_character_limit">Status je predolgo!</string>
+    <string name="error_authorization_denied">Avtorizacija je bila zavrnjena. Če ste prepričani, da ste uporabili pravilne podatke, se poskusite prijaviti v brskalnik iz menija.</string>
+    <string name="error_retrieving_oauth_token">Ni bilo mogoče pridobiti žetona za prijavo. Če se to nadaljuje, se poskusite prijaviti z brskalnikom iz menija.</string>
+    <string name="error_compose_character_limit">Predolgo sporočilo!</string>
     <string name="error_media_upload_type">Te vrste datoteke ni mogoče poslati.</string>
     <string name="error_media_upload_opening">Te datoteke ni bilo mogoče odpreti.</string>
     <string name="error_media_upload_permission">Potrebno je dovoljenje za branje medijev.</string>
     <string name="error_media_download_permission">Potrebno je dovoljenje za shranjevanje medijev.</string>
-    <string name="error_media_upload_image_or_video">Slike in videoposnetki ne morejo biti dodani istemu stanju.</string>
+    <string name="error_media_upload_image_or_video">Sporočilo ne more vsebovati slik in videoposnetkov hkrati.</string>
     <string name="error_media_upload_sending">Prenos ni uspel.</string>
-    <string name="error_sender_account_gone">Napaka pri pošiljanju tuta.</string>
+    <string name="error_sender_account_gone">Napaka pri pošiljanju sporočila.</string>
     <string name="title_home">Domov</string>
     <string name="title_notifications">Obvestila</string>
     <string name="title_public_local">Lokalno</string>
@@ -58,7 +58,7 @@
     <string name="action_compose">Sestavi</string>
     <string name="action_login">Prijavite se z Mastodonom</string>
     <string name="action_logout">Odjava</string>
-    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\?</string>
+    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\? To bo izbrisalo vse lokalne podatke o računu, vključno z osnutki in preferencami.</string>
     <string name="action_follow">Sledi</string>
     <string name="action_unfollow">Prenehaj slediti</string>
     <string name="action_block">Blokiraj</string>
@@ -129,8 +129,8 @@
     <string name="label_avatar">Podoba</string>
     <string name="label_header">Glava</string>
     <string name="login_connection">Povezovanje…</string>
-    <string name="error_failed_app_registration">Overitev s to instanco ni uspela.</string>
-    <string name="error_authorization_unknown">Prišlo je do neznane napake pri pooblastitvi.</string>
+    <string name="error_failed_app_registration">Overitev s to instanco ni uspela. Če se to ponovi, se poskusite prijaviti v brskalnik iz menija.</string>
+    <string name="error_authorization_unknown">Prišlo je do neznane napake pri pooblastitvi. Če se to ponovi, se poskusite prijaviti v brskalniku iz menija.</string>
     <string name="action_unfavourite">Odstrani priljubljene</string>
     <string name="action_unmute">Prekini utišanje</string>
     <string name="action_hashtags">Ključniki</string>
@@ -438,4 +438,14 @@
         <item quantity="few"><b>%1$s</b> Priljubljene</item>
         <item quantity="other"><b>%1$s</b> Priljubljenih</item>
     </plurals>
+    <string name="error_multimedia_size_limit">Video in zvočne datoteke ne smejo presegati velikosti %s MB.</string>
+    <string name="error_muting_hashtag_format">Težava pri blokiranju #%s</string>
+    <string name="error_unmuting_hashtag_format">Neuspešno odkrivanje #%s</string>
+    <string name="error_following_hashtag_format">Težava pri sledenju #%s</string>
+    <string name="error_media_upload_sending_fmt">Nalaganje ni bilo uspešno: %s</string>
+    <string name="error_following_hashtags_unsupported">Ta instanca ne podpira možnosti ključnikov.</string>
+    <string name="error_blocking_domain">Neuspešno blokiranje %1$s: %2$s</string>
+    <string name="error_loading_account_details">Nalaganje podatkov o računu ni bilo uspešno</string>
+    <string name="error_could_not_load_login_page">Prijavne strani ni bilo mogoče naložiti.</string>
+    <string name="error_image_edit_failed">Datoteke ni bilo možno urediti.</string>
 </resources>
