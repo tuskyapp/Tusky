@@ -56,11 +56,11 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ViewThreadFragment :
     SFragment(),
@@ -200,7 +200,9 @@ class ViewThreadFragment :
                         binding.recyclerView.hide()
                         binding.statusView.show()
 
-                        binding.statusView.setup(uiState.throwable) { viewModel.retry(thisThreadsStatusId) }
+                        binding.statusView.setup(
+                            uiState.throwable
+                        ) { viewModel.retry(thisThreadsStatusId) }
                     }
                     is ThreadUiState.Success -> {
                         if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
@@ -295,17 +297,18 @@ class ViewThreadFragment :
      * any time `view` is hidden.
      */
     @CheckResult
-    private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
-        start = CoroutineStart.LAZY
-    ) {
-        try {
-            delay(delayMs)
-            view.show()
-            awaitCancellation()
-        } finally {
-            view.hide()
+    private fun getProgressBarJob(view: View, delayMs: Long) =
+        viewLifecycleOwner.lifecycleScope.launch(
+            start = CoroutineStart.LAZY
+        ) {
+            try {
+                delay(delayMs)
+                view.show()
+                awaitCancellation()
+            } finally {
+                view.hide()
+            }
         }
-    }
 
     override fun onRefresh() {
         viewModel.refresh(thisThreadsStatusId)
@@ -425,7 +428,12 @@ class ViewThreadFragment :
         val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
 
         parentFragmentManager.commit {
-            setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
             addToBackStack(null)
         }

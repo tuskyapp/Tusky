@@ -16,6 +16,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
+import java.util.Date
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -27,7 +28,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.android.util.concurrent.BackgroundExecutor.runInBackground
 import org.robolectric.annotation.Config
-import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)

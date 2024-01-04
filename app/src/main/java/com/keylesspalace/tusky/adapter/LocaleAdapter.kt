@@ -26,7 +26,11 @@ import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.modernLanguageCode
 import java.util.Locale
 
-class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(context, resource, locales) {
+class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(
+    context,
+    resource,
+    locales
+) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return (super.getView(position, convertView, parent) as TextView).apply {
             setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))

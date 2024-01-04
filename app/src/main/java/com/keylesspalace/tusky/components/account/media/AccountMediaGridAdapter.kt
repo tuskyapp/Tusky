@@ -29,25 +29,48 @@ class AccountMediaGridAdapter(
     private val onAttachmentClickListener: (AttachmentViewData, View) -> Unit
 ) : PagingDataAdapter<AttachmentViewData, BindingHolder<ItemAccountMediaBinding>>(
     object : DiffUtil.ItemCallback<AttachmentViewData>() {
-        override fun areItemsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
+        override fun areItemsTheSame(
+            oldItem: AttachmentViewData,
+            newItem: AttachmentViewData
+        ): Boolean {
             return oldItem.attachment.id == newItem.attachment.id
         }
 
-        override fun areContentsTheSame(oldItem: AttachmentViewData, newItem: AttachmentViewData): Boolean {
+        override fun areContentsTheSame(
+            oldItem: AttachmentViewData,
+            newItem: AttachmentViewData
+        ): Boolean {
             return oldItem == newItem
         }
     }
 ) {
 
-    private val baseItemBackgroundColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK)
-    private val videoIndicator = AppCompatResources.getDrawable(context, R.drawable.ic_play_indicator)
-    private val mediaHiddenDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_hide_media_24dp)
+    private val baseItemBackgroundColor = MaterialColors.getColor(
+        context,
+        com.google.android.material.R.attr.colorSurface,
+        Color.BLACK
+    )
+    private val videoIndicator = AppCompatResources.getDrawable(
+        context,
+        R.drawable.ic_play_indicator
+    )
+    private val mediaHiddenDrawable = AppCompatResources.getDrawable(
+        context,
+        R.drawable.ic_hide_media_24dp
+    )
 
     private val itemBgBaseHSV = FloatArray(3)
     private val random = Random()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAccountMediaBinding> {
-        val binding = ItemAccountMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemAccountMediaBinding> {
+        val binding = ItemAccountMediaBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         Color.colorToHSV(baseItemBackgroundColor, itemBgBaseHSV)
         itemBgBaseHSV[2] = itemBgBaseHSV[2] + random.nextFloat() / 3f - 1f / 6f
         binding.root.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
@@ -71,7 +94,11 @@ class AccountMediaGridAdapter(
             if (item.attachment.type == Attachment.Type.AUDIO) {
                 overlay.hide()
 
-                imageView.setPadding(context.resources.getDimensionPixelSize(R.dimen.profile_media_audio_icon_padding))
+                imageView.setPadding(
+                    context.resources.getDimensionPixelSize(
+                        R.dimen.profile_media_audio_icon_padding
+                    )
+                )
 
                 Glide.with(imageView)
                     .load(R.drawable.ic_music_box_preview_24dp)

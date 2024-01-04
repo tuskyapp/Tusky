@@ -21,7 +21,10 @@ import android.widget.RadioGroup
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
 
-class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RadioGroup(context, attrs) {
+class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RadioGroup(
+    context,
+    attrs
+) {
 
     var listener: ComposeOptionsListener? = null
 

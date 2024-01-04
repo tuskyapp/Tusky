@@ -25,11 +25,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 
 class ConversationLineItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-    private val divider: Drawable = ContextCompat.getDrawable(context, R.drawable.conversation_thread_line)!!
+    private val divider: Drawable = ContextCompat.getDrawable(
+        context,
+        R.drawable.conversation_thread_line
+    )!!
 
-    private val avatarTopMargin = context.resources.getDimensionPixelSize(R.dimen.account_avatar_margin)
+    private val avatarTopMargin = context.resources.getDimensionPixelSize(
+        R.dimen.account_avatar_margin
+    )
     private val halfAvatarHeight = context.resources.getDimensionPixelSize(R.dimen.timeline_status_avatar_height) / 2
-    private val statusLineMarginStart = context.resources.getDimensionPixelSize(R.dimen.status_line_margin_start)
+    private val statusLineMarginStart = context.resources.getDimensionPixelSize(
+        R.dimen.status_line_margin_start
+    )
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val dividerStart = parent.paddingStart + statusLineMarginStart
@@ -57,7 +64,12 @@ class ConversationLineItemDecoration(context: Context) : RecyclerView.ItemDecora
                 if (parent.layoutDirection == View.LAYOUT_DIRECTION_LTR) {
                     divider.setBounds(dividerStart, dividerTop, dividerEnd, dividerBottom)
                 } else {
-                    divider.setBounds(canvas.width - dividerEnd, dividerTop, canvas.width - dividerStart, dividerBottom)
+                    divider.setBounds(
+                        canvas.width - dividerEnd,
+                        dividerTop,
+                        canvas.width - dividerStart,
+                        dividerBottom
+                    )
                 }
                 divider.draw(canvas)
             }

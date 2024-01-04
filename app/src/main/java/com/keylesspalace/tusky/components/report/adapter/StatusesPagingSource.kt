@@ -42,7 +42,8 @@ class StatusesPagingSource(
             val result = if (params is LoadParams.Refresh && key != null) {
                 withContext(Dispatchers.IO) {
                     val initialStatus = async { getSingleStatus(key) }
-                    val additionalStatuses = async { getStatusList(maxId = key, limit = params.loadSize - 1) }
+                    val additionalStatuses =
+                        async { getStatusList(maxId = key, limit = params.loadSize - 1) }
                     listOf(initialStatus.await()) + additionalStatuses.await()
                 }
             } else {
@@ -75,7 +76,11 @@ class StatusesPagingSource(
         return mastodonApi.statusObservable(statusId).await()
     }
 
-    private suspend fun getStatusList(minId: String? = null, maxId: String? = null, limit: Int): List<Status> {
+    private suspend fun getStatusList(
+        minId: String? = null,
+        maxId: String? = null,
+        limit: Int
+    ): List<Status> {
         return mastodonApi.accountStatusesObservable(
             accountId = accountId,
             maxId = maxId,

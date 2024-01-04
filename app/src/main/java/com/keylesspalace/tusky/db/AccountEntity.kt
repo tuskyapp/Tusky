@@ -38,8 +38,10 @@ data class AccountEntity(
     @field:PrimaryKey(autoGenerate = true) var id: Long,
     val domain: String,
     var accessToken: String,
-    var clientId: String?, // nullable for backward compatibility
-    var clientSecret: String?, // nullable for backward compatibility
+    // nullable for backward compatibility
+    var clientId: String?,
+    // nullable for backward compatibility
+    var clientSecret: String?,
     var isActive: Boolean,
     var accountId: String = "",
     var username: String = "",
@@ -111,7 +113,7 @@ data class AccountEntity(
 
     var isShowHomeBoosts: Boolean = true,
     var isShowHomeReplies: Boolean = true,
-    var isShowHomeSelfBoosts: Boolean = true,
+    var isShowHomeSelfBoosts: Boolean = true
 ) {
 
     val identifier: String

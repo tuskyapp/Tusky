@@ -48,11 +48,15 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
     companion object {
 
         val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<TimelineAccount>() {
-            override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean = oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
-                oldItem.id == newItem.id
+            override fun areItemsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean = oldItem.id == newItem.id
         }
     }
 }

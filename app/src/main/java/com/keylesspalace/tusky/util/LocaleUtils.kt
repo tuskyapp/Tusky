@@ -59,7 +59,10 @@ private fun ensureLanguagesAreFirst(locales: MutableList<Locale>, languages: Lis
     }
 }
 
-fun getInitialLanguages(language: String? = null, activeAccount: AccountEntity? = null): List<String> {
+fun getInitialLanguages(
+    language: String? = null,
+    activeAccount: AccountEntity? = null
+): List<String> {
     val selected = listOfNotNull(language, activeAccount?.defaultPostLanguage)
     val system = AppCompatDelegate.getApplicationLocales().toList() +
         LocaleListCompat.getDefault().toList()

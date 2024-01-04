@@ -61,9 +61,9 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
     @Inject
@@ -76,7 +76,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         get() = super.adapter as SearchStatusesAdapter
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(
+            binding.searchRecyclerView.context
+        )
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
@@ -93,7 +95,12 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        binding.searchRecyclerView.addItemDecoration(DividerItemDecoration(binding.searchRecyclerView.context, DividerItemDecoration.VERTICAL))
+        binding.searchRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                binding.searchRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
     }
@@ -252,7 +259,10 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             menu.findItem(R.id.status_open_as).isVisible = !statusUrl.isNullOrBlank()
             when (status.visibility) {
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
-                    val textId = getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action)
+                    val textId =
+                        getString(
+                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                        )
                     menu.add(0, R.id.pin, 1, textId)
                 }
                 Status.Visibility.PRIVATE -> {
@@ -305,7 +315,12 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         statusToShare.content
                     sendIntent.putExtra(Intent.EXTRA_TEXT, stringToShare)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_post_content_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_post_content_to)
+                        )
+                    )
                     return@setOnMenuItemClickListener true
                 }
                 R.id.post_share_link -> {
@@ -313,11 +328,18 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, statusUrl)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_post_link_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_post_link_to)
+                        )
+                    )
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_copy_link -> {
-                    val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard = requireActivity().getSystemService(
+                        Context.CLIPBOARD_SERVICE
+                    ) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     return@setOnMenuItemClickListener true
                 }
@@ -418,7 +440,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             val uri = Uri.parse(url)
             val filename = uri.lastPathSegment
 
-            val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager = requireActivity().getSystemService(
+                Context.DOWNLOAD_SERVICE
+            ) as DownloadManager
             val request = DownloadManager.Request(uri)
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
             downloadManager.enqueue(request)
@@ -445,7 +469,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun openReportPage(accountId: String, accountUsername: String, statusId: String) {
-        startActivity(ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId))
+        startActivity(
+            ReportActivity.getIntent(requireContext(), accountId, accountUsername, statusId)
+        )
     }
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {
@@ -495,7 +521,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                             },
                             { error ->
                                 Log.w("SearchStatusesFragment", "error deleting status", error)
-                                Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    R.string.error_generic,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         )
                     }

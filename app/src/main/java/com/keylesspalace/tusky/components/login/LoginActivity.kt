@@ -42,9 +42,9 @@ import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
 import com.keylesspalace.tusky.util.viewBinding
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
-import javax.inject.Inject
 
 /** Main login page, the first thing that users see. Has prompt for instance and login button. */
 class LoginActivity : BaseActivity(), Injectable {
@@ -201,7 +201,11 @@ class LoginActivity : BaseActivity(), Injectable {
         }
     }
 
-    private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String, openInWebView: Boolean) {
+    private fun redirectUserToAuthorizeAndLogin(
+        domain: String,
+        clientId: String,
+        openInWebView: Boolean
+    ) {
         // To authorize this app and log in it's necessary to redirect to the domain given,
         // login there, and the server will redirect back to the app with its response.
         val uri = HttpUrl.Builder()

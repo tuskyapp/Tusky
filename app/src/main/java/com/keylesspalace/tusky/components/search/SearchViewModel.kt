@@ -33,10 +33,10 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     mastodonApi: MastodonApi,
@@ -56,23 +56,26 @@ class SearchViewModel @Inject constructor(
 
     private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
 
-    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
-        it.statuses.map { status ->
-            status.toViewData(
-                isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                isExpanded = alwaysOpenSpoiler,
-                isCollapsed = true
-            )
-        }.apply {
-            loadedStatuses.addAll(this)
+    private val statusesPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
+            it.statuses.map { status ->
+                status.toViewData(
+                    isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                    isExpanded = alwaysOpenSpoiler,
+                    isCollapsed = true
+                )
+            }.apply {
+                loadedStatuses.addAll(this)
+            }
         }
-    }
-    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
-        it.accounts
-    }
-    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag) {
-        it.hashtags
-    }
+    private val accountsPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
+            it.accounts
+        }
+    private val hashtagsPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag) {
+            it.hashtags
+        }
 
     val statusesFlow = Pager(
         config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),

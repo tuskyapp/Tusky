@@ -56,7 +56,11 @@ class TabAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ViewBinding> {
         val binding = if (small) {
-            ItemTabPreferenceSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTabPreferenceSmallBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         } else {
             ItemTabPreferenceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         }

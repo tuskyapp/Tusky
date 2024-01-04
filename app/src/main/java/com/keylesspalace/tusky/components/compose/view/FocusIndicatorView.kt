@@ -68,7 +68,9 @@ class FocusIndicatorView
         return offset.toFloat() + ((value + 1.0f) / 2.0f) * innerLimit.toFloat() // From range -1..1
     }
 
-    @SuppressLint("ClickableViewAccessibility") // Android Studio wants us to implement PerformClick for accessibility, but that unfortunately cannot be made meaningful for this widget.
+    @SuppressLint(
+        "ClickableViewAccessibility"
+    ) // Android Studio wants us to implement PerformClick for accessibility, but that unfortunately cannot be made meaningful for this widget.
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.actionMasked == MotionEvent.ACTION_CANCEL) {
             return false
@@ -112,7 +114,13 @@ class FocusIndicatorView
 
             curtainPath.reset() // Draw a flood fill with a hole cut out of it
             curtainPath.fillType = Path.FillType.WINDING
-            curtainPath.addRect(0.0f, 0.0f, this.width.toFloat(), this.height.toFloat(), Path.Direction.CW)
+            curtainPath.addRect(
+                0.0f,
+                0.0f,
+                this.width.toFloat(),
+                this.height.toFloat(),
+                Path.Direction.CW
+            )
             curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
             canvas.drawPath(curtainPath, curtainPaint)
 

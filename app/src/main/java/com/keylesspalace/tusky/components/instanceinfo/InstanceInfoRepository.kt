@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
@@ -77,7 +77,7 @@ class InstanceInfoRepository @Inject constructor(
                         maxMediaAttachments = instance.configuration.statuses?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
                     )
                     dao.upsert(instanceEntity)
                     instanceEntity
@@ -86,7 +86,11 @@ class InstanceInfoRepository @Inject constructor(
                     if (throwable.isHttpNotFound()) {
                         getInstanceInfoV1()
                     } else {
-                        Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                        Log.w(
+                            TAG,
+                            "failed to instance, falling back to cache and default values",
+                            throwable
+                        )
                         dao.getInstanceInfo(instanceName)
                     }
                 }
@@ -105,7 +109,7 @@ class InstanceInfoRepository @Inject constructor(
                     maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
                     maxFieldNameLength = instanceInfo?.maxFieldNameLength,
                     maxFieldValueLength = instanceInfo?.maxFieldValueLength,
-                    version = instanceInfo?.version,
+                    version = instanceInfo?.version
                 )
             }
     }
@@ -129,13 +133,17 @@ class InstanceInfoRepository @Inject constructor(
                         maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
                     )
                     dao.upsert(instanceEntity)
                     instanceEntity
                 },
                 { throwable ->
-                    Log.w(TAG, "failed to instance, falling back to cache and default values", throwable)
+                    Log.w(
+                        TAG,
+                        "failed to instance, falling back to cache and default values",
+                        throwable
+                    )
                     dao.getInstanceInfo(instanceName)
                 }
             )

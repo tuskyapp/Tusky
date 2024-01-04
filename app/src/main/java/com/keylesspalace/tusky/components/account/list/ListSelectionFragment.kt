@@ -42,12 +42,12 @@ import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ListSelectionFragment : DialogFragment(), Injectable {
 
@@ -133,14 +133,22 @@ class ListSelectionFragment : DialogFragment(), Injectable {
             viewModel.actionError.collectLatest { error ->
                 when (error.type) {
                     ActionError.Type.ADD -> {
-                        Snackbar.make(binding.root, R.string.failed_to_add_to_list, Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root,
+                            R.string.failed_to_add_to_list,
+                            Snackbar.LENGTH_LONG
+                        )
                             .setAction(R.string.action_retry) {
                                 viewModel.addAccountToList(accountId!!, error.listId)
                             }
                             .show()
                     }
                     ActionError.Type.REMOVE -> {
-                        Snackbar.make(binding.root, R.string.failed_to_remove_from_list, Snackbar.LENGTH_LONG)
+                        Snackbar.make(
+                            binding.root,
+                            R.string.failed_to_remove_from_list,
+                            Snackbar.LENGTH_LONG
+                        )
                             .setAction(R.string.action_retry) {
                                 viewModel.removeAccountFromList(accountId!!, error.listId)
                             }

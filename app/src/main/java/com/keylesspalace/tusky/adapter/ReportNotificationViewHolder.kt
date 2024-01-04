@@ -31,12 +31,25 @@ import com.keylesspalace.tusky.util.unicodeWrap
 import java.util.Date
 
 class ReportNotificationViewHolder(
-    private val binding: ItemReportNotificationBinding,
+    private val binding: ItemReportNotificationBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setupWithReport(reporter: TimelineAccount, report: Report, animateAvatar: Boolean, animateEmojis: Boolean) {
-        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, animateEmojis)
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, animateEmojis)
+    fun setupWithReport(
+        reporter: TimelineAccount,
+        report: Report,
+        animateAvatar: Boolean,
+        animateEmojis: Boolean
+    ) {
+        val reporterName = reporter.name.unicodeWrap().emojify(
+            reporter.emojis,
+            itemView,
+            animateEmojis
+        )
+        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(
+            report.targetAccount.emojis,
+            itemView,
+            animateEmojis
+        )
         val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
@@ -52,17 +65,22 @@ class ReportNotificationViewHolder(
             report.targetAccount.avatar,
             binding.notificationReporteeAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp),
-            animateAvatar,
+            animateAvatar
         )
         loadAvatar(
             reporter.avatar,
             binding.notificationReporterAvatar,
             itemView.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_24dp),
-            animateAvatar,
+            animateAvatar
         )
     }
 
-    fun setupActionListener(listener: NotificationActionListener, reporteeId: String, reporterId: String, reportId: String) {
+    fun setupActionListener(
+        listener: NotificationActionListener,
+        reporteeId: String,
+        reporterId: String,
+        reportId: String
+    ) {
         binding.notificationReporteeAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {

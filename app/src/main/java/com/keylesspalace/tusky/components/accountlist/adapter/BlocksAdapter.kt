@@ -39,16 +39,27 @@ class BlocksAdapter(
 ) {
 
     override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemBlockedUserBinding> {
-        val binding = ItemBlockedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemBlockedUserBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
-    override fun onBindAccountViewHolder(viewHolder: BindingHolder<ItemBlockedUserBinding>, position: Int) {
+    override fun onBindAccountViewHolder(
+        viewHolder: BindingHolder<ItemBlockedUserBinding>,
+        position: Int
+    ) {
         val account = accountList[position]
         val binding = viewHolder.binding
         val context = binding.root.context
 
-        val emojifiedName = account.name.emojify(account.emojis, binding.blockedUserDisplayName, animateEmojis)
+        val emojifiedName = account.name.emojify(
+            account.emojis,
+            binding.blockedUserDisplayName,
+            animateEmojis
+        )
         binding.blockedUserDisplayName.text = emojifiedName
         val formattedUsername = context.getString(R.string.post_username_format, account.username)
         binding.blockedUserUsername.text = formattedUsername

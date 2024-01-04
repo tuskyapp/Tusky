@@ -59,9 +59,9 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import javax.inject.Inject
 
 class AccountListFragment :
     Fragment(R.layout.fragment_account_list),
@@ -96,7 +96,9 @@ class AccountListFragment :
         val layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        )
 
         binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
@@ -116,7 +118,8 @@ class AccountListFragment :
                     instanceName = activeAccount.domain,
                     accountLocked = activeAccount.locked
                 )
-                val followRequestsAdapter = FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
+                val followRequestsAdapter =
+                    FollowRequestsAdapter(this, this, animateAvatar, animateEmojis, showBotOverlay)
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
@@ -142,7 +145,9 @@ class AccountListFragment :
 
     override fun onViewTag(tag: String) {
         (activity as BaseActivity?)
-            ?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+            ?.startActivityWithSlideInAnimation(
+                StatusListActivity.newHashtagIntent(requireContext(), tag)
+            )
     }
 
     override fun onViewAccount(id: String) {
@@ -225,7 +230,11 @@ class AccountListFragment :
         val unblockedUser = blocksAdapter.removeItem(position)
 
         if (unblockedUser != null) {
-            Snackbar.make(binding.recyclerView, R.string.confirmation_unblocked, Snackbar.LENGTH_LONG)
+            Snackbar.make(
+                binding.recyclerView,
+                R.string.confirmation_unblocked,
+                Snackbar.LENGTH_LONG
+            )
                 .setAction(R.string.action_undo) {
                     blocksAdapter.addItem(unblockedUser, position)
                     onBlock(true, id, position)
@@ -243,11 +252,7 @@ class AccountListFragment :
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(
-        accept: Boolean,
-        accountId: String,
-        position: Int
-    ) {
+    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
         if (accept) {
             api.authorizeFollowRequest(accountId)
         } else {

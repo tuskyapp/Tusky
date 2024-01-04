@@ -20,5 +20,5 @@ enum class Screen {
     Note,
     Done,
     Back,
-    Finish,
+    Finish
 }

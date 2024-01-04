@@ -173,7 +173,11 @@ class TimelineCases @Inject constructor(
         })
     }
 
-    suspend fun voteInPoll(statusId: String, pollId: String, choices: List<Int>): NetworkResult<Poll> {
+    suspend fun voteInPoll(
+        statusId: String,
+        pollId: String,
+        choices: List<Int>
+    ): NetworkResult<Poll> {
         if (choices.isEmpty()) {
             return NetworkResult.failure(IllegalStateException())
         }

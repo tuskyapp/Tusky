@@ -54,8 +54,8 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADED
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 // TODO use the ListSelectionFragment (and/or its adapter or binding) here; but keep the LoadingState from here (?)
 
@@ -273,7 +273,12 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         }
     }
 
-    private fun onPickedDialogName(name: String, listId: String?, exclusive: Boolean, replyPolicy: String) {
+    private fun onPickedDialogName(
+        name: String,
+        listId: String?,
+        exclusive: Boolean,
+        replyPolicy: String
+    ) {
         if (listId == null) {
             viewModel.createNewList(name, exclusive, replyPolicy)
         } else {

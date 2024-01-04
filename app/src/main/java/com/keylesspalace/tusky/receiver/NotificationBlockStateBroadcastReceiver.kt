@@ -26,10 +26,10 @@ import com.keylesspalace.tusky.components.notifications.updateUnifiedPushSubscri
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
+import javax.inject.Inject
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @DelicateCoroutinesApi
 class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
@@ -60,7 +60,14 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         accountManager.getAccountByIdentifier(gid)?.let { account ->
             if (isUnifiedPushNotificationEnabledForAccount(account)) {
                 // Update UnifiedPush notification subscription
-                GlobalScope.launch { updateUnifiedPushSubscription(context, mastodonApi, accountManager, account) }
+                GlobalScope.launch {
+                    updateUnifiedPushSubscription(
+                        context,
+                        mastodonApi,
+                        accountManager,
+                        account
+                    )
+                }
             }
         }
     }

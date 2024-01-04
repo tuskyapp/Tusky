@@ -113,11 +113,17 @@ class MediaPreviewAdapter(
     private val differ = AsyncListDiffer(
         this,
         object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
-            override fun areItemsTheSame(oldItem: ComposeActivity.QueuedMedia, newItem: ComposeActivity.QueuedMedia): Boolean {
+            override fun areItemsTheSame(
+                oldItem: ComposeActivity.QueuedMedia,
+                newItem: ComposeActivity.QueuedMedia
+            ): Boolean {
                 return oldItem.localId == newItem.localId
             }
 
-            override fun areContentsTheSame(oldItem: ComposeActivity.QueuedMedia, newItem: ComposeActivity.QueuedMedia): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ComposeActivity.QueuedMedia,
+                newItem: ComposeActivity.QueuedMedia
+            ): Boolean {
                 return oldItem == newItem
             }
         }
