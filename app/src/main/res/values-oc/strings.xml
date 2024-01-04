@@ -53,7 +53,8 @@
     <string name="action_compose">Redactar</string>
     <string name="action_login">Començar la session amb Tusky</string>
     <string name="action_logout">Tampar la session</string>
-    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?</string>
+    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s \?
+\nAquò suprimirà totas las donadas localas del compte, tanben los borrolhons e las preferéncias.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Quitar de seguir</string>
     <string name="action_block">Blocar</string>
@@ -294,7 +295,7 @@
     <string name="pref_title_language">Lenga</string>
     <string name="pref_title_proxy_settings">Servidor mandatari</string>
     <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles</string>
-    <string name="pref_failed_to_sync">Fracàs de la sincronizacion dels paramètres</string>
+    <string name="pref_failed_to_sync">Fracàs de la sincronizacion de las preferéncias</string>
     <string name="about_tusky_version">Tusky %s</string>
     <string name="abbreviated_days_ago">%dd</string>
     <string name="abbreviated_hours_ago">%dh</string>
@@ -686,4 +687,8 @@
     <string name="list_reply_policy_followed">Totes los utilizaires seguits</string>
     <string name="list_reply_policy_list">Membres de la lista</string>
     <string name="action_view_filter">Veire filtre</string>
+    <string name="app_theme_system_black">Utilizar lo design sistèma (negre)</string>
+    <string name="error_unblocking_domain">Impossible de tornar mostrar %1$s : %2$s</string>
+    <string name="pref_title_show_self_boosts">Mostrar los pròpris partatges</string>
+    <string name="pref_title_show_self_boosts_description">Qualqu’un parteja son pròpri messatge</string>
 </resources>
