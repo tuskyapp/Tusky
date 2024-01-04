@@ -583,7 +583,7 @@
     <string name="title_edits">Breytingar</string>
     <string name="status_created_info">%1$s bjó til</string>
     <string name="status_edit_info">%1$s breytti</string>
-    <string name="post_media_alt">AUKA</string>
+    <string name="post_media_alt">TEXTI</string>
     <string name="action_discard">Henda breytingum</string>
     <string name="action_continue_edit">Halda breytingum áfram</string>
     <string name="action_share_account_link">Deila tengli á notandaaðgang</string>
