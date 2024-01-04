@@ -288,7 +288,7 @@
     <string name="action_links">پیوندها</string>
     <string name="action_mentions">اشاره‌ها</string>
     <string name="action_hashtags">برچسب‌ها</string>
-    <string name="action_open_reblogger">گشودن تقویت‌کنندهٔ بوق</string>
+    <string name="action_open_reblogger">گشودن تقویت‌کننده</string>
     <string name="action_open_reblogged_by">نمایش تقویت‌ها</string>
     <string name="action_open_faved_by">نمایش برگزیده‌ها</string>
     <string name="title_hashtags_dialog">برچسب‌ها</string>
