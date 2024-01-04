@@ -18,8 +18,8 @@ ij_java_class_count_to_use_import_on_demand = 999
 ktlint_code_style = android_studio
 
 # Disable trailing comma
-ij_kotlin_allow_trailing_comma = false
-ij_kotlin_allow_trailing_comma_on_call_site = false
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
 
 max_line_length = off
 
