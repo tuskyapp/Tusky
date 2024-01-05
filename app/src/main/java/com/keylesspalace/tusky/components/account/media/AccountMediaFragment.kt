@@ -49,9 +49,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * Fragment with multiple columns of media previews for the specified account.
@@ -92,9 +92,13 @@ class AccountMediaFragment :
         )
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
-        val imageSpacing = view.context.resources.getDimensionPixelSize(R.dimen.profile_media_spacing)
+        val imageSpacing = view.context.resources.getDimensionPixelSize(
+            R.dimen.profile_media_spacing
+        )
 
-        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(columnCount, imageSpacing, 0))
+        binding.recyclerView.addItemDecoration(
+            GridSpacingItemDecoration(columnCount, imageSpacing, 0)
+        )
 
         binding.recyclerView.layoutManager = GridLayoutManager(view.context, columnCount)
         binding.recyclerView.adapter = adapter
@@ -124,7 +128,11 @@ class AccountMediaFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
                         }
                     }
                     is LoadState.Error -> {
@@ -175,11 +183,19 @@ class AccountMediaFragment :
             Attachment.Type.GIFV,
             Attachment.Type.VIDEO,
             Attachment.Type.AUDIO -> {
-                val intent = ViewMediaActivity.newIntent(context, attachmentsFromSameStatus, currentIndex)
+                val intent = ViewMediaActivity.newIntent(
+                    context,
+                    attachmentsFromSameStatus,
+                    currentIndex
+                )
                 if (activity != null) {
                     val url = selected.attachment.url
                     ViewCompat.setTransitionName(view, url)
-                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        view,
+                        url
+                    )
                     startActivity(intent, options.toBundle())
                 } else {
                     startActivity(intent)

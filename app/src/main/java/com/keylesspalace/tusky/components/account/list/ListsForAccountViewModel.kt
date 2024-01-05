@@ -24,12 +24,12 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class AccountListState(
     val list: MastoList,

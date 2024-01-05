@@ -14,8 +14,13 @@ class FiltersAdapter(val listener: FiltersListener, val filters: List<Filter>) :
 
     override fun getItemCount(): Int = filters.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemRemovableBinding> {
-        return BindingHolder(ItemRemovableBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemRemovableBinding> {
+        return BindingHolder(
+            ItemRemovableBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: BindingHolder<ItemRemovableBinding>, position: Int) {

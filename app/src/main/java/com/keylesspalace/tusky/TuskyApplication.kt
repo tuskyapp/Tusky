@@ -40,10 +40,10 @@ import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import org.conscrypt.Conscrypt
 import java.security.Security
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import org.conscrypt.Conscrypt
 
 class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
@@ -78,7 +78,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
         AppInjector.init(this)
 
         // Migrate shared preference keys and defaults from version to version.
-        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, NEW_INSTALL_SCHEMA_VERSION)
+        val oldVersion = sharedPreferences.getInt(
+            PrefKeys.SCHEMA_VERSION,
+            NEW_INSTALL_SCHEMA_VERSION
+        )
         if (oldVersion != SCHEMA_VERSION) {
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }

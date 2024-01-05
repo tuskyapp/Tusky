@@ -24,9 +24,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.launch
 
 /**
  * This class manages an alert popup when a post has failed and been saved to drafts.

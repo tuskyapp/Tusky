@@ -42,18 +42,29 @@ class MutesAdapter(
     private val mutingNotificationsMap = HashMap<String, Boolean>()
 
     override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemMutedUserBinding> {
-        val binding = ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMutedUserBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
-    override fun onBindAccountViewHolder(viewHolder: BindingHolder<ItemMutedUserBinding>, position: Int) {
+    override fun onBindAccountViewHolder(
+        viewHolder: BindingHolder<ItemMutedUserBinding>,
+        position: Int
+    ) {
         val account = accountList[position]
         val binding = viewHolder.binding
         val context = binding.root.context
 
         val mutingNotifications = mutingNotificationsMap[account.id]
 
-        val emojifiedName = account.name.emojify(account.emojis, binding.mutedUserDisplayName, animateEmojis)
+        val emojifiedName = account.name.emojify(
+            account.emojis,
+            binding.mutedUserDisplayName,
+            animateEmojis
+        )
         binding.mutedUserDisplayName.text = emojifiedName
 
         val formattedUsername = context.getString(R.string.post_username_format, account.username)

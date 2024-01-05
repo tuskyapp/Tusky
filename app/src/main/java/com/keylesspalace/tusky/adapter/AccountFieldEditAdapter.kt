@@ -62,8 +62,15 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
     override fun getItemCount() = fieldData.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEditFieldBinding> {
-        val binding = ItemEditFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemEditFieldBinding> {
+        val binding = ItemEditFieldBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 

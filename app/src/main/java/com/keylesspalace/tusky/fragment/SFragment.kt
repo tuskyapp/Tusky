@@ -59,8 +59,8 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -158,7 +158,14 @@ abstract class SFragment : Fragment(), Injectable {
             val menu = popup.menu
             when (status.visibility) {
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
-                    menu.add(0, R.id.pin, 1, getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action))
+                    menu.add(
+                        0,
+                        R.id.pin,
+                        1,
+                        getString(
+                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                        )
+                    )
                 }
                 Status.Visibility.PRIVATE -> {
                     val reblogged = status.reblog?.reblogged ?: status.reblogged
@@ -227,7 +234,11 @@ abstract class SFragment : Fragment(), Injectable {
                     return@setOnMenuItemClickListener true
                 }
                 R.id.status_copy_link -> {
-                    (requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).apply {
+                    (
+                        requireActivity().getSystemService(
+                            Context.CLIPBOARD_SERVICE
+                        ) as ClipboardManager
+                        ).apply {
                         setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     }
                     return@setOnMenuItemClickListener true
@@ -295,7 +306,10 @@ abstract class SFragment : Fragment(), Injectable {
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
-        showMuteAccountDialog(this.requireActivity(), accountUsername) { notifications: Boolean?, duration: Int? ->
+        showMuteAccountDialog(
+            this.requireActivity(),
+            accountUsername
+        ) { notifications: Boolean?, duration: Int? ->
             lifecycleScope.launch {
                 timelineCases.mute(accountId, notifications == true, duration)
             }
@@ -459,13 +473,18 @@ abstract class SFragment : Fragment(), Injectable {
 
     private fun downloadAllMedia(status: Status) {
         Toast.makeText(context, R.string.downloading_media, Toast.LENGTH_SHORT).show()
-        val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = requireActivity().getSystemService(
+            Context.DOWNLOAD_SERVICE
+        ) as DownloadManager
 
         for ((_, url) in status.attachments) {
             val uri = Uri.parse(url)
             downloadManager.enqueue(
                 DownloadManager.Request(uri).apply {
-                    setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.lastPathSegment)
+                    setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS,
+                        uri.lastPathSegment
+                    )
                 }
             )
         }
@@ -492,7 +511,10 @@ abstract class SFragment : Fragment(), Injectable {
 
     companion object {
         private const val TAG = "SFragment"
-        private fun accountIsInMentions(account: AccountEntity?, mentions: List<Status.Mention>): Boolean {
+        private fun accountIsInMentions(
+            account: AccountEntity?,
+            mentions: List<Status.Mention>
+        ): Boolean {
             return mentions.any { mention ->
                 account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
             }

@@ -66,7 +66,9 @@ fun showMigrationNoticeIfNecessary(
 
     Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE)
         .setAnchorView(anchorView)
-        .setAction(R.string.action_details) { showMigrationExplanationDialog(context, accountManager) }
+        .setAction(
+            R.string.action_details
+        ) { showMigrationExplanationDialog(context, accountManager) }
         .show()
 }
 
@@ -75,7 +77,9 @@ private fun showMigrationExplanationDialog(context: Context, accountManager: Acc
         if (currentAccountNeedsMigration(accountManager)) {
             setMessage(R.string.dialog_push_notification_migration)
             setPositiveButton(R.string.title_migration_relogin) { _, _ ->
-                context.startActivity(LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION))
+                context.startActivity(
+                    LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION)
+                )
             }
         } else {
             setMessage(R.string.dialog_push_notification_migration_other_accounts)
@@ -89,12 +93,21 @@ private fun showMigrationExplanationDialog(context: Context, accountManager: Acc
     }
 }
 
-private suspend fun enableUnifiedPushNotificationsForAccount(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
+private suspend fun enableUnifiedPushNotificationsForAccount(
+    context: Context,
+    api: MastodonApi,
+    accountManager: AccountManager,
+    account: AccountEntity
+) {
     if (isUnifiedPushNotificationEnabledForAccount(account)) {
         // Already registered, update the subscription to match notification settings
         updateUnifiedPushSubscription(context, api, accountManager, account)
     } else {
-        UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
+        UnifiedPush.registerAppWithDialog(
+            context,
+            account.id.toString(),
+            features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE)
+        )
     }
 }
 
@@ -116,7 +129,11 @@ private fun isUnifiedPushAvailable(context: Context): Boolean =
 fun canEnablePushNotifications(context: Context, accountManager: AccountManager): Boolean =
     isUnifiedPushAvailable(context) && !anyAccountNeedsMigration(accountManager)
 
-suspend fun enablePushNotificationsWithFallback(context: Context, api: MastodonApi, accountManager: AccountManager) {
+suspend fun enablePushNotificationsWithFallback(
+    context: Context,
+    api: MastodonApi,
+    accountManager: AccountManager
+) {
     if (!canEnablePushNotifications(context, accountManager)) {
         // No UP distributors
         NotificationHelper.enablePullNotifications(context)
@@ -151,9 +168,14 @@ fun disableAllNotifications(context: Context, accountManager: AccountManager) {
 
 private fun buildSubscriptionData(context: Context, account: AccountEntity): Map<String, Boolean> =
     buildMap {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = context.getSystemService(
+            Context.NOTIFICATION_SERVICE
+        ) as NotificationManager
         Notification.Type.visibleTypes.forEach {
-            put("data[alerts][${it.presentation}]", NotificationHelper.filterNotification(notificationManager, account, it))
+            put(
+                "data[alerts][${it.presentation}]",
+                NotificationHelper.filterNotification(notificationManager, account, it)
+            )
         }
     }
 
@@ -196,7 +218,12 @@ suspend fun registerUnifiedPushEndpoint(
 }
 
 // Synchronize the enabled / disabled state of notifications with server-side subscription
-suspend fun updateUnifiedPushSubscription(context: Context, api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
+suspend fun updateUnifiedPushSubscription(
+    context: Context,
+    api: MastodonApi,
+    accountManager: AccountManager,
+    account: AccountEntity
+) {
     withContext(Dispatchers.IO) {
         api.updatePushNotificationSubscription(
             "Bearer ${account.accessToken}",
@@ -211,7 +238,11 @@ suspend fun updateUnifiedPushSubscription(context: Context, api: MastodonApi, ac
     }
 }
 
-suspend fun unregisterUnifiedPushEndpoint(api: MastodonApi, accountManager: AccountManager, account: AccountEntity) {
+suspend fun unregisterUnifiedPushEndpoint(
+    api: MastodonApi,
+    accountManager: AccountManager,
+    account: AccountEntity
+) {
     withContext(Dispatchers.IO) {
         api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
             .onFailure { throwable ->

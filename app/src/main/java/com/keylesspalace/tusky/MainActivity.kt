@@ -141,9 +141,9 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, MenuProvider {
     @Inject
@@ -199,7 +199,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
             if (notificationId != -1) {
                 // opened from a notification action, cancel the notification
-                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                val notificationManager = getSystemService(
+                    NOTIFICATION_SERVICE
+                ) as NotificationManager
                 notificationManager.cancel(intent.getStringExtra(NOTIFICATION_TAG), notificationId)
             }
 
@@ -253,7 +255,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
                 // otherwise show notification tab
                 if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
-                    val intent = AccountListActivity.newIntent(this, AccountListActivity.Type.FOLLOW_REQUESTS)
+                    val intent = AccountListActivity.newIntent(
+                        this,
+                        AccountListActivity.Type.FOLLOW_REQUESTS
+                    )
                     startActivityWithSlideInAnimation(intent)
                 } else {
                     showNotificationTab = true
@@ -293,8 +298,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_TAGS),
-            addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(TRENDING_STATUSES),
+            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(
+                TRENDING_TAGS
+            ),
+            addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(
+                TRENDING_STATUSES
+            )
         )
 
         /* Fetch user info while we're doing other things. This has to be done after setting up the
@@ -320,7 +329,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         refreshMainDrawerItems(
                             addSearchButton = hideTopToolbar,
                             addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
-                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES),
+                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES)
                         )
 
                         setupTabs(false)
@@ -333,7 +342,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                         directMessageTab?.let {
                             if (event.accountId == activeAccount.accountId) {
                                 val hasDirectMessageNotification =
-                                    event.notifications.any { it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT }
+                                    event.notifications.any {
+                                        it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
+                                    }
 
                                 if (hasDirectMessageNotification) {
                                     showDirectMessageBadge(true)
@@ -427,7 +438,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         // If the main toolbar is hidden then there's no space in the top/bottomNav to show
         // the menu items as icons, so forceably disable them
-        if (!binding.mainToolbar.isVisible) menu.forEach { it.setShowAsAction(SHOW_AS_ACTION_NEVER) }
+        if (!binding.mainToolbar.isVisible) {
+            menu.forEach {
+                it.setShowAsAction(
+                    SHOW_AS_ACTION_NEVER
+                )
+            }
+        }
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -503,7 +520,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun forwardToComposeActivity(intent: Intent) {
-        val composeOptions = IntentCompat.getParcelableExtra(intent, COMPOSE_OPTIONS, ComposeActivity.ComposeOptions::class.java)
+        val composeOptions = IntentCompat.getParcelableExtra(
+            intent,
+            COMPOSE_OPTIONS,
+            ComposeActivity.ComposeOptions::class.java
+        )
 
         val composeIntent = if (composeOptions != null) {
             ComposeActivity.startIntent(this, composeOptions)
@@ -523,7 +544,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
         addTrendingTagsButton: Boolean,
-        addTrendingStatusesButton: Boolean,
+        addTrendingStatusesButton: Boolean
     ) {
         val drawerOpenClickListener = View.OnClickListener { binding.mainDrawerLayout.open() }
 
@@ -553,7 +574,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         header.currentProfileName.ellipsize = TextUtils.TruncateAt.END
 
         header.accountHeaderBackground.setColorFilter(getColor(R.color.headerBackgroundFilter))
-        header.accountHeaderBackground.setBackgroundColor(MaterialColors.getColor(header, R.attr.colorBackgroundAccent))
+        header.accountHeaderBackground.setBackgroundColor(
+            MaterialColors.getColor(header, R.attr.colorBackgroundAccent)
+        )
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
         DrawerImageLoader.init(object : AbstractDrawerImageLoader() {
@@ -589,7 +612,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             refreshMainDrawerItems(
                 addSearchButton = addSearchButton,
                 addTrendingTagsButton = addTrendingTagsButton,
-                addTrendingStatusesButton = addTrendingStatusesButton,
+                addTrendingStatusesButton = addTrendingStatusesButton
             )
             setSavedInstance(savedInstanceState)
         }
@@ -598,7 +621,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private fun refreshMainDrawerItems(
         addSearchButton: Boolean,
         addTrendingTagsButton: Boolean,
-        addTrendingStatusesButton: Boolean,
+        addTrendingStatusesButton: Boolean
     ) {
         binding.mainDrawer.apply {
             itemAdapter.clear()
@@ -884,7 +907,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         supportActionBar?.title = tabs[position].title(this@MainActivity)
         binding.mainToolbar.setOnClickListener {
-            (tabAdapter.getFragment(activeTabLayout.selectedTabPosition) as? ReselectableFragment)?.onReselect()
+            (
+                tabAdapter.getFragment(
+                    activeTabLayout.selectedTabPosition
+                ) as? ReselectableFragment
+                )?.onReselect()
         }
 
         updateProfiles()
@@ -915,7 +942,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         // open LoginActivity to add new account
         if (profile.identifier == DRAWER_ITEM_ADD_ACCOUNT) {
-            startActivityWithSlideInAnimation(LoginActivity.getIntent(this, LoginActivity.MODE_ADDITIONAL_LOGIN))
+            startActivityWithSlideInAnimation(
+                LoginActivity.getIntent(this, LoginActivity.MODE_ADDITIONAL_LOGIN)
+            )
             return false
         }
         // change Account
@@ -986,10 +1015,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         loadDrawerAvatar(me.avatar, false)
 
         accountManager.updateActiveAccount(me)
-        NotificationHelper.createNotificationChannelsForAccount(accountManager.activeAccount!!, this)
+        NotificationHelper.createNotificationChannelsForAccount(
+            accountManager.activeAccount!!,
+            this
+        )
 
         // Setup push notifications
-        showMigrationNoticeIfNecessary(this, binding.mainCoordinatorLayout, binding.composeButton, accountManager)
+        showMigrationNoticeIfNecessary(
+            this,
+            binding.mainCoordinatorLayout,
+            binding.composeButton,
+            accountManager
+        )
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
             lifecycleScope.launch {
                 enablePushNotificationsWithFallback(this@MainActivity, mastodonApi, accountManager)
@@ -1024,7 +1061,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             Glide.with(this)
                 .asDrawable()
                 .load(avatarUrl)
-                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .transform(
+                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                )
                 .apply {
                     if (showPlaceholder) placeholder(R.drawable.avatar_default)
                 }
@@ -1054,7 +1093,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             Glide.with(this)
                 .asBitmap()
                 .load(avatarUrl)
-                .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp)))
+                .transform(
+                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_36dp))
+                )
                 .apply {
                     if (showPlaceholder) placeholder(R.drawable.avatar_default)
                 }
@@ -1101,7 +1142,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun updateAnnouncementsBadge() {
-        binding.mainDrawer.updateBadge(DRAWER_ITEM_ANNOUNCEMENTS, StringHolder(if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()))
+        binding.mainDrawer.updateBadge(
+            DRAWER_ITEM_ANNOUNCEMENTS,
+            StringHolder(
+                if (unreadAnnouncementsCount <= 0) null else unreadAnnouncementsCount.toString()
+            )
+        )
     }
 
     private fun updateProfiles() {
@@ -1165,7 +1211,11 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
          * Switches the active account to the accountId and takes the user to the correct place according to the notification they clicked
          */
         @JvmStatic
-        fun openNotificationIntent(context: Context, tuskyAccountId: Long, type: Notification.Type): Intent {
+        fun openNotificationIntent(
+            context: Context,
+            tuskyAccountId: Long,
+            type: Notification.Type
+        ): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(NOTIFICATION_TYPE, type.name)
             }

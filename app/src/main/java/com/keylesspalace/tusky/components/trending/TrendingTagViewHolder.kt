@@ -25,10 +25,7 @@ class TrendingTagViewHolder(
     private val binding: ItemTrendingCellBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setup(
-        tagViewData: TrendingViewData.Tag,
-        onViewTag: (String) -> Unit
-    ) {
+    fun setup(tagViewData: TrendingViewData.Tag, onViewTag: (String) -> Unit) {
         binding.tag.text = binding.root.context.getString(R.string.title_tag, tagViewData.name)
 
         binding.graph.maxTrendingValue = tagViewData.maxTrendingValue

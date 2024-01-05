@@ -35,10 +35,16 @@ class FollowedTagsViewModel @Inject constructor(
         }
     ).flow.cachedIn(viewModelScope)
 
-    fun searchAutocompleteSuggestions(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
+    fun searchAutocompleteSuggestions(
+        token: String
+    ): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         return api.searchSync(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
             .fold({ searchResult ->
-                searchResult.hashtags.map { ComposeAutoCompleteAdapter.AutocompleteResult.HashtagResult(it.name) }
+                searchResult.hashtags.map {
+                    ComposeAutoCompleteAdapter.AutocompleteResult.HashtagResult(
+                        it.name
+                    )
+                }
             }, { e ->
                 Log.e(TAG, "Autocomplete search for $token failed.", e)
                 emptyList()

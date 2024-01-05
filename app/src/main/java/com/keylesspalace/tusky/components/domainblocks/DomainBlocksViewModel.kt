@@ -8,9 +8,9 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.R
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class DomainBlocksViewModel @Inject constructor(
     private val repo: DomainBlocksRepository

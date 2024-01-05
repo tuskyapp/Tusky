@@ -58,9 +58,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import okhttp3.OkHttpClient
 import javax.inject.Inject
 import kotlin.math.abs
+import okhttp3.OkHttpClient
 
 @UnstableApi
 class ViewVideoFragment : ViewMediaFragment(), Injectable {
@@ -113,13 +113,19 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     @SuppressLint("PrivateResource", "MissingInflatedId")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         mediaActivity = activity as ViewMediaActivity
         toolbar = mediaActivity.toolbar
         val rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
 
         // Move the controls to the bottom of the screen, with enough bottom margin to clear the seekbar
-        val controls = rootView.findViewById<LinearLayout>(androidx.media3.ui.R.id.exo_center_controls)
+        val controls = rootView.findViewById<LinearLayout>(
+            androidx.media3.ui.R.id.exo_center_controls
+        )
         val layoutParams = controls.layoutParams as FrameLayout.LayoutParams
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
         layoutParams.bottomMargin = rootView.context.resources.getDimension(androidx.media3.ui.R.dimen.exo_styled_bottom_bar_height)
@@ -147,7 +153,9 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             /** The view that contains the playing content */
             // binding.videoView is fullscreen, and includes the controls, so don't use that
             // when scaling in response to the user dragging on the screen
-            val contentFrame = binding.videoView.findViewById<AspectRatioFrameLayout>(androidx.media3.ui.R.id.exo_content_frame)
+            val contentFrame = binding.videoView.findViewById<AspectRatioFrameLayout>(
+                androidx.media3.ui.R.id.exo_content_frame
+            )
 
             /** Handle taps and flings */
             val simpleGestureDetector = GestureDetectorCompat(

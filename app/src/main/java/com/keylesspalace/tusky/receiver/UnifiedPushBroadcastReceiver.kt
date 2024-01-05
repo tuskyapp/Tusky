@@ -26,11 +26,11 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.worker.NotificationWorker
 import dagger.android.AndroidInjection
+import javax.inject.Inject
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.unifiedpush.android.connector.MessagingReceiver
-import javax.inject.Inject
 
 @DelicateCoroutinesApi
 class UnifiedPushBroadcastReceiver : MessagingReceiver() {
@@ -63,7 +63,9 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         accountManager.getAccountById(instance.toLong())?.let {
             // Launch the coroutine in global scope -- it is short and we don't want to lose the registration event
             // and there is no saner way to use structured concurrency in a receiver
-            GlobalScope.launch { registerUnifiedPushEndpoint(context, mastodonApi, accountManager, it, endpoint) }
+            GlobalScope.launch {
+                registerUnifiedPushEndpoint(context, mastodonApi, accountManager, it, endpoint)
+            }
         }
     }
 

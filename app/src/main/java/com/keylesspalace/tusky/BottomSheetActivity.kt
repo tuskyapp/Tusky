@@ -64,7 +64,10 @@ abstract class BottomSheetActivity : BaseActivity() {
         })
     }
 
-    open fun viewUrl(url: String, lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER) {
+    open fun viewUrl(
+        url: String,
+        lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER
+    ) {
         if (!looksLikeMastodonUrl(url)) {
             openLink(url)
             return
@@ -121,10 +124,17 @@ abstract class BottomSheetActivity : BaseActivity() {
         startActivityWithSlideInAnimation(intent)
     }
 
-    protected open fun performUrlFallbackAction(url: String, fallbackBehavior: PostLookupFallbackBehavior) {
+    protected open fun performUrlFallbackAction(
+        url: String,
+        fallbackBehavior: PostLookupFallbackBehavior
+    ) {
         when (fallbackBehavior) {
             PostLookupFallbackBehavior.OPEN_IN_BROWSER -> openLink(url)
-            PostLookupFallbackBehavior.DISPLAY_ERROR -> Toast.makeText(this, getString(R.string.post_lookup_error_format, url), Toast.LENGTH_SHORT).show()
+            PostLookupFallbackBehavior.DISPLAY_ERROR -> Toast.makeText(
+                this,
+                getString(R.string.post_lookup_error_format, url),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

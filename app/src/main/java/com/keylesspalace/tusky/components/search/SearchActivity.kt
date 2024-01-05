@@ -119,7 +119,13 @@ class SearchActivity : BottomSheetActivity(), HasAndroidInjector, MenuProvider, 
 
     private fun setupSearchView(searchView: SearchView) {
         searchView.setIconifiedByDefault(false)
-        searchView.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.getSearchableInfo(componentName))
+        searchView.setSearchableInfo(
+            (
+                getSystemService(
+                    Context.SEARCH_SERVICE
+                ) as? SearchManager
+                )?.getSearchableInfo(componentName)
+        )
 
         // SearchView has a bug. If it's displayed 'app:showAsAction="always"' it's too wide,
         // pushing other icons (including the options menu '...' icon) off the edge of the

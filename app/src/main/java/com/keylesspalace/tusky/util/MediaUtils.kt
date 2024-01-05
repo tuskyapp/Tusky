@@ -165,7 +165,10 @@ fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
         inputStream.closeQuietly()
         return ExifInterface.ORIENTATION_UNDEFINED
     }
-    val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val orientation = exifInterface.getAttributeInt(
+        ExifInterface.TAG_ORIENTATION,
+        ExifInterface.ORIENTATION_NORMAL
+    )
     inputStream.closeQuietly()
     return orientation
 }
@@ -196,5 +199,8 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
 }
 
 fun getTemporaryMediaFilename(extension: String): String {
-    return "${MEDIA_TEMP_PREFIX}_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())}.$extension"
+    return "${MEDIA_TEMP_PREFIX}_${SimpleDateFormat(
+        "yyyyMMdd_HHmmss",
+        Locale.US
+    ).format(Date())}.$extension"
 }

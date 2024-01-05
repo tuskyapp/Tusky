@@ -46,7 +46,9 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
         val accountId = intent?.getStringExtra(ACCOUNT_ID)
         val accountUserName = intent?.getStringExtra(ACCOUNT_USERNAME)
         if (accountId.isNullOrBlank() || accountUserName.isNullOrBlank()) {
-            throw IllegalStateException("accountId ($accountId) or accountUserName ($accountUserName) is null")
+            throw IllegalStateException(
+                "accountId ($accountId) or accountUserName ($accountUserName) is null"
+            )
         }
 
         viewModel.init(accountId, accountUserName, intent?.getStringExtra(STATUS_ID))
@@ -130,13 +132,17 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
         private const val STATUS_ID = "status_id"
 
         @JvmStatic
-        fun getIntent(context: Context, accountId: String, userName: String, statusId: String? = null) =
-            Intent(context, ReportActivity::class.java)
-                .apply {
-                    putExtra(ACCOUNT_ID, accountId)
-                    putExtra(ACCOUNT_USERNAME, userName)
-                    putExtra(STATUS_ID, statusId)
-                }
+        fun getIntent(
+            context: Context,
+            accountId: String,
+            userName: String,
+            statusId: String? = null
+        ) = Intent(context, ReportActivity::class.java)
+            .apply {
+                putExtra(ACCOUNT_ID, accountId)
+                putExtra(ACCOUNT_USERNAME, userName)
+                putExtra(STATUS_ID, statusId)
+            }
     }
 
     override fun androidInjector() = androidInjector

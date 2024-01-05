@@ -26,12 +26,15 @@ import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.withoutFirstWhich
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-data class State(val accounts: Either<Throwable, List<TimelineAccount>>, val searchResult: List<TimelineAccount>?)
+data class State(
+    val accounts: Either<Throwable, List<TimelineAccount>>,
+    val searchResult: List<TimelineAccount>?
+)
 
 class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 

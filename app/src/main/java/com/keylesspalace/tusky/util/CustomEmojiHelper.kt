@@ -56,7 +56,13 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): Ch
             builder.setSpan(span, matcher.start(), matcher.end(), 0)
             Glide.with(view)
                 .asDrawable()
-                .load(if (animate) { url } else { staticUrl })
+                .load(
+                    if (animate) {
+                        url
+                    } else {
+                        staticUrl
+                    }
+                )
                 .into(span.getTarget(animate))
         }
     }
@@ -66,7 +72,13 @@ fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): Ch
 class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() {
     var imageDrawable: Drawable? = null
 
-    override fun getSize(paint: Paint, text: CharSequence, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
+    override fun getSize(
+        paint: Paint,
+        text: CharSequence,
+        start: Int,
+        end: Int,
+        fm: Paint.FontMetricsInt?
+    ): Int {
         if (fm != null) {
             /* update FontMetricsInt or otherwise span does not get drawn when
              * it covers the whole text */
@@ -80,7 +92,17 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
         return (paint.textSize * 1.2).toInt()
     }
 
-    override fun draw(canvas: Canvas, text: CharSequence, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
+    override fun draw(
+        canvas: Canvas,
+        text: CharSequence,
+        start: Int,
+        end: Int,
+        x: Float,
+        top: Int,
+        y: Int,
+        bottom: Int,
+        paint: Paint
+    ) {
         imageDrawable?.let { drawable ->
             canvas.save()
 

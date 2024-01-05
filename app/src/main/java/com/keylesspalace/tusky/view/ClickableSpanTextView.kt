@@ -254,7 +254,10 @@ class ClickableSpanTextView @JvmOverloads constructor(
                         activeEntry = entry
                         continue
                     }
-                    Log.v(TAG, "Overlap: ${(entry.value as URLSpan).url} ${(activeEntry.value as URLSpan).url}")
+                    Log.v(
+                        TAG,
+                        "Overlap: ${(entry.value as URLSpan).url} ${(activeEntry.value as URLSpan).url}"
+                    )
                     if (isClickOnFirst(entry.key, activeEntry.key, x, y)) {
                         activeEntry = entry
                     }
