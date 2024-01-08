@@ -78,7 +78,7 @@
     <string name="action_close">关闭</string>
     <string name="action_view_profile">个人资料</string>
     <string name="action_view_preferences">设置</string>
-    <string name="action_view_account_preferences">帐户设置</string>
+    <string name="action_view_account_preferences">账户设置</string>
     <string name="action_view_favourites">喜欢</string>
     <string name="action_view_mutes">被隐藏的用户</string>
     <string name="action_view_blocks">被屏蔽的用户</string>
@@ -288,7 +288,7 @@
     </plurals>
     <string name="action_set_caption">设置图片标题</string>
     <string name="action_remove">移除</string>
-    <string name="lock_account_label">保护你的帐户（锁嘟）</string>
+    <string name="lock_account_label">保护你的账户（锁嘟）</string>
     <string name="lock_account_label_description">你需要手动审核所有关注请求</string>
     <string name="compose_save_draft">保存为草稿？</string>
     <string name="send_post_notification_title">正在发送…</string>
