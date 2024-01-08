@@ -1,1 +1,1 @@
-社交网络Mastodon的多帐户客户端
+社交网络 Mastodon 的多帐户客户端
