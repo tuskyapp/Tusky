@@ -60,7 +60,7 @@
     <string name="action_compose">Oluştur</string>
     <string name="action_login">Tusky ile giriş yap</string>
     <string name="action_logout">Oturumu kapat</string>
-    <string name="action_logout_confirm">Bu oturumu sonlandırmak istediğinizden emin misiniz%1$s\? Bu, taslaklar ve tercihler dahil olmak üzere hesabın tüm yerel verilerini silecektir.</string>
+    <string name="action_logout_confirm">Bu oturumu sonlandırmak istediğinizden emin misiniz%1$s? Bu, taslaklar ve tercihler dahil olmak üzere hesabın tüm yerel verilerini silecektir.</string>
     <string name="action_follow">Takip et</string>
     <string name="action_unfollow">Takibi bırak</string>
     <string name="action_block">Engelle</string>
@@ -135,7 +135,7 @@
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
     <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et\?</string>
-    <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musunuz\?</string>
+    <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musunuz?</string>
     <string name="dialog_delete_post_warning">Bu durumu silmek istiyor musunuz?</string>
     <string name="visibility_public">Herkese Açık: Herkese açık ağ akışında göster</string>
     <string name="visibility_unlisted">Listelenmemiş: Herkese açık ağ akışında gösterme</string>
@@ -304,7 +304,7 @@
     <string name="title_links_dialog">Bağlantılar</string>
     <string name="download_media">Medya indir</string>
     <string name="downloading_media">Medya indiriliyor</string>
-    <string name="mute_domain_warning">%1$s\? alan adından gelen her şeyi engellemek istediğinden emin misin\? Bu alan adından gelen içeriği herhangi bir genel zaman tünelinde veya bildirimlerinde göremezsiniz. Bu alan adındaki takipçilerin de kaldırılacak.</string>
+    <string name="mute_domain_warning">%1$s? alan adından gelen her şeyi engellemek istediğinden emin misin? Bu alan adından gelen içeriği herhangi bir genel zaman tünelinde veya bildirimlerinde göremezsiniz. Bu alan adındaki takipçilerin de kaldırılacak.</string>
     <string name="pref_title_timeline_filters">Süzgeçler</string>
     <string name="app_theme_system">Sistem tasarımını kullan</string>
     <string name="pref_title_language">Dil</string>
@@ -486,7 +486,7 @@
         <item quantity="one">adetten fazla %1$d medya eki yükleyemezsiniz.</item>
         <item quantity="other">adetten fazla %1$d medya ekleri yükleyemezsiniz.</item>
     </plurals>
-    <string name="delete_scheduled_post_warning">Bu zamanlanmış yayını sil\?</string>
+    <string name="delete_scheduled_post_warning">Bu zamanlanmış yayını sil?</string>
     <string name="instance_rule_info">Giriş yaparak aşağıdaki kuralları kabul etmiş sayılırsınız %1$s.</string>
     <string name="instance_rule_title">%1$s kural</string>
     <string name="set_focus_description">Küçük görsellerde her zaman görülebilecek odak noktasını seçmek için daireye dokunun veya sürükleyin.</string>
@@ -496,7 +496,7 @@
     <string name="no_announcements">Hiç duyuru yok.</string>
     <string name="no_lists">Listen yok.</string>
     <string name="duration_30_days">30 gün</string>
-    <string name="compose_save_draft_loses_media">Taslağı kurtarmak mı\? (Taslağı geri yüklediğinizde ekler yeniden yüklenir.)</string>
+    <string name="compose_save_draft_loses_media">Taslağı kurtarmak mı? (Taslağı geri yüklediğinizde ekler yeniden yüklenir.)</string>
     <string name="pref_title_show_self_username">Kullanıcı adını araç çubuklarında göster</string>
     <string name="duration_180_days">180 gün</string>
     <string name="duration_60_days">60 gün</string>
@@ -515,7 +515,7 @@
 \n- Profillerdeki Takipçi/Gönderi istatistikleri
 \n
 \nAnlık bildirimler etkilenmeyecektir, ancak bildirim tercihlerinizi manuel olarak gözden geçirebilirsiniz.</string>
-    <string name="dialog_delete_list_warning">%1$s listesini gerçekten silmek istiyor musunuz\?</string>
+    <string name="dialog_delete_list_warning">%1$s listesini gerçekten silmek istiyor musunuz?</string>
     <string name="wellbeing_hide_stats_profile">Profillerdeki niceliksel istatistikleri gizle</string>
     <string name="tusky_compose_post_quicksetting_label">Gönderi Oluştur</string>
     <string name="saving_draft">Taslağı kaydediyor…</string>
@@ -523,7 +523,7 @@
     <string name="action_edit_image">Görseli düzenle</string>
     <string name="account_date_joined">%1$s katıldı</string>
     <string name="hint_media_description_missing">Medyanın bir açıklaması olmalı.</string>
-    <string name="dialog_delete_conversation_warning">Bu görüşmeyi sil\?</string>
+    <string name="dialog_delete_conversation_warning">Bu görüşmeyi sil?</string>
     <string name="post_media_audio">Ses</string>
     <string name="post_media_attachments">Ekler</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
@@ -643,9 +643,9 @@
     <string name="notification_notification_worker">Bildirimler getiriliyor…</string>
     <string name="notification_prune_cache">Önbellek bakımı…</string>
     <string name="load_newest_notifications">En yeni bildirimleri yükle</string>
-    <string name="compose_delete_draft">Taslağı sil\?</string>
-    <string name="error_missing_edits">Sunucunuz bu gönderinin düzenlendiğini bilir, ancak düzenlemelerin bir kopyası yoktur, bu nedenle bunlar size gösterilemez.
-\n
+    <string name="compose_delete_draft">Taslağı sil?</string>
+    <string name="error_missing_edits">Sunucunuz bu gönderinin düzenlendiğini bilir, ancak düzenlemelerin bir kopyası yoktur, bu nedenle bunlar size gösterilemez. 
+\n 
 \nBu <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon sorununu #25398</a>.</string>
     <string name="error_media_upload_sending_fmt">Yükleme başarısız oldu: %1$s</string>
     <string name="about_device_info_title">Cihazınız</string>
@@ -660,9 +660,9 @@
     <string name="list_exclusive_label">Anasayfa ağ akışından gizle</string>
     <string name="error_media_playback">Oynatma başarısız oldu: %1$s</string>
     <string name="error_blocking_domain">Sessize alınamadı %1$s: %2$s</string>
-    <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Sil</string>
-    <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz\?</string>
+    <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz?</string>
     <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır. 
 \n 
 \nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur. 
