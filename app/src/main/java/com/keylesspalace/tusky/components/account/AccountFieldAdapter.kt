@@ -38,8 +38,15 @@ class AccountFieldAdapter(
 
     override fun getItemCount() = fields.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAccountFieldBinding> {
-        val binding = ItemAccountFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemAccountFieldBinding> {
+        val binding = ItemAccountFieldBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
@@ -51,11 +58,20 @@ class AccountFieldAdapter(
         val emojifiedName = field.name.emojify(emojis, nameTextView, animateEmojis)
         nameTextView.text = emojifiedName
 
-        val emojifiedValue = field.value.parseAsMastodonHtml().emojify(emojis, valueTextView, animateEmojis)
+        val emojifiedValue = field.value.parseAsMastodonHtml().emojify(
+            emojis,
+            valueTextView,
+            animateEmojis
+        )
         setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
 
         if (field.verifiedAt != null) {
-            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle, 0)
+            valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_check_circle,
+                0
+            )
         } else {
             valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         }

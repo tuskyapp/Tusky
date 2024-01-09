@@ -40,7 +40,11 @@ class PreviewPollOptionsAdapter : RecyclerView.Adapter<PreviewViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
-        return PreviewViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_poll_preview_option, parent, false))
+        return PreviewViewHolder(
+            LayoutInflater.from(
+                parent.context
+            ).inflate(R.layout.item_poll_preview_option, parent, false)
+        )
     }
 
     override fun getItemCount() = options.size

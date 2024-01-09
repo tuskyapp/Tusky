@@ -667,13 +667,11 @@
     <string name="pref_title_show_stat_inline">Mostrar estadísticas de la entrada en la línea de tiempo</string>
     <string name="ui_error_unknown">razón desconocida</string>
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
-    <string name="select_list_empty">Todavía no tienes listas</string>
     <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
 \n
 \nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
     <string name="ui_error_bookmark">Fallo al añadir a marcadores: %s</string>
     <string name="select_list_manage">Gestionar listas</string>
-    <string name="error_list_load">Error al cargar listas</string>
     <string name="ui_error_favourite">Fallo al favoritear publicación: %s</string>
     <string name="ui_error_clear_notifications">Fallo al limpiar notificaciones: %s</string>
     <string name="ui_error_accept_follow_request">Fallo al aceptar solicitud de seguimiento: %s</string>

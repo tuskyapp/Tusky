@@ -184,7 +184,7 @@
     <string name="pref_title_hide_follow_button">Скрыть кнопку создания при прокрутке</string>
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_post_filter">Фильтрование ленты</string>
-    <string name="pref_title_post_tabs">Вкладки</string>
+    <string name="pref_title_post_tabs">Bкладки</string>
     <string name="pref_title_show_boosts">Показать цитирования</string>
     <string name="pref_title_show_replies">Показать ответы</string>
     <string name="pref_title_show_media_preview">Загрузить предпросмотр медиа</string>
@@ -659,8 +659,6 @@
     <string name="about_copy">Копирование версии и информации об устройстве</string>
     <string name="about_copied">Версия и информация об устройстве скопировано</string>
     <string name="action_add_reaction">добавить реакцию</string>
-    <string name="error_list_load">Ошибка при загрузке списков</string>
-    <string name="select_list_empty">У вас нет списков, пока что</string>
     <string name="select_list_manage">Управлять списками</string>
     <string name="ui_error_reject_follow_request">Отклонение запроса на подписку не удалось: %s</string>
     <string name="ui_error_accept_follow_request">Принятие запроса на подписку не удалось: %s</string>
@@ -744,4 +742,5 @@
     <string name="filter_description_format">%s: %s</string>
     <string name="dialog_save_profile_changes_message">Хотите сохранить изменения профиля\?</string>
     <string name="action_edit_image">Редактировать изображение</string>
+    <string name="pref_title_per_timeline_preferences">Временные предпочтения</string>
 </resources>

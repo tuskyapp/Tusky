@@ -34,7 +34,9 @@ interface DraftDao {
     @Query("SELECT COUNT(*) FROM DraftEntity WHERE accountId = :accountId AND failedToSendNew = 1")
     fun draftsNeedUserAlert(accountId: Long): LiveData<Int>
 
-    @Query("UPDATE DraftEntity SET failedToSendNew = 0 WHERE accountId = :accountId AND failedToSendNew = 1")
+    @Query(
+        "UPDATE DraftEntity SET failedToSendNew = 0 WHERE accountId = :accountId AND failedToSendNew = 1"
+    )
     suspend fun draftsClearNeedUserAlert(accountId: Long)
 
     @Query("SELECT * FROM DraftEntity WHERE accountId = :accountId")

@@ -27,7 +27,10 @@ class ConversationLoadStateAdapter(
     private val retryCallback: () -> Unit
 ) : LoadStateAdapter<BindingHolder<ItemNetworkStateBinding>>() {
 
-    override fun onBindViewHolder(holder: BindingHolder<ItemNetworkStateBinding>, loadState: LoadState) {
+    override fun onBindViewHolder(
+        holder: BindingHolder<ItemNetworkStateBinding>,
+        loadState: LoadState
+    ) {
         val binding = holder.binding
         binding.progressBar.visible(loadState == LoadState.Loading)
         binding.retryButton.visible(loadState is LoadState.Error)
@@ -47,7 +50,11 @@ class ConversationLoadStateAdapter(
         parent: ViewGroup,
         loadState: LoadState
     ): BindingHolder<ItemNetworkStateBinding> {
-        val binding = ItemNetworkStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemNetworkStateBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 }

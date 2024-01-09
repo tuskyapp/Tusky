@@ -36,7 +36,11 @@ class StatusesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
-        val binding = ItemReportStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemReportStatusBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return StatusViewHolder(
             binding,
             statusDisplayOptions,
@@ -54,11 +58,15 @@ class StatusesAdapter(
 
     companion object {
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
-            override fun areContentsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: StatusViewData.Concrete,
+                newItem: StatusViewData.Concrete
+            ): Boolean = oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: StatusViewData.Concrete, newItem: StatusViewData.Concrete): Boolean =
-                oldItem.id == newItem.id
+            override fun areItemsTheSame(
+                oldItem: StatusViewData.Concrete,
+                newItem: StatusViewData.Concrete
+            ): Boolean = oldItem.id == newItem.id
         }
     }
 }

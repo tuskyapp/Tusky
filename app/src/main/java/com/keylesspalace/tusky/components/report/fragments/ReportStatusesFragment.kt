@@ -59,9 +59,9 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ReportStatusesFragment :
     Fragment(R.layout.fragment_report_statuses),
@@ -93,7 +93,11 @@ class ReportStatusesFragment :
                     if (v != null) {
                         val url = actionable.attachments[idx].url
                         ViewCompat.setTransitionName(v, url)
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), v, url)
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            requireActivity(),
+                            v,
+                            url
+                        )
                         startActivity(intent, options.toBundle())
                     } else {
                         startActivity(intent)
@@ -164,7 +168,9 @@ class ReportStatusesFragment :
 
         adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
 
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        )
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -185,7 +191,9 @@ class ReportStatusesFragment :
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
             binding.progressBarTop.visible(loadState.prepend == LoadState.Loading)
-            binding.progressBarLoading.visible(loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing)
+            binding.progressBarLoading.visible(
+                loadState.refresh == LoadState.Loading && !binding.swipeRefreshLayout.isRefreshing
+            )
 
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -221,9 +229,13 @@ class ReportStatusesFragment :
         return viewModel.isStatusChecked(id)
     }
 
-    override fun onViewAccount(id: String) = startActivity(AccountActivity.getIntent(requireContext(), id))
+    override fun onViewAccount(id: String) = startActivity(
+        AccountActivity.getIntent(requireContext(), id)
+    )
 
-    override fun onViewTag(tag: String) = startActivity(StatusListActivity.newHashtagIntent(requireContext(), tag))
+    override fun onViewTag(tag: String) = startActivity(
+        StatusListActivity.newHashtagIntent(requireContext(), tag)
+    )
 
     override fun onViewUrl(url: String) = viewModel.checkClickedUrl(url)
 

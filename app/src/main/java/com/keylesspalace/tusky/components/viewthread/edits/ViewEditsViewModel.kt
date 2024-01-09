@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.components.viewthread.edits.EditsTagHandler.Compa
 import com.keylesspalace.tusky.components.viewthread.edits.EditsTagHandler.Companion.INSERTED_TEXT_EL
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.network.MastodonApi
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +42,6 @@ import org.pageseeder.diffx.token.impl.SpaceToken
 import org.pageseeder.diffx.xml.NamespaceSet
 import org.pageseeder.xmlwriter.XML.NamespaceAware
 import org.pageseeder.xmlwriter.XMLStringWriter
-import javax.inject.Inject
 
 class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 

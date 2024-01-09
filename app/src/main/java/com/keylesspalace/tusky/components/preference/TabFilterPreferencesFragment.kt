@@ -18,12 +18,19 @@ package com.keylesspalace.tusky.components.preference
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.di.Injectable
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
+import javax.inject.Inject
 
-class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
+class TabFilterPreferencesFragment : PreferenceFragmentCompat(), Injectable {
+
+    @Inject
+    lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
             preferenceCategory(R.string.title_home) { category ->
@@ -32,14 +39,14 @@ class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
                 switchPreference {
                     setTitle(R.string.pref_title_show_boosts)
                     key = PrefKeys.TAB_FILTER_HOME_BOOSTS
-                    setDefaultValue(true)
+                    preferenceDataStore = accountPreferenceDataStore
                     isIconSpaceReserved = false
                 }
 
                 switchPreference {
                     setTitle(R.string.pref_title_show_replies)
                     key = PrefKeys.TAB_FILTER_HOME_REPLIES
-                    setDefaultValue(true)
+                    preferenceDataStore = accountPreferenceDataStore
                     isIconSpaceReserved = false
                 }
 
@@ -47,7 +54,7 @@ class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
                     setTitle(R.string.pref_title_show_self_boosts)
                     setSummary(R.string.pref_title_show_self_boosts_description)
                     key = PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS
-                    setDefaultValue(true)
+                    preferenceDataStore = accountPreferenceDataStore
                     isIconSpaceReserved = false
                 }.apply { dependency = PrefKeys.TAB_FILTER_HOME_BOOSTS }
             }

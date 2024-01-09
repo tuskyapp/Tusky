@@ -37,6 +37,13 @@ import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.Date
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,19 +61,15 @@ import kotlinx.coroutines.flow.shareIn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import retrofit2.HttpException
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.util.Date
-import javax.inject.Inject
-import javax.inject.Singleton
 
 sealed interface FinalUploadEvent
 
 sealed class UploadEvent {
     data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val mediaId: String, val processed: Boolean) : UploadEvent(), FinalUploadEvent
+    data class FinishedEvent(
+        val mediaId: String,
+        val processed: Boolean
+    ) : UploadEvent(), FinalUploadEvent
     data class ErrorEvent(val error: Throwable) : UploadEvent(), FinalUploadEvent
 }
 
@@ -80,11 +83,7 @@ fun createNewImageFile(context: Context, suffix: String = ".jpg"): File {
     val randomId = randomAlphanumericString(12)
     val imageFileName = "Tusky_${randomId}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    return File.createTempFile(
-        imageFileName, /* prefix */
-        suffix, /* suffix */
-        storageDir /* directory */
-    )
+    return File.createTempFile(imageFileName, suffix, storageDir)
 }
 
 data class PreparedMedia(val type: QueuedMedia.Type, val uri: Uri, val size: Long)
@@ -256,9 +255,9 @@ class MediaUploader @Inject constructor(
             // .m4a files. See https://github.com/tuskyapp/Tusky/issues/3189 for details.
             // Sniff the content of the file to determine the actual type.
             if (mimeType != null && (
-                mimeType.startsWith("audio/", ignoreCase = true) ||
-                    mimeType.startsWith("video/", ignoreCase = true)
-                )
+                    mimeType.startsWith("audio/", ignoreCase = true) ||
+                        mimeType.startsWith("video/", ignoreCase = true)
+                    )
             ) {
                 val retriever = MediaMetadataRetriever()
                 retriever.setDataSource(context, media.uri)

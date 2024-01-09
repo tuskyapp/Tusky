@@ -29,9 +29,9 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class FollowedTagsActivity :
     BaseActivity(),
@@ -81,7 +81,9 @@ class FollowedTagsActivity :
         binding.followedTagsView.adapter = adapter
         binding.followedTagsView.setHasFixedSize(true)
         binding.followedTagsView.layoutManager = LinearLayoutManager(this)
-        binding.followedTagsView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        binding.followedTagsView.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
         (binding.followedTagsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         val hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
@@ -101,7 +103,9 @@ class FollowedTagsActivity :
     private fun setupAdapter(): FollowedTagsAdapter {
         return FollowedTagsAdapter(this, viewModel).apply {
             addLoadStateListener { loadState ->
-                binding.followedTagsProgressBar.visible(loadState.refresh == LoadState.Loading && itemCount == 0)
+                binding.followedTagsProgressBar.visible(
+                    loadState.refresh == LoadState.Loading && itemCount == 0
+                )
 
                 if (loadState.refresh is LoadState.Error) {
                     binding.followedTagsView.hide()

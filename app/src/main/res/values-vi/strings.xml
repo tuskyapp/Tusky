@@ -201,7 +201,7 @@
     <string name="pref_title_show_media_preview">Hiện xem trước hình ảnh</string>
     <string name="pref_title_show_replies">Hiện những trả lời</string>
     <string name="pref_title_show_boosts">Hiện lượt đăng lại</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Trang chủ</string>
     <string name="pref_title_post_filter">Lọc bảng tin</string>
     <string name="pref_title_gradient_for_media">Phủ màu media nhạy cảm</string>
     <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
@@ -656,8 +656,6 @@
 \nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
     <string name="post_media_image">Hình ảnh</string>
     <string name="select_list_manage">Quản lý danh sách</string>
-    <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
-    <string name="select_list_empty">Bạn chưa có danh sách</string>
     <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
     <string name="compose_delete_draft">Xóa bản nháp\?</string>
     <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
@@ -709,4 +707,5 @@
     <string name="list_reply_policy_label">Hiện lượt trả lời</string>
     <string name="pref_title_show_self_boosts">Hiện lượt tự đăng lại</string>
     <string name="pref_title_show_self_boosts_description">Ai đó đăng lại tút của chính họ</string>
+    <string name="pref_title_per_timeline_preferences">Thiết lập từng bảng tin</string>
 </resources>

@@ -674,9 +674,7 @@
 \n
 \nMás fiókokat másik idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán [iconics gmd_group]. Vagy megkeresheted őket név szerint [iconics gmd_search]; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
     <string name="post_media_image">Kép</string>
-    <string name="select_list_empty">Még nincsenek listáid</string>
     <string name="select_list_manage">Listák kezelése</string>
-    <string name="error_list_load">Hiba a listák betöltése során</string>
     <string name="pref_ui_text_size">UI betűméret</string>
     <string name="notification_listenable_worker_name">Háttértevékenység</string>
     <string name="notification_listenable_worker_description">Értesítések, amikor a Tusky a háttérben működik</string>

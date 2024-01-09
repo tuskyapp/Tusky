@@ -577,7 +577,6 @@
     <string name="error_following_hashtag_format">Грешка при последване на #%s</string>
     <string name="error_unfollowing_hashtag_format">Грешка при отследване на #%s</string>
     <string name="title_public_federated">Федерирани</string>
-    <string name="error_list_load">Грешка при зареждане на списъци</string>
     <string name="select_list_manage">Управление на списъци</string>
     <string name="notification_update_format">%s редактира публикацията си</string>
     <string name="pref_title_account_filter_keywords">Профили</string>

@@ -11,8 +11,15 @@ class DomainBlocksAdapter(
     private val onUnmute: (String) -> Unit
 ) : PagingDataAdapter<String, BindingHolder<ItemBlockedDomainBinding>>(STRING_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemBlockedDomainBinding> {
-        val binding = ItemBlockedDomainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemBlockedDomainBinding> {
+        val binding = ItemBlockedDomainBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 

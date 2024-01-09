@@ -45,8 +45,8 @@ import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
@@ -82,11 +82,18 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         super.onStart()
         dialog?.apply {
             // Stretch dialog to the window
-            window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+            window?.setLayout(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_accounts_in_list, container, false)
     }
 
@@ -164,15 +171,27 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean {
+        override fun areContentsTheSame(
+            oldItem: TimelineAccount,
+            newItem: TimelineAccount
+        ): Boolean {
             return oldItem == newItem
         }
     }
 
-    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(AccountDiffer) {
+    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(
+        AccountDiffer
+    ) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): BindingHolder<ItemFollowRequestBinding> {
+            val binding = ItemFollowRequestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             val holder = BindingHolder(binding)
 
             binding.notificationTextView.hide()
@@ -186,7 +205,10 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return holder
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemFollowRequestBinding>, position: Int) {
+        override fun onBindViewHolder(
+            holder: BindingHolder<ItemFollowRequestBinding>,
+            position: Int
+        ) {
             val account = getItem(position)
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
@@ -204,10 +226,19 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         }
     }
 
-    inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(SearchDiffer) {
+    inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(
+        SearchDiffer
+    ) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): BindingHolder<ItemFollowRequestBinding> {
+            val binding = ItemFollowRequestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             val holder = BindingHolder(binding)
 
             binding.notificationTextView.hide()
@@ -224,7 +255,10 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return holder
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemFollowRequestBinding>, position: Int) {
+        override fun onBindViewHolder(
+            holder: BindingHolder<ItemFollowRequestBinding>,
+            position: Int
+        ) {
             val (account, inAList) = getItem(position)
 
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)

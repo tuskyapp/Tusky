@@ -26,7 +26,7 @@ data class MastoList(
     val id: String,
     val title: String,
     val exclusive: Boolean?,
-    @SerializedName("replies_policy") val repliesPolicy: String?,
+    @SerializedName("replies_policy") val repliesPolicy: String?
 ) {
     enum class ReplyPolicy(val policy: String) {
         NONE("none"),
@@ -34,7 +34,8 @@ data class MastoList(
         FOLLOWED("followed");
 
         companion object {
-            fun from(policy: String?): ReplyPolicy = values().firstOrNull { it.policy == policy } ?: LIST
+            fun from(policy: String?): ReplyPolicy =
+                values().firstOrNull { it.policy == policy } ?: LIST
         }
     }
 }

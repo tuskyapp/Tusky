@@ -47,10 +47,16 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         if (intent.action == NotificationHelper.REPLY_ACTION) {
             val notificationId = intent.getIntExtra(NotificationHelper.KEY_NOTIFICATION_ID, -1)
             val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
-            val senderIdentifier = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER)
-            val senderFullName = intent.getStringExtra(NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME)
+            val senderIdentifier = intent.getStringExtra(
+                NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER
+            )
+            val senderFullName = intent.getStringExtra(
+                NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME
+            )
             val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
-            val visibility = intent.getSerializableExtra(NotificationHelper.KEY_VISIBILITY) as Status.Visibility
+            val visibility = intent.getSerializableExtra(
+                NotificationHelper.KEY_VISIBILITY
+            ) as Status.Visibility
             val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER).orEmpty()
             val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS).orEmpty()
 
@@ -63,7 +69,10 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             if (account == null) {
                 Log.w(TAG, "Account \"$senderId\" not found in database. Aborting quick reply!")
 
-                val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
+                val builder = NotificationCompat.Builder(
+                    context,
+                    NotificationHelper.CHANNEL_MENTION + senderIdentifier
+                )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.tusky_blue))
                     .setGroup(senderFullName)
@@ -105,7 +114,10 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 context.startService(sendIntent)
 
-                val builder = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MENTION + senderIdentifier)
+                val builder = NotificationCompat.Builder(
+                    context,
+                    NotificationHelper.CHANNEL_MENTION + senderIdentifier
+                )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.notification_color))
                     .setGroup(senderFullName)

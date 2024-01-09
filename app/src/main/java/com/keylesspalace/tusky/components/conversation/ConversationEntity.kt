@@ -140,21 +140,16 @@ data class ConversationStatusEntity(
     }
 }
 
-fun TimelineAccount.toEntity() =
-    ConversationAccountEntity(
-        id = id,
-        localUsername = localUsername,
-        username = username,
-        displayName = name,
-        avatar = avatar,
-        emojis = emojis.orEmpty()
-    )
+fun TimelineAccount.toEntity() = ConversationAccountEntity(
+    id = id,
+    localUsername = localUsername,
+    username = username,
+    displayName = name,
+    avatar = avatar,
+    emojis = emojis.orEmpty()
+)
 
-fun Status.toEntity(
-    expanded: Boolean,
-    contentShowing: Boolean,
-    contentCollapsed: Boolean
-) =
+fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) =
     ConversationStatusEntity(
         id = id,
         url = url,
@@ -188,16 +183,15 @@ fun Conversation.toEntity(
     expanded: Boolean,
     contentShowing: Boolean,
     contentCollapsed: Boolean
-) =
-    ConversationEntity(
-        accountId = accountId,
-        id = id,
-        order = order,
-        accounts = accounts.map { it.toEntity() },
-        unread = unread,
-        lastStatus = lastStatus!!.toEntity(
-            expanded = expanded,
-            contentShowing = contentShowing,
-            contentCollapsed = contentCollapsed
-        )
+) = ConversationEntity(
+    accountId = accountId,
+    id = id,
+    order = order,
+    accounts = accounts.map { it.toEntity() },
+    unread = unread,
+    lastStatus = lastStatus!!.toEntity(
+        expanded = expanded,
+        contentShowing = contentShowing,
+        contentCollapsed = contentCollapsed
     )
+)

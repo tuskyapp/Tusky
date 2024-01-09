@@ -1,12 +1,12 @@
-Mae Tusky yn gleient ysgafn i Mastodon, gweinydd rhwydwaith cymdeithasol ffynhonnell agored am ddim.
+Mae Tusky yn gleient ysgafn i Mastodon, gweinydd rhwydwaith cymdeithasol cod-agored am ddim.
 
 • Material Design
 • Gweithredwyd y rhan fwyaf o API Mastodon
-• Cefnogaeth amlgyfrif
-• Thema dywyll a golau gyda'r posibilrwydd i newid yn awtomatig ar sail amser y dydd
+• Cefnogaeth i gyfrifon lluosog
+• Thema dywyll a golau gyda'r posibilrwydd newid yn awtomatig ar sail amser y dydd
 • Drafftiau - cyfansoddi negeseuon a'u cadw yn nes ymlaen
-• Dewiswch rhwng gwahanol arddulliau emoji
+• Dewis rhwng arddulliau emoji gwahanol
 • Wedi'i optimeiddio ar gyfer pob maint sgrin
-• Cwbl ffynhonnell agored - dim dibyniaethau nad ydynt am ddim fel gwasanaethau Google
+• Hollol cod-agored - dim dibyniaethau nad ydynt yn agored, fel gwasanaethau Google
 
-Er mwyn ddysgu mwy am Mastodon, ewch i https://joinmastodon.org/
+Er mwyn dysgu mwy am Mastodon, ewch i https://joinmastodon.org/

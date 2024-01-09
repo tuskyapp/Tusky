@@ -603,7 +603,7 @@
     <string name="title_edits">Breytingar</string>
     <string name="status_created_info">%1$s bjó til</string>
     <string name="status_edit_info">%1$s breytti</string>
-    <string name="post_media_alt">AUKA</string>
+    <string name="post_media_alt">TEXTI</string>
     <string name="action_discard">Henda breytingum</string>
     <string name="action_continue_edit">Halda breytingum áfram</string>
     <string name="action_share_account_link">Deila tengli á notandaaðgang</string>
@@ -662,9 +662,7 @@
     <string name="filter_edit_keyword_title">Breyta stikkorði</string>
     <string name="filter_description_format">%s: %s</string>
     <string name="post_media_image">Mynd</string>
-    <string name="select_list_empty">Þú ert ekki með neina lista</string>
     <string name="select_list_manage">Sýsla með lista</string>
-    <string name="error_list_load">Villa við að hlaða inn listum</string>
     <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með.
 \n
 \nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns [iconics gmd_group]. Eða að þú leitar að þeim eftir nafni [iconics gmd_search]; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>

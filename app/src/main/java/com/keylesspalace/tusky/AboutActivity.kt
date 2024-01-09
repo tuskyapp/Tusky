@@ -21,8 +21,8 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class AboutActivity : BottomSheetActivity(), Injectable {
     @Inject
@@ -70,9 +70,15 @@ class AboutActivity : BottomSheetActivity(), Injectable {
             binding.aboutPoweredByTusky.hide()
         }
 
-        binding.aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(R.string.about_tusky_license)
-        binding.aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(R.string.about_project_site)
-        binding.aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(R.string.about_bug_feature_request_site)
+        binding.aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(
+            R.string.about_tusky_license
+        )
+        binding.aboutWebsiteInfoTextView.setClickableTextWithoutUnderlines(
+            R.string.about_project_site
+        )
+        binding.aboutBugsFeaturesInfoTextView.setClickableTextWithoutUnderlines(
+            R.string.about_bug_feature_request_site
+        )
 
         binding.tuskyProfileButton.setOnClickListener {
             viewUrl(BuildConfig.SUPPORT_ACCOUNT_URL)

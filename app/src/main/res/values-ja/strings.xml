@@ -627,7 +627,6 @@
     <string name="post_media_image">画像</string>
     <string name="notification_unknown_name">不明</string>
     <string name="select_list_manage">リストを管理する</string>
-    <string name="select_list_empty">リストはまだありません</string>
     <string name="status_filtered_show_anyway">とにかく表示する</string>
     <string name="pref_title_account_filter_keywords">プロフィール</string>
     <string name="title_public_trending_hashtags">トレンドのハッシュタグ</string>
@@ -666,7 +665,6 @@
     <string name="filter_description_format">%s: %s</string>
     <string name="load_newest_notifications">最新の通知を読み込む</string>
     <string name="compose_delete_draft">下書きを削除しますか？</string>
-    <string name="error_list_load">リストを読み込む際のエラー</string>
     <string name="error_media_upload_sending_fmt">アップロードに失敗しました: %s</string>
     <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
 \n

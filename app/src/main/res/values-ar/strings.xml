@@ -695,9 +695,7 @@
     <string name="dialog_save_profile_changes_message">هل تريد حفط التغييرات التي طرأت على ملفك التعريفي؟</string>
     <string name="dialog_delete_filter_text">أتريد حذف عامل التصفية ”%1$s“؟</string>
     <string name="dialog_delete_filter_positive_action">حذف</string>
-    <string name="select_list_empty">ليس لديك أية قائمة بعدُ</string>
     <string name="select_list_manage">إدارة القوائم</string>
-    <string name="error_list_load">خطأ أثناء تحميل القوائم</string>
     <string name="status_filtered_show_anyway">أظهره على أي حال</string>
     <string name="filter_description_hide">إخفاء بالكامل</string>
     <string name="ui_success_accepted_follow_request">تم قبول طلب المتابَعة</string>

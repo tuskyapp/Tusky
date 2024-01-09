@@ -36,8 +36,15 @@ class EmojiAdapter(
 
     override fun getItemCount() = emojiList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEmojiButtonBinding> {
-        val binding = ItemEmojiButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemEmojiButtonBinding> {
+        val binding = ItemEmojiButtonBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
