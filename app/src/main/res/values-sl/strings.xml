@@ -219,16 +219,36 @@
     <string name="post_media_images">Slike</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Prošnja za sledenje</string>
-    <string name="abbreviated_in_years">v %dy</string>
-    <string name="abbreviated_in_days">v %dd</string>
-    <string name="abbreviated_in_hours">v %dh</string>
-    <string name="abbreviated_in_minutes">in %dm</string>
-    <string name="abbreviated_in_seconds">v %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+        <plurals name="abbreviated_in_years">
+        <item quantity="other">v %dy</item>
+    </plurals>>
+        <plurals name="abbreviated_in_days">
+        <item quantity="other">v %dd</item>
+    </plurals>>
+        <plurals name="abbreviated_in_hours">
+        <item quantity="other">v %dh</item>
+    </plurals>>
+        <plurals name="abbreviated_in_minutes">
+        <item quantity="other">in %dm</item>
+    </plurals>>
+        <plurals name="abbreviated_in_seconds">
+        <item quantity="other">v %ds</item>
+    </plurals>>
+        <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dy</item>
+    </plurals>>
+        <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dd</item>
+    </plurals>>
+        <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>>
+        <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>>
+        <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>>
     <string name="follows_you">Vam sledi</string>
     <string name="pref_title_alway_show_sensitive_media">Vedno prikaži občutljivo vsebino</string>
     <string name="title_media">Mediji</string>

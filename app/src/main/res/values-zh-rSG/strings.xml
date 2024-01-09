@@ -247,16 +247,36 @@
     <string name="post_media_video">视频</string>
     <string name="state_follow_requested">已发送关注请求</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%d 年内</string>
-    <string name="abbreviated_in_days">%d 天内</string>
-    <string name="abbreviated_in_hours">%d 小时内</string>
-    <string name="abbreviated_in_minutes">%d 分钟内</string>
-    <string name="abbreviated_in_seconds">%d 秒内</string>
-    <string name="abbreviated_years_ago">%d 年前</string>
-    <string name="abbreviated_days_ago">%d 天前</string>
-    <string name="abbreviated_hours_ago">%d 小时前</string>
-    <string name="abbreviated_minutes_ago">%d 分钟前</string>
-    <string name="abbreviated_seconds_ago">%d 秒前</string>
+        <plurals name="abbreviated_in_years">
+        <item quantity="other">%d 年内</item>
+    </plurals>>
+        <plurals name="abbreviated_in_days">
+        <item quantity="other">%d 天内</item>
+    </plurals>>
+        <plurals name="abbreviated_in_hours">
+        <item quantity="other">%d 小时内</item>
+    </plurals>>
+        <plurals name="abbreviated_in_minutes">
+        <item quantity="other">%d 分钟内</item>
+    </plurals>>
+        <plurals name="abbreviated_in_seconds">
+        <item quantity="other">%d 秒内</item>
+    </plurals>>
+        <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d 年前</item>
+    </plurals>>
+        <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d 天前</item>
+    </plurals>>
+        <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d 小时前</item>
+    </plurals>>
+        <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d 分钟前</item>
+    </plurals>>
+        <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%d 秒前</item>
+    </plurals>>
     <string name="follows_you">关注了你</string>
     <string name="pref_title_alway_show_sensitive_media">总是显示所有敏感媒体内容</string>
     <string name="title_media">媒体</string>

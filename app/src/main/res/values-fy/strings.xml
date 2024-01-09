@@ -34,11 +34,21 @@
     <string name="title_media">Media</string>
     <string name="pref_title_alway_show_sensitive_media">Altyd gefoeliche ynhâld sjen litte</string>
     <string name="follows_you">Folget jo</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_in_seconds">oer %ds</string>
-    <string name="abbreviated_in_minutes">oer %dm</string>
-    <string name="abbreviated_in_hours">oer %dh</string>
-    <string name="abbreviated_in_days">oer %dd</string>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dy</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">oer %ds</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">oer %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">oer %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">oer %dd</item>
+    </plurals>
     <string name="post_media_attachments">Taheaksels</string>
     <string name="post_media_audio">Lûd</string>
     <string name="post_media_video">Fideo</string>

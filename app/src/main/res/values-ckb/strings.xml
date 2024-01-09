@@ -410,16 +410,36 @@
     <string name="pref_title_alway_open_spoiler">هەمیشە ئەو توتانەی کە بە ئاگادارکردنەوەکانی ناوەڕۆکەوە نیشانەکراون فراوان بکە</string>
     <string name="pref_title_alway_show_sensitive_media">هەمیشە ناوەڕۆکی هەستیار نیشان بدە</string>
     <string name="follows_you">دوای تۆ دەکەوێت</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_in_seconds">لە %ds</string>
-    <string name="abbreviated_in_minutes">لە %dm</string>
-    <string name="abbreviated_in_hours">لە %dh</string>
-    <string name="abbreviated_in_days">لە %dd</string>
-    <string name="abbreviated_in_years">لە %dy</string>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dd</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dy</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">لە %ds</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">لە %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">لە %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">لە %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">لە %dy</item>
+    </plurals>
     <string name="state_follow_requested">بەدواداچوونەوەی داواکراو</string>
     <string name="post_media_video">ڤیدیۆ</string>
     <string name="post_media_images">وێنەکان</string>
