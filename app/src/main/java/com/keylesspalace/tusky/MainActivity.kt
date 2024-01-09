@@ -51,6 +51,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -184,6 +185,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     private lateinit var tabAdapter: MainPagerAdapter
 
     private var directMessageTab: TabLayout.Tab? = null
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            when {
+                binding.mainDrawerLayout.isOpen -> {
+                    binding.mainDrawerLayout.close()
+                }
+                binding.viewPager.currentItem != 0 -> {
+                    binding.viewPager.currentItem = 0
+                }
+            }
+        }
+    }
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -373,24 +387,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
 
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    when {
-                        binding.mainDrawerLayout.isOpen -> {
-                            binding.mainDrawerLayout.close()
-                        }
-                        binding.viewPager.currentItem != 0 -> {
-                            binding.viewPager.currentItem = 0
-                        }
-                        else -> {
-                            finish()
-                        }
-                    }
-                }
-            }
-        )
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         if (
             Build.VERSION.SDK_INT >= 33 &&
@@ -616,6 +613,19 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             )
             setSavedInstance(savedInstanceState)
         }
+        binding.mainDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
+
+            override fun onDrawerOpened(drawerView: View) {
+                onBackPressedCallback.isEnabled = true
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                onBackPressedCallback.isEnabled = binding.tabLayout.selectedTabPosition > 0
+            }
+
+            override fun onDrawerStateChanged(newState: Int) { }
+        })
     }
 
     private fun refreshMainDrawerItems(
@@ -875,6 +885,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                onBackPressedCallback.isEnabled = tab.position > 0 || binding.mainDrawerLayout.isOpen
+
                 binding.mainToolbar.title = tab.contentDescription
 
                 refreshComposeButtonState(tabAdapter, tab.position)
@@ -963,8 +975,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             intent.putExtras(forward)
         }
         startActivity(intent)
-        finishWithoutSlideOutAnimation()
-        overridePendingTransition(R.anim.explode, R.anim.explode)
+        finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.explode)
+        } else {
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.explode, R.anim.explode)
+        }
     }
 
     private fun logout() {
@@ -987,7 +1004,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                             LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
                         }
                         startActivity(intent)
-                        finishWithoutSlideOutAnimation()
+                        finish()
                     }
                 }
                 .setNegativeButton(android.R.string.cancel, null)
