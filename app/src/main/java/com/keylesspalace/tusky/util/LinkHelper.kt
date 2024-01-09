@@ -350,6 +350,7 @@ fun openLinkInCustomTab(uri: Uri, context: Context) {
         .build()
     val customTabsIntent = CustomTabsIntent.Builder()
         .setDefaultColorSchemeParams(colorSchemeParams)
+        .setShareState(CustomTabsIntent.SHARE_STATE_ON)
         .setShowTitle(true)
         .build()
 
