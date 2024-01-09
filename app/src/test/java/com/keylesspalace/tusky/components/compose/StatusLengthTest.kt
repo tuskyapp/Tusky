@@ -23,8 +23,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(ParameterizedRobolectricTestRunner::class)
+@Config(sdk = [33])
 class StatusLengthTest(
     private val text: String,
     private val expectedLength: Int
