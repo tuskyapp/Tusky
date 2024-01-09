@@ -165,7 +165,7 @@
     <string name="pref_title_custom_tabs">Chrome Özel Sekmelerini Kullan</string>
     <string name="pref_title_hide_follow_button">Kaydırırken gönderi oluşturma düğmesi gizlensin</string>
     <string name="pref_title_post_filter">Ağ akışı süzgeçleme</string>
-    <string name="pref_title_post_tabs">Sekmeler</string>
+    <string name="pref_title_post_tabs">Anasayfa zaman akışı</string>
     <string name="pref_title_show_boosts">Yeniden paylaşımları göster</string>
     <string name="pref_title_show_replies">Yanıtları göster</string>
     <string name="pref_title_show_media_preview">Medya önizlemelerini indir</string>
@@ -704,4 +704,5 @@
     <string name="list_reply_policy_none">Hiç kimse</string>
     <string name="pref_title_show_self_boosts">Kendi beğenmeleri göster</string>
     <string name="pref_title_show_self_boosts_description">Birisi kendi gönderisini yükseltiyor</string>
+    <string name="pref_title_per_timeline_preferences">Zaman akışı başına tercihler</string>
 </resources>
