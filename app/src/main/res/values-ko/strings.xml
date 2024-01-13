@@ -252,36 +252,16 @@
     <string name="post_media_video">비디오</string>
     <string name="state_follow_requested">팔로우 요청함</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">%d년 후</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">%d일 후</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">%d시간 후</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">%d분 후</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">%d초 후</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%d년</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%d일</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%d시간</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%d분</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%d초</item>
-    </plurals>
+    <string name="abbreviated_in_years">%d년 후</string>
+    <string name="abbreviated_in_days">%d일 후</string>
+    <string name="abbreviated_in_hours">%d시간 후</string>
+    <string name="abbreviated_in_minutes">%d분 후</string>
+    <string name="abbreviated_in_seconds">%d초 후</string>
+    <string name="abbreviated_years_ago">%d년</string>
+    <string name="abbreviated_days_ago">%d일</string>
+    <string name="abbreviated_hours_ago">%d시간</string>
+    <string name="abbreviated_minutes_ago">%d분</string>
+    <string name="abbreviated_seconds_ago">%d초</string>
     <string name="follows_you">당신을 팔로우합니다</string>
     <string name="pref_title_alway_show_sensitive_media">민감한 컨텐츠 항상 보이기</string>
     <string name="title_media">미디어</string>

@@ -258,36 +258,16 @@
     <string name="post_media_images">Myndir</string>
     <string name="post_media_video">Myndskeið</string>
     <string name="state_follow_requested">Beðið um að fylgja</string>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">eftir %dár</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">eftir %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">eftir %dklst</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">eftir %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">eftir %ds</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dár</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dklst</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%ds</item>
-    </plurals>
+    <string name="abbreviated_in_years">eftir %dár</string>
+    <string name="abbreviated_in_days">eftir %dd</string>
+    <string name="abbreviated_in_hours">eftir %dklst</string>
+    <string name="abbreviated_in_minutes">eftir %dm</string>
+    <string name="abbreviated_in_seconds">eftir %ds</string>
+    <string name="abbreviated_years_ago">%dár</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dklst</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Fylgir þér</string>
     <string name="pref_title_alway_show_sensitive_media">Alltaf birta myndefni sem merkt er viðkvæmt</string>
     <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>

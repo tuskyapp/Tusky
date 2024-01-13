@@ -323,36 +323,16 @@
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">зараз</string>
     <string name="state_follow_requested">Запыт на падпіску</string>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">праз %dг</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">праз %dд</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">праз %dгад</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">праз %dхв</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">праз %dс</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dг</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dд</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dгад</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dхв</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%dс</item>
-    </plurals>
+    <string name="abbreviated_in_years">праз %dг</string>
+    <string name="abbreviated_in_days">праз %dд</string>
+    <string name="abbreviated_in_hours">праз %dгад</string>
+    <string name="abbreviated_in_minutes">праз %dхв</string>
+    <string name="abbreviated_in_seconds">праз %dс</string>
+    <string name="abbreviated_years_ago">%dг</string>
+    <string name="abbreviated_days_ago">%dд</string>
+    <string name="abbreviated_hours_ago">%dгад</string>
+    <string name="abbreviated_minutes_ago">%dхв</string>
+    <string name="abbreviated_seconds_ago">%dс</string>
     <string name="title_media">Медыя</string>
     <string name="pref_title_alway_open_spoiler">Заўсёды разгортваць допіс з далікатным зместам</string>
     <string name="replying_to">Адказ для @%s</string>

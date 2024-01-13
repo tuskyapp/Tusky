@@ -213,36 +213,16 @@
     <string name="post_media_video">Fideo</string>
     <string name="state_follow_requested">Ceisiwyd</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">ymhen %dy</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">ymhen %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">ymhen %dh</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">ymhen %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">ymhen %ds</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%db yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%da yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%de yn ôl</item>
-    </plurals>
+    <string name="abbreviated_in_years">ymhen %dy</string>
+    <string name="abbreviated_in_days">ymhen %dd</string>
+    <string name="abbreviated_in_hours">ymhen %dh</string>
+    <string name="abbreviated_in_minutes">ymhen %dm</string>
+    <string name="abbreviated_in_seconds">ymhen %ds</string>
+    <string name="abbreviated_years_ago">%db yn ôl</string>
+    <string name="abbreviated_days_ago">%dd yn ôl</string>
+    <string name="abbreviated_hours_ago">%da yn ôl</string>
+    <string name="abbreviated_minutes_ago">%dm yn ôl</string>
+    <string name="abbreviated_seconds_ago">%de yn ôl</string>
     <string name="follows_you">Yn dy ddilyn di</string>
     <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
     <string name="title_media">Cyfryngau</string>
