@@ -698,7 +698,7 @@
     <string name="ui_error_favourite">Falha em adicionar o toot aos favoritos: %s</string>
     <string name="ui_error_reblog">Falha em dar boost ao toot: %s</string>
     <string name="dialog_delete_filter_text">Apagar filtro \'%1$s\'\?</string>
-    <string name="error_unmuting_hashtag_format">Erro ao remover silêncio de #%s</string>
+    <string name="error_unmuting_hashtag_format">Erro a remover silenciador de #%s</string>
     <string name="description_login">Funciona na maioria dos casos. Nenhuma informação é partilhada com outras aplicações.</string>
     <string name="description_browser_login">Poderá permitir métodos de autenticação adicionais, mas precisará de um navegador suportado.</string>
     <string name="filter_description_hide">Esconder completamente</string>
