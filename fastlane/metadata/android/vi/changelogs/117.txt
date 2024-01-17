@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- Màn hình đứng im khi phát video.
+- Sửa lỗi memory leak.
+- Emoji được tính như 1 ký tự.
+- Sửa lỗi crash khi chọn text.
+- Canh đều biểu tượng trợ giúp.
