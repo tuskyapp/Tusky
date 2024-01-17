@@ -223,10 +223,20 @@
         <item quantity="other">ymhen %dh</item>
     </plurals>
     <plurals name="abbreviated_in_minutes">
+        <item quantity="zero">ymhen %dm</item>
+        <item quantity="one">ymhen %df</item>
+        <item quantity="two">ymhen %df</item>
+        <item quantity="few">ymhen %dm</item>
+        <item quantity="many">ymhen %dm</item>
         <item quantity="other">ymhen %dm</item>
     </plurals>
     <plurals name="abbreviated_in_seconds">
-        <item quantity="other">ymhen %ds</item>
+        <item quantity="zero">ymhen %de</item>
+        <item quantity="one">ymhen %de</item>
+        <item quantity="two">ymhen %de</item>
+        <item quantity="few">ymhen %de</item>
+        <item quantity="many">ymhen %de</item>
+        <item quantity="other">ymhen %de</item>
     </plurals>
     <plurals name="abbreviated_years_ago">
         <item quantity="other">%db yn ôl</item>
