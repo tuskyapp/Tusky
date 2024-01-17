@@ -2,5 +2,5 @@ Tusky v18.0
 
 - Suporte para o novo tipo de notificações do Mastodon 3.5
 - Agora o simbolo do bot tem melhor qualidade e ajusta-se ao tema selecionado
-- Agora é possivel selecionar o texto na visualização dos detalhes do post
-- Corrigidos muitos erros, incluindo um que impedia o login no Android 6 e anteriores.
+- Agora é possivel selecionar o texto na visualização dos detalhes da publicação
+- Corrigidos muitos erros, incluindo um que impedia o login no Android 6 e anteriores
