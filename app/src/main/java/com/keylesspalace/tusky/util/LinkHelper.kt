@@ -311,6 +311,10 @@ fun Context.openLink(url: String) {
  */
 private fun openLinkInBrowser(uri: Uri?, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW, uri)
+
+    // Makes sure the Intent opens in the browser instead of something like Mastodon Redirect.
+    intent.selector = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))
+
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
