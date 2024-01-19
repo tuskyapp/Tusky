@@ -153,8 +153,12 @@
     <string name="notification_poll_name">Adɣaren</string>
     <string name="notification_mention_format">Yuder-ik-id %s</string>
     <string name="description_account_locked">Yettwargel umiḍan</string>
-    <string name="abbreviated_years_ago">%dis aya</string>
-    <string name="abbreviated_days_ago">%dus aya</string>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dis aya</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dus aya</item>
+    </plurals>
     <string name="replying_to">Tettaraḍ-as i @%s</string>
     <string name="load_more_placeholder_text">awid ugar</string>
     <string name="pref_title_thread_filter_keywords">Idewenniyen</string>
@@ -168,7 +172,8 @@
     <string name="conversation_2_recipients">%1$s akked %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s akked %3$d nniḍen</string>
     <string name="compose_shortcut_long_label">Aru izen</string>
-    <string name="poll_info_format"> <!-- 15 n wadɣaren • 1 n wesrag id yeqqimen --> %1$s • %2$s</string>
+    <string name="poll_info_format"> <!-- 15 n wadɣaren • 1 n wesrag id yeqqimen -->
+        %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%s n wedɣar</item>
         <item quantity="other">%s n yedɣaren</item>
@@ -219,16 +224,28 @@
     <string name="about_powered_by_tusky">Yettwamdemmar s Tusky</string>
     <string name="about_project_site">Asmel Web n usenfaṛ:
 \n https://tusky.app</string>
-    <string name="abbreviated_hours_ago">%dsr</string>
-    <string name="abbreviated_minutes_ago">%dtsd</string>
-    <string name="abbreviated_seconds_ago">%dtsn</string>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dsr</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dtsd</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%dtsn</item>
+    </plurals>
     <string name="compose_save_draft">Sekles amzun d arewway\?</string>
     <string name="later">Ticki</string>
     <string name="profile_badge_bot_text">Aṛubut</string>
     <string name="description_post_bookmarked">Yettwarna ɣer ticṛad</string>
-    <string name="abbreviated_in_hours">deg %dsr</string>
-    <string name="abbreviated_in_minutes">deg %dtsd</string>
-    <string name="abbreviated_in_seconds">deg %dtsn</string>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">deg %dsr</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">deg %dtsd</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">deg %dtsn</item>
+    </plurals>
     <plurals name="poll_timespan_seconds">
         <item quantity="one">%d n tasint id yugran</item>
         <item quantity="other">%d n tasinin id yugran</item>

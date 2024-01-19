@@ -290,16 +290,36 @@
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="abbreviated_minutes_ago">%d phút</string>
-    <string name="abbreviated_hours_ago">%d giờ</string>
-    <string name="abbreviated_days_ago">%d ngày</string>
-    <string name="abbreviated_years_ago">%d năm</string>
-    <string name="abbreviated_in_seconds">%ds</string>
-    <string name="abbreviated_in_minutes">%d phút</string>
-    <string name="abbreviated_in_hours">%d giờ</string>
-    <string name="abbreviated_in_days">%d ngày</string>
-    <string name="abbreviated_in_years">%d năm</string>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d phút</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d giờ</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d ngày</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d năm</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_in_seconds">
+        <item quantity="other">%ds</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_in_minutes">
+        <item quantity="other">%d phút</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_in_hours">
+        <item quantity="other">%d giờ</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_in_days">
+        <item quantity="other">%d ngày</item>
+    </plurals>&gt;
+        <plurals name="abbreviated_in_years">
+        <item quantity="other">%d năm</item>
+    </plurals>&gt;
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
     <string name="post_media_video">Video</string>
     <string name="post_media_images">Hình ảnh</string>

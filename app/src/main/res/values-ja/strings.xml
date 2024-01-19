@@ -229,16 +229,36 @@
     <string name="state_follow_requested">フォローリクエスト中</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="status_created_at_now">現在</string>
-    <string name="abbreviated_in_years">%d年後</string>
-    <string name="abbreviated_in_days">%d日後</string>
-    <string name="abbreviated_in_hours">%d時間後</string>
-    <string name="abbreviated_in_minutes">%d分後</string>
-    <string name="abbreviated_in_seconds">%d秒後</string>
-    <string name="abbreviated_years_ago">%d年前</string>
-    <string name="abbreviated_days_ago">%d日前</string>
-    <string name="abbreviated_hours_ago">%d時間前</string>
-    <string name="abbreviated_minutes_ago">%d分前</string>
-    <string name="abbreviated_seconds_ago">%d秒前</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">%d年後</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">%d日後</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">%d時間後</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">%d分後</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">%d秒後</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d年前</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d日前</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d時間前</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d分前</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%d秒前</item>
+    </plurals>
     <string name="follows_you">あなたをフォロー中</string>
     <string name="pref_title_alway_show_sensitive_media">閲覧注意のメディアを常に表示</string>
     <string name="title_media">メディア</string>

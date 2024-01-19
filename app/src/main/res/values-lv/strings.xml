@@ -297,9 +297,15 @@
     <string name="notification_mention_name">Jauni pieminējumi</string>
     <string name="notification_follow_name">Jauni sekotāji</string>
     <string name="notification_boost_name">Pastiprinājumi</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_years_ago">%dg</string>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dd</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dg</item>
+    </plurals>
     <string name="filter_dialog_whole_word">Viss vārds</string>
     <string name="unreblog_private">Atcelt pastiprināšanu</string>
     <string name="unpin_action">Atspraust</string>
@@ -314,8 +320,12 @@
     <string name="notification_update_name">Ierakstu labojumi</string>
     <string name="send_media_to">Dalīties ar failu…</string>
     <string name="description_account_locked">Privāts konts</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>
     <string name="lock_account_label">Padarīt kontu privātu</string>
     <string name="review_notifications">Pārskatīt paziņojumus</string>
     <string name="account_date_joined">Pievienojās %1$s</string>
@@ -543,11 +553,21 @@
     <string name="pref_title_confirm_favourites">Pirms pievienošanas izlasei rādīt apstiprināšanas dialogu</string>
     <string name="action_view_favourites">Izlases</string>
     <string name="pref_title_notification_filter_favourites">mani ieraksti tiek pievienoti izlasei</string>
-    <string name="abbreviated_in_days">pēc %dd</string>
-    <string name="abbreviated_in_hours">pēc %dh</string>
-    <string name="abbreviated_in_minutes">pēc %dm</string>
-    <string name="abbreviated_in_years">pēc %dg</string>
-    <string name="abbreviated_in_seconds">pēc %ds</string>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">pēc %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">pēc %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">pēc %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">pēc %dg</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">pēc %ds</item>
+    </plurals>
     <string name="pref_title_alway_open_spoiler">Vienmēr izvērst ziņas, kas atzīmētas ar satura brīdinājumu</string>
     <string name="action_post_failed_detail">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
 \n

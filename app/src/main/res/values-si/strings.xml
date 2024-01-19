@@ -38,7 +38,9 @@
     <string name="confirmation_reported">යැවිණි!</string>
     <string name="action_reset_schedule">යළි සකසන්න</string>
     <string name="post_content_warning_show_less">අඩුවෙන් පෙන්වන්න</string>
-    <string name="abbreviated_in_seconds">තත්. %d කින්</string>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">තත්. %d කින්</item>
+    </plurals>
     <string name="action_view_mutes">නිහඬ කළ පරිශීලකයින්</string>
     <string name="action_share">බෙදාගන්න</string>
     <string name="account_moved_description">%1$s ගෙන ගොස් ඇත:</string>
@@ -48,7 +50,9 @@
     <string name="hint_display_name">දර්ශන නාමය</string>
     <string name="post_text_size_medium">මධ්‍යම</string>
     <string name="post_media_audio">ශ්‍රව්‍ය</string>
-    <string name="abbreviated_days_ago">දව. %d</string>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">දව. %d</item>
+    </plurals>
     <string name="action_logout">නික්මෙන්න</string>
     <string name="filter_edit_title">පෙරහන සංස්කරණය</string>
     <string name="notification_summary_medium">%1$s, %2$s, සහ %3$s</string>
@@ -80,10 +84,14 @@
     <string name="caption_notoemoji">ගූගල් හි වත්මන් ඉමෝජි කට්ටලය</string>
     <string name="app_theme_auto">ස්වයංක්‍රීව ඉර බැසීමේදී</string>
     <string name="failed_report">වාර්තා කිරීමට අසමත් විය</string>
-    <string name="abbreviated_years_ago">අවු. %d</string>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">අවු. %d</item>
+    </plurals>
     <string name="action_open_as">%s ලෙස විවෘත කරන්න</string>
     <string name="action_open_faved_by">ප්‍රියතමයන් පෙන්වන්න</string>
-    <string name="abbreviated_in_minutes">වි. %d කින්</string>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">වි. %d කින්</item>
+    </plurals>
     <plurals name="poll_info_votes">
         <item quantity="one">ජන්ද %s</item>
         <item quantity="other">ජන්ද %s</item>
@@ -146,7 +154,9 @@
     <string name="restart_required">යෙදුම යළි ඇරඹීම ඇවැසිය</string>
     <string name="restart">යළි අරඹන්න</string>
     <string name="app_theme_black">කළු</string>
-    <string name="abbreviated_in_years">වර්. %d කින්</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">වර්. %d කින්</item>
+    </plurals>
     <string name="restart_emoji">මෙම වෙනස්කම් යෙදීමට ඔබ ටුස්කි නැවත ඇරඹිය යුතුය</string>
     <string name="action_edit">සංස්කරණය</string>
     <string name="button_continue">ඉදිරියට</string>
@@ -168,15 +178,21 @@
     <string name="about_project_site">වියමන අඩවිය:
 \n https://tusky.app</string>
     <string name="action_accept">පිළිගන්න</string>
-    <string name="abbreviated_in_hours">පැ. %d කින්</string>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">පැ. %d කින්</item>
+    </plurals>
     <string name="create_poll_title">මතවිමසුම</string>
     <string name="action_remove">ඉවත් කරන්න</string>
     <string name="action_add_media">මාධ්‍ය එකතු කරන්න</string>
-    <string name="abbreviated_in_days">ද. %d කින්</string>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">ද. %d කින්</item>
+    </plurals>
     <string name="notification_summary_large">%1$s, %2$s, %3$s සහ වෙනත් %4$d</string>
     <string name="action_open_post">ටූට් විවෘත කරන්න</string>
     <string name="title_domain_mutes">සැඟවුනු වසම්</string>
-    <string name="abbreviated_hours_ago">පැය %d</string>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">පැය %d</item>
+    </plurals>
     <string name="pref_failed_to_sync">සැකසුම් සමමුහූර්ත වීමට අසමත් විය</string>
     <string name="pref_title_show_replies">පිළිතුරු පෙන්වන්න</string>
     <string name="action_view_profile">පැතිකඩ</string>
@@ -185,7 +201,9 @@
     <string name="action_search">සොයන්න</string>
     <string name="action_share_as">ලෙස බෙදාගන්න …</string>
     <string name="title_home">මුල</string>
-    <string name="abbreviated_minutes_ago">වි. %d</string>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">වි. %d</item>
+    </plurals>
     <string name="failed_search">සෙවීමට අසමත් විය</string>
     <string name="no_announcements">නිවේදන නැත.</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -265,5 +283,7 @@
     <string name="pref_title_show_cards_in_timelines">කාලරේඛාවෙහි සබැඳි පෙරදසුන් පෙන්වන්න</string>
     <string name="action_links">සබැඳි</string>
     <string name="pref_title_browser_settings">අතිරික්සුව</string>
-    <string name="abbreviated_seconds_ago">තත්. %d</string>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">තත්. %d</item>
+    </plurals>
 </resources>

@@ -209,16 +209,36 @@
     <string name="post_media_video">Wideo</string>
     <string name="state_follow_requested">Wysłano prośbę o obserwację</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">w %d lata</string>
-    <string name="abbreviated_in_days">w %d dni</string>
-    <string name="abbreviated_in_hours">w %d godz.</string>
-    <string name="abbreviated_in_minutes">w %d min.</string>
-    <string name="abbreviated_in_seconds">w %ds</string>
-    <string name="abbreviated_years_ago">%d lat temu</string>
-    <string name="abbreviated_days_ago">%d dni temu</string>
-    <string name="abbreviated_hours_ago">%d godz. temu</string>
-    <string name="abbreviated_minutes_ago">%d min. temu</string>
-    <string name="abbreviated_seconds_ago">%ds temu</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">w %d lata</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">w %d dni</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">w %d godz.</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">w %d min.</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">w %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%d lat temu</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%d dni temu</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%d godz. temu</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%d min. temu</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds temu</item>
+    </plurals>
     <string name="follows_you">Obserwuje Cię</string>
     <string name="pref_title_alway_show_sensitive_media">Zawsze wyświetlaj wrażliwą zawartość</string>
     <string name="title_media">Zawartość multimedialna</string>

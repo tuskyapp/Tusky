@@ -205,7 +205,7 @@
     <string name="pref_title_bot_overlay">Birta merki á róbótum</string>
     <string name="pref_title_animate_gif_avatars">Sýna hreyfingar GIF-auðkennismynda</string>
     <string name="pref_title_post_filter">Síun tímalínu</string>
-    <string name="pref_title_post_tabs">Flipar</string>
+    <string name="pref_title_post_tabs">Heimatímalína</string>
     <string name="pref_title_show_boosts">Sýna endurbirtingar</string>
     <string name="pref_title_show_replies">Sýna svör</string>
     <string name="pref_title_show_media_preview">Sækja forskoðanir á myndefni</string>
@@ -258,16 +258,46 @@
     <string name="post_media_images">Myndir</string>
     <string name="post_media_video">Myndskeið</string>
     <string name="state_follow_requested">Beðið um að fylgja</string>
-    <string name="abbreviated_in_years">eftir %dár</string>
-    <string name="abbreviated_in_days">eftir %dd</string>
-    <string name="abbreviated_in_hours">eftir %dklst</string>
-    <string name="abbreviated_in_minutes">eftir %dm</string>
-    <string name="abbreviated_in_seconds">eftir %ds</string>
-    <string name="abbreviated_years_ago">%dár</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dklst</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="one">eftir %dá</item>
+        <item quantity="other">eftir %dá</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="one">eftir %dd</item>
+        <item quantity="other">eftir %dd</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="one">eftir %dklst</item>
+        <item quantity="other">eftir %dklst</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="one">eftir %dm</item>
+        <item quantity="other">eftir %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="one">eftir %ds</item>
+        <item quantity="other">eftir %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="one">%dár</item>
+        <item quantity="other">%dár</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="one">%dd</item>
+        <item quantity="other">%dd</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="one">%dklst</item>
+        <item quantity="other">%dklst</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="one">%dm</item>
+        <item quantity="other">%dm</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="one">%ds</item>
+        <item quantity="other">%ds</item>
+    </plurals>
     <string name="follows_you">Fylgir þér</string>
     <string name="pref_title_alway_show_sensitive_media">Alltaf birta myndefni sem merkt er viðkvæmt</string>
     <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>
@@ -697,4 +727,5 @@
     <string name="list_reply_policy_followed">Hvers þess sem fylgst er með</string>
     <string name="pref_title_show_self_boosts">Sýna sjálfs-endurbirtingar</string>
     <string name="pref_title_show_self_boosts_description">Einhver endurbirtir sína eigin færslu</string>
+    <string name="pref_title_per_timeline_preferences">Kjörstillingar á hverja tímalínu</string>
 </resources>

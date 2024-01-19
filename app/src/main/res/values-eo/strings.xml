@@ -243,16 +243,36 @@
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Sekvado petita</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">post %dj</string>
-    <string name="abbreviated_in_days">post %dt</string>
-    <string name="abbreviated_in_hours">post %dh</string>
-    <string name="abbreviated_in_minutes">post %dm</string>
-    <string name="abbreviated_in_seconds">post %ds</string>
-    <string name="abbreviated_years_ago">%dj</string>
-    <string name="abbreviated_days_ago">%dt</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <plurals name="abbreviated_in_years">
+        <item quantity="other">post %dj</item>
+    </plurals>
+    <plurals name="abbreviated_in_days">
+        <item quantity="other">post %dt</item>
+    </plurals>
+    <plurals name="abbreviated_in_hours">
+        <item quantity="other">post %dh</item>
+    </plurals>
+    <plurals name="abbreviated_in_minutes">
+        <item quantity="other">post %dm</item>
+    </plurals>
+    <plurals name="abbreviated_in_seconds">
+        <item quantity="other">post %ds</item>
+    </plurals>
+    <plurals name="abbreviated_years_ago">
+        <item quantity="other">%dj</item>
+    </plurals>
+    <plurals name="abbreviated_days_ago">
+        <item quantity="other">%dt</item>
+    </plurals>
+    <plurals name="abbreviated_hours_ago">
+        <item quantity="other">%dh</item>
+    </plurals>
+    <plurals name="abbreviated_minutes_ago">
+        <item quantity="other">%dm</item>
+    </plurals>
+    <plurals name="abbreviated_seconds_ago">
+        <item quantity="other">%ds</item>
+    </plurals>
     <string name="follows_you">Sekvas vin</string>
     <string name="pref_title_alway_show_sensitive_media">Ĉiam montri tiklan enhavon</string>
     <string name="title_media">Aŭdovidaĵoj</string>
@@ -280,7 +300,7 @@
     <string name="action_remove_from_list">Forigi konton el la listo</string>
     <string name="compose_active_account_description">Afiŝi per konto %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one"/>
+        <item quantity="one" />
         <item quantity="other">Priskribi por vide handikapitaj homoj
 \n(%d signoj maksimume)</item>
     </plurals>
