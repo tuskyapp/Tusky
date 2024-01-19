@@ -76,6 +76,9 @@ class ComposeViewModel @Inject constructor(
     private var modifiedInitialState: Boolean = false
     private var hasScheduledTimeChanged: Boolean = false
 
+    private var currentContent: String? = ""
+    private var currentContentWarning: String? = ""
+
     val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
@@ -98,6 +101,8 @@ class ComposeViewModel @Inject constructor(
             extraBufferCapacity = 1,
             onBufferOverflow = BufferOverflow.DROP_OLDEST
         )
+
+    val closeConfirmation = MutableStateFlow(ConfirmationKind.NONE)
 
     private lateinit var composeKind: ComposeKind
 
@@ -199,6 +204,7 @@ class ComposeViewModel @Inject constructor(
                     }
                 }
         }
+        updateCloseConfirmation()
         return mediaItem
     }
 
@@ -228,21 +234,37 @@ class ComposeViewModel @Inject constructor(
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaUploader.cancelUploadScope(item.localId)
         media.update { mediaList -> mediaList.filter { it.localId != item.localId } }
+        updateCloseConfirmation()
     }
 
     fun toggleMarkSensitive() {
         this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
-    fun handleCloseButton(contentText: String?, contentWarning: String?): ConfirmationKind {
-        return if (didChange(contentText, contentWarning)) {
+    fun contentUpdated(newContent: String?) {
+        currentContent = newContent
+        updateCloseConfirmation()
+    }
+
+    fun contentWarningUpdated(newContentWarning: String?) {
+        currentContentWarning = newContentWarning
+        updateCloseConfirmation()
+    }
+
+    private fun updateCloseConfirmation() {
+        val contentWarning = if (showContentWarning.value) {
+            currentContentWarning
+        } else {
+            ""
+        }
+        this.closeConfirmation.value = if (didChange(currentContent, contentWarning)) {
             when (composeKind) {
-                ComposeKind.NEW -> if (isEmpty(contentText, contentWarning)) {
+                ComposeKind.NEW -> if (isEmpty(currentContent, contentWarning)) {
                     ConfirmationKind.NONE
                 } else {
                     ConfirmationKind.SAVE_OR_DISCARD
                 }
-                ComposeKind.EDIT_DRAFT -> if (isEmpty(contentText, contentWarning)) {
+                ComposeKind.EDIT_DRAFT -> if (isEmpty(currentContent, contentWarning)) {
                     ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT
                 } else {
                     ConfirmationKind.UPDATE_OR_DISCARD
@@ -272,6 +294,7 @@ class ComposeViewModel @Inject constructor(
     fun contentWarningChanged(value: Boolean) {
         showContentWarning.value = value
         contentWarningStateChanged = true
+        updateCloseConfirmation()
     }
 
     fun deleteDraft() {
@@ -514,8 +537,9 @@ class ComposeViewModel @Inject constructor(
         setupComplete = true
     }
 
-    fun updatePoll(newPoll: NewPoll) {
+    fun updatePoll(newPoll: NewPoll?) {
         poll.value = newPoll
+        updateCloseConfirmation()
     }
 
     fun updateScheduledAt(newScheduledAt: String?) {
