@@ -1295,7 +1295,7 @@ class ComposeActivity :
         when (viewModel.handleCloseButton(contentText, contentWarning)) {
             ConfirmationKind.NONE -> {
                 viewModel.stopUploads()
-                finish()
+                finishWithoutSlideOutAnimation()
             }
             ConfirmationKind.SAVE_OR_DISCARD ->
                 getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
@@ -1355,7 +1355,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finish()
+                finishWithoutSlideOutAnimation()
             }
     }
 
@@ -1371,7 +1371,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finish()
+                finishWithoutSlideOutAnimation()
             }
     }
 
@@ -1385,7 +1385,7 @@ class ComposeActivity :
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteDraft()
                 viewModel.stopUploads()
-                finish()
+                finishWithoutSlideOutAnimation()
             }
             .setNegativeButton(R.string.action_continue_edit) { _, _ ->
                 // Do nothing, dialog will dismiss, user can continue editing
@@ -1394,7 +1394,7 @@ class ComposeActivity :
 
     private fun deleteDraftAndFinish() {
         viewModel.deleteDraft()
-        finish()
+        finishWithoutSlideOutAnimation()
     }
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
@@ -1412,7 +1412,7 @@ class ComposeActivity :
             }
             viewModel.saveDraft(contentText, contentWarning)
             dialog?.cancel()
-            finish()
+            finishWithoutSlideOutAnimation()
         }
     }
 

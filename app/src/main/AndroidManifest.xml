@@ -18,8 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/TuskyTheme"
         android:usesCleartextTraffic="false"
-        android:localeConfig="@xml/locales_config"
-        android:enableOnBackInvokedCallback="true" >
+        android:localeConfig="@xml/locales_config">
 
         <activity
             android:name=".SplashActivity"

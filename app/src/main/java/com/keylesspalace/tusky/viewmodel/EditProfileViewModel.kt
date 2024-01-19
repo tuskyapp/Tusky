@@ -218,7 +218,7 @@ class EditProfileViewModel @Inject constructor(
             null
         }
 
-        // when one field changed, all have to be sent or the unchanged ones would get overridden
+        // when one field changed, all have to be sent or they unchanged ones would get overridden
         val allFieldsUnchanged = oldProfileAccount?.source?.fields == newProfileData.fields
         val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), allFieldsUnchanged)
         val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), allFieldsUnchanged)

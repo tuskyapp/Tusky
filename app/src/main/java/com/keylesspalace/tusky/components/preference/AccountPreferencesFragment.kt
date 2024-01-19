@@ -100,7 +100,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
-                    (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -110,7 +114,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_hashtag)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, FollowedTagsActivity::class.java)
-                    (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -121,7 +129,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
-                    (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -135,7 +147,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.BLOCKS)
-                    (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -145,7 +161,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, DomainBlocksActivity::class.java)
-                    (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                    activity?.startActivity(intent)
+                    activity?.overridePendingTransition(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left
+                    )
                     true
                 }
             }
@@ -280,7 +300,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     it,
                     PreferencesActivity.NOTIFICATION_PREFERENCES
                 )
-                (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+                it.startActivity(intent)
+                it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             }
         }
     }
@@ -347,7 +368,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     private fun launchFilterActivity() {
         val intent = Intent(context, FiltersActivity::class.java)
-        (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
+        activity?.startActivity(intent)
+        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     companion object {
