@@ -110,8 +110,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                 putExtra(EditFilterActivity.FILTER_TO_EDIT, filter)
             }
         }
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        startActivityWithSlideInAnimation(intent)
     }
 
     override fun deleteFilter(filter: Filter) {

@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
     private static final String TAG = "BaseActivity";
+    private static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
 
     @Inject
     @NonNull
@@ -72,6 +74,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_from_right, R.anim.slide_to_left);
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.slide_from_left, R.anim.slide_to_right);
+        }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -167,8 +174,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     }
 
     public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
+        // the new transition api needs to be called by the activity the is the result of the transition
+        intent.putExtra(OPEN_WITH_SLIDE_IN, true);
         super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // the old api needs to be called by the activity that starts the transition
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        }
     }
 
     @Override
@@ -183,11 +196,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-    }
-
-    public void finishWithoutSlideOutAnimation() {
-        super.finish();
+        // if this activity was opened with slide-in, close it with slide out
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        }
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -235,9 +247,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)
-                .setTitle(dialogTitle)
-                .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
-                .show();
+            .setTitle(dialogTitle)
+            .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
+            .show();
     }
 
     public @Nullable String getOpenAsText() {
@@ -263,7 +275,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Intent intent = MainActivity.redirectIntent(this, account.getId(), url);
 
         startActivity(intent);
-        finishWithoutSlideOutAnimation();
+        finish();
     }
 
     @Override
