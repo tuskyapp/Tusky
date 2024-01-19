@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Funcionalidades incluem:
+
+- Ver hashtags em destaque
+- Editar descrição e ponto de foco das imagens
+- Menu de atualização para melhorar acessibilidade
+- Suporte para os filtros da versão 4 do Mastodon
+- Mostrar alterações detalhadas quando uma publicação é editada
+- Opção para mostrar estatísticas das publicações na timeline
+
+Correções incluem:
+
+- Mostrar controlos do leitor durante reprodução
+- Cálculo correto do comprimento da publicação
+- Publicar sempre legendas das imagens
+
+e muito mais
