@@ -534,6 +534,8 @@ class ComposeViewModel @Inject constructor(
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
 
+        updateCloseConfirmation()
+
         setupComplete = true
     }
 
