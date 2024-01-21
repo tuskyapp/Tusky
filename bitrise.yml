@@ -13,7 +13,7 @@ workflows:
     steps:
     - set-java-version@1:
         inputs:
-          - set_java_version: '17'
+          - set_java_version: '21'
     - activate-ssh-key:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@8.0: {}
