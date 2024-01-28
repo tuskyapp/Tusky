@@ -326,7 +326,7 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
             addableTabs.add(trendingTagsTab)
         }
         val bookmarksTab = createTabDataFromId(BOOKMARKS)
-        if (!currentTabs.contains(trendingTagsTab)) {
+        if (!currentTabs.contains(bookmarksTab)) {
             addableTabs.add(bookmarksTab)
         }
         val trendingStatusesTab = createTabDataFromId(TRENDING_STATUSES)
