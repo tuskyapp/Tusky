@@ -241,36 +241,16 @@
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Richiesta inviata</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">in %d a</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">in %dg</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">in %do</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">in %d min</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">in %ds</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%da</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dg</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%do</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dmin</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%ds</item>
-    </plurals>
+    <string name="abbreviated_in_years">in %d a</string>
+    <string name="abbreviated_in_days">in %dg</string>
+    <string name="abbreviated_in_hours">in %do</string>
+    <string name="abbreviated_in_minutes">in %d min</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%da</string>
+    <string name="abbreviated_days_ago">%dg</string>
+    <string name="abbreviated_hours_ago">%do</string>
+    <string name="abbreviated_minutes_ago">%dmin</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Ti segue</string>
     <string name="pref_title_alway_show_sensitive_media">Mostra sempre i contenuti sensibili</string>
     <string name="title_media">Media</string>

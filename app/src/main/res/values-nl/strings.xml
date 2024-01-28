@@ -238,36 +238,16 @@
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Volgverzoek verzonden</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">over %dj</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">over %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">over %du</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">over %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">over %ds</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dj</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%du</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%ds</item>
-    </plurals>
+    <string name="abbreviated_in_years">over %dj</string>
+    <string name="abbreviated_in_days">over %dd</string>
+    <string name="abbreviated_in_hours">over %du</string>
+    <string name="abbreviated_in_minutes">over %dm</string>
+    <string name="abbreviated_in_seconds">over %ds</string>
+    <string name="abbreviated_years_ago">%dj</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%du</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Volgt jou</string>
     <string name="pref_title_alway_show_sensitive_media">Altijd gevoelige inhoud (nsfw) tonen</string>
     <string name="title_media">Media</string>

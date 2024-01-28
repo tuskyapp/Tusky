@@ -241,36 +241,16 @@
     <string name="post_media_video">Видео</string>
     <string name="state_follow_requested">Запрос на подписку отправлено</string>
     <!--Отметки времени у постов: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">через %dг</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">через %dд</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">через %dч</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">через %dм</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">через %dс</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dг</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dд</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dч</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dм</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%dс</item>
-    </plurals>
+    <string name="abbreviated_in_years">через %dг</string>
+    <string name="abbreviated_in_days">через %dд</string>
+    <string name="abbreviated_in_hours">через %dч</string>
+    <string name="abbreviated_in_minutes">через %dм</string>
+    <string name="abbreviated_in_seconds">через %dс</string>
+    <string name="abbreviated_years_ago">%dг</string>
+    <string name="abbreviated_days_ago">%dд</string>
+    <string name="abbreviated_hours_ago">%dч</string>
+    <string name="abbreviated_minutes_ago">%dм</string>
+    <string name="abbreviated_seconds_ago">%dс</string>
     <!--Оставшееся время в опросах -->
     <plurals name="poll_timespan_days">
         <item quantity="one">остался %d день</item>
