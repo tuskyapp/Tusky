@@ -711,6 +711,7 @@
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
+    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_confirm_reblogs">Show confirmation before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation before favoriting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>

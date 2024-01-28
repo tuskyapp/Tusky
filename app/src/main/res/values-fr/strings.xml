@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_network">Une erreur réseau s’est produite ! Veuillez vérifier votre connexion puis réessayez !</string>
+    <string name="error_network">Une erreur réseau s’est produite. Veuillez vérifier votre connexion puis réessayez.</string>
     <string name="error_empty">Ce champ ne peut pas être vide.</string>
     <string name="error_invalid_domain">Le domaine saisi est invalide</string>
     <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance. Si cela continue à se produire, essayez Se connecter avec le navigateur depuis le menu.</string>
@@ -184,7 +184,7 @@
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_post_filter">Filtrage des fils</string>
-    <string name="pref_title_post_tabs">Onglets</string>
+    <string name="pref_title_post_tabs">Fil principal</string>
     <string name="pref_title_show_boosts">Afficher les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
@@ -637,7 +637,7 @@
     <string name="socket_timeout_exception">La connexion à votre serveur a pris trop longtemps</string>
     <string name="ui_error_bookmark">Échec de l\'ajout aux signets : %s</string>
     <string name="ui_error_vote">Échec du vote : %s</string>
-    <string name="ui_error_reblog">Échec de la mise en signet : %s</string>
+    <string name="ui_error_reblog">Échec lors du partage de la publication : %s</string>
     <string name="ui_error_accept_follow_request">N\'a pas pu accepter la demande d\'abonnement : %s</string>
     <string name="ui_error_reject_follow_request">N\'a pas pu rejeter la demande d\'abonnement : %s</string>
     <string name="ui_success_accepted_follow_request">Demande d\'abonnement acceptée</string>

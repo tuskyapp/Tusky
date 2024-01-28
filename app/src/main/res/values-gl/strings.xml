@@ -354,7 +354,7 @@
     <string name="pref_title_show_media_preview">Descarga vista previa do multimedia</string>
     <string name="pref_title_show_replies">Mostar respostas</string>
     <string name="pref_title_show_boosts">Mostrar promocións</string>
-    <string name="pref_title_post_tabs">Pestanas</string>
+    <string name="pref_title_post_tabs">Cronoloxía de Inicio</string>
     <string name="pref_title_post_filter">Filtros na cronoloxía</string>
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
     <string name="pref_title_gradient_for_media">Mostra gradientes coloridos para multimedia oculto</string>
@@ -697,4 +697,5 @@
     <string name="list_reply_policy_label">Mostrar respostas a</string>
     <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
     <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
+    <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
 </resources>

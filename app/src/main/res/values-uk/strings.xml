@@ -146,7 +146,7 @@
     <string name="error_invalid_domain">Введено недійсний домен</string>
     <string name="action_open_reblogged_by">Показати поширення</string>
     <string name="pref_title_show_boosts">Показати поширення</string>
-    <string name="pref_title_post_tabs">Вкладки</string>
+    <string name="pref_title_post_tabs">Головна стрічка</string>
     <string name="action_unmute_domain">Не приховувати %s</string>
     <string name="action_toggle_visibility">Видимість дописів</string>
     <string name="wellbeing_mode_notice">Деякі відомості, які можуть вплинути на ваше психічний стан, буде приховано. Це включає:
@@ -719,4 +719,5 @@
     <string name="list_reply_policy_list">Учасники списку</string>
     <string name="list_reply_policy_followed">Будь-який користувач, за яким ви стежите</string>
     <string name="list_reply_policy_label">Показати відповіді на</string>
+    <string name="pref_title_per_timeline_preferences">Налаштування окремих стрічок</string>
 </resources>

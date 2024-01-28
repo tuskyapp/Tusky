@@ -4,7 +4,7 @@
     <string name="error_network">حدث خطأ في الشبكة. يرجى التحقق من اتصالك ثم أعد المحاولة!</string>
     <string name="error_empty">لا يجب أن يترك هذا الحقل فارغا.</string>
     <string name="error_invalid_domain">اسم النطاق الذي قمتَ بإدخاله غير صالح</string>
-    <string name="error_failed_app_registration">أخففت المصادقة مع مثيل الخادم هذا.</string>
+    <string name="error_failed_app_registration">أخففت المصادقة مع مثيل الخادم هذا. إذا استمرت هذه المشكلة، جرب تسجيل الدخول عبر المتصفح من القائمة.</string>
     <string name="error_no_web_browser_found">تعذر العثور على متصفح ويب صالح للإستعمال.</string>
     <string name="error_authorization_unknown">لقد وقع هناك خطأ مجهول في التصريح. إن استمرّ ذلك، يُرجى إعادة محاولة التسجيل بمساعدة متصفح الويب وذلك عبر القائمة.</string>
     <string name="error_authorization_denied">تم رفض التصريح.</string>
@@ -178,8 +178,8 @@
     <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
     <string name="pref_title_language">اللغة</string>
     <string name="pref_title_post_filter">تصفية الخيوط</string>
-    <string name="pref_title_post_tabs">الألسنة</string>
-    <string name="pref_title_show_boosts">عرض المشاركات</string>
+    <string name="pref_title_post_tabs">الخيط الرئيس</string>
+    <string name="pref_title_show_boosts">عرض المُعاد نشرها</string>
     <string name="pref_title_show_replies">عرض الردود</string>
     <string name="pref_title_show_media_preview">إظهار معاينات الوسائط</string>
     <string name="pref_title_proxy_settings">البروكسي</string>
@@ -190,7 +190,7 @@
     <string name="pref_default_post_privacy">الخصوصية الإفتراضية للنشر</string>
     <string name="pref_default_media_sensitivity">تعيين الوسائط كمحتوى حساس دائمًا</string>
     <string name="pref_publishing">النشر</string>
-    <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الإعدادات</string>
+    <string name="pref_failed_to_sync">فَشِلَت عملية مزامنة الخيارات</string>
     <string name="post_privacy_public">للعامة</string>
     <string name="post_privacy_unlisted">غير مدرج</string>
     <string name="post_privacy_followers_only">للمُتابِعين فقط</string>
@@ -693,4 +693,7 @@
     <string name="error_media_upload_sending_fmt">فَشِلَ التحميل: %s</string>
     <string name="load_newest_notifications">تحميل الإشعارات الجديدة</string>
     <string name="compose_delete_draft">أتريد حذف المسودّة؟</string>
+    <string name="about_copied">تم نسخ معلومات الإصدار والجهاز</string>
+    <string name="list_reply_policy_none">لا أحد</string>
+    <string name="list_reply_policy_list">أعضاء القائمة</string>
 </resources>

@@ -205,7 +205,7 @@
     <string name="pref_title_bot_overlay">Birta merki á róbótum</string>
     <string name="pref_title_animate_gif_avatars">Sýna hreyfingar GIF-auðkennismynda</string>
     <string name="pref_title_post_filter">Síun tímalínu</string>
-    <string name="pref_title_post_tabs">Flipar</string>
+    <string name="pref_title_post_tabs">Heimatímalína</string>
     <string name="pref_title_show_boosts">Sýna endurbirtingar</string>
     <string name="pref_title_show_replies">Sýna svör</string>
     <string name="pref_title_show_media_preview">Sækja forskoðanir á myndefni</string>
@@ -697,4 +697,5 @@
     <string name="list_reply_policy_followed">Hvers þess sem fylgst er með</string>
     <string name="pref_title_show_self_boosts">Sýna sjálfs-endurbirtingar</string>
     <string name="pref_title_show_self_boosts_description">Einhver endurbirtir sína eigin færslu</string>
+    <string name="pref_title_per_timeline_preferences">Kjörstillingar á hverja tímalínu</string>
 </resources>
