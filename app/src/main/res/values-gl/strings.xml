@@ -286,12 +286,12 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_years_ago">%da</string>
     <string name="abbreviated_in_seconds">fai %ds</string>
     <string name="abbreviated_in_hours">fai %dh</string>
     <string name="abbreviated_in_minutes">fai %dm</string>
     <string name="abbreviated_in_days">en %dd</string>
-    <string name="abbreviated_in_years">en %dy</string>
+    <string name="abbreviated_in_years">en %da</string>
     <string name="state_follow_requested">Seguimento solicitado</string>
     <string name="post_media_attachments">Anexos</string>
     <string name="post_media_audio">Audio</string>
@@ -698,4 +698,5 @@
     <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
     <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
     <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
+    <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
 </resources>
