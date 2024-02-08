@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.util.randomAlphanumericString
 import java.io.File
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.shareIn
@@ -72,6 +73,8 @@ class EditProfileViewModel @Inject constructor(
     val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
+    val isChanged = MutableStateFlow(false)
+
     private var apiProfileAccount: Account? = null
 
     fun obtainProfile() = viewModelScope.launch {
@@ -100,6 +103,10 @@ class EditProfileViewModel @Inject constructor(
 
     fun newHeaderPicked() {
         headerData.value = getHeaderUri()
+    }
+
+    internal fun dataChanged(newProfileData: ProfileDataInUi) {
+        isChanged.value = getProfileDiff(apiProfileAccount, newProfileData).hasChanges()
     }
 
     internal fun save(newProfileData: ProfileDataInUi) {
@@ -176,12 +183,6 @@ class EditProfileViewModel @Inject constructor(
 
             profileData.value = Success(newProfile)
         }
-    }
-
-    internal fun hasUnsavedChanges(newProfileData: ProfileDataInUi): Boolean {
-        val diff = getProfileDiff(apiProfileAccount, newProfileData)
-
-        return diff.hasChanges()
     }
 
     private fun getProfileDiff(
