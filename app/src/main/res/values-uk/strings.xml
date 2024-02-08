@@ -298,66 +298,16 @@
     <string name="pref_title_alway_open_spoiler">Завжди розгортати допис, з попередженнями про вміст</string>
     <string name="follows_you">Підписники</string>
     <string name="pref_title_alway_show_sensitive_media">Завжди показувати делікатний вміст</string>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="one">%dс</item>
-        <item quantity="few">%dс</item>
-        <item quantity="many">%dс</item>
-        <item quantity="other">%dс</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_minutes_ago">
-        <item quantity="one">%dхв</item>
-        <item quantity="few">%dхв</item>
-        <item quantity="many">%dхв</item>
-        <item quantity="other">%dхв</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_hours_ago">
-        <item quantity="one">%dгод</item>
-        <item quantity="few">%dгод</item>
-        <item quantity="many">%dгод</item>
-        <item quantity="other">%dгод</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_days_ago">
-        <item quantity="one">%dдн</item>
-        <item quantity="few">%dдн</item>
-        <item quantity="many">%dдн</item>
-        <item quantity="other">%dдн</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_years_ago">
-        <item quantity="one">%dр.</item>
-        <item quantity="few">%dр.</item>
-        <item quantity="many">%dр.</item>
-        <item quantity="other">%dр.</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_in_seconds">
-        <item quantity="one">за %dс</item>
-        <item quantity="few">за %dс</item>
-        <item quantity="many">за %dс</item>
-        <item quantity="other">за %dс</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_in_minutes">
-        <item quantity="one">за %dхв</item>
-        <item quantity="few">за %dхв</item>
-        <item quantity="many">за %dхв</item>
-        <item quantity="other">за %dхв</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_in_hours">
-        <item quantity="one">за %dгод</item>
-        <item quantity="few">за %dгод</item>
-        <item quantity="many">за %dгод</item>
-        <item quantity="other">за %dгод</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_in_days">
-        <item quantity="one">за %dдн</item>
-        <item quantity="few">за %dдн</item>
-        <item quantity="many">за %dдн</item>
-        <item quantity="other">за %dдн</item>
-    </plurals>&gt;
-        <plurals name="abbreviated_in_years">
-        <item quantity="one">за %dр.</item>
-        <item quantity="few">за %dр.</item>
-        <item quantity="many">за %dр.</item>
-        <item quantity="other">за %dр.</item>
-    </plurals>&gt;
+    <string name="abbreviated_seconds_ago">%dс</string>
+    <string name="abbreviated_minutes_ago">%dхв</string>
+    <string name="abbreviated_hours_ago">%dгод</string>
+    <string name="abbreviated_days_ago">%dдн</string>
+    <string name="abbreviated_years_ago">%dр.</string>
+    <string name="abbreviated_in_seconds">за %dс</string>
+    <string name="abbreviated_in_minutes">за %dхв</string>
+    <string name="abbreviated_in_hours">за %dгод</string>
+    <string name="abbreviated_in_days">за %dдн</string>
+    <string name="abbreviated_in_years">за %dр.</string>
     <string name="state_follow_requested">Запит на підписку надіслано</string>
     <string name="post_media_attachments">Вкладення</string>
     <string name="post_media_audio">Звуки</string>
@@ -770,4 +720,5 @@
     <string name="list_reply_policy_followed">Будь-який користувач, за яким ви стежите</string>
     <string name="list_reply_policy_label">Показати відповіді на</string>
     <string name="pref_title_per_timeline_preferences">Налаштування окремих стрічок</string>
+    <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
 </resources>

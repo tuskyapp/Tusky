@@ -215,36 +215,16 @@
     <string name="pref_title_alway_open_spoiler">सर्वदा विषयसतर्कतयाऽङ्कितं दौत्यं विस्तार्यताम्</string>
     <string name="pref_title_alway_show_sensitive_media">सर्वदा संवेदनशीलविषयो दृश्यताम्</string>
     <string name="follows_you">त्वामनुसरति</string>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%ds क्ष</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm नि</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dh घ</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dy वर्ष</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd दि</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">%ds क्ष</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">%dm नि</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">%dh घ</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">%dd दि</item>
-    </plurals>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">%dy वर्ष</item>
-    </plurals>
+    <string name="abbreviated_seconds_ago">%ds क्ष</string>
+    <string name="abbreviated_minutes_ago">%dm नि</string>
+    <string name="abbreviated_hours_ago">%dh घ</string>
+    <string name="abbreviated_years_ago">%dy वर्ष</string>
+    <string name="abbreviated_days_ago">%dd दि</string>
+    <string name="abbreviated_in_seconds">%ds क्ष</string>
+    <string name="abbreviated_in_minutes">%dm नि</string>
+    <string name="abbreviated_in_hours">%dh घ</string>
+    <string name="abbreviated_in_days">%dd दि</string>
+    <string name="abbreviated_in_years">%dy वर्ष</string>
     <string name="state_follow_requested">अनुसरणं निवेदितम्</string>
     <string name="post_media_video">चलचित्राणि</string>
     <string name="post_media_images">चित्राणि</string>

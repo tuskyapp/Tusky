@@ -11,10 +11,10 @@ data class Instance(
 //    val usage: Usage,
 //    val thumbnail: Thumbnail,
 //    val languages: List<String>,
-    val configuration: Configuration,
+    val configuration: Configuration?,
 //    val registrations: Registrations,
 //    val contact: Contact,
-    val rules: List<Rule>,
+    val rules: List<Rule>?,
     val pleroma: PleromaConfiguration?
 ) {
     data class Usage(val users: Users) {

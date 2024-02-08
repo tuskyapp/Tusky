@@ -302,36 +302,16 @@
     <string name="title_media">Meadhanan</string>
     <string name="pref_title_alway_show_sensitive_media">Seall susbaint fhrionasach an-còmhnaidh</string>
     <string name="follows_you">’Gad leantainn</string>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%dd</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%du</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dl</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%db</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">an ceann %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">an ceann %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">an ceann %du</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">an ceann %dl</item>
-    </plurals>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">an ceann %db</item>
-    </plurals>
+    <string name="abbreviated_seconds_ago">%dd</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_hours_ago">%du</string>
+    <string name="abbreviated_days_ago">%dl</string>
+    <string name="abbreviated_years_ago">%db</string>
+    <string name="abbreviated_in_seconds">an ceann %dd</string>
+    <string name="abbreviated_in_minutes">an ceann %dm</string>
+    <string name="abbreviated_in_hours">an ceann %du</string>
+    <string name="abbreviated_in_days">an ceann %dl</string>
+    <string name="abbreviated_in_years">an ceann %db</string>
     <string name="state_follow_requested">Iarrtas leantainn air</string>
     <string name="post_media_video">Videothan</string>
     <string name="post_media_images">Dealbhan</string>

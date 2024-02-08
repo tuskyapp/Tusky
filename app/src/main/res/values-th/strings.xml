@@ -155,36 +155,16 @@
     <string name="pref_title_alway_open_spoiler">ขยาย Toot ที่มีเครื่องหมายเนื้อหาอ่อนไหวเสมอ</string>
     <string name="pref_title_alway_show_sensitive_media">แสดงเนื้อหาอ่อนไหวเสมอ</string>
     <string name="follows_you">กำลังติดตามคุณ</string>
-        <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%d วินาทีที่แล้ว</item>
-    </plurals>>
-        <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%d นาทีที่แล้ว</item>
-    </plurals>>
-        <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%d ชั่วโมงที่แล้ว</item>
-    </plurals>>
-        <plurals name="abbreviated_days_ago">
-        <item quantity="other">%d วันที่แล้ว</item>
-    </plurals>>
-        <plurals name="abbreviated_years_ago">
-        <item quantity="other">%d ปีที่แล้ว</item>
-    </plurals>>
-        <plurals name="abbreviated_in_seconds">
-        <item quantity="other">ใน %d วินาที</item>
-    </plurals>>
-        <plurals name="abbreviated_in_minutes">
-        <item quantity="other">ใน %d นาที</item>
-    </plurals>>
-        <plurals name="abbreviated_in_hours">
-        <item quantity="other">ใน %d ชั่วโมง</item>
-    </plurals>>
-        <plurals name="abbreviated_in_days">
-        <item quantity="other">ใน %d วัน</item>
-    </plurals>>
-        <plurals name="abbreviated_in_years">
-        <item quantity="other">ใน %d ปี</item>
-    </plurals>>
+    <string name="abbreviated_seconds_ago">%d วินาทีที่แล้ว</string>
+    <string name="abbreviated_minutes_ago">%d นาทีที่แล้ว</string>
+    <string name="abbreviated_hours_ago">%d ชั่วโมงที่แล้ว</string>
+    <string name="abbreviated_days_ago">%d วันที่แล้ว</string>
+    <string name="abbreviated_years_ago">%d ปีที่แล้ว</string>
+    <string name="abbreviated_in_seconds">ใน %d วินาที</string>
+    <string name="abbreviated_in_minutes">ใน %d นาที</string>
+    <string name="abbreviated_in_hours">ใน %d ชั่วโมง</string>
+    <string name="abbreviated_in_days">ใน %d วัน</string>
+    <string name="abbreviated_in_years">ใน %d ปี</string>
     <string name="state_follow_requested">กำลังขอติดตาม</string>
     <string name="post_media_video">วิดีทัศน์</string>
     <string name="post_media_images">ภาพ</string>

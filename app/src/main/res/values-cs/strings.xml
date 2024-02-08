@@ -248,36 +248,16 @@
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Vyžádáno sledování</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">za %d let</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">za %d d</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">za %d h</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">za %d m</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">za %d s</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%d let</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%d d</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%d h</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%d min</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%d s</item>
-    </plurals>
+    <string name="abbreviated_in_years">za %d let</string>
+    <string name="abbreviated_in_days">za %d d</string>
+    <string name="abbreviated_in_hours">za %d h</string>
+    <string name="abbreviated_in_minutes">za %d m</string>
+    <string name="abbreviated_in_seconds">za %d s</string>
+    <string name="abbreviated_years_ago">%d let</string>
+    <string name="abbreviated_days_ago">%d d</string>
+    <string name="abbreviated_hours_ago">%d h</string>
+    <string name="abbreviated_minutes_ago">%d min</string>
+    <string name="abbreviated_seconds_ago">%d s</string>
     <string name="follows_you">Sleduje vás</string>
     <string name="pref_title_alway_show_sensitive_media">Vždy zobrazovat citlivý obsah</string>
     <string name="title_media">Média</string>

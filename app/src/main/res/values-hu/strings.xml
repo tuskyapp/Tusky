@@ -291,33 +291,15 @@
     <string name="notification_poll_name">Szavazások</string>
     <string name="notification_poll_description">Értesítés befejezett szavazásokról</string>
     <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthetsz meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">%dé múlva</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">%dn múlva</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">%dó múlva</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">%dp múlva</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dé</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dn</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dó</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dp</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%dmp</item>
-    </plurals>
+    <string name="abbreviated_in_years">%dé múlva</string>
+    <string name="abbreviated_in_days">%dn múlva</string>
+    <string name="abbreviated_in_hours">%dó múlva</string>
+    <string name="abbreviated_in_minutes">%dp múlva</string>
+    <string name="abbreviated_years_ago">%dé</string>
+    <string name="abbreviated_days_ago">%dn</string>
+    <string name="abbreviated_hours_ago">%dó</string>
+    <string name="abbreviated_minutes_ago">%dp</string>
+    <string name="abbreviated_seconds_ago">%dmp</string>
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
@@ -344,9 +326,7 @@
     <string name="pref_title_app_theme">Alkalmazástéma</string>
     <string name="pref_title_bot_overlay">Bot jelölő mutatása</string>
     <string name="pref_title_animate_gif_avatars">GIF profilképek animálása</string>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">%dmp múlva</item>
-    </plurals>
+    <string name="abbreviated_in_seconds">%dmp múlva</string>
     <string name="filter_dialog_whole_word">Teljes szó</string>
     <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
     <string name="hint_search_people_list">Általad követettek keresése</string>

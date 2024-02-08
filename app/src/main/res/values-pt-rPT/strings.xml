@@ -291,56 +291,16 @@
     <string name="post_media_audio">Áudio</string>
     <string name="post_media_attachments">Anexos</string>
     <string name="state_follow_requested">Pedido para seguir enviado</string>
-    <plurals name="abbreviated_in_years">
-        <item quantity="one">em %d ano</item>
-        <item quantity="many">em %d anos</item>
-        <item quantity="other">em %d anos</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="one">em %d dia</item>
-        <item quantity="many">em %d dias</item>
-        <item quantity="other">em %d dias</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="one">em %d hora</item>
-        <item quantity="many">em %d horas</item>
-        <item quantity="other">em %d horas</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="one">em %d mês</item>
-        <item quantity="many">em %d meses</item>
-        <item quantity="other">em %d meses</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="one">em %d segundo</item>
-        <item quantity="many">em %d segundos</item>
-        <item quantity="other">em %d segundos</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="one">%d ano</item>
-        <item quantity="many">%d anos</item>
-        <item quantity="other">%d anos</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="one">%d dia</item>
-        <item quantity="many">%d dias</item>
-        <item quantity="other">%d dias</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="one">%d hora</item>
-        <item quantity="many">%d horas</item>
-        <item quantity="other">%d horas</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="one">%d mês</item>
-        <item quantity="many">%d meses</item>
-        <item quantity="other">%d meses</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="one">%d segundo</item>
-        <item quantity="many">%d segundos</item>
-        <item quantity="other">%d segundos</item>
-    </plurals>
+    <string name="abbreviated_in_years">em %dy</string>
+    <string name="abbreviated_in_days">em %dd</string>
+    <string name="abbreviated_in_hours">em %dh</string>
+    <string name="abbreviated_in_minutes">em %dm</string>
+    <string name="abbreviated_in_seconds">em %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
     <string name="follows_you">Segue-te</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar sempre conteúdo multimédia sensível</string>
     <string name="pref_title_alway_open_spoiler">Expandir sempre toots com Aviso de Conteúdo</string>
