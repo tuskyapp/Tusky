@@ -456,7 +456,7 @@ public class NotificationHelper {
 
         Intent composeIntent = MainActivity.composeIntent(context, composeOptions, account.getId(), body.getId(), (int)account.getId());
 
-        composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         return PendingIntent.getActivity(context.getApplicationContext(),
                 notificationId,
