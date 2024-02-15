@@ -42,7 +42,7 @@ android {
     }
     buildTypes {
         debug {
-            getIsDefault().set(true)
+            isDefault true
         }
         release {
             minifyEnabled true
@@ -58,7 +58,7 @@ android {
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
-            getIsDefault().set(true)
+            isDefault true
         }
     }
 
