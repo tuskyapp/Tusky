@@ -846,8 +846,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
                 else -> getString(tabs[position].text)
             }
             if (tabs[position].id == DIRECT) {
-                tab.orCreateBadge
-                tab.badge?.isVisible = accountManager.activeAccount?.hasDirectMessageBadge ?: false
+                val badge = tab.orCreateBadge
+                badge.isVisible = accountManager.activeAccount?.hasDirectMessageBadge ?: false
+                badge.backgroundColor = MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary)
                 directMessageTab = tab
             }
         }.also { it.attach() }
