@@ -174,7 +174,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     }
 
     public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
-        // the new transition api needs to be called by the activity the is the result of the transition
+        // the new transition api needs to be called by the activity that is the result of the transition
         intent.putExtra(OPEN_WITH_SLIDE_IN, true);
         super.startActivity(intent);
 
