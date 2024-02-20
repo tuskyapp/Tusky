@@ -456,6 +456,7 @@ public class NotificationHelper {
 
         Intent composeIntent = MainActivity.composeIntent(context, composeOptions, account.getId(), body.getId(), (int)account.getId());
 
+        // make sure a new instance of MainActivity is started and old ones get destroyed
         composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         return PendingIntent.getActivity(context.getApplicationContext(),
