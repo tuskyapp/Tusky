@@ -45,7 +45,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         AndroidInjection.inject(this, context)
 
         if (intent.action == NotificationHelper.REPLY_ACTION) {
-            val notificationId = intent.getStringExtra(NotificationHelper.KEY_NOTIFICATION_ID)
+            val serverNotificationId = intent.getStringExtra(NotificationHelper.KEY_SERVER_NOTIFICATION_ID)
             val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
             val senderIdentifier = intent.getStringExtra(
                 NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER
@@ -85,7 +85,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .setCategory(NotificationCompat.CATEGORY_SOCIAL)
                     .build()
 
-                notificationManager.notify(notificationId, senderId.toInt(), notification)
+                notificationManager.notify(serverNotificationId, senderId.toInt(), notification)
             } else {
                 val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
 
@@ -131,7 +131,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     .setTimeoutAfter(5000)
                     .build()
 
-                notificationManager.notify(notificationId, senderId.toInt(), notification)
+                notificationManager.notify(serverNotificationId, senderId.toInt(), notification)
             }
         }
     }
