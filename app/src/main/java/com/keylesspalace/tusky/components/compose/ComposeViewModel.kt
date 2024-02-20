@@ -241,12 +241,12 @@ class ComposeViewModel @Inject constructor(
         this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
-    fun contentUpdated(newContent: String?) {
+    fun updateContent(newContent: String?) {
         currentContent = newContent
         updateCloseConfirmation()
     }
 
-    fun contentWarningUpdated(newContentWarning: String?) {
+    fun updateContentWarning(newContentWarning: String?) {
         currentContentWarning = newContentWarning
         updateCloseConfirmation()
     }

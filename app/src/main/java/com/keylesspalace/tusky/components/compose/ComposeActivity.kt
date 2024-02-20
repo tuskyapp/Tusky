@@ -446,7 +446,7 @@ class ComposeActivity :
         }
         binding.composeContentWarningField.doOnTextChanged { newContentWarning, _, _, _ ->
             updateVisibleCharactersLeft()
-            viewModel.contentWarningUpdated(newContentWarning?.toString())
+            viewModel.updateContentWarning(newContentWarning?.toString())
         }
     }
 
@@ -478,7 +478,7 @@ class ComposeActivity :
         binding.composeEditField.doAfterTextChanged { editable ->
             highlightSpans(editable!!, mentionColour)
             updateVisibleCharactersLeft()
-            viewModel.contentUpdated(editable.toString())
+            viewModel.updateContent(editable.toString())
         }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
