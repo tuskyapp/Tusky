@@ -227,7 +227,7 @@
     <string name="confirmation_domain_unmuted">%s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
-    <string name="reply_sending">Sending...</string>
+    <string name="reply_sending">Sending…</string>
     <string name="reply_sending_long">Your reply is being sent.</string>
 
     <string name="hint_domain">Which instance?</string>
