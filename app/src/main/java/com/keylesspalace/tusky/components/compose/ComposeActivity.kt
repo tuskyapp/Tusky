@@ -572,8 +572,8 @@ class ComposeActivity :
         }
 
         lifecycleScope.launch {
-            viewModel.closeConfirmation.collect { confirmation ->
-                updateOnBackPressedCallbackState(confirmation)
+            viewModel.closeConfirmation.collect {
+                updateOnBackPressedCallbackState()
             }
         }
     }
@@ -588,7 +588,7 @@ class ComposeActivity :
 
         val bottomSheetCallback = object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                updateOnBackPressedCallbackState(viewModel.closeConfirmation.value)
+                updateOnBackPressedCallbackState()
             }
             override fun onSlide(bottomSheet: View, slideOffset: Float) { }
         }
@@ -711,7 +711,8 @@ class ComposeActivity :
         )
     }
 
-    private fun updateOnBackPressedCallbackState(confirmation: ConfirmationKind) {
+    private fun updateOnBackPressedCallbackState() {
+        val confirmation = viewModel.closeConfirmation.value
         onBackPressedCallback.isEnabled = confirmation != ConfirmationKind.NONE ||
             composeOptionsBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
             addMediaBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
