@@ -50,6 +50,7 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -61,8 +62,10 @@ import javax.inject.Inject;
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+
+    public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
+
     private static final String TAG = "BaseActivity";
-    private static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
 
     @Inject
     @NonNull
@@ -173,17 +176,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
-        // the new transition api needs to be called by the activity that is the result of the transition
-        intent.putExtra(OPEN_WITH_SLIDE_IN, true);
-        super.startActivity(intent);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            // the old api needs to be called by the activity that starts the transition
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -207,7 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivityWithSlideInAnimation(intent);
+            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
             finish();
         }
     }

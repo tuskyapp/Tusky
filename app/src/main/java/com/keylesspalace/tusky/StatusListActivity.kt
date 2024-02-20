@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.isHttpNotFound
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

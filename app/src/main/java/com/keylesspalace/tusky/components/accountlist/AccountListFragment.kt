@@ -31,7 +31,6 @@ import at.connyduck.calladapter.networkresult.fold
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
 import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.PostLookupFallbackBehavior
 import com.keylesspalace.tusky.R
@@ -56,6 +55,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -144,17 +144,13 @@ class AccountListFragment :
     }
 
     override fun onViewTag(tag: String) {
-        (activity as BaseActivity?)
-            ?.startActivityWithSlideInAnimation(
-                StatusListActivity.newHashtagIntent(requireContext(), tag)
-            )
+        activity?.startActivityWithSlideInAnimation(
+            StatusListActivity.newHashtagIntent(requireContext(), tag)
+        )
     }
 
     override fun onViewAccount(id: String) {
-        (activity as BaseActivity?)?.let {
-            val intent = AccountActivity.getIntent(it, id)
-            it.startActivityWithSlideInAnimation(intent)
-        }
+        activity?.startActivityWithSlideInAnimation(AccountActivity.getIntent(requireContext(), id))
     }
 
     override fun onViewUrl(url: String) {

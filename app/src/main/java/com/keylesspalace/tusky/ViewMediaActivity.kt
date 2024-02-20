@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import dagger.android.DispatchingAndroidInjector
