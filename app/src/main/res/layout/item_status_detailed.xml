@@ -286,7 +286,7 @@
     <View
         android:id="@+id/status_info_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_below="@id/status_meta_info"
         android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
