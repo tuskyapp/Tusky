@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Digwyddodd gwall.</string>
-    <string name="error_empty">Ni all hwn fod yn wag.</string>
+    <string name="error_empty">Gall hwn ddim fod yn wag.</string>
     <string name="error_invalid_domain">Wedi cynnig parth annilys</string>
     <string name="error_failed_app_registration">Wedi methu ag awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os wyt ti\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_retrieving_oauth_token">Wedi methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'r neges yn rhy hir!</string>
-    <string name="error_media_upload_type">Ni alli di lanlwytho\'r math hwnnw o ffeil.</string>
+    <string name="error_media_upload_type">Nid oes modd llwytho\'r math yma o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
     <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
@@ -332,7 +332,7 @@
     <string name="filter_dialog_update_button">Diweddaru</string>
     <string name="pref_title_notification_filter_updates">golygwyd neges rwyt ti wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
-    <string name="filter_apply">Hidlo</string>
+    <string name="filter_apply">Gosod</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
     <string name="notifications_clear">Dileu</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
