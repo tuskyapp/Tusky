@@ -50,6 +50,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class ComposeViewModel @Inject constructor(
@@ -412,9 +413,9 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
-        when (token[0]) {
-            '@' -> {
-                return api.searchAccountsSync(query = token.substring(1), limit = 10)
+        return when (token[0]) {
+            '@' -> runBlocking {
+                api.searchAccounts(query = token.substring(1), limit = 10)
                     .fold({ accounts ->
                         accounts.map { AutocompleteResult.AccountResult(it) }
                     }, { e ->
@@ -422,8 +423,8 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
-            '#' -> {
-                return api.searchSync(
+            '#' -> runBlocking {
+                api.search(
                     query = token,
                     type = SearchType.Hashtag.apiParameter,
                     limit = 10
@@ -439,7 +440,7 @@ class ComposeViewModel @Inject constructor(
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
 
-                return emojiList.filter { emoji ->
+                emojiList.filter { emoji ->
                     emoji.shortcode.contains(incomplete, ignoreCase = true)
                 }.sortedBy { emoji ->
                     emoji.shortcode.indexOf(incomplete, ignoreCase = true)
@@ -449,7 +450,7 @@ class ComposeViewModel @Inject constructor(
             }
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
-                return emptyList()
+                emptyList()
             }
         }
     }

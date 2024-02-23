@@ -353,14 +353,6 @@ interface MastodonApi {
         @Query("following") following: Boolean? = null
     ): NetworkResult<List<TimelineAccount>>
 
-    @GET("api/v1/accounts/search")
-    fun searchAccountsSync(
-        @Query("q") query: String,
-        @Query("resolve") resolve: Boolean? = null,
-        @Query("limit") limit: Int? = null,
-        @Query("following") following: Boolean? = null
-    ): NetworkResult<List<TimelineAccount>>
-
     @GET("api/v1/accounts/{id}")
     suspend fun account(@Path("id") accountId: String): NetworkResult<Account>
 
@@ -688,17 +680,7 @@ interface MastodonApi {
     fun statusObservable(@Path("id") statusId: String): Single<Status>
 
     @GET("api/v2/search")
-    fun searchObservable(
-        @Query("q") query: String?,
-        @Query("type") type: String? = null,
-        @Query("resolve") resolve: Boolean? = null,
-        @Query("limit") limit: Int? = null,
-        @Query("offset") offset: Int? = null,
-        @Query("following") following: Boolean? = null
-    ): Single<SearchResult>
-
-    @GET("api/v2/search")
-    fun searchSync(
+    suspend fun search(
         @Query("q") query: String?,
         @Query("type") type: String? = null,
         @Query("resolve") resolve: Boolean? = null,
