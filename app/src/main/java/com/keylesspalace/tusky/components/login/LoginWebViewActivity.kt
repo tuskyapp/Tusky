@@ -227,14 +227,10 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         super.onDestroy()
     }
 
-    override fun finish() {
-        super.finishWithoutSlideOutAnimation()
-    }
-
     override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
         setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
-        finishWithoutSlideOutAnimation()
+        finish()
     }
 }

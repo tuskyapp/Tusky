@@ -39,7 +39,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
@@ -66,6 +65,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -463,13 +463,13 @@ class TimelineFragment :
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+        activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+        activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {

@@ -46,6 +46,7 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable

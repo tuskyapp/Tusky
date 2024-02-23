@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Digwyddodd gwall.</string>
-    <string name="error_empty">Ni all hwn fod yn wag.</string>
+    <string name="error_empty">Gall hwn ddim fod yn wag.</string>
     <string name="error_invalid_domain">Wedi cynnig parth annilys</string>
     <string name="error_failed_app_registration">Wedi methu ag awdurdodi gyda\'r gweinydd hwnnw. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_no_web_browser_found">Methu dod o hyd i borwr gwe i\'w ddefnyddio.</string>
@@ -9,7 +9,7 @@
     <string name="error_authorization_denied">Gwrthodwyd awdurdodi. Os wyt ti\'n siŵr dy fod di wedi gyflenwi\'r manylion cywir, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_retrieving_oauth_token">Wedi methu cael tocyn mewngofnodi. Os bydd hyn yn parhau, ceisia Mewngofnodi yn y Porwr o\'r ddewislen.</string>
     <string name="error_compose_character_limit">Mae\'r neges yn rhy hir!</string>
-    <string name="error_media_upload_type">Ni alli di lanlwytho\'r math hwnnw o ffeil.</string>
+    <string name="error_media_upload_type">Nid oes modd llwytho\'r math yma o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
     <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
     <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
@@ -213,46 +213,16 @@
     <string name="post_media_video">Fideo</string>
     <string name="state_follow_requested">Ceisiwyd</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">ymhen %dy</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">ymhen %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">ymhen %dh</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="zero">ymhen %dm</item>
-        <item quantity="one">ymhen %df</item>
-        <item quantity="two">ymhen %df</item>
-        <item quantity="few">ymhen %dm</item>
-        <item quantity="many">ymhen %dm</item>
-        <item quantity="other">ymhen %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="zero">ymhen %de</item>
-        <item quantity="one">ymhen %de</item>
-        <item quantity="two">ymhen %de</item>
-        <item quantity="few">ymhen %de</item>
-        <item quantity="many">ymhen %de</item>
-        <item quantity="other">ymhen %de</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%db yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%da yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm yn ôl</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%de yn ôl</item>
-    </plurals>
+    <string name="abbreviated_in_years">ymhen %db</string>
+    <string name="abbreviated_in_days">ymhen %dd</string>
+    <string name="abbreviated_in_hours">ymhen %da</string>
+    <string name="abbreviated_in_minutes">ymhen %dm</string>
+    <string name="abbreviated_in_seconds">ymhen %de</string>
+    <string name="abbreviated_years_ago">%db yn ôl</string>
+    <string name="abbreviated_days_ago">%dd yn ôl</string>
+    <string name="abbreviated_hours_ago">%da yn ôl</string>
+    <string name="abbreviated_minutes_ago">%dm yn ôl</string>
+    <string name="abbreviated_seconds_ago">%de yn ôl</string>
     <string name="follows_you">Yn eich dilyn chi</string>
     <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
     <string name="title_media">Cyfryngau</string>
@@ -362,7 +332,7 @@
     <string name="filter_dialog_update_button">Diweddaru</string>
     <string name="pref_title_notification_filter_updates">golygwyd neges rwyt ti wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %s ei neges</string>
-    <string name="filter_apply">Hidlo</string>
+    <string name="filter_apply">Gosod</string>
     <string name="pref_title_notification_filter_follow_requests">dilyn y ceisiwyd amdani/o</string>
     <string name="notifications_clear">Dileu</string>
     <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
@@ -779,4 +749,5 @@
     <string name="pref_title_show_self_boosts">Dangos hunan-hybiau</string>
     <string name="pref_title_show_self_boosts_description">Rhywun yn hybu ei neges ei hunan</string>
     <string name="pref_title_per_timeline_preferences">Dewisiadau i bob ffrwd</string>
+    <string name="pref_title_show_notifications_filter">Dangos hidlydd Hysbysiadau</string>
 </resources>

@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.looksLikeMastodonUrl
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 

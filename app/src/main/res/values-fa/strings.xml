@@ -212,21 +212,11 @@
     <string name="post_media_video">ویدیو</string>
     <string name="state_follow_requested">تقاضای پیگیری شد</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">در %d سال</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">در %d روز</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">در %d ساعت</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">در %d دقیقه</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">در %d ثانیه</item>
-    </plurals>
+    <string name="abbreviated_in_years">در %d سال</string>
+    <string name="abbreviated_in_days">در %d روز</string>
+    <string name="abbreviated_in_hours">در %d ساعت</string>
+    <string name="abbreviated_in_minutes">در %d دقیقه</string>
+    <string name="abbreviated_in_seconds">در %d ثانیه</string>
     <string name="follows_you">پیگیرتان است</string>
     <string name="pref_title_alway_show_sensitive_media">نمایش همیشگی محتوای حساس</string>
     <string name="title_media">رسانه</string>
@@ -321,21 +311,11 @@
     <string name="notification_poll_name">نظرسنجی‌ها</string>
     <string name="notification_poll_description">آگاهی‌ها دربارهٔ نظرسنجی‌های پایان‌یافته</string>
     <string name="about_tusky_version">تاسکی %s</string>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%d سال</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%d روز</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%d ساعت</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%d دقیقه</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%d ثانیه</item>
-    </plurals>
+    <string name="abbreviated_years_ago">%d سال</string>
+    <string name="abbreviated_days_ago">%d روز</string>
+    <string name="abbreviated_hours_ago">%d ساعت</string>
+    <string name="abbreviated_minutes_ago">%d دقیقه</string>
+    <string name="abbreviated_seconds_ago">%d ثانیه</string>
     <string name="pref_title_alway_open_spoiler">گسترش همیشگی فرسته‌های علامت‌خورده با هشدار محتوا</string>
     <string name="pref_title_public_filter_keywords">خط زمانی‌های عمومی</string>
     <string name="pref_title_thread_filter_keywords">گفت‌وگوها</string>

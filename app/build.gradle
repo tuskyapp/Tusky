@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
 }
 
@@ -21,13 +22,13 @@ final def CUSTOM_INSTANCE = ""
 final def SUPPORT_ACCOUNT_URL = "https://mastodon.social/@Tusky"
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace "com.keylesspalace.tusky"
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 117
         versionName "24.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,6 +41,9 @@ android {
         buildConfigField("String", "SUPPORT_ACCOUNT_URL", "\"$SUPPORT_ACCOUNT_URL\"")
     }
     buildTypes {
+        debug {
+            isDefault true
+        }
         release {
             minifyEnabled true
             shrinkResources true
@@ -54,6 +58,7 @@ android {
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
+            isDefault true
         }
     }
 
@@ -146,7 +151,7 @@ dependencies {
     implementation libs.bundles.autodispose
 
     implementation libs.bundles.dagger
-    ksp libs.bundles.dagger.processors
+    kapt libs.bundles.dagger.processors
 
     implementation libs.sparkbutton
 

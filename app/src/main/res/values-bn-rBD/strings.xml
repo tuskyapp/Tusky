@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="conversation_1_recipients">%1$s</string>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%dসে</item>
-    </plurals>
+    <string name="abbreviated_seconds_ago">%dসে</string>
     <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="description_visibility_direct">সরাসরি</string>
     <string name="description_visibility_private">অনুগামিবৃন্দ</string>
@@ -87,21 +85,11 @@
     <string name="title_media">মিডিয়া</string>
     <string name="pref_title_alway_show_sensitive_media">সর্বদা সংবেদনশীল কন্টেন্ট প্রদর্শন করুন</string>
     <string name="follows_you">আপনাকে অনুসরন করে</string>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">\'%ds এ\'</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">\'%dm এ\'</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">\'%dh এ\'</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">\'%dd এ\'</item>
-    </plurals>
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">\'%dy এ\'</item>
-    </plurals>
+    <string name="abbreviated_in_seconds">\'%ds এ\'</string>
+    <string name="abbreviated_in_minutes">\'%dm এ\'</string>
+    <string name="abbreviated_in_hours">\'%dh এ\'</string>
+    <string name="abbreviated_in_days">\'%dd এ\'</string>
+    <string name="abbreviated_in_years">\'%dy এ\'</string>
     <string name="state_follow_requested">অনুরোধ অনুসরণ করুন</string>
     <string name="post_media_video">ভিডিও</string>
     <string name="post_media_images">চিত্রগুলি</string>
@@ -310,18 +298,10 @@
     <string name="title_follow_requests">অনুরোধ অনুসরণ করুন</string>
     <string name="title_blocks">অবরুদ্ধ ব্যবহারকারী</string>
     <string name="title_mutes">শব্দ বন্ধ ব্যবহারকারী</string>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dদি</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dমা</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dঘ</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dব</item>
-    </plurals>
+    <string name="abbreviated_days_ago">%dদি</string>
+    <string name="abbreviated_minutes_ago">%dমা</string>
+    <string name="abbreviated_hours_ago">%dঘ</string>
+    <string name="abbreviated_years_ago">%dব</string>
     <string name="post_boosted_format">%s বুস্টকৃত</string>
     <string name="post_username_format">\@%s</string>
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>

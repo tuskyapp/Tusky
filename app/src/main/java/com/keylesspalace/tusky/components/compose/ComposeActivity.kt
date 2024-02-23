@@ -70,6 +70,7 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -213,6 +214,24 @@ class ComposeActivity :
             displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+            ) {
+                composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                return
+            }
+
+            handleCloseButton()
+        }
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -425,7 +444,10 @@ class ComposeActivity :
         if (startingContentWarning != null) {
             binding.composeContentWarningField.setText(startingContentWarning)
         }
-        binding.composeContentWarningField.doOnTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
+        binding.composeContentWarningField.doOnTextChanged { newContentWarning, _, _, _ ->
+            updateVisibleCharactersLeft()
+            viewModel.updateContentWarning(newContentWarning?.toString())
+        }
     }
 
     private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
@@ -456,6 +478,7 @@ class ComposeActivity :
         binding.composeEditField.doAfterTextChanged { editable ->
             highlightSpans(editable!!, mentionColour)
             updateVisibleCharactersLeft()
+            viewModel.updateContent(editable.toString())
         }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
@@ -547,6 +570,12 @@ class ComposeActivity :
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.closeConfirmation.collect {
+                updateOnBackPressedCallbackState()
+            }
+        }
     }
 
     private fun setupButtons() {
@@ -556,6 +585,17 @@ class ComposeActivity :
         addMediaBehavior = BottomSheetBehavior.from(binding.addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(binding.composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(binding.emojiView)
+
+        val bottomSheetCallback = object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                updateOnBackPressedCallbackState()
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) { }
+        }
+        composeOptionsBehavior.addBottomSheetCallback(bottomSheetCallback)
+        addMediaBehavior.addBottomSheetCallback(bottomSheetCallback)
+        scheduleBehavior.addBottomSheetCallback(bottomSheetCallback)
+        emojiBehavior.addBottomSheetCallback(bottomSheetCallback)
 
         enableButton(binding.composeEmojiButton, clickable = false, colorActive = false)
 
@@ -618,26 +658,7 @@ class ComposeActivity :
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
 
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
-                    ) {
-                        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        return
-                    }
-
-                    handleCloseButton()
-                }
-            }
-        )
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun setupLanguageSpinner(initialLanguages: List<String>) {
@@ -688,6 +709,15 @@ class ComposeActivity :
             R.string.compose_active_account_description,
             activeAccount.fullName
         )
+    }
+
+    private fun updateOnBackPressedCallbackState() {
+        val confirmation = viewModel.closeConfirmation.value
+        onBackPressedCallback.isEnabled = confirmation != ConfirmationKind.NONE ||
+            composeOptionsBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            addMediaBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            emojiBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            scheduleBehavior.state != BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun replaceTextAtCaret(text: CharSequence) {
@@ -1004,7 +1034,7 @@ class ComposeActivity :
     }
 
     private fun removePoll() {
-        viewModel.poll.value = null
+        viewModel.updatePoll(null)
         binding.pollPreview.hide()
     }
 
@@ -1219,7 +1249,7 @@ class ComposeActivity :
     }
 
     private fun pickMedia(uri: Uri, description: String? = null) {
-        var sanitizedDescription = sanitizePickMediaDescription(description)
+        val sanitizedDescription = sanitizePickMediaDescription(description)
 
         lifecycleScope.launch {
             viewModel.pickMedia(uri, sanitizedDescription).onFailure { throwable ->
@@ -1292,10 +1322,10 @@ class ComposeActivity :
     private fun handleCloseButton() {
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
-        when (viewModel.handleCloseButton(contentText, contentWarning)) {
+        when (viewModel.closeConfirmation.value) {
             ConfirmationKind.NONE -> {
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
             ConfirmationKind.SAVE_OR_DISCARD ->
                 getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
@@ -1355,7 +1385,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
     }
 
@@ -1371,7 +1401,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
     }
 
@@ -1385,7 +1415,7 @@ class ComposeActivity :
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteDraft()
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
             .setNegativeButton(R.string.action_continue_edit) { _, _ ->
                 // Do nothing, dialog will dismiss, user can continue editing
@@ -1394,7 +1424,7 @@ class ComposeActivity :
 
     private fun deleteDraftAndFinish() {
         viewModel.deleteDraft()
-        finishWithoutSlideOutAnimation()
+        finish()
     }
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
@@ -1412,7 +1442,7 @@ class ComposeActivity :
             }
             viewModel.saveDraft(contentText, contentWarning)
             dialog?.cancel()
-            finishWithoutSlideOutAnimation()
+            finish()
         }
     }
 

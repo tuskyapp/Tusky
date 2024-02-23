@@ -227,8 +227,8 @@
     <string name="confirmation_domain_unmuted">%s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
-    <string name="post_sent">Sent!</string>
-    <string name="post_sent_long">Reply sent successfully.</string>
+    <string name="reply_sending">Sending…</string>
+    <string name="reply_sending_long">Your reply is being sent.</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
@@ -431,36 +431,16 @@
     <string name="state_follow_requested">Follow requested</string>
 
     <!--These are for timestamps on posts. For example: "16s" or "2d"-->
-    <plurals name="abbreviated_in_years">
-        <item quantity="other">in %dy</item>
-    </plurals>
-    <plurals name="abbreviated_in_days">
-        <item quantity="other">in %dd</item>
-    </plurals>
-    <plurals name="abbreviated_in_hours">
-        <item quantity="other">in %dh</item>
-    </plurals>
-    <plurals name="abbreviated_in_minutes">
-        <item quantity="other">in %dm</item>
-    </plurals>
-    <plurals name="abbreviated_in_seconds">
-        <item quantity="other">in %ds</item>
-    </plurals>
-    <plurals name="abbreviated_years_ago">
-        <item quantity="other">%dy</item>
-    </plurals>
-    <plurals name="abbreviated_days_ago">
-        <item quantity="other">%dd</item>
-    </plurals>
-    <plurals name="abbreviated_hours_ago">
-        <item quantity="other">%dh</item>
-    </plurals>
-    <plurals name="abbreviated_minutes_ago">
-        <item quantity="other">%dm</item>
-    </plurals>
-    <plurals name="abbreviated_seconds_ago">
-        <item quantity="other">%ds</item>
-    </plurals>
+    <string name="abbreviated_in_years">in %dy</string>
+    <string name="abbreviated_in_days">in %dd</string>
+    <string name="abbreviated_in_hours">in %dh</string>
+    <string name="abbreviated_in_minutes">in %dm</string>
+    <string name="abbreviated_in_seconds">in %ds</string>
+    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_days_ago">%dd</string>
+    <string name="abbreviated_hours_ago">%dh</string>
+    <string name="abbreviated_minutes_ago">%dm</string>
+    <string name="abbreviated_seconds_ago">%ds</string>
 
     <string name="follows_you">Follows you</string>
     <string name="pref_title_alway_show_sensitive_media">Always show sensitive content</string>
@@ -566,11 +546,13 @@
     <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
+        <item quantity="zero"><b>%1$s</b> Favorites</item>
         <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
         <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> Boosts</item>
         <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
@@ -731,6 +713,7 @@
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
+    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_confirm_reblogs">Show confirmation before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation before favoriting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>
