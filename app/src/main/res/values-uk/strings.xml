@@ -42,7 +42,6 @@
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
     <string name="hint_compose">Що відбувається\?</string>
-    <string name="post_sent">Надіслано!</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %s</string>
@@ -430,7 +429,6 @@
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
     <string name="hint_display_name">Показуване ім\'я</string>
-    <string name="post_sent_long">Відповідь надіслано.</string>
     <string name="confirmation_domain_unmuted">%s показано</string>
     <string name="confirmation_unmuted">Приховування користувача скасовано</string>
     <string name="confirmation_unblocked">Користувача розблоковано</string>

@@ -114,8 +114,6 @@
     <string name="hint_search">Sykje…</string>
     <string name="hint_content_warning">Ynhâld warskôging</string>
     <string name="hint_compose">Wat bard der\?</string>
-    <string name="post_sent_long">Reaksje mei sukses ferstjoerd.</string>
-    <string name="post_sent">Ferstjoerd!</string>
     <string name="confirmation_domain_unmuted">%s net mear ferburgen</string>
     <string name="confirmation_unmuted">Brûker net mear negearre</string>
     <string name="confirmation_unblocked">Brûker net mear blokkearre</string>

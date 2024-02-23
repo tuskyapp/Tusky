@@ -282,8 +282,6 @@
     <string name="hint_content_warning">คำเตือนเนื้อหา</string>
     <string name="hint_compose">เกิดอะไรขึ้นเอย\?</string>
     <string name="hint_domain">Instance ไหน\?</string>
-    <string name="post_sent_long">ตอบกลับสำเร็จ</string>
-    <string name="post_sent">ส่งแล้ว!</string>
     <string name="confirmation_domain_unmuted">เลิกซ่อน %s แล้ว</string>
     <string name="confirmation_unblocked">เลิกบล็อกผู้ใช้แล้ว</string>
     <string name="confirmation_unmuted">เลิกปิดเสียงผู้ใช้นี้แล้ว</string>

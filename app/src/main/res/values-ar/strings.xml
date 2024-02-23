@@ -122,8 +122,6 @@
     <string name="confirmation_reported">تم إرساله!</string>
     <string name="confirmation_unblocked">تم فك الحجب عن الحساب</string>
     <string name="confirmation_unmuted">لم يعد الحساب مكتومًا</string>
-    <string name="post_sent">تم إرساله!</string>
-    <string name="post_sent_long">تم إرسال الرد بنجاح.</string>
     <string name="hint_domain">أي مثيل خادم؟</string>
     <string name="hint_compose">ما الجديد؟</string>
     <string name="hint_content_warning">تحذير عن المحتوى</string>

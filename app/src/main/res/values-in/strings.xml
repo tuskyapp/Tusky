@@ -86,8 +86,6 @@
     <string name="download_media">Unduh media</string>
     <string name="downloading_media">Mengunduh media</string>
     <string name="confirmation_reported">Terkirim!</string>
-    <string name="post_sent">Terkirim!</string>
-    <string name="post_sent_long">Balasan berhasil dikirim.</string>
     <string name="hint_compose">Apa yang terjadi\?</string>
     <string name="hint_search">Cari…</string>
     <string name="login_connection">Menghubungkan…</string>

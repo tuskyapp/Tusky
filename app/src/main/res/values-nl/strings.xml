@@ -124,8 +124,6 @@
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet langer genegeerd</string>
-    <string name="post_sent">Verzonden!</string>
-    <string name="post_sent_long">Reactie succesvol verzonden.</string>
     <string name="hint_domain">Welke Mastodonserver?</string>
     <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Tekstwaarschuwing</string>

@@ -102,8 +102,6 @@
     <string name="confirmation_reported">Enviat !</string>
     <string name="confirmation_unblocked">Utilizaire desblocat</string>
     <string name="confirmation_unmuted">Utilizaire sortit del silenci</string>
-    <string name="post_sent">Enviat !</string>
-    <string name="post_sent_long">Responsa ben enviada.</string>
     <string name="hint_domain">Quina instància ?</string>
     <string name="hint_compose">A de qué pensatz ?</string>
     <string name="hint_content_warning">Avís de contengut</string>

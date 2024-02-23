@@ -118,8 +118,6 @@
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
-    <string name="post_sent">Elküldve!</string>
-    <string name="post_sent_long">Válasz sikeresen elküldve.</string>
     <string name="hint_domain">Melyik példány\?</string>
     <string name="hint_compose">Mi jár a fejedben\?</string>
     <string name="hint_content_warning">Tartalom figyelmeztetés</string>

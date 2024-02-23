@@ -2,8 +2,6 @@
 <resources>
     <string name="hint_compose">چی خەریکه ڕوودەدات؟</string>
     <string name="hint_domain">کام نموونە؟</string>
-    <string name="post_sent_long">وەڵام دانەوە کە بە سەرکەوتوویی نێردرا.</string>
-    <string name="post_sent">ناردن!</string>
     <string name="confirmation_domain_unmuted">%s نەشاراوە</string>
     <string name="confirmation_unmuted">بەکارهێنەر نەگۆڕاو</string>
     <string name="confirmation_unblocked">بەکارهێنەر بەربەست نەکراوە</string>

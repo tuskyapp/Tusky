@@ -130,8 +130,6 @@
     <string name="confirmation_unblocked">차단이 해제됨</string>
     <string name="confirmation_unmuted">뮤트가 해제됨</string>
     <string name="confirmation_domain_unmuted">%s 숨김 해제됨</string>
-    <string name="post_sent">보냈습니다!</string>
-    <string name="post_sent_long">답장을 보냈습니다.</string>
     <string name="hint_domain">인스턴스 주소</string>
     <string name="hint_compose">지금 무엇을 하고 있나요\?</string>
     <string name="hint_content_warning">열람 주의</string>
