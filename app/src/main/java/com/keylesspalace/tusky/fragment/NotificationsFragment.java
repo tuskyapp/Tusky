@@ -86,6 +86,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.Single;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -109,12 +110,13 @@ import javax.inject.Inject;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
+import kotlinx.coroutines.Job;
+import kotlinx.coroutines.JobKt;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -663,6 +665,8 @@ public class NotificationsFragment extends SFragment implements
 
     private void resetNotificationsLoad() {
         disposables.clear();
+        Job job = JobKt.Job(null);
+        job.cancel(null);
         bottomLoading = false;
         topLoading = false;
 
@@ -797,15 +801,14 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRespondToFollowRequest(boolean accept, String id, int position) {
-        Single<Relationship> request = accept ?
-                mastodonApi.authorizeFollowRequest(id) :
-                mastodonApi.rejectFollowRequest(id);
-        request.observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        (relationship) -> fullyRefreshWithProgressBar(true),
-                        (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
-                );
+        final Single<Relationship> request = accept ?
+            timelineCases.acceptFollowRequestOld(id) :
+            timelineCases.rejectFollowRequestOld(id);
+        request.subscribe(
+            getViewLifecycleOwner(),
+            (relationship) -> fullyRefreshWithProgressBar(true),
+            (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
+        );
     }
 
     @Override

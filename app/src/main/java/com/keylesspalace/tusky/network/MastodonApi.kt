@@ -467,10 +467,10 @@ interface MastodonApi {
     suspend fun followRequests(@Query("max_id") maxId: String?): Response<List<TimelineAccount>>
 
     @POST("api/v1/follow_requests/{id}/authorize")
-    fun authorizeFollowRequest(@Path("id") accountId: String): Single<Relationship>
+    suspend fun authorizeFollowRequest(@Path("id") accountId: String): NetworkResult<Relationship>
 
     @POST("api/v1/follow_requests/{id}/reject")
-    fun rejectFollowRequest(@Path("id") accountId: String): Single<Relationship>
+    suspend fun rejectFollowRequest(@Path("id") accountId: String): NetworkResult<Relationship>
 
     @FormUrlEncoded
     @POST("api/v1/apps")

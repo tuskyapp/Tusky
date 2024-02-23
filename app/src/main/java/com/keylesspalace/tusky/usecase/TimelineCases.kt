@@ -197,12 +197,12 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun acceptFollowRequest(accountId: String): Single<Relationship> {
-        return mastodonApi.authorizeFollowRequest(accountId)
+    fun acceptFollowRequestOld(accountId: String): com.keylesspalace.tusky.util.Single<Relationship> {
+        return com.keylesspalace.tusky.util.Single { mastodonApi.authorizeFollowRequest(accountId) }
     }
 
-    fun rejectFollowRequest(accountId: String): Single<Relationship> {
-        return mastodonApi.rejectFollowRequest(accountId)
+    fun rejectFollowRequestOld(accountId: String): com.keylesspalace.tusky.util.Single<Relationship> {
+        return com.keylesspalace.tusky.util.Single { mastodonApi.rejectFollowRequest(accountId) }
     }
 
     companion object {
