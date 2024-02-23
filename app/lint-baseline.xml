@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.1.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.2)" variant="all" version="8.1.2">
+<issues format="6" by="lint 8.2.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.2.2)" variant="all" version="8.2.2">
+
+    <issue
+        id="GestureBackNavigation"
+        message="If intercepting back events, this should be handled through the registration of callbacks on the window level; Please see https://developer.android.com/about/versions/13/features/predictive-back-gesture"
+        errorLine1="            if (keyCode == KeyEvent.KEYCODE_BACK) {"
+        errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
+            line="1314"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            sb.append(language.toUpperCase());"
+        errorLine2="                               ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
+            line="101"
+            column="32"/>
+    </issue>
 
     <issue
         id="InvalidPackage"
@@ -30,15 +52,26 @@
     </issue>
 
     <issue
+        id="ForegroundServiceType"
+        message="To call `Service.startForeground()`, the `&lt;service>` element of manifest file must have the `foregroundServiceType` attribute specified"
+        errorLine1="                startForeground(sendingNotificationId, builder.build())"
+        errorLine2="                ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/service/SendStatusService.kt"
+            line="137"
+            column="17"/>
+    </issue>
+
+    <issue
         id="PrivateResource"
-        message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.1.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
+        message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
         <location
             file="src/main/res/layout/exo_player_control_view.xml"/>
     </issue>
 
     <issue
         id="PrivateResource"
-        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -49,7 +82,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_controls_padding` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_controls_padding` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:padding=&quot;@dimen/exo_styled_controls_padding&quot;"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -60,7 +93,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@layout/exo_player_control_rewind_button` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@layout/exo_player_control_rewind_button` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_rewind_button&quot; />"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -71,7 +104,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@layout/exo_player_control_ffwd_button` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@layout/exo_player_control_ffwd_button` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_ffwd_button&quot; />"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -82,7 +115,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_height` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_height` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:layout_height=&quot;@dimen/exo_styled_bottom_bar_height&quot;"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -93,7 +126,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_margin_top` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_margin_top` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:layout_marginTop=&quot;@dimen/exo_styled_bottom_bar_margin_top&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -104,7 +137,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -115,7 +148,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="            android:paddingStart=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -126,7 +159,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="            android:paddingEnd=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -137,7 +170,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="            android:paddingLeft=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -148,7 +181,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="            android:paddingRight=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -159,7 +192,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_progress_layout_height` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_progress_layout_height` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:layout_height=&quot;@dimen/exo_styled_progress_layout_height&quot;"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -170,7 +203,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_progress_margin_bottom` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_progress_margin_bottom` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_progress_margin_bottom&quot;/>"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -181,7 +214,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_minimal_controls_margin_bottom` is marked as private in androidx.media3:media3-ui:1.1.1"
+        message="The resource `@dimen/exo_styled_minimal_controls_margin_bottom` is marked as private in androidx.media3:media3-ui:1.2.1"
         errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_minimal_controls_margin_bottom&quot;"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -208,7 +241,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="328"
+            line="329"
             column="5"/>
     </issue>
 
@@ -219,7 +252,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="386"
+            line="387"
             column="5"/>
     </issue>
 
@@ -230,7 +263,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="562"
+            line="565"
             column="5"/>
     </issue>
 
@@ -241,14 +274,14 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="783"
+            line="785"
             column="5"/>
     </issue>
 
     <issue
         id="UnusedTranslation"
         message="The language `ber (Berber languages)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -259,7 +292,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `el (Greek)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -270,7 +303,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `fi (Finnish)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -281,7 +314,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `fy (Western Frisian)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -292,7 +325,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `in (Indonesian)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -303,7 +336,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `lv (Latvian)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -314,7 +347,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `ml (Malayalam)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -325,7 +358,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `si (Sinhala)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -336,7 +369,7 @@
     <issue
         id="UnusedTranslation"
         message="The language `sk (Slovak)` is present in this project, but not declared in the `localeConfig` resource"
-        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;>"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
@@ -362,7 +395,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/AccountActivity.kt"
-            line="481"
+            line="523"
             column="9"/>
     </issue>
 
@@ -373,7 +406,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/AccountAdapter.kt"
-            line="80"
+            line="78"
             column="9"/>
     </issue>
 
@@ -384,7 +417,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="43"
+            line="45"
             column="9"/>
     </issue>
 
@@ -395,7 +428,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
-            line="49"
+            line="51"
             column="9"/>
     </issue>
 
@@ -406,7 +439,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementAdapter.kt"
-            line="140"
+            line="157"
             column="9"/>
     </issue>
 
@@ -417,7 +450,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/MutesAdapter.kt"
-            line="107"
+            line="118"
             column="9"/>
     </issue>
 
@@ -472,7 +505,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
-            line="157"
+            line="161"
             column="13"/>
     </issue>
 
@@ -483,7 +516,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
-            line="280"
+            line="288"
             column="13"/>
     </issue>
 
@@ -494,7 +527,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
-            line="289"
+            line="297"
             column="13"/>
     </issue>
 
@@ -505,7 +538,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
-            line="310"
+            line="318"
             column="13"/>
     </issue>
 
@@ -516,7 +549,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/fragment/ViewVideoFragment.kt"
-            line="322"
+            line="330"
             column="13"/>
     </issue>
 
@@ -593,7 +626,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/util/ShareShortcutHelper.kt"
-            line="86"
+            line="91"
             column="9"/>
     </issue>
 
@@ -604,7 +637,7 @@
         errorLine2="            ^">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
-            line="91"
+            line="95"
             column="13"/>
     </issue>
 
@@ -615,7 +648,7 @@
         errorLine2="                                                 ^">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
-            line="91"
+            line="95"
             column="50"/>
     </issue>
 
@@ -895,14 +928,36 @@
     </issue>
 
     <issue
-        id="UnknownNullness"
-        message="Should explicitly declare type here since implicit type does not specify nullness"
-        errorLine1="    override fun onCreateView("
-        errorLine2="                 ~~~~~~~~~~~~">
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/keylesspalace/tusky/components/compose/dialog/CaptionDialog.kt"
-            line="53"
-            column="18"/>
+            file="src/main/res/layout/item_list.xml"
+            line="37"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_list.xml"
+            line="48"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_list.xml"
+            line="59"
+            column="9"/>
     </issue>
 
     <issue

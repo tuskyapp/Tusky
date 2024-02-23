@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.accountlist
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.content.IntentCompat
 import androidx.fragment.app.commit
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R

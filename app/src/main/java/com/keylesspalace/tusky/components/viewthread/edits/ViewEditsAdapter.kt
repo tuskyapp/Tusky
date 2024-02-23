@@ -40,7 +40,6 @@ import org.xml.sax.XMLReader
 
 class ViewEditsAdapter(
     private val edits: List<StatusEdit>,
-    private val animateAvatars: Boolean,
     private val animateEmojis: Boolean,
     private val useBlurhash: Boolean,
     private val listener: LinkListener

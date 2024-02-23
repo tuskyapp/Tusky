@@ -35,7 +35,7 @@ data class MastoList(
 
         companion object {
             fun from(policy: String?): ReplyPolicy =
-                values().firstOrNull { it.policy == policy } ?: LIST
+                entries.firstOrNull { it.policy == policy } ?: LIST
         }
     }
 }

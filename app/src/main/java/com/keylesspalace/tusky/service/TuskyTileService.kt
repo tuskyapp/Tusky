@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.service
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
@@ -28,6 +29,8 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
  */
 class TuskyTileService : TileService() {
 
+    @SuppressLint("StartActivityAndCollapseDeprecated")
+    @Suppress("DEPRECATION")
     override fun onClick() {
         val intent = MainActivity.composeIntent(this, ComposeActivity.ComposeOptions())
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -36,7 +39,6 @@ class TuskyTileService : TileService() {
             val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_IMMUTABLE)
             startActivityAndCollapse(pendingIntent)
         } else {
-            @Suppress("DEPRECATION")
             startActivityAndCollapse(intent)
         }
     }
