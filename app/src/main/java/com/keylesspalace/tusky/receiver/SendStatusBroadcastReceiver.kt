@@ -45,7 +45,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
         AndroidInjection.inject(this, context)
 
         if (intent.action == NotificationHelper.REPLY_ACTION) {
-            val notificationId = intent.getIntExtra(NotificationHelper.KEY_NOTIFICATION_ID, -1)
+            val serverNotificationId = intent.getStringExtra(NotificationHelper.KEY_SERVER_NOTIFICATION_ID)
             val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
             val senderIdentifier = intent.getStringExtra(
                 NotificationHelper.KEY_SENDER_ACCOUNT_IDENTIFIER
@@ -69,24 +69,23 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             if (account == null) {
                 Log.w(TAG, "Account \"$senderId\" not found in database. Aborting quick reply!")
 
-                val builder = NotificationCompat.Builder(
+                val notification = NotificationCompat.Builder(
                     context,
                     NotificationHelper.CHANNEL_MENTION + senderIdentifier
                 )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.tusky_blue))
                     .setGroup(senderFullName)
-                    .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+                    .setDefaults(0) // We don't want this to make any sound or vibration
+                    .setOnlyAlertOnce(true)
+                    .setContentTitle(context.getString(R.string.error_generic))
+                    .setContentText(context.getString(R.string.error_sender_account_gone))
+                    .setSubText(senderFullName)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_SOCIAL)
+                    .build()
 
-                builder.setContentTitle(context.getString(R.string.error_generic))
-                builder.setContentText(context.getString(R.string.error_sender_account_gone))
-
-                builder.setSubText(senderFullName)
-                builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
-                builder.setOnlyAlertOnce(true)
-
-                notificationManager.notify(notificationId, builder.build())
+                notificationManager.notify(serverNotificationId, senderId.toInt(), notification)
             } else {
                 val text = mentions.joinToString(" ", postfix = " ") { "@$it" } + message.toString()
 
@@ -114,25 +113,25 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 context.startService(sendIntent)
 
-                val builder = NotificationCompat.Builder(
+                // Notifications with remote input active can't be cancelled, so let's replace it with another one that will dismiss automatically
+                val notification = NotificationCompat.Builder(
                     context,
                     NotificationHelper.CHANNEL_MENTION + senderIdentifier
                 )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.notification_color))
                     .setGroup(senderFullName)
-                    .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
+                    .setDefaults(0) // We don't want this to make any sound or vibration
+                    .setOnlyAlertOnce(true)
+                    .setContentTitle(context.getString(R.string.reply_sending))
+                    .setContentText(context.getString(R.string.reply_sending_long))
+                    .setSubText(senderFullName)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_SOCIAL)
+                    .setTimeoutAfter(5000)
+                    .build()
 
-                builder.setContentTitle(context.getString(R.string.post_sent))
-                builder.setContentText(context.getString(R.string.post_sent_long))
-
-                builder.setSubText(senderFullName)
-                builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                builder.setCategory(NotificationCompat.CATEGORY_SOCIAL)
-                builder.setOnlyAlertOnce(true)
-
-                // There is a separate "I am sending" notification, so simply remove the handled one.
-                notificationManager.cancel(notificationId)
+                notificationManager.notify(serverNotificationId, senderId.toInt(), notification)
             }
         }
     }
