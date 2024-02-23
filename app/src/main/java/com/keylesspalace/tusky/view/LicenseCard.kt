@@ -37,7 +37,13 @@ class LicenseCard
     init {
         val binding = CardLicenseBinding.inflate(LayoutInflater.from(context), this)
 
-        setCardBackgroundColor(MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK))
+        setCardBackgroundColor(
+            MaterialColors.getColor(
+                context,
+                com.google.android.material.R.attr.colorSurface,
+                Color.BLACK
+            )
+        )
 
         val (name, license, link) = context.theme.obtainStyledAttributes(
             attrs,

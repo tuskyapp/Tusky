@@ -27,12 +27,22 @@ class FollowRequestsHeaderAdapter(
     private val accountLocked: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemFollowRequestsHeaderBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestsHeaderBinding> {
-        val binding = ItemFollowRequestsHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemFollowRequestsHeaderBinding> {
+        val binding = ItemFollowRequestsHeaderBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(viewHolder: BindingHolder<ItemFollowRequestsHeaderBinding>, position: Int) {
+    override fun onBindViewHolder(
+        viewHolder: BindingHolder<ItemFollowRequestsHeaderBinding>,
+        position: Int
+    ) {
         viewHolder.binding.root.text = viewHolder.binding.root.context.getString(R.string.follow_requests_info, instanceName)
     }
 

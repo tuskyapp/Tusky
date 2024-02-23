@@ -45,9 +45,9 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import javax.inject.Inject
 
 /** Contract for starting [LoginWebViewActivity]. */
 class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
@@ -227,14 +227,10 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         super.onDestroy()
     }
 
-    override fun finish() {
-        super.finishWithoutSlideOutAnimation()
-    }
-
     override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
         setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
-        finishWithoutSlideOutAnimation()
+        finish()
     }
 }

@@ -73,13 +73,10 @@ abstract class TimelineViewModel(
     private var alwaysOpenSpoilers = false
     private var filterRemoveReplies = false
     private var filterRemoveReblogs = false
+    private var filterRemoveSelfReblogs = false
     protected var readingOrder: ReadingOrder = ReadingOrder.OLDEST_FIRST
 
-    fun init(
-        kind: Kind,
-        id: String?,
-        tags: List<String>
-    ) {
+    fun init(kind: Kind, id: String?, tags: List<String>) {
         this.kind = kind
         this.id = id
         this.tags = tags
@@ -88,9 +85,11 @@ abstract class TimelineViewModel(
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
             filterRemoveReblogs =
-                !sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                !(accountManager.activeAccount?.isShowHomeReplies ?: true)
+            filterRemoveSelfReblogs =
+                !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
         }
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
@@ -135,23 +134,24 @@ abstract class TimelineViewModel(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${status.id}")
-            return@launch
-        }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
+        viewModelScope.launch {
+            val poll = status.status.actionableStatus.poll ?: run {
+                Log.w(TAG, "No poll on status ${status.id}")
+                return@launch
+            }
 
-        val votedPoll = poll.votedCopy(choices)
-        updatePoll(votedPoll, status)
+            val votedPoll = poll.votedCopy(choices)
+            updatePoll(votedPoll, status)
 
-        try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            try {
+                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+            } catch (t: Exception) {
+                ifExpected(t) {
+                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+                }
             }
         }
-    }
 
     abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
 
@@ -185,7 +185,8 @@ abstract class TimelineViewModel(
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
         return if (
             (status.inReplyToId != null && filterRemoveReplies) ||
-            (status.reblog != null && filterRemoveReblogs)
+            (status.reblog != null && filterRemoveReblogs) ||
+            ((status.account.id == status.reblog?.account?.id) && filterRemoveSelfReblogs)
         ) {
             return Filter.Action.HIDE
         } else {
@@ -197,7 +198,7 @@ abstract class TimelineViewModel(
     private fun onPreferenceChanged(key: String) {
         when (key) {
             PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_REPLIES, true)
+                val filter = accountManager.activeAccount?.isShowHomeReplies ?: true
                 val oldRemoveReplies = filterRemoveReplies
                 filterRemoveReplies = kind == Kind.HOME && !filter
                 if (oldRemoveReplies != filterRemoveReplies) {
@@ -205,10 +206,18 @@ abstract class TimelineViewModel(
                 }
             }
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = sharedPreferences.getBoolean(PrefKeys.TAB_FILTER_HOME_BOOSTS, true)
+                val filter = accountManager.activeAccount?.isShowHomeBoosts ?: true
                 val oldRemoveReblogs = filterRemoveReblogs
                 filterRemoveReblogs = kind == Kind.HOME && !filter
                 if (oldRemoveReblogs != filterRemoveReblogs) {
+                    fullReload()
+                }
+            }
+            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
+                val filter = accountManager.activeAccount?.isShowHomeSelfBoosts ?: true
+                val oldRemoveSelfReblogs = filterRemoveSelfReblogs
+                filterRemoveSelfReblogs = kind == Kind.HOME && !filter
+                if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
                     fullReload()
                 }
             }
@@ -307,16 +316,23 @@ abstract class TimelineViewModel(
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
 
-        fun filterContextMatchesKind(
-            kind: Kind,
-            filterContext: List<String>
-        ): Boolean {
+        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean {
             return filterContext.contains(kind.toFilterKind().kind)
         }
     }
 
     enum class Kind {
-        HOME, PUBLIC_LOCAL, PUBLIC_FEDERATED, TAG, USER, USER_PINNED, USER_WITH_REPLIES, FAVOURITES, LIST, BOOKMARKS, PUBLIC_TRENDING_STATUSES;
+        HOME,
+        PUBLIC_LOCAL,
+        PUBLIC_FEDERATED,
+        TAG,
+        USER,
+        USER_PINNED,
+        USER_WITH_REPLIES,
+        FAVOURITES,
+        LIST,
+        BOOKMARKS,
+        PUBLIC_TRENDING_STATUSES;
 
         fun toFilterKind(): Filter.Kind {
             return when (valueOf(name)) {

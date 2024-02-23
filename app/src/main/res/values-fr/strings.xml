@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_network">Une erreur réseau s’est produite ! Veuillez vérifier votre connexion puis réessayez !</string>
+    <string name="error_network">Une erreur réseau s’est produite. Veuillez vérifier votre connexion puis réessayez.</string>
     <string name="error_empty">Ce champ ne peut pas être vide.</string>
     <string name="error_invalid_domain">Le domaine saisi est invalide</string>
     <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance. Si cela continue à se produire, essayez Se connecter avec le navigateur depuis le menu.</string>
@@ -184,7 +184,7 @@
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_post_filter">Filtrage des fils</string>
-    <string name="pref_title_post_tabs">Onglets</string>
+    <string name="pref_title_post_tabs">Fil principal</string>
     <string name="pref_title_show_boosts">Afficher les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
@@ -617,8 +617,8 @@
     <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
     <string name="action_unfollow_hashtag_format">Arrêter de suivre #%s \?</string>
     <string name="failed_to_pin">Échec de l\'épinglage</string>
-    <string name="status_edit_info">Modification de %1$s</string>
-    <string name="status_created_info">Création par %1$s</string>
+    <string name="status_edit_info">Modification : %1$s</string>
+    <string name="status_created_info">Création : %1$s</string>
     <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
     <string name="no_lists">Vous n\'avez aucune liste.</string>
     <string name="language_display_name_format">%s (%s)</string>
@@ -637,7 +637,7 @@
     <string name="socket_timeout_exception">La connexion à votre serveur a pris trop longtemps</string>
     <string name="ui_error_bookmark">Échec de l\'ajout aux signets : %s</string>
     <string name="ui_error_vote">Échec du vote : %s</string>
-    <string name="ui_error_reblog">Échec de la mise en signet : %s</string>
+    <string name="ui_error_reblog">Échec lors du partage de la publication : %s</string>
     <string name="ui_error_accept_follow_request">N\'a pas pu accepter la demande d\'abonnement : %s</string>
     <string name="ui_error_reject_follow_request">N\'a pas pu rejeter la demande d\'abonnement : %s</string>
     <string name="ui_success_accepted_follow_request">Demande d\'abonnement acceptée</string>
@@ -647,9 +647,7 @@
     <string name="mute_notifications_switch">Masquer les notifications</string>
     <string name="compose_unsaved_changes">Il y a des modifications non enregistrées.</string>
     <string name="description_post_edited">Modifié</string>
-    <string name="select_list_empty">Vous n\'avez pas encore de liste</string>
     <string name="select_list_manage">Gérer les listes</string>
-    <string name="error_list_load">Erreur de chargement des listes</string>
     <string name="report_category_violation">Règle enfreinte</string>
     <string name="error_status_source_load">Le texte d\'origine du statut n\'a pas pu être chargé.</string>
     <string name="ui_error_unknown">raison inconnue</string>
@@ -675,4 +673,22 @@
     <string name="filter_keyword_addition_title">Ajouter un mot-clé</string>
     <string name="filter_edit_keyword_title">Modifier mot-clé</string>
     <string name="filter_description_format">%s : %s</string>
+    <string name="pref_ui_text_size">Taille de police de l\'interface</string>
+    <string name="pref_title_show_self_boosts">Afficher les auto-partages</string>
+    <string name="pref_title_show_self_boosts_description">Quelqu\'un partageant son propre message</string>
+    <string name="label_image">Image</string>
+    <string name="dialog_delete_filter_positive_action">Supprimer</string>
+    <string name="notification_prune_cache">Maintenance du cache …</string>
+    <string name="about_device_info">%s %s
+\nVersion Android : %s
+\nVersion SDK : %d</string>
+    <string name="about_device_info_title">Votre appareil</string>
+    <string name="about_account_info_title">Votre compte</string>
+    <string name="about_account_info">\@%s@%s
+\nVersion : %s</string>
+    <string name="about_copy">Copier les informations de la version et de l’appareil</string>
+    <string name="title_public_trending_statuses">Publications en tendance</string>
+    <string name="list_reply_policy_list">Membres de la liste</string>
+    <string name="list_reply_policy_label">Afficher les réponses à</string>
+    <string name="about_copied">Les informations de la version et de l’appareil ont été copiés</string>
 </resources>

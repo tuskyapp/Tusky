@@ -31,8 +31,8 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class AnnouncementsViewModel @Inject constructor(
     private val instanceInfoRepo: InstanceInfoRepository,
@@ -64,7 +64,9 @@ class AnnouncementsViewModel @Inject constructor(
                                 mastodonApi.dismissAnnouncement(announcement.id)
                                     .fold(
                                         {
-                                            eventHub.dispatch(AnnouncementReadEvent(announcement.id))
+                                            eventHub.dispatch(
+                                                AnnouncementReadEvent(announcement.id)
+                                            )
                                         },
                                         { throwable ->
                                             Log.d(

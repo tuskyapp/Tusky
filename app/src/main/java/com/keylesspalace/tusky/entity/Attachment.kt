@@ -28,7 +28,8 @@ import kotlinx.parcelize.Parcelize
 data class Attachment(
     val id: String,
     val url: String,
-    @SerializedName("preview_url") val previewUrl: String?, // can be null for e.g. audio attachments
+    // can be null for e.g. audio attachments
+    @SerializedName("preview_url") val previewUrl: String?,
     val meta: MetaData?,
     val type: Type,
     val description: String?,
@@ -55,7 +56,11 @@ data class Attachment(
 
     class MediaTypeDeserializer : JsonDeserializer<Type> {
         @Throws(JsonParseException::class)
-        override fun deserialize(json: JsonElement, classOfT: java.lang.reflect.Type, context: JsonDeserializationContext): Type {
+        override fun deserialize(
+            json: JsonElement,
+            classOfT: java.lang.reflect.Type,
+            context: JsonDeserializationContext
+        ): Type {
             return when (json.toString()) {
                 "\"image\"" -> Type.IMAGE
                 "\"gifv\"" -> Type.GIFV

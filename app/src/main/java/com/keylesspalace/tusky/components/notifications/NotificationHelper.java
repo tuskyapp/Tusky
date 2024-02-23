@@ -97,7 +97,7 @@ public class NotificationHelper {
 
     public static final String KEY_SENDER_ACCOUNT_FULL_NAME = "KEY_SENDER_ACCOUNT_FULL_NAME";
 
-    public static final String KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID";
+    public static final String KEY_SERVER_NOTIFICATION_ID = "KEY_SERVER_NOTIFICATION_ID";
 
     public static final String KEY_CITED_STATUS_ID = "KEY_CITED_STATUS_ID";
 
@@ -149,7 +149,7 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isFirstOfBatch) {
+    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isOnlyOneInGroup) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -241,7 +241,7 @@ public class NotificationHelper {
         builder.addExtras(extras);
 
         // Only alert for the first notification of a batch to avoid multiple alerts at once
-        if(!isFirstOfBatch) {
+        if(!isOnlyOneInGroup) {
             builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
         }
 
@@ -412,7 +412,7 @@ public class NotificationHelper {
                 .putExtra(KEY_SENDER_ACCOUNT_ID, account.getId())
                 .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.getIdentifier())
                 .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.getFullName())
-                .putExtra(KEY_NOTIFICATION_ID, notificationId)
+                .putExtra(KEY_SERVER_NOTIFICATION_ID, body.getId())
                 .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
                 .putExtra(KEY_VISIBILITY, replyVisibility)
                 .putExtra(KEY_SPOILER, contentWarning)
@@ -456,7 +456,8 @@ public class NotificationHelper {
 
         Intent composeIntent = MainActivity.composeIntent(context, composeOptions, account.getId(), body.getId(), (int)account.getId());
 
-        composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // make sure a new instance of MainActivity is started and old ones get destroyed
+        composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         return PendingIntent.getActivity(context.getApplicationContext(),
                 notificationId,

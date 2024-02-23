@@ -22,11 +22,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.QuoteSpan
 import android.text.style.URLSpan
 import android.util.Log
 import android.view.MotionEvent
@@ -38,7 +41,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
+import androidx.core.text.getSpans
 import androidx.preference.PreferenceManager
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
@@ -66,12 +71,19 @@ fun getDomain(urlString: String?): String {
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
  */
-fun setClickableText(view: TextView, content: CharSequence, mentions: List<Mention>, tags: List<HashTag>?, listener: LinkListener) {
+fun setClickableText(
+    view: TextView,
+    content: CharSequence,
+    mentions: List<Mention>,
+    tags: List<HashTag>?,
+    listener: LinkListener
+) {
     val spannableContent = markupHiddenUrls(view, content)
 
     view.text = spannableContent.apply {
-        getSpans(0, spannableContent.length, URLSpan::class.java).forEach {
-            setClickableText(it, this, mentions, tags, listener)
+        styleQuoteSpans(view)
+        getSpans(0, spannableContent.length, URLSpan::class.java).forEach { span ->
+            setClickableText(span, this, mentions, tags, listener)
         }
     }
     view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
@@ -87,7 +99,10 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
         return@filter if (firstCharacter == '#' || firstCharacter == '@') {
             false
         } else {
-            val text = spannableContent.subSequence(start, spannableContent.getSpanEnd(it)).toString()
+            val text = spannableContent.subSequence(
+                start,
+                spannableContent.getSpanEnd(it)
+            ).toString()
                 .split(' ').lastOrNull().orEmpty()
             var textDomain = getDomain(text)
             if (textDomain.isBlank()) {
@@ -101,8 +116,16 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
         val start = spannableContent.getSpanStart(span)
         val end = spannableContent.getSpanEnd(span)
         val originalText = spannableContent.subSequence(start, end)
-        val replacementText = view.context.getString(R.string.url_domain_notifier, originalText, getDomain(span.url))
-        spannableContent.replace(start, end, replacementText) // this also updates the span locations
+        val replacementText = view.context.getString(
+            R.string.url_domain_notifier,
+            originalText,
+            getDomain(span.url)
+        )
+        spannableContent.replace(
+            start,
+            end,
+            replacementText
+        ) // this also updates the span locations
 
         val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
         // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
@@ -156,7 +179,12 @@ fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
     }
 }
 
-private fun getCustomSpanForTag(text: CharSequence, tags: List<HashTag>?, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForTag(
+    text: CharSequence,
+    tags: List<HashTag>?,
+    span: URLSpan,
+    listener: LinkListener
+): ClickableSpan? {
     return getTagName(text, tags)?.let {
         object : NoUnderlineURLSpan(span.url) {
             override fun onClick(view: View) = listener.onViewTag(it)
@@ -164,16 +192,50 @@ private fun getCustomSpanForTag(text: CharSequence, tags: List<HashTag>?, span: 
     }
 }
 
-private fun getCustomSpanForMention(mentions: List<Mention>, span: URLSpan, listener: LinkListener): ClickableSpan? {
+private fun getCustomSpanForMention(
+    mentions: List<Mention>,
+    span: URLSpan,
+    listener: LinkListener
+): ClickableSpan? {
     // https://github.com/tuskyapp/Tusky/pull/2339
     return mentions.firstOrNull { it.url == span.url }?.let {
         getCustomSpanForMentionUrl(span.url, it.id, listener)
     }
 }
 
-private fun getCustomSpanForMentionUrl(url: String, mentionId: String, listener: LinkListener): ClickableSpan {
+private fun getCustomSpanForMentionUrl(
+    url: String,
+    mentionId: String,
+    listener: LinkListener
+): ClickableSpan {
     return object : MentionSpan(url) {
         override fun onClick(view: View) = listener.onViewAccount(mentionId)
+    }
+}
+
+private fun SpannableStringBuilder.styleQuoteSpans(view: TextView) {
+    getSpans(0, length, QuoteSpan::class.java).forEach { span ->
+        val start = getSpanStart(span)
+        val end = getSpanEnd(span)
+        val flags = getSpanFlags(span)
+
+        val quoteColor = MaterialColors.getColor(view, android.R.attr.textColorTertiary)
+
+        val newQuoteSpan = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            QuoteSpan(
+                quoteColor,
+                Utils.dpToPx(view.context, 3),
+                Utils.dpToPx(view.context, 8)
+            )
+        } else {
+            QuoteSpan(quoteColor)
+        }
+
+        val quoteColorSpan = ForegroundColorSpan(quoteColor)
+
+        removeSpan(span)
+        setSpan(newQuoteSpan, start, end, flags)
+        setSpan(quoteColorSpan, start, end, flags)
     }
 }
 
@@ -232,7 +294,9 @@ fun createClickableText(text: String, link: String): CharSequence {
  */
 fun Context.openLink(url: String) {
     val uri = url.toUri().normalizeScheme()
-    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("customTabs", false)
+    val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(
+        this
+    ).getBoolean("customTabs", false)
 
     if (useCustomTabs) {
         openLinkInCustomTab(uri, this)
@@ -264,9 +328,21 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
  * @param context context
  */
 fun openLinkInCustomTab(uri: Uri, context: Context) {
-    val toolbarColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorSurface, Color.BLACK)
-    val navigationbarColor = MaterialColors.getColor(context, android.R.attr.navigationBarColor, Color.BLACK)
-    val navigationbarDividerColor = MaterialColors.getColor(context, R.attr.dividerColor, Color.BLACK)
+    val toolbarColor = MaterialColors.getColor(
+        context,
+        com.google.android.material.R.attr.colorSurface,
+        Color.BLACK
+    )
+    val navigationbarColor = MaterialColors.getColor(
+        context,
+        android.R.attr.navigationBarColor,
+        Color.BLACK
+    )
+    val navigationbarDividerColor = MaterialColors.getColor(
+        context,
+        R.attr.dividerColor,
+        Color.BLACK
+    )
     val colorSchemeParams = CustomTabColorSchemeParams.Builder()
         .setToolbarColor(toolbarColor)
         .setNavigationBarColor(navigationbarColor)
@@ -274,6 +350,7 @@ fun openLinkInCustomTab(uri: Uri, context: Context) {
         .build()
     val customTabsIntent = CustomTabsIntent.Builder()
         .setDefaultColorSchemeParams(colorSchemeParams)
+        .setShareState(CustomTabsIntent.SHARE_STATE_ON)
         .setShowTitle(true)
         .build()
 

@@ -2,7 +2,7 @@ Tusky 22.0 beta 1
 
 Dahil olan özellikler:
 
-- Trend hashtag'leri görüntüleyin
+- Trend etiketleri görüntüleyin
 - Görüntü açıklamalarını ve odak noktasını düzenleme
 - Erişilebilirlik için "Yenile" menüsü
 - Mastodon v4 süzgeçlerini destekleyin

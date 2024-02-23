@@ -49,7 +49,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var localeManager: LocaleManager
 
-    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy {
+        resources.getDimensionPixelSize(
+            R.dimen.preference_icon_size
+        )
+    }
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */
@@ -210,6 +214,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(true)
+                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
+                    setTitle(R.string.pref_title_show_notifications_filter)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(true)
                     key = PrefKeys.CONFIRM_REBLOGS
                     setTitle(R.string.pref_title_confirm_reblogs)
                     isSingleLineTitle = false
@@ -246,13 +257,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_post_tabs)
-                    fragment = TabFilterPreferencesFragment::class.qualifiedName
-                }
-            }
-
             preferenceCategory(R.string.pref_title_wellbeing_mode) {
                 switchPreference {
                     title = getString(R.string.limit_notifications)
@@ -260,7 +264,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
+                            val notificationFilter = deserialize(
+                                account.notificationsFilter
+                            ).toMutableSet()
 
                             if (value == true) {
                                 notificationFilter.add(Notification.Type.FAVOURITE)

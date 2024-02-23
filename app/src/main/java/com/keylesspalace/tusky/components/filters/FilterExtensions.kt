@@ -22,7 +22,9 @@ import androidx.appcompat.app.AlertDialog
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.await
 
-internal suspend fun Activity.showDeleteFilterDialog(filterTitle: String) = AlertDialog.Builder(this)
+internal suspend fun Activity.showDeleteFilterDialog(filterTitle: String) = AlertDialog.Builder(
+    this
+)
     .setMessage(getString(R.string.dialog_delete_filter_text, filterTitle))
     .setCancelable(true)
     .create()

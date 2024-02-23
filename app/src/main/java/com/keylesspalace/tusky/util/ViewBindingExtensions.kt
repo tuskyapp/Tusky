@@ -42,11 +42,15 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
                 }
 
             override fun onCreate(owner: LifecycleOwner) {
-                fragment.viewLifecycleOwnerLiveData.observeForever(viewLifecycleOwnerLiveDataObserver)
+                fragment.viewLifecycleOwnerLiveData.observeForever(
+                    viewLifecycleOwnerLiveDataObserver
+                )
             }
 
             override fun onDestroy(owner: LifecycleOwner) {
-                fragment.viewLifecycleOwnerLiveData.removeObserver(viewLifecycleOwnerLiveDataObserver)
+                fragment.viewLifecycleOwnerLiveData.removeObserver(
+                    viewLifecycleOwnerLiveDataObserver
+                )
             }
         })
     }
@@ -59,7 +63,9 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-            throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
+            throw IllegalStateException(
+                "Should not attempt to get bindings when Fragment views are destroyed."
+            )
         }
 
         return viewBindingFactory(thisRef.requireView()).also { this.binding = it }

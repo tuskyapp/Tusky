@@ -205,13 +205,15 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
     val status = if (reblog != null) {
         Status(
             id = status.serverId,
-            url = null, // no url for reblogs
+            // no url for reblogs
+            url = null,
             account = this.reblogAccount!!.toAccount(gson),
             inReplyToId = null,
             inReplyToAccountId = null,
             reblog = reblog,
             content = "",
-            createdAt = Date(status.createdAt), // lie but whatever?
+            // lie but whatever?
+            createdAt = Date(status.createdAt),
             editedAt = null,
             emojis = listOf(),
             reblogsCount = 0,

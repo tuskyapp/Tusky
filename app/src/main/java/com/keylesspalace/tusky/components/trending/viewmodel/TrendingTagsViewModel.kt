@@ -27,20 +27,25 @@ import com.keylesspalace.tusky.entity.start
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
-import java.io.IOException
-import javax.inject.Inject
 
 class TrendingTagsViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
 ) : ViewModel() {
     enum class LoadingState {
-        INITIAL, LOADING, REFRESHING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL,
+        LOADING,
+        REFRESHING,
+        LOADED,
+        ERROR_NETWORK,
+        ERROR_OTHER
     }
 
     data class TrendingTagsUiState(

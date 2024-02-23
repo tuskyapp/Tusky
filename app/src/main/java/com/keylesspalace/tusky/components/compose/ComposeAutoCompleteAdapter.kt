@@ -108,7 +108,9 @@ class ComposeAutoCompleteAdapter(
                 val account = accountResult.account
                 binding.username.text = context.getString(R.string.post_username_format, account.username)
                 binding.displayName.text = account.name.emojify(account.emojis, binding.displayName, animateEmojis)
-                val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
+                val avatarRadius = context.resources.getDimensionPixelSize(
+                    R.dimen.avatar_radius_42dp
+                )
                 loadAvatar(
                     account.avatar,
                     binding.avatar,

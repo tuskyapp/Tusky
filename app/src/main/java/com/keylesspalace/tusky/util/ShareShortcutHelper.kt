@@ -57,7 +57,12 @@ fun updateShortcut(context: Context, account: AccountEntity) {
         val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
 
         val canvas = Canvas(outBmp)
-        canvas.drawBitmap(bmp, (outerSize - innerSize).toFloat() / 2f, (outerSize - innerSize).toFloat() / 2f, null)
+        canvas.drawBitmap(
+            bmp,
+            (outerSize - innerSize).toFloat() / 2f,
+            (outerSize - innerSize).toFloat() / 2f,
+            null
+        )
 
         val icon = IconCompat.createWithAdaptiveBitmap(outBmp)
 

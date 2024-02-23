@@ -21,6 +21,9 @@ data class PollVoteEvent(val statusId: String, val poll: Poll) : Event
 data class DomainMuteEvent(val instance: String) : Event
 data class AnnouncementReadEvent(val announcementId: String) : Event
 data class FilterUpdatedEvent(val filterContext: List<String>) : Event
-data class NewNotificationsEvent(val accountId: String, val notifications: List<Notification>) : Event
+data class NewNotificationsEvent(
+    val accountId: String,
+    val notifications: List<Notification>
+) : Event
 data class ConversationsLoadingEvent(val accountId: String) : Event
 data class NotificationsLoadingEvent(val accountId: String) : Event

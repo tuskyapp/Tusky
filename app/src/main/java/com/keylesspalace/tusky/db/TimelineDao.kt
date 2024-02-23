@@ -22,7 +22,6 @@ import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Status
 
 @Dao
@@ -113,8 +112,7 @@ AND
             muted = status.muted,
             pinned = status.pinned ?: false,
             card = gson.toJson(status.card),
-            language = status.language,
-            filtered = status.filtered
+            language = status.language
         )
     }
 
@@ -139,8 +137,7 @@ AND
            muted = :muted,
            pinned = :pinned,
            card = :card,
-           language = :language,
-           filtered = :filtered
+           language = :language
            WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     @TypeConverters(Converters::class)
@@ -166,8 +163,7 @@ AND
         muted: Boolean?,
         pinned: Boolean,
         card: String?,
-        language: String?,
-        filtered: List<FilterResult>?
+        language: String?
     )
 
     @Query(
@@ -259,13 +255,21 @@ WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = 
         """UPDATE TimelineStatusEntity SET contentShowing = :contentShowing
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
-    abstract suspend fun setContentShowing(accountId: Long, statusId: String, contentShowing: Boolean)
+    abstract suspend fun setContentShowing(
+        accountId: Long,
+        statusId: String,
+        contentShowing: Boolean
+    )
 
     @Query(
         """UPDATE TimelineStatusEntity SET contentCollapsed = :contentCollapsed
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
-    abstract suspend fun setContentCollapsed(accountId: Long, statusId: String, contentCollapsed: Boolean)
+    abstract suspend fun setContentCollapsed(
+        accountId: Long,
+        statusId: String,
+        contentCollapsed: Boolean
+    )
 
     @Query(
         """UPDATE TimelineStatusEntity SET pinned = :pinned
@@ -282,39 +286,53 @@ AND timelineUserId = :accountId
     )
     abstract suspend fun deleteAllFromInstance(accountId: Long, instanceDomain: String)
 
-    @Query("UPDATE TimelineStatusEntity SET filtered = NULL WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)")
+    @Query(
+        "UPDATE TimelineStatusEntity SET filtered = NULL WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"
+    )
     abstract suspend fun clearWarning(accountId: Long, statusId: String): Int
 
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+    )
     abstract suspend fun getTopId(accountId: Long): String?
 
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+    )
     abstract suspend fun getTopPlaceholderId(accountId: Long): String?
 
     /**
      * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
      */
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) < LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId < serverId)) ORDER BY LENGTH(serverId) ASC, serverId ASC LIMIT 1")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) < LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId < serverId)) ORDER BY LENGTH(serverId) ASC, serverId ASC LIMIT 1"
+    )
     abstract suspend fun getIdAbove(accountId: Long, serverId: String): String?
 
     /**
      * Returns the ID directly below [serverId], or null if [serverId] is the ID of the bottom
      * status
      */
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+    )
     abstract suspend fun getIdBelow(accountId: Long, serverId: String): String?
 
     /**
      * Returns the id of the next placeholder after [serverId]
      */
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+    )
     abstract suspend fun getNextPlaceholderIdAfter(accountId: Long, serverId: String): String?
 
     @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE timelineUserId = :accountId")
     abstract suspend fun getStatusCount(accountId: Long): Int
 
     /** Developer tools: Find N most recent status IDs */
-    @Query("SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count")
+    @Query(
+        "SELECT serverId FROM TimelineStatusEntity WHERE timelineUserId = :accountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count"
+    )
     abstract suspend fun getMostRecentNStatusIds(accountId: Long, count: Int): List<String>
 
     /** Developer tools: Convert a status to a placeholder */

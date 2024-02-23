@@ -5,10 +5,7 @@ import android.graphics.Typeface.DEFAULT_BOLD
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.Editable
-import android.text.Html
-import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.TextPaint
 import android.text.style.CharacterStyle
 import android.util.TypedValue
@@ -29,6 +26,7 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.TuskyTagHandler
 import com.keylesspalace.tusky.util.aspectRatios
 import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
@@ -60,7 +58,11 @@ class ViewEditsAdapter(
         parent: ViewGroup,
         viewType: Int
     ): BindingHolder<ItemStatusEditBinding> {
-        val binding = ItemStatusEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStatusEditBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
         binding.statusEditMediaPreview.clipToOutline = true
 
@@ -95,7 +97,10 @@ class ViewEditsAdapter(
         } else {
             largeTextSizePx
         }
-        binding.statusEditContentWarningDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
+        binding.statusEditContentWarningDescription.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            variableTextSize
+        )
         binding.statusEditContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
         binding.statusEditMediaSensitivity.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
 
@@ -118,10 +123,16 @@ class ViewEditsAdapter(
 
         val emojifiedText = edit
             .content
-            .parseAsMastodonHtml(TuskyTagHandler(context))
+            .parseAsMastodonHtml(EditsTagHandler(context))
             .emojify(edit.emojis, binding.statusEditContent, animateEmojis)
 
-        setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
+        setClickableText(
+            binding.statusEditContent,
+            emojifiedText,
+            emptyList(),
+            emptyList(),
+            listener
+        )
 
         if (edit.poll == null) {
             binding.statusEditPollOptions.hide()
@@ -224,7 +235,7 @@ class ViewEditsAdapter(
  * Handle XML tags created by [ViewEditsViewModel] and create custom spans to display inserted or
  * deleted text.
  */
-class TuskyTagHandler(val context: Context) : Html.TagHandler {
+class EditsTagHandler(val context: Context) : TuskyTagHandler() {
     /** Class to mark the start of a span of deleted text */
     class Del
 
@@ -255,34 +266,7 @@ class TuskyTagHandler(val context: Context) : Html.TagHandler {
                     )
                 }
             }
-        }
-    }
-
-    /** @return the last span in [text] of type [kind], or null if that kind is not in text */
-    private fun <T> getLast(text: Spanned, kind: Class<T>): Any? {
-        val spans = text.getSpans(0, text.length, kind)
-        return spans?.get(spans.size - 1)
-    }
-
-    /**
-     * Mark the start of a span of [text] with [mark] so it can be discovered later by [end].
-     */
-    private fun start(text: SpannableStringBuilder, mark: Any) {
-        val len = text.length
-        text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK)
-    }
-
-    /**
-     * Set a [span] over the [text] most from the point recently marked with [mark] to the end
-     * of the text.
-     */
-    private fun <T> end(text: SpannableStringBuilder, mark: Class<T>, span: Any) {
-        val len = text.length
-        val obj = getLast(text, mark)
-        val where = text.getSpanStart(obj)
-        text.removeSpan(obj)
-        if (where != len) {
-            text.setSpan(span, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            else -> super.handleTag(opening, tag, output, xmlReader)
         }
     }
 

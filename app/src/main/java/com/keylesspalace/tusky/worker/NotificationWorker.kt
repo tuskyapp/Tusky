@@ -34,14 +34,20 @@ class NotificationWorker(
     params: WorkerParameters,
     private val notificationsFetcher: NotificationFetcher
 ) : CoroutineWorker(appContext, params) {
-    val notification: Notification = NotificationHelper.createWorkerNotification(applicationContext, R.string.notification_notification_worker)
+    val notification: Notification = NotificationHelper.createWorkerNotification(
+        applicationContext,
+        R.string.notification_notification_worker
+    )
 
     override suspend fun doWork(): Result {
         notificationsFetcher.fetchAndShow()
         return Result.success()
     }
 
-    override suspend fun getForegroundInfo() = ForegroundInfo(NOTIFICATION_ID_FETCH_NOTIFICATION, notification)
+    override suspend fun getForegroundInfo() = ForegroundInfo(
+        NOTIFICATION_ID_FETCH_NOTIFICATION,
+        notification
+    )
 
     class Factory @Inject constructor(
         private val notificationsFetcher: NotificationFetcher

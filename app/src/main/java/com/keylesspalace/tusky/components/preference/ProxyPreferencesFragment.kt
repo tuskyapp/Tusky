@@ -59,7 +59,10 @@ class ProxyPreferencesFragment : PreferenceFragmentCompat() {
                     MAX_PROXY_PORT
                 )
 
-                validatedEditTextPreference(portErrorMessage, ProxyConfiguration::isValidProxyPort) {
+                validatedEditTextPreference(
+                    portErrorMessage,
+                    ProxyConfiguration::isValidProxyPort
+                ) {
                     setTitle(R.string.pref_title_http_proxy_port)
                     key = PrefKeys.HTTP_PROXY_PORT
                     isIconSpaceReserved = false

@@ -1,0 +1,10 @@
+Tusky 24.0
+
+- Mae dyfyniadau bloc a blociau cod mewn negeseuon yn edrych yn well.
+- Mae'r hen ymarweddiad y tab hysbysiadau wedi'i adfer.
+- Mae bathodynnau rôl nawr yn cael eu dangos ar broffiliau.
+- Mae'r chwaraewr fideo wedi'i wella. Nawr galli di ddewis cyflymder chwarae.
+- Mae opsiwn newydd i ddefnyddio'r thema ddu wrth ddilyn thema'r system.
+- Mae golygfa newydd i weld negeseuon tueddiadol ar gael yn y ddewislen ac fel tab a gwsmereiddiwyd.
+
+A llawer mwy o welliannau a datrysiadau!

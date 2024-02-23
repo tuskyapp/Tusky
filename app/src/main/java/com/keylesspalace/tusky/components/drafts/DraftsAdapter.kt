@@ -47,7 +47,10 @@ class DraftsAdapter(
     }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemDraftBinding> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemDraftBinding> {
         val binding = ItemDraftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         val viewHolder = BindingHolder(binding)
@@ -77,7 +80,9 @@ class DraftsAdapter(
             holder.binding.content.text = draft.content
 
             holder.binding.draftMediaPreview.visible(draft.attachments.isNotEmpty())
-            (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(draft.attachments)
+            (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(
+                draft.attachments
+            )
 
             if (draft.poll != null) {
                 holder.binding.draftPoll.show()

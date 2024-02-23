@@ -138,6 +138,8 @@
     <string name="action_share_account_username">Share username of account</string>
     <string name="action_hide_reblogs">Hide boosts</string>
     <string name="action_show_reblogs">Show boosts</string>
+    <string name="pref_title_show_self_boosts">Show self-boosts</string>
+    <string name="pref_title_show_self_boosts_description">Someone boosting their own post</string>
     <string name="action_report">Report</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
@@ -225,8 +227,8 @@
     <string name="confirmation_domain_unmuted">%s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
-    <string name="post_sent">Sent!</string>
-    <string name="post_sent_long">Reply sent successfully.</string>
+    <string name="reply_sending">Sending…</string>
+    <string name="reply_sending_long">Your reply is being sent.</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
@@ -296,6 +298,7 @@
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
     <string name="pref_title_timeline_filters">Filters</string>
+    <string name="pref_title_per_timeline_preferences">Per-timeline preferences</string>
 
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
@@ -314,7 +317,7 @@
     <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
     <string name="pref_title_post_filter">Timeline filtering</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Home timeline</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
@@ -332,7 +335,7 @@
     <string name="pref_default_post_language">Default posting language</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive</string>
     <string name="pref_publishing">Publishing (synced with server)</string>
-    <string name="pref_failed_to_sync">Failed to sync settings</string>
+    <string name="pref_failed_to_sync">Failed to sync preferences</string>
 
     <string name="pref_main_nav_position">Main navigation position</string>
     <string name="pref_main_nav_position_option_top">Top</string>
@@ -543,11 +546,13 @@
     <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
+        <item quantity="zero"><b>%1$s</b> Favorites</item>
         <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
         <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> Boosts</item>
         <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
@@ -605,9 +610,7 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
-    <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
-    <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Delete</string>
@@ -710,6 +713,7 @@
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
+    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_confirm_reblogs">Show confirmation before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation before favoriting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>

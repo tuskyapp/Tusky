@@ -104,7 +104,11 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             id = TRENDING_STATUSES,
             text = R.string.title_public_trending_statuses,
             icon = R.drawable.ic_hot_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) }
+            fragment = {
+                TimelineFragment.newInstance(
+                    TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
+                )
+            }
         )
         HASHTAG -> TabData(
             id = HASHTAG,
@@ -112,13 +116,22 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             icon = R.drawable.ic_hashtag,
             fragment = { args -> TimelineFragment.newHashtagInstance(args) },
             arguments = arguments,
-            title = { context -> arguments.joinToString(separator = " ") { context.getString(R.string.title_tag, it) } }
+            title = { context ->
+                arguments.joinToString(separator = " ") {
+                    context.getString(R.string.title_tag, it)
+                }
+            }
         )
         LIST -> TabData(
             id = LIST,
             text = R.string.list,
             icon = R.drawable.ic_list,
-            fragment = { args -> TimelineFragment.newInstance(TimelineViewModel.Kind.LIST, args.getOrNull(0).orEmpty()) },
+            fragment = { args ->
+                TimelineFragment.newInstance(
+                    TimelineViewModel.Kind.LIST,
+                    args.getOrNull(0).orEmpty()
+                )
+            },
             arguments = arguments,
             title = { arguments.getOrNull(1).orEmpty() }
         )

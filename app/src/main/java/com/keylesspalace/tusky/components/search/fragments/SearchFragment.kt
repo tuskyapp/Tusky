@@ -28,16 +28,17 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 abstract class SearchFragment<T : Any> :
     Fragment(R.layout.fragment_search),
@@ -92,8 +93,12 @@ abstract class SearchFragment<T : Any> :
 
             val isNewSearch = currentQuery != viewModel.currentQuery
 
-            binding.searchProgressBar.visible(loadState.refresh == LoadState.Loading && isNewSearch && !binding.swipeRefreshLayout.isRefreshing)
-            binding.searchRecyclerView.visible(loadState.refresh is LoadState.NotLoading || !isNewSearch || binding.swipeRefreshLayout.isRefreshing)
+            binding.searchProgressBar.visible(
+                loadState.refresh == LoadState.Loading && isNewSearch && !binding.swipeRefreshLayout.isRefreshing
+            )
+            binding.searchRecyclerView.visible(
+                loadState.refresh is LoadState.NotLoading || !isNewSearch || binding.swipeRefreshLayout.isRefreshing
+            )
 
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -102,7 +107,9 @@ abstract class SearchFragment<T : Any> :
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
 
-            binding.searchNoResultsText.visible(loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0 && viewModel.currentQuery.isNotEmpty())
+            binding.searchNoResultsText.visible(
+                loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0 && viewModel.currentQuery.isNotEmpty()
+            )
         }
     }
 
@@ -147,11 +154,15 @@ abstract class SearchFragment<T : Any> :
     }
 
     override fun onViewAccount(id: String) {
-        bottomSheetActivity?.startActivityWithSlideInAnimation(AccountActivity.getIntent(requireContext(), id))
+        bottomSheetActivity?.startActivityWithSlideInAnimation(
+            AccountActivity.getIntent(requireContext(), id)
+        )
     }
 
     override fun onViewTag(tag: String) {
-        bottomSheetActivity?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+        bottomSheetActivity?.startActivityWithSlideInAnimation(
+            StatusListActivity.newHashtagIntent(requireContext(), tag)
+        )
     }
 
     override fun onViewUrl(url: String) {

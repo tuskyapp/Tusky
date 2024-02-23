@@ -24,7 +24,9 @@ import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.fixTextSelection
 
-class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
+class AccountFieldEditAdapter(
+    var onFieldsChanged: () -> Unit = { }
+) : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
 
     private val fieldData = mutableListOf<MutableStringPair>()
     private var maxNameLength: Int? = null
@@ -62,8 +64,15 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
     override fun getItemCount() = fieldData.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEditFieldBinding> {
-        val binding = ItemEditFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemEditFieldBinding> {
+        val binding = ItemEditFieldBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
@@ -83,10 +92,12 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
         holder.binding.accountFieldNameText.doAfterTextChanged { newText ->
             fieldData.getOrNull(holder.bindingAdapterPosition)?.first = newText.toString()
+            onFieldsChanged()
         }
 
         holder.binding.accountFieldValueText.doAfterTextChanged { newText ->
             fieldData.getOrNull(holder.bindingAdapterPosition)?.second = newText.toString()
+            onFieldsChanged()
         }
 
         // Ensure the textview contents are selectable

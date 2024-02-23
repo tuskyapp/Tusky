@@ -42,7 +42,9 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class
     },
-    version = 54,
+    // Note: Starting with version 54, database versions in Tusky are always even.
+    // This is to reserve odd version numbers for use by forks.
+    version = 56,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
@@ -684,6 +686,15 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("UPDATE `AccountEntity` SET `tabpreferences` = REPLACE(tabpreferences, 'Trending:', 'TrendingTags:')");
+        }
+    };
+
+    public static final Migration MIGRATION_54_56 = new Migration(54, 56) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeBoosts` INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeReplies` INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeSelfBoosts` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }

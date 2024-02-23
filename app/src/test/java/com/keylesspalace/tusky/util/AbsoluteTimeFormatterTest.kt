@@ -1,11 +1,11 @@
 package com.keylesspalace.tusky.util
 
+import java.time.Instant
+import java.util.*
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.Instant
-import java.util.*
 
 class AbsoluteTimeFormatterTest {
     companion object {

@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Novosti:
+
+- Izboljšana hitrost nalaganja obvestil
+- Obnovljen prikaz 0/1/1+ za odgovore
+- Prikaz filtriranih naslovo namesto ključnih besed filtrov na objavah s filtri
+- Razrešitev napake, pri kateri je odpiranje statusa lahko povzročilo odprtje druge povezave
+- Prikaz gumba “Dodaj“ na ustreznih mestih brez filtrov
+- Razrešitev raznih napak

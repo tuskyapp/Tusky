@@ -26,14 +26,14 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
+import java.time.Instant
+import java.util.Date
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.robolectric.annotation.Config
-import java.time.Instant
-import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)

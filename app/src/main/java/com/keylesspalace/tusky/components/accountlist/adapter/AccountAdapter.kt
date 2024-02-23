@@ -60,9 +60,7 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
         }
     }
 
-    private fun createFooterViewHolder(
-        parent: ViewGroup
-    ): RecyclerView.ViewHolder {
+    private fun createFooterViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val binding = ItemFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }
