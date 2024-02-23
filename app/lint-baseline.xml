@@ -52,17 +52,6 @@
     </issue>
 
     <issue
-        id="ForegroundServiceType"
-        message="To call `Service.startForeground()`, the `&lt;service>` element of manifest file must have the `foregroundServiceType` attribute specified"
-        errorLine1="                startForeground(sendingNotificationId, builder.build())"
-        errorLine2="                ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/keylesspalace/tusky/service/SendStatusService.kt"
-            line="137"
-            column="17"/>
-    </issue>
-
-    <issue
         id="PrivateResource"
         message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.2.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
         <location
@@ -285,7 +274,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -296,7 +285,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -307,7 +296,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -318,7 +307,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -329,7 +318,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -340,7 +329,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -351,7 +340,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -362,7 +351,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -373,7 +362,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="21"
+            line="22"
             column="31"/>
     </issue>
 
@@ -384,7 +373,7 @@
         errorLine2="                             ~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="15"
+            line="16"
             column="30"/>
     </issue>
 
