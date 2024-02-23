@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.1"
+agp = "8.2.2"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.5.0"
