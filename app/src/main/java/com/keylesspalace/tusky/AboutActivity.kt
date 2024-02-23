@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 

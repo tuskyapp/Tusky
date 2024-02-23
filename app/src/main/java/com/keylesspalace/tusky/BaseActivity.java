@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -49,6 +50,7 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -60,6 +62,9 @@ import javax.inject.Inject;
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+
+    public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
+
     private static final String TAG = "BaseActivity";
 
     @Inject
@@ -72,6 +77,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_from_right, R.anim.slide_to_left);
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.slide_from_left, R.anim.slide_to_right);
+        }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -166,11 +176,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return style;
     }
 
-    public void startActivityWithSlideInAnimation(@NonNull Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -183,11 +188,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-    }
-
-    public void finishWithoutSlideOutAnimation() {
-        super.finish();
+        // if this activity was opened with slide-in, close it with slide out
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        }
     }
 
     protected void redirectIfNotLoggedIn() {
@@ -195,7 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (account == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivityWithSlideInAnimation(intent);
+            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
             finish();
         }
     }
@@ -235,9 +239,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)
-                .setTitle(dialogTitle)
-                .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
-                .show();
+            .setTitle(dialogTitle)
+            .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
+            .show();
     }
 
     public @Nullable String getOpenAsText() {
@@ -263,7 +267,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Intent intent = MainActivity.redirectIntent(this, account.getId(), url);
 
         startActivity(intent);
-        finishWithoutSlideOutAnimation();
+        finish();
     }
 
     @Override

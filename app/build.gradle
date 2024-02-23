@@ -22,13 +22,13 @@ final def CUSTOM_INSTANCE = ""
 final def SUPPORT_ACCOUNT_URL = "https://mastodon.social/@Tusky"
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace "com.keylesspalace.tusky"
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 117
         versionName "24.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

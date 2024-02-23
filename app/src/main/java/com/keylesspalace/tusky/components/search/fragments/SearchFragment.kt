@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable

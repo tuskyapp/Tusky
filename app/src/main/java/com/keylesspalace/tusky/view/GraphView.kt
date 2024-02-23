@@ -265,14 +265,14 @@ class GraphView @JvmOverloads constructor(
 
     private fun dataSpacing(data: List<Any>) = width.toFloat() / max(data.size - 1, 1).toFloat()
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         if (primaryLinePath.isEmpty && width > 0) {
             initializeVertices()
         }
 
-        canvas?.apply {
+        canvas.apply {
             drawRect(sizeRect, graphPaint)
 
             val pointDistance = dataSpacing(primaryLineData)

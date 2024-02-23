@@ -29,6 +29,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -230,18 +231,33 @@ class EditProfileActivity : BaseActivity(), Injectable {
             }
         }
 
-        val onBackCallback = object : OnBackPressedCallback(enabled = true) {
-            override fun handleOnBackPressed() = checkForUnsavedChanges()
+        binding.displayNameEditText.doAfterTextChanged {
+            viewModel.dataChanged(currentProfileData)
+        }
+
+        binding.displayNameEditText.doAfterTextChanged {
+            viewModel.dataChanged(currentProfileData)
+        }
+
+        binding.lockedCheckBox.setOnCheckedChangeListener { _, _ ->
+            viewModel.dataChanged(currentProfileData)
+        }
+
+        accountFieldEditAdapter.onFieldsChanged = {
+            viewModel.dataChanged(currentProfileData)
+        }
+
+        val onBackCallback = object : OnBackPressedCallback(enabled = false) {
+            override fun handleOnBackPressed() {
+                showUnsavedChangesDialog()
+            }
         }
 
         onBackPressedDispatcher.addCallback(this, onBackCallback)
-    }
-
-    fun checkForUnsavedChanges() {
-        if (viewModel.hasUnsavedChanges(currentProfileData)) {
-            showUnsavedChangesDialog()
-        } else {
-            finish()
+        lifecycleScope.launch {
+            viewModel.isChanged.collect { dataWasChanged ->
+                onBackCallback.isEnabled = dataWasChanged
+            }
         }
     }
 

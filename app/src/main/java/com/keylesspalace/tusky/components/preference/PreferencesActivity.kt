@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
@@ -139,16 +140,14 @@ class PreferencesActivity :
         ).unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    private fun saveInstanceState(outState: Bundle) {
-        outState.putBoolean(EXTRA_RESTART_ON_BACK, restartActivitiesOnBackPressedCallback.isEnabled)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(EXTRA_RESTART_ON_BACK, restartActivitiesOnBackPressedCallback.isEnabled)
         super.onSaveInstanceState(outState)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        sharedPreferences ?: return
+        key ?: return
         when (key) {
             APP_THEME -> {
                 val theme = sharedPreferences.getNonNullString(APP_THEME, AppTheme.DEFAULT.value)
@@ -156,11 +155,11 @@ class PreferencesActivity :
                 setAppNightMode(theme)
 
                 restartActivitiesOnBackPressedCallback.isEnabled = true
-                this.restartCurrentActivity()
+                this.recreate()
             }
             PrefKeys.UI_TEXT_SCALE_RATIO -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
-                this.restartCurrentActivity()
+                this.recreate()
             }
             PrefKeys.STATUS_TEXT_SIZE, PrefKeys.ABSOLUTE_TIME_VIEW, PrefKeys.SHOW_BOT_OVERLAY, PrefKeys.ANIMATE_GIF_AVATARS, PrefKeys.USE_BLURHASH,
             PrefKeys.SHOW_SELF_USERNAME, PrefKeys.SHOW_CARDS_IN_TIMELINES, PrefKeys.CONFIRM_REBLOGS, PrefKeys.CONFIRM_FAVOURITES,
@@ -171,16 +170,6 @@ class PreferencesActivity :
         lifecycleScope.launch {
             eventHub.dispatch(PreferenceChangedEvent(key))
         }
-    }
-
-    private fun restartCurrentActivity() {
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        val savedInstanceState = Bundle()
-        saveInstanceState(savedInstanceState)
-        intent.putExtras(savedInstanceState)
-        startActivityWithSlideInAnimation(intent)
-        finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun androidInjector() = androidInjector

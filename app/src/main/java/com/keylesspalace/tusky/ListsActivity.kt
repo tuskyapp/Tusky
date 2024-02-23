@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.ListsViewModel

@@ -58,6 +58,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.openLink
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData

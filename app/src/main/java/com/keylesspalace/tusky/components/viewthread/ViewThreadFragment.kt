@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
@@ -53,6 +52,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -386,13 +386,13 @@ class ViewThreadFragment :
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {

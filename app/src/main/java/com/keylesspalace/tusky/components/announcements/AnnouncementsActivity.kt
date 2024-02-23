@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
