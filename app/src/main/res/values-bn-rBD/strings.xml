@@ -204,8 +204,6 @@
     <string name="hint_content_warning">সতর্কবার্তা</string>
     <string name="hint_compose">কি হচ্ছে\?</string>
     <string name="hint_domain">কোন ইনস্ট্যান্স\?</string>
-    <string name="post_sent_long">উত্তর সফলভাবে পাঠানো হয়েছে।</string>
-    <string name="post_sent">পাঠানো হয়েছে!</string>
     <string name="confirmation_unmuted">ব্যবহারকারী সশব্দ</string>
     <string name="confirmation_unblocked">ব্যবহারকারী অবরোধ মুক্ত</string>
     <string name="confirmation_reported">পাঠানো হয়েছে!</string>

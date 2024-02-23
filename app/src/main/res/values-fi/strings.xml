@@ -280,8 +280,6 @@
     <string name="filter_edit_title">Muokkaa suodatinta</string>
     <string name="action_add_reaction">lisää reaktio</string>
     <string name="confirmation_reported">Lähetetty!</string>
-    <string name="post_sent">Lähetetty!</string>
-    <string name="post_sent_long">Vastaus lähetetty onnistuneesti.</string>
     <string name="login_connection">Yhdistetään…</string>
     <string name="dialog_mute_warning">Hiljennä @%s\?</string>
     <string name="dialog_mute_hide_notifications">Piilota ilmoitukset</string>

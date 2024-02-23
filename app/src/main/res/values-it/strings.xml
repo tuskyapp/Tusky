@@ -124,8 +124,6 @@
     <string name="confirmation_reported">Inviato!</string>
     <string name="confirmation_unblocked">Utente sbloccato</string>
     <string name="confirmation_unmuted">Utente non più silenziato</string>
-    <string name="post_sent">Inviato!</string>
-    <string name="post_sent_long">Risposta inviata con successo.</string>
     <string name="hint_domain">Quale istanza?</string>
     <string name="hint_compose">Cosa succede?</string>
     <string name="hint_content_warning">Avviso di contenuto sensibile</string>

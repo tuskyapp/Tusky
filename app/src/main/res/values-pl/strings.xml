@@ -99,8 +99,6 @@
     <string name="confirmation_reported">Wyślij!</string>
     <string name="confirmation_unblocked">Odblokowano użytkownika</string>
     <string name="confirmation_unmuted">Cofnięto wyciszenie użytkownika</string>
-    <string name="post_sent">Wyślij!</string>
-    <string name="post_sent_long">Odpowiedź wysłano pomyślnie.</string>
     <string name="hint_domain">Jaka instancja?</string>
     <string name="hint_compose">Co Ci chodzi po głowie?</string>
     <string name="hint_content_warning">Ostrzeżenie o zawartości</string>

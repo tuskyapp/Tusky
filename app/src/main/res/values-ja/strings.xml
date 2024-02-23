@@ -115,8 +115,6 @@
     <string name="confirmation_reported">送信しました！</string>
     <string name="confirmation_unblocked">ブロックを解除しました</string>
     <string name="confirmation_unmuted">ミュートを解除しました</string>
-    <string name="post_sent">送信しました！</string>
-    <string name="post_sent_long">返信しました。</string>
     <string name="hint_domain">インスタンス</string>
     <string name="hint_compose">今なにしてる？</string>
     <string name="hint_content_warning">注意書き</string>

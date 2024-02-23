@@ -126,8 +126,6 @@
     <string name="confirmation_reported">Sendt!</string>
     <string name="confirmation_unblocked">Fjernet blokkering av bruker</string>
     <string name="confirmation_unmuted">Fjernet demping av bruker</string>
-    <string name="post_sent">Sendt!</string>
-    <string name="post_sent_long">Svaret ble sendt.</string>
     <string name="hint_domain">Hvilken instanse\?</string>
     <string name="hint_compose">Hva skjer\?</string>
     <string name="hint_content_warning">Innholdsadvarsel</string>

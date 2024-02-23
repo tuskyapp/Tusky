@@ -126,8 +126,6 @@
     <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Le compte est débloqué</string>
     <string name="confirmation_unmuted">Le compte n’est plus masqué</string>
-    <string name="post_sent">Envoyé !</string>
-    <string name="post_sent_long">Réponse envoyée avec succès.</string>
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Contenu sensible</string>

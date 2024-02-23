@@ -225,14 +225,12 @@
     <string name="action_share_as">Comparteix com a…</string>
     <string name="download_media">Baixa el fitxer</string>
     <string name="send_media_to">Compartir la imatge a …</string>
-    <string name="post_sent">Enviat!</string>
     <string name="state_follow_requested">Petició enviada</string>
     <string name="title_posts_with_replies">Amb respostes</string>
     <string name="action_emoji_keyboard">Teclat d\'emojis</string>
     <string name="action_open_media_n">Obrir el media #%d</string>
     <string name="action_open_as">Obre com a %s</string>
     <string name="downloading_media">S\'està Descarregant media</string>
-    <string name="post_sent_long">Resposta enviada correctament.</string>
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
     <string name="dialog_delete_post_warning">Vols eliminar aquest toot\?</string>

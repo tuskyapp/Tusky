@@ -124,8 +124,6 @@
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
     <string name="confirmation_unmuted">Användaren är inte tystad längre</string>
-    <string name="post_sent">Skickat!</string>
-    <string name="post_sent_long">Svar skickades framgångsrikt.</string>
     <string name="hint_domain">Vilken instans?</string>
     <string name="hint_compose">Vad händer?</string>
     <string name="hint_content_warning">Innehållsvarning</string>

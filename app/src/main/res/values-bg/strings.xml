@@ -273,8 +273,6 @@
     <string name="hint_content_warning">Предупреждение за съдържание</string>
     <string name="hint_compose">Какво се случва\?</string>
     <string name="hint_domain">Коя инстанция\?</string>
-    <string name="post_sent_long">Отговорът е изпратен успешно.</string>
-    <string name="post_sent">Изпратено!</string>
     <string name="confirmation_domain_unmuted">%s е разкрит</string>
     <string name="confirmation_unmuted">Потребителят е раззаглушен</string>
     <string name="confirmation_unblocked">Потребителят е деблокиран</string>

@@ -112,8 +112,6 @@
     <string name="send_post_link_to">Падзяліцца URL допісу з…</string>
     <string name="confirmation_reported">Даслана!</string>
     <string name="confirmation_unblocked">Карыстальнік разблакаваны</string>
-    <string name="post_sent">Дасланы!</string>
-    <string name="post_sent_long">Адказ дасланы паспяхова.</string>
     <string name="hint_domain">Які сервер\?</string>
     <string name="hint_compose">Што адбываецца\?</string>
     <string name="hint_content_warning">Папярэджанне пра змесціва</string>

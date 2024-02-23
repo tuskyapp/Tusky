@@ -102,8 +102,6 @@
     <string name="confirmation_reported">Anfonwyd!</string>
     <string name="confirmation_unblocked">Dadflociwyd y defnyddiwr</string>
     <string name="confirmation_unmuted">Dad-dawyd defnyddiwr</string>
-    <string name="post_sent">Anfonwyd!</string>
-    <string name="post_sent_long">Anfonodd yr ymateb yn llwyddiannus.</string>
     <string name="hint_domain">Pa weinydd\?</string>
     <string name="hint_compose">Beth sy\'n digwydd?</string>
     <string name="hint_content_warning">Rhybudd cynnwys</string>

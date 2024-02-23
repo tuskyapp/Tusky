@@ -60,8 +60,6 @@
     <string name="action_open_as">Otvoriť ako %s</string>
     <string name="confirmation_reported">Odoslané!</string>
     <string name="confirmation_unblocked">Používateľ bol odblokovaný</string>
-    <string name="post_sent">Odoslané!</string>
-    <string name="post_sent_long">Odpoveď bola úspešne odoslaná.</string>
     <string name="hint_domain">Ktorý server\?</string>
     <string name="hint_display_name">Zobrazované meno</string>
     <string name="hint_note">O vás</string>

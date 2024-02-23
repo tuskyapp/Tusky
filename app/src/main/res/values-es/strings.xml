@@ -112,8 +112,6 @@
     <string name="confirmation_reported">¡Enviado!</string>
     <string name="confirmation_unblocked">El usuario ya no está bloqueado</string>
     <string name="confirmation_unmuted">El usuario ya no está silenciado</string>
-    <string name="post_sent">¡Enviado!</string>
-    <string name="post_sent_long">Respuesta enviada correctamente.</string>
     <string name="hint_domain">¿Qué instancia\?</string>
     <string name="hint_compose">¿En qué estás pensando?</string>
     <string name="hint_content_warning">Aviso de contenido</string>
