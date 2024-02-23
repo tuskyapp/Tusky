@@ -546,11 +546,13 @@
     <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
+        <item quantity="zero"><b>%1$s</b> Favorites</item>
         <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
         <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> Boosts</item>
         <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
