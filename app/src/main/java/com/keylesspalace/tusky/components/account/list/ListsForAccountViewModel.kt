@@ -24,14 +24,12 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class AccountListState(
     val list: MastoList,
@@ -54,8 +52,6 @@ class ListsForAccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi
 ) : ViewModel() {
 
-    private lateinit var accountId: String
-
     private val _states = MutableSharedFlow<List<AccountListState>>(1)
     val states: SharedFlow<List<AccountListState>> = _states
 
@@ -65,24 +61,21 @@ class ListsForAccountViewModel @Inject constructor(
     private val _actionError = MutableSharedFlow<ActionError>(1)
     val actionError: SharedFlow<ActionError> = _actionError
 
-    fun setup(accountId: String) {
-        this.accountId = accountId
-    }
-
-    fun load() {
+    fun load(accountId: String?) {
         _loadError.resetReplayCache()
         viewModelScope.launch {
             runCatching {
-                val (all, includes) = listOf(
-                    async { mastodonApi.getLists() },
-                    async { mastodonApi.getListsIncludesAccount(accountId) }
-                ).awaitAll()
+                val all = mastodonApi.getLists().getOrThrow()
+                var includes: List<MastoList> = emptyList()
+                if (accountId != null) {
+                    includes = mastodonApi.getListsIncludesAccount(accountId).getOrThrow()
+                }
 
                 _states.emit(
-                    all.getOrThrow().map { list ->
+                    all.map { listState ->
                         AccountListState(
-                            list = list,
-                            includesAccount = includes.getOrThrow().any { it.id == list.id }
+                            list = listState,
+                            includesAccount = includes.any { it.id == listState.id }
                         )
                     }
                 )
@@ -93,7 +86,9 @@ class ListsForAccountViewModel @Inject constructor(
         }
     }
 
-    fun addAccountToList(listId: String) {
+    // TODO there is no "progress" visible for these
+
+    fun addAccountToList(accountId: String, listId: String) {
         _actionError.resetReplayCache()
         viewModelScope.launch {
             mastodonApi.addAccountToList(listId, listOf(accountId))
@@ -114,7 +109,7 @@ class ListsForAccountViewModel @Inject constructor(
         }
     }
 
-    fun removeAccountFromList(listId: String) {
+    fun removeAccountFromList(accountId: String, listId: String) {
         _actionError.resetReplayCache()
         viewModelScope.launch {
             mastodonApi.deleteAccountFromList(listId, listOf(accountId))

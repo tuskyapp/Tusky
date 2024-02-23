@@ -25,6 +25,9 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.os.Build
+import android.text.Selection
+import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.text.style.URLSpan
@@ -192,6 +195,26 @@ class ClickableSpanTextView @JvmOverloads constructor(
         }
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        // workaround to https://code.google.com/p/android/issues/detail?id=191430
+        // from https://stackoverflow.com/a/36740247
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
+            val startSelection = selectionStart
+            val endSelection = selectionEnd
+
+            val content = text
+            if (content is Spannable && (startSelection < 0 || endSelection < 0)) {
+                Selection.setSelection(content as Spannable?, content.length)
+            } else if (startSelection != endSelection) {
+                if (event.actionMasked == ACTION_DOWN) {
+                    text = null
+                    text = content
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     /**
      * Handle some touch events.
      *
@@ -231,7 +254,10 @@ class ClickableSpanTextView @JvmOverloads constructor(
                         activeEntry = entry
                         continue
                     }
-                    Log.v(TAG, "Overlap: ${(entry.value as URLSpan).url} ${(activeEntry.value as URLSpan).url}")
+                    Log.v(
+                        TAG,
+                        "Overlap: ${(entry.value as URLSpan).url} ${(activeEntry.value as URLSpan).url}"
+                    )
                     if (isClickOnFirst(entry.key, activeEntry.key, x, y)) {
                         activeEntry = entry
                     }
@@ -347,21 +373,21 @@ class ClickableSpanTextView @JvmOverloads constructor(
         return firstDiff < secondDiff
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // Paint span boundaries. Optimised out on release builds, or debug builds where
         // showSpanBoundaries is false.
         if (BuildConfig.DEBUG && showSpanBoundaries) {
-            canvas?.save()
+            canvas.save()
             for (entry in delegateRects) {
-                canvas?.drawRect(entry.key, paddingDebugPaint)
+                canvas.drawRect(entry.key, paddingDebugPaint)
             }
 
             for (entry in spanRects) {
-                canvas?.drawRect(entry.key, spanDebugPaint)
+                canvas.drawRect(entry.key, spanDebugPaint)
             }
-            canvas?.restore()
+            canvas.restore()
         }
     }
 

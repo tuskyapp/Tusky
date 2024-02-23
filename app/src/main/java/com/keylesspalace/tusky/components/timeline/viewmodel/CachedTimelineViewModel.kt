@@ -45,13 +45,13 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import javax.inject.Inject
 
 /**
  * TimelineViewModel that caches all statuses in a local database

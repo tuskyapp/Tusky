@@ -21,9 +21,9 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class LoginWebViewViewModel @Inject constructor(
     private val api: MastodonApi
@@ -39,7 +39,7 @@ class LoginWebViewViewModel @Inject constructor(
             viewModelScope.launch {
                 api.getInstance().fold(
                     { instance ->
-                        instanceRules.value = instance.rules.map { rule -> rule.text }
+                        instanceRules.value = instance.rules.orEmpty().map { rule -> rule.text }
                     },
                     { throwable ->
                         if (throwable.isHttpNotFound()) {
@@ -48,11 +48,19 @@ class LoginWebViewViewModel @Inject constructor(
                                     instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
                                 },
                                 { throwable ->
-                                    Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
+                                    Log.w(
+                                        "LoginWebViewViewModel",
+                                        "failed to load instance info",
+                                        throwable
+                                    )
                                 }
                             )
                         } else {
-                            Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
+                            Log.w(
+                                "LoginWebViewViewModel",
+                                "failed to load instance info",
+                                throwable
+                            )
                         }
                     }
                 )

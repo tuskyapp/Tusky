@@ -50,7 +50,8 @@ import com.keylesspalace.tusky.entity.Status
 )
 @TypeConverters(Converters::class)
 data class TimelineStatusEntity(
-    val serverId: String, // id never flips: we need it for sorting so it's a real id
+    // id never flips: we need it for sorting so it's a real id
+    val serverId: String,
     val url: String?,
     // our local id for the logged in user in case there are multiple accounts per instance
     val timelineUserId: Long,
@@ -74,7 +75,8 @@ data class TimelineStatusEntity(
     val mentions: String?,
     val tags: String?,
     val application: String?,
-    val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
+    // if it has a reblogged status, it's id is stored here
+    val reblogServerId: String?,
     val reblogAccountId: String?,
     val poll: String?,
     val muted: Boolean?,
@@ -109,8 +111,10 @@ data class TimelineAccountEntity(
 data class TimelineStatusWithAccount(
     @Embedded
     val status: TimelineStatusEntity,
+    // null when placeholder
     @Embedded(prefix = "a_")
-    val account: TimelineAccountEntity? = null, // null when placeholder
+    val account: TimelineAccountEntity? = null,
+    // null when no reblog
     @Embedded(prefix = "rb_")
-    val reblogAccount: TimelineAccountEntity? = null // null when no reblog
+    val reblogAccount: TimelineAccountEntity? = null
 )

@@ -39,7 +39,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
 import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
@@ -66,6 +65,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -76,10 +76,10 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class TimelineFragment :
     SFragment(),
@@ -232,7 +232,10 @@ class TimelineFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty
+                            )
                             if (kind == TimelineViewModel.Kind.HOME) {
                                 binding.statusView.showHelp(R.string.help_empty_home)
                             }
@@ -240,7 +243,9 @@ class TimelineFragment :
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { onRefresh() }
+                        binding.statusView.setup(
+                            (loadState.refresh as LoadState.Error).error
+                        ) { onRefresh() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()
@@ -255,7 +260,10 @@ class TimelineFragment :
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
-                                binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
+                                binding.recyclerView.scrollBy(
+                                    0,
+                                    Utils.dpToPx(requireContext(), -30)
+                                )
                             } else {
                                 binding.recyclerView.scrollToPosition(0)
                             }
@@ -352,7 +360,11 @@ class TimelineFragment :
         val statusIdBelowLoadMore = statusIdBelowLoadMore ?: return
 
         var status: StatusViewData?
-        while (adapter.peek(position).let { status = it; it != null }) {
+        while (adapter.peek(position).let {
+                status = it
+                it != null
+            }
+        ) {
             if (status?.id == statusIdBelowLoadMore) {
                 val lastVisiblePosition =
                     (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
@@ -451,13 +463,13 @@ class TimelineFragment :
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+        activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+        activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {
@@ -498,9 +510,9 @@ class TimelineFragment :
 
     override fun onViewAccount(id: String) {
         if ((
-            viewModel.kind == TimelineViewModel.Kind.USER ||
-                viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
-            ) &&
+                viewModel.kind == TimelineViewModel.Kind.USER ||
+                    viewModel.kind == TimelineViewModel.Kind.USER_WITH_REPLIES
+                ) &&
             viewModel.id == id
         ) {
             /* If already viewing an account page, then any requests to view that account page
@@ -602,7 +614,11 @@ class TimelineFragment :
                 .observeOn(AndroidSchedulers.mainThread())
                 .autoDispose(this, Lifecycle.Event.ON_PAUSE)
                 .subscribe {
-                    adapter.notifyItemRangeChanged(0, adapter.itemCount, listOf(StatusBaseViewHolder.Key.KEY_CREATED))
+                    adapter.notifyItemRangeChanged(
+                        0,
+                        adapter.itemCount,
+                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    )
                 }
         }
     }

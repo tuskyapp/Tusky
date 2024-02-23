@@ -94,11 +94,7 @@ class ListStatusAccessibilityDelegate(
             }
         }
 
-        override fun performAccessibilityAction(
-            host: View,
-            action: Int,
-            args: Bundle?
-        ): Boolean {
+        override fun performAccessibilityAction(host: View, action: Int, args: Bundle?): Boolean {
             val pos = recyclerView.getChildAdapterPosition(host)
             when (action) {
                 R.id.action_reply -> {
@@ -114,7 +110,11 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_profile -> {
                     interrupt()
                     statusActionListener.onViewAccount(
-                        (statusProvider.getStatus(pos) as StatusViewData.Concrete).actionable.account.id
+                        (
+                            statusProvider.getStatus(
+                                pos
+                            ) as StatusViewData.Concrete
+                            ).actionable.account.id
                     )
                 }
                 R.id.action_open_media_1 -> {

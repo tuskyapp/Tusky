@@ -83,7 +83,7 @@
     <string name="action_report">Поскаржитися</string>
     <string name="action_unblock">Розблокувати</string>
     <string name="action_block">Заблокувати</string>
-    <string name="action_unfollow">Відписатися</string>
+    <string name="action_unfollow">Не стежити</string>
     <string name="action_follow">Підписатися</string>
     <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s\? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
     <string name="action_compose">Написати</string>
@@ -146,7 +146,7 @@
     <string name="error_invalid_domain">Введено недійсний домен</string>
     <string name="action_open_reblogged_by">Показати поширення</string>
     <string name="pref_title_show_boosts">Показати поширення</string>
-    <string name="pref_title_post_tabs">Вкладки</string>
+    <string name="pref_title_post_tabs">Головна стрічка</string>
     <string name="action_unmute_domain">Не приховувати %s</string>
     <string name="action_toggle_visibility">Видимість дописів</string>
     <string name="wellbeing_mode_notice">Деякі відомості, які можуть вплинути на ваше психічний стан, буде приховано. Це включає:
@@ -667,8 +667,6 @@
 \n
 \nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
     <string name="post_media_image">Зображення</string>
-    <string name="error_list_load">Помилка завантаження списків</string>
-    <string name="select_list_empty">У вас ще немає списків</string>
     <string name="select_list_manage">Керувати списками</string>
     <string name="pref_ui_text_size">Розмір шрифту інтерфейсу</string>
     <string name="notification_listenable_worker_name">Фонова діяльність</string>
@@ -715,4 +713,12 @@
     <string name="label_image">Зображення</string>
     <string name="app_theme_system_black">Тема системи (чорна)</string>
     <string name="title_public_trending_statuses">Популярні дописи</string>
+    <string name="pref_title_show_self_boosts">Показати самоцитування</string>
+    <string name="pref_title_show_self_boosts_description">Хтось цитує власний допис</string>
+    <string name="list_reply_policy_none">Ніхто</string>
+    <string name="list_reply_policy_list">Учасники списку</string>
+    <string name="list_reply_policy_followed">Будь-який користувач, за яким ви стежите</string>
+    <string name="list_reply_policy_label">Показати відповіді на</string>
+    <string name="pref_title_per_timeline_preferences">Налаштування окремих стрічок</string>
+    <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
 </resources>

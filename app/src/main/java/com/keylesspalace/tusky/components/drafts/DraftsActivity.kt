@@ -38,9 +38,9 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class DraftsActivity : BaseActivity(), DraftActionListener {
 
@@ -74,7 +74,9 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         binding.draftsRecyclerView.adapter = adapter
         binding.draftsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.draftsRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        binding.draftsRecyclerView.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
 
         bottomSheet = BottomSheetBehavior.from(binding.bottomSheet.root)
 
@@ -134,10 +136,18 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
                         if (throwable.isHttpNotFound()) {
                             // the original status to which a reply was drafted has been deleted
                             // let's open the ComposeActivity without reply information
-                            Toast.makeText(context, getString(R.string.drafts_post_reply_removed), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                context,
+                                getString(R.string.drafts_post_reply_removed),
+                                Toast.LENGTH_LONG
+                            ).show()
                             openDraftWithoutReply(draft)
                         } else {
-                            Snackbar.make(binding.root, getString(R.string.drafts_failed_loading_reply), Snackbar.LENGTH_SHORT)
+                            Snackbar.make(
+                                binding.root,
+                                getString(R.string.drafts_failed_loading_reply),
+                                Snackbar.LENGTH_SHORT
+                            )
                                 .show()
                         }
                     }

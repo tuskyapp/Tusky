@@ -35,7 +35,10 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
     return pref
 }
 
-inline fun <A> PreferenceParent.emojiPreference(activity: A, builder: EmojiPickerPreference.() -> Unit): EmojiPickerPreference
+inline fun <A> PreferenceParent.emojiPreference(
+    activity: A,
+    builder: EmojiPickerPreference.() -> Unit
+): EmojiPickerPreference
     where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
     val pref = EmojiPickerPreference.get(activity)
     builder(pref)

@@ -68,7 +68,8 @@ class CachedTimelineRemoteMediator(
                 topId?.let { cachedTopId ->
                     val statusResponse = api.homeTimeline(
                         maxId = cachedTopId,
-                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
+                        // so already existing placeholders don't get accidentally overwritten
+                        sinceId = topPlaceholderId,
                         limit = state.config.pageSize
                     )
 
@@ -131,7 +132,10 @@ class CachedTimelineRemoteMediator(
      * @param statuses the new statuses
      * @return the number of old statuses that have been cleared from the database
      */
-    private suspend fun replaceStatusRange(statuses: List<Status>, state: PagingState<Int, TimelineStatusWithAccount>): Int {
+    private suspend fun replaceStatusRange(
+        statuses: List<Status>,
+        state: PagingState<Int, TimelineStatusWithAccount>
+    ): Int {
         val overlappedStatuses = if (statuses.isNotEmpty()) {
             timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
         } else {

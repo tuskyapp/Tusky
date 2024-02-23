@@ -144,12 +144,7 @@ object FocalPointUtil {
      * the image. So it won't put the very edge of the image in center, because that would
      * leave part of the view empty.
      */
-    fun focalOffset(
-        view: Float,
-        image: Float,
-        scale: Float,
-        focal: Float
-    ): Float {
+    fun focalOffset(view: Float, image: Float, scale: Float, focal: Float): Float {
         // The fraction of the image that will be in view:
         val inView = view / (scale * image)
         var offset = 0f

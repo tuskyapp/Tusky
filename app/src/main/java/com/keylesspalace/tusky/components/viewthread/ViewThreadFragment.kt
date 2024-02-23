@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
@@ -53,14 +52,15 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ViewThreadFragment :
     SFragment(),
@@ -200,7 +200,9 @@ class ViewThreadFragment :
                         binding.recyclerView.hide()
                         binding.statusView.show()
 
-                        binding.statusView.setup(uiState.throwable) { viewModel.retry(thisThreadsStatusId) }
+                        binding.statusView.setup(
+                            uiState.throwable
+                        ) { viewModel.retry(thisThreadsStatusId) }
                     }
                     is ThreadUiState.Success -> {
                         if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
@@ -295,17 +297,18 @@ class ViewThreadFragment :
      * any time `view` is hidden.
      */
     @CheckResult
-    private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
-        start = CoroutineStart.LAZY
-    ) {
-        try {
-            delay(delayMs)
-            view.show()
-            awaitCancellation()
-        } finally {
-            view.hide()
+    private fun getProgressBarJob(view: View, delayMs: Long) =
+        viewLifecycleOwner.lifecycleScope.launch(
+            start = CoroutineStart.LAZY
+        ) {
+            try {
+                delay(delayMs)
+                view.show()
+                awaitCancellation()
+            } finally {
+                view.hide()
+            }
         }
-    }
 
     override fun onRefresh() {
         viewModel.refresh(thisThreadsStatusId)
@@ -383,13 +386,13 @@ class ViewThreadFragment :
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
@@ -425,7 +428,12 @@ class ViewThreadFragment :
         val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
 
         parentFragmentManager.commit {
-            setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
             addToBackStack(null)
         }

@@ -193,7 +193,7 @@
     <string name="pref_default_post_privacy">Standardinställning för inlägg</string>
     <string name="pref_default_media_sensitivity">Markera alltid media som känsligt</string>
     <string name="pref_publishing">Publicering (synkroniserad med server)</string>
-    <string name="pref_failed_to_sync">Misslyckades att synkronisera inställningar</string>
+    <string name="pref_failed_to_sync">Misslyckades med att synkronisera inställningarna</string>
     <string name="post_privacy_public">Offentlig</string>
     <string name="post_privacy_unlisted">Olistad</string>
     <string name="post_privacy_followers_only">Endast följare</string>
@@ -632,7 +632,6 @@
     <string name="ui_success_accepted_follow_request">Följ begäran accepterad</string>
     <string name="ui_success_rejected_follow_request">Följ begäran blockerad</string>
     <string name="select_list_manage">Hantera listor</string>
-    <string name="select_list_empty">Du har inga listor, än</string>
     <string name="status_filtered_show_anyway">Visa allafall</string>
     <string name="status_filter_placeholder_label_format">Filtrerad: %s</string>
     <string name="pref_title_account_filter_keywords">Profiler</string>
@@ -663,7 +662,6 @@
     <string name="ui_error_bookmark">Att bokmärka inlägg misslyckades: %s</string>
     <string name="ui_error_clear_notifications">Rensing av aviseringar misslyckades: %s</string>
     <string name="ui_error_favourite">Att favoritmarkera inlägg misslyckades: %s</string>
-    <string name="error_list_load">Fel vid laddning av listor</string>
     <string name="ui_error_reject_follow_request">Avacceptera följarförgrågan misslyckades: %s</string>
     <string name="label_filter_context">Filtrera sammanhang</string>
     <string name="title_public_trending_hashtags">Populära hashtaggar</string>

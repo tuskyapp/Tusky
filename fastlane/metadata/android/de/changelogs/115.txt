@@ -1,0 +1,9 @@
+Tusky 24.0
+
+- Blockzitate und Code-Blocks sehen ansprechender aus
+- Alte Verhaltensweise vom Tab »Benachrichtigungen« wurde wiederhergestellt
+- Abzeichen sind auf Profilen sichtbar
+- Beim Videoplayer kann nun die Wiedergabegeschwindigkeit geändert werden
+- Neue Design-Einstellung, um das schwarze Design zu verwenden, wenn das System-Design ausgewählt ist
+- Neue Ansicht für beliebte Beiträge im Menü und benutzerdefinierten Tabs verfügbar
+- Viele weitere Verbesserungen und Fehlerbehebungen!

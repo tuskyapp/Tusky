@@ -206,7 +206,7 @@
     <string name="notification_boost_description">Известия, когато публикациите ви се споделят</string>
     <string name="post_text_size_smallest">Най-малък</string>
     <string name="description_visibility_unlisted">Скрито</string>
-    <string name="pref_title_post_tabs">Раздели</string>
+    <string name="pref_title_post_tabs">Начална емисия</string>
     <string name="pref_title_post_filter">Филтриране на емисия</string>
     <string name="pref_title_animate_custom_emojis">Анимиране на персонализирани емоджита</string>
     <string name="pref_title_gradient_for_media">Показване на цветни градиенти за скрита мултимедия</string>
@@ -477,7 +477,7 @@
     <string name="pref_main_nav_position_option_bottom">Отдолу</string>
     <string name="pref_main_nav_position_option_top">Отгоре</string>
     <string name="pref_main_nav_position">Основна навигационна позиция</string>
-    <string name="pref_failed_to_sync">Синхронизирането на настройките бе неуспешно</string>
+    <string name="pref_failed_to_sync">Синхронизирането на предпочитанията бе неуспешно</string>
     <string name="pref_publishing">Публикуване (синхронизирано със сървър)</string>
     <string name="pref_default_media_sensitivity">Винаги маркиране на мултимедия като чувствителна</string>
     <string name="pref_default_post_privacy">Поверителност на публикация по подразбиране</string>
@@ -557,7 +557,6 @@
     <string name="error_following_hashtag_format">Грешка при последване на #%s</string>
     <string name="error_unfollowing_hashtag_format">Грешка при отследване на #%s</string>
     <string name="title_public_federated">Федерирани</string>
-    <string name="error_list_load">Грешка при зареждане на списъци</string>
     <string name="select_list_manage">Управление на списъци</string>
     <string name="notification_update_format">%s редактира публикацията си</string>
     <string name="pref_title_account_filter_keywords">Профили</string>

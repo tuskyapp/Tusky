@@ -23,22 +23,28 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.replacedFirstWhich
 import com.keylesspalace.tusky.util.withoutFirstWhich
+import java.io.IOException
+import java.net.ConnectException
+import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.net.ConnectException
-import javax.inject.Inject
 
 internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
     enum class LoadingState {
-        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL,
+        LOADING,
+        LOADED,
+        ERROR_NETWORK,
+        ERROR_OTHER
     }
 
     enum class Event {
-        CREATE_ERROR, DELETE_ERROR, UPDATE_ERROR
+        CREATE_ERROR,
+        DELETE_ERROR,
+        UPDATE_ERROR
     }
 
     data class State(val lists: List<MastoList>, val loadingState: LoadingState)
@@ -46,7 +52,12 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
     val state: Flow<State> get() = _state
     val events: Flow<Event> get() = _events
     private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
-    private val _events = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _events =
+        MutableSharedFlow<Event>(
+            replay = 0,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
 
     fun retryLoading() {
         loadIfNeeded()

@@ -9,9 +9,9 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub: EventHub) : ViewModel() {
     private var originalFilter: Filter? = null
@@ -92,7 +92,13 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
         }
     }
 
-    private suspend fun createFilter(title: String, contexts: List<String>, action: String, durationIndex: Int, context: Context): Boolean {
+    private suspend fun createFilter(
+        title: String,
+        contexts: List<String>,
+        action: String,
+        durationIndex: Int,
+        context: Context
+    ): Boolean {
         val expiresInSeconds = EditFilterActivity.getSecondsForDurationIndex(durationIndex, context)
         api.createFilter(
             title = title,
@@ -103,7 +109,11 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
             { newFilter ->
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
                 return keywords.value.map { keyword ->
-                    api.addFilterKeyword(filterId = newFilter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
+                    api.addFilterKeyword(
+                        filterId = newFilter.id,
+                        keyword = keyword.keyword,
+                        wholeWord = keyword.wholeWord
+                    )
                 }.none { it.isFailure }
             },
             { throwable ->
@@ -116,7 +126,14 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
         )
     }
 
-    private suspend fun updateFilter(originalFilter: Filter, title: String, contexts: List<String>, action: String, durationIndex: Int, context: Context): Boolean {
+    private suspend fun updateFilter(
+        originalFilter: Filter,
+        title: String,
+        contexts: List<String>,
+        action: String,
+        durationIndex: Int,
+        context: Context
+    ): Boolean {
         val expiresInSeconds = EditFilterActivity.getSecondsForDurationIndex(durationIndex, context)
         api.updateFilter(
             id = originalFilter.id,

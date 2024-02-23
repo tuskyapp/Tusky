@@ -9,7 +9,8 @@ data class Poll(
     val expired: Boolean,
     val multiple: Boolean,
     @SerializedName("votes_count") val votesCount: Int,
-    @SerializedName("voters_count") val votersCount: Int?, // nullable for compatibility with Pleroma
+    // nullable for compatibility with Pleroma
+    @SerializedName("voters_count") val votersCount: Int?,
     val options: List<PollOption>,
     val voted: Boolean,
     @SerializedName("own_votes") val ownVotes: List<Int>?

@@ -26,7 +26,7 @@ import androidx.arch.core.util.Function
  * supplementary one.
  * @constructor
  */
-class PairedList<T, V> (private val mapper: Function<T, out V>) : AbstractMutableList<T>() {
+class PairedList<T, V>(private val mapper: Function<T, out V>) : AbstractMutableList<T>() {
     private val main: MutableList<T> = ArrayList()
     private val synced: MutableList<V> = ArrayList()
 

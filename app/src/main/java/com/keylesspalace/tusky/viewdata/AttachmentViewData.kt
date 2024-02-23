@@ -35,7 +35,10 @@ data class AttachmentViewData(
 
     companion object {
         @JvmStatic
-        fun list(status: Status, alwaysShowSensitiveMedia: Boolean = false): List<AttachmentViewData> {
+        fun list(
+            status: Status,
+            alwaysShowSensitiveMedia: Boolean = false
+        ): List<AttachmentViewData> {
             val actionable = status.actionableStatus
             return actionable.attachments.map { attachment ->
                 AttachmentViewData(

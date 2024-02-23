@@ -286,7 +286,7 @@
     <View
         android:id="@+id/status_info_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_below="@id/status_meta_info"
         android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
@@ -304,11 +304,10 @@
         android:layout_marginTop="6dp"
         android:background="?attr/selectableItemBackground"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="@id/status_info_divider"
         app:layout_constraintTop_toBottomOf="@id/status_info_divider"
-        tools:text="4 reblogs"
+        tools:text="4 Boosts"
         tools:visibility="visible" />
 
     <TextView
@@ -319,12 +318,11 @@
         android:layout_marginTop="6dp"
         android:background="?attr/selectableItemBackground"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toEndOf="@id/status_reblogs"
         app:layout_constraintTop_toBottomOf="@id/status_info_divider"
         app:layout_goneMarginStart="0dp"
-        tools:text="8 favs"
+        tools:text="8 Favorites"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -334,24 +332,13 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="status_reblogs,status_favourites" />
 
-    <View
-        android:id="@+id/status_buttons_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="14dp"
-        android:background="?android:attr/listDivider"
-        android:importantForAccessibility="no"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/status_counters_barrier" />
 
     <ImageButton
         android:id="@+id/status_reply"
         style="@style/TuskyImageButton"
         android:layout_width="52dp"
         android:layout_height="48dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
         android:padding="4dp"
@@ -359,7 +346,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_buttons_divider"
+        app:layout_constraintTop_toBottomOf="@id/status_counters_barrier"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
     <at.connyduck.sparkbutton.SparkButton

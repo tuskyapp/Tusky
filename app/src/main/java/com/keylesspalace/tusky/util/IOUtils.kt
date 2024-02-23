@@ -36,10 +36,7 @@ fun Closeable?.closeQuietly() {
 }
 
 @SuppressLint("Recycle") // The linter can't tell that the stream gets closed by a helper method
-fun Uri.copyToFile(
-    contentResolver: ContentResolver,
-    file: File
-): Boolean {
+fun Uri.copyToFile(contentResolver: ContentResolver, file: File): Boolean {
     val from: InputStream?
     val to: FileOutputStream
 

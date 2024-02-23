@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
@@ -44,8 +46,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
-import javax.inject.Inject
 
 /**
  * TimelineViewModel that caches all statuses in an in-memory list
@@ -57,7 +57,14 @@ class NetworkTimelineViewModel @Inject constructor(
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel
-) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
+) : TimelineViewModel(
+    timelineCases,
+    api,
+    eventHub,
+    accountManager,
+    sharedPreferences,
+    filterModel
+) {
 
     var currentSource: NetworkTimelinePagingSource? = null
 
@@ -168,11 +175,17 @@ class NetworkTimelineViewModel @Inject constructor(
                 if (statuses.isNotEmpty()) {
                     val firstId = statuses.first().id
                     val lastId = statuses.last().id
-                    val overlappedFrom = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false }
+                    val overlappedFrom = statusData.indexOfFirst {
+                        it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false
+                    }
                     val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
 
                     if (overlappedFrom < overlappedTo) {
-                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
+                        data.mapIndexed { i, status ->
+                            i to statusData.firstOrNull {
+                                it.asStatusOrNull()?.id == status.id
+                            }?.asStatusOrNull()
+                        }
                             .filter { (_, oldStatus) -> oldStatus != null }
                             .forEach { (i, oldStatus) ->
                                 data[i] = data[i].asStatusOrNull()!!
@@ -309,10 +322,7 @@ class NetworkTimelineViewModel @Inject constructor(
         updateViewDataAt(pos, updater)
     }
 
-    private inline fun updateActionableStatusById(
-        id: String,
-        updater: (Status) -> Status
-    ) {
+    private inline fun updateActionableStatusById(id: String, updater: (Status) -> Status) {
         val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
         if (pos == -1) return
         updateViewDataAt(pos) { vd ->

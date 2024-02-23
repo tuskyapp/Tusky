@@ -197,7 +197,7 @@
     <string name="pref_default_post_privacy">嘟文默认可见范围</string>
     <string name="pref_default_media_sensitivity">自动标记媒体为敏感内容</string>
     <string name="pref_publishing">发布（与服务器同步）</string>
-    <string name="pref_failed_to_sync">同步设置失败</string>
+    <string name="pref_failed_to_sync">同步选项失败</string>
     <string name="post_privacy_public">公开</string>
     <string name="post_privacy_unlisted">不公开</string>
     <string name="post_privacy_followers_only">仅关注者</string>
@@ -650,8 +650,6 @@
 \n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
     <string name="post_media_image">图片</string>
     <string name="select_list_manage">管理列表</string>
-    <string name="error_list_load">加载列表出错</string>
-    <string name="select_list_empty">你还没有列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
     <string name="compose_delete_draft">删除草稿？</string>
     <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
@@ -701,4 +699,6 @@
     <string name="list_reply_policy_list">列表成员</string>
     <string name="list_reply_policy_followed">任何已关注的用户</string>
     <string name="list_reply_policy_label">显示哪些回复</string>
+    <string name="pref_title_show_self_boosts_description">某人转发自己的嘟文</string>
+    <string name="pref_title_show_self_boosts">显示自转发嘟文</string>
 </resources>

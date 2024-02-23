@@ -67,7 +67,10 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
             .map { pollOptions.indexOf(it) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemPollBinding> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemPollBinding> {
         val binding = ItemPollBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }

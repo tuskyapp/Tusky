@@ -60,7 +60,9 @@ fun showAddPollDialog(
     binding.pollChoices.adapter = adapter
 
     var durations = context.resources.getIntArray(R.array.poll_duration_values).toList()
-    val durationLabels = context.resources.getStringArray(R.array.poll_duration_names).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
+    val durationLabels = context.resources.getStringArray(
+        R.array.poll_duration_names
+    ).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
     binding.pollDurationSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, durationLabels).apply {
         setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
     }
@@ -75,8 +77,8 @@ fun showAddPollDialog(
         }
     }
 
-    val DAY_SECONDS = 60 * 60 * 24
-    val desiredDuration = poll?.expiresIn ?: DAY_SECONDS
+    val secondsInADay = 60 * 60 * 24
+    val desiredDuration = poll?.expiresIn ?: secondsInADay
     val pollDurationId = durations.indexOfLast {
         it <= desiredDuration
     }
@@ -105,5 +107,7 @@ fun showAddPollDialog(
     dialog.show()
 
     // make the dialog focusable so the keyboard does not stay behind it
-    dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+    dialog.window?.clearFlags(
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+    )
 }

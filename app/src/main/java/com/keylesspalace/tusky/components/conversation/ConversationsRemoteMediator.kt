@@ -38,7 +38,10 @@ class ConversationsRemoteMediator(
         }
 
         try {
-            val conversationsResponse = api.getConversations(maxId = nextKey, limit = state.config.pageSize)
+            val conversationsResponse = api.getConversations(
+                maxId = nextKey,
+                limit = state.config.pageSize
+            )
 
             val conversations = conversationsResponse.body()
             if (!conversationsResponse.isSuccessful || conversations == null) {

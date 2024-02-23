@@ -24,6 +24,8 @@ import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.TestScheduler
+import java.util.Date
+import java.util.concurrent.TimeUnit
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -34,8 +36,6 @@ import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mockito.eq
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import java.util.Date
-import java.util.concurrent.TimeUnit
 
 class BottomSheetActivityTest {
 

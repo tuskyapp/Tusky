@@ -63,13 +63,12 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ConversationsFragment :
     SFragment(),
@@ -92,7 +91,11 @@ class ConversationsFragment :
 
     private var hideFab = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
@@ -132,7 +135,7 @@ class ConversationsFragment :
             binding.progressBar.hide()
 
             if (loadState.isAnyLoading()) {
-                runBlocking {
+                lifecycleScope.launch {
                     eventHub.dispatch(ConversationsLoadingEvent(accountManager.activeAccount?.accountId ?: ""))
                 }
             }
@@ -142,13 +145,19 @@ class ConversationsFragment :
                     is LoadState.NotLoading -> {
                         if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
                             binding.statusView.show()
-                            binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty, null)
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
                             binding.statusView.showHelp(R.string.help_empty_conversations)
                         }
                     }
                     is LoadState.Error -> {
                         binding.statusView.show()
-                        binding.statusView.setup((loadState.refresh as LoadState.Error).error) { refreshContent() }
+                        binding.statusView.setup(
+                            (loadState.refresh as LoadState.Error).error
+                        ) { refreshContent() }
                     }
                     is LoadState.Loading -> {
                         binding.progressBar.show()
@@ -241,7 +250,9 @@ class ConversationsFragment :
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        )
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
@@ -299,7 +310,11 @@ class ConversationsFragment :
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
         adapter.peek(position)?.let { conversation ->
-            viewMedia(attachmentIndex, AttachmentViewData.list(conversation.lastStatus.status), view)
+            viewMedia(
+                attachmentIndex,
+                AttachmentViewData.list(conversation.lastStatus.status),
+                view
+            )
         }
     }
 
