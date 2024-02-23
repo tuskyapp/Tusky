@@ -24,7 +24,7 @@ androidx-room = "2.5.2"
 autodispose = "2.2.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
-coroutines = "1.7.3"
+coroutines = "1.8.0"
 dagger = "2.48.1"
 diffx = "1.1.1"
 emoji2 = "1.3.0"
@@ -57,7 +57,7 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:1.9.22-1.0.16"
+google-ksp = "com.google.devtools.ksp:1.9.22-1.0.17"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
