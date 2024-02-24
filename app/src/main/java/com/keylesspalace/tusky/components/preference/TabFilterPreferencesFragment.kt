@@ -16,7 +16,11 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
@@ -30,6 +34,17 @@ class TabFilterPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Give view a background color so transitions show up correctly
+        return super.onCreateView(inflater, container, savedInstanceState).also { view ->
+            view.setBackgroundColor(MaterialColors.getColor(view, android.R.attr.colorBackground))
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
