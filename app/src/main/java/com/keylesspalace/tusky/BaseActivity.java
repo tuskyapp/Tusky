@@ -60,6 +60,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
+import static com.keylesspalace.tusky.util.ActivityExtensions.supportsOverridingActivityTransitions;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
@@ -78,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+        if (supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
             overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.actitivity_close_enter, R.anim.activity_close_exit);
         }
@@ -109,6 +110,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         }
 
         requesters = new HashMap<>();
+    }
+
+    private boolean activityTransitionWasRequested() {
+        return getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false);
     }
 
     @Override
@@ -189,7 +194,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     public void finish() {
         super.finish();
         // if this activity was opened with slide-in, close it with slide out
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
+        if (!supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
             overridePendingTransition(R.anim.actitivity_close_enter, R.anim.activity_close_exit);
         }
     }
