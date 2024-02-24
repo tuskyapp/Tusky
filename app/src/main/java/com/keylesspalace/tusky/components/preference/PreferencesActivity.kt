@@ -115,10 +115,10 @@ class PreferencesActivity :
         fragment.setTargetFragment(caller, 0)
         supportFragmentManager.commit {
             setCustomAnimations(
-                R.anim.slide_from_right,
-                R.anim.slide_to_left,
-                R.anim.slide_from_left,
-                R.anim.slide_to_right
+                R.anim.activity_open_enter,
+                R.anim.activity_open_exit,
+                R.anim.actitivity_close_enter,
+                R.anim.activity_close_exit
             )
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)

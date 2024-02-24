@@ -126,7 +126,7 @@ class LoginActivity : BaseActivity(), Injectable {
     override fun finish() {
         super.finish()
         if (isAdditionalLogin() || isAccountMigration()) {
-            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
+            overridePendingTransition(R.anim.actitivity_close_enter, R.anim.activity_close_exit)
         }
     }
 

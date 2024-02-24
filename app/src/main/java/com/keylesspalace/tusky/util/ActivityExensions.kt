@@ -16,6 +16,6 @@ fun Activity.startActivityWithSlideInAnimation(intent: Intent) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         // the old api needs to be called by the activity that starts the transition
         @Suppress("DEPRECATION")
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit)
     }
 }

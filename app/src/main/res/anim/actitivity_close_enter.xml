@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <!--
+        No-op.
+
+        If we had extend we could do a bit of a fancy translate but without it it we will have a
+        weird gap at the gap of the screen.
+
+        We put no-op alpha translation because otherwise Android will compose the other part of the
+        transition over the black background.
+    -->
+    <alpha
+        android:fromAlpha="1.0"
+        android:toAlpha="1.0"
+        android:fillEnabled="true"
+        android:fillBefore="true"
+        android:fillAfter="true"
+        android:interpolator="@android:anim/linear_interpolator"
+        android:startOffset="0"
+        android:duration="450" />
+</set>

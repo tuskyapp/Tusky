@@ -79,8 +79,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.slide_from_right, R.anim.slide_to_left);
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.slide_from_left, R.anim.slide_to_right);
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.actitivity_close_enter, R.anim.activity_close_exit);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -190,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         super.finish();
         // if this activity was opened with slide-in, close it with slide out
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE && getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false)) {
-            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+            overridePendingTransition(R.anim.actitivity_close_enter, R.anim.activity_close_exit);
         }
     }
 
