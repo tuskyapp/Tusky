@@ -20,47 +20,30 @@ import android.content.ContentResolver
 import android.net.Uri
 import java.io.Closeable
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
+import okio.buffer
+import okio.sink
+import okio.source
 
-private const val DEFAULT_BLOCKSIZE = 16384
-
-fun Closeable?.closeQuietly() {
+fun Closeable.closeQuietly() {
     try {
-        this?.close()
+        close()
     } catch (e: IOException) {
         // intentionally unhandled
     }
 }
 
-@SuppressLint("Recycle") // The linter can't tell that the stream gets closed by a helper method
+@SuppressLint("Recycle") // The linter can't tell that the InputStream gets closed through the source
 fun Uri.copyToFile(contentResolver: ContentResolver, file: File): Boolean {
-    val from: InputStream?
-    val to: FileOutputStream
-
-    try {
-        from = contentResolver.openInputStream(this)
-        to = FileOutputStream(file)
-    } catch (e: FileNotFoundException) {
-        return false
-    }
-
-    if (from == null) return false
-
-    val chunk = ByteArray(DEFAULT_BLOCKSIZE)
-    try {
-        while (true) {
-            val bytes = from.read(chunk, 0, chunk.size)
-            if (bytes < 0) break
-            to.write(chunk, 0, bytes)
+    return try {
+        val inputStream = contentResolver.openInputStream(this) ?: return false
+        inputStream.source().use { source ->
+            file.sink().buffer().use { bufferedSink ->
+                bufferedSink.writeAll(source)
+            }
         }
+        true
     } catch (e: IOException) {
-        return false
+        false
     }
-
-    from.closeQuietly()
-    to.closeQuietly()
-    return true
 }
