@@ -84,7 +84,7 @@ abstract class SFragment : Fragment(), Injectable {
 
     override fun startActivity(intent: Intent) {
         super.startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        requireActivity().overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit)
     }
 
     override fun onAttach(context: Context) {
