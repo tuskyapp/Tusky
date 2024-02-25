@@ -21,7 +21,7 @@ data class Filter(
         HIDE("hide");
 
         companion object {
-            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN
+            fun from(action: String): Action = entries.firstOrNull { it.action == action } ?: WARN
         }
     }
     enum class Kind(val kind: String) {
@@ -32,7 +32,7 @@ data class Filter(
         ACCOUNT("account");
 
         companion object {
-            fun from(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
+            fun from(kind: String): Kind = entries.firstOrNull { it.kind == kind } ?: PUBLIC
         }
     }
 

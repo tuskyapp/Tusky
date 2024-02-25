@@ -69,7 +69,7 @@ data class Notification(
         companion object {
             @JvmStatic
             fun byString(s: String): Type {
-                values().forEach {
+                entries.forEach {
                     if (s == it.presentation) {
                         return it
                     }

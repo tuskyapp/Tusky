@@ -9,7 +9,7 @@ enum class AppTheme(val value: String) {
     AUTO_SYSTEM_BLACK("auto_system_black");
 
     companion object {
-        fun stringValues() = values().map { it.value }.toTypedArray()
+        fun stringValues() = entries.map { it.value }.toTypedArray()
 
         @JvmField
         val DEFAULT = AUTO_SYSTEM

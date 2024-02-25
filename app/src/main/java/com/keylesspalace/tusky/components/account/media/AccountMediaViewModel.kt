@@ -27,7 +27,7 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
 
 class AccountMediaViewModel @Inject constructor(
-    private val accountManager: AccountManager,
+    accountManager: AccountManager,
     api: MastodonApi
 ) : ViewModel() {
 
