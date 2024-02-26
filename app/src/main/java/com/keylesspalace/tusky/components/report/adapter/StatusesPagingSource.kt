@@ -18,12 +18,11 @@ package com.keylesspalace.tusky.components.report.adapter
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.rx3.await
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 
 class StatusesPagingSource(
     private val accountId: String,
@@ -40,7 +39,9 @@ class StatusesPagingSource(
         val key = params.key
         try {
             val result = if (params is LoadParams.Refresh && key != null) {
-                withContext(Dispatchers.IO) {
+                // Use coroutineScope to ensure that one failed call will cancel the other one
+                // and the source Exception will be propagated locally.
+                coroutineScope {
                     val initialStatus = async { getSingleStatus(key) }
                     val additionalStatuses =
                         async { getStatusList(maxId = key, limit = params.loadSize - 1) }
@@ -73,7 +74,7 @@ class StatusesPagingSource(
     }
 
     private suspend fun getSingleStatus(statusId: String): Status {
-        return mastodonApi.statusObservable(statusId).await()
+        return mastodonApi.status(statusId).getOrThrow()
     }
 
     private suspend fun getStatusList(
@@ -81,13 +82,13 @@ class StatusesPagingSource(
         maxId: String? = null,
         limit: Int
     ): List<Status> {
-        return mastodonApi.accountStatusesObservable(
+        return mastodonApi.accountStatuses(
             accountId = accountId,
             maxId = maxId,
             sinceId = null,
             minId = minId,
             limit = limit,
             excludeReblogs = true
-        ).await()
+        ).getOrThrow()
     }
 }

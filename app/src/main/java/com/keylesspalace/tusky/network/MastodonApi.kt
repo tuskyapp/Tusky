@@ -46,7 +46,6 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.TrendingTag
-import io.reactivex.rxjava3.core.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -210,9 +209,6 @@ interface MastodonApi {
         @Body editedStatus: NewStatus
     ): NetworkResult<Status>
 
-    @GET("api/v1/statuses/{id}")
-    suspend fun statusAsync(@Path("id") statusId: String): NetworkResult<Status>
-
     @GET("api/v1/statuses/{id}/source")
     suspend fun statusSource(@Path("id") statusId: String): NetworkResult<StatusSource>
 
@@ -268,10 +264,10 @@ interface MastodonApi {
     suspend fun unmuteConversation(@Path("id") statusId: String): NetworkResult<Status>
 
     @GET("api/v1/scheduled_statuses")
-    fun scheduledStatuses(
+    suspend fun scheduledStatuses(
         @Query("limit") limit: Int? = null,
         @Query("max_id") maxId: String? = null
-    ): Single<List<ScheduledStatus>>
+    ): NetworkResult<List<ScheduledStatus>>
 
     @DELETE("api/v1/scheduled_statuses/{id}")
     suspend fun deleteScheduledStatus(
@@ -628,17 +624,14 @@ interface MastodonApi {
     ): NetworkResult<Unit>
 
     @GET("api/v1/accounts/{id}/statuses")
-    fun accountStatusesObservable(
+    suspend fun accountStatuses(
         @Path("id") accountId: String,
         @Query("max_id") maxId: String?,
         @Query("since_id") sinceId: String?,
         @Query("min_id") minId: String?,
         @Query("limit") limit: Int?,
         @Query("exclude_reblogs") excludeReblogs: Boolean?
-    ): Single<List<Status>>
-
-    @GET("api/v1/statuses/{id}")
-    fun statusObservable(@Path("id") statusId: String): Single<Status>
+    ): NetworkResult<List<Status>>
 
     @GET("api/v2/search")
     suspend fun search(
