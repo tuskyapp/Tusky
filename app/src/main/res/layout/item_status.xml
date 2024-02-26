@@ -310,6 +310,38 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
 
+    <Button
+        android:id="@+id/status_button_untranslate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_show_original"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        style="@style/TuskyButton.TextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        tools:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/status_translation_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        style="@style/TextSizeSmall"
+        tools:text="Translated from Lang by Service"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate"
+        app:layout_constraintBaseline_toBaselineOf="@id/status_button_untranslate"
+        android:layout_marginEnd="4dp"
+        android:maxLines="4"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/status_translation_barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="status_translation_status, status_button_untranslate"/>
+
     <ImageButton
         android:id="@+id/status_reply"
         style="@style/TuskyImageButton"
@@ -323,7 +355,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        app:layout_constraintTop_toBottomOf="@id/status_translation_barrier"
         app:srcCompat="@drawable/ic_reply_24dp" />
 
     <TextView

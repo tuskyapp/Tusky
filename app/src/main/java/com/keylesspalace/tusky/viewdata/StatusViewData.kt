@@ -15,10 +15,23 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.text.Spanned
+import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
+
+sealed class TranslationViewData {
+    abstract val data: Translation?
+
+    data class Loaded(override val data: Translation) : TranslationViewData()
+
+    data object Loading : TranslationViewData() {
+        override val data: Translation?
+            get() = null
+    }
+}
 
 /**
  * Created by charlag on 11/07/2017.
@@ -41,12 +54,28 @@ sealed class StatusViewData {
          * @return Whether the post is collapsed or fully expanded.
          */
         val isCollapsed: Boolean,
-        val isDetailed: Boolean = false
+        val isDetailed: Boolean = false,
+        val translation: TranslationViewData? = null,
     ) : StatusViewData() {
         override val id: String
             get() = status.id
 
-        val content: Spanned = status.actionableStatus.content.parseAsMastodonHtml()
+        val content: Spanned =
+            (translation?.data?.content ?: actionable.content).parseAsMastodonHtml()
+
+        val attachments =
+            actionable.attachments.translated { translation -> map { it.translated(translation) } }
+
+        val spoilerText =
+            actionable.spoilerText.translated { translation -> translation.spoilerWarning ?: this }
+
+        val poll = actionable.poll?.translated { translation ->
+            val translatedOptionsText = translation.poll ?: return@translated this
+            val translatedOptions = options.zip(translatedOptionsText) { option, translatedText ->
+                option.copy(title = translatedText)
+            }
+            copy(options = translatedOptions)
+        }
 
         /**
          * Specifies whether the content of this post is long enough to be automatically
@@ -91,6 +120,20 @@ sealed class StatusViewData {
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }
+
+        private fun Attachment.translated(translation: Translation): Attachment {
+            val translatedDescription =
+                translation.mediaAttachments.find { it.id == id }?.description
+                    ?: return this
+            return copy(description = translatedDescription)
+        }
+
+        private inline fun <T> T.translated(mapper: T.(Translation) -> T): T =
+            if (translation is TranslationViewData.Loaded) {
+                mapper(translation.data)
+            } else {
+                this
+            }
     }
 
     data class Placeholder(

@@ -21,6 +21,8 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
+import at.connyduck.calladapter.networkresult.map
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -37,9 +39,11 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.asResult
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -110,7 +114,7 @@ class ViewThreadViewModel @Inject constructor(
                 Log.d(TAG, "Loaded status from local timeline")
                 val viewData = timelineStatus.toViewData(
                     gson,
-                    isDetailed = true
+                    isDetailed = true,
                 ) as StatusViewData.Concrete
 
                 // Return the correct status, depending on which one matched. If you do not do
@@ -154,8 +158,10 @@ class ViewThreadViewModel @Inject constructor(
             val contextResult = contextCall.await()
 
             contextResult.fold({ statusContext ->
-                val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
-                val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
+                val ancestors =
+                    statusContext.ancestors.map { status -> status.toViewData() }.filter()
+                val descendants =
+                    statusContext.descendants.map { status -> status.toViewData() }.filter()
                 val statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
@@ -189,6 +195,7 @@ class ViewThreadViewModel @Inject constructor(
             is ThreadUiState.Success -> uiState.statusViewData.find { status ->
                 status.isDetailed
             }
+
             is ThreadUiState.LoadingThread -> uiState.statusViewDatum
             else -> null
         }
@@ -281,13 +288,38 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    suspend fun translate(status: StatusViewData.Concrete): Result<Unit> {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(translation = TranslationViewData.Loading)
+        }
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = TranslationViewData.Loaded(translation))
+                }
+            }
+            .onFailure {
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = null)
+                }
+            }
+            .asResult()
+    }
+
+    fun untranslate(status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(translation = null)
+        }
+    }
+
     private fun handleStatusChangedEvent(status: Status) {
         updateStatusViewData(status.id) { viewData ->
             status.toViewData(
                 isShowingContent = viewData.isShowingContent,
                 isExpanded = viewData.isExpanded,
                 isCollapsed = viewData.isCollapsed,
-                isDetailed = viewData.isDetailed
+                isDetailed = viewData.isDetailed,
+                translation = viewData.translation,
             )
         }
     }
@@ -307,7 +339,8 @@ class ViewThreadViewModel @Inject constructor(
         updateSuccess { uiState ->
             val statuses = uiState.statusViewData
             val detailedIndex = statuses.indexOfFirst { status -> status.isDetailed }
-            val repliedIndex = statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
+            val repliedIndex =
+                statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
             if (detailedIndex != -1 && repliedIndex >= detailedIndex) {
                 // there is a new reply to the detailed status or below -> display it
                 val newStatuses = statuses.subList(0, repliedIndex + 1) +
@@ -339,12 +372,14 @@ class ViewThreadViewModel @Inject constructor(
                     },
                     revealButton = RevealButtonState.REVEAL
                 )
+
                 RevealButtonState.REVEAL -> uiState.copy(
                     statusViewData = uiState.statusViewData.map { viewData ->
                         viewData.copy(isExpanded = true)
                     },
                     revealButton = RevealButtonState.HIDE
                 )
+
                 else -> uiState
             }
         }
@@ -441,7 +476,8 @@ class ViewThreadViewModel @Inject constructor(
             it.id == this.id
         }
         return toViewData(
-            isShowingContent = oldStatus?.isShowingContent ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
+            isShowingContent = oldStatus?.isShowingContent
+                ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
             isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
             isDetailed = oldStatus?.isDetailed ?: isDetailed

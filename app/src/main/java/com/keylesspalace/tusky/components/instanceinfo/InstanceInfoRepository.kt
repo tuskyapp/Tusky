@@ -77,7 +77,8 @@ class InstanceInfoRepository @Inject constructor(
                         maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
+                        translationEnabled = instance.configuration?.translation?.enabled
                     )
                     dao.upsert(instanceEntity)
                     instanceEntity
@@ -109,7 +110,8 @@ class InstanceInfoRepository @Inject constructor(
                     maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
                     maxFieldNameLength = instanceInfo?.maxFieldNameLength,
                     maxFieldValueLength = instanceInfo?.maxFieldValueLength,
-                    version = instanceInfo?.version
+                    version = instanceInfo?.version,
+                    translationEnabled = instanceInfo?.translationEnabled
                 )
             }
     }
@@ -133,7 +135,8 @@ class InstanceInfoRepository @Inject constructor(
                         maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
                         maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
                         maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength
+                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
+                        translationEnabled = null,
                     )
                     dao.upsert(instanceEntity)
                     instanceEntity

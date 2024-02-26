@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.entity.TrendingTag
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -703,4 +704,11 @@ interface MastodonApi {
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: String? = null
     ): Response<List<Status>>
+
+    @FormUrlEncoded
+    @POST("api/v1/statuses/{id}/translate")
+    suspend fun translate(
+        @Path("id") statusId: String,
+        @Field("lang") targetLanguage: String?
+    ): NetworkResult<Translation>
 }

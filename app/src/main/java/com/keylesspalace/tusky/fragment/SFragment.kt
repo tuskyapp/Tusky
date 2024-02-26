@@ -46,12 +46,14 @@ import com.keylesspalace.tusky.ViewMediaActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.startIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.report.ReportActivity.Companion.getIntent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -60,6 +62,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -72,6 +75,10 @@ import kotlinx.coroutines.launch
 abstract class SFragment : Fragment(), Injectable {
     protected abstract fun removeItem(position: Int)
     protected abstract fun onReblog(reblog: Boolean, position: Int)
+
+    /** `null` if translation is not supported on this screen */
+    protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
+
     private lateinit var bottomSheetActivity: BottomSheetActivity
 
     @Inject
@@ -82,6 +89,9 @@ abstract class SFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var timelineCases: TimelineCases
+
+    @Inject
+    lateinit var instanceInfoRepository: InstanceInfoRepository
 
     override fun startActivity(intent: Intent) {
         requireActivity().startActivityWithSlideInAnimation(intent)
@@ -140,170 +150,201 @@ abstract class SFragment : Fragment(), Injectable {
         requireActivity().startActivity(intent)
     }
 
-    protected fun more(status: Status, view: View, position: Int) {
-        val id = status.actionableId
-        val accountId = status.actionableStatus.account.id
-        val accountUsername = status.actionableStatus.account.username
-        val statusUrl = status.actionableStatus.url
-        var loggedInAccountId: String? = null
-        val activeAccount = accountManager.activeAccount
-        if (activeAccount != null) {
-            loggedInAccountId = activeAccount.accountId
-        }
-        val popup = PopupMenu(requireContext(), view)
-        // Give a different menu depending on whether this is the user's own toot or not.
-        val statusIsByCurrentUser = loggedInAccountId != null && loggedInAccountId == accountId
-        if (statusIsByCurrentUser) {
-            popup.inflate(R.menu.status_more_for_user)
+    protected fun more(status: Status, view: View, position: Int, translation: Translation?) =
+        lifecycleScope.launch {
+            val id = status.actionableId
+            val accountId = status.actionableStatus.account.id
+            val accountUsername = status.actionableStatus.account.username
+            val statusUrl = status.actionableStatus.url
+            var loggedInAccountId: String? = null
+            val activeAccount = accountManager.activeAccount
+            if (activeAccount != null) {
+                loggedInAccountId = activeAccount.accountId
+            }
+            val popup = PopupMenu(requireContext(), view)
+            // Give a different menu depending on whether this is the user's own toot or not.
+            val statusIsByCurrentUser = loggedInAccountId != null && loggedInAccountId == accountId
+            if (statusIsByCurrentUser) {
+                popup.inflate(R.menu.status_more_for_user)
+                val menu = popup.menu
+                when (status.visibility) {
+                    Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
+                        menu.add(
+                            0,
+                            R.id.pin,
+                            1,
+                            getString(
+                                if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                            )
+                        )
+                    }
+
+                    Status.Visibility.PRIVATE -> {
+                        val reblogged = status.reblog?.reblogged ?: status.reblogged
+                        menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
+                        menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
+                    }
+
+                    else -> {}
+                }
+            } else {
+                popup.inflate(R.menu.status_more)
+                popup.menu.findItem(R.id.status_download_media).isVisible =
+                    status.attachments.isNotEmpty()
+            }
             val menu = popup.menu
-            when (status.visibility) {
-                Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
-                    menu.add(
-                        0,
-                        R.id.pin,
-                        1,
-                        getString(
-                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
-                        )
-                    )
-                }
-                Status.Visibility.PRIVATE -> {
-                    val reblogged = status.reblog?.reblogged ?: status.reblogged
-                    menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
-                    menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
-                }
-                else -> {}
+            val openAsItem = menu.findItem(R.id.status_open_as)
+            val openAsText = (activity as BaseActivity?)?.openAsText
+            if (openAsText == null) {
+                openAsItem.isVisible = false
+            } else {
+                openAsItem.title = openAsText
             }
-        } else {
-            popup.inflate(R.menu.status_more)
-            popup.menu.findItem(R.id.status_download_media).isVisible = status.attachments.isNotEmpty()
-        }
-        val menu = popup.menu
-        val openAsItem = menu.findItem(R.id.status_open_as)
-        val openAsText = (activity as BaseActivity?)?.openAsText
-        if (openAsText == null) {
-            openAsItem.isVisible = false
-        } else {
-            openAsItem.title = openAsText
-        }
-        val muteConversationItem = menu.findItem(R.id.status_mute_conversation)
-        val mutable = statusIsByCurrentUser || accountIsInMentions(activeAccount, status.mentions)
-        muteConversationItem.isVisible = mutable
-        if (mutable) {
-            muteConversationItem.setTitle(
-                if (status.muted != true) {
-                    R.string.action_mute_conversation
-                } else {
-                    R.string.action_unmute_conversation
-                }
-            )
-        }
-        popup.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.post_share_content -> {
-                    val statusToShare = status.reblog ?: status
-                    val sendIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        type = "text/plain"
-                        putExtra(
-                            Intent.EXTRA_TEXT,
-                            "${statusToShare.account.username} - ${statusToShare.content.parseAsMastodonHtml()}"
-                        )
-                        putExtra(Intent.EXTRA_SUBJECT, statusUrl)
+            val muteConversationItem = menu.findItem(R.id.status_mute_conversation)
+            val mutable =
+                statusIsByCurrentUser || accountIsInMentions(activeAccount, status.mentions)
+            muteConversationItem.isVisible = mutable
+            if (mutable) {
+                muteConversationItem.setTitle(
+                    if (status.muted != true) {
+                        R.string.action_mute_conversation
+                    } else {
+                        R.string.action_unmute_conversation
                     }
-                    startActivity(
-                        Intent.createChooser(
-                            sendIntent,
-                            resources.getText(R.string.send_post_content_to)
-                        )
-                    )
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.post_share_link -> {
-                    val sendIntent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, statusUrl)
-                        type = "text/plain"
-                    }
-                    startActivity(
-                        Intent.createChooser(
-                            sendIntent,
-                            resources.getText(R.string.send_post_link_to)
-                        )
-                    )
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_copy_link -> {
-                    (
-                        requireActivity().getSystemService(
-                            Context.CLIPBOARD_SERVICE
-                        ) as ClipboardManager
-                        ).apply {
-                        setPrimaryClip(ClipData.newPlainText(null, statusUrl))
-                    }
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_open_as -> {
-                    showOpenAsDialog(statusUrl, item.title)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_download_media -> {
-                    requestDownloadAllMedia(status)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_mute -> {
-                    onMute(accountId, accountUsername)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_block -> {
-                    onBlock(accountId, accountUsername)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_report -> {
-                    openReportPage(accountId, accountUsername, id)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_unreblog_private -> {
-                    onReblog(false, position)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_reblog_private -> {
-                    onReblog(true, position)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_delete -> {
-                    showConfirmDeleteDialog(id, position)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_delete_and_redraft -> {
-                    showConfirmEditDialog(id, position, status)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_edit -> {
-                    editStatus(id, status)
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.pin -> {
-                    lifecycleScope.launch {
-                        timelineCases.pin(status.id, !status.isPinned()).onFailure { e: Throwable ->
-                            val message = e.message
-                                ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
-                            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+                )
+            }
+
+            val translateItem = menu.findItem(R.id.status_translate)
+            translateItem.isVisible =
+                onMoreTranslate != null && status.language != Locale.getDefault().language && instanceInfoRepository.getInstanceInfo().translationEnabled == true
+            translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
+
+            popup.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.post_share_content -> {
+                        val statusToShare = status.reblog ?: status
+                        val sendIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            type = "text/plain"
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                "${statusToShare.account.username} - ${statusToShare.content.parseAsMastodonHtml()}"
+                            )
+                            putExtra(Intent.EXTRA_SUBJECT, statusUrl)
                         }
+                        startActivity(
+                            Intent.createChooser(
+                                sendIntent,
+                                resources.getText(R.string.send_post_content_to)
+                            )
+                        )
+                        return@setOnMenuItemClickListener true
                     }
-                    return@setOnMenuItemClickListener true
-                }
-                R.id.status_mute_conversation -> {
-                    lifecycleScope.launch {
-                        timelineCases.muteConversation(status.id, status.muted != true)
+
+                    R.id.post_share_link -> {
+                        val sendIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, statusUrl)
+                            type = "text/plain"
+                        }
+                        startActivity(
+                            Intent.createChooser(
+                                sendIntent,
+                                resources.getText(R.string.send_post_link_to)
+                            )
+                        )
+                        return@setOnMenuItemClickListener true
                     }
-                    return@setOnMenuItemClickListener true
+
+                    R.id.status_copy_link -> {
+                        (
+                            requireActivity().getSystemService(
+                                Context.CLIPBOARD_SERVICE
+                            ) as ClipboardManager
+                            ).apply {
+                            setPrimaryClip(ClipData.newPlainText(null, statusUrl))
+                        }
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_open_as -> {
+                        showOpenAsDialog(statusUrl, item.title)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_download_media -> {
+                        requestDownloadAllMedia(status)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_mute -> {
+                        onMute(accountId, accountUsername)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_block -> {
+                        onBlock(accountId, accountUsername)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_report -> {
+                        openReportPage(accountId, accountUsername, id)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_unreblog_private -> {
+                        onReblog(false, position)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_reblog_private -> {
+                        onReblog(true, position)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_delete -> {
+                        showConfirmDeleteDialog(id, position)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_delete_and_redraft -> {
+                        showConfirmEditDialog(id, position, status)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_edit -> {
+                        editStatus(id, status)
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.pin -> {
+                        lifecycleScope.launch {
+                            timelineCases.pin(status.id, !status.isPinned())
+                                .onFailure { e: Throwable ->
+                                    val message = e.message
+                                        ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                                    Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG)
+                                        .show()
+                                }
+                        }
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_mute_conversation -> {
+                        lifecycleScope.launch {
+                            timelineCases.muteConversation(status.id, status.muted != true)
+                        }
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.status_translate -> {
+                        onMoreTranslate?.invoke(translation == null, position)
+                    }
                 }
+                false
             }
-            false
+            popup.show()
         }
-        popup.show()
-    }
 
     private fun onMute(accountId: String, accountUsername: String) {
         showMuteAccountDialog(
@@ -346,6 +387,7 @@ abstract class SFragment : Fragment(), Injectable {
                     startActivity(intent)
                 }
             }
+
             Attachment.Type.UNKNOWN -> {
                 requireContext().openLink(attachment.url)
             }

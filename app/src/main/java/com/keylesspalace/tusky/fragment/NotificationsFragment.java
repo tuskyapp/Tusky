@@ -109,16 +109,17 @@ import at.connyduck.sparkbutton.helpers.Utils;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 import kotlinx.coroutines.Job;
 
 public class NotificationsFragment extends SFragment implements
-        SwipeRefreshLayout.OnRefreshListener,
-        StatusActionListener,
-        NotificationsAdapter.NotificationActionListener,
-        AccountActionListener,
-        Injectable,
-        MenuProvider,
-        ReselectableFragment {
+    SwipeRefreshLayout.OnRefreshListener,
+    StatusActionListener,
+    NotificationsAdapter.NotificationActionListener,
+    AccountActionListener,
+    Injectable,
+    MenuProvider,
+    ReselectableFragment {
     private static final String TAG = "NotificationF"; // logging tag
 
     private static final int LOAD_AT_ONCE = 30;
@@ -171,7 +172,7 @@ public class NotificationsFragment extends SFragment implements
 
     // Each element is either a Notification for loading data or a Placeholder
     private final PairedList<Either<Placeholder, Notification>, NotificationViewData> notifications
-            = new PairedList<>(new Function<>() {
+        = new PairedList<>(new Function<>() {
         @Override
         public NotificationViewData apply(Either<Placeholder, Notification> input) {
             if (input.isRight()) {
@@ -227,36 +228,36 @@ public class NotificationsFragment extends SFragment implements
         layoutManager = new LinearLayoutManager(context);
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.setAccessibilityDelegateCompat(
-                new ListStatusAccessibilityDelegate(binding.recyclerView, this, (pos) -> {
-                    NotificationViewData notification = notifications.getPairedItemOrNull(pos);
-                    // We support replies only for now
-                    if (notification instanceof NotificationViewData.Concrete) {
-                        return ((NotificationViewData.Concrete) notification).getStatusViewData();
-                    } else {
-                        return null;
-                    }
-                }));
+            new ListStatusAccessibilityDelegate(binding.recyclerView, this, (pos) -> {
+                NotificationViewData notification = notifications.getPairedItemOrNull(pos);
+                // We support replies only for now
+                if (notification instanceof NotificationViewData.Concrete) {
+                    return ((NotificationViewData.Concrete) notification).getStatusViewData();
+                } else {
+                    return null;
+                }
+            }));
 
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
         StatusDisplayOptions statusDisplayOptions = new StatusDisplayOptions(
-                preferences.getBoolean("animateGifAvatars", false),
-                accountManager.getActiveAccount().getMediaPreviewEnabled(),
-                preferences.getBoolean("absoluteTimeView", false),
-                preferences.getBoolean("showBotOverlay", true),
-                preferences.getBoolean("useBlurhash", true),
-                CardViewMode.NONE,
-                preferences.getBoolean("confirmReblogs", true),
-                preferences.getBoolean("confirmFavourites", false),
-                preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
-                preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
-                accountManager.getActiveAccount().getAlwaysShowSensitiveMedia(),
-                accountManager.getActiveAccount().getAlwaysOpenSpoiler()
+            preferences.getBoolean("animateGifAvatars", false),
+            accountManager.getActiveAccount().getMediaPreviewEnabled(),
+            preferences.getBoolean("absoluteTimeView", false),
+            preferences.getBoolean("showBotOverlay", true),
+            preferences.getBoolean("useBlurhash", true),
+            CardViewMode.NONE,
+            preferences.getBoolean("confirmReblogs", true),
+            preferences.getBoolean("confirmFavourites", false),
+            preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
+            accountManager.getActiveAccount().getAlwaysShowSensitiveMedia(),
+            accountManager.getActiveAccount().getAlwaysOpenSpoiler()
         );
 
         adapter = new NotificationsAdapter(accountManager.getActiveAccount().getAccountId(),
-                dataSource, statusDisplayOptions, this, this, this);
+            dataSource, statusDisplayOptions, this, this, this);
         alwaysShowSensitiveMedia = accountManager.getActiveAccount().getAlwaysShowSensitiveMedia();
         alwaysOpenSpoiler = accountManager.getActiveAccount().getAlwaysOpenSpoiler();
         binding.recyclerView.setAdapter(adapter);
@@ -314,7 +315,7 @@ public class NotificationsFragment extends SFragment implements
 
     private void updateFilterVisibility() {
         CoordinatorLayout.LayoutParams params =
-                (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
+            (CoordinatorLayout.LayoutParams) binding.swipeRefreshLayout.getLayoutParams();
         if (showNotificationsFilter && !showingError) {
             binding.appBarOptions.setExpanded(true, false);
             binding.appBarOptions.setVisibility(View.VISIBLE);
@@ -330,10 +331,10 @@ public class NotificationsFragment extends SFragment implements
 
     private void confirmClearNotifications() {
         new AlertDialog.Builder(requireContext())
-                .setMessage(R.string.notification_clear_text)
-                .setPositiveButton(android.R.string.ok, (DialogInterface dia, int which) -> clearNotifications())
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+            .setMessage(R.string.notification_clear_text)
+            .setPositiveButton(android.R.string.ok, (DialogInterface dia, int which) -> clearNotifications())
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
     }
 
     @Override
@@ -406,6 +407,12 @@ public class NotificationsFragment extends SFragment implements
             topId = null;
         }
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
+    }
+
+    @Nullable
+    @Override
+    protected Function2<Boolean, Integer, Unit> getOnMoreTranslate() {
+        return null;
     }
 
     @Override
@@ -490,7 +497,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
-        super.more(notification.getStatus(), view, position);
+        super.more(notification.getStatus(), view, position, null);
     }
 
     @Override
@@ -525,10 +532,6 @@ public class NotificationsFragment extends SFragment implements
         updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
     }
 
-    private void setPinForStatus(String statusId, boolean pinned) {
-        updateStatus(statusId, status -> status.copyWithPinned(pinned));
-    }
-
     @Override
     public void onLoadMore(int position) {
         // Check bounds before accessing list,
@@ -542,7 +545,7 @@ public class NotificationsFragment extends SFragment implements
             sendFetchNotificationsRequest(previous.getId(), next.getId(), FetchEnd.MIDDLE, position);
             Placeholder placeholder = notifications.get(position).asLeft();
             NotificationViewData notificationViewData =
-                    new NotificationViewData.Placeholder(placeholder.id, true);
+                new NotificationViewData.Placeholder(placeholder.id, true);
             notifications.setPairedItem(position, notificationViewData);
             updateAdapter();
         } else {
@@ -555,10 +558,15 @@ public class NotificationsFragment extends SFragment implements
         updateViewDataAt(position, (vd) -> vd.copyWithCollapsed(isCollapsed));
     }
 
+    @Override
+    public void onUntranslate(int position) {
+        // not needed
+    }
+
     private void updateStatus(String statusId, Function<Status, Status> mapper) {
         int index = CollectionsKt.indexOfFirst(this.notifications, (s) -> s.isRight() &&
-                s.asRight().getStatus() != null &&
-                s.asRight().getStatus().getId().equals(statusId));
+            s.asRight().getStatus() != null &&
+            s.asRight().getStatus().getId().equals(statusId));
         if (index == -1) return;
 
         // We have quite some graph here:
@@ -580,12 +588,12 @@ public class NotificationsFragment extends SFragment implements
 
         Status oldStatus = notifications.get(index).asRight().getStatus();
         NotificationViewData.Concrete oldViewData =
-                (NotificationViewData.Concrete) this.notifications.getPairedItem(index);
+            (NotificationViewData.Concrete) this.notifications.getPairedItem(index);
         Status newStatus = mapper.apply(oldStatus);
         Notification newNotification = this.notifications.get(index).asRight()
-                .copyWithStatus(newStatus);
+            .copyWithStatus(newStatus);
         StatusViewData.Concrete newStatusViewData =
-                Objects.requireNonNull(oldViewData.getStatusViewData()).copyWithStatus(newStatus);
+            Objects.requireNonNull(oldViewData.getStatusViewData()).copyWithStatus(newStatus);
         NotificationViewData.Concrete newViewData = oldViewData.copyWithStatus(newStatusViewData);
 
         notifications.set(index, new Either.Right<>(newNotification));
@@ -598,10 +606,10 @@ public class NotificationsFragment extends SFragment implements
                                   Function<StatusViewData.Concrete, StatusViewData.Concrete> mapper) {
         if (position < 0 || position >= notifications.size()) {
             String message = String.format(
-                    Locale.getDefault(),
-                    "Tried to access out of bounds status position: %d of %d",
-                    position,
-                    notifications.size() - 1
+                Locale.getDefault(),
+                "Tried to access out of bounds status position: %d of %d",
+                position,
+                notifications.size() - 1
             );
             Log.e(TAG, message);
             return;
@@ -615,7 +623,7 @@ public class NotificationsFragment extends SFragment implements
         if (oldStatusViewData == null) return;
 
         NotificationViewData.Concrete newViewData =
-                oldViewData.copyWithStatus(mapper.apply(oldStatusViewData));
+            oldViewData.copyWithStatus(mapper.apply(oldStatusViewData));
         notifications.setPairedItem(position, newViewData);
 
         updateAdapter();
@@ -680,17 +688,17 @@ public class NotificationsFragment extends SFragment implements
         View view = LayoutInflater.from(getContext()).inflate(R.layout.notifications_filter, (ViewGroup) getView(), false);
         final ListView listView = view.findViewById(R.id.listView);
         view.findViewById(R.id.buttonApply)
-                .setOnClickListener(v -> {
-                    SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
-                    Set<Notification.Type> excludes = new HashSet<>();
-                    for (int i = 0; i < notificationsList.size(); i++) {
-                        if (!checkedItems.get(i, false))
-                            excludes.add(notificationsList.get(i));
-                    }
-                    window.dismiss();
-                    applyFilterChanges(excludes);
+            .setOnClickListener(v -> {
+                SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+                Set<Notification.Type> excludes = new HashSet<>();
+                for (int i = 0; i < notificationsList.size(); i++) {
+                    if (!checkedItems.get(i, false))
+                        excludes.add(notificationsList.get(i));
+                }
+                window.dismiss();
+                applyFilterChanges(excludes);
 
-                });
+            });
 
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -757,7 +765,7 @@ public class NotificationsFragment extends SFragment implements
         if (account != null) {
             notificationFilter.clear();
             notificationFilter.addAll(NotificationTypeConverterKt.deserialize(
-                    account.getNotificationsFilter()));
+                account.getNotificationsFilter()));
         }
     }
 
@@ -880,7 +888,7 @@ public class NotificationsFragment extends SFragment implements
                 final Placeholder placeholder = newPlaceholder();
                 notifications.add(new Either.Left<>(placeholder));
                 NotificationViewData viewData =
-                        new NotificationViewData.Placeholder(placeholder.id, true);
+                    new NotificationViewData.Placeholder(placeholder.id, true);
                 notifications.setPairedItem(notifications.size() - 1, viewData);
                 updateAdapter();
             }
@@ -957,7 +965,7 @@ public class NotificationsFragment extends SFragment implements
             case BOTTOM: {
 
                 if (!this.notifications.isEmpty()
-                        && !this.notifications.get(this.notifications.size() - 1).isRight()) {
+                    && !this.notifications.get(this.notifications.size() - 1).isRight()) {
                     this.notifications.remove(this.notifications.size() - 1);
                     updateAdapter();
                 }
@@ -997,7 +1005,7 @@ public class NotificationsFragment extends SFragment implements
         if (fetchEnd == FetchEnd.MIDDLE && !notifications.get(position).isRight()) {
             Placeholder placeholder = notifications.get(position).asLeft();
             NotificationViewData placeholderVD =
-                    new NotificationViewData.Placeholder(placeholder.id, false);
+                new NotificationViewData.Placeholder(placeholder.id, false);
             notifications.setPairedItem(position, placeholderVD);
             updateAdapter();
         } else if (this.notifications.isEmpty()) {
@@ -1060,7 +1068,7 @@ public class NotificationsFragment extends SFragment implements
             bottomId = fromId;
         }
         List<Either<Placeholder, Notification>> liftedNew =
-                liftNotificationList(newNotifications);
+            liftNotificationList(newNotifications);
         if (notifications.isEmpty()) {
             notifications.addAll(liftedNew);
         } else {
@@ -1119,7 +1127,7 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private final Function1<Notification, Either<Placeholder, Notification>> notificationLifter =
-            Either.Right::new;
+        Either.Right::new;
 
     private List<Either<Placeholder, Notification>> liftNotificationList(List<Notification> list) {
         return CollectionsKt.map(list, notificationLifter);
@@ -1144,11 +1152,11 @@ public class NotificationsFragment extends SFragment implements
         for (int i = 0; i < notifications.size(); i++) {
             Notification notification = notifications.get(i).asRightOrNull();
             if (notification != null
-                    && notification.getStatus() != null
-                    && notification.getType() == Notification.Type.MENTION
-                    && (statusId.equals(notification.getStatus().getId())
-                    || (notification.getStatus().getReblog() != null
-                    && statusId.equals(notification.getStatus().getReblog().getId())))) {
+                && notification.getStatus() != null
+                && notification.getType() == Notification.Type.MENTION
+                && (statusId.equals(notification.getStatus().getId())
+                || (notification.getStatus().getReblog() != null
+                && statusId.equals(notification.getStatus().getReblog().getId())))) {
                 return new Pair<>(i, notification);
             }
         }
@@ -1190,8 +1198,8 @@ public class NotificationsFragment extends SFragment implements
     };
 
     private final AsyncListDiffer<NotificationViewData>
-            differ = new AsyncListDiffer<>(listUpdateCallback,
-            new AsyncDifferConfig.Builder<>(diffCallback).build());
+        differ = new AsyncListDiffer<>(listUpdateCallback,
+        new AsyncDifferConfig.Builder<>(diffCallback).build());
 
     private final NotificationsAdapter.AdapterDataSource<NotificationViewData> dataSource =
         new NotificationsAdapter.AdapterDataSource<>() {
@@ -1207,7 +1215,7 @@ public class NotificationsFragment extends SFragment implements
         };
 
     private static final DiffUtil.ItemCallback<NotificationViewData> diffCallback
-            = new DiffUtil.ItemCallback<>() {
+        = new DiffUtil.ItemCallback<>() {
 
         @Override
         public boolean areItemsTheSame(NotificationViewData oldItem, NotificationViewData newItem) {

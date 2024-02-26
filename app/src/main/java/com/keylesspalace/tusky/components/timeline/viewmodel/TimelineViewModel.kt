@@ -52,7 +52,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 abstract class TimelineViewModel(
-    private val timelineCases: TimelineCases,
+    protected val timelineCases: TimelineCases,
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
@@ -311,6 +311,9 @@ abstract class TimelineViewModel(
             )
         }
     }
+
+    abstract suspend fun translate(status: StatusViewData.Concrete): Result<Unit>
+    abstract fun untranslate(status: StatusViewData.Concrete)
 
     companion object {
         private const val TAG = "TimelineVM"
