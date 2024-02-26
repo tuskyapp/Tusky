@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
@@ -35,6 +36,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+import retrofit2.Response
 
 /**
  * Created by charlag on 3/24/18.
@@ -195,6 +197,22 @@ class TimelineCases @Inject constructor(
 
     fun rejectFollowRequestOld(accountId: String): com.keylesspalace.tusky.util.Single<Relationship> {
         return com.keylesspalace.tusky.util.Single { mastodonApi.rejectFollowRequest(accountId) }
+    }
+
+    fun notificationsOld(
+        maxId: String?,
+        sinceId: String?,
+        limit: Int?,
+        excludes: Set<Notification.Type>?
+    ): com.keylesspalace.tusky.util.Single<Response<List<Notification>>> {
+        return com.keylesspalace.tusky.util.Single {
+            mastodonApi.notifications(
+                maxId,
+                sinceId,
+                limit,
+                excludes
+            )
+        }
     }
 
     companion object {

@@ -110,13 +110,10 @@ import javax.inject.Inject;
 import at.connyduck.sparkbutton.helpers.Utils;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
 import kotlinx.coroutines.Job;
-import kotlinx.coroutines.JobKt;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -133,7 +130,7 @@ public class NotificationsFragment extends SFragment implements
 
     private final Set<Notification.Type> notificationFilter = new HashSet<>();
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final ArrayList<Job> jobs = new ArrayList<>();
 
     private enum FetchEnd {
         TOP,
@@ -661,9 +658,10 @@ public class NotificationsFragment extends SFragment implements
     }
 
     private void resetNotificationsLoad() {
-        disposables.clear();
-        Job job = JobKt.Job(null);
-        job.cancel(null);
+        for (Job job : jobs) {
+            job.cancel(null);
+        }
+        jobs.clear();
         bottomLoading = false;
         topLoading = false;
 
@@ -927,20 +925,20 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = true;
         }
 
-        Disposable notificationCall = mastodonApi.notificationsOld(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        response -> {
-                            if (response.isSuccessful()) {
-                                String linkHeader = response.headers().get("Link");
-                                onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
-                            } else {
-                                onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
-                            }
-                        },
-                        throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos));
-        disposables.add(notificationCall);
+        Job notificationCall = timelineCases.notificationsOld(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
+            .subscribe(
+                getViewLifecycleOwner(),
+                response -> {
+                    if (response.isSuccessful()) {
+                        String linkHeader = response.headers().get("Link");
+                        onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
+                    } else {
+                        onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
+                    }
+                },
+                throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos)
+            );
+        jobs.add(notificationCall);
     }
 
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
