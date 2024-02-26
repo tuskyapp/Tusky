@@ -33,9 +33,10 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.Single
 import com.keylesspalace.tusky.util.getServerErrorMessage
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 /**
@@ -63,6 +64,10 @@ class TimelineCases @Inject constructor(
         }
     }
 
+    fun reblogOld(statusId: String, reblog: Boolean): Single<Status> {
+        return Single { reblog(statusId, reblog) }
+    }
+
     suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
         return if (favourite) {
             mastodonApi.favouriteStatus(statusId)
@@ -71,6 +76,10 @@ class TimelineCases @Inject constructor(
         }.onSuccess { status ->
             eventHub.dispatch(StatusChangedEvent(status))
         }
+    }
+
+    fun favouriteOld(statusId: String, favourite: Boolean): Single<Status> {
+        return Single { favourite(statusId, favourite) }
     }
 
     suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
@@ -83,6 +92,10 @@ class TimelineCases @Inject constructor(
         }
     }
 
+    fun bookmarkOld(statusId: String, bookmark: Boolean): Single<Status> {
+        return Single { bookmark(statusId, bookmark) }
+    }
+
     suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
         return if (mute) {
             mastodonApi.muteConversation(statusId)
@@ -90,42 +103,6 @@ class TimelineCases @Inject constructor(
             mastodonApi.unmuteConversation(statusId)
         }.onSuccess {
             eventHub.dispatch(MuteConversationEvent(statusId, mute))
-        }
-    }
-
-    fun reblogOld(statusId: String, reblog: Boolean): com.keylesspalace.tusky.util.Single<Status> {
-        return com.keylesspalace.tusky.util.Single {
-            if (reblog) {
-                mastodonApi.reblogStatus(statusId)
-            } else {
-                mastodonApi.unreblogStatus(statusId)
-            }.onSuccess { status ->
-                eventHub.dispatchOld(StatusChangedEvent(status))
-            }
-        }
-    }
-
-    fun favouriteOld(statusId: String, favourite: Boolean): com.keylesspalace.tusky.util.Single<Status> {
-        return com.keylesspalace.tusky.util.Single {
-            if (favourite) {
-                mastodonApi.favouriteStatus(statusId)
-            } else {
-                mastodonApi.unfavouriteStatus(statusId)
-            }.onSuccess { status ->
-                eventHub.dispatchOld(StatusChangedEvent(status))
-            }
-        }
-    }
-
-    fun bookmarkOld(statusId: String, bookmark: Boolean): com.keylesspalace.tusky.util.Single<Status> {
-        return com.keylesspalace.tusky.util.Single {
-            if (bookmark) {
-                mastodonApi.bookmarkStatus(statusId)
-            } else {
-                mastodonApi.unbookmarkStatus(statusId)
-            }.onSuccess { status ->
-                eventHub.dispatchOld(StatusChangedEvent(status))
-            }
         }
     }
 
@@ -182,21 +159,15 @@ class TimelineCases @Inject constructor(
     }
 
     fun voteInPollOld(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
-        if (choices.isEmpty()) {
-            return Single.error(IllegalStateException())
-        }
-
-        return mastodonApi.voteInPollOld(pollId, choices).doAfterSuccess {
-            eventHub.dispatchOld(PollVoteEvent(statusId, it))
-        }
+        return Single { voteInPoll(statusId, pollId, choices) }
     }
 
-    fun acceptFollowRequestOld(accountId: String): com.keylesspalace.tusky.util.Single<Relationship> {
-        return com.keylesspalace.tusky.util.Single { mastodonApi.authorizeFollowRequest(accountId) }
+    fun acceptFollowRequestOld(accountId: String): Single<Relationship> {
+        return Single { mastodonApi.authorizeFollowRequest(accountId) }
     }
 
-    fun rejectFollowRequestOld(accountId: String): com.keylesspalace.tusky.util.Single<Relationship> {
-        return com.keylesspalace.tusky.util.Single { mastodonApi.rejectFollowRequest(accountId) }
+    fun rejectFollowRequestOld(accountId: String): Single<Relationship> {
+        return Single { mastodonApi.rejectFollowRequest(accountId) }
     }
 
     fun notificationsOld(
@@ -204,15 +175,14 @@ class TimelineCases @Inject constructor(
         sinceId: String?,
         limit: Int?,
         excludes: Set<Notification.Type>?
-    ): com.keylesspalace.tusky.util.Single<Response<List<Notification>>> {
-        return com.keylesspalace.tusky.util.Single {
-            mastodonApi.notifications(
-                maxId,
-                sinceId,
-                limit,
-                excludes
-            )
+    ): Single<Response<List<Notification>>> {
+        return Single {
+            mastodonApi.notifications(maxId, sinceId, limit, excludes)
         }
+    }
+
+    fun clearNotificationsOld(): Single<ResponseBody> {
+        return Single { mastodonApi.clearNotifications() }
     }
 
     companion object {

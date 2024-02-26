@@ -473,13 +473,11 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus().getActionableStatus();
         timelineCases.voteInPollOld(status.getId(), status.getPoll().getId(), choices)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newPoll) -> setVoteForPoll(status, newPoll),
-                        (t) -> Log.d(TAG,
-                                "Failed to vote in poll: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newPoll) -> setVoteForPoll(status, newPoll),
+                (t) -> Log.d(TAG, "Failed to vote in poll: " + status.getId(), t)
+            );
     }
 
     @Override
@@ -644,17 +642,16 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         // Execute clear notifications request
-        mastodonApi.clearNotificationsOld()
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        response -> {
-                            // Nothing to do
-                        },
-                        throwable -> {
-                            // Reload notifications on failure
-                            fullyRefreshWithProgressBar(true);
-                        });
+        timelineCases.clearNotificationsOld()
+            .subscribe(
+                getViewLifecycleOwner(),
+                response -> {
+                    // Nothing to do
+                },
+                throwable -> {
+                    // Reload notifications on failure
+                    fullyRefreshWithProgressBar(true);
+                });
     }
 
     private void resetNotificationsLoad() {

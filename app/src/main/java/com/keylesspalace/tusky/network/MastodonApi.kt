@@ -177,10 +177,7 @@ interface MastodonApi {
     ): Response<List<Notification>>
 
     @POST("api/v1/notifications/clear")
-    suspend fun clearNotifications(): Response<ResponseBody>
-
-    @POST("api/v1/notifications/clear")
-    fun clearNotificationsOld(): Single<ResponseBody>
+    suspend fun clearNotifications(): NetworkResult<ResponseBody>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
@@ -600,10 +597,6 @@ interface MastodonApi {
         @Path("id") id: String,
         @Field("choices[]") choices: List<Int>
     ): NetworkResult<Poll>
-
-    @FormUrlEncoded
-    @POST("api/v1/polls/{id}/votes")
-    fun voteInPollOld(@Path("id") id: String, @Field("choices[]") choices: List<Int>): Single<Poll>
 
     @GET("api/v1/announcements")
     suspend fun listAnnouncements(
