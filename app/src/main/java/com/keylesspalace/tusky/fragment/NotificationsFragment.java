@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.fragment;
 
 import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 import android.app.Activity;
 import android.content.Context;
@@ -86,6 +84,7 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.RelativeTimeUpdater;
 import com.keylesspalace.tusky.util.Single;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
@@ -103,13 +102,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
@@ -394,6 +390,8 @@ public class NotificationsFragment extends SFragment implements
                 }
             }
         );
+
+        RelativeTimeUpdater.updateRelativeTimePeriodically(this, this::updateAdapter);
     }
 
     @Override
@@ -1245,26 +1243,6 @@ public class NotificationsFragment extends SFragment implements
             loadNotificationsFilter();
             fullyRefreshWithProgressBar(true);
         }
-        startUpdateTimestamp();
-    }
-
-    /**
-     * Start to update adapter every minute to refresh timestamp
-     * If setting absoluteTimeView is false
-     * Auto dispose observable on pause
-     */
-    private void startUpdateTimestamp() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
-        if (!useAbsoluteTime) {
-            Observable.interval(0, 1, TimeUnit.MINUTES)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
-                    .subscribe(
-                            interval -> updateAdapter()
-                    );
-        }
-
     }
 
     @Override
