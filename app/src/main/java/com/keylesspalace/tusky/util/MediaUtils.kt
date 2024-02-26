@@ -29,9 +29,9 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.time.Duration.Companion.hours
 
 /**
  * Helper methods for obtaining and resizing media files
@@ -179,12 +179,10 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
         return
     }
 
-    val twentyfourHoursAgo = Calendar.getInstance()
-    twentyfourHoursAgo.add(Calendar.HOUR, -24)
-    val unixTime = twentyfourHoursAgo.timeInMillis
+    val unixTime = System.currentTimeMillis() - 24.hours.inWholeMilliseconds
 
     val files = mediaDirectory.listFiles { file -> unixTime > file.lastModified() && file.name.contains(MEDIA_TEMP_PREFIX) }
-    if (files == null || files.isEmpty()) {
+    if (files.isNullOrEmpty()) {
         // Nothing to do
         return
     }
