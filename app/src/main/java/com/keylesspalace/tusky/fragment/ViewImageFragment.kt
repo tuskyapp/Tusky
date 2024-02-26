@@ -30,6 +30,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.BundleCompat
 import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -44,8 +45,9 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.ortiz.touchview.OnTouchCoordinatesListener
 import com.ortiz.touchview.TouchImageView
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlin.math.abs
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.launch
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -58,7 +60,7 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private lateinit var photoActionsListener: PhotoActionsListener
     private lateinit var toolbar: View
-    private var transition = BehaviorSubject.create<Unit>()
+    private var transition: CompletableDeferred<Unit>? = null
     private var shouldStartTransition = false
 
     // Volatile: Image requests happen on background thread and we want to see updates to it
@@ -91,7 +93,7 @@ class ViewImageFragment : ViewMediaFragment() {
         savedInstanceState: Bundle?
     ): View {
         toolbar = (requireActivity() as ViewMediaActivity).toolbar
-        this.transition = BehaviorSubject.create()
+        this.transition = CompletableDeferred()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }
 
@@ -246,7 +248,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onDestroyView() {
-        transition.onComplete()
+        transition = null
         super.onDestroyView()
     }
 
@@ -345,19 +347,20 @@ class ViewImageFragment : ViewMediaFragment() {
                     if (shouldStartTransition) photoActionsListener.onBringUp()
                 }
             } else {
-                // This wait for transition. If there's no transition then we should hit
-                // another branch. take() will unsubscribe after we have it to not leak memory
-                transition
-                    .take(1)
-                    .subscribe {
+                // This waits for transition. If there's no transition then we should hit
+                // another branch. When the view is destroyed the coroutine is automatically canceled.
+                transition?.let {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        it.await()
                         target.onResourceReady(resource, null)
                     }
+                }
             }
             return true
         }
     }
 
     override fun onTransitionEnd() {
-        this.transition.onNext(Unit)
+        this.transition?.complete(Unit)
     }
 }
