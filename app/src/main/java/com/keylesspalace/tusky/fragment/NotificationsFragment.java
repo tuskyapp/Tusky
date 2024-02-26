@@ -381,10 +381,9 @@ public class NotificationsFragment extends SFragment implements
 
         binding.recyclerView.addOnScrollListener(scrollListener);
 
-        eventHub.getEventsObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-            .subscribe(event -> {
+        eventHub.subscribe(
+            getViewLifecycleOwner(),
+            event -> {
                 if (event instanceof StatusChangedEvent) {
                     Status updatedStatus = ((StatusChangedEvent) event).getStatus();
                     updateStatus(updatedStatus.getActionableId(), s -> updatedStatus);
@@ -393,7 +392,8 @@ public class NotificationsFragment extends SFragment implements
                 } else if (event instanceof PreferenceChangedEvent) {
                     onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                 }
-            });
+            }
+        );
     }
 
     @Override
