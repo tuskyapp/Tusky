@@ -10,7 +10,7 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
 import okio.IOException
 
 /**
@@ -20,8 +20,8 @@ suspend fun <R> RequestBuilder<R>.submitAsync(
     width: Int = Int.MIN_VALUE,
     height: Int = Int.MIN_VALUE
 ): R {
-    return suspendCoroutine { continuation ->
-        into(object : CustomTarget<R>(width, height), RequestListener<R> {
+    return suspendCancellableCoroutine { continuation ->
+        val target = object : CustomTarget<R>(width, height), RequestListener<R> {
             override fun onResourceReady(resource: R & Any, transition: Transition<in R>?) {
                 // Do nothing, we use the RequestListener version instead
             }
@@ -50,6 +50,8 @@ suspend fun <R> RequestBuilder<R>.submitAsync(
                 continuation.resume(resource)
                 return false
             }
-        })
+        }
+        into(target)
+        continuation.invokeOnCancellation { target.request?.clear() }
     }
 }
