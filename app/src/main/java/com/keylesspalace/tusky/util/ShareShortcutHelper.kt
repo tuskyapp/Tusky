@@ -30,11 +30,15 @@ import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
-fun updateShortcut(context: Context, account: AccountEntity) {
-    Single.fromCallable {
+fun updateShortcut(ctx: Context, account: AccountEntity) {
+    // Use the application context to avoid leaking the Activity in the long-running coroutine
+    val context = ctx.applicationContext
+
+    // Since BackgroundWorkScope uses a SupervisorJob,
+    // the coroutine is able to fail without impacting the app or other coroutines
+    BackgroundWorkScope.launch {
         val innerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_inner_size)
         val outerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_outer_size)
 
@@ -42,15 +46,13 @@ fun updateShortcut(context: Context, account: AccountEntity) {
             Glide.with(context)
                 .asBitmap()
                 .load(R.drawable.avatar_default)
-                .submit(innerSize, innerSize)
-                .get()
+                .submitAsync(innerSize, innerSize)
         } else {
             Glide.with(context)
                 .asBitmap()
                 .load(account.profilePictureUrl)
                 .error(R.drawable.avatar_default)
-                .submit(innerSize, innerSize)
-                .get()
+                .submitAsync(innerSize, innerSize)
         }
 
         // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
@@ -90,9 +92,6 @@ fun updateShortcut(context: Context, account: AccountEntity) {
 
         ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))
     }
-        .subscribeOn(Schedulers.io())
-        .onErrorReturnItem(false)
-        .subscribe()
 }
 
 fun removeShortcut(context: Context, account: AccountEntity) {
