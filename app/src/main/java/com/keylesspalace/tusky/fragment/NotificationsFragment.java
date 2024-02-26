@@ -424,13 +424,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
         Objects.requireNonNull(status, "Reblog on notification without status");
         timelineCases.reblogOld(status.getId(), reblog)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to reblog status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setReblogForStatus(status.getId(), reblog),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to reblog status: " + status.getId(), t)
+            );
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
@@ -443,13 +442,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
 
         timelineCases.favouriteOld(status.getId(), favourite)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to favourite status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to favourite status: " + status.getId(), t)
+            );
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
@@ -462,13 +460,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
 
         timelineCases.bookmarkOld(status.getActionableId(), bookmark)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to bookmark status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to bookmark status: " + status.getId(), t)
+            );
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {

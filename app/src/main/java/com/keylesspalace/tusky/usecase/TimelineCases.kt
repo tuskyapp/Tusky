@@ -91,47 +91,39 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun reblogOld(statusId: String, reblog: Boolean): Single<Status> {
-        val call = if (reblog) {
-            mastodonApi.reblogStatusOld(statusId)
-        } else {
-            mastodonApi.unreblogStatusOld(statusId)
-        }
-        return call.doAfterSuccess { status ->
-            eventHub.dispatchOld(StatusChangedEvent(status))
-        }
-    }
-
-    fun favouriteOld(statusId: String, favourite: Boolean): Single<Status> {
-        val call = if (favourite) {
-            mastodonApi.favouriteStatusOld(statusId)
-        } else {
-            mastodonApi.unfavouriteStatusOld(statusId)
-        }
-        return call.doAfterSuccess { status ->
-            eventHub.dispatchOld(StatusChangedEvent(status))
+    fun reblogOld(statusId: String, reblog: Boolean): com.keylesspalace.tusky.util.Single<Status> {
+        return com.keylesspalace.tusky.util.Single {
+            if (reblog) {
+                mastodonApi.reblogStatus(statusId)
+            } else {
+                mastodonApi.unreblogStatus(statusId)
+            }.onSuccess { status ->
+                eventHub.dispatchOld(StatusChangedEvent(status))
+            }
         }
     }
 
-    fun bookmarkOld(statusId: String, bookmark: Boolean): Single<Status> {
-        val call = if (bookmark) {
-            mastodonApi.bookmarkStatusOld(statusId)
-        } else {
-            mastodonApi.unbookmarkStatusOld(statusId)
-        }
-        return call.doAfterSuccess { status ->
-            eventHub.dispatchOld(StatusChangedEvent(status))
+    fun favouriteOld(statusId: String, favourite: Boolean): com.keylesspalace.tusky.util.Single<Status> {
+        return com.keylesspalace.tusky.util.Single {
+            if (favourite) {
+                mastodonApi.favouriteStatus(statusId)
+            } else {
+                mastodonApi.unfavouriteStatus(statusId)
+            }.onSuccess { status ->
+                eventHub.dispatchOld(StatusChangedEvent(status))
+            }
         }
     }
 
-    fun muteConversationOld(statusId: String, mute: Boolean): Single<Status> {
-        val call = if (mute) {
-            mastodonApi.muteConversationOld(statusId)
-        } else {
-            mastodonApi.unmuteConversationOld(statusId)
-        }
-        return call.doAfterSuccess {
-            eventHub.dispatchOld(MuteConversationEvent(statusId, mute))
+    fun bookmarkOld(statusId: String, bookmark: Boolean): com.keylesspalace.tusky.util.Single<Status> {
+        return com.keylesspalace.tusky.util.Single {
+            if (bookmark) {
+                mastodonApi.bookmarkStatus(statusId)
+            } else {
+                mastodonApi.unbookmarkStatus(statusId)
+            }.onSuccess { status ->
+                eventHub.dispatchOld(StatusChangedEvent(status))
+            }
         }
     }
 

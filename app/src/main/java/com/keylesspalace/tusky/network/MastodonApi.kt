@@ -266,24 +266,6 @@ interface MastodonApi {
     @POST("api/v1/statuses/{id}/unbookmark")
     suspend fun unbookmarkStatus(@Path("id") statusId: String): NetworkResult<Status>
 
-    @POST("api/v1/statuses/{id}/reblog")
-    fun reblogStatusOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/unreblog")
-    fun unreblogStatusOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/favourite")
-    fun favouriteStatusOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/unfavourite")
-    fun unfavouriteStatusOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/bookmark")
-    fun bookmarkStatusOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/unbookmark")
-    fun unbookmarkStatusOld(@Path("id") statusId: String): Single<Status>
-
     @POST("api/v1/statuses/{id}/pin")
     suspend fun pinStatus(@Path("id") statusId: String): NetworkResult<Status>
 
@@ -295,12 +277,6 @@ interface MastodonApi {
 
     @POST("api/v1/statuses/{id}/unmute")
     suspend fun unmuteConversation(@Path("id") statusId: String): NetworkResult<Status>
-
-    @POST("api/v1/statuses/{id}/mute")
-    fun muteConversationOld(@Path("id") statusId: String): Single<Status>
-
-    @POST("api/v1/statuses/{id}/unmute")
-    fun unmuteConversationOld(@Path("id") statusId: String): Single<Status>
 
     @GET("api/v1/scheduled_statuses")
     fun scheduledStatuses(
