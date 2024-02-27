@@ -21,7 +21,6 @@ androidx-testing = "2.2.0"
 androidx-viewpager2 = "1.0.0"
 androidx-work = "2.8.1"
 androidx-room = "2.6.1"
-autodispose = "2.2.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.8.0"
@@ -46,7 +45,6 @@ okhttp = "4.11.0"
 retrofit = "2.9.0"
 robolectric = "4.10.3"
 rxandroid3 = "3.0.2"
-rxjava3 = "3.1.8"
 rxkotlin3 = "3.0.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
@@ -101,8 +99,6 @@ androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "andro
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
-autodispose-android-lifecycle = { module = "com.uber.autodispose2:autodispose-androidx-lifecycle", version.ref = "autodispose" }
-autodispose-core = { module = "com.uber.autodispose2:autodispose", version.ref = "autodispose" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
 conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = "conscrypt" }
 dagger-android-core = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
@@ -133,13 +129,9 @@ mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid3" }
-rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
-rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
@@ -155,7 +147,6 @@ androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", 
     "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
     "androidx-core-splashscreen", "androidx-activity", "androidx-media3-exoplayer", "androidx-media3-exoplayer-dash",
     "androidx-media3-exoplayer-hls", "androidx-media3-exoplayer-rtsp", "androidx-media3-datasource-okhttp", "androidx-media3-ui"]
-autodispose = ["autodispose-core", "autodispose-android-lifecycle"]
 dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
 dagger-processors = ["dagger-compiler", "dagger-android-processor"]
 filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-defaults"]
@@ -163,7 +154,6 @@ glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]
 mockito = ["mockito-kotlin", "mockito-inline"]
 okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
-retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
+retrofit = ["retrofit-core", "retrofit-converter-gson"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
-rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
 xmldiff = ["diffx", "xmlwriter"]

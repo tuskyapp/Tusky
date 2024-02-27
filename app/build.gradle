@@ -147,10 +147,6 @@ dependencies {
     implementation libs.bundles.glide
     ksp libs.glide.compiler
 
-    implementation libs.bundles.rxjava3
-
-    implementation libs.bundles.autodispose
-
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.processors
 
