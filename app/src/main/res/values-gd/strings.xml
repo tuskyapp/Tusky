@@ -411,8 +411,6 @@
     <string name="label_avatar">Avatar</string>
     <string name="search_no_results">Chan eil toradh ann</string>
     <string name="hint_domain">Cò an t-ionstans\?</string>
-    <string name="post_sent_long">Chaidh an fhreagairt a chur.</string>
-    <string name="post_sent">Chaidh a chur!</string>
     <string name="confirmation_domain_unmuted">Chan eil %s falaichte tuilleadh</string>
     <string name="confirmation_unmuted">Chaidh an cleachdaiche dhì-mhùchadh</string>
     <string name="confirmation_unblocked">Chaidh an cleachdaiche a dhì-bhacadh</string>

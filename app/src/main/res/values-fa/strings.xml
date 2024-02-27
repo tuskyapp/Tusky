@@ -102,8 +102,6 @@
     <string name="confirmation_reported">فرستاده شد!</string>
     <string name="confirmation_unblocked">کاربرنامسدود شد</string>
     <string name="confirmation_unmuted">کاربر ناخموش شد</string>
-    <string name="post_sent">فرستاده شد!</string>
-    <string name="post_sent_long">پاسخ با موفّقیت فرستاده شد‌.</string>
     <string name="hint_domain">کدام نمونه؟</string>
     <string name="hint_compose">چه خبر؟</string>
     <string name="hint_content_warning">هشدار محتوا</string>

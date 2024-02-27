@@ -144,8 +144,6 @@
     <string name="confirmation_unblocked">Hætt að útiloka notanda</string>
     <string name="confirmation_unmuted">Hætt að þagga niður í notanda</string>
     <string name="confirmation_domain_unmuted">Hætt að fela %s</string>
-    <string name="post_sent">Sent!</string>
-    <string name="post_sent_long">Það tókst að senda svarið.</string>
     <string name="hint_domain">Hvaða tilvik\?</string>
     <string name="hint_compose">Hvað er í gangi hérna\?</string>
     <string name="hint_content_warning">Aðvörun vegna efnis</string>

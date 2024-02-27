@@ -103,8 +103,6 @@
     <string name="confirmation_reported">Bidalia!</string>
     <string name="confirmation_unblocked">Erabiltzailea desblokeatuta</string>
     <string name="confirmation_unmuted">Erabiltzailea isilgabetuta</string>
-    <string name="post_sent">Bidalia!</string>
-    <string name="post_sent_long">Erantzuna ongi bidali da.</string>
     <string name="hint_domain">Zein instantzia\?</string>
     <string name="hint_compose">Zer duzu buruan?</string>
     <string name="hint_content_warning">Edukiaren abisua</string>

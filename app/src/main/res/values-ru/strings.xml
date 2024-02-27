@@ -127,8 +127,6 @@
     <string name="confirmation_reported">Отправлено!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение пользователя снято</string>
-    <string name="post_sent">Отправлено!</string>
-    <string name="post_sent_long">Ответ успешно отправлен.</string>
     <string name="hint_domain">Какой экземпляр\?</string>
     <string name="hint_compose">Что случилось\?</string>
     <string name="hint_content_warning">Предупреждение о потенциально нежелательном содержании</string>

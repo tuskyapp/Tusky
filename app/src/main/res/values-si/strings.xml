@@ -57,7 +57,6 @@
     <string name="action_retry">යළි උත්සාහය</string>
     <string name="lock_account_label">ගිණුම අගුළුලන්න</string>
     <string name="post_media_hidden_title">මාධ්‍ය සැඟවී ඇත</string>
-    <string name="post_sent_long">පිළිතුර සාර්ථකව යැවිණි.</string>
     <string name="title_public_federated">ඒකාබද්ධ</string>
     <string name="dialog_message_uploading_media">උඩුගත වෙමින්…</string>
     <string name="add_account_name">ගිණුම එකතු කරන්න</string>
@@ -246,7 +245,6 @@
     <string name="action_close">වසන්න</string>
     <string name="title_notifications">දැනුම්දීම්</string>
     <string name="post_username_format">\@%s</string>
-    <string name="post_sent">යැවිණි!</string>
     <string name="action_login">මාස්ටඩන් සමඟ පිවිසෙන්න</string>
     <string name="poll_vote">ජන්දය</string>
     <string name="filter_dialog_whole_word">මුළු වචනය</string>

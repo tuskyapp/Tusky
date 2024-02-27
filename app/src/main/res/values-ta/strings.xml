@@ -95,8 +95,6 @@
     <string name="confirmation_reported">அனுப்பு!</string>
     <string name="confirmation_unblocked">பயனர்  முடக்கம் நீக்கப்பட்டது</string>
     <string name="confirmation_unmuted">பயனர் ஒலிக்க செய்யபட்டது</string>
-    <string name="post_sent">அனுப்பு!</string>
-    <string name="post_sent_long">வெற்றிகரமாக பதிலளிக்கபட்டது.</string>
     <string name="hint_domain">எந்த instance(களம்)?</string>
     <string name="hint_compose">என்ன நடக்கிறது?</string>
     <string name="hint_content_warning">உள்ளடக்க எச்சரிக்கை</string>

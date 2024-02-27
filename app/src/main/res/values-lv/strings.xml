@@ -83,11 +83,9 @@
     <string name="action_copy_link">Nokopēt saiti</string>
     <string name="action_open_as">Atvērt kā %s</string>
     <string name="confirmation_unblocked">Lietotājs atbloķēts</string>
-    <string name="post_sent">Nosūtīts!</string>
     <string name="hint_note">Biogrāfija</string>
     <string name="hint_domain">Kura instance\?</string>
     <string name="hint_content_warning">Satura brīdinājums</string>
-    <string name="post_sent_long">Atbilde sekmīgi nosūtīta.</string>
     <string name="label_avatar">Avatars</string>
     <string name="login_connection">Savienojas…</string>
     <string name="search_no_results">Nav rezultātu</string>

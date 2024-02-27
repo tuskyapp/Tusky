@@ -113,8 +113,6 @@
     <string name="confirmation_reported">Enviado!</string>
     <string name="confirmation_unblocked">Usuário desbloqueado</string>
     <string name="confirmation_unmuted">Usuário dessilenciado</string>
-    <string name="post_sent">Enviado!</string>
-    <string name="post_sent_long">Resposta enviada com sucesso.</string>
     <string name="hint_domain">Qual instância?</string>
     <string name="hint_compose">No que você está pensando?</string>
     <string name="hint_content_warning">Aviso de Conteúdo aqui</string>

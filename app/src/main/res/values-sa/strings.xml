@@ -156,8 +156,6 @@
     <string name="hint_content_warning">विषयप्रत्यादेशः</string>
     <string name="hint_compose">किं वर्तमानमस्ति \?</string>
     <string name="hint_domain">किं विशिष्टस्थलम् \?</string>
-    <string name="post_sent_long">सफलं प्रत्युत्तरप्रेषणम् ।</string>
-    <string name="post_sent">प्रेषितम्!</string>
     <string name="confirmation_domain_unmuted">%s अनावृतः</string>
     <string name="pref_title_notification_filters">अहं ज्ञप्यतां यदा</string>
     <string name="pref_title_notification_alert_light">ज्योत्या ज्ञप्यताम्</string>

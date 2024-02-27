@@ -463,8 +463,6 @@
     <string name="duration_30_min">30 minutos</string>
     <string name="duration_5_min">5 minutos</string>
     <string name="hint_domain">En que instancia\?</string>
-    <string name="post_sent_long">Resposta enviada correctamente.</string>
-    <string name="post_sent">Enviado!</string>
     <string name="confirmation_domain_unmuted">%s visible</string>
     <string name="confirmation_unmuted">Usuaria reactivada</string>
     <string name="confirmation_unblocked">Usuaria desbloqueada</string>

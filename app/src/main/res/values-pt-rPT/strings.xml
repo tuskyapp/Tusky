@@ -159,8 +159,6 @@
     <string name="confirmation_unblocked">Utilizador desbloqueado</string>
     <string name="confirmation_unmuted">Utilizador removido do silêncio</string>
     <string name="confirmation_domain_unmuted">%s desbloqueada</string>
-    <string name="post_sent">Enviado!</string>
-    <string name="post_sent_long">Resposta enviada com sucesso.</string>
     <string name="hint_domain">Que instância\?</string>
     <string name="hint_compose">Em que está a pensar\?</string>
     <string name="hint_content_warning">Aviso de conteúdo</string>

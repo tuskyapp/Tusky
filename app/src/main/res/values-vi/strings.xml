@@ -82,8 +82,6 @@
     <string name="hint_content_warning">Nội dung bạn muốn ẩn</string>
     <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
-    <string name="post_sent_long">Đã gửi trả lời tút.</string>
-    <string name="post_sent">Đã đăng!</string>
     <string name="confirmation_domain_unmuted">Đã bỏ ẩn %s</string>
     <string name="confirmation_unmuted">Đã bỏ ẩn người này</string>
     <string name="confirmation_unblocked">Đã bỏ chặn người này</string>

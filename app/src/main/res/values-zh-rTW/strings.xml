@@ -127,8 +127,6 @@
     <string name="confirmation_reported">已發送！</string>
     <string name="confirmation_unblocked">已解除封鎖</string>
     <string name="confirmation_unmuted">已解除靜音</string>
-    <string name="post_sent">已發送！</string>
-    <string name="post_sent_long">成功送出回覆。</string>
     <string name="hint_domain">哪一個域名？</string>
     <string name="hint_compose">有什麼新鮮事？</string>
     <string name="hint_content_warning">敏感內容警告</string>

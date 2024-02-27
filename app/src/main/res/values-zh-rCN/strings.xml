@@ -127,8 +127,6 @@
     <string name="confirmation_reported">已发送！</string>
     <string name="confirmation_unblocked">已解除屏蔽</string>
     <string name="confirmation_unmuted">已取消隐藏</string>
-    <string name="post_sent">已发送！</string>
-    <string name="post_sent_long">成功发送回复。</string>
     <string name="hint_domain">哪个实例？</string>
     <string name="hint_compose">有什么新鲜事？</string>
     <string name="hint_content_warning">内容提醒</string>
