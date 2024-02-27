@@ -140,12 +140,12 @@ interface MastodonApi {
         /** Return results older than this ID */
         @Query("max_id") maxId: String?,
         /** Return results newer than this ID */
-        @Query("since_id") minId: String?,
+        @Query("since_id") sinceId: String?,
         /** Maximum number of results to return. Defaults to 15, max is 30 */
         @Query("limit") limit: Int?,
         /** Types to excludes from the results */
         @Query("exclude_types[]") excludes: Set<Notification.Type>?
-    ): NetworkResult<Response<List<Notification>>>
+    ): Response<List<Notification>>
 
     /** Fetch a single notification */
     @GET("api/v1/notifications/{id}")

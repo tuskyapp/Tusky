@@ -20,6 +20,7 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
+import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
@@ -176,9 +177,7 @@ class TimelineCases @Inject constructor(
         limit: Int?,
         excludes: Set<Notification.Type>?
     ): Single<Response<List<Notification>>> {
-        return Single {
-            mastodonApi.notifications(maxId, sinceId, limit, excludes)
-        }
+        return Single { runCatching { mastodonApi.notifications(maxId, sinceId, limit, excludes) } }
     }
 
     fun clearNotificationsOld(): Single<ResponseBody> {
