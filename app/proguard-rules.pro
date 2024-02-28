@@ -28,23 +28,6 @@
 # This class is deprecated, but remains for backward compatibility.
 -dontwarn android.util.FloatMath
 
-# Understand the @Keep support annotation.
--keep class androidx.annotation.Keep
-
--keep @androidx.annotation.Keep class * {*;}
-
--keepclasseswithmembers class * {
-    @androidx.annotation.Keep <methods>;
-}
-
--keepclasseswithmembers class * {
-    @androidx.annotation.Keep <fields>;
-}
-
--keepclasseswithmembers class * {
-    @androidx.annotation.Keep <init>(...);
-}
-
 # These classes are duplicated between android.jar and core-lambda-stubs.jar.
 -dontnote java.lang.invoke.**
 
@@ -84,7 +67,6 @@
 -keep,allowobfuscation,allowshrinking class kotlin.collections.List
 -keep,allowobfuscation,allowshrinking class kotlin.collections.Map
 -keep,allowobfuscation,allowshrinking class retrofit2.Call
--keep,allowobfuscation,allowshrinking class at.connyduck.calladapter.networkresult.NetworkResult
 
 # https://github.com/square/retrofit/pull/3563
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
@@ -104,6 +86,9 @@
     public static *** w(...);
     public static *** v(...);
     public static *** i(...);
+}
+-assumenosideeffects class java.lang.String {
+    public static java.lang.String format(...);
 }
 
 # remove some kotlin overhead
