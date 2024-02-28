@@ -317,7 +317,8 @@ class ViewMediaActivity :
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                     }
                     true
-                } catch (ioe: IOException) {    // FileNotFoundException is covered by IOException
+                } catch (ioe: IOException) {
+                    // FileNotFoundException is covered by IOException
                     Log.e(TAG, "Error writing temporary media.")
                     false
                 }.also { result -> Log.d(TAG, "Download image result: $result") }
