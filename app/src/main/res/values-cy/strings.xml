@@ -748,4 +748,6 @@
     <string name="pref_title_show_self_boosts_description">Rhywun yn hybu ei neges ei hunan</string>
     <string name="pref_title_per_timeline_preferences">Dewisiadau i bob ffrwd</string>
     <string name="pref_title_show_notifications_filter">Dangos hidlydd Hysbysiadau</string>
+    <string name="reply_sending_long">Mae eich ateb yn cael ei anfon.</string>
+    <string name="reply_sending">Yn anfon…</string>
 </resources>
