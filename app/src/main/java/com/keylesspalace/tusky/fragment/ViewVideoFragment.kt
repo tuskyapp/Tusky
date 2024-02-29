@@ -20,7 +20,6 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,14 +34,13 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
 import androidx.core.view.GestureDetectorCompat
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
 import com.bumptech.glide.Glide
@@ -59,17 +57,17 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
+import javax.inject.Provider
 import kotlin.math.abs
-import okhttp3.OkHttpClient
 
-@UnstableApi
+@OptIn(UnstableApi::class)
 class ViewVideoFragment : ViewMediaFragment(), Injectable {
     interface VideoActionsListener {
         fun onDismiss()
     }
 
     @Inject
-    lateinit var okHttpClient: OkHttpClient
+    lateinit var playerProvider: Provider<ExoPlayer>
 
     private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
@@ -92,8 +90,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     /** The saved seek position, if the fragment is being resumed */
     private var savedSeekPosition: Long = 0
 
-    private lateinit var mediaSourceFactory: DefaultMediaSourceFactory
-
     /** Have we received at least one "READY" event? */
     private var haveStarted = false
 
@@ -105,9 +101,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        mediaSourceFactory = DefaultMediaSourceFactory(context)
-            .setDataSourceFactory(DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient)))
 
         videoActionsListener = context as VideoActionsListener
     }
@@ -285,53 +278,18 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     override fun onStart() {
         super.onStart()
-        if (Build.VERSION.SDK_INT > 23) {
-            initializePlayer()
-            binding.videoView.onResume()
-        }
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (Build.VERSION.SDK_INT <= 23 || player == null) {
-            initializePlayer()
-
-            binding.videoView.onResume()
-        }
-    }
-
-    private fun releasePlayer() {
-        player?.let {
-            savedSeekPosition = it.currentPosition
-            it.release()
-            player = null
-            binding.videoView.player = null
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        // If <= API 23 then multi-window mode is not available, so this is a good time to
-        // pause everything
-        if (Build.VERSION.SDK_INT <= 23) {
-            binding.videoView.onPause()
-            releasePlayer()
-            handler.removeCallbacks(hideToolbar)
-        }
+        initializePlayer()
+        binding.videoView.onResume()
     }
 
     override fun onStop() {
         super.onStop()
 
-        // If > API 23 then this might be multi-window, and definitely wasn't paused in onPause,
-        // so pause everything now.
-        if (Build.VERSION.SDK_INT > 23) {
-            binding.videoView.onPause()
-            releasePlayer()
-            handler.removeCallbacks(hideToolbar)
-        }
+        // This might be multi-window, so pause everything now.
+        binding.videoView.onPause()
+        releasePlayer()
+        handler.removeCallbacks(hideToolbar)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -340,18 +298,21 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     private fun initializePlayer() {
-        ExoPlayer.Builder(requireContext())
-            .setMediaSourceFactory(mediaSourceFactory)
-            .build().apply {
-                if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
-                setMediaItem(MediaItem.fromUri(mediaAttachment.url))
-                addListener(mediaPlayerListener)
-                repeatMode = Player.REPEAT_MODE_ONE
-                playWhenReady = true
-                seekTo(savedSeekPosition)
-                prepare()
-                player = this
-            }
+        player = playerProvider.get().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(if (isAudio) C.AUDIO_CONTENT_TYPE_UNKNOWN else C.AUDIO_CONTENT_TYPE_MOVIE)
+                    .setUsage(C.USAGE_MEDIA)
+                    .build(), true
+            )
+            if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
+            setMediaItem(MediaItem.fromUri(mediaAttachment.url))
+            addListener(mediaPlayerListener)
+            repeatMode = Player.REPEAT_MODE_ONE
+            playWhenReady = true
+            seekTo(savedSeekPosition)
+            prepare()
+        }
 
         binding.videoView.player = player
 
@@ -375,6 +336,15 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                     }
                 })
             }
+        }
+    }
+
+    private fun releasePlayer() {
+        player?.let {
+            savedSeekPosition = it.currentPosition
+            it.release()
+            player = null
+            binding.videoView.player = null
         }
     }
 
