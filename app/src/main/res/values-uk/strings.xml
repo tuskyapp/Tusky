@@ -719,4 +719,6 @@
     <string name="list_reply_policy_label">Показати відповіді на</string>
     <string name="pref_title_per_timeline_preferences">Налаштування окремих стрічок</string>
     <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
+    <string name="reply_sending">Надсилання…</string>
+    <string name="reply_sending_long">Вашу відповідь надіслано.</string>
 </resources>
