@@ -303,7 +303,8 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
                 AudioAttributes.Builder()
                     .setContentType(if (isAudio) C.AUDIO_CONTENT_TYPE_UNKNOWN else C.AUDIO_CONTENT_TYPE_MOVIE)
                     .setUsage(C.USAGE_MEDIA)
-                    .build(), true
+                    .build(),
+                true
             )
             if (BuildConfig.DEBUG) addAnalyticsListener(EventLogger("$TAG:ExoPlayer"))
             setMediaItem(MediaItem.fromUri(mediaAttachment.url))
