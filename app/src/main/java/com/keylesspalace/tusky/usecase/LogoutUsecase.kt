@@ -7,7 +7,7 @@ import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotifi
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.removeShortcut
+import com.keylesspalace.tusky.util.ShareShortcutHelper
 import javax.inject.Inject
 
 class LogoutUsecase @Inject constructor(
@@ -15,7 +15,8 @@ class LogoutUsecase @Inject constructor(
     private val api: MastodonApi,
     private val db: AppDatabase,
     private val accountManager: AccountManager,
-    private val draftHelper: DraftHelper
+    private val draftHelper: DraftHelper,
+    private val shareShortcutHelper: ShareShortcutHelper
 ) {
 
     /**
@@ -57,7 +58,7 @@ class LogoutUsecase @Inject constructor(
             draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
 
             // remove shortcut associated with the account
-            removeShortcut(context, activeAccount)
+            shareShortcutHelper.removeShortcut(activeAccount)
 
             return otherAccountAvailable
         }
