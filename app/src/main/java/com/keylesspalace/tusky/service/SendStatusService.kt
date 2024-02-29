@@ -141,13 +141,21 @@ class SendStatusService : Service(), Injectable {
 
             statusesToSend[sendingNotificationId] = statusToSend
             sendStatus(sendingNotificationId--)
-        } else {
-            if (intent.hasExtra(KEY_CANCEL)) {
-                cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
-            }
+        } else if (intent.hasExtra(KEY_CANCEL)) {
+            cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
         }
 
         return START_NOT_STICKY
+    }
+
+    override fun onTimeout(startId: Int) {
+        // https://developer.android.com/about/versions/14/changes/fgs-types-required#short-service
+        // max time for short service reached on Android 14+, stop sending
+        statusesToSend.forEach { (statusId, _) ->
+            serviceScope.launch {
+                failSending(statusId)
+            }
+        }
     }
 
     private fun sendStatus(statusId: Int) {
