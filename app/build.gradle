@@ -127,7 +127,6 @@ configurations {
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
     implementation libs.kotlinx.coroutines.android
-    implementation libs.kotlinx.coroutines.rx3
 
     implementation libs.bundles.androidx
     implementation libs.bundles.room
@@ -146,10 +145,6 @@ dependencies {
 
     implementation libs.bundles.glide
     ksp libs.glide.compiler
-
-    implementation libs.bundles.rxjava3
-
-    implementation libs.bundles.autodispose
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.processors

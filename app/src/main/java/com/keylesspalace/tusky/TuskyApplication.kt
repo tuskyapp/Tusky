@@ -22,7 +22,6 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.AppTheme
@@ -39,7 +38,6 @@ import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import java.security.Security
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -73,8 +71,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
-        AutoDisposePlugins.setHideProxies(false) // a small performance optimization
-
         AppInjector.init(this)
 
         // Migrate shared preference keys and defaults from version to version.
@@ -96,10 +92,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
         setAppNightMode(theme)
 
         localeManager.setLocale()
-
-        RxJavaPlugins.setErrorHandler {
-            Log.w("RxJava", "undeliverable exception", it)
-        }
 
         NotificationHelper.createWorkerNotificationChannel(this)
 

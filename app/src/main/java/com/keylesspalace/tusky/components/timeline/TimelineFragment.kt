@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import autodispose2.androidx.lifecycle.autoDispose
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
@@ -67,6 +66,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -74,9 +74,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -315,6 +312,14 @@ class TimelineFragment :
                     }
                 }
             }
+        }
+
+        updateRelativeTimePeriodically {
+            adapter.notifyItemRangeChanged(
+                0,
+                adapter.itemCount,
+                listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+            )
         }
     }
 
@@ -597,29 +602,6 @@ class TimelineFragment :
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
-        }
-        startUpdateTimestamp()
-    }
-
-    /**
-     * Start to update adapter every minute to refresh timestamp
-     * If setting absoluteTimeView is false
-     * Auto dispose observable on pause
-     */
-    private fun startUpdateTimestamp() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-        if (!useAbsoluteTime) {
-            Observable.interval(0, 1, TimeUnit.MINUTES)
-                .observeOn(AndroidSchedulers.mainThread())
-                .autoDispose(this, Lifecycle.Event.ON_PAUSE)
-                .subscribe {
-                    adapter.notifyItemRangeChanged(
-                        0,
-                        adapter.itemCount,
-                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                    )
-                }
         }
     }
 

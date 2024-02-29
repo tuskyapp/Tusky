@@ -17,6 +17,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
 import java.util.Date
+import kotlinx.coroutines.test.TestScope
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -126,6 +127,8 @@ class MainActivityTest {
             on { activeAccount } doReturn accountEntity
         }
         activity.draftsAlert = mock {}
+        activity.shareShortcutHelper = mock {}
+        activity.externalScope = TestScope()
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
