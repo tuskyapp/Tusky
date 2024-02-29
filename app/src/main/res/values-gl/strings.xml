@@ -417,7 +417,7 @@
     <string name="label_quick_reply">Responder…</string>
     <string name="search_no_results">Sen resultados</string>
     <string name="hint_search">Buscar…</string>
-    <string name="hint_note">Bio</string>
+    <string name="hint_note">Acerca de</string>
     <string name="hint_display_name">Nome público</string>
     <string name="hint_content_warning">Aviso sobre o contido</string>
     <string name="hint_compose">Que contas\?</string>
