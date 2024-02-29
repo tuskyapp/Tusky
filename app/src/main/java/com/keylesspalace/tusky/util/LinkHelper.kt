@@ -41,7 +41,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import androidx.core.text.getSpans
 import androidx.preference.PreferenceManager
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors

@@ -19,7 +19,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
@@ -28,8 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from
-import autodispose2.autoDispose
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.PostLookupFallbackBehavior
@@ -58,7 +55,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -249,17 +245,16 @@ class AccountListFragment :
     }
 
     override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
-        if (accept) {
-            api.authorizeFollowRequest(accountId)
-        } else {
-            api.rejectFollowRequest(accountId)
-        }.observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (accept) {
+                api.authorizeFollowRequest(accountId)
+            } else {
+                api.rejectFollowRequest(accountId)
+            }.fold(
+                onSuccess = {
                     onRespondToFollowRequestSuccess(position)
                 },
-                { throwable ->
+                onFailure = { throwable ->
                     val verb = if (accept) {
                         "accept"
                     } else {
@@ -268,6 +263,7 @@ class AccountListFragment :
                     Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
                 }
             )
+        }
     }
 
     private fun onRespondToFollowRequestSuccess(position: Int) {

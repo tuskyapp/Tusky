@@ -41,7 +41,7 @@ data class Links(val next: String?, val prev: String?) {
  *
  * Should only be called by a worker thread.
  *
- * @see NotificationWorker
+ * @see com.keylesspalace.tusky.worker.NotificationWorker
  * @see <a href="https://developer.android.com/guide/background/persistent/threading/worker">Background worker</a>
  */
 @WorkerThread

@@ -54,7 +54,7 @@ class CaptionDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.dialog_image_description, container, false)
+    ): View = inflater.inflate(R.layout.dialog_image_description, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val imageView = binding.imageDescriptionView

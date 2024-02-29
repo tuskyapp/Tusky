@@ -21,11 +21,10 @@ androidx-testing = "2.2.0"
 androidx-viewpager2 = "1.0.0"
 androidx-work = "2.9.0"
 androidx-room = "2.6.1"
-autodispose = "2.2.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.8.0"
-dagger = "2.50"
+dagger = "2.51"
 diffx = "1.1.1"
 emoji2 = "1.4.0"
 espresso = "3.5.1"
@@ -41,13 +40,10 @@ material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
 mockito-inline = "5.2.0"
 mockito-kotlin = "5.2.1"
-networkresult-calladapter = "1.0.0"
-okhttp = "4.11.0"
+networkresult-calladapter = "1.1.0"
+okhttp = "4.12.0"
 retrofit = "2.9.0"
 robolectric = "4.11.1"
-rxandroid3 = "3.0.2"
-rxjava3 = "3.1.8"
-rxkotlin3 = "3.0.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
 truth = "1.4.1"
@@ -61,7 +57,7 @@ google-ksp = "com.google.devtools.ksp:1.9.22-1.0.17"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ktlint = "org.jlleitschuh.gradle.ktlint:12.0.3"
+ktlint = "org.jlleitschuh.gradle.ktlint:12.1.0"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -98,8 +94,6 @@ androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "andro
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
-autodispose-android-lifecycle = { module = "com.uber.autodispose2:autodispose-androidx-lifecycle", version.ref = "autodispose" }
-autodispose-core = { module = "com.uber.autodispose2:autodispose", version.ref = "autodispose" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
 conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = "conscrypt" }
 dagger-android-core = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
@@ -118,7 +112,6 @@ glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide"
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
-kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "image-cropper" }
 material-drawer-core = { module = "com.mikepenz:materialdrawer", version.ref = "material-drawer" }
@@ -130,13 +123,9 @@ mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-rxjava3-android = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid3" }
-rxjava3-core = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
-rxjava3-kotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin3" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
@@ -152,7 +141,6 @@ androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", 
     "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
     "androidx-core-splashscreen", "androidx-activity", "androidx-media3-exoplayer", "androidx-media3-datasource-okhttp",
     "androidx-media3-ui"]
-autodispose = ["autodispose-core", "autodispose-android-lifecycle"]
 dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
 dagger-processors = ["dagger-compiler", "dagger-android-processor"]
 filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-defaults"]
@@ -160,7 +148,6 @@ glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]
 mockito = ["mockito-kotlin", "mockito-inline"]
 okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
-retrofit = ["retrofit-core", "retrofit-converter-gson", "retrofit-adapter-rxjava3"]
+retrofit = ["retrofit-core", "retrofit-converter-gson"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
-rxjava3 = ["rxjava3-core", "rxjava3-android", "rxjava3-kotlin"]
 xmldiff = ["diffx", "xmlwriter"]
