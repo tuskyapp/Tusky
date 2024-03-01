@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import javax.inject.Inject
@@ -83,8 +84,7 @@ abstract class SFragment : Fragment(), Injectable {
     lateinit var timelineCases: TimelineCases
 
     override fun startActivity(intent: Intent) {
-        super.startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onAttach(context: Context) {
