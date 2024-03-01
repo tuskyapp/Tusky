@@ -696,4 +696,7 @@
     <string name="pref_title_show_self_boosts">Sýna sjálfs-endurbirtingar</string>
     <string name="pref_title_show_self_boosts_description">Einhver endurbirtir sína eigin færslu</string>
     <string name="pref_title_per_timeline_preferences">Kjörstillingar á hverja tímalínu</string>
+    <string name="reply_sending_long">Verið er að senda svarið þitt.</string>
+    <string name="reply_sending">Sendi…</string>
+    <string name="pref_title_show_notifications_filter">Birta tilkynningasíu</string>
 </resources>
