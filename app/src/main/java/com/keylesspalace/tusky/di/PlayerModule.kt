@@ -1,3 +1,20 @@
+/*
+ * Copyright 2024 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>.
+ */
+
 package com.keylesspalace.tusky.di
 
 import android.content.Context
@@ -10,7 +27,6 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.Renderer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
@@ -49,7 +65,7 @@ object PlayerModule {
                                   audioRendererEventListener,
                                   textRendererOutput,
                                   metadataRendererOutput ->
-            arrayOf<Renderer>(
+            arrayOf(
                 MediaCodecVideoRenderer(
                     context,
                     MediaCodecSelector.DEFAULT,
