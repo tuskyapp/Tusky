@@ -48,6 +48,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
 
             kotlinOptions {
                 freeCompilerArgs = [
