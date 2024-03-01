@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.components.filters
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword

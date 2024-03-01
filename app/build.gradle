@@ -145,7 +145,6 @@ dependencies {
     implementation libs.gson
 
     implementation libs.bundles.retrofit
-    implementation libs.networkresult.calladapter
 
     implementation libs.bundles.okhttp
 

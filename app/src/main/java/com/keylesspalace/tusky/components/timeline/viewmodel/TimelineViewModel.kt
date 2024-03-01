@@ -20,9 +20,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.getOrElse
-import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event

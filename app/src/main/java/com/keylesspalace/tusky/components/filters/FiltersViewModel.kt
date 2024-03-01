@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.components.filters
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent

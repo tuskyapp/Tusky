@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
@@ -52,7 +51,7 @@ class BottomSheetActivityTest {
     private val statusQuery = "http://mastodon.foo.bar/@User/345678"
     private val nonexistentStatusQuery = "http://mastodon.foo.bar/@User/345678000"
     private val nonMastodonQuery = "http://medium.com/@correspondent/345678"
-    private val emptyResult = NetworkResult.success(SearchResult(emptyList(), emptyList(), emptyList()))
+    private val emptyResult = Result.success(SearchResult(emptyList(), emptyList(), emptyList()))
 
     private val account = TimelineAccount(
         id = "1",
@@ -63,7 +62,7 @@ class BottomSheetActivityTest {
         url = "http://mastodon.foo.bar/@User",
         avatar = ""
     )
-    private val accountResult = NetworkResult.success(SearchResult(listOf(account), emptyList(), emptyList()))
+    private val accountResult = Result.success(SearchResult(listOf(account), emptyList(), emptyList()))
 
     private val status = Status(
         id = "1",
@@ -96,7 +95,7 @@ class BottomSheetActivityTest {
         language = null,
         filtered = null
     )
-    private val statusResult = NetworkResult.success(SearchResult(emptyList(), listOf(status), emptyList()))
+    private val statusResult = Result.success(SearchResult(emptyList(), listOf(status), emptyList()))
 
     @Before
     fun setup() {

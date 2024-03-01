@@ -20,7 +20,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository

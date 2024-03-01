@@ -16,11 +16,6 @@
 package com.keylesspalace.tusky.usecase
 
 import android.util.Log
-import at.connyduck.calladapter.networkresult.NetworkResult
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.onFailure
-import at.connyduck.calladapter.networkresult.onSuccess
-import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
@@ -49,7 +44,7 @@ class TimelineCases @Inject constructor(
     private val eventHub: EventHub
 ) {
 
-    suspend fun reblog(statusId: String, reblog: Boolean): NetworkResult<Status> {
+    suspend fun reblog(statusId: String, reblog: Boolean): Result<Status> {
         return if (reblog) {
             mastodonApi.reblogStatus(statusId)
         } else {
@@ -69,7 +64,7 @@ class TimelineCases @Inject constructor(
         return Single { reblog(statusId, reblog) }
     }
 
-    suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
+    suspend fun favourite(statusId: String, favourite: Boolean): Result<Status> {
         return if (favourite) {
             mastodonApi.favouriteStatus(statusId)
         } else {
@@ -83,7 +78,7 @@ class TimelineCases @Inject constructor(
         return Single { favourite(statusId, favourite) }
     }
 
-    suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
+    suspend fun bookmark(statusId: String, bookmark: Boolean): Result<Status> {
         return if (bookmark) {
             mastodonApi.bookmarkStatus(statusId)
         } else {
@@ -97,7 +92,7 @@ class TimelineCases @Inject constructor(
         return Single { bookmark(statusId, bookmark) }
     }
 
-    suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
+    suspend fun muteConversation(statusId: String, mute: Boolean): Result<Status> {
         return if (mute) {
             mastodonApi.muteConversation(statusId)
         } else {
@@ -125,23 +120,23 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
+    suspend fun delete(statusId: String): Result<DeletedStatus> {
         return mastodonApi.deleteStatus(statusId)
             .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
             .onFailure { Log.w(TAG, "Failed to delete status", it) }
     }
 
-    suspend fun pin(statusId: String, pin: Boolean): NetworkResult<Status> {
+    suspend fun pin(statusId: String, pin: Boolean): Result<Status> {
         return if (pin) {
             mastodonApi.pinStatus(statusId)
         } else {
             mastodonApi.unpinStatus(statusId)
         }.fold({ status ->
             eventHub.dispatch(StatusChangedEvent(status))
-            NetworkResult.success(status)
+            Result.success(status)
         }, { e ->
             Log.w(TAG, "Failed to change pin state", e)
-            NetworkResult.failure(TimelineError(e.getServerErrorMessage()))
+            Result.failure(TimelineError(e.getServerErrorMessage()))
         })
     }
 
@@ -149,9 +144,9 @@ class TimelineCases @Inject constructor(
         statusId: String,
         pollId: String,
         choices: List<Int>
-    ): NetworkResult<Poll> {
+    ): Result<Poll> {
         if (choices.isEmpty()) {
-            return NetworkResult.failure(IllegalStateException())
+            return Result.failure(IllegalStateException())
         }
 
         return mastodonApi.voteInPoll(pollId, choices).onSuccess { poll ->

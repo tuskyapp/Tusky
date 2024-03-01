@@ -22,8 +22,6 @@ import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import at.connyduck.calladapter.networkresult.NetworkResult
-import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject
 
@@ -49,14 +47,14 @@ class DomainBlocksRepository @Inject constructor(
         factory.invalidate()
     }
 
-    suspend fun block(domain: String): NetworkResult<Unit> {
+    suspend fun block(domain: String): Result<Unit> {
         return api.blockDomain(domain).onSuccess {
             domains.add(domain)
             factory.invalidate()
         }
     }
 
-    suspend fun unblock(domain: String): NetworkResult<Unit> {
+    suspend fun unblock(domain: String): Result<Unit> {
         return api.unblockDomain(domain).onSuccess {
             domains.remove(domain)
             factory.invalidate()

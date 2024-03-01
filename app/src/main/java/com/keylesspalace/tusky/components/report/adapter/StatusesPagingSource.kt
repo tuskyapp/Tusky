@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.report.adapter
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import kotlinx.coroutines.async

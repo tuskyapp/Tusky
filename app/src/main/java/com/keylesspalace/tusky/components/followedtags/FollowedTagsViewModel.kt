@@ -7,7 +7,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.di.Injectable

@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.replacedFirstWhich

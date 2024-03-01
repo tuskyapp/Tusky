@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.usecase
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.entity.Status
@@ -43,7 +42,7 @@ class TimelineCasesTest {
         val pinnedStatus = mockStatus(pinned = true)
 
         api.stub {
-            onBlocking { pinStatus(statusId) } doReturn NetworkResult.success(pinnedStatus)
+            onBlocking { pinStatus(statusId) } doReturn Result.success(pinnedStatus)
         }
 
         runBlocking {
@@ -57,7 +56,7 @@ class TimelineCasesTest {
     @Test
     fun `pin failure with server error throws TimelineError with server message`() {
         api.stub {
-            onBlocking { pinStatus(statusId) } doReturn NetworkResult.failure(
+            onBlocking { pinStatus(statusId) } doReturn Result.failure(
                 HttpException(
                     Response.error<Status>(
                         422,

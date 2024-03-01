@@ -21,7 +21,6 @@ import android.content.Intent
 import android.os.Looper.getMainLooper
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.gson.Gson
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
@@ -106,19 +105,19 @@ class ComposeActivityTest {
         }
 
         apiMock = mock {
-            onBlocking { getCustomEmojis() } doReturn NetworkResult.success(emptyList())
+            onBlocking { getCustomEmojis() } doReturn Result.success(emptyList())
             onBlocking { getInstance() } doReturn instanceResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
-                    NetworkResult.failure(HttpException(Response.error<ResponseBody>(404, "Not found".toResponseBody())))
+                    Result.failure(HttpException(Response.error<ResponseBody>(404, "Not found".toResponseBody())))
                 } else {
-                    NetworkResult.success(instance)
+                    Result.success(instance)
                 }
             }
             onBlocking { getInstanceV1() } doReturn instanceV1ResponseCallback?.invoke().let { instance ->
                 if (instance == null) {
-                    NetworkResult.failure(Throwable())
+                    Result.failure(Throwable())
                 } else {
-                    NetworkResult.success(instance)
+                    Result.success(instance)
                 }
             }
         }

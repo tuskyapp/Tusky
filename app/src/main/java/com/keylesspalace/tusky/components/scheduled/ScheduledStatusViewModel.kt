@@ -21,7 +21,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi

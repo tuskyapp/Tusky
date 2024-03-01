@@ -20,7 +20,6 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeKind
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter.AutocompleteResult

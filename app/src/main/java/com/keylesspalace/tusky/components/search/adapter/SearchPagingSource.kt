@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.search.adapter
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.components.search.SearchType
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.network.MastodonApi

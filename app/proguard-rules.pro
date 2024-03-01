@@ -61,14 +61,8 @@
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
-# Retain generic signatures of classes used in MastodonApi so Retrofit works
--keep,allowobfuscation,allowshrinking class retrofit2.Response
--keep,allowobfuscation,allowshrinking class kotlin.collections.List
--keep,allowobfuscation,allowshrinking class kotlin.collections.Map
--keep,allowobfuscation,allowshrinking class retrofit2.Call
-
-# https://github.com/square/retrofit/pull/3563
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+# TODO: Remove this after https://github.com/square/retrofit/pull/4018 is merged.
+-keep,allowobfuscation,allowshrinking class kotlin.Result
 
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable

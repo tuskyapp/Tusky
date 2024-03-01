@@ -5,7 +5,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
@@ -131,8 +130,8 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit status even if context fails to load`() {
         api.stub {
-            onBlocking { status(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1"))
-            onBlocking { statusContext(threadId) } doReturn NetworkResult.failure(IOException())
+            onBlocking { status(threadId) } doReturn Result.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1"))
+            onBlocking { statusContext(threadId) } doReturn Result.failure(IOException())
         }
 
         viewModel.loadThread(threadId)
@@ -154,8 +153,8 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit error when status and context fail to load`() {
         api.stub {
-            onBlocking { status(threadId) } doReturn NetworkResult.failure(IOException())
-            onBlocking { statusContext(threadId) } doReturn NetworkResult.failure(IOException())
+            onBlocking { status(threadId) } doReturn Result.failure(IOException())
+            onBlocking { statusContext(threadId) } doReturn Result.failure(IOException())
         }
 
         viewModel.loadThread(threadId)
@@ -171,8 +170,8 @@ class ViewThreadViewModelTest {
     @Test
     fun `should emit error when status fails to load`() {
         api.stub {
-            onBlocking { status(threadId) } doReturn NetworkResult.failure(IOException())
-            onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
+            onBlocking { status(threadId) } doReturn Result.failure(IOException())
+            onBlocking { statusContext(threadId) } doReturn Result.success(
                 StatusContext(
                     ancestors = listOf(mockStatus(id = "1")),
                     descendants = listOf(mockStatus(id = "3", inReplyToId = "2", inReplyToAccountId = "1"))
@@ -343,8 +342,8 @@ class ViewThreadViewModelTest {
 
     private fun mockSuccessResponses() {
         api.stub {
-            onBlocking { status(threadId) } doReturn NetworkResult.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1", spoilerText = "Test"))
-            onBlocking { statusContext(threadId) } doReturn NetworkResult.success(
+            onBlocking { status(threadId) } doReturn Result.success(mockStatus(id = "2", inReplyToId = "1", inReplyToAccountId = "1", spoilerText = "Test"))
+            onBlocking { statusContext(threadId) } doReturn Result.success(
                 StatusContext(
                     ancestors = listOf(mockStatus(id = "1", spoilerText = "Test")),
                     descendants = listOf(mockStatus(id = "3", inReplyToId = "2", inReplyToAccountId = "1", spoilerText = "Test"))

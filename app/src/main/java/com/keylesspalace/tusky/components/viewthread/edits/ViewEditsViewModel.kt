@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.viewthread.edits
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.components.viewthread.edits.EditsTagHandler.Companion.DELETED_TEXT_EL
 import com.keylesspalace.tusky.components.viewthread.edits.EditsTagHandler.Companion.INSERTED_TEXT_EL
 import com.keylesspalace.tusky.entity.StatusEdit

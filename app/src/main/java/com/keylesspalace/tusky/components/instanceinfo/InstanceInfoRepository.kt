@@ -16,9 +16,6 @@
 package com.keylesspalace.tusky.components.instanceinfo
 
 import android.util.Log
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.getOrElse
-import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity
