@@ -16,14 +16,19 @@
 package com.keylesspalace.tusky.components.instanceinfo
 
 import android.util.Log
-import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.getOrElse
+import at.connyduck.calladapter.networkresult.getOrThrow
+import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onSuccess
+import at.connyduck.calladapter.networkresult.recover
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Instance
+import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import javax.inject.Inject
@@ -58,99 +63,129 @@ class InstanceInfoRepository @Inject constructor(
      * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
      * Never throws, returns defaults of vanilla Mastodon in case of error.
      */
-    suspend fun getInstanceInfo(): InstanceInfo = withContext(Dispatchers.IO) {
-        api.getInstance()
-            .fold(
-                { instance ->
-                    val instanceEntity = InstanceInfoEntity(
-                        instance = instanceName,
-                        maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: DEFAULT_CHARACTER_LIMIT,
-                        maxPollOptions = instance.configuration?.polls?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
-                        maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: DEFAULT_MAX_OPTION_LENGTH,
-                        minPollDuration = instance.configuration?.polls?.minExpirationSeconds ?: DEFAULT_MIN_POLL_DURATION,
-                        maxPollDuration = instance.configuration?.polls?.maxExpirationSeconds ?: DEFAULT_MAX_POLL_DURATION,
-                        charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
-                        version = instance.version,
-                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimitBytes?.toInt() ?: DEFAULT_VIDEO_SIZE_LIMIT,
-                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimitBytes?.toInt() ?: DEFAULT_IMAGE_SIZE_LIMIT,
-                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imagePixelCountLimit?.toInt() ?: DEFAULT_IMAGE_MATRIX_LIMIT,
-                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
-                        maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
-                        maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
-                        translationEnabled = instance.configuration?.translation?.enabled
-                    )
-                    dao.upsert(instanceEntity)
-                    instanceEntity
-                },
-                { throwable ->
-                    if (throwable.isHttpNotFound()) {
-                        getInstanceInfoV1()
-                    } else {
-                        Log.w(
-                            TAG,
-                            "failed to instance, falling back to cache and default values",
-                            throwable
-                        )
-                        dao.getInstanceInfo(instanceName)
-                    }
-                }
-            ).let { instanceInfo: InstanceInfoEntity? ->
-                InstanceInfo(
-                    maxChars = instanceInfo?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
-                    pollMaxOptions = instanceInfo?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
-                    pollMaxLength = instanceInfo?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
-                    pollMinDuration = instanceInfo?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
-                    pollMaxDuration = instanceInfo?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
-                    charactersReservedPerUrl = instanceInfo?.charactersReservedPerUrl ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
-                    videoSizeLimit = instanceInfo?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
-                    imageSizeLimit = instanceInfo?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
-                    imageMatrixLimit = instanceInfo?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
-                    maxMediaAttachments = instanceInfo?.maxMediaAttachments ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
-                    maxFields = instanceInfo?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
-                    maxFieldNameLength = instanceInfo?.maxFieldNameLength,
-                    maxFieldValueLength = instanceInfo?.maxFieldValueLength,
-                    version = instanceInfo?.version,
-                    translationEnabled = instanceInfo?.translationEnabled
+    suspend fun getUpdatedInstanceInfoOrFallback(): InstanceInfo = withContext(Dispatchers.IO) {
+        fetchRemoteInstanceInfo()
+            .onSuccess { instanceInfoEntity ->
+                dao.upsert(instanceInfoEntity)
+            }
+            .getOrElse { throwable ->
+                Log.w(
+                    TAG,
+                    "failed to load instance, falling back to cache and default values",
+                    throwable
                 )
+                dao.getInstanceInfo(instanceName)
+            }
+            .toInfoOrDefault()
+    }
+
+    /**
+     * Returns information about the instance.
+     * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
+     * Never throws, returns defaults of vanilla Mastodon in case of error.
+     */
+    suspend fun getCachedInstanceInfoOrFallback(): InstanceInfo = withContext(Dispatchers.IO) {
+        dao.getInstanceInfo(instanceName)?.toInfoOrDefault()
+            ?: fetchRemoteInstanceInfo()
+                .onSuccess { dao.upsert(it) }
+                .getOrElse { throwable ->
+                    Log.w(
+                        TAG,
+                        "failed to load instance, falling back to default values",
+                        throwable
+                    )
+                    null
+                }
+                .toInfoOrDefault()
+    }
+
+    private suspend fun fetchRemoteInstanceInfo(): NetworkResult<InstanceInfoEntity> {
+        return api.getInstance()
+            .map { it.toEntity() }
+            .recover { t ->
+                if (t.isHttpNotFound()) {
+                    api.getInstanceV1().map { it.toInfoEntity() }.getOrThrow()
+                } else {
+                    throw t
+                }
             }
     }
 
-    private suspend fun getInstanceInfoV1(): InstanceInfoEntity? = withContext(Dispatchers.IO) {
-        api.getInstanceV1()
-            .fold(
-                { instance ->
-                    val instanceEntity = InstanceInfoEntity(
-                        instance = instanceName,
-                        maximumTootCharacters = instance.configuration?.statuses?.maxCharacters ?: instance.maxTootChars,
-                        maxPollOptions = instance.configuration?.polls?.maxOptions ?: instance.pollConfiguration?.maxOptions,
-                        maxPollOptionLength = instance.configuration?.polls?.maxCharactersPerOption ?: instance.pollConfiguration?.maxOptionChars,
-                        minPollDuration = instance.configuration?.polls?.minExpiration ?: instance.pollConfiguration?.minExpiration,
-                        maxPollDuration = instance.configuration?.polls?.maxExpiration ?: instance.pollConfiguration?.maxExpiration,
-                        charactersReservedPerUrl = instance.configuration?.statuses?.charactersReservedPerUrl,
-                        version = instance.version,
-                        videoSizeLimit = instance.configuration?.mediaAttachments?.videoSizeLimit ?: instance.uploadLimit,
-                        imageSizeLimit = instance.configuration?.mediaAttachments?.imageSizeLimit ?: instance.uploadLimit,
-                        imageMatrixLimit = instance.configuration?.mediaAttachments?.imageMatrixLimit,
-                        maxMediaAttachments = instance.configuration?.statuses?.maxMediaAttachments ?: instance.maxMediaAttachments,
-                        maxFields = instance.pleroma?.metadata?.fieldLimits?.maxFields,
-                        maxFieldNameLength = instance.pleroma?.metadata?.fieldLimits?.nameLength,
-                        maxFieldValueLength = instance.pleroma?.metadata?.fieldLimits?.valueLength,
-                        translationEnabled = null,
-                    )
-                    dao.upsert(instanceEntity)
-                    instanceEntity
-                },
-                { throwable ->
-                    Log.w(
-                        TAG,
-                        "failed to instance, falling back to cache and default values",
-                        throwable
-                    )
-                    dao.getInstanceInfo(instanceName)
-                }
-            )
-    }
+    private fun InstanceInfoEntity?.toInfoOrDefault() = InstanceInfo(
+        maxChars = this?.maximumTootCharacters ?: DEFAULT_CHARACTER_LIMIT,
+        pollMaxOptions = this?.maxPollOptions ?: DEFAULT_MAX_OPTION_COUNT,
+        pollMaxLength = this?.maxPollOptionLength ?: DEFAULT_MAX_OPTION_LENGTH,
+        pollMinDuration = this?.minPollDuration ?: DEFAULT_MIN_POLL_DURATION,
+        pollMaxDuration = this?.maxPollDuration ?: DEFAULT_MAX_POLL_DURATION,
+        charactersReservedPerUrl = this?.charactersReservedPerUrl
+            ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
+        videoSizeLimit = this?.videoSizeLimit ?: DEFAULT_VIDEO_SIZE_LIMIT,
+        imageSizeLimit = this?.imageSizeLimit ?: DEFAULT_IMAGE_SIZE_LIMIT,
+        imageMatrixLimit = this?.imageMatrixLimit ?: DEFAULT_IMAGE_MATRIX_LIMIT,
+        maxMediaAttachments = this?.maxMediaAttachments
+            ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
+        maxFields = this?.maxFields ?: DEFAULT_MAX_ACCOUNT_FIELDS,
+        maxFieldNameLength = this?.maxFieldNameLength,
+        maxFieldValueLength = this?.maxFieldValueLength,
+        version = this?.version,
+        translationEnabled = this?.translationEnabled
+    )
+
+    private fun Instance.toEntity() = InstanceInfoEntity(
+        instance = instanceName,
+        maximumTootCharacters = this.configuration?.statuses?.maxCharacters
+            ?: DEFAULT_CHARACTER_LIMIT,
+        maxPollOptions = this.configuration?.polls?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
+        maxPollOptionLength = this.configuration?.polls?.maxCharactersPerOption
+            ?: DEFAULT_MAX_OPTION_LENGTH,
+        minPollDuration = this.configuration?.polls?.minExpirationSeconds
+            ?: DEFAULT_MIN_POLL_DURATION,
+        maxPollDuration = this.configuration?.polls?.maxExpirationSeconds
+            ?: DEFAULT_MAX_POLL_DURATION,
+        charactersReservedPerUrl = this.configuration?.statuses?.charactersReservedPerUrl
+            ?: DEFAULT_CHARACTERS_RESERVED_PER_URL,
+        version = this.version,
+        videoSizeLimit = this.configuration?.mediaAttachments?.videoSizeLimitBytes?.toInt()
+            ?: DEFAULT_VIDEO_SIZE_LIMIT,
+        imageSizeLimit = this.configuration?.mediaAttachments?.imageSizeLimitBytes?.toInt()
+            ?: DEFAULT_IMAGE_SIZE_LIMIT,
+        imageMatrixLimit = this.configuration?.mediaAttachments?.imagePixelCountLimit?.toInt()
+            ?: DEFAULT_IMAGE_MATRIX_LIMIT,
+        maxMediaAttachments = this.configuration?.statuses?.maxMediaAttachments
+            ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
+        maxFields = this.pleroma?.metadata?.fieldLimits?.maxFields,
+        maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
+        maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
+        translationEnabled = this.configuration?.translation?.enabled
+    )
+
+    private fun InstanceV1.toInfoEntity() =
+        InstanceInfoEntity(
+            instance = instanceName,
+            maximumTootCharacters = this.configuration?.statuses?.maxCharacters
+                ?: this.maxTootChars,
+            maxPollOptions = this.configuration?.polls?.maxOptions
+                ?: this.pollConfiguration?.maxOptions,
+            maxPollOptionLength = this.configuration?.polls?.maxCharactersPerOption
+                ?: this.pollConfiguration?.maxOptionChars,
+            minPollDuration = this.configuration?.polls?.minExpiration
+                ?: this.pollConfiguration?.minExpiration,
+            maxPollDuration = this.configuration?.polls?.maxExpiration
+                ?: this.pollConfiguration?.maxExpiration,
+            charactersReservedPerUrl = this.configuration?.statuses?.charactersReservedPerUrl,
+            version = this.version,
+            videoSizeLimit = this.configuration?.mediaAttachments?.videoSizeLimit
+                ?: this.uploadLimit,
+            imageSizeLimit = this.configuration?.mediaAttachments?.imageSizeLimit
+                ?: this.uploadLimit,
+            imageMatrixLimit = this.configuration?.mediaAttachments?.imageMatrixLimit,
+            maxMediaAttachments = this.configuration?.statuses?.maxMediaAttachments
+                ?: this.maxMediaAttachments,
+            maxFields = this.pleroma?.metadata?.fieldLimits?.maxFields,
+            maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
+            maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
+            translationEnabled = null,
+        )
 
     companion object {
         private const val TAG = "InstanceInfoRepo"

@@ -199,7 +199,7 @@ class SearchViewModel @Inject constructor(
     }
 
     suspend fun supportsTranslation(): Boolean =
-        instanceInfoRepository.getInstanceInfo().translationEnabled == true
+        instanceInfoRepository.getCachedInstanceInfoOrFallback().translationEnabled == true
 
     suspend fun translate(statusViewData: StatusViewData.Concrete): Result<Unit> {
         updateStatusViewData(statusViewData.copy(translation = TranslationViewData.Loading))

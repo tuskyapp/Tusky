@@ -216,7 +216,7 @@ abstract class SFragment : Fragment(), Injectable {
 
             val translateItem = menu.findItem(R.id.status_translate)
             translateItem.isVisible =
-                onMoreTranslate != null && status.language != Locale.getDefault().language && instanceInfoRepository.getInstanceInfo().translationEnabled == true
+                onMoreTranslate != null && status.language != Locale.getDefault().language && instanceInfoRepository.getCachedInstanceInfoOrFallback().translationEnabled == true
             translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
 
             popup.setOnMenuItemClickListener { item: MenuItem ->
