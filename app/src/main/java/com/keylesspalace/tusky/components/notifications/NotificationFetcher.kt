@@ -63,7 +63,7 @@ class NotificationFetcher @Inject constructor(
                     val notifications = fetchNewNotifications(account)
                         .filter { filterNotification(notificationManager, account, it) }
                         .sortedWith(
-                            compareBy({ it.id.length }, { it.id })
+                            compareBy({ it.id?.length ?: 0 }, { it.id })
                         ) // oldest notifications first
                         .toMutableList()
 
@@ -79,7 +79,7 @@ class NotificationFetcher @Inject constructor(
                     // notifications.
                     val currentAndroidNotifications = notificationManager.activeNotifications
                         .sortedWith(
-                            compareBy({ it.tag.length }, { it.tag })
+                            compareBy({ it.id?.length ?: 0 }, { it.tag })
                         ) // oldest notifications first
 
                     // Check to see if any notifications need to be removed
