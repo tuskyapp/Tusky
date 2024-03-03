@@ -80,3 +80,8 @@ fun getLocaleList(initialLanguages: List<String>): List<Locale> {
     ensureLanguagesAreFirst(locales, initialLanguages)
     return locales
 }
+
+fun localeNameForUntrustedISO639LangCode(code: String): String {
+    // It seems like it never throws?
+    return Locale(code).displayName
+}

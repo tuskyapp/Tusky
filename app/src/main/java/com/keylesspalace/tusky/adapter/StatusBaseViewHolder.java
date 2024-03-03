@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.LocaleUtilsKt;
 import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
@@ -845,9 +846,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (translationViewData instanceof TranslationViewData.Loaded) {
                 Translation translation = ((TranslationViewData.Loaded) translationViewData).getData();
                 translationStatusView.setVisibility(View.VISIBLE);
-                // FIXME error handling
-                var locale = new Locale(translation.getDetectedSourceLanguage());
-                translationStatusView.setText(translationStatusView.getContext().getString(R.string.label_translated, locale.getDisplayName(), translation.getProvider()));
+                var langName = LocaleUtilsKt.localeNameForUntrustedISO639LangCode(translation.getDetectedSourceLanguage());
+                translationStatusView.setText(translationStatusView.getContext().getString(R.string.label_translated, langName, translation.getProvider()));
                 untranslateButton.setVisibility(View.VISIBLE);
                 untranslateButton.setOnClickListener((v) -> listener.onUntranslate(getBindingAdapterPosition()));
             } else {
@@ -943,14 +943,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             return context.getString(R.string.label_translating);
         } else {
             Translation translation = ((TranslationViewData.Loaded) translationViewData).getData();
-            // FIXME error handling
-            var locale = new Locale(translation.getDetectedSourceLanguage());
-            return context.getString(R.string.label_translated, locale.getDisplayName(), translation.getProvider());
+            var langName = LocaleUtilsKt.localeNameForUntrustedISO639LangCode(translation.getDetectedSourceLanguage());
+            return context.getString(R.string.label_translated, langName, translation.getProvider());
         }
     }
 
     private static CharSequence getReblogDescription(Context context,
                                                      @NonNull StatusViewData.Concrete status) {
+        @Nullable
         Status reblog = status.getRebloggingStatus();
         if (reblog != null) {
             return context
