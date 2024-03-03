@@ -900,23 +900,53 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Status actionable = status.getActionable();
 
         String description = context.getString(R.string.description_status,
+            // 1 display_name
             actionable.getAccount().getDisplayName(),
+            // 2 CW?
             getContentWarningDescription(context, status),
+            // 3 content?
             (TextUtils.isEmpty(status.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
+            // 4 date
             getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
+            // 5 edited?
             actionable.getEditedAt() != null ? context.getString(R.string.description_post_edited) : "",
+            // 6 reposted_by?
             getReblogDescription(context, status),
+            // 7 username
             actionable.getAccount().getUsername(),
+            // 8 reposted
             actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
+            // 9 favorited
             actionable.getFavourited() ? context.getString(R.string.description_post_favourited) : "",
+            // 10 bookmarked
             actionable.getBookmarked() ? context.getString(R.string.description_post_bookmarked) : "",
+            // 11 media
             getMediaDescription(context, status),
+            // 12 visibility
             getVisibilityDescription(context, actionable.getVisibility()),
+            // 13 fav_number
             getFavsText(context, actionable.getFavouritesCount()),
+            // 14 reblog_number
             getReblogsText(context, actionable.getReblogsCount()),
-            getPollDescription(status, context, statusDisplayOptions)
+            // 15 poll?
+            getPollDescription(status, context, statusDisplayOptions),
+            // 16 translated?
+            getTranslatedDescription(context, status.getTranslation())
         );
         itemView.setContentDescription(description);
+    }
+
+    private String getTranslatedDescription(Context context, TranslationViewData translationViewData) {
+        if (translationViewData == null) {
+            return "";
+        } else if (translationViewData instanceof TranslationViewData.Loading) {
+            return context.getString(R.string.label_translating);
+        } else {
+            Translation translation = ((TranslationViewData.Loaded) translationViewData).getData();
+            // FIXME error handling
+            var locale = new Locale(translation.getDetectedSourceLanguage());
+            return context.getString(R.string.label_translated, locale.getDisplayName(), translation.getProvider());
+        }
     }
 
     private static CharSequence getReblogDescription(Context context,

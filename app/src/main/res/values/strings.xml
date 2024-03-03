@@ -213,6 +213,7 @@
     <string name="action_share_as">Share as …</string>
     <string name="action_translate">Translate</string>
     <string name="action_show_original">Show original</string>
+    <string name="action_show_untransalted">Show untranslated</string>
     <string name="download_media">Download media</string>
     <string name="downloading_media">Downloading media</string>
 

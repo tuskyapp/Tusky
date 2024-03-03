@@ -63,10 +63,10 @@ sealed class StatusViewData {
         val content: Spanned =
             (translation?.data?.content ?: actionable.content).parseAsMastodonHtml()
 
-        val attachments =
+        val attachments: List<Attachment> =
             actionable.attachments.translated { translation -> map { it.translated(translation) } }
 
-        val spoilerText =
+        val spoilerText: String =
             actionable.spoilerText.translated { translation -> translation.spoilerWarning ?: this }
 
         val poll = actionable.poll?.translated { translation ->

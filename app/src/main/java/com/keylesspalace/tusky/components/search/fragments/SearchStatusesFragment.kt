@@ -56,6 +56,7 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -95,6 +96,16 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
+        )
+
+        binding.searchRecyclerView.setAccessibilityDelegateCompat(
+            ListStatusAccessibilityDelegate(binding.searchRecyclerView, this) { pos ->
+                if (pos in 0 until adapter.itemCount) {
+                    adapter.peek(pos)
+                } else {
+                    null
+                }
+            }
         )
 
         binding.searchRecyclerView.addItemDecoration(
