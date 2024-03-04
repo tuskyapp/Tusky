@@ -78,6 +78,36 @@
         app:layout_constraintTop_toBottomOf="@id/status_display_name"
         tools:text="\@ConnyDuck\@mastodon.social" />
 
+    <Button
+        android:id="@+id/status_button_untranslate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show original"
+        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        style="@style/TuskyButton.TextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="14dp" />
+
+    <TextView
+        android:id="@+id/status_translation_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextSizeSmall"
+        android:layout_marginStart="14dp"
+        tools:text="Translated from blah using service"
+        app:layout_constraintBaseline_toBaselineOf="@id/status_button_untranslate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate">
+    </TextView>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/status_translation_barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="status_translation_status, status_button_untranslate"/>
+
+
     <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
@@ -93,7 +123,7 @@
         android:textSize="?attr/status_text_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/status_translation_barrier"
         tools:text="CW this is a long long long long long long long long content warning" />
 
     <com.google.android.material.button.MaterialButton
@@ -265,37 +295,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
-
-    <Button
-        android:id="@+id/status_button_untranslate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show original"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
-        style="@style/TuskyButton.TextButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="14dp" />
-
-    <TextView
-        android:id="@+id/status_translation_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
-        style="@style/TextSizeSmall"
-        android:layout_marginStart="14dp"
-        tools:text="Translated from blah using service"
-        app:layout_constraintBaseline_toBaselineOf="@id/status_button_untranslate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate">
-    </TextView>
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/status_translation_barrier"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="status_translation_status, status_button_untranslate"/>
-
     <TextView
         android:id="@+id/status_meta_info"
         android:layout_width="0dp"
@@ -310,7 +309,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_translation_barrier"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         tools:text="21 Dec 2018 18:45" />
 
     <View
