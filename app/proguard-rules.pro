@@ -33,33 +33,13 @@
 
 # TUSKY SPECIFIC OPTIONS
 
-# keep members of our model classes, they are used in json de/serialization
--keepclassmembers class com.keylesspalace.tusky.entity.* { *; }
-
--keep public enum com.keylesspalace.tusky.entity.*$** {
-    **[] $VALUES;
-    public *;
-}
-
+# TODO check if these 3 types are processed with Gson, if they are, annotate them
 -keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
 -keepclassmembers class com.keylesspalace.tusky.db.DraftAttachment { *; }
 
 -keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
     public *;
 }
-
-# https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
-
-# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * extends com.google.gson.TypeAdapter
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
-# Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
--keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
--keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
 # Retain generic signatures of classes used in MastodonApi so Retrofit works
 -keep,allowobfuscation,allowshrinking class retrofit2.Response

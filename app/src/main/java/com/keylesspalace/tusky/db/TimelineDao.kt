@@ -110,7 +110,7 @@ AND
             tags = gson.toJson(status.tags),
             poll = gson.toJson(status.poll),
             muted = status.muted,
-            pinned = status.pinned ?: false,
+            pinned = status.pinned,
             card = gson.toJson(status.card),
             language = status.language
         )

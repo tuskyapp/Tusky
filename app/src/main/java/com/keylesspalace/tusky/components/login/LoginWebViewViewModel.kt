@@ -39,7 +39,7 @@ class LoginWebViewViewModel @Inject constructor(
             viewModelScope.launch {
                 api.getInstance().fold(
                     { instance ->
-                        instanceRules.value = instance.rules.orEmpty().map { rule -> rule.text }
+                        instanceRules.value = instance.rules.map { rule -> rule.text }
                     },
                     { throwable ->
                         if (throwable.isHttpNotFound()) {

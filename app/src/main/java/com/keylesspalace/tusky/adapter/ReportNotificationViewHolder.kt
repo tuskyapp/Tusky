@@ -54,7 +54,7 @@ class ReportNotificationViewHolder(
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
-        binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, Date().time), report.status_ids?.size ?: 0)
+        binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, Date().time), report.status_ids.size)
         binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
 
         // Fancy avatar inset

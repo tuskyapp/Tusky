@@ -40,6 +40,7 @@ material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
 mockito-inline = "5.2.0"
 mockito-kotlin = "5.2.1"
+moshi = "1.15.1"
 networkresult-calladapter = "1.1.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
@@ -123,10 +124,13 @@ material-typeface = { module = "com.mikepenz:google-material-typeface", version.
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito-inline" }
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
@@ -150,7 +154,8 @@ filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-de
 glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]
 mockito = ["mockito-kotlin", "mockito-inline"]
+moshi = ["moshi-core", "moshi-adapters"]
 okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
-retrofit = ["retrofit-core", "retrofit-converter-gson"]
+retrofit = ["retrofit-core", "retrofit-converter-moshi"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 xmldiff = ["diffx", "xmlwriter"]

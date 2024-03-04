@@ -262,7 +262,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
                     val textId =
                         getString(
-                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                            if (status.pinned) R.string.unpin_action else R.string.pin_action
                         )
                     menu.add(0, R.id.pin, 1, textId)
                 }
@@ -391,7 +391,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     return@setOnMenuItemClickListener true
                 }
                 R.id.pin -> {
-                    viewModel.pinAccount(status, !status.isPinned())
+                    viewModel.pinAccount(status, !status.pinned)
                     return@setOnMenuItemClickListener true
                 }
             }
@@ -498,7 +498,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                             { deletedStatus ->
                                 removeItem(position)
 
-                                val redraftStatus = if (deletedStatus.isEmpty()) {
+                                val redraftStatus = if (deletedStatus.isEmpty) {
                                     status.toDeletedStatus()
                                 } else {
                                     deletedStatus

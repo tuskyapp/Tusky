@@ -54,7 +54,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
-    filtered = null
+    filtered = emptyList()
 )
 
 fun mockStatusViewData(

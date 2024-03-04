@@ -163,7 +163,7 @@ abstract class SFragment : Fragment(), Injectable {
                         R.id.pin,
                         1,
                         getString(
-                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                            if (status.pinned) R.string.unpin_action else R.string.pin_action
                         )
                     )
                 }
@@ -285,9 +285,9 @@ abstract class SFragment : Fragment(), Injectable {
                 }
                 R.id.pin -> {
                     lifecycleScope.launch {
-                        timelineCases.pin(status.id, !status.isPinned()).onFailure { e: Throwable ->
+                        timelineCases.pin(status.id, !status.pinned).onFailure { e: Throwable ->
                             val message = e.message
-                                ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                                ?: getString(if (status.pinned) R.string.failed_to_unpin else R.string.failed_to_pin)
                             Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
                         }
                     }
@@ -393,7 +393,7 @@ abstract class SFragment : Fragment(), Injectable {
                     timelineCases.delete(id).fold(
                         { deletedStatus ->
                             removeItem(position)
-                            val sourceStatus = if (deletedStatus.isEmpty()) {
+                            val sourceStatus = if (deletedStatus.isEmpty) {
                                 status.toDeletedStatus()
                             } else {
                                 deletedStatus

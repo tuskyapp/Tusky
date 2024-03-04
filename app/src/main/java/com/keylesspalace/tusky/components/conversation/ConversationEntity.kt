@@ -131,7 +131,7 @@ data class ConversationStatusEntity(
                 poll = poll,
                 card = null,
                 language = language,
-                filtered = null
+                filtered = emptyList()
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,

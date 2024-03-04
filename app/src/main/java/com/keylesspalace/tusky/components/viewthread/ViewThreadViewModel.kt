@@ -485,7 +485,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun clearWarning(viewData: StatusViewData.Concrete) {
         updateStatus(viewData.id) { status ->
-            status.copy(filtered = null)
+            status.copy(filtered = emptyList())
         }
     }
 
