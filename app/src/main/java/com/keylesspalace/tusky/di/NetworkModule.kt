@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
-import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
@@ -45,6 +44,7 @@ import okhttp3.Cache
 import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.ResultCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -117,7 +117,7 @@ class NetworkModule {
         return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+            .addCallAdapterFactory(ResultCallAdapterFactory.create())
             .build()
     }
 

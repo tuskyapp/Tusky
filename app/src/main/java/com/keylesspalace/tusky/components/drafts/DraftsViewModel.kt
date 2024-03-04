@@ -20,7 +20,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.DraftEntity
@@ -64,7 +63,7 @@ class DraftsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getStatus(statusId: String): NetworkResult<Status> {
+    suspend fun getStatus(statusId: String): Result<Status> {
         return api.status(statusId)
     }
 

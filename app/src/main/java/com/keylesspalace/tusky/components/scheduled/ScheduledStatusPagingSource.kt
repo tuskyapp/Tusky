@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.scheduled
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
 

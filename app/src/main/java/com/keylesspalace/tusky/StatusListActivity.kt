@@ -23,7 +23,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent

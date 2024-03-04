@@ -8,7 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.viewpager2.widget.ViewPager2
 import androidx.work.testing.WorkManagerTestInitHelper
-import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
@@ -130,8 +129,8 @@ class MainActivityTest {
         activity.shareShortcutHelper = mock {}
         activity.externalScope = TestScope()
         activity.mastodonApi = mock {
-            onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
-            onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
+            onBlocking { accountVerifyCredentials() } doReturn Result.success(account)
+            onBlocking { listAnnouncements(false) } doReturn Result.success(emptyList())
         }
         controller.create().start()
         return activity

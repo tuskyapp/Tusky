@@ -5,8 +5,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.R
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
