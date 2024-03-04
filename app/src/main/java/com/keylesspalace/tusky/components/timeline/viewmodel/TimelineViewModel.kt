@@ -85,9 +85,9 @@ abstract class TimelineViewModel(
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
-                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
-            filterRemoveReblogs =
                 !(accountManager.activeAccount?.isShowHomeReplies ?: true)
+            filterRemoveReblogs =
+                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
             filterRemoveSelfReblogs =
                 !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
         }
