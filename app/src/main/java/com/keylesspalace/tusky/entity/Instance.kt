@@ -8,7 +8,7 @@ data class Instance(
     val domain: String,
 //    val title: String,
     val version: String,
-//    @SerializedName("source_url") val sourceUrl: String,
+//    @Json(name = "source_url") val sourceUrl: String,
 //    val description: String,
 //    val usage: Usage,
 //    val thumbnail: Thumbnail,
@@ -57,7 +57,7 @@ data class Instance(
         @JsonClass(generateAdapter = true)
         data class MediaAttachments(
             // Warning: This is an array in mastodon and a dictionary in friendica
-            // @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>,
+            // @Json(name = "supported_mime_types") val supportedMimeTypes: List<String> = emptyList(),
             @Json(name = "image_size_limit") val imageSizeLimitBytes: Long? = null,
             @Json(name = "image_matrix_limit") val imagePixelCountLimit: Long? = null,
             @Json(name = "video_size_limit") val videoSizeLimitBytes: Long? = null,
