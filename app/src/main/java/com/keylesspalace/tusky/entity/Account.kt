@@ -23,7 +23,7 @@ import java.util.Date
 data class Account(
     val id: String,
     @Json(name = "username") val localUsername: String,
-    @Json( name = "acct") val username: String,
+    @Json(name = "acct") val username: String,
     // should never be null per Api definition, but some servers break the contract
     @Json(name = "display_name") val displayName: String? = null,
     @Json(name = "created_at") val createdAt: Date,
@@ -52,7 +52,7 @@ data class Account(
             displayName
         }
 
-    val isRemote : Boolean
+    val isRemote: Boolean
         get() = this.username != this.localUsername
 }
 
