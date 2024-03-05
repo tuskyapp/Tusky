@@ -142,7 +142,6 @@ dependencies {
 
     implementation libs.android.material
 
-    implementation libs.gson
     implementation libs.bundles.moshi
     ksp libs.moshi.kotlin.codegen
 

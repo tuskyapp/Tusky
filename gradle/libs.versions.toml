@@ -32,7 +32,6 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
-gson = "2.10.1"
 kotlin = "1.9.22"
 image-cropper = "4.3.2"
 material = "1.11.0"
@@ -114,7 +113,6 @@ glide-animation-plugin = { module = "com.github.penfeizhou.android.animation:gli
 glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "image-cropper" }

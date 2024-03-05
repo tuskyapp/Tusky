@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -50,6 +51,7 @@ data class ConversationEntity(
     }
 }
 
+@JsonClass(generateAdapter = true)
 data class ConversationAccountEntity(
     val id: String,
     val localUsername: String,

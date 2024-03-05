@@ -21,7 +21,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.TypeConverters
-import com.google.gson.Gson
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Card
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 
 @Dao
@@ -89,13 +93,13 @@ AND
     )
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
-    suspend fun update(accountId: Long, status: Status, gson: Gson) {
+    suspend fun update(accountId: Long, status: Status) {
         update(
             accountId = accountId,
             statusId = status.id,
             content = status.content,
             editedAt = status.editedAt?.time,
-            emojis = gson.toJson(status.emojis),
+            emojis = status.emojis,
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
             repliesCount = status.repliesCount,
@@ -105,13 +109,13 @@ AND
             sensitive = status.sensitive,
             spoilerText = status.spoilerText,
             visibility = status.visibility,
-            attachments = gson.toJson(status.attachments),
-            mentions = gson.toJson(status.mentions),
-            tags = gson.toJson(status.tags),
-            poll = gson.toJson(status.poll),
+            attachments = status.attachments,
+            mentions = status.mentions,
+            tags = status.tags,
+            poll = status.poll,
             muted = status.muted,
             pinned = status.pinned,
-            card = gson.toJson(status.card),
+            card = status.card,
             language = status.language
         )
     }
@@ -141,12 +145,12 @@ AND
            WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
     @TypeConverters(Converters::class)
-    abstract suspend fun update(
+    protected abstract suspend fun update(
         accountId: Long,
         statusId: String,
         content: String?,
         editedAt: Long?,
-        emojis: String?,
+        emojis: List<Emoji>,
         reblogsCount: Int,
         favouritesCount: Int,
         repliesCount: Int,
@@ -156,13 +160,13 @@ AND
         sensitive: Boolean,
         spoilerText: String,
         visibility: Status.Visibility,
-        attachments: String?,
-        mentions: String?,
-        tags: String?,
-        poll: String?,
+        attachments: List<Attachment>,
+        mentions: List<Status.Mention>,
+        tags: List<HashTag>?,
+        poll: Poll?,
         muted: Boolean?,
         pinned: Boolean,
-        card: String?,
+        card: Card?,
         language: String?
     )
 
@@ -243,7 +247,8 @@ AND serverId = :statusId"""
         """UPDATE TimelineStatusEntity SET poll = :poll
 WHERE timelineUserId = :accountId AND (serverId = :statusId OR reblogServerId = :statusId)"""
     )
-    abstract suspend fun setVoted(accountId: Long, statusId: String, poll: String)
+    @TypeConverters(Converters::class)
+    abstract suspend fun setVoted(accountId: Long, statusId: String, poll: Poll)
 
     @Query(
         """UPDATE TimelineStatusEntity SET expanded = :expanded

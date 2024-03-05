@@ -33,14 +33,6 @@
 
 # TUSKY SPECIFIC OPTIONS
 
-# TODO check if these 3 types are processed with Gson, if they are, annotate them
--keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
--keepclassmembers class com.keylesspalace.tusky.db.DraftAttachment { *; }
-
--keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
-    public *;
-}
-
 # Retain generic signatures of classes used in MastodonApi so Retrofit works
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
 -keep,allowobfuscation,allowshrinking class kotlin.collections.List

@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.components.timeline.mockStatus
@@ -15,6 +14,7 @@ import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
@@ -44,6 +44,7 @@ class ViewThreadViewModelTest {
     private lateinit var db: AppDatabase
 
     private val threadId = "1234"
+    private val moshi = NetworkModule.providesMoshi()
 
     /**
      * Execute each task synchronously.
@@ -93,12 +94,11 @@ class ViewThreadViewModelTest {
         }
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .addTypeConverter(Converters(Gson()))
+            .addTypeConverter(Converters(moshi))
             .allowMainThreadQueries()
             .build()
 
-        val gson = Gson()
-        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager, db, gson)
+        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager, db, moshi)
     }
 
     @After

@@ -20,10 +20,10 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.DraftAttachmentJsonAdapter
+import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
@@ -44,6 +44,7 @@ import dagger.Provides
 import java.net.IDN
 import java.net.InetSocketAddress
 import java.net.Proxy
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import okhttp3.Cache
@@ -59,18 +60,16 @@ import retrofit2.create
  */
 
 @Module
-class NetworkModule {
+object NetworkModule {
 
-    @Provides
-    @Singleton
-    fun providesGson(): Gson = GsonBuilder()
-        .create()
+    private const val TAG = "NetworkModule"
 
     @Provides
     @Singleton
     fun providesMoshi(): Moshi = Moshi.Builder()
-        .add(Rfc3339DateJsonAdapter())
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
         .add(GuardedAdapter.ANNOTATION_FACTORY)
+        .add(DraftAttachmentJsonAdapter.FACTORY)
         // Enum types with fallback value
         .add(
             Attachment.Type::class.java,
@@ -164,9 +163,5 @@ class NetworkModule {
             .client(longTimeOutOkHttpClient)
             .build()
             .create()
-    }
-
-    companion object {
-        private const val TAG = "NetworkModule"
     }
 }
