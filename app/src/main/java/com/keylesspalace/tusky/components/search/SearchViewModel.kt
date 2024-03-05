@@ -48,6 +48,10 @@ class SearchViewModel @Inject constructor(
     private val instanceInfoRepository: InstanceInfoRepository,
 ) : ViewModel() {
 
+    init {
+        instanceInfoRepository.precache()
+    }
+
     var currentQuery: String = ""
     var currentSearchFieldContent: String? = null
 
@@ -197,8 +201,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    suspend fun supportsTranslation(): Boolean =
-        instanceInfoRepository.getCachedInstanceInfoOrFallback().translationEnabled == true
+    fun supportsTranslation(): Boolean =
+        instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
 
     suspend fun translate(statusViewData: StatusViewData.Concrete): NetworkResult<Unit> {
         updateStatusViewData(statusViewData.copy(translation = TranslationViewData.Loading))

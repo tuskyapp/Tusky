@@ -26,25 +26,54 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity
 import com.keylesspalace.tusky.db.InstanceInfoEntity
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Singleton
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
     db: AppDatabase,
-    accountManager: AccountManager
+    private val accountManager: AccountManager,
+    @ApplicationScope
+    private val externalScope: CoroutineScope
 ) {
-
     private val dao = db.instanceDao()
-    private val instanceName = accountManager.activeAccount!!.domain
+    private val instanceName
+        get() = accountManager.activeAccount!!.domain
+
+    /** In-memory cache for instance data, per instance domain.  */
+    private var instanceInfoCache = ConcurrentHashMap<String, InstanceInfo>()
+
+    fun precache() {
+        // We are avoiding some duplicate work but we are not trying too hard.
+        // We might request it multiple times in parallel which is not a big problem.
+        // We might also get the results in random order or write them twice but it's also
+        // not a problem.
+        // We are just trying to avoid 2 things:
+        //  - fetching it when we already have it
+        //  - fetching default value (we want to rather re-fetch if it fails)
+        if (instanceInfoCache[instanceName] == null) {
+            externalScope.launch {
+                fetchAndPersistInstanceInfo().onSuccess { fetched ->
+                    instanceInfoCache[fetched.instance] = fetched.toInfoOrDefault()
+                }
+            }
+        }
+    }
+
+    val cachedInstanceInfoOrFallback: InstanceInfo
+        get() = instanceInfoCache[instanceName] ?: null.toInfoOrDefault()
 
     /**
      * Returns the custom emojis of the instance.
@@ -65,48 +94,32 @@ class InstanceInfoRepository @Inject constructor(
      * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
      * Never throws, returns defaults of vanilla Mastodon in case of error.
      */
-    suspend fun getUpdatedInstanceInfoOrFallback(): InstanceInfo = withContext(Dispatchers.IO) {
+    suspend fun getUpdatedInstanceInfoOrFallback(): InstanceInfo =
+        withContext(Dispatchers.IO) {
+            fetchAndPersistInstanceInfo()
+                .getOrElse { throwable ->
+                    Log.w(
+                        TAG,
+                        "failed to load instance, falling back to cache and default values",
+                        throwable
+                    )
+                    dao.getInstanceInfo(instanceName)
+                }
+        }.toInfoOrDefault()
+
+    private suspend fun InstanceInfoRepository.fetchAndPersistInstanceInfo(): NetworkResult<InstanceInfoEntity> =
         fetchRemoteInstanceInfo()
             .onSuccess { instanceInfoEntity ->
                 dao.upsert(instanceInfoEntity)
             }
-            .getOrElse { throwable ->
-                Log.w(
-                    TAG,
-                    "failed to load instance, falling back to cache and default values",
-                    throwable
-                )
-                dao.getInstanceInfo(instanceName)
-            }
-            .toInfoOrDefault()
-    }
-
-    /**
-     * Returns information about the instance.
-     * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
-     * Never throws, returns defaults of vanilla Mastodon in case of error.
-     */
-    suspend fun getCachedInstanceInfoOrFallback(): InstanceInfo = withContext(Dispatchers.IO) {
-        dao.getInstanceInfo(instanceName)?.toInfoOrDefault()
-            ?: fetchRemoteInstanceInfo()
-                .onSuccess { dao.upsert(it) }
-                .getOrElse { throwable ->
-                    Log.w(
-                        TAG,
-                        "failed to load instance, falling back to default values",
-                        throwable
-                    )
-                    null
-                }
-                .toInfoOrDefault()
-    }
 
     private suspend fun fetchRemoteInstanceInfo(): NetworkResult<InstanceInfoEntity> {
+        val instance = this.instanceName
         return api.getInstance()
             .map { it.toEntity() }
             .recover { t ->
                 if (t.isHttpNotFound()) {
-                    api.getInstanceV1().map { it.toInfoEntity() }.getOrThrow()
+                    api.getInstanceV1().map { it.toEntity(instance) }.getOrThrow()
                 } else {
                     throw t
                 }
@@ -134,7 +147,7 @@ class InstanceInfoRepository @Inject constructor(
     )
 
     private fun Instance.toEntity() = InstanceInfoEntity(
-        instance = instanceName,
+        instance = domain,
         maximumTootCharacters = this.configuration?.statuses?.maxCharacters
             ?: DEFAULT_CHARACTER_LIMIT,
         maxPollOptions = this.configuration?.polls?.maxOptions ?: DEFAULT_MAX_OPTION_COUNT,
@@ -161,7 +174,7 @@ class InstanceInfoRepository @Inject constructor(
         translationEnabled = this.configuration?.translation?.enabled
     )
 
-    private fun InstanceV1.toInfoEntity() =
+    private fun InstanceV1.toEntity(instanceName: String) =
         InstanceInfoEntity(
             instance = instanceName,
             maximumTootCharacters = this.configuration?.statuses?.maxCharacters
