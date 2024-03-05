@@ -50,26 +50,26 @@ data class Instance(
         data class Accounts(@Json(name = "max_featured_tags") val maxFeaturedTags: Int)
         @JsonClass(generateAdapter = true)
         data class Statuses(
-            @Json(name = "max_characters") val maxCharacters: Int,
-            @Json(name = "max_media_attachments") val maxMediaAttachments: Int,
-            @Json(name = "characters_reserved_per_url") val charactersReservedPerUrl: Int
+            @Json(name = "max_characters") val maxCharacters: Int? = null,
+            @Json(name = "max_media_attachments") val maxMediaAttachments: Int? = null,
+            @Json(name = "characters_reserved_per_url") val charactersReservedPerUrl: Int? = null
         )
         @JsonClass(generateAdapter = true)
         data class MediaAttachments(
             // Warning: This is an array in mastodon and a dictionary in friendica
             // @SerializedName("supported_mime_types") val supportedMimeTypes: List<String>,
-            @Json(name = "image_size_limit") val imageSizeLimitBytes: Long,
-            @Json(name = "image_matrix_limit") val imagePixelCountLimit: Long,
-            @Json(name = "video_size_limit") val videoSizeLimitBytes: Long,
-            @Json(name = "video_matrix_limit") val videoPixelCountLimit: Long,
-            @Json(name = "video_frame_rate_limit") val videoFrameRateLimit: Int
+            @Json(name = "image_size_limit") val imageSizeLimitBytes: Long? = null,
+            @Json(name = "image_matrix_limit") val imagePixelCountLimit: Long? = null,
+            @Json(name = "video_size_limit") val videoSizeLimitBytes: Long? = null,
+            @Json(name = "video_matrix_limit") val videoPixelCountLimit: Long? = null,
+            @Json(name = "video_frame_rate_limit") val videoFrameRateLimit: Int? = null
         )
         @JsonClass(generateAdapter = true)
         data class Polls(
-            @Json(name = "max_options") val maxOptions: Int,
-            @Json(name = "max_characters_per_option") val maxCharactersPerOption: Int,
-            @Json(name = "min_expiration") val minExpirationSeconds: Int,
-            @Json(name = "max_expiration") val maxExpirationSeconds: Int
+            @Json(name = "max_options") val maxOptions: Int? = null,
+            @Json(name = "max_characters_per_option") val maxCharactersPerOption: Int? = null,
+            @Json(name = "min_expiration") val minExpirationSeconds: Int? = null,
+            @Json(name = "max_expiration") val maxExpirationSeconds: Int? = null
         )
         @JsonClass(generateAdapter = true)
         data class Translation(val enabled: Boolean)
