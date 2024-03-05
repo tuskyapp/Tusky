@@ -26,6 +26,7 @@ import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import androidx.room.withTransaction
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
@@ -46,7 +47,6 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
-import com.keylesspalace.tusky.util.asResult
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
@@ -293,7 +293,7 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override suspend fun translate(status: StatusViewData.Concrete): Result<Unit> {
+    override suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
         translations.value = translations.value + (status.id to TranslationViewData.Loading)
         return timelineCases.translate(status.actionableId)
             .map { translation ->
@@ -303,7 +303,6 @@ class CachedTimelineViewModel @Inject constructor(
             .onFailure {
                 translations.value = translations.value - status.id
             }
-            .asResult()
     }
 
     override fun untranslate(status: StatusViewData.Concrete) {

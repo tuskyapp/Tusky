@@ -82,7 +82,7 @@
         android:id="@+id/status_button_untranslate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show original"
+        android:text="@string/action_show_original"
         app:layout_constraintTop_toBottomOf="@id/status_avatar"
         style="@style/TuskyButton.TextButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,15 +97,14 @@
         tools:text="Translated from blah using service"
         app:layout_constraintBaseline_toBaselineOf="@id/status_button_untranslate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate">
-    </TextView>
+        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/status_translation_barrier"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="status_translation_status, status_button_untranslate"/>
+        app:constraint_referenced_ids="status_translation_status, status_button_untranslate" />
 
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView
@@ -295,6 +294,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
+
     <TextView
         android:id="@+id/status_meta_info"
         android:layout_width="0dp"

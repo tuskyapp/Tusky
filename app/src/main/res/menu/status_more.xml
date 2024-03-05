@@ -17,7 +17,7 @@
         android:title="@string/action_copy_link" />
     <item
         android:id="@+id/status_translate"
-        android:title="Translate" />
+        android:title="@string/action_translate" />
     <item
         android:id="@+id/status_open_as"
         android:title="@string/action_open_as" />

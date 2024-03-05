@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
@@ -312,7 +313,7 @@ abstract class TimelineViewModel(
         }
     }
 
-    abstract suspend fun translate(status: StatusViewData.Concrete): Result<Unit>
+    abstract suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit>
     abstract fun untranslate(status: StatusViewData.Concrete)
 
     companion object {

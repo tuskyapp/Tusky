@@ -32,9 +32,11 @@ import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+@Singleton
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
     db: AppDatabase,

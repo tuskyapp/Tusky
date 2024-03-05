@@ -23,6 +23,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.EventHub
@@ -34,7 +35,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.asResult
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.isLessThanOrEqual
@@ -271,7 +271,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override suspend fun translate(status: StatusViewData.Concrete): Result<Unit> {
+    override suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
         status.copy(translation = TranslationViewData.Loading).update()
         return timelineCases.translate(status.actionableId)
             .map { translation ->
@@ -280,7 +280,6 @@ class NetworkTimelineViewModel @Inject constructor(
             .onFailure {
                 status.update()
             }
-            .asResult()
     }
 
     override fun untranslate(status: StatusViewData.Concrete) {

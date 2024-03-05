@@ -18,6 +18,7 @@ package com.keylesspalace.tusky.components.viewthread
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
@@ -39,7 +40,6 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.asResult
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -288,7 +288,7 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    suspend fun translate(status: StatusViewData.Concrete): Result<Unit> {
+    suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
         updateStatusViewData(status.id) { viewData ->
             viewData.copy(translation = TranslationViewData.Loading)
         }
@@ -303,7 +303,6 @@ class ViewThreadViewModel @Inject constructor(
                     viewData.copy(translation = null)
                 }
             }
-            .asResult()
     }
 
     fun untranslate(status: StatusViewData.Concrete) {

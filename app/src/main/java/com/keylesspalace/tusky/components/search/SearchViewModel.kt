@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.asResult
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -201,7 +200,7 @@ class SearchViewModel @Inject constructor(
     suspend fun supportsTranslation(): Boolean =
         instanceInfoRepository.getCachedInstanceInfoOrFallback().translationEnabled == true
 
-    suspend fun translate(statusViewData: StatusViewData.Concrete): Result<Unit> {
+    suspend fun translate(statusViewData: StatusViewData.Concrete): NetworkResult<Unit> {
         updateStatusViewData(statusViewData.copy(translation = TranslationViewData.Loading))
         return timelineCases.translate(statusViewData.actionableId)
             .map { translation ->
@@ -216,7 +215,6 @@ class SearchViewModel @Inject constructor(
             .onFailure {
                 updateStatusViewData(statusViewData.copy(translation = null))
             }
-            .asResult()
     }
 
     fun untranslate(statusViewData: StatusViewData.Concrete) {
