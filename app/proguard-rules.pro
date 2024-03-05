@@ -10,6 +10,12 @@
     native <methods>;
 }
 
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers,allowoptimization enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
 -keepclassmembers class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
