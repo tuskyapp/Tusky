@@ -85,6 +85,6 @@ data class Attachment(
     data class Size(
         val width: Int,
         val height: Int,
-        val aspect: Double
+        val aspect: Double = 0.0
     ) : Parcelable
 }

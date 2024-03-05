@@ -577,7 +577,7 @@ class ComposeActivityTest {
 
     private fun getConfiguration(maximumStatusCharacters: Int?, charactersReservedPerUrl: Int?): Instance.Configuration {
         return Instance.Configuration(
-            Instance.Configuration.Urls(streamingApi = ""),
+            Instance.Configuration.Urls(),
             Instance.Configuration.Accounts(1),
             Instance.Configuration.Statuses(
                 maximumStatusCharacters ?: InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT,

@@ -45,7 +45,7 @@ data class Instance(
         val translation: Translation? = null
     ) {
         @JsonClass(generateAdapter = true)
-        data class Urls(@Json(name = "streaming_api") val streamingApi: String)
+        data class Urls(@Json(name = "streaming_api") val streamingApi: String? = null)
         @JsonClass(generateAdapter = true)
         data class Accounts(@Json(name = "max_featured_tags") val maxFeaturedTags: Int)
         @JsonClass(generateAdapter = true)

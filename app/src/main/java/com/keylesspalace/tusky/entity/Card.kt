@@ -24,7 +24,7 @@ data class Card(
     val title: String,
     val description: String,
     @Json(name = "author_name") val authorName: String,
-    val image: String,
+    val image: String? = null,
     val type: String,
     val width: Int,
     val height: Int,
