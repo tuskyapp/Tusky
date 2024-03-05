@@ -21,8 +21,10 @@ data class Instance(
 ) {
     @JsonClass(generateAdapter = true)
     data class Usage(val users: Users) {
+        @JsonClass(generateAdapter = true)
         data class Users(@Json(name = "active_month") val activeMonth: Int)
     }
+
     @JsonClass(generateAdapter = true)
     data class Thumbnail(
         val url: String,
@@ -35,6 +37,7 @@ data class Instance(
             @Json(name = "@2x") val at2x: String? = null
         )
     }
+
     @JsonClass(generateAdapter = true)
     data class Configuration(
         val urls: Urls? = null,
@@ -46,14 +49,17 @@ data class Instance(
     ) {
         @JsonClass(generateAdapter = true)
         data class Urls(@Json(name = "streaming_api") val streamingApi: String? = null)
+
         @JsonClass(generateAdapter = true)
         data class Accounts(@Json(name = "max_featured_tags") val maxFeaturedTags: Int)
+
         @JsonClass(generateAdapter = true)
         data class Statuses(
             @Json(name = "max_characters") val maxCharacters: Int? = null,
             @Json(name = "max_media_attachments") val maxMediaAttachments: Int? = null,
             @Json(name = "characters_reserved_per_url") val charactersReservedPerUrl: Int? = null
         )
+
         @JsonClass(generateAdapter = true)
         data class MediaAttachments(
             // Warning: This is an array in mastodon and a dictionary in friendica
@@ -64,6 +70,7 @@ data class Instance(
             @Json(name = "video_matrix_limit") val videoPixelCountLimit: Long? = null,
             @Json(name = "video_frame_rate_limit") val videoFrameRateLimit: Int? = null
         )
+
         @JsonClass(generateAdapter = true)
         data class Polls(
             @Json(name = "max_options") val maxOptions: Int? = null,
@@ -71,17 +78,21 @@ data class Instance(
             @Json(name = "min_expiration") val minExpirationSeconds: Int? = null,
             @Json(name = "max_expiration") val maxExpirationSeconds: Int? = null
         )
+
         @JsonClass(generateAdapter = true)
         data class Translation(val enabled: Boolean)
     }
+
     @JsonClass(generateAdapter = true)
     data class Registrations(
         val enabled: Boolean,
         @Json(name = "approval_required") val approvalRequired: Boolean,
         val message: String? = null
     )
+
     @JsonClass(generateAdapter = true)
     data class Contact(val email: String, val account: Account)
+
     @JsonClass(generateAdapter = true)
     data class Rule(val id: String, val text: String)
 }
