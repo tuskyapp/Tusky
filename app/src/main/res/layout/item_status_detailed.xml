@@ -83,10 +83,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_show_original"
-        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:layout_constraintTop_toTopOf="@id/status_translation_status"
+        app:layout_constraintBottom_toBottomOf="@id/status_translation_status"
         style="@style/TuskyButton.TextButton"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="14dp" />
+        android:layout_marginEnd="14dp"
+        android:minHeight="0dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/status_translation_status"
@@ -95,9 +99,16 @@
         style="@style/TextSizeSmall"
         android:layout_marginStart="14dp"
         tools:text="Translated from blah using service"
-        app:layout_constraintBaseline_toBaselineOf="@id/status_button_untranslate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate" />
+        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate"
+        android:minLines="2"
+        android:lineSpacingMultiplier="1.1"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginEnd="4dp"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/status_translation_barrier"

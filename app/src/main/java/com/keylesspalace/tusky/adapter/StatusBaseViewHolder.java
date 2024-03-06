@@ -853,7 +853,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 translationStatusView.setVisibility(View.VISIBLE);
                 translationStatusView.setText(R.string.label_translating);
-                untranslateButton.setVisibility(View.INVISIBLE);
+                untranslateButton.setVisibility(View.GONE);
                 untranslateButton.setOnClickListener(null);
             }
         } else {
