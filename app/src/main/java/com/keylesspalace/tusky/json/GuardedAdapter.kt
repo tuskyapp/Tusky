@@ -35,14 +35,16 @@ class GuardedAdapter<T> private constructor(
 
     override fun fromJson(reader: JsonReader): T? {
         return try {
-            return delegate.fromJson(reader)
+            delegate.fromJson(reader)
         } catch (e: JsonDataException) {
             reader.skipValue()
             null
         }
     }
 
-    override fun toJson(writer: JsonWriter, value: T?) = throw UnsupportedOperationException()
+    override fun toJson(writer: JsonWriter, value: T?) {
+        delegate.toJson(writer, value)
+    }
 
     companion object {
         val ANNOTATION_FACTORY = object : Factory {
