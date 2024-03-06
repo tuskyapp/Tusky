@@ -687,4 +687,6 @@
     <string name="pref_title_show_self_boosts_description">Ai đó đăng lại tút của chính họ</string>
     <string name="pref_title_per_timeline_preferences">Thiết lập từng bảng tin</string>
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
+    <string name="reply_sending">Đang gửi…</string>
+    <string name="reply_sending_long">Câu trả lời của bạn đã được gửi đi.</string>
 </resources>

@@ -697,4 +697,6 @@
     <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
     <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
     <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
+    <string name="reply_sending">A enviar…</string>
+    <string name="reply_sending_long">Enviouse a resposta.</string>
 </resources>
