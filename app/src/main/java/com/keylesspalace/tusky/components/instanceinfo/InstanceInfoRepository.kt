@@ -62,7 +62,7 @@ class InstanceInfoRepository @Inject constructor(
         // not a problem.
         // We are just trying to avoid 2 things:
         //  - fetching it when we already have it
-        //  - fetching default value (we want to rather re-fetch if it fails)
+        //  - caching default value (we want to rather re-fetch if it fails)
         if (instanceInfoCache[instanceName] == null) {
             externalScope.launch {
                 fetchAndPersistInstanceInfo().onSuccess { fetched ->
