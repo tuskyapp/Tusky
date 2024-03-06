@@ -32,7 +32,5 @@ data class DeletedStatus(
     val language: String? = null
 ) {
     val isEmpty: Boolean
-        get() {
-            return text == null && attachments.isEmpty()
-        }
+        get() = text == null && attachments.isEmpty()
 }

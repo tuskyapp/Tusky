@@ -45,7 +45,7 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToEmojiList(emojiListJson: String?): List<Emoji> {
-        return emojiListJson?.let { moshi.adapter<List<Emoji>?>().fromJson(it) } ?: emptyList()
+        return emojiListJson?.let { moshi.adapter<List<Emoji>?>().fromJson(it) }.orEmpty()
     }
 
     @TypeConverter
@@ -100,7 +100,7 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToAccountList(accountListJson: String?): List<ConversationAccountEntity> {
-        return accountListJson?.let { moshi.adapter<List<ConversationAccountEntity>?>().fromJson(it) } ?: emptyList()
+        return accountListJson?.let { moshi.adapter<List<ConversationAccountEntity>?>().fromJson(it) }.orEmpty()
     }
 
     @TypeConverter
@@ -110,7 +110,7 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment> {
-        return attachmentListJson?.let { moshi.adapter<List<Attachment>?>().fromJson(it) } ?: emptyList()
+        return attachmentListJson?.let { moshi.adapter<List<Attachment>?>().fromJson(it) }.orEmpty()
     }
 
     @TypeConverter
@@ -120,7 +120,7 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToMentionArray(mentionListJson: String?): List<Status.Mention> {
-        return mentionListJson?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) } ?: emptyList()
+        return mentionListJson?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) }.orEmpty()
     }
 
     @TypeConverter
@@ -170,7 +170,7 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment> {
-        return draftAttachmentListJson?.let { moshi.adapter<List<DraftAttachment>?>().fromJson(it) } ?: emptyList()
+        return draftAttachmentListJson?.let { moshi.adapter<List<DraftAttachment>?>().fromJson(it) }.orEmpty()
     }
 
     @TypeConverter

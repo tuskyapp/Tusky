@@ -64,8 +64,7 @@ fun TimelineAccountEntity.toAccount(moshi: Moshi): TimelineAccount {
         url = url,
         avatar = avatar,
         bot = bot,
-        // Handle nullable lists for backward compatibility
-        emojis = moshi.adapter<List<Emoji>?>().fromJson(emojis) ?: emptyList()
+        emojis = moshi.adapter<List<Emoji>?>().fromJson(emojis).orEmpty()
     )
 }
 

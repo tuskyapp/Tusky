@@ -87,14 +87,12 @@ data class Status(
         DIRECT(4);
 
         val serverString: String
-            get() {
-                return when (this) {
-                    PUBLIC -> "public"
-                    UNLISTED -> "unlisted"
-                    PRIVATE -> "private"
-                    DIRECT -> "direct"
-                    UNKNOWN -> "unknown"
-                }
+            get() = when (this) {
+                PUBLIC -> "public"
+                UNLISTED -> "unlisted"
+                PRIVATE -> "private"
+                DIRECT -> "direct"
+                UNKNOWN -> "unknown"
             }
 
         companion object {
