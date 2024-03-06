@@ -158,11 +158,11 @@ fun TimelineStatusWithAccount.toViewData(moshi: Moshi, isDetailed: Boolean = fal
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
-    val attachments: List<Attachment> = status.attachments?.let { moshi.adapter<List<Attachment>?>().fromJson(it) } ?: emptyList()
-    val mentions: List<Status.Mention> = status.mentions?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) } ?: emptyList()
+    val attachments: List<Attachment> = status.attachments?.let { moshi.adapter<List<Attachment>?>().fromJson(it) }.orEmpty()
+    val mentions: List<Status.Mention> = status.mentions?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) }.orEmpty()
     val tags: List<HashTag>? = status.tags?.let { moshi.adapter<List<HashTag>?>().fromJson(it) }
     val application = status.application?.let { moshi.adapter<Status.Application?>().fromJson(it) }
-    val emojis: List<Emoji> = status.emojis?.let { moshi.adapter<List<Emoji>?>().fromJson(it) } ?: emptyList()
+    val emojis: List<Emoji> = status.emojis?.let { moshi.adapter<List<Emoji>?>().fromJson(it) }.orEmpty()
     val poll: Poll? = status.poll?.let { moshi.adapter<Poll?>().fromJson(it) }
     val card: Card? = status.card?.let { moshi.adapter<Card?>().fromJson(it) }
 
