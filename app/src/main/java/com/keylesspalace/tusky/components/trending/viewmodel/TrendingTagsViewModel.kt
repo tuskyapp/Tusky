@@ -104,7 +104,7 @@ class TrendingTagsViewModel @Inject constructor(
                         .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
                         .toViewData()
 
-                    val header = TrendingViewData.Header(firstTag.start(), firstTag.end())
+                    val header = TrendingViewData.Header(firstTag.start, firstTag.end)
                     TrendingTagsUiState(listOf(header) + tags, LoadingState.LOADED)
                 }
             },

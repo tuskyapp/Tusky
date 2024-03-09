@@ -1,7 +1,7 @@
 package com.keylesspalace.tusky.components.timeline
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -54,7 +54,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
-    filtered = null
+    filtered = emptyList()
 )
 
 fun mockStatusViewData(
@@ -91,19 +91,19 @@ fun mockStatusEntityWithAccount(
     expanded: Boolean = false
 ): TimelineStatusWithAccount {
     val mockedStatus = mockStatus(id)
-    val gson = Gson()
+    val moshi = NetworkModule.providesMoshi()
 
     return TimelineStatusWithAccount(
         status = mockedStatus.toEntity(
             timelineUserId = userId,
-            gson = gson,
+            moshi = moshi,
             expanded = expanded,
             contentShowing = false,
             contentCollapsed = true
         ),
         account = mockedStatus.account.toEntity(
             accountId = userId,
-            gson = gson
+            moshi = moshi
         )
     )
 }

@@ -1,15 +1,17 @@
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
+@JsonClass(generateAdapter = true)
 data class StatusEdit(
     val content: String,
-    @SerializedName("spoiler_text") val spoilerText: String,
+    @Json(name = "spoiler_text") val spoilerText: String,
     val sensitive: Boolean,
-    @SerializedName("created_at") val createdAt: Date,
+    @Json(name = "created_at") val createdAt: Date,
     val account: TimelineAccount,
-    val poll: Poll?,
-    @SerializedName("media_attachments") val mediaAttachments: List<Attachment>,
+    val poll: Poll? = null,
+    @Json(name = "media_attachments") val mediaAttachments: List<Attachment>,
     val emojis: List<Emoji>
 )

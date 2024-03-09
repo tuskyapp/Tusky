@@ -1,4 +1,5 @@
-/* Copyright 2022 Tusky Contributors
+/*
+ * Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,27 +12,13 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 
 package com.keylesspalace.tusky.json
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
-import java.lang.reflect.Type
+import com.squareup.moshi.JsonQualifier
 
-class GuardedBooleanAdapter : JsonDeserializer<Boolean?> {
-    @Throws(JsonParseException::class)
-    override fun deserialize(
-        json: JsonElement,
-        typeOfT: Type,
-        context: JsonDeserializationContext
-    ): Boolean? {
-        return if (json.isJsonObject) {
-            null
-        } else {
-            json.asBoolean
-        }
-    }
-}
+@Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
+internal annotation class Guarded

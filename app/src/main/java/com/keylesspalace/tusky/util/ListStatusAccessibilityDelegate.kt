@@ -55,7 +55,7 @@ class ListStatusAccessibilityDelegate(
                 info.addAction(replyAction)
 
                 val actionable = status.actionable
-                if (actionable.rebloggingAllowed()) {
+                if (actionable.isRebloggingAllowed) {
                     info.addAction(if (actionable.reblogged) unreblogAction else reblogAction)
                 }
                 info.addAction(if (actionable.favourited) unfavouriteAction else favouriteAction)

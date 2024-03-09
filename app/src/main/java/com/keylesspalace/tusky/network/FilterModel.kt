@@ -47,11 +47,11 @@ class FilterModel @Inject constructor() {
             }
         }
 
-        val matchingKind = status.filtered?.filter { result ->
+        val matchingKind = status.filtered.filter { result ->
             result.filter.kinds.contains(kind)
         }
 
-        return if (matchingKind.isNullOrEmpty()) {
+        return if (matchingKind.isEmpty()) {
             Filter.Action.NONE
         } else {
             matchingKind.maxOf { it.filter.action }

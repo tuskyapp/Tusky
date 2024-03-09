@@ -15,8 +15,10 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class AccessToken(
-    @SerializedName("access_token") val accessToken: String
+    @Json(name = "access_token") val accessToken: String
 )

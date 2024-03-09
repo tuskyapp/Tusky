@@ -802,7 +802,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                 statusDisplayOptions);
-            setRebloggingEnabled(actionable.rebloggingAllowed(), actionable.getVisibility());
+            setRebloggingEnabled(actionable.isRebloggingAllowed(), actionable.getVisibility());
 
             setSpoilerAndContent(status, statusDisplayOptions, listener);
 

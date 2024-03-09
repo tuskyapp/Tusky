@@ -15,10 +15,12 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class StatusSource(
     val id: String,
     val text: String,
-    @SerializedName("spoiler_text") val spoilerText: String
+    @Json(name = "spoiler_text") val spoilerText: String
 )

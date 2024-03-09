@@ -10,13 +10,13 @@ import androidx.paging.RemoteMediator
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.di.NetworkModule
 import java.io.IOException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -54,6 +54,8 @@ class CachedTimelineRemoteMediatorTest {
 
     private lateinit var db: AppDatabase
 
+    private val moshi = NetworkModule.providesMoshi()
+
     @Before
     @ExperimentalCoroutinesApi
     fun setup() {
@@ -61,7 +63,7 @@ class CachedTimelineRemoteMediatorTest {
 
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .addTypeConverter(Converters(Gson()))
+            .addTypeConverter(Converters(moshi))
             .build()
     }
 
@@ -80,7 +82,7 @@ class CachedTimelineRemoteMediatorTest {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state()) }
@@ -99,7 +101,7 @@ class CachedTimelineRemoteMediatorTest {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val result = runBlocking { remoteMediator.load(LoadType.REFRESH, state()) }
@@ -115,7 +117,7 @@ class CachedTimelineRemoteMediatorTest {
             accountManager = accountManager,
             api = mock(),
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -166,7 +168,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -229,7 +231,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -289,7 +291,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -334,7 +336,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -385,7 +387,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -441,7 +443,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(
@@ -493,7 +495,7 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            gson = Gson()
+            moshi = moshi
         )
 
         val state = state(

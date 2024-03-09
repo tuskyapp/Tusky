@@ -39,8 +39,8 @@ import java.util.regex.Pattern
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
 */
-fun CharSequence.emojify(emojis: List<Emoji>?, view: View, animate: Boolean): CharSequence {
-    if (emojis.isNullOrEmpty()) {
+fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): CharSequence {
+    if (emojis.isEmpty()) {
         return this
     }
 

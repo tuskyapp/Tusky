@@ -1,3 +1,10 @@
 package com.keylesspalace.tusky.entity
 
-data class HashTag(val name: String, val url: String, val following: Boolean? = null)
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class HashTag(
+    val name: String,
+    val url: String,
+    val following: Boolean? = null
+)

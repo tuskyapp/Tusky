@@ -76,7 +76,7 @@ fun Poll?.toViewData(): PollViewData? {
         votersCount = votersCount,
         options = options.mapIndexed { index, option ->
             option.toViewData(
-                ownVotes?.contains(index) == true
+                ownVotes.contains(index)
             )
         },
         voted = voted

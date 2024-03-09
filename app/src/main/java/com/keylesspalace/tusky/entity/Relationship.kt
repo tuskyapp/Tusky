@@ -15,27 +15,28 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
-import com.keylesspalace.tusky.json.GuardedBooleanAdapter
+import com.keylesspalace.tusky.json.Guarded
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Relationship(
     val id: String,
     val following: Boolean,
-    @SerializedName("followed_by") val followedBy: Boolean,
+    @Json(name = "followed_by") val followedBy: Boolean,
     val blocking: Boolean,
     val muting: Boolean,
-    @SerializedName("muting_notifications") val mutingNotifications: Boolean,
+    @Json(name = "muting_notifications") val mutingNotifications: Boolean,
     val requested: Boolean,
-    @SerializedName("showing_reblogs") val showingReblogs: Boolean,
+    @Json(name = "showing_reblogs") val showingReblogs: Boolean,
     /* Pleroma extension, same as 'notifying' on Mastodon.
      * Some instances like qoto.org have a custom subscription feature where 'subscribing' is a json object,
-     * so we use the custom GuardedBooleanAdapter to ignore the field if it is not a boolean.
+     * so we use GuardedAdapter to ignore the field if it is not a boolean.
      */
-    @JsonAdapter(GuardedBooleanAdapter::class) val subscribing: Boolean? = null,
-    @SerializedName("domain_blocking") val blockingDomain: Boolean,
+    @Guarded val subscribing: Boolean? = null,
+    @Json(name = "domain_blocking") val blockingDomain: Boolean,
     // nullable for backward compatibility / feature detection
-    val note: String?,
+    val note: String? = null,
     // since 3.3.0rc
-    val notifying: Boolean?
+    val notifying: Boolean? = null
 )

@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.appstore
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import javax.inject.Inject
@@ -13,8 +12,7 @@ import kotlinx.coroutines.launch
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
     accountManager: AccountManager,
-    appDatabase: AppDatabase,
-    gson: Gson
+    appDatabase: AppDatabase
 ) {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -30,8 +28,7 @@ class CacheUpdater @Inject constructor(
                         val status = event.status
                         timelineDao.update(
                             accountId = accountId,
-                            status = status,
-                            gson = gson
+                            status = status
                         )
                     }
                     is UnfollowEvent ->
@@ -39,8 +36,7 @@ class CacheUpdater @Inject constructor(
                     is StatusDeletedEvent ->
                         timelineDao.delete(accountId, event.statusId)
                     is PollVoteEvent -> {
-                        val pollString = gson.toJson(event.poll)
-                        timelineDao.setVoted(accountId, event.statusId, pollString)
+                        timelineDao.setVoted(accountId, event.statusId, event.poll)
                     }
                 }
             }

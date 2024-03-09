@@ -16,70 +16,50 @@
 package com.keylesspalace.tusky.entity
 
 import android.os.Parcelable
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonParseException
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
+@JsonClass(generateAdapter = true)
 @Parcelize
 data class Attachment(
     val id: String,
     val url: String,
     // can be null for e.g. audio attachments
-    @SerializedName("preview_url") val previewUrl: String?,
-    val meta: MetaData?,
+    @Json(name = "preview_url") val previewUrl: String? = null,
+    val meta: MetaData? = null,
     val type: Type,
-    val description: String?,
-    val blurhash: String?
+    val description: String? = null,
+    val blurhash: String? = null
 ) : Parcelable {
 
-    @JsonAdapter(MediaTypeDeserializer::class)
+    @JsonClass(generateAdapter = false)
     enum class Type {
-        @SerializedName("image")
+        @Json(name = "image")
         IMAGE,
 
-        @SerializedName("gifv")
+        @Json(name = "gifv")
         GIFV,
 
-        @SerializedName("video")
+        @Json(name = "video")
         VIDEO,
 
-        @SerializedName("audio")
+        @Json(name = "audio")
         AUDIO,
 
-        @SerializedName("unknown")
         UNKNOWN
-    }
-
-    class MediaTypeDeserializer : JsonDeserializer<Type> {
-        @Throws(JsonParseException::class)
-        override fun deserialize(
-            json: JsonElement,
-            classOfT: java.lang.reflect.Type,
-            context: JsonDeserializationContext
-        ): Type {
-            return when (json.toString()) {
-                "\"image\"" -> Type.IMAGE
-                "\"gifv\"" -> Type.GIFV
-                "\"video\"" -> Type.VIDEO
-                "\"audio\"" -> Type.AUDIO
-                else -> Type.UNKNOWN
-            }
-        }
     }
 
     /**
      * The meta data of an [Attachment].
      */
+    @JsonClass(generateAdapter = true)
     @Parcelize
     data class MetaData(
-        val focus: Focus?,
-        val duration: Float?,
-        val original: Size?,
-        val small: Size?
+        val focus: Focus? = null,
+        val duration: Float? = null,
+        val original: Size? = null,
+        val small: Size? = null
     ) : Parcelable
 
     /**
@@ -88,6 +68,7 @@ data class Attachment(
      * See here for more details what the x and y mean:
      *   https://github.com/jonom/jquery-focuspoint#1-calculate-your-images-focus-point
      */
+    @JsonClass(generateAdapter = true)
     @Parcelize
     data class Focus(
         val x: Float,
@@ -99,10 +80,11 @@ data class Attachment(
     /**
      * The size of an image, used to specify the width/height.
      */
+    @JsonClass(generateAdapter = true)
     @Parcelize
     data class Size(
         val width: Int,
         val height: Int,
-        val aspect: Double
+        val aspect: Double = 0.0
     ) : Parcelable
 }

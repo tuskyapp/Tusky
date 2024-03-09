@@ -101,8 +101,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://github.com/google/gson"
-                license:name="Gson" />
+                license:link="https://github.com/square/moshi"
+                license:name="Moshi" />
 
             <com.keylesspalace.tusky.view.LicenseCard
                 android:layout_width="match_parent"

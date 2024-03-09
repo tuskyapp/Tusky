@@ -334,14 +334,14 @@ class FilterV1Test {
                             PollOption(it, 0)
                         },
                         voted = false,
-                        ownVotes = null
+                        ownVotes = emptyList()
                     )
                 } else {
                     null
                 },
                 card = null,
                 language = null,
-                filtered = null
+                filtered = emptyList()
             )
         }
     }
