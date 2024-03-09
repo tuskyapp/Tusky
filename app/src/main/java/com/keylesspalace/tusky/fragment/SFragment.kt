@@ -220,10 +220,13 @@ abstract class SFragment : Fragment(), Injectable {
             )
         }
 
-        val translateItem = menu.findItem(R.id.status_translate)
-        translateItem.isVisible =
-            onMoreTranslate != null && status.language != Locale.getDefault().language && instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
-        translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
+        // translation not there for your own posts
+        menu.findItem(R.id.status_translate)?.let { translateItem ->
+            translateItem.isVisible = onMoreTranslate != null &&
+                !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&
+                instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
+            translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
+        }
 
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {

@@ -328,10 +328,13 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             )
         }
 
-        val translateItem = popup.menu.findItem(R.id.status_translate)
-        translateItem.isVisible =
-            status.language != Locale.getDefault().language && viewModel.supportsTranslation()
-        translateItem.setTitle(if (statusViewData.translation != null) R.string.action_show_original else R.string.action_translate)
+        // translation not there for your own posts
+        popup.menu.findItem(R.id.status_translate)?.let { translateItem ->
+            translateItem.isVisible =
+                !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&
+                viewModel.supportsTranslation()
+            translateItem.setTitle(if (statusViewData.translation != null) R.string.action_show_original else R.string.action_translate)
+        }
 
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
