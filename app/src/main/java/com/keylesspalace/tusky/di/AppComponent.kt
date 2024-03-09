@@ -36,7 +36,8 @@ import javax.inject.Singleton
         ServicesModule::class,
         BroadcastReceiverModule::class,
         ViewModelModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+        PlayerModule::class
     ]
 )
 interface AppComponent {
