@@ -47,7 +47,7 @@ robolectric = "4.11.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
 truth = "1.4.2"
-turbine = "1.0.0"
+turbine = "1.1.0"
 unified-push = "2.4.0"
 xmlwriter = "1.0.4"
 
