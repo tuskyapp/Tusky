@@ -24,7 +24,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -81,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         if (supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.actitivity_close_enter, R.anim.activity_close_exit);
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.activity_close_enter, R.anim.activity_close_exit);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -195,7 +194,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         super.finish();
         // if this activity was opened with slide-in, close it with slide out
         if (!supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overridePendingTransition(R.anim.actitivity_close_enter, R.anim.activity_close_exit);
+            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
         }
     }
 

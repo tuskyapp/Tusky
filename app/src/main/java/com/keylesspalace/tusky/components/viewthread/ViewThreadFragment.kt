@@ -431,7 +431,7 @@ class ViewThreadFragment :
             setCustomAnimations(
                 R.anim.activity_open_enter,
                 R.anim.activity_open_exit,
-                R.anim.actitivity_close_enter,
+                R.anim.activity_close_enter,
                 R.anim.activity_close_exit
             )
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")

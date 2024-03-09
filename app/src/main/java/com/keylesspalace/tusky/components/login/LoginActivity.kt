@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
+import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -121,13 +122,6 @@ class LoginActivity : BaseActivity(), Injectable {
 
     override fun requiresLogin(): Boolean {
         return false
-    }
-
-    override fun finish() {
-        super.finish()
-        if (isAdditionalLogin() || isAccountMigration()) {
-            overridePendingTransition(R.anim.actitivity_close_enter, R.anim.activity_close_exit)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -320,10 +314,13 @@ class LoginActivity : BaseActivity(), Injectable {
             )
 
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
-            finish()
-            overridePendingTransition(R.anim.explode, R.anim.explode)
+            finishAffinity()
+            if (!supportsOverridingActivityTransitions()) {
+                @Suppress("DEPRECATION")
+                overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
+            }
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =
