@@ -211,6 +211,8 @@
     <string name="action_copy_link">Copy the link</string>
     <string name="action_open_as">Open as %s</string>
     <string name="action_share_as">Share as …</string>
+    <string name="action_translate">Translate</string>
+    <string name="action_show_original">Show original</string>
     <string name="download_media">Download media</string>
     <string name="downloading_media">Downloading media</string>
 
@@ -557,6 +559,9 @@
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
 
+    <string name="label_translating">Translating…</string>
+    <string name="label_translated">Translated from %1$s with %2$s</string>
+
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favorited by</string>
 
@@ -798,6 +803,7 @@
     <string name="ui_error_vote">Voting in poll failed: %s</string>
     <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
     <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+    <string name="ui_error_translate">Could not translate: %s</string>
 
     <!-- Success messages, displayed in snackbars, when an action succeeded -->
     <string name="ui_success_accepted_follow_request">Follow request accepted</string>

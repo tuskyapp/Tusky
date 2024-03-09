@@ -109,6 +109,7 @@ import at.connyduck.sparkbutton.helpers.Utils;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 import kotlinx.coroutines.Job;
 
 public class NotificationsFragment extends SFragment implements
@@ -408,6 +409,12 @@ public class NotificationsFragment extends SFragment implements
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
     }
 
+    @Nullable
+    @Override
+    protected Function2<Boolean, Integer, Unit> getOnMoreTranslate() {
+        return null;
+    }
+
     @Override
     public void onReply(int position) {
         super.reply(notifications.get(position).asRight().getStatus());
@@ -490,7 +497,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
-        super.more(notification.getStatus(), view, position);
+        super.more(notification.getStatus(), view, position, null);
     }
 
     @Override
@@ -525,10 +532,6 @@ public class NotificationsFragment extends SFragment implements
         updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
     }
 
-    private void setPinForStatus(String statusId, boolean pinned) {
-        updateStatus(statusId, status -> status.copyWithPinned(pinned));
-    }
-
     @Override
     public void onLoadMore(int position) {
         // Check bounds before accessing list,
@@ -553,6 +556,11 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         updateViewDataAt(position, (vd) -> vd.copyWithCollapsed(isCollapsed));
+    }
+
+    @Override
+    public void onUntranslate(int position) {
+        // not needed
     }
 
     private void updateStatus(String statusId, Function<Status, Status> mapper) {

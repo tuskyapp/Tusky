@@ -39,6 +39,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -56,12 +57,14 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
+import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -96,13 +99,24 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
+        binding.searchRecyclerView.setAccessibilityDelegateCompat(
+            ListStatusAccessibilityDelegate(binding.searchRecyclerView, this) { pos ->
+                if (pos in 0 until adapter.itemCount) {
+                    adapter.peek(pos)
+                } else {
+                    null
+                }
+            }
+        )
+
         binding.searchRecyclerView.addItemDecoration(
             DividerItemDecoration(
                 binding.searchRecyclerView.context,
                 DividerItemDecoration.VERTICAL
             )
         )
-        binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
+        binding.searchRecyclerView.layoutManager =
+            LinearLayoutManager(binding.searchRecyclerView.context)
         return SearchStatusesAdapter(statusDisplayOptions, this)
     }
 
@@ -131,7 +145,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onMore(view: View, position: Int) {
-        searchAdapter.peek(position)?.status?.let {
+        searchAdapter.peek(position)?.let {
             more(it, view, position)
         }
     }
@@ -159,6 +173,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         startActivity(intent)
                     }
                 }
+
                 Attachment.Type.UNKNOWN -> {
                     context?.openLink(actionable.attachments[attachmentIndex].url)
                 }
@@ -215,6 +230,12 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
+    override fun onUntranslate(position: Int) {
+        searchAdapter.peek(position)?.let {
+            viewModel.untranslate(it)
+        }
+    }
+
     companion object {
         fun newInstance() = SearchStatusesFragment()
     }
@@ -244,7 +265,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         bottomSheetActivity?.startActivityWithSlideInAnimation(intent)
     }
 
-    private fun more(status: Status, view: View, position: Int) {
+    private fun more(statusViewData: StatusViewData.Concrete, view: View, position: Int) {
+        val status = statusViewData.status
         val id = status.actionableId
         val accountId = status.actionableStatus.account.id
         val accountUsername = status.actionableStatus.account.username
@@ -266,12 +288,14 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                         )
                     menu.add(0, R.id.pin, 1, textId)
                 }
+
                 Status.Visibility.PRIVATE -> {
                     var reblogged = status.reblogged
                     if (status.reblog != null) reblogged = status.reblog.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
                 }
+
                 Status.Visibility.UNKNOWN, Status.Visibility.DIRECT -> {
                 } // Ignore
             }
@@ -289,7 +313,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             openAsItem.title = openAsText
         }
 
-        val mutable = statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
+        val mutable =
+            statusIsByCurrentUser || accountIsInMentions(viewModel.activeAccount, status.mentions)
         val muteConversationItem = popup.menu.findItem(R.id.status_mute_conversation).apply {
             isVisible = mutable
         }
@@ -301,6 +326,14 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     R.string.action_mute_conversation
                 }
             )
+        }
+
+        // translation not there for your own posts
+        popup.menu.findItem(R.id.status_translate)?.let { translateItem ->
+            translateItem.isVisible =
+                !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&
+                viewModel.supportsTranslation()
+            translateItem.setTitle(if (statusViewData.translation != null) R.string.action_show_original else R.string.action_translate)
         }
 
         popup.setOnMenuItemClickListener { item ->
@@ -324,6 +357,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     )
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.post_share_link -> {
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
@@ -337,6 +371,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     )
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_copy_link -> {
                     val clipboard = requireActivity().getSystemService(
                         Context.CLIPBOARD_SERVICE
@@ -344,55 +379,84 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_open_as -> {
                     showOpenAsDialog(statusUrl!!, item.title)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_download_media -> {
                     requestDownloadAllMedia(status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_mute_conversation -> {
                     searchAdapter.peek(position)?.let { foundStatus ->
                         viewModel.muteConversation(foundStatus, status.muted != true)
                     }
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_mute -> {
                     onMute(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_block -> {
                     onBlock(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_report -> {
                     openReportPage(accountId, accountUsername, id)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_unreblog_private -> {
                     onReblog(false, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_reblog_private -> {
                     onReblog(true, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_delete -> {
                     showConfirmDeleteDialog(id, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_delete_and_redraft -> {
                     showConfirmEditDialog(id, position, status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_edit -> {
                     editStatus(id, position, status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.pin -> {
                     viewModel.pinAccount(status, !status.isPinned())
                     return@setOnMenuItemClickListener true
+                }
+
+                R.id.status_translate -> {
+                    if (statusViewData.translation != null) {
+                        viewModel.untranslate(statusViewData)
+                    } else {
+                        lifecycleScope.launch {
+                            viewModel.translate(statusViewData)
+                                .onFailure {
+                                    Snackbar.make(
+                                        requireView(),
+                                        getString(R.string.ui_error_translate, it.message),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
+                        }
+                    }
                 }
             }
             false

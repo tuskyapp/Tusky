@@ -49,8 +49,11 @@ data class Status(
     val pinned: Boolean?,
     val muted: Boolean?,
     val poll: Poll?,
+    /** Preview card for links included within status content. */
     val card: Card?,
+    /** ISO 639 language code for this status. */
     val language: String?,
+    /** If the current token has an authorized user: The filter and keywords that matched this status. */
     val filtered: List<FilterResult>?
 ) {
 

@@ -80,7 +80,7 @@ class ComposeViewModel @Inject constructor(
     private var currentContent: String? = ""
     private var currentContentWarning: String? = ""
 
-    val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
+    val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getUpdatedInstanceInfoOrFallback.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
     val emoji: SharedFlow<List<Emoji>> = instanceInfoRepo::getEmojis.asFlow()

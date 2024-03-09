@@ -70,7 +70,7 @@ class EditProfileViewModel @Inject constructor(
     val headerData = MutableLiveData<Uri>()
     val saveData = MutableLiveData<Resource<Nothing>>()
 
-    val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
+    val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getUpdatedInstanceInfoOrFallback.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
     val isChanged = MutableStateFlow(false)

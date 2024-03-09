@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.FilterResult;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.Translation;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
@@ -56,6 +57,7 @@ import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.LinkHelper;
+import com.keylesspalace.tusky.util.LocaleUtilsKt;
 import com.keylesspalace.tusky.util.NumberUtils;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.TimestampUtils;
@@ -66,11 +68,13 @@ import com.keylesspalace.tusky.viewdata.PollOptionViewData;
 import com.keylesspalace.tusky.viewdata.PollViewData;
 import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
+import com.keylesspalace.tusky.viewdata.TranslationViewData;
 
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -120,6 +124,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected final TextView filteredPlaceholderLabel;
     protected final Button filteredPlaceholderShowButton;
     protected final ConstraintLayout statusContainer;
+    private final TextView translationStatusView;
+    private final Button untranslateButton;
+
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private final AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter();
@@ -182,6 +189,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions.setLayoutManager(new LinearLayoutManager(pollOptions.getContext()));
         ((DefaultItemAnimator) pollOptions.getItemAnimator()).setSupportsChangeAnimations(false);
 
+        translationStatusView = itemView.findViewById(R.id.status_translation_status);
+        untranslateButton = itemView.findViewById(R.id.status_button_untranslate);
+
         this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
         this.avatarRadius24dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_24dp);
@@ -213,7 +223,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                                         final @NonNull StatusActionListener listener) {
 
         Status actionable = status.getActionable();
-        String spoilerText = actionable.getSpoilerText();
+        String spoilerText = status.getSpoilerText();
         List<Emoji> emojis = actionable.getEmojis();
 
         boolean sensitive = !TextUtils.isEmpty(spoilerText);
@@ -273,7 +283,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         List<Status.Mention> mentions = actionable.getMentions();
         List<HashTag> tags = actionable.getTags();
         List<Emoji> emojis = actionable.getEmojis();
-        PollViewData poll = PollViewDataKt.toViewData(actionable.getPoll());
+        PollViewData poll = PollViewDataKt.toViewData(status.getPoll());
 
         if (expanded) {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content, statusDisplayOptions.animateEmojis());
@@ -779,7 +789,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setReblogged(actionable.getReblogged());
             setFavourited(actionable.getFavourited());
             setBookmarked(actionable.getBookmarked());
-            List<Attachment> attachments = actionable.getAttachments();
+            List<Attachment> attachments = status.getAttachments();
             boolean sensitive = actionable.getSensitive();
             if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
@@ -802,6 +812,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                 statusDisplayOptions);
+
+            setTranslationStatus(status, listener);
+
             setRebloggingEnabled(actionable.rebloggingAllowed(), actionable.getVisibility());
 
             setSpoilerAndContent(status, statusDisplayOptions, listener);
@@ -824,6 +837,29 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     }
                 }
 
+        }
+    }
+
+    private void setTranslationStatus(StatusViewData.Concrete status, StatusActionListener listener) {
+        var translationViewData = status.getTranslation();
+        if (translationViewData != null) {
+            if (translationViewData instanceof TranslationViewData.Loaded) {
+                Translation translation = ((TranslationViewData.Loaded) translationViewData).getData();
+                translationStatusView.setVisibility(View.VISIBLE);
+                var langName = LocaleUtilsKt.localeNameForUntrustedISO639LangCode(translation.getDetectedSourceLanguage());
+                translationStatusView.setText(translationStatusView.getContext().getString(R.string.label_translated, langName, translation.getProvider()));
+                untranslateButton.setVisibility(View.VISIBLE);
+                untranslateButton.setOnClickListener((v) -> listener.onUntranslate(getBindingAdapterPosition()));
+            } else {
+                translationStatusView.setVisibility(View.VISIBLE);
+                translationStatusView.setText(R.string.label_translating);
+                untranslateButton.setVisibility(View.GONE);
+                untranslateButton.setOnClickListener(null);
+            }
+        } else {
+            translationStatusView.setVisibility(View.GONE);
+            untranslateButton.setVisibility(View.GONE);
+            untranslateButton.setOnClickListener(null);
         }
     }
 
@@ -864,27 +900,57 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         Status actionable = status.getActionable();
 
         String description = context.getString(R.string.description_status,
+            // 1 display_name
             actionable.getAccount().getDisplayName(),
+            // 2 CW?
             getContentWarningDescription(context, status),
-            (TextUtils.isEmpty(actionable.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
+            // 3 content?
+            (TextUtils.isEmpty(status.getSpoilerText()) || !actionable.getSensitive() || status.isExpanded() ? status.getContent() : ""),
+            // 4 date
             getCreatedAtDescription(actionable.getCreatedAt(), statusDisplayOptions),
+            // 5 edited?
             actionable.getEditedAt() != null ? context.getString(R.string.description_post_edited) : "",
+            // 6 reposted_by?
             getReblogDescription(context, status),
+            // 7 username
             actionable.getAccount().getUsername(),
+            // 8 reposted
             actionable.getReblogged() ? context.getString(R.string.description_post_reblogged) : "",
+            // 9 favorited
             actionable.getFavourited() ? context.getString(R.string.description_post_favourited) : "",
+            // 10 bookmarked
             actionable.getBookmarked() ? context.getString(R.string.description_post_bookmarked) : "",
+            // 11 media
             getMediaDescription(context, status),
+            // 12 visibility
             getVisibilityDescription(context, actionable.getVisibility()),
+            // 13 fav_number
             getFavsText(context, actionable.getFavouritesCount()),
+            // 14 reblog_number
             getReblogsText(context, actionable.getReblogsCount()),
-            getPollDescription(status, context, statusDisplayOptions)
+            // 15 poll?
+            getPollDescription(status, context, statusDisplayOptions),
+            // 16 translated?
+            getTranslatedDescription(context, status.getTranslation())
         );
         itemView.setContentDescription(description);
     }
 
+    private String getTranslatedDescription(Context context, TranslationViewData translationViewData) {
+        if (translationViewData == null) {
+            return "";
+        } else if (translationViewData instanceof TranslationViewData.Loading) {
+            return context.getString(R.string.label_translating);
+        } else {
+            Translation translation = ((TranslationViewData.Loaded) translationViewData).getData();
+            var langName = LocaleUtilsKt.localeNameForUntrustedISO639LangCode(translation.getDetectedSourceLanguage());
+            return context.getString(R.string.label_translated, langName, translation.getProvider());
+        }
+    }
+
     private static CharSequence getReblogDescription(Context context,
                                                      @NonNull StatusViewData.Concrete status) {
+        @Nullable
         Status reblog = status.getRebloggingStatus();
         if (reblog != null) {
             return context
@@ -895,12 +961,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private static CharSequence getMediaDescription(Context context,
-                                                    @NonNull StatusViewData.Concrete status) {
-        if (status.getActionable().getAttachments().isEmpty()) {
+                                                    @NonNull StatusViewData.Concrete viewData) {
+        if (viewData.getAttachments().isEmpty()) {
             return "";
         }
         StringBuilder mediaDescriptions = CollectionsKt.fold(
-            status.getActionable().getAttachments(),
+            viewData.getAttachments(),
             new StringBuilder(),
             (builder, a) -> {
                 if (a.getDescription() == null) {
@@ -917,8 +983,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private static CharSequence getContentWarningDescription(Context context,
                                                              @NonNull StatusViewData.Concrete status) {
-        if (!TextUtils.isEmpty(status.getActionable().getSpoilerText())) {
-            return context.getString(R.string.description_post_cw, status.getActionable().getSpoilerText());
+        if (!TextUtils.isEmpty(status.getSpoilerText())) {
+            return context.getString(R.string.description_post_cw, status.getSpoilerText());
         } else {
             return "";
         }
@@ -954,7 +1020,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private CharSequence getPollDescription(@NonNull StatusViewData.Concrete status,
                                             Context context,
                                             StatusDisplayOptions statusDisplayOptions) {
-        PollViewData poll = PollViewDataKt.toViewData(status.getActionable().getPoll());
+        PollViewData poll = PollViewDataKt.toViewData(status.getPoll());
         if (poll == null) {
             return "";
         } else {
@@ -981,7 +1047,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     @NonNull
-    protected CharSequence getReblogsText   (@NonNull Context context, int count) {
+    protected CharSequence getReblogsText(@NonNull Context context, int count) {
         String countString = numberFormat.format(count);
         return HtmlCompat.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString), HtmlCompat.FROM_HTML_MODE_LEGACY);
     }

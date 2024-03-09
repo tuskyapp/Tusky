@@ -150,8 +150,13 @@
     </string-array>
 
     <string name="description_status" translatable="false">
-        <!-- Display name, cw?, content?, poll? relative date, edited?, reposted by?, reposted?, favorited?, bookmarked?, username, media?; visibility, fav number?, reblog number?-->
-        %1$s; %2$s; %3$s, %15$s %4$s, %5$s, %6$s; %7$s, %8$s, %9$s, %10$s, %11$s; %12$s, %13$s, %14$s
+        <!--
+         %1$s|display_name %2$s|CW?; %3$s|content?, %15$s|poll?, %4$s|date,
+         %6$s|reposted_by?; %7$s|username, %5$s|edited?, %16$s|translated?, %8$s|reposted?, %9$s|favorited?,
+         %10$s|bookmarked?, %11$s|media?; %12$s|visibility, %13$s|fav_number?,
+         %14$s|reblog_number?
+         -->
+        %1$s; %2$s; %3$s, %15$s, %4$s, %6$s; %7$s, %5$s, %16$s, %8$s, %9$s, %10$s, %11$s; %12$s, %13$s, %14$s
     </string>
 
     <string-array name="rick_roll_domains" translatable="false">

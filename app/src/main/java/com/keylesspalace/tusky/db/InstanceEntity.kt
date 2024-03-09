@@ -38,7 +38,8 @@ data class InstanceEntity(
     val maxMediaAttachments: Int?,
     val maxFields: Int?,
     val maxFieldNameLength: Int?,
-    val maxFieldValueLength: Int?
+    val maxFieldValueLength: Int?,
+    val translationEnabled: Boolean?,
 )
 
 @TypeConverters(Converters::class)
@@ -62,5 +63,6 @@ data class InstanceInfoEntity(
     val maxMediaAttachments: Int?,
     val maxFields: Int?,
     val maxFieldNameLength: Int?,
-    val maxFieldValueLength: Int?
+    val maxFieldValueLength: Int?,
+    val translationEnabled: Boolean?,
 )

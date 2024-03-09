@@ -55,7 +55,7 @@ class AboutActivity : BottomSheetActivity(), Injectable {
 
         lifecycleScope.launch {
             accountManager.activeAccount?.let { account ->
-                val instanceInfo = instanceInfoRepository.getInstanceInfo()
+                val instanceInfo = instanceInfoRepository.getUpdatedInstanceInfoOrFallback()
                 binding.accountInfo.text = getString(
                     R.string.about_account_info,
                     account.username,

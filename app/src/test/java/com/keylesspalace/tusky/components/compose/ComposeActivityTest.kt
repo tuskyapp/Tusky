@@ -38,6 +38,8 @@ import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
 import java.util.Locale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
@@ -125,7 +127,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock: InstanceDao = mock {
             onBlocking { getInstanceInfo(any()) } doReturn
-                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
             onBlocking { getEmojiInfo(any()) } doReturn
                 EmojisEntity(instanceDomain, emptyList())
         }
@@ -134,7 +136,7 @@ class ComposeActivityTest {
             on { instanceDao() } doReturn instanceDaoMock
         }
 
-        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock)
+        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock, CoroutineScope(SupervisorJob()))
 
         val viewModel = ComposeViewModel(
             apiMock,
