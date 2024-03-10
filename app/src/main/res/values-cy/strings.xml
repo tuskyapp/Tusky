@@ -27,7 +27,7 @@
     <string name="title_followers">Dilynwyr</string>
     <string name="title_favourites">Ffefrynnau</string>
     <string name="title_mutes">Defnyddwyr wedi\'u tewi</string>
-    <string name="title_blocks">Defnyddwyr wedi\'u blocio</string>
+    <string name="title_blocks">Defnyddwyr wedi\'u rhwystro</string>
     <string name="title_follow_requests">Ceisiadau i\'ch dilyn</string>
     <string name="title_edit_profile">Golygu eich proffil</string>
     <string name="title_drafts">Drafftiau</string>
@@ -71,7 +71,7 @@
     <string name="action_view_preferences">Dewisiadau</string>
     <string name="action_view_favourites">Ffefrynnau</string>
     <string name="action_view_mutes">Defnyddwyr wedi\'u tewi</string>
-    <string name="action_view_blocks">Defnyddwyr wedi\'u blocio</string>
+    <string name="action_view_blocks">Defnyddwyr wedi\'u rhwystro</string>
     <string name="action_view_follow_requests">Ceisiadau i\'ch dilyn</string>
     <string name="action_view_media">Cyfryngau</string>
     <string name="action_open_in_web">Agor mewn porwr</string>
@@ -750,4 +750,9 @@
     <string name="pref_title_show_notifications_filter">Dangos hidlydd Hysbysiadau</string>
     <string name="reply_sending_long">Mae eich ateb yn cael ei anfon.</string>
     <string name="reply_sending">Yn anfon…</string>
+    <string name="action_translate">Cyfieithu</string>
+    <string name="action_show_original">Dangos y gwreiddiol</string>
+    <string name="label_translating">Yn cyfieithu…</string>
+    <string name="label_translated">Wedi\'i chyfieithu o %1$s gyda %2$s</string>
+    <string name="ui_error_translate">Nid oedd modd cyfieithu: %s</string>
 </resources>
