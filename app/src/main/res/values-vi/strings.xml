@@ -689,4 +689,9 @@
     <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
     <string name="reply_sending">Đang gửi…</string>
     <string name="reply_sending_long">Câu trả lời của bạn đã được gửi đi.</string>
+    <string name="action_translate">Dịch</string>
+    <string name="action_show_original">Xem bản chưa dịch</string>
+    <string name="label_translating">Đang dịch…</string>
+    <string name="label_translated">Dịch %1$s bằng %2$s</string>
+    <string name="ui_error_translate">Không thể dịch: %s</string>
 </resources>
