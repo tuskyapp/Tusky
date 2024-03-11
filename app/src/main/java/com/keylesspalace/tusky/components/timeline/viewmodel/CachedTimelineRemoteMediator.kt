@@ -166,7 +166,7 @@ class CachedTimelineRemoteMediator(
             } else {
                 oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             }
-            val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
+            val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
             timelineDao.insertStatus(
