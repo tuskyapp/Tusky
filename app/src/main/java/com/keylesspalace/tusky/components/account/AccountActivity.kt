@@ -66,7 +66,7 @@ import com.keylesspalace.tusky.EditProfileActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.ViewMediaActivity
-import com.keylesspalace.tusky.components.account.list.ListsForAccountFragment
+import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
@@ -92,6 +92,7 @@ import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -267,9 +268,18 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         binding.accountFragmentViewPager.adapter = adapter
         binding.accountFragmentViewPager.offscreenPageLimit = 2
 
-        val pageTitles = arrayOf(getString(R.string.title_posts), getString(R.string.title_posts_with_replies), getString(R.string.title_posts_pinned), getString(R.string.title_media))
+        val pageTitles =
+            arrayOf(
+                getString(R.string.title_posts),
+                getString(R.string.title_posts_with_replies),
+                getString(R.string.title_posts_pinned),
+                getString(R.string.title_media)
+            )
 
-        TabLayoutMediator(binding.accountTabLayout, binding.accountFragmentViewPager) { tab, position ->
+        TabLayoutMediator(
+            binding.accountTabLayout,
+            binding.accountFragmentViewPager
+        ) { tab, position ->
             tab.text = pageTitles[position]
         }.attach()
 
@@ -301,7 +311,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             val right = insets.getInsets(systemBars()).right
             val bottom = insets.getInsets(systemBars()).bottom
             val left = insets.getInsets(systemBars()).left
-            binding.accountCoordinatorLayout.updatePadding(right = right, bottom = bottom, left = left)
+            binding.accountCoordinatorLayout.updatePadding(
+                right = right,
+                bottom = bottom,
+                left = left
+            )
 
             WindowInsetsCompat.CONSUMED
         }
@@ -318,7 +332,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         val appBarElevation = resources.getDimension(R.dimen.actionbar_elevation)
 
-        val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
+        val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(
+            this,
+            appBarElevation
+        )
         toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
         binding.accountToolbar.background = toolbarBackground
 
@@ -341,7 +358,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         binding.accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
 
-        val avatarBackground = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation).apply {
+        val avatarBackground = MaterialShapeDrawable.createWithElevationOverlay(
+            this,
+            appBarElevation
+        ).apply {
             fillColor = ColorStateList.valueOf(toolbarColor)
             elevation = appBarElevation
             shapeAppearanceModel = ShapeAppearanceModel.builder()
@@ -381,11 +401,17 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
                 binding.accountAvatarImageView.visible(scaledAvatarSize > 0)
 
-                val transparencyPercent = (abs(verticalOffset) / titleVisibleHeight.toFloat()).coerceAtMost(1f)
+                val transparencyPercent = (abs(verticalOffset) / titleVisibleHeight.toFloat()).coerceAtMost(
+                    1f
+                )
 
                 window.statusBarColor = argbEvaluator.evaluate(transparencyPercent, statusBarColorTransparent, statusBarColorOpaque) as Int
 
-                val evaluatedToolbarColor = argbEvaluator.evaluate(transparencyPercent, Color.TRANSPARENT, toolbarColor) as Int
+                val evaluatedToolbarColor = argbEvaluator.evaluate(
+                    transparencyPercent,
+                    Color.TRANSPARENT,
+                    toolbarColor
+                ) as Int
 
                 toolbarBackground.fillColor = ColorStateList.valueOf(evaluatedToolbarColor)
 
@@ -407,7 +433,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             when (it) {
                 is Success -> onAccountChanged(it.data)
                 is Error -> {
-                    Snackbar.make(binding.accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                    Snackbar.make(
+                        binding.accountCoordinatorLayout,
+                        R.string.error_generic,
+                        Snackbar.LENGTH_LONG
+                    )
                         .setAction(R.string.action_retry) { viewModel.refresh() }
                         .show()
                 }
@@ -421,7 +451,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             }
 
             if (it is Error) {
-                Snackbar.make(binding.accountCoordinatorLayout, R.string.error_generic, Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    binding.accountCoordinatorLayout,
+                    R.string.error_generic,
+                    Snackbar.LENGTH_LONG
+                )
                     .setAction(R.string.action_retry) { viewModel.refresh() }
                     .show()
             }
@@ -466,14 +500,22 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     val fullUsername = getFullUsername(loadedAccount)
                     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
-                    Snackbar.make(binding.root, getString(R.string.account_username_copied), Snackbar.LENGTH_SHORT)
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.account_username_copied),
+                        Snackbar.LENGTH_SHORT
+                    )
                         .show()
                 }
                 true
             }
         }
 
-        val emojifiedNote = account.note.parseAsMastodonHtml().emojify(account.emojis, binding.accountNoteTextView, animateEmojis)
+        val emojifiedNote = account.note.parseAsMastodonHtml().emojify(
+            account.emojis,
+            binding.accountNoteTextView,
+            animateEmojis
+        )
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
         accountFieldAdapter.fields = account.fields.orEmpty()
@@ -503,7 +545,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         val isLight = resources.getBoolean(R.bool.lightNavigationBar)
 
         if (loadedAccount?.bot == true) {
-            val badgeView = getBadge(getColor(R.color.tusky_grey_50), R.drawable.ic_bot_24dp, getString(R.string.profile_badge_bot_text), isLight)
+            val badgeView =
+                getBadge(
+                    getColor(R.color.tusky_grey_50),
+                    R.drawable.ic_bot_24dp,
+                    getString(R.string.profile_badge_bot_text),
+                    isLight
+                )
             binding.accountBadgeContainer.addView(badgeView)
         }
 
@@ -873,7 +921,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         } else {
             AlertDialog.Builder(this)
                 .setMessage(getString(R.string.mute_domain_warning, instance))
-                .setPositiveButton(getString(R.string.mute_domain_warning_dialog_ok)) { _, _ -> viewModel.blockDomain(instance) }
+                .setPositiveButton(
+                    getString(R.string.mute_domain_warning_dialog_ok)
+                ) { _, _ -> viewModel.blockDomain(instance) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
@@ -966,7 +1016,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, url)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_link_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_account_link_to)
+                        )
+                    )
                 }
                 return true
             }
@@ -978,7 +1033,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, fullUsername)
                     sendIntent.type = "text/plain"
-                    startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.send_account_username_to)))
+                    startActivity(
+                        Intent.createChooser(
+                            sendIntent,
+                            resources.getText(R.string.send_account_username_to)
+                        )
+                    )
                 }
                 return true
             }
@@ -991,7 +1051,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 return true
             }
             R.id.action_add_or_remove_from_list -> {
-                ListsForAccountFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
+                ListSelectionFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
                 return true
             }
             R.id.action_mute_domain -> {
@@ -1009,7 +1069,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             }
             R.id.action_report -> {
                 loadedAccount?.let { loadedAccount ->
-                    startActivity(ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username))
+                    startActivity(
+                        ReportActivity.getIntent(this, viewModel.accountId, loadedAccount.username)
+                    )
                 }
                 return true
             }
@@ -1047,7 +1109,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         // text color with maximum contrast
         val textColor = if (isLight) Color.BLACK else Color.WHITE
         // badge color with 50% transparency so it blends in with the theme background
-        val backgroundColor = Color.argb(128, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor))
+        val backgroundColor = Color.argb(
+            128,
+            Color.red(baseColor),
+            Color.green(baseColor),
+            Color.blue(baseColor)
+        )
         // a color between the text color and the badge color
         val outlineColor = ColorUtils.blendARGB(textColor, baseColor, 0.7f)
 

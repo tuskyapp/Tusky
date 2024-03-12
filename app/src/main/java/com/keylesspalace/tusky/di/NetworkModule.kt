@@ -35,20 +35,19 @@ import com.keylesspalace.tusky.settings.ProxyConfiguration
 import com.keylesspalace.tusky.util.getNonNullString
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.net.IDN
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import okhttp3.Cache
+import okhttp3.OkHttp
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 /**
  * Created by charlag on 3/24/18.
@@ -104,7 +103,9 @@ class NetworkModule {
             .apply {
                 addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
                 if (BuildConfig.DEBUG) {
-                    addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+                    addInterceptor(
+                        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+                    )
                 }
             }
             .build()
@@ -112,14 +113,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(
-        httpClient: OkHttpClient,
-        gson: Gson
-    ): Retrofit {
+    fun providesRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
     }

@@ -7,4 +7,4 @@ Tusky 24.0
 - Sistem tasarımını takip ederken siyah temayı kullanmak için yeni tema seçeneği.
 - Trend gönderileri görmek için yeni bir görünüm hem menüde hem de özel sekme olarak mevcuttur.
 
-Ve daha birçok iyileştirme ve düzeltme!
+Daha birçok iyileştirme ve düzeltme!

@@ -14,11 +14,11 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.network
 
+import java.io.IOException
+import java.io.InputStream
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
-import java.io.IOException
-import java.io.InputStream
 
 class ProgressRequestBody(private val content: InputStream, private val contentLength: Long, private val mediaType: MediaType, private val uploadListener: UploadCallback) : RequestBody() {
     fun interface UploadCallback {

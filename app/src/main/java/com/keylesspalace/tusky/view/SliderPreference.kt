@@ -45,7 +45,7 @@ class SliderPreference @JvmOverloads constructor(
      * @see Slider.getValue
      * @see Slider.setValue
      */
-    var value: Float = defaultValue
+    var value: Float = DEFAULT_VALUE
         get() = _value
         set(v) {
             val clamped = max(max(v, valueFrom), min(v, valueTo))
@@ -68,7 +68,7 @@ class SliderPreference @JvmOverloads constructor(
      * Format string to be applied to values before setting the summary. For more control set
      * [SliderPreference.formatter]
      */
-    var format: String = defaultFormat
+    var format: String = DEFAULT_FORMAT
 
     /**
      * Function that will be used to format the summary. The default formatter formats using the
@@ -96,13 +96,18 @@ class SliderPreference @JvmOverloads constructor(
         // preference layout to the right of the title and summary.
         layoutResource = R.layout.pref_slider
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.SliderPreference, defStyleAttr, defStyleRes)
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.SliderPreference,
+            defStyleAttr,
+            defStyleRes
+        )
 
-        value = a.getFloat(R.styleable.SliderPreference_android_value, defaultValue)
-        valueFrom = a.getFloat(R.styleable.SliderPreference_android_valueFrom, defaultValueFrom)
-        valueTo = a.getFloat(R.styleable.SliderPreference_android_valueTo, defaultValueTo)
-        stepSize = a.getFloat(R.styleable.SliderPreference_android_stepSize, defaultStepSize)
-        format = a.getString(R.styleable.SliderPreference_format) ?: defaultFormat
+        value = a.getFloat(R.styleable.SliderPreference_android_value, DEFAULT_VALUE)
+        valueFrom = a.getFloat(R.styleable.SliderPreference_android_valueFrom, DEFAULT_VALUE_FROM)
+        valueTo = a.getFloat(R.styleable.SliderPreference_android_valueTo, DEFAULT_VALUE_TO)
+        stepSize = a.getFloat(R.styleable.SliderPreference_android_stepSize, DEFAULT_STEP_SIZE)
+        format = a.getString(R.styleable.SliderPreference_format) ?: DEFAULT_FORMAT
 
         val decrementIconResource = a.getResourceId(R.styleable.SliderPreference_iconStart, -1)
         if (decrementIconResource != -1) {
@@ -118,11 +123,11 @@ class SliderPreference @JvmOverloads constructor(
     }
 
     override fun onGetDefaultValue(a: TypedArray, i: Int): Any {
-        return a.getFloat(i, defaultValue)
+        return a.getFloat(i, DEFAULT_VALUE)
     }
 
     override fun onSetInitialValue(defaultValue: Any?) {
-        value = getPersistedFloat((defaultValue ?: Companion.defaultValue) as Float)
+        value = getPersistedFloat((defaultValue ?: DEFAULT_VALUE) as Float)
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
@@ -179,10 +184,10 @@ class SliderPreference @JvmOverloads constructor(
 
     companion object {
         private const val TAG = "SliderPreference"
-        private const val defaultValueFrom = 0F
-        private const val defaultValueTo = 1F
-        private const val defaultValue = 0.5F
-        private const val defaultStepSize = 0.1F
-        private const val defaultFormat = "%3.1f"
+        private const val DEFAULT_VALUE_FROM = 0F
+        private const val DEFAULT_VALUE_TO = 1F
+        private const val DEFAULT_VALUE = 0.5F
+        private const val DEFAULT_STEP_SIZE = 0.1F
+        private const val DEFAULT_FORMAT = "%3.1f"
     }
 }

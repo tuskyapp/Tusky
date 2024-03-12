@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- Bir video oynatılırken ekran tekrar açık kalacaktır.
+- Bir bellek sızıntısı düzeltildi. Bu, kararlılığı ve performansı artıracaktır.
+- Bir gönderi oluştururken emojiler artık doğru şekilde 1 karakter olarak sayılıyor.
+- Bazı cihazlarda metin seçildiğinde oluşan çökme düzeltildi.
+- Boş zaman çizelgelerinin yardım metinlerindeki simgeler artık her zaman doğru şekilde hizalanacak.

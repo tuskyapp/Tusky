@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- Skärmen förblir på igen medan en video spelas upp.
+- En minnesläcka har åtgärdats. Detta bör förbättra stabilitet och prestanda.
+- Emojis räknas nu korrekt som 1 tecken när du skriver ett inlägg.
+- Fixade en krasch när text valdes på vissa enheter.
+- Ikonerna i hjälptexterna för tomma tidslinjer kommer nu alltid att vara korrekt justerade.

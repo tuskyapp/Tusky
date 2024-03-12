@@ -44,6 +44,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EmojiPicker
@@ -116,7 +117,10 @@ class AnnouncementsActivity :
                     binding.progressBar.hide()
                     binding.swipeRefreshLayout.isRefreshing = false
                     if (it.data.isNullOrEmpty()) {
-                        binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_announcements)
+                        binding.errorMessageView.setup(
+                            R.drawable.elephant_friend_empty,
+                            R.string.no_announcements
+                        )
                         binding.errorMessageView.show()
                     } else {
                         binding.errorMessageView.hide()
@@ -129,7 +133,10 @@ class AnnouncementsActivity :
                 is Error -> {
                     binding.progressBar.hide()
                     binding.swipeRefreshLayout.isRefreshing = false
-                    binding.errorMessageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
+                    binding.errorMessageView.setup(
+                        R.drawable.errorphant_error,
+                        R.string.error_generic
+                    ) {
                         refreshAnnouncements()
                     }
                     binding.errorMessageView.show()

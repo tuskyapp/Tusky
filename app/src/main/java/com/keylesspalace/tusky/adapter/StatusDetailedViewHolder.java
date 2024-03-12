@@ -9,11 +9,13 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.ViewUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -23,6 +25,7 @@ import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.LinkHelper;
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
+import com.keylesspalace.tusky.util.ViewExtensionsKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.DateFormat;
@@ -57,8 +60,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         if (visibilityIcon != null) {
             ImageSpan visibilityIconSpan = new ImageSpan(
-                    visibilityIcon,
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? DynamicDrawableSpan.ALIGN_CENTER : DynamicDrawableSpan.ALIGN_BASELINE
+                visibilityIcon,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? DynamicDrawableSpan.ALIGN_CENTER : DynamicDrawableSpan.ALIGN_BASELINE
             );
             sb.setSpan(visibilityIconSpan, 0, visibilityString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -67,7 +70,6 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         Date createdAt = status.getCreatedAt();
         if (createdAt != null) {
-
             sb.append(" ");
             sb.append(dateFormat.format(createdAt));
         }
@@ -95,10 +97,16 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             }
         }
 
+        String language = status.getLanguage();
+
+        if (language != null) {
+            sb.append(metadataJoiner);
+            sb.append(language.toUpperCase());
+        }
+
         Status.Application app = status.getApplication();
 
         if (app != null) {
-
             sb.append(metadataJoiner);
 
             if (app.getWebsite() != null) {
@@ -114,25 +122,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     }
 
     private void setReblogAndFavCount(int reblogCount, int favCount, StatusActionListener listener) {
-
-        if (reblogCount > 0) {
-            reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
-            reblogs.setVisibility(View.VISIBLE);
-        } else {
-            reblogs.setVisibility(View.GONE);
-        }
-        if (favCount > 0) {
-            favourites.setText(getFavsText(favourites.getContext(), favCount));
-            favourites.setVisibility(View.VISIBLE);
-        } else {
-            favourites.setVisibility(View.GONE);
-        }
-
-        if (reblogs.getVisibility() == View.GONE && favourites.getVisibility() == View.GONE) {
-            infoDivider.setVisibility(View.GONE);
-        } else {
-            infoDivider.setVisibility(View.VISIBLE);
-        }
+        reblogs.setText(getReblogsText(reblogs.getContext(), reblogCount));
+        favourites.setText(getFavsText(favourites.getContext(), favCount));
 
         reblogs.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
@@ -155,8 +146,8 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                                 @Nullable Object payloads) {
         // We never collapse statuses in the detail view
         StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
-                status.copyWithCollapsed(false) :
-                status;
+            status.copyWithCollapsed(false) :
+            status;
 
         super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads);
         setupCard(uncollapsedStatus, status.isExpanded(), CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
@@ -165,7 +156,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
             if (!statusDisplayOptions.hideStats()) {
                 setReblogAndFavCount(actionable.getReblogsCount(),
-                        actionable.getFavouritesCount(), listener);
+                    actionable.getFavouritesCount(), listener);
             } else {
                 hideQuantitativeStats();
             }
@@ -197,7 +188,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
         }
 
         final Drawable visibilityDrawable = AppCompatResources.getDrawable(
-                this.metaInfo.getContext(), visibilityIcon
+            this.metaInfo.getContext(), visibilityIcon
         );
         if (visibilityDrawable == null) {
             return null;
@@ -205,10 +196,10 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         final int size = (int) this.metaInfo.getTextSize();
         visibilityDrawable.setBounds(
-                0,
-                0,
-                size,
-                size
+            0,
+            0,
+            size,
+            size
         );
         visibilityDrawable.setTint(this.metaInfo.getCurrentTextColor());
 

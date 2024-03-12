@@ -23,7 +23,11 @@ import java.lang.reflect.Type
 
 class GuardedBooleanAdapter : JsonDeserializer<Boolean?> {
     @Throws(JsonParseException::class)
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Boolean? {
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
+    ): Boolean? {
         return if (json.isJsonObject) {
             null
         } else {

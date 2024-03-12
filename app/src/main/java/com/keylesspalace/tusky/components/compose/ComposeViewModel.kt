@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -49,8 +50,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class ComposeViewModel @Inject constructor(
     private val api: MastodonApi,
@@ -76,7 +77,10 @@ class ComposeViewModel @Inject constructor(
     private var modifiedInitialState: Boolean = false
     private var hasScheduledTimeChanged: Boolean = false
 
-    val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getInstanceInfo.asFlow()
+    private var currentContent: String? = ""
+    private var currentContentWarning: String? = ""
+
+    val instanceInfo: SharedFlow<InstanceInfo> = instanceInfoRepo::getUpdatedInstanceInfoOrFallback.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
     val emoji: SharedFlow<List<Emoji>> = instanceInfoRepo::getEmojis.asFlow()
@@ -85,13 +89,21 @@ class ComposeViewModel @Inject constructor(
     val markMediaAsSensitive: MutableStateFlow<Boolean> =
         MutableStateFlow(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
 
-    val statusVisibility: MutableStateFlow<Status.Visibility> = MutableStateFlow(Status.Visibility.UNKNOWN)
+    val statusVisibility: MutableStateFlow<Status.Visibility> =
+        MutableStateFlow(Status.Visibility.UNKNOWN)
     val showContentWarning: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val poll: MutableStateFlow<NewPoll?> = MutableStateFlow(null)
     val scheduledAt: MutableStateFlow<String?> = MutableStateFlow(null)
 
     val media: MutableStateFlow<List<QueuedMedia>> = MutableStateFlow(emptyList())
-    val uploadError = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val uploadError =
+        MutableSharedFlow<Throwable>(
+            replay = 0,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+
+    val closeConfirmation = MutableStateFlow(ConfirmationKind.NONE)
 
     private lateinit var composeKind: ComposeKind
 
@@ -100,7 +112,13 @@ class ComposeViewModel @Inject constructor(
 
     private var setupComplete = false
 
-    suspend fun pickMedia(mediaUri: Uri, description: String? = null, focus: Attachment.Focus? = null): Result<QueuedMedia> = withContext(Dispatchers.IO) {
+    suspend fun pickMedia(
+        mediaUri: Uri,
+        description: String? = null,
+        focus: Attachment.Focus? = null
+    ): Result<QueuedMedia> = withContext(
+        Dispatchers.IO
+    ) {
         try {
             val (type, uri, size) = mediaUploader.prepareMedia(mediaUri, instanceInfo.first())
             val mediaItems = media.value
@@ -164,7 +182,11 @@ class ComposeViewModel @Inject constructor(
                             item.copy(
                                 id = event.mediaId,
                                 uploadPercent = -1,
-                                state = if (event.processed) { QueuedMedia.State.PROCESSED } else { QueuedMedia.State.UNPROCESSED }
+                                state = if (event.processed) {
+                                    QueuedMedia.State.PROCESSED
+                                } else {
+                                    QueuedMedia.State.UNPROCESSED
+                                }
                             )
                         is UploadEvent.ErrorEvent -> {
                             media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
@@ -183,10 +205,17 @@ class ComposeViewModel @Inject constructor(
                     }
                 }
         }
+        updateCloseConfirmation()
         return mediaItem
     }
 
-    private fun addUploadedMedia(id: String, type: QueuedMedia.Type, uri: Uri, description: String?, focus: Attachment.Focus?) {
+    private fun addUploadedMedia(
+        id: String,
+        type: QueuedMedia.Type,
+        uri: Uri,
+        description: String?,
+        focus: Attachment.Focus?
+    ) {
         media.update { mediaList ->
             val mediaItem = QueuedMedia(
                 localId = mediaUploader.getNewLocalMediaId(),
@@ -206,21 +235,37 @@ class ComposeViewModel @Inject constructor(
     fun removeMediaFromQueue(item: QueuedMedia) {
         mediaUploader.cancelUploadScope(item.localId)
         media.update { mediaList -> mediaList.filter { it.localId != item.localId } }
+        updateCloseConfirmation()
     }
 
     fun toggleMarkSensitive() {
         this.markMediaAsSensitive.value = this.markMediaAsSensitive.value != true
     }
 
-    fun handleCloseButton(contentText: String?, contentWarning: String?): ConfirmationKind {
-        return if (didChange(contentText, contentWarning)) {
+    fun updateContent(newContent: String?) {
+        currentContent = newContent
+        updateCloseConfirmation()
+    }
+
+    fun updateContentWarning(newContentWarning: String?) {
+        currentContentWarning = newContentWarning
+        updateCloseConfirmation()
+    }
+
+    private fun updateCloseConfirmation() {
+        val contentWarning = if (showContentWarning.value) {
+            currentContentWarning
+        } else {
+            ""
+        }
+        this.closeConfirmation.value = if (didChange(currentContent, contentWarning)) {
             when (composeKind) {
-                ComposeKind.NEW -> if (isEmpty(contentText, contentWarning)) {
+                ComposeKind.NEW -> if (isEmpty(currentContent, contentWarning)) {
                     ConfirmationKind.NONE
                 } else {
                     ConfirmationKind.SAVE_OR_DISCARD
                 }
-                ComposeKind.EDIT_DRAFT -> if (isEmpty(contentText, contentWarning)) {
+                ComposeKind.EDIT_DRAFT -> if (isEmpty(currentContent, contentWarning)) {
                     ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT
                 } else {
                     ConfirmationKind.UPDATE_OR_DISCARD
@@ -250,6 +295,7 @@ class ComposeViewModel @Inject constructor(
     fun contentWarningChanged(value: Boolean) {
         showContentWarning.value = value
         contentWarningStateChanged = true
+        updateCloseConfirmation()
     }
 
     fun deleteDraft() {
@@ -305,11 +351,7 @@ class ComposeViewModel @Inject constructor(
      * Send status to the server.
      * Uses current state plus provided arguments.
      */
-    suspend fun sendStatus(
-        content: String,
-        spoilerText: String,
-        accountId: Long
-    ) {
+    suspend fun sendStatus(content: String, spoilerText: String, accountId: Long) {
         if (!scheduledTootId.isNullOrEmpty()) {
             api.deleteScheduledStatus(scheduledTootId!!)
         }
@@ -371,9 +413,9 @@ class ComposeViewModel @Inject constructor(
     }
 
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
-        when (token[0]) {
-            '@' -> {
-                return api.searchAccountsSync(query = token.substring(1), limit = 10)
+        return when (token[0]) {
+            '@' -> runBlocking {
+                api.searchAccounts(query = token.substring(1), limit = 10)
                     .fold({ accounts ->
                         accounts.map { AutocompleteResult.AccountResult(it) }
                     }, { e ->
@@ -381,8 +423,12 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
-            '#' -> {
-                return api.searchSync(query = token, type = SearchType.Hashtag.apiParameter, limit = 10)
+            '#' -> runBlocking {
+                api.search(
+                    query = token,
+                    type = SearchType.Hashtag.apiParameter,
+                    limit = 10
+                )
                     .fold({ searchResult ->
                         searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
                     }, { e ->
@@ -394,7 +440,7 @@ class ComposeViewModel @Inject constructor(
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
 
-                return emojiList.filter { emoji ->
+                emojiList.filter { emoji ->
                     emoji.shortcode.contains(incomplete, ignoreCase = true)
                 }.sortedBy { emoji ->
                     emoji.shortcode.indexOf(incomplete, ignoreCase = true)
@@ -404,7 +450,7 @@ class ComposeViewModel @Inject constructor(
             }
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
-                return emptyList()
+                emptyList()
             }
         }
     }
@@ -489,11 +535,14 @@ class ComposeViewModel @Inject constructor(
         replyingStatusContent = composeOptions?.replyingStatusContent
         replyingStatusAuthor = composeOptions?.replyingStatusAuthor
 
+        updateCloseConfirmation()
+
         setupComplete = true
     }
 
-    fun updatePoll(newPoll: NewPoll) {
+    fun updatePoll(newPoll: NewPoll?) {
         poll.value = newPoll
+        updateCloseConfirmation()
     }
 
     fun updateScheduledAt(newScheduledAt: String?) {

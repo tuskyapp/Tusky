@@ -69,7 +69,7 @@ data class Notification(
         companion object {
             @JvmStatic
             fun byString(s: String): Type {
-                values().forEach {
+                entries.forEach {
                     if (s == it.presentation) {
                         return it
                     }
@@ -78,7 +78,8 @@ data class Notification(
             }
 
             /** Notification types for UI display (omits UNKNOWN) */
-            val visibleTypes = listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
+            val visibleTypes =
+                listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
         }
 
         override fun toString(): String {
@@ -117,8 +118,8 @@ data class Notification(
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
         if (type == Type.MENTION && status != null) {
             return if (status.mentions.any {
-                it.id == accountId
-            }
+                    it.id == accountId
+                }
             ) {
                 this
             } else {

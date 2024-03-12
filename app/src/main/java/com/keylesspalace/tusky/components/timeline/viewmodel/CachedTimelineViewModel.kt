@@ -26,6 +26,9 @@ import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import androidx.room.withTransaction
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.map
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
@@ -45,13 +48,15 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import javax.inject.Inject
 
 /**
  * TimelineViewModel that caches all statuses in a local database
@@ -76,6 +81,9 @@ class CachedTimelineViewModel @Inject constructor(
 
     private var currentPagingSource: PagingSource<Int, TimelineStatusWithAccount>? = null
 
+    /** Map from status id to translation. */
+    private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
+
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
@@ -91,15 +99,24 @@ class CachedTimelineViewModel @Inject constructor(
             }
         }
     ).flow
-        .map { pagingData ->
+        // Apply cachedIn() early to be able to combine with translation flow.
+        // This will not cache ViewData's but practically we don't need this.
+        // If you notice that this flow is used in more than once place consider
+        // adding another cachedIn() for the overall result.
+        .cachedIn(viewModelScope)
+        .combine(translations) { pagingData, translations ->
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
-                timelineStatus.toViewData(gson)
+                val translation = translations[timelineStatus.status.serverId]
+                timelineStatus.toViewData(
+                    gson,
+                    isDetailed = false,
+                    translation = translation
+                )
             }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
                 shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
-        .cachedIn(viewModelScope)
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         // handled by CacheUpdater
@@ -276,8 +293,23 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
+    override suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
+        translations.value = translations.value + (status.id to TranslationViewData.Loading)
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                translations.value =
+                    translations.value + (status.id to TranslationViewData.Loaded(translation))
+            }
+            .onFailure {
+                translations.value = translations.value - status.id
+            }
+    }
+
+    override fun untranslate(status: StatusViewData.Concrete) {
+        translations.value = translations.value - status.id
+    }
+
     companion object {
         private const val TAG = "CachedTimelineViewModel"
-        private const val MAX_STATUSES_IN_CACHE = 1000
     }
 }

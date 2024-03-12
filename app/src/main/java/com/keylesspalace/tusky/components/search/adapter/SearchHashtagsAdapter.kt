@@ -27,7 +27,10 @@ import com.keylesspalace.tusky.util.BindingHolder
 class SearchHashtagsAdapter(private val linkListener: LinkListener) :
     PagingDataAdapter<HashTag, BindingHolder<ItemHashtagBinding>>(HASHTAG_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemHashtagBinding> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemHashtagBinding> {
         val binding = ItemHashtagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }

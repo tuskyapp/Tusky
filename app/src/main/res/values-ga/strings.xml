@@ -81,8 +81,6 @@
     <string name="hint_content_warning">Rabhadh ábhair</string>
     <string name="hint_compose">Cad atá ag tarlú\?</string>
     <string name="hint_domain">Cén ásc\?</string>
-    <string name="post_sent_long">D\'éirigh le freagra a sheoladh.</string>
-    <string name="post_sent">Seolta!</string>
     <string name="confirmation_domain_unmuted">%s neamhcheangailte</string>
     <string name="confirmation_unmuted">Úsáideoir gan trácht</string>
     <string name="confirmation_unblocked">Úsáideoir gan bhac</string>

@@ -24,12 +24,13 @@ import com.keylesspalace.tusky.components.systemnotifications.canEnablePushNotif
 import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushNotificationEnabledForAccount
 import com.keylesspalace.tusky.components.systemnotifications.updateUnifiedPushSubscription
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 @DelicateCoroutinesApi
 class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
@@ -38,6 +39,10 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var accountManager: AccountManager
+
+    @Inject
+    @ApplicationScope
+    lateinit var externalScope: CoroutineScope
 
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
@@ -60,7 +65,14 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         accountManager.getAccountByIdentifier(gid)?.let { account ->
             if (isUnifiedPushNotificationEnabledForAccount(account)) {
                 // Update UnifiedPush notification subscription
-                GlobalScope.launch { updateUnifiedPushSubscription(context, mastodonApi, accountManager, account) }
+                externalScope.launch {
+                    updateUnifiedPushSubscription(
+                        context,
+                        mastodonApi,
+                        accountManager,
+                        account
+                    )
+                }
             }
         }
     }

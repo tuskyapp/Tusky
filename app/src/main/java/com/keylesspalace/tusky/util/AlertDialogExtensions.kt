@@ -35,7 +35,7 @@ suspend fun AlertDialog.await(
     positiveText: String,
     negativeText: String? = null,
     neutralText: String? = null
-) = suspendCancellableCoroutine<Int> { cont ->
+) = suspendCancellableCoroutine { cont ->
     val listener = DialogInterface.OnClickListener { _, which ->
         cont.resume(which) { dismiss() }
     }

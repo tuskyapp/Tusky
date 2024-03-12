@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import java.util.Date
 
 private const val TAG = "TimelineTypeMappers"
@@ -155,7 +156,7 @@ fun Status.toEntity(
     )
 }
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false): StatusViewData {
+fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
     if (this.account == null) {
         Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
@@ -199,19 +200,21 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
-            filtered = status.filtered
+            filtered = status.filtered,
         )
     }
     val status = if (reblog != null) {
         Status(
             id = status.serverId,
-            url = null, // no url for reblogs
+            // no url for reblogs
+            url = null,
             account = this.reblogAccount!!.toAccount(gson),
             inReplyToId = null,
             inReplyToAccountId = null,
             reblog = reblog,
             content = "",
-            createdAt = Date(status.createdAt), // lie but whatever?
+            // lie but whatever?
+            createdAt = Date(status.createdAt),
             editedAt = null,
             emojis = listOf(),
             reblogsCount = 0,
@@ -242,7 +245,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = null,
-            content = status.content.orEmpty(),
+            content = translation?.data?.content ?: status.content.orEmpty(),
             createdAt = Date(status.createdAt),
             editedAt = status.editedAt?.let { Date(it) },
             emojis = emojis,
@@ -272,6 +275,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
         isCollapsed = this.status.contentCollapsed,
-        isDetailed = isDetailed
+        isDetailed = isDetailed,
+        translation = translation,
     )
 }

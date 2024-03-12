@@ -23,6 +23,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.map
+import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -37,6 +40,9 @@ import com.keylesspalace.tusky.util.isLessThan
 import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
+import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
@@ -44,8 +50,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
-import javax.inject.Inject
 
 /**
  * TimelineViewModel that caches all statuses in an in-memory list
@@ -57,7 +61,14 @@ class NetworkTimelineViewModel @Inject constructor(
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel
-) : TimelineViewModel(timelineCases, api, eventHub, accountManager, sharedPreferences, filterModel) {
+) : TimelineViewModel(
+    timelineCases,
+    api,
+    eventHub,
+    accountManager,
+    sharedPreferences,
+    filterModel
+) {
 
     var currentSource: NetworkTimelinePagingSource? = null
 
@@ -138,7 +149,8 @@ class NetworkTimelineViewModel @Inject constructor(
             try {
                 val placeholderIndex =
                     statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-                statusData[placeholderIndex] = StatusViewData.Placeholder(placeholderId, isLoading = true)
+                statusData[placeholderIndex] =
+                    StatusViewData.Placeholder(placeholderId, isLoading = true)
 
                 val idAbovePlaceholder = statusData.getOrNull(placeholderIndex - 1)?.id
 
@@ -168,11 +180,19 @@ class NetworkTimelineViewModel @Inject constructor(
                 if (statuses.isNotEmpty()) {
                     val firstId = statuses.first().id
                     val lastId = statuses.last().id
-                    val overlappedFrom = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false }
-                    val overlappedTo = statusData.indexOfFirst { it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false }
+                    val overlappedFrom = statusData.indexOfFirst {
+                        it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false
+                    }
+                    val overlappedTo = statusData.indexOfFirst {
+                        it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false
+                    }
 
                     if (overlappedFrom < overlappedTo) {
-                        data.mapIndexed { i, status -> i to statusData.firstOrNull { it.asStatusOrNull()?.id == status.id }?.asStatusOrNull() }
+                        data.mapIndexed { i, status ->
+                            i to statusData.firstOrNull {
+                                it.asStatusOrNull()?.id == status.id
+                            }?.asStatusOrNull()
+                        }
                             .filter { (_, oldStatus) -> oldStatus != null }
                             .forEach { (i, oldStatus) ->
                                 data[i] = data[i].asStatusOrNull()!!
@@ -185,12 +205,18 @@ class NetworkTimelineViewModel @Inject constructor(
 
                         statusData.removeAll { status ->
                             when (status) {
-                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
-                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(firstId)
+                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
+                                    firstId
+                                )
+
+                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
+                                    firstId
+                                )
                             }
                         }
                     } else {
-                        data[data.size - 1] = StatusViewData.Placeholder(statuses.last().id, isLoading = false)
+                        data[data.size - 1] =
+                            StatusViewData.Placeholder(statuses.last().id, isLoading = false)
                     }
                 }
 
@@ -245,6 +271,21 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
+    override suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
+        status.copy(translation = TranslationViewData.Loading).update()
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                status.copy(translation = TranslationViewData.Loaded(translation)).update()
+            }
+            .onFailure {
+                status.update()
+            }
+    }
+
+    override fun untranslate(status: StatusViewData.Concrete) {
+        status.copy(translation = null).update()
+    }
+
     @Throws(IOException::class, HttpException::class)
     suspend fun fetchStatusesForKind(
         fromId: String?,
@@ -260,6 +301,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 val additionalHashtags = tags.subList(1, tags.size)
                 api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
             }
+
             Kind.USER -> api.accountStatuses(
                 id!!,
                 fromId,
@@ -269,6 +311,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = null
             )
+
             Kind.USER_PINNED -> api.accountStatuses(
                 id!!,
                 fromId,
@@ -278,6 +321,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = true
             )
+
             Kind.USER_WITH_REPLIES -> api.accountStatuses(
                 id!!,
                 fromId,
@@ -287,6 +331,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 onlyMedia = null,
                 pinned = null
             )
+
             Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
             Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
             Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
@@ -295,7 +340,8 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     private fun StatusViewData.Concrete.update() {
-        val position = statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
+        val position =
+            statusData.indexOfFirst { viewData -> viewData.asStatusOrNull()?.id == this.id }
         statusData[position] = this
         currentSource?.invalidate()
     }
@@ -309,10 +355,7 @@ class NetworkTimelineViewModel @Inject constructor(
         updateViewDataAt(pos, updater)
     }
 
-    private inline fun updateActionableStatusById(
-        id: String,
-        updater: (Status) -> Status
-    ) {
+    private inline fun updateActionableStatusById(id: String, updater: (Status) -> Status) {
         val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
         if (pos == -1) return
         updateViewDataAt(pos) { vd ->

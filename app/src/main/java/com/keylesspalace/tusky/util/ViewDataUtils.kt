@@ -31,6 +31,7 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.util
 
 import androidx.paging.CombinedLoadStates
@@ -40,20 +41,23 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.NotificationViewData2
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
-    isDetailed: Boolean = false
+    isDetailed: Boolean = false,
+    translation: TranslationViewData? = null,
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
-        isDetailed = isDetailed
+        isDetailed = isDetailed,
+        translation = translation,
     )
 }
 

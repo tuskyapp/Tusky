@@ -23,7 +23,8 @@ import java.util.Date
 
 data class Status(
     val id: String,
-    val url: String?, // not present if it's reblog
+    // not present if it's reblog
+    val url: String?,
     val account: TimelineAccount,
     @SerializedName("in_reply_to_id") val inReplyToId: String?,
     @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
@@ -48,8 +49,11 @@ data class Status(
     val pinned: Boolean?,
     val muted: Boolean?,
     val poll: Poll?,
+    /** Preview card for links included within status content. */
     val card: Card?,
+    /** ISO 639 language code for this status. */
     val language: String?,
+    /** If the current token has an authorized user: The filter and keywords that matched this status. */
     val filtered: List<FilterResult>?
 ) {
 

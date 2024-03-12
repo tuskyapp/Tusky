@@ -46,14 +46,15 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class ViewEditsFragment :
     Fragment(R.layout.fragment_view_edits),
@@ -90,7 +91,9 @@ class ViewEditsFragment :
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
-        val avatarRadius: Int = requireContext().resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+        val avatarRadius: Int = requireContext().resources.getDimensionPixelSize(
+            R.dimen.avatar_radius_48dp
+        )
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
@@ -132,17 +135,23 @@ class ViewEditsFragment :
 
                         binding.recyclerView.adapter = ViewEditsAdapter(
                             edits = uiState.edits,
-                            animateAvatars = animateAvatars,
                             animateEmojis = animateEmojis,
                             useBlurhash = useBlurhash,
                             listener = this@ViewEditsFragment
                         )
 
                         // Focus on the most recent version
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(0)
+                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(
+                            0
+                        )
 
                         val account = uiState.edits.first().account
-                        loadAvatar(account.avatar, binding.statusAvatar, avatarRadius, animateAvatars)
+                        loadAvatar(
+                            account.avatar,
+                            binding.statusAvatar,
+                            avatarRadius,
+                            animateAvatars
+                        )
 
                         binding.statusDisplayName.text = account.name.unicodeWrap().emojify(account.emojis, binding.statusDisplayName, animateEmojis)
                         binding.statusUsername.text = account.username
@@ -185,11 +194,15 @@ class ViewEditsFragment :
     }
 
     override fun onViewAccount(id: String) {
-        bottomSheetActivity?.startActivityWithSlideInAnimation(AccountActivity.getIntent(requireContext(), id))
+        bottomSheetActivity?.startActivityWithSlideInAnimation(
+            AccountActivity.getIntent(requireContext(), id)
+        )
     }
 
     override fun onViewTag(tag: String) {
-        bottomSheetActivity?.startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+        bottomSheetActivity?.startActivityWithSlideInAnimation(
+            StatusListActivity.newHashtagIntent(requireContext(), tag)
+        )
     }
 
     override fun onViewUrl(url: String) {

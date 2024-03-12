@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/TuskyTheme"
         android:usesCleartextTraffic="false"
-        android:localeConfig="@xml/locales_config">
+        android:localeConfig="@xml/locales_config"
+        android:enableOnBackInvokedCallback="true">
 
         <activity
             android:name=".SplashActivity"
@@ -195,6 +196,7 @@
         </service>
 
         <service android:name=".service.SendStatusService"
+            android:foregroundServiceType="shortService"
             android:exported="false" />
 
         <provider

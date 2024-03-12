@@ -126,8 +126,6 @@
     <string name="confirmation_reported">Sendt!</string>
     <string name="confirmation_unblocked">Fjernet blokkering av bruker</string>
     <string name="confirmation_unmuted">Fjernet demping av bruker</string>
-    <string name="post_sent">Sendt!</string>
-    <string name="post_sent_long">Svaret ble sendt.</string>
     <string name="hint_domain">Hvilken instanse\?</string>
     <string name="hint_compose">Hva skjer\?</string>
     <string name="hint_content_warning">Innholdsadvarsel</string>
@@ -626,8 +624,6 @@
     <string name="action_discard">Forkast endringer</string>
     <string name="action_continue_edit">Fortsett endring</string>
     <string name="compose_unsaved_changes">Du har ulagrede endringer.</string>
-    <string name="select_list_empty">Du har ingen lister, enda</string>
-    <string name="error_list_load">Feil under lading av lister</string>
     <string name="select_list_manage">Forvalte lister</string>
     <string name="ui_error_reblog">Deling av innlegget feilet: %s</string>
     <string name="ui_error_unknown">ukjent grunn</string>

@@ -22,7 +22,6 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import autodispose2.AutoDisposePlugins
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.AppTheme
@@ -39,11 +38,10 @@ import dagger.android.HasAndroidInjector
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import org.conscrypt.Conscrypt
 import java.security.Security
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import org.conscrypt.Conscrypt
 
 class TuskyApplication : Application(), HasAndroidInjector {
     @Inject
@@ -73,12 +71,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
-        AutoDisposePlugins.setHideProxies(false) // a small performance optimization
-
         AppInjector.init(this)
 
         // Migrate shared preference keys and defaults from version to version.
-        val oldVersion = sharedPreferences.getInt(PrefKeys.SCHEMA_VERSION, NEW_INSTALL_SCHEMA_VERSION)
+        val oldVersion = sharedPreferences.getInt(
+            PrefKeys.SCHEMA_VERSION,
+            NEW_INSTALL_SCHEMA_VERSION
+        )
         if (oldVersion != SCHEMA_VERSION) {
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
@@ -93,10 +92,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
         setAppNightMode(theme)
 
         localeManager.setLocale()
-
-        RxJavaPlugins.setErrorHandler {
-            Log.w("RxJava", "undeliverable exception", it)
-        }
 
         NotificationHelper.createWorkerNotificationChannel(this)
 
@@ -140,6 +135,13 @@ class TuskyApplication : Application(), HasAndroidInjector {
                 editor.putString(APP_THEME, AppTheme.NIGHT.value)
             }
         }
+
+        if (oldVersion < 2023112001) {
+            editor.remove(PrefKeys.TAB_FILTER_HOME_REPLIES)
+            editor.remove(PrefKeys.TAB_FILTER_HOME_BOOSTS)
+            editor.remove(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS)
+        }
+
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
         editor.apply()
     }

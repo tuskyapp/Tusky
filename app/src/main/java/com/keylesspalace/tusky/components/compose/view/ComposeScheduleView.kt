@@ -223,7 +223,8 @@ class ComposeScheduleView
     }
 
     companion object {
-        var MINIMUM_SCHEDULED_SECONDS = 330 // Minimum is 5 minutes, pad 30 seconds for posting
+        // Minimum is 5 minutes, pad 30 seconds for posting
+        private const val MINIMUM_SCHEDULED_SECONDS = 330
         fun calendar(): Calendar = Calendar.getInstance(TimeZone.getDefault())
     }
 }

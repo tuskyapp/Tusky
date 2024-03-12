@@ -211,6 +211,8 @@
     <string name="action_copy_link">Copy the link</string>
     <string name="action_open_as">Open as %s</string>
     <string name="action_share_as">Share as …</string>
+    <string name="action_translate">Translate</string>
+    <string name="action_show_original">Show original</string>
     <string name="download_media">Download media</string>
     <string name="downloading_media">Downloading media</string>
 
@@ -227,8 +229,8 @@
     <string name="confirmation_domain_unmuted">%s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%s unfollowed</string>
 
-    <string name="post_sent">Sent!</string>
-    <string name="post_sent_long">Reply sent successfully.</string>
+    <string name="reply_sending">Sending…</string>
+    <string name="reply_sending_long">Your reply is being sent.</string>
 
     <string name="hint_domain">Which instance?</string>
     <string name="hint_compose">What\'s happening?</string>
@@ -298,6 +300,7 @@
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
     <string name="pref_title_timeline_filters">Filters</string>
+    <string name="pref_title_per_timeline_preferences">Per-timeline preferences</string>
 
     <string name="app_them_dark">Dark</string>
     <string name="app_theme_light">Light</string>
@@ -316,7 +319,7 @@
     <string name="pref_title_animate_custom_emojis">Animate custom emojis</string>
 
     <string name="pref_title_post_filter">Timeline filtering</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Home timeline</string>
     <string name="pref_title_show_boosts">Show boosts</string>
     <string name="pref_title_show_replies">Show replies</string>
     <string name="pref_title_show_media_preview">Download media previews</string>
@@ -545,14 +548,19 @@
     <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
+        <item quantity="zero"><b>%1$s</b> Favorites</item>
         <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
         <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
+        <item quantity="zero"><b>%s</b> Boosts</item>
         <item quantity="one">&lt;b>%s&lt;/b> Boost</item>
         <item quantity="other">&lt;b>%s&lt;/b> Boosts</item>
     </plurals>
+
+    <string name="label_translating">Translating…</string>
+    <string name="label_translated">Translated from %1$s with %2$s</string>
 
     <string name="title_reblogged_by">Boosted by</string>
     <string name="title_favourited_by">Favorited by</string>
@@ -607,9 +615,7 @@
     <string name="edit_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
-    <string name="select_list_empty">You have no lists, yet</string>
     <string name="select_list_manage">Manage lists</string>
-    <string name="error_list_load">Error loading lists</string>
     <string name="list_exclusive_label">Hide from the home timeline</string>
     <string name="list">List</string>
     <string name="notifications_clear">Delete</string>
@@ -797,6 +803,7 @@
     <string name="ui_error_vote">Voting in poll failed: %s</string>
     <string name="ui_error_accept_follow_request">Accepting follow request failed: %s</string>
     <string name="ui_error_reject_follow_request">Rejecting follow request failed: %s</string>
+    <string name="ui_error_translate">Could not translate: %s</string>
 
     <!-- Success messages, displayed in snackbars, when an action succeeded -->
     <string name="ui_success_accepted_follow_request">Follow request accepted</string>

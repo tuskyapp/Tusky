@@ -29,9 +29,9 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class EditFilterActivity : BaseActivity() {
     @Inject
@@ -115,7 +115,12 @@ class EditFilterActivity : BaseActivity() {
             )
         }
         binding.filterDurationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 viewModel.setDuration(
                     if (originalFilter?.expiresAt == null) {
                         position
@@ -266,10 +271,16 @@ class EditFilterActivity : BaseActivity() {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
                 // Possibly affected contexts: any context affected by the original filter OR any context affected by the updated filter
-                val affectedContexts = viewModel.contexts.value.map { it.kind }.union(originalFilter?.context ?: listOf()).distinct()
+                val affectedContexts = viewModel.contexts.value.map {
+                    it.kind
+                }.union(originalFilter?.context ?: listOf()).distinct()
                 eventHub.dispatch(FilterUpdatedEvent(affectedContexts))
             } else {
-                Snackbar.make(binding.root, "Error saving filter '${viewModel.title.value}'", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    "Error saving filter '${viewModel.title.value}'",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -288,11 +299,19 @@ class EditFilterActivity : BaseActivity() {
                                     finish()
                                 },
                                 {
-                                    Snackbar.make(binding.root, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                                    Snackbar.make(
+                                        binding.root,
+                                        "Error deleting filter '${filter.title}'",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
                                 }
                             )
                         } else {
-                            Snackbar.make(binding.root, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(
+                                binding.root,
+                                "Error deleting filter '${filter.title}'",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 )
@@ -307,7 +326,11 @@ class EditFilterActivity : BaseActivity() {
         // but create/edit take a number of seconds (relative to the time the operation is posted)
         fun getSecondsForDurationIndex(index: Int, context: Context?, default: Date? = null): Int? {
             return when (index) {
-                -1 -> if (default == null) { default } else { ((default.time - System.currentTimeMillis()) / 1000).toInt() }
+                -1 -> if (default == null) {
+                    default
+                } else {
+                    ((default.time - System.currentTimeMillis()) / 1000).toInt()
+                }
                 0 -> null
                 else -> context?.resources?.getIntArray(R.array.filter_duration_values)?.get(index)
             }

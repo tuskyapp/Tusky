@@ -9,7 +9,7 @@ enum class AppTheme(val value: String) {
     AUTO_SYSTEM_BLACK("auto_system_black");
 
     companion object {
-        fun stringValues() = values().map { it.value }.toTypedArray()
+        fun stringValues() = entries.map { it.value }.toTypedArray()
 
         @JvmField
         val DEFAULT = AUTO_SYSTEM
@@ -45,7 +45,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023082301
+const val SCHEMA_VERSION = 2023112001
 
 /** The schema version for fresh installs */
 const val NEW_INSTALL_SCHEMA_VERSION = 0
@@ -69,6 +69,7 @@ object PrefKeys {
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
+    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"

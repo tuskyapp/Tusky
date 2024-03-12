@@ -129,8 +129,6 @@
     <string name="hint_display_name">प्रदर्शित होने वाला नाम</string>
     <string name="hint_content_warning">विषय वस्तु चेतावनी</string>
     <string name="hint_compose">क्या हो रहा है\?</string>
-    <string name="post_sent_long">उत्तर सफलतापूर्वक भेजा गया।</string>
-    <string name="post_sent">भेज दिया!</string>
     <string name="confirmation_reported">भेज दिया!</string>
     <string name="downloading_media">मीडिया डाउनलोड हो रहा है</string>
     <string name="download_media">मीडिया डाउनलोड करें</string>

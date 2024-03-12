@@ -100,7 +100,7 @@ abstract class ActivitiesModule {
     @ContributesAndroidInjector
     abstract fun contributesLicenseActivity(): LicenseActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
     abstract fun contributesTabPreferenceActivity(): TabPreferenceActivity
 
     @ContributesAndroidInjector

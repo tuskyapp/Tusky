@@ -54,7 +54,7 @@ class CaptionDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.dialog_image_description, container, false)
+    ): View = inflater.inflate(R.layout.dialog_image_description, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val imageView = binding.imageDescriptionView
@@ -133,17 +133,14 @@ class CaptionDialog : DialogFragment() {
     }
 
     companion object {
-        fun newInstance(
-            localId: Int,
-            existingDescription: String?,
-            previewUri: Uri
-        ) = CaptionDialog().apply {
-            arguments = bundleOf(
-                LOCAL_ID_ARG to localId,
-                EXISTING_DESCRIPTION_ARG to existingDescription,
-                PREVIEW_URI_ARG to previewUri
-            )
-        }
+        fun newInstance(localId: Int, existingDescription: String?, previewUri: Uri) =
+            CaptionDialog().apply {
+                arguments = bundleOf(
+                    LOCAL_ID_ARG to localId,
+                    EXISTING_DESCRIPTION_ARG to existingDescription,
+                    PREVIEW_URI_ARG to previewUri
+                )
+            }
 
         private const val DESCRIPTION_KEY = "description"
         private const val EXISTING_DESCRIPTION_ARG = "existing_description"

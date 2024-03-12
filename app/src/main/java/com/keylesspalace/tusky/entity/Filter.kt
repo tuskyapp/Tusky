@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import java.util.Date
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Filter(
@@ -21,7 +21,7 @@ data class Filter(
         HIDE("hide");
 
         companion object {
-            fun from(action: String): Action = values().firstOrNull { it.action == action } ?: WARN
+            fun from(action: String): Action = entries.firstOrNull { it.action == action } ?: WARN
         }
     }
     enum class Kind(val kind: String) {
@@ -32,7 +32,7 @@ data class Filter(
         ACCOUNT("account");
 
         companion object {
-            fun from(kind: String): Kind = values().firstOrNull { it.kind == kind } ?: PUBLIC
+            fun from(kind: String): Kind = entries.firstOrNull { it.kind == kind } ?: PUBLIC
         }
     }
 

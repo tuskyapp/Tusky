@@ -82,8 +82,6 @@
     <string name="hint_content_warning">Nội dung bạn muốn ẩn</string>
     <string name="hint_compose">Bạn đang nghĩ về điều gì\?</string>
     <string name="hint_domain">Bạn ở máy chủ nào\?</string>
-    <string name="post_sent_long">Đã gửi trả lời tút.</string>
-    <string name="post_sent">Đã đăng!</string>
     <string name="confirmation_domain_unmuted">Đã bỏ ẩn %s</string>
     <string name="confirmation_unmuted">Đã bỏ ẩn người này</string>
     <string name="confirmation_unblocked">Đã bỏ chặn người này</string>
@@ -201,7 +199,7 @@
     <string name="pref_title_show_media_preview">Hiện xem trước hình ảnh</string>
     <string name="pref_title_show_replies">Hiện những trả lời</string>
     <string name="pref_title_show_boosts">Hiện lượt đăng lại</string>
-    <string name="pref_title_post_tabs">Tabs</string>
+    <string name="pref_title_post_tabs">Trang chủ</string>
     <string name="pref_title_post_filter">Lọc bảng tin</string>
     <string name="pref_title_gradient_for_media">Phủ màu media nhạy cảm</string>
     <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
@@ -636,8 +634,6 @@
 \nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
     <string name="post_media_image">Hình ảnh</string>
     <string name="select_list_manage">Quản lý danh sách</string>
-    <string name="error_list_load">Xảy ra lỗi khi tải danh sách</string>
-    <string name="select_list_empty">Bạn chưa có danh sách</string>
     <string name="load_newest_notifications">Tải những thông báo mới nhất</string>
     <string name="compose_delete_draft">Xóa bản nháp\?</string>
     <string name="error_missing_edits">Máy chủ của bạn biết tút đã được sửa, nhưng không có bản sao của lần sửa, nên nó không thể hiện.
@@ -689,4 +685,13 @@
     <string name="list_reply_policy_label">Hiện lượt trả lời</string>
     <string name="pref_title_show_self_boosts">Hiện lượt tự đăng lại</string>
     <string name="pref_title_show_self_boosts_description">Ai đó đăng lại tút của chính họ</string>
+    <string name="pref_title_per_timeline_preferences">Thiết lập từng bảng tin</string>
+    <string name="pref_title_show_notifications_filter">Hiện bộ lọc thông báo</string>
+    <string name="reply_sending">Đang gửi…</string>
+    <string name="reply_sending_long">Câu trả lời của bạn đã được gửi đi.</string>
+    <string name="action_translate">Dịch</string>
+    <string name="action_show_original">Xem bản chưa dịch</string>
+    <string name="label_translating">Đang dịch…</string>
+    <string name="label_translated">Dịch %1$s bằng %2$s</string>
+    <string name="ui_error_translate">Không thể dịch: %s</string>
 </resources>

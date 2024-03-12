@@ -55,7 +55,14 @@ fun shouldTrimStatus(message: Spanned): Boolean {
  */
 object SmartLengthInputFilter : InputFilter {
     /** {@inheritDoc} */
-    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+    override fun filter(
+        source: CharSequence,
+        start: Int,
+        end: Int,
+        dest: Spanned,
+        dstart: Int,
+        dend: Int
+    ): CharSequence? {
         // Code originally imported from InputFilter.LengthFilter but heavily customized and converted to Kotlin.
         // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/text/InputFilter.java#175
 

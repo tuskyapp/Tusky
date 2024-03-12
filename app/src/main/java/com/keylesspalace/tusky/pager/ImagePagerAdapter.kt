@@ -14,7 +14,8 @@ class ImagePagerAdapter(
 ) : ViewMediaAdapter(activity) {
 
     private var didTransition = false
-    private val fragments = MutableList<WeakReference<ViewMediaFragment>?>(attachments.size) { null }
+    private val fragments =
+        MutableList<WeakReference<ViewMediaFragment>?>(attachments.size) { null }
 
     override fun getItemCount() = attachments.size
 

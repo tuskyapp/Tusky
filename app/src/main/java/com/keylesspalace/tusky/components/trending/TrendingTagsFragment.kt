@@ -30,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.sparkbutton.helpers.Utils
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
@@ -42,11 +41,12 @@ import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class TrendingTagsFragment :
     Fragment(R.layout.fragment_trending_tags),
@@ -136,7 +136,9 @@ class TrendingTagsFragment :
     }
 
     fun onViewTag(tag: String) {
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(StatusListActivity.newHashtagIntent(requireContext(), tag))
+        requireActivity().startActivityWithSlideInAnimation(
+            StatusListActivity.newHashtagIntent(requireContext(), tag)
+        )
     }
 
     private fun processViewState(uiState: TrendingTagsViewModel.TrendingTagsUiState) {

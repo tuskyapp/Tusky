@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.fragment;
 
 import static com.keylesspalace.tusky.util.StringUtils.isLessThan;
-import static autodispose2.AutoDispose.autoDisposable;
-import static autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider.from;
 
 import android.app.Activity;
 import android.content.Context;
@@ -86,6 +84,8 @@ import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate;
 import com.keylesspalace.tusky.util.ListUtils;
 import com.keylesspalace.tusky.util.NotificationTypeConverterKt;
 import com.keylesspalace.tusky.util.PairedList;
+import com.keylesspalace.tusky.util.RelativeTimeUpdater;
+import com.keylesspalace.tusky.util.Single;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.ViewDataUtils;
 import com.keylesspalace.tusky.view.EndlessOnScrollListener;
@@ -102,19 +102,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import at.connyduck.sparkbutton.helpers.Utils;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
+import kotlinx.coroutines.Job;
 
 public class NotificationsFragment extends SFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -131,7 +127,7 @@ public class NotificationsFragment extends SFragment implements
 
     private final Set<Notification.Type> notificationFilter = new HashSet<>();
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final ArrayList<Job> jobs = new ArrayList<>();
 
     private enum FetchEnd {
         TOP,
@@ -382,10 +378,9 @@ public class NotificationsFragment extends SFragment implements
 
         binding.recyclerView.addOnScrollListener(scrollListener);
 
-        eventHub.getEventsObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-            .subscribe(event -> {
+        eventHub.subscribe(
+            getViewLifecycleOwner(),
+            event -> {
                 if (event instanceof StatusChangedEvent) {
                     Status updatedStatus = ((StatusChangedEvent) event).getStatus();
                     updateStatus(updatedStatus.getActionableId(), s -> updatedStatus);
@@ -394,7 +389,10 @@ public class NotificationsFragment extends SFragment implements
                 } else if (event instanceof PreferenceChangedEvent) {
                     onPreferenceChanged(((PreferenceChangedEvent) event).getPreferenceKey());
                 }
-            });
+            }
+        );
+
+        RelativeTimeUpdater.updateRelativeTimePeriodically(this, this::updateAdapter);
     }
 
     @Override
@@ -411,6 +409,12 @@ public class NotificationsFragment extends SFragment implements
         sendFetchNotificationsRequest(null, topId, FetchEnd.TOP, -1);
     }
 
+    @Nullable
+    @Override
+    protected Function2<Boolean, Integer, Unit> getOnMoreTranslate() {
+        return null;
+    }
+
     @Override
     public void onReply(int position) {
         super.reply(notifications.get(position).asRight().getStatus());
@@ -422,13 +426,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
         Objects.requireNonNull(status, "Reblog on notification without status");
         timelineCases.reblogOld(status.getId(), reblog)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setReblogForStatus(status.getId(), reblog),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to reblog status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setReblogForStatus(status.getId(), reblog),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to reblog status: " + status.getId(), t)
+            );
     }
 
     private void setReblogForStatus(String statusId, boolean reblog) {
@@ -441,13 +444,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
 
         timelineCases.favouriteOld(status.getId(), favourite)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to favourite status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setFavouriteForStatus(status.getId(), favourite),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to favourite status: " + status.getId(), t)
+            );
     }
 
     private void setFavouriteForStatus(String statusId, boolean favourite) {
@@ -460,13 +462,12 @@ public class NotificationsFragment extends SFragment implements
         final Status status = notification.getStatus();
 
         timelineCases.bookmarkOld(status.getActionableId(), bookmark)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
-                        (t) -> Log.d(getClass().getSimpleName(),
-                                "Failed to bookmark status: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newStatus) -> setBookmarkForStatus(status.getId(), bookmark),
+                (t) -> Log.d(getClass().getSimpleName(),
+                    "Failed to bookmark status: " + status.getId(), t)
+            );
     }
 
     private void setBookmarkForStatus(String statusId, boolean bookmark) {
@@ -477,13 +478,11 @@ public class NotificationsFragment extends SFragment implements
         final Notification notification = notifications.get(position).asRight();
         final Status status = notification.getStatus().getActionableStatus();
         timelineCases.voteInPollOld(status.getId(), status.getPoll().getId(), choices)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this)))
-                .subscribe(
-                        (newPoll) -> setVoteForPoll(status, newPoll),
-                        (t) -> Log.d(TAG,
-                                "Failed to vote in poll: " + status.getId(), t)
-                );
+            .subscribe(
+                getViewLifecycleOwner(),
+                (newPoll) -> setVoteForPoll(status, newPoll),
+                (t) -> Log.d(TAG, "Failed to vote in poll: " + status.getId(), t)
+            );
     }
 
     @Override
@@ -498,7 +497,7 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onMore(@NonNull View view, int position) {
         Notification notification = notifications.get(position).asRight();
-        super.more(notification.getStatus(), view, position);
+        super.more(notification.getStatus(), view, position, null);
     }
 
     @Override
@@ -533,10 +532,6 @@ public class NotificationsFragment extends SFragment implements
         updateViewDataAt(position, (vd) -> vd.copyWithShowingContent(isShowing));
     }
 
-    private void setPinForStatus(String statusId, boolean pinned) {
-        updateStatus(statusId, status -> status.copyWithPinned(pinned));
-    }
-
     @Override
     public void onLoadMore(int position) {
         // Check bounds before accessing list,
@@ -561,6 +556,11 @@ public class NotificationsFragment extends SFragment implements
     @Override
     public void onContentCollapsedChange(boolean isCollapsed, int position) {
         updateViewDataAt(position, (vd) -> vd.copyWithCollapsed(isCollapsed));
+    }
+
+    @Override
+    public void onUntranslate(int position) {
+        // not needed
     }
 
     private void updateStatus(String statusId, Function<Status, Status> mapper) {
@@ -648,21 +648,23 @@ public class NotificationsFragment extends SFragment implements
         updateAdapter();
 
         // Execute clear notifications request
-        mastodonApi.clearNotificationsOld()
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        response -> {
-                            // Nothing to do
-                        },
-                        throwable -> {
-                            // Reload notifications on failure
-                            fullyRefreshWithProgressBar(true);
-                        });
+        timelineCases.clearNotificationsOld()
+            .subscribe(
+                getViewLifecycleOwner(),
+                response -> {
+                    // Nothing to do
+                },
+                throwable -> {
+                    // Reload notifications on failure
+                    fullyRefreshWithProgressBar(true);
+                });
     }
 
     private void resetNotificationsLoad() {
-        disposables.clear();
+        for (Job job : jobs) {
+            job.cancel(null);
+        }
+        jobs.clear();
         bottomLoading = false;
         topLoading = false;
 
@@ -797,15 +799,14 @@ public class NotificationsFragment extends SFragment implements
 
     @Override
     public void onRespondToFollowRequest(boolean accept, String id, int position) {
-        Single<Relationship> request = accept ?
-                mastodonApi.authorizeFollowRequest(id) :
-                mastodonApi.rejectFollowRequest(id);
-        request.observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        (relationship) -> fullyRefreshWithProgressBar(true),
-                        (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
-                );
+        final Single<Relationship> request = accept ?
+            timelineCases.acceptFollowRequestOld(id) :
+            timelineCases.rejectFollowRequestOld(id);
+        request.subscribe(
+            getViewLifecycleOwner(),
+            (relationship) -> fullyRefreshWithProgressBar(true),
+            (error) -> Log.e(TAG, String.format("Failed to %s account id %s", accept ? "accept" : "reject", id))
+        );
     }
 
     @Override
@@ -927,20 +928,20 @@ public class NotificationsFragment extends SFragment implements
             bottomLoading = true;
         }
 
-        Disposable notificationCall = mastodonApi.notificationsOld(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
-                .observeOn(AndroidSchedulers.mainThread())
-                .to(autoDisposable(from(this, Lifecycle.Event.ON_DESTROY)))
-                .subscribe(
-                        response -> {
-                            if (response.isSuccessful()) {
-                                String linkHeader = response.headers().get("Link");
-                                onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
-                            } else {
-                                onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
-                            }
-                        },
-                        throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos));
-        disposables.add(notificationCall);
+        Job notificationCall = timelineCases.notificationsOld(fromId, uptoId, LOAD_AT_ONCE, showNotificationsFilter ? notificationFilter : null)
+            .subscribe(
+                getViewLifecycleOwner(),
+                response -> {
+                    if (response.isSuccessful()) {
+                        String linkHeader = response.headers().get("Link");
+                        onFetchNotificationsSuccess(response.body(), linkHeader, fetchEnd, pos);
+                    } else {
+                        onFetchNotificationsFailure(new Exception(response.message()), fetchEnd, pos);
+                    }
+                },
+                throwable -> onFetchNotificationsFailure(throwable, fetchEnd, pos)
+            );
+        jobs.add(notificationCall);
     }
 
     private void onFetchNotificationsSuccess(List<Notification> notifications, String linkHeader,
@@ -1250,26 +1251,6 @@ public class NotificationsFragment extends SFragment implements
             loadNotificationsFilter();
             fullyRefreshWithProgressBar(true);
         }
-        startUpdateTimestamp();
-    }
-
-    /**
-     * Start to update adapter every minute to refresh timestamp
-     * If setting absoluteTimeView is false
-     * Auto dispose observable on pause
-     */
-    private void startUpdateTimestamp() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        boolean useAbsoluteTime = preferences.getBoolean("absoluteTimeView", false);
-        if (!useAbsoluteTime) {
-            Observable.interval(0, 1, TimeUnit.MINUTES)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .to(autoDisposable(from(this, Lifecycle.Event.ON_PAUSE)))
-                    .subscribe(
-                            interval -> updateAdapter()
-                    );
-        }
-
     }
 
     @Override

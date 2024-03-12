@@ -58,16 +58,26 @@ class FollowRequestViewHolder(
         showBotOverlay: Boolean
     ) {
         val wrappedName = account.name.unicodeWrap()
-        val emojifiedName: CharSequence = wrappedName.emojify(account.emojis, itemView, animateEmojis)
+        val emojifiedName: CharSequence = wrappedName.emojify(
+            account.emojis,
+            itemView,
+            animateEmojis
+        )
         binding.displayNameTextView.text = emojifiedName
         if (showHeader) {
-            val wholeMessage: String = itemView.context.getString(R.string.notification_follow_request_format, wrappedName)
+            val wholeMessage: String = itemView.context.getString(
+                R.string.notification_follow_request_format,
+                wrappedName
+            )
             binding.notificationTextView.text = SpannableStringBuilder(wholeMessage).apply {
                 setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }.emojify(account.emojis, itemView, animateEmojis)
         }
         binding.notificationTextView.visible(showHeader)
-        val formattedUsername = itemView.context.getString(R.string.post_username_format, account.username)
+        val formattedUsername = itemView.context.getString(
+            R.string.post_username_format,
+            account.username
+        )
         binding.usernameTextView.text = formattedUsername
         if (account.note.isEmpty()) {
             binding.accountNote.hide()
@@ -78,7 +88,9 @@ class FollowRequestViewHolder(
                 .emojify(account.emojis, binding.accountNote, animateEmojis)
             setClickableText(binding.accountNote, emojifiedNote, emptyList(), null, linkListener)
         }
-        val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+        val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(
+            R.dimen.avatar_radius_48dp
+        )
         loadAvatar(account.avatar, binding.avatar, avatarRadius, animateAvatar)
         binding.avatarBadge.visible(showBotOverlay && account.bot)
     }

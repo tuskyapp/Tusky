@@ -46,21 +46,25 @@ import com.keylesspalace.tusky.ViewMediaActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.startIntent
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.report.ReportActivity.Companion.getIntent
 import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 /* Note from Andrew on Jan. 22, 2017: This class is a design problem for me, so I left it with an
  * awkward name. TimelineFragment and NotificationFragment have significant overlap but the nature
@@ -71,6 +75,10 @@ import javax.inject.Inject
 abstract class SFragment : Fragment(), Injectable {
     protected abstract fun removeItem(position: Int)
     protected abstract fun onReblog(reblog: Boolean, position: Int)
+
+    /** `null` if translation is not supported on this screen */
+    protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
+
     private lateinit var bottomSheetActivity: BottomSheetActivity
 
     @Inject
@@ -82,9 +90,11 @@ abstract class SFragment : Fragment(), Injectable {
     @Inject
     lateinit var timelineCases: TimelineCases
 
+    @Inject
+    lateinit var instanceInfoRepository: InstanceInfoRepository
+
     override fun startActivity(intent: Intent) {
-        super.startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onAttach(context: Context) {
@@ -94,6 +104,13 @@ abstract class SFragment : Fragment(), Injectable {
         } else {
             throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // make sure we have instance info for when we'll need it
+        instanceInfoRepository.precache()
     }
 
     protected fun openReblog(status: Status?) {
@@ -140,7 +157,7 @@ abstract class SFragment : Fragment(), Injectable {
         requireActivity().startActivity(intent)
     }
 
-    protected fun more(status: Status, view: View, position: Int) {
+    protected fun more(status: Status, view: View, position: Int, translation: Translation?) {
         val id = status.actionableId
         val accountId = status.actionableStatus.account.id
         val accountUsername = status.actionableStatus.account.username
@@ -158,18 +175,28 @@ abstract class SFragment : Fragment(), Injectable {
             val menu = popup.menu
             when (status.visibility) {
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
-                    menu.add(0, R.id.pin, 1, getString(if (status.isPinned()) R.string.unpin_action else R.string.pin_action))
+                    menu.add(
+                        0,
+                        R.id.pin,
+                        1,
+                        getString(
+                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                        )
+                    )
                 }
+
                 Status.Visibility.PRIVATE -> {
                     val reblogged = status.reblog?.reblogged ?: status.reblogged
                     menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
                     menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
                 }
+
                 else -> {}
             }
         } else {
             popup.inflate(R.menu.status_more)
-            popup.menu.findItem(R.id.status_download_media).isVisible = status.attachments.isNotEmpty()
+            popup.menu.findItem(R.id.status_download_media).isVisible =
+                status.attachments.isNotEmpty()
         }
         val menu = popup.menu
         val openAsItem = menu.findItem(R.id.status_open_as)
@@ -180,7 +207,8 @@ abstract class SFragment : Fragment(), Injectable {
             openAsItem.title = openAsText
         }
         val muteConversationItem = menu.findItem(R.id.status_mute_conversation)
-        val mutable = statusIsByCurrentUser || accountIsInMentions(activeAccount, status.mentions)
+        val mutable =
+            statusIsByCurrentUser || accountIsInMentions(activeAccount, status.mentions)
         muteConversationItem.isVisible = mutable
         if (mutable) {
             muteConversationItem.setTitle(
@@ -191,6 +219,15 @@ abstract class SFragment : Fragment(), Injectable {
                 }
             )
         }
+
+        // translation not there for your own posts
+        menu.findItem(R.id.status_translate)?.let { translateItem ->
+            translateItem.isVisible = onMoreTranslate != null &&
+                !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&
+                instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
+            translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
+        }
+
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.post_share_content -> {
@@ -212,6 +249,7 @@ abstract class SFragment : Fragment(), Injectable {
                     )
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.post_share_link -> {
                     val sendIntent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -226,67 +264,90 @@ abstract class SFragment : Fragment(), Injectable {
                     )
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_copy_link -> {
-                    (requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).apply {
+                    (
+                        requireActivity().getSystemService(
+                            Context.CLIPBOARD_SERVICE
+                        ) as ClipboardManager
+                        ).apply {
                         setPrimaryClip(ClipData.newPlainText(null, statusUrl))
                     }
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_open_as -> {
                     showOpenAsDialog(statusUrl, item.title)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_download_media -> {
                     requestDownloadAllMedia(status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_mute -> {
                     onMute(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_block -> {
                     onBlock(accountId, accountUsername)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_report -> {
                     openReportPage(accountId, accountUsername, id)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_unreblog_private -> {
                     onReblog(false, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_reblog_private -> {
                     onReblog(true, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_delete -> {
                     showConfirmDeleteDialog(id, position)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_delete_and_redraft -> {
                     showConfirmEditDialog(id, position, status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_edit -> {
                     editStatus(id, status)
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.pin -> {
                     lifecycleScope.launch {
-                        timelineCases.pin(status.id, !status.isPinned()).onFailure { e: Throwable ->
-                            val message = e.message
-                                ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
-                            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-                        }
+                        timelineCases.pin(status.id, !status.isPinned())
+                            .onFailure { e: Throwable ->
+                                val message = e.message
+                                    ?: getString(if (status.isPinned()) R.string.failed_to_unpin else R.string.failed_to_pin)
+                                Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG)
+                                    .show()
+                            }
                     }
                     return@setOnMenuItemClickListener true
                 }
+
                 R.id.status_mute_conversation -> {
                     lifecycleScope.launch {
                         timelineCases.muteConversation(status.id, status.muted != true)
                     }
                     return@setOnMenuItemClickListener true
+                }
+
+                R.id.status_translate -> {
+                    onMoreTranslate?.invoke(translation == null, position)
                 }
             }
             false
@@ -295,7 +356,10 @@ abstract class SFragment : Fragment(), Injectable {
     }
 
     private fun onMute(accountId: String, accountUsername: String) {
-        showMuteAccountDialog(this.requireActivity(), accountUsername) { notifications: Boolean?, duration: Int? ->
+        showMuteAccountDialog(
+            this.requireActivity(),
+            accountUsername
+        ) { notifications: Boolean?, duration: Int? ->
             lifecycleScope.launch {
                 timelineCases.mute(accountId, notifications == true, duration)
             }
@@ -332,6 +396,7 @@ abstract class SFragment : Fragment(), Injectable {
                     startActivity(intent)
                 }
             }
+
             Attachment.Type.UNKNOWN -> {
                 requireContext().openLink(attachment.url)
             }
@@ -459,13 +524,18 @@ abstract class SFragment : Fragment(), Injectable {
 
     private fun downloadAllMedia(status: Status) {
         Toast.makeText(context, R.string.downloading_media, Toast.LENGTH_SHORT).show()
-        val downloadManager = requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = requireActivity().getSystemService(
+            Context.DOWNLOAD_SERVICE
+        ) as DownloadManager
 
         for ((_, url) in status.attachments) {
             val uri = Uri.parse(url)
             downloadManager.enqueue(
                 DownloadManager.Request(uri).apply {
-                    setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.lastPathSegment)
+                    setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOWNLOADS,
+                        uri.lastPathSegment
+                    )
                 }
             )
         }
@@ -492,7 +562,10 @@ abstract class SFragment : Fragment(), Injectable {
 
     companion object {
         private const val TAG = "SFragment"
-        private fun accountIsInMentions(account: AccountEntity?, mentions: List<Status.Mention>): Boolean {
+        private fun accountIsInMentions(
+            account: AccountEntity?,
+            mentions: List<Status.Mention>
+        ): Boolean {
             return mentions.any { mention ->
                 account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
             }

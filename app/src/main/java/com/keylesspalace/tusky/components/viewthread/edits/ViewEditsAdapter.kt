@@ -40,7 +40,6 @@ import org.xml.sax.XMLReader
 
 class ViewEditsAdapter(
     private val edits: List<StatusEdit>,
-    private val animateAvatars: Boolean,
     private val animateEmojis: Boolean,
     private val useBlurhash: Boolean,
     private val listener: LinkListener
@@ -58,7 +57,11 @@ class ViewEditsAdapter(
         parent: ViewGroup,
         viewType: Int
     ): BindingHolder<ItemStatusEditBinding> {
-        val binding = ItemStatusEditBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStatusEditBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
         binding.statusEditMediaPreview.clipToOutline = true
 
@@ -93,7 +96,10 @@ class ViewEditsAdapter(
         } else {
             largeTextSizePx
         }
-        binding.statusEditContentWarningDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
+        binding.statusEditContentWarningDescription.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            variableTextSize
+        )
         binding.statusEditContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
         binding.statusEditMediaSensitivity.setTextSize(TypedValue.COMPLEX_UNIT_PX, variableTextSize)
 
@@ -119,7 +125,13 @@ class ViewEditsAdapter(
             .parseAsMastodonHtml(EditsTagHandler(context))
             .emojify(edit.emojis, binding.statusEditContent, animateEmojis)
 
-        setClickableText(binding.statusEditContent, emojifiedText, emptyList(), emptyList(), listener)
+        setClickableText(
+            binding.statusEditContent,
+            emojifiedText,
+            emptyList(),
+            emptyList(),
+            listener
+        )
 
         if (edit.poll == null) {
             binding.statusEditPollOptions.hide()
@@ -291,7 +303,7 @@ class EditsTagHandler(val context: Context) : TuskyTagHandler() {
         // won't be called for it.
         const val DELETED_TEXT_EL = "tusky-del"
 
-        /** XML element to represet text that has been inserted */
+        /** XML element to represent text that has been inserted */
         // Can't be an element that Android's HTML parser recognises, otherwise the tagHandler
         // won't be called for it.
         const val INSERTED_TEXT_EL = "tusky-ins"

@@ -37,6 +37,9 @@ import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
+import java.util.Locale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
@@ -55,7 +58,6 @@ import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem
 import retrofit2.HttpException
 import retrofit2.Response
-import java.util.Locale
 
 /**
  * Created by charlag on 3/7/18.
@@ -125,7 +127,7 @@ class ComposeActivityTest {
 
         val instanceDaoMock: InstanceDao = mock {
             onBlocking { getInstanceInfo(any()) } doReturn
-                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
+                InstanceInfoEntity(instanceDomain, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
             onBlocking { getEmojiInfo(any()) } doReturn
                 EmojisEntity(instanceDomain, emptyList())
         }
@@ -134,7 +136,7 @@ class ComposeActivityTest {
             on { instanceDao() } doReturn instanceDaoMock
         }
 
-        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock)
+        val instanceInfoRepo = InstanceInfoRepository(apiMock, dbMock, accountManagerMock, CoroutineScope(SupervisorJob()))
 
         val viewModel = ComposeViewModel(
             apiMock,
@@ -548,7 +550,7 @@ class ComposeActivityTest {
         instanceResponseCallback = { getSampleFriendicaInstance() }
         setupActivity()
         shadowOf(getMainLooper()).idle()
-        assertEquals(friendicaMaximum, activity.maximumTootCharacters)
+        assertEquals(FRIENDICA_MAXIMUM, activity.maximumTootCharacters)
     }
 
     private fun clickUp() {
@@ -585,7 +587,7 @@ class ComposeActivityTest {
             ),
             Instance.Configuration.MediaAttachments(0, 0, 0, 0, 0),
             Instance.Configuration.Polls(0, 0, 0, 0),
-            Instance.Configuration.Translation(false),
+            Instance.Configuration.Translation(false)
         )
     }
 
@@ -620,7 +622,7 @@ class ComposeActivityTest {
     }
 
     companion object {
-        private const val friendicaMaximum = 200000
+        private const val FRIENDICA_MAXIMUM = 200000
 
         // https://github.com/tuskyapp/Tusky/issues/4100
         private val sampleFriendicaResponse = """{
@@ -642,7 +644,7 @@ class ComposeActivityTest {
                 ],
                 "configuration": {
                     "statuses": {
-                        "max_characters": $friendicaMaximum
+                        "max_characters": $FRIENDICA_MAXIMUM
                     },
                     "media_attachments": {
                         "supported_mime_types": {

@@ -38,7 +38,10 @@ class PruneCacheWorker(
     private val appDatabase: AppDatabase,
     private val accountManager: AccountManager
 ) : CoroutineWorker(appContext, workerParams) {
-    val notification: Notification = NotificationHelper.createWorkerNotification(applicationContext, R.string.notification_prune_cache)
+    val notification: Notification = NotificationHelper.createWorkerNotification(
+        applicationContext,
+        R.string.notification_prune_cache
+    )
 
     override suspend fun doWork(): Result {
         for (account in accountManager.accounts) {
@@ -48,7 +51,10 @@ class PruneCacheWorker(
         return Result.success()
     }
 
-    override suspend fun getForegroundInfo() = ForegroundInfo(NOTIFICATION_ID_PRUNE_CACHE, notification)
+    override suspend fun getForegroundInfo() = ForegroundInfo(
+        NOTIFICATION_ID_PRUNE_CACHE,
+        notification
+    )
 
     companion object {
         private const val TAG = "PruneCacheWorker"

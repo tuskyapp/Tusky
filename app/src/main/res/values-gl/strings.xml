@@ -97,7 +97,7 @@
     <string name="title_posts_with_replies">Con resposta</string>
     <string name="title_posts">Publicacións</string>
     <string name="title_view_thread">Fío</string>
-    <string name="title_tab_preferences">Lapelas</string>
+    <string name="title_tab_preferences">Pestanas</string>
     <string name="title_direct_messages">Mensaxes directas</string>
     <string name="title_public_federated">Federada</string>
     <string name="title_public_local">Local</string>
@@ -127,7 +127,7 @@
     <string name="duration_indefinite">Sen límite</string>
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
-    <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre lapelas</string>
+    <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre pestanas</string>
     <string name="failed_search">Fallou a busca</string>
     <string name="title_accounts">Contas</string>
     <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén\?</string>
@@ -286,12 +286,12 @@
     <string name="abbreviated_minutes_ago">%dm</string>
     <string name="abbreviated_hours_ago">%dh</string>
     <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_years_ago">%dy</string>
+    <string name="abbreviated_years_ago">%da</string>
     <string name="abbreviated_in_seconds">fai %ds</string>
     <string name="abbreviated_in_hours">fai %dh</string>
     <string name="abbreviated_in_minutes">fai %dm</string>
     <string name="abbreviated_in_days">en %dd</string>
-    <string name="abbreviated_in_years">en %dy</string>
+    <string name="abbreviated_in_years">en %da</string>
     <string name="state_follow_requested">Seguimento solicitado</string>
     <string name="post_media_attachments">Anexos</string>
     <string name="post_media_audio">Audio</string>
@@ -354,7 +354,7 @@
     <string name="pref_title_show_media_preview">Descarga vista previa do multimedia</string>
     <string name="pref_title_show_replies">Mostar respostas</string>
     <string name="pref_title_show_boosts">Mostrar promocións</string>
-    <string name="pref_title_post_tabs">Lapelas</string>
+    <string name="pref_title_post_tabs">Cronoloxía de Inicio</string>
     <string name="pref_title_post_filter">Filtros na cronoloxía</string>
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
     <string name="pref_title_gradient_for_media">Mostra gradientes coloridos para multimedia oculto</string>
@@ -362,7 +362,7 @@
     <string name="pref_title_bot_overlay">Mostra marca para bots</string>
     <string name="pref_title_language">Idioma</string>
     <string name="pref_title_hide_follow_button">Agochar o botón redactar ao desprazar</string>
-    <string name="pref_title_custom_tabs">Usar lapelas personalizadas de Chrome</string>
+    <string name="pref_title_custom_tabs">Usar pestanas personalizadas de Chrome</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="app_theme_system">Usar deseño do sistema</string>
     <string name="app_theme_auto">Automático ao solpor</string>
@@ -417,7 +417,7 @@
     <string name="label_quick_reply">Responder…</string>
     <string name="search_no_results">Sen resultados</string>
     <string name="hint_search">Buscar…</string>
-    <string name="hint_note">Bio</string>
+    <string name="hint_note">Acerca de</string>
     <string name="hint_display_name">Nome público</string>
     <string name="hint_content_warning">Aviso sobre o contido</string>
     <string name="hint_compose">Que contas\?</string>
@@ -463,8 +463,6 @@
     <string name="duration_30_min">30 minutos</string>
     <string name="duration_5_min">5 minutos</string>
     <string name="hint_domain">En que instancia\?</string>
-    <string name="post_sent_long">Resposta enviada correctamente.</string>
-    <string name="post_sent">Enviado!</string>
     <string name="confirmation_domain_unmuted">%s visible</string>
     <string name="confirmation_unmuted">Usuaria reactivada</string>
     <string name="confirmation_unblocked">Usuaria desbloqueada</string>
@@ -488,7 +486,7 @@
     <string name="action_hashtags">Cancelos</string>
     <string name="action_mentions">Mencións</string>
     <string name="action_links">Ligazóns</string>
-    <string name="action_add_tab">Engadir lapela</string>
+    <string name="action_add_tab">Engadir pestana</string>
     <string name="action_reset_schedule">Restablecer</string>
     <string name="action_schedule_post">Programar Toot</string>
     <string name="action_emoji_keyboard">Teclado Emoji</string>
@@ -645,9 +643,7 @@
     <string name="pref_title_show_stat_inline">Mostrar estatísticas da publicación na cronoloxía</string>
     <string name="filter_keyword_addition_title">Engadir palabra</string>
     <string name="filter_edit_keyword_title">Editar palabra</string>
-    <string name="select_list_empty">Aínda non tes listas</string>
     <string name="select_list_manage">Xestionar listas</string>
-    <string name="error_list_load">Erro ao cargar as listas</string>
     <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edición, polo que non pode mostrarchas.
 \n
 \nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
@@ -687,7 +683,7 @@
 \n
 \nTEN EN CONTA que só podes engadir contas que estás a seguir.
 \n
-\nEstas listas pódense usar como lapelas configurando as Lapelas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+\nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
     <string name="label_image">Imaxe</string>
@@ -699,4 +695,8 @@
     <string name="list_reply_policy_label">Mostrar respostas a</string>
     <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
     <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
+    <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
+    <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
+    <string name="reply_sending">A enviar…</string>
+    <string name="reply_sending_long">Enviouse a resposta.</string>
 </resources>

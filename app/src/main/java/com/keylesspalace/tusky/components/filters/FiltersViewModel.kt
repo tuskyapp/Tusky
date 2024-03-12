@@ -10,10 +10,10 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class FiltersViewModel @Inject constructor(
     private val api: MastodonApi,
@@ -21,7 +21,11 @@ class FiltersViewModel @Inject constructor(
 ) : ViewModel() {
 
     enum class LoadingState {
-        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL,
+        LOADING,
+        LOADED,
+        ERROR_NETWORK,
+        ERROR_OTHER
     }
 
     data class State(val filters: List<Filter>, val loadingState: LoadingState)
@@ -61,7 +65,12 @@ class FiltersViewModel @Inject constructor(
         viewModelScope.launch {
             api.deleteFilter(filter.id).fold(
                 {
-                    this@FiltersViewModel._state.value = State(this@FiltersViewModel._state.value.filters.filter { it.id != filter.id }, LoadingState.LOADED)
+                    this@FiltersViewModel._state.value = State(
+                        this@FiltersViewModel._state.value.filters.filter {
+                            it.id != filter.id
+                        },
+                        LoadingState.LOADED
+                    )
                     for (context in filter.context) {
                         eventHub.dispatch(PreferenceChangedEvent(context))
                     }
@@ -70,14 +79,27 @@ class FiltersViewModel @Inject constructor(
                     if (throwable.isHttpNotFound()) {
                         api.deleteFilterV1(filter.id).fold(
                             {
-                                this@FiltersViewModel._state.value = State(this@FiltersViewModel._state.value.filters.filter { it.id != filter.id }, LoadingState.LOADED)
+                                this@FiltersViewModel._state.value = State(
+                                    this@FiltersViewModel._state.value.filters.filter {
+                                        it.id != filter.id
+                                    },
+                                    LoadingState.LOADED
+                                )
                             },
                             {
-                                Snackbar.make(parent, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(
+                                    parent,
+                                    "Error deleting filter '${filter.title}'",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                             }
                         )
                     } else {
-                        Snackbar.make(parent, "Error deleting filter '${filter.title}'", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            parent,
+                            "Error deleting filter '${filter.title}'",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             )

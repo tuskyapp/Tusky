@@ -36,6 +36,7 @@
 
     <!-- Newer dependencies are handled by Renovate, and don't need a warning -->
     <issue id="GradleDependency" severity="ignore" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
 
     <!-- Typographical punctuation is not something we care about at the moment -->
     <issue id="TypographyQuotes" severity="ignore" />

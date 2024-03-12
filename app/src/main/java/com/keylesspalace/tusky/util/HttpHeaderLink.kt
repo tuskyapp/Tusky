@@ -123,10 +123,7 @@ constructor(
          * @param relationType of the parameter "rel", commonly "next" or "prev"
          * @return the link matching the given relation type
          */
-        fun findByRelationType(
-            links: List<HttpHeaderLink>,
-            relationType: String
-        ): HttpHeaderLink? {
+        fun findByRelationType(links: List<HttpHeaderLink>, relationType: String): HttpHeaderLink? {
             return links.find { link ->
                 link.parameters.any { parameter ->
                     parameter.name == "rel" && parameter.value == relationType

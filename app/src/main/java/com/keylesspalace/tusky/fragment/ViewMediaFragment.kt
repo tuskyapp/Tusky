@@ -17,9 +17,7 @@ package com.keylesspalace.tusky.fragment
 
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.annotation.OptIn
 import androidx.fragment.app.Fragment
-import androidx.media3.common.util.UnstableApi
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.entity.Attachment
 
@@ -49,8 +47,10 @@ abstract class ViewMediaFragment : Fragment() {
         protected val ARG_SINGLE_IMAGE_URL = "singleImageUrl"
 
         @JvmStatic
-        @OptIn(UnstableApi::class)
-        fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
+        fun newInstance(
+            attachment: Attachment,
+            shouldStartPostponedTransition: Boolean
+        ): ViewMediaFragment {
             val arguments = Bundle(2)
             arguments.putParcelable(ARG_ATTACHMENT, attachment)
             arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition)
@@ -85,7 +85,12 @@ abstract class ViewMediaFragment : Fragment() {
 
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
-        setupMediaView(url, previewUrl, description, showingDescription && mediaActivity.isToolbarVisible)
+        setupMediaView(
+            url,
+            previewUrl,
+            description,
+            showingDescription && mediaActivity.isToolbarVisible
+        )
 
         toolbarVisibilityDisposable = (activity as ViewMediaActivity)
             .addToolbarVisibilityListener { isVisible ->

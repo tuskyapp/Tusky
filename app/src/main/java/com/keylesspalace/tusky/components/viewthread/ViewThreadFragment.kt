@@ -35,8 +35,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
@@ -53,14 +53,16 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class ViewThreadFragment :
     SFragment(),
@@ -166,6 +168,7 @@ class ViewThreadFragment :
                         initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
                         initialProgressBar.start()
                     }
+
                     is ThreadUiState.LoadingThread -> {
                         if (uiState.statusViewDatum == null) {
                             // no detailed statuses available, e.g. because author is blocked
@@ -189,6 +192,7 @@ class ViewThreadFragment :
                         binding.recyclerView.show()
                         binding.statusView.hide()
                     }
+
                     is ThreadUiState.Error -> {
                         Log.w(TAG, "failed to load status", uiState.throwable)
                         initialProgressBar.cancel()
@@ -200,8 +204,11 @@ class ViewThreadFragment :
                         binding.recyclerView.hide()
                         binding.statusView.show()
 
-                        binding.statusView.setup(uiState.throwable) { viewModel.retry(thisThreadsStatusId) }
+                        binding.statusView.setup(
+                            uiState.throwable
+                        ) { viewModel.retry(thisThreadsStatusId) }
                     }
+
                     is ThreadUiState.Success -> {
                         if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
                             // no detailed statuses available, e.g. because author is blocked
@@ -229,6 +236,7 @@ class ViewThreadFragment :
                         binding.recyclerView.show()
                         binding.statusView.hide()
                     }
+
                     is ThreadUiState.Refreshing -> {
                         threadProgressBar.cancel()
                     }
@@ -268,14 +276,17 @@ class ViewThreadFragment :
                 viewModel.toggleRevealButton()
                 true
             }
+
             R.id.action_open_in_web -> {
                 context?.openLink(requireArguments().getString(URL_EXTRA)!!)
                 true
             }
+
             R.id.action_refresh -> {
                 onRefresh()
                 true
             }
+
             else -> false
         }
     }
@@ -295,17 +306,18 @@ class ViewThreadFragment :
      * any time `view` is hidden.
      */
     @CheckResult
-    private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
-        start = CoroutineStart.LAZY
-    ) {
-        try {
-            delay(delayMs)
-            view.show()
-            awaitCancellation()
-        } finally {
-            view.hide()
+    private fun getProgressBarJob(view: View, delayMs: Long) =
+        viewLifecycleOwner.lifecycleScope.launch(
+            start = CoroutineStart.LAZY
+        ) {
+            try {
+                delay(delayMs)
+                view.show()
+                awaitCancellation()
+            } finally {
+                view.hide()
+            }
         }
-    }
 
     override fun onRefresh() {
         viewModel.refresh(thisThreadsStatusId)
@@ -320,6 +332,36 @@ class ViewThreadFragment :
         viewModel.reblog(reblog, status)
     }
 
+    override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit) =
+        { translate: Boolean, position: Int ->
+            if (translate) {
+                onTranslate(position)
+            } else {
+                onUntranslate(
+                    position
+                )
+            }
+        }
+
+    private fun onTranslate(position: Int) {
+        val status = adapter.currentList[position]
+        lifecycleScope.launch {
+            viewModel.translate(status)
+                .onFailure {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.ui_error_translate, it.message),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+        }
+    }
+
+    override fun onUntranslate(position: Int) {
+        val status = adapter.currentList[position]
+        viewModel.untranslate(status)
+    }
+
     override fun onFavourite(favourite: Boolean, position: Int) {
         val status = adapter.currentList[position]
         viewModel.favorite(favourite, status)
@@ -331,7 +373,13 @@ class ViewThreadFragment :
     }
 
     override fun onMore(view: View, position: Int) {
-        super.more(adapter.currentList[position].status, view, position)
+        val viewData = adapter.currentList[position]
+        super.more(
+            viewData.status,
+            view,
+            position,
+            (viewData.translation as? TranslationViewData.Loaded)?.data
+        )
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
@@ -383,13 +431,13 @@ class ViewThreadFragment :
     override fun onShowReblogs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
         val statusId = adapter.currentList[position].id
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
-        (requireActivity() as BaseActivity).startActivityWithSlideInAnimation(intent)
+        requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
@@ -425,7 +473,12 @@ class ViewThreadFragment :
         val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
 
         parentFragmentManager.commit {
-            setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            setCustomAnimations(
+                R.anim.activity_open_enter,
+                R.anim.activity_open_exit,
+                R.anim.activity_close_enter,
+                R.anim.activity_close_exit
+            )
             replace(R.id.fragment_container, viewEditsFragment, "ViewEditsFragment_$id")
             addToBackStack(null)
         }

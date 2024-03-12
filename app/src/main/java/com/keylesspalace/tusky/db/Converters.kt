@@ -66,14 +66,19 @@ class Converters @Inject constructor(
         return str?.split(";")
             ?.map {
                 val data = it.split(":")
-                createTabDataFromId(data[0], data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") })
+                createTabDataFromId(
+                    data[0],
+                    data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") }
+                )
             }
     }
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
         // List name may include ":"
-        return tabData?.joinToString(";") { it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") } }
+        return tabData?.joinToString(";") {
+            it.id + ":" + it.arguments.joinToString(":") { s -> URLEncoder.encode(s, "UTF-8") }
+        }
     }
 
     @TypeConverter
@@ -93,7 +98,10 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToAccountList(accountListJson: String?): List<ConversationAccountEntity>? {
-        return gson.fromJson(accountListJson, object : TypeToken<List<ConversationAccountEntity>>() {}.type)
+        return gson.fromJson(
+            accountListJson,
+            object : TypeToken<List<ConversationAccountEntity>>() {}.type
+        )
     }
 
     @TypeConverter
@@ -163,7 +171,10 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment>? {
-        return gson.fromJson(draftAttachmentListJson, object : TypeToken<List<DraftAttachment>>() {}.type)
+        return gson.fromJson(
+            draftAttachmentListJson,
+            object : TypeToken<List<DraftAttachment>>() {}.type
+        )
     }
 
     @TypeConverter

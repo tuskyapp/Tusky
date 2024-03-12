@@ -124,8 +124,6 @@
     <string name="confirmation_reported">Skickat!</string>
     <string name="confirmation_unblocked">Användare avblockerad</string>
     <string name="confirmation_unmuted">Användaren är inte tystad längre</string>
-    <string name="post_sent">Skickat!</string>
-    <string name="post_sent_long">Svar skickades framgångsrikt.</string>
     <string name="hint_domain">Vilken instans?</string>
     <string name="hint_compose">Vad händer?</string>
     <string name="hint_content_warning">Innehållsvarning</string>
@@ -181,7 +179,7 @@
     <string name="pref_title_hide_follow_button">Dölj skriv-knappen vid skrollning</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Filtrering av tidslinje</string>
-    <string name="pref_title_post_tabs">Flikar</string>
+    <string name="pref_title_post_tabs">Hem tidslinje</string>
     <string name="pref_title_show_boosts">Visa knuffar</string>
     <string name="pref_title_show_replies">Visa svar</string>
     <string name="pref_title_show_media_preview">Visa en förhandsgranskning</string>
@@ -612,7 +610,7 @@
     <string name="action_post_failed_detail_plural">Uppladdning av dina inlägg misslyckades och de har sparats i utkast.
 \n
 \nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
-    <string name="action_post_failed_do_nothing">Stäng</string>
+    <string name="action_post_failed_do_nothing">Avbryt</string>
     <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
     <string name="pref_reading_order_oldest_first">Äldsta först</string>
     <string name="pref_reading_order_newest_first">Nyaste först</string>
@@ -632,7 +630,6 @@
     <string name="ui_success_accepted_follow_request">Följ begäran accepterad</string>
     <string name="ui_success_rejected_follow_request">Följ begäran blockerad</string>
     <string name="select_list_manage">Hantera listor</string>
-    <string name="select_list_empty">Du har inga listor, än</string>
     <string name="status_filtered_show_anyway">Visa allafall</string>
     <string name="status_filter_placeholder_label_format">Filtrerad: %s</string>
     <string name="pref_title_account_filter_keywords">Profiler</string>
@@ -663,7 +660,6 @@
     <string name="ui_error_bookmark">Att bokmärka inlägg misslyckades: %s</string>
     <string name="ui_error_clear_notifications">Rensing av aviseringar misslyckades: %s</string>
     <string name="ui_error_favourite">Att favoritmarkera inlägg misslyckades: %s</string>
-    <string name="error_list_load">Fel vid laddning av listor</string>
     <string name="ui_error_reject_follow_request">Avacceptera följarförgrågan misslyckades: %s</string>
     <string name="label_filter_context">Filtrera sammanhang</string>
     <string name="title_public_trending_hashtags">Populära hashtaggar</string>
@@ -713,4 +709,8 @@
     <string name="list_reply_policy_label">Visa svar till</string>
     <string name="pref_title_show_self_boosts">Visa egna-knuffar</string>
     <string name="pref_title_show_self_boosts_description">Någon knuffar sitt egna inlägg</string>
+    <string name="reply_sending_long">Ditt svar skickas.</string>
+    <string name="reply_sending">Skickar…</string>
+    <string name="pref_title_show_notifications_filter">Visa aviseringsfiltret</string>
+    <string name="pref_title_per_timeline_preferences">Inställningar per tidslinje</string>
 </resources>

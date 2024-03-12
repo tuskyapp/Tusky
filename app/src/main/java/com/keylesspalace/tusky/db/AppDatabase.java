@@ -46,13 +46,16 @@ import java.io.File;
         NotificationReportEntity.class,
         NotificationAccountEntity.class
     },
-    version = 55,
+    // Note: Starting with version 54, database versions in Tusky are always even.
+    // This is to reserve odd version numbers for use by forks.
+    version = 60,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
         @AutoMigration(from = 50, to = 51),
         @AutoMigration(from = 51, to = 52),
-        @AutoMigration(from = 53, to = 54) // hasDirectMessageBadge in AccountEntity
+        @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
+        @AutoMigration(from = 56, to = 58) // translationEnabled in InstanceEntity/InstanceInfoEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -689,6 +692,15 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("UPDATE `AccountEntity` SET `tabpreferences` = REPLACE(tabpreferences, 'Trending:', 'TrendingTags:')");
+        }
+    };
+
+    public static final Migration MIGRATION_54_56 = new Migration(54, 56) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeBoosts` INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeReplies` INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeSelfBoosts` INTEGER NOT NULL DEFAULT 1");
         }
     };
 }

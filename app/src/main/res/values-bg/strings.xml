@@ -206,7 +206,7 @@
     <string name="notification_boost_description">Известия, когато публикациите ви се споделят</string>
     <string name="post_text_size_smallest">Най-малък</string>
     <string name="description_visibility_unlisted">Скрито</string>
-    <string name="pref_title_post_tabs">Раздели</string>
+    <string name="pref_title_post_tabs">Начална емисия</string>
     <string name="pref_title_post_filter">Филтриране на емисия</string>
     <string name="pref_title_animate_custom_emojis">Анимиране на персонализирани емоджита</string>
     <string name="pref_title_gradient_for_media">Показване на цветни градиенти за скрита мултимедия</string>
@@ -273,8 +273,6 @@
     <string name="hint_content_warning">Предупреждение за съдържание</string>
     <string name="hint_compose">Какво се случва\?</string>
     <string name="hint_domain">Коя инстанция\?</string>
-    <string name="post_sent_long">Отговорът е изпратен успешно.</string>
-    <string name="post_sent">Изпратено!</string>
     <string name="confirmation_domain_unmuted">%s е разкрит</string>
     <string name="confirmation_unmuted">Потребителят е раззаглушен</string>
     <string name="confirmation_unblocked">Потребителят е деблокиран</string>
@@ -557,7 +555,6 @@
     <string name="error_following_hashtag_format">Грешка при последване на #%s</string>
     <string name="error_unfollowing_hashtag_format">Грешка при отследване на #%s</string>
     <string name="title_public_federated">Федерирани</string>
-    <string name="error_list_load">Грешка при зареждане на списъци</string>
     <string name="select_list_manage">Управление на списъци</string>
     <string name="notification_update_format">%s редактира публикацията си</string>
     <string name="pref_title_account_filter_keywords">Профили</string>

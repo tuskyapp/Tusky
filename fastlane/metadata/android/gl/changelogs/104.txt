@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Fixes including:
+
+- Improved notification loading speed
+- Restore showing 0/1/1+ for replies
+- Show filter titles, not filter keywords, on filtered posts
+- Fixed a bug where opening a status could open an unrelated link
+- Show "Add" button in correct place when there are no filters
+- Fixed assorted crashes

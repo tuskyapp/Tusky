@@ -51,15 +51,16 @@ import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.makeIcon
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
+import javax.inject.Inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
 
 class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
@@ -74,7 +75,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
 
-    private val iconSize by unsafeLazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
+    private val iconSize by unsafeLazy {
+        resources.getDimensionPixelSize(
+            R.dimen.preference_icon_size
+        )
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
@@ -96,11 +101,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
+                    activity?.startActivityWithSlideInAnimation(intent)
                     true
                 }
             }
@@ -110,11 +111,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_hashtag)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, FollowedTagsActivity::class.java)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
+                    activity?.startActivityWithSlideInAnimation(intent)
                     true
                 }
             }
@@ -125,11 +122,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
+                    activity?.startActivityWithSlideInAnimation(intent)
                     true
                 }
             }
@@ -143,11 +136,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.BLOCKS)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
+                    activity?.startActivityWithSlideInAnimation(intent)
                     true
                 }
             }
@@ -157,11 +146,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 setIcon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, DomainBlocksActivity::class.java)
-                    activity?.startActivity(intent)
-                    activity?.overridePendingTransition(
-                        R.anim.slide_from_right,
-                        R.anim.slide_to_left
-                    )
+                    activity?.startActivityWithSlideInAnimation(intent)
                     true
                 }
             }
@@ -172,7 +157,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setIcon(R.drawable.ic_logout)
                     setOnPreferenceClickListener {
                         val intent = LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION)
-                        (activity as BaseActivity).startActivityWithSlideInAnimation(intent)
+                        activity?.startActivityWithSlideInAnimation(intent)
                         true
                     }
                 }
@@ -198,14 +183,17 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     value = visibility.serverString()
                     setIcon(getIconForVisibility(visibility))
                     setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(getIconForVisibility(Status.Visibility.byString(newValue as String)))
+                        setIcon(
+                            getIconForVisibility(Status.Visibility.byString(newValue as String))
+                        )
                         syncWithServer(visibility = newValue)
                         true
                     }
                 }
 
                 listPreference {
-                    val locales = getLocaleList(getInitialLanguages(null, accountManager.activeAccount))
+                    val locales =
+                        getLocaleList(getInitialLanguages(null, accountManager.activeAccount))
                     setTitle(R.string.pref_default_post_language)
                     // Explicitly add "System default" to the start of the list
                     entries = (
@@ -267,6 +255,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     preferenceDataStore = accountPreferenceDataStore
                 }
             }
+            preferenceCategory(R.string.pref_title_per_timeline_preferences) {
+                preference {
+                    setTitle(R.string.pref_title_post_tabs)
+                    fragment = TabFilterPreferencesFragment::class.qualifiedName
+                }
+            }
         }
     }
 
@@ -283,14 +277,20 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             startActivity(intent)
         } else {
             activity?.let {
-                val intent = PreferencesActivity.newIntent(it, PreferencesActivity.NOTIFICATION_PREFERENCES)
-                it.startActivity(intent)
-                it.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+                val intent = PreferencesActivity.newIntent(
+                    it,
+                    PreferencesActivity.NOTIFICATION_PREFERENCES
+                )
+                it.startActivityWithSlideInAnimation(intent)
             }
         }
     }
 
-    private fun syncWithServer(visibility: String? = null, sensitive: Boolean? = null, language: String? = null) {
+    private fun syncWithServer(
+        visibility: String? = null,
+        sensitive: Boolean? = null,
+        language: String? = null
+    ) {
         // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
 
         mastodonApi.accountUpdateSource(visibility, sensitive, language)
@@ -348,8 +348,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
     private fun launchFilterActivity() {
         val intent = Intent(context, FiltersActivity::class.java)
-        activity?.startActivity(intent)
-        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        (activity as? BaseActivity)?.startActivityWithSlideInAnimation(intent)
     }
 
     companion object {

@@ -70,6 +70,7 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -115,11 +116,6 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
@@ -127,6 +123,11 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 
 class ComposeActivity :
     BaseActivity(),
@@ -163,14 +164,23 @@ class ComposeActivity :
 
     private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
 
-    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            pickMedia(photoUploadUri!!)
+    private val takePicture =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                pickMedia(photoUploadUri!!)
+            }
         }
-    }
     private val pickMediaFile = registerForActivityResult(PickMediaFiles()) { uris ->
         if (viewModel.media.value.size + uris.size > maxUploadMediaNumber) {
-            Toast.makeText(this, resources.getQuantityString(R.plurals.error_upload_max_media_reached, maxUploadMediaNumber, maxUploadMediaNumber), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                resources.getQuantityString(
+                    R.plurals.error_upload_max_media_reached,
+                    maxUploadMediaNumber,
+                    maxUploadMediaNumber
+                ),
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
             uris.forEach { uri ->
                 pickMedia(uri)
@@ -191,7 +201,8 @@ class ComposeActivity :
                         uriNew,
                         size,
                         itemOld.description,
-                        null, // Intentionally reset focus when cropping
+                        // Intentionally reset focus when cropping
+                        null,
                         itemOld
                     )
                 }
@@ -203,6 +214,24 @@ class ComposeActivity :
             displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
+    }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+            ) {
+                composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                return
+            }
+
+            handleCloseButton()
+        }
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -222,7 +251,11 @@ class ComposeActivity :
         val mediaAdapter = MediaPreviewAdapter(
             this,
             onAddCaption = { item ->
-                CaptionDialog.newInstance(item.localId, item.description, item.uri).show(supportFragmentManager, "caption_dialog")
+                CaptionDialog.newInstance(
+                    item.localId,
+                    item.description,
+                    item.uri
+                ).show(supportFragmentManager, "caption_dialog")
             },
             onAddFocus = { item ->
                 makeFocusDialog(item.focus, item.uri) { newFocus ->
@@ -240,7 +273,11 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(intent, COMPOSE_OPTIONS_EXTRA, ComposeOptions::class.java)
+        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(
+            intent,
+            COMPOSE_OPTIONS_EXTRA,
+            ComposeOptions::class.java
+        )
         viewModel.setup(composeOptions)
 
         setupButtons()
@@ -303,12 +340,20 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.let { uri ->
+                            IntentCompat.getParcelableExtra(
+                                intent,
+                                Intent.EXTRA_STREAM,
+                                Uri::class.java
+                            )?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.forEach { uri ->
+                            IntentCompat.getParcelableArrayListExtra(
+                                intent,
+                                Intent.EXTRA_STREAM,
+                                Uri::class.java
+                            )?.forEach { uri ->
                                 pickMedia(uri)
                             }
                         }
@@ -328,7 +373,13 @@ class ComposeActivity :
                     val end = binding.composeEditField.selectionEnd.coerceAtLeast(0)
                     val left = min(start, end)
                     val right = max(start, end)
-                    binding.composeEditField.text.replace(left, right, shareBody, 0, shareBody.length)
+                    binding.composeEditField.text.replace(
+                        left,
+                        right,
+                        shareBody,
+                        0,
+                        shareBody.length
+                    )
                     // move edittext cursor to first when shareBody parsed
                     binding.composeEditField.text.insert(0, "\n")
                     binding.composeEditField.setSelection(0)
@@ -341,23 +392,48 @@ class ComposeActivity :
         if (replyingStatusAuthor != null) {
             binding.composeReplyView.show()
             binding.composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
-            val arrowDownIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_down).apply { sizeDp = 12 }
+            val arrowDownIcon = IconicsDrawable(
+                this,
+                GoogleMaterial.Icon.gmd_arrow_drop_down
+            ).apply {
+                sizeDp = 12
+            }
 
             setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
-            binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
+            binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                null,
+                null,
+                arrowDownIcon,
+                null
+            )
 
             binding.composeReplyView.setOnClickListener {
-                TransitionManager.beginDelayedTransition(binding.composeReplyContentView.parent as ViewGroup)
+                TransitionManager.beginDelayedTransition(
+                    binding.composeReplyContentView.parent as ViewGroup
+                )
 
                 if (binding.composeReplyContentView.isVisible) {
                     binding.composeReplyContentView.hide()
-                    binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowDownIcon, null)
+                    binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        null,
+                        null,
+                        arrowDownIcon,
+                        null
+                    )
                 } else {
                     binding.composeReplyContentView.show()
-                    val arrowUpIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_drop_up).apply { sizeDp = 12 }
+                    val arrowUpIcon = IconicsDrawable(
+                        this,
+                        GoogleMaterial.Icon.gmd_arrow_drop_up
+                    ).apply { sizeDp = 12 }
 
                     setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
-                    binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowUpIcon, null)
+                    binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        null,
+                        null,
+                        arrowUpIcon,
+                        null
+                    )
                 }
             }
         }
@@ -368,13 +444,21 @@ class ComposeActivity :
         if (startingContentWarning != null) {
             binding.composeContentWarningField.setText(startingContentWarning)
         }
-        binding.composeContentWarningField.doOnTextChanged { _, _, _, _ -> updateVisibleCharactersLeft() }
+        binding.composeContentWarningField.doOnTextChanged { newContentWarning, _, _, _ ->
+            updateVisibleCharactersLeft()
+            viewModel.updateContentWarning(newContentWarning?.toString())
+        }
     }
 
     private fun setupComposeField(preferences: SharedPreferences, startingText: String?) {
         binding.composeEditField.setOnReceiveContentListener(this)
 
-        binding.composeEditField.setOnKeyListener { _, keyCode, event -> this.onKeyDown(keyCode, event) }
+        binding.composeEditField.setOnKeyListener { _, keyCode, event ->
+            this.onKeyDown(
+                keyCode,
+                event
+            )
+        }
 
         binding.composeEditField.setAdapter(
             ComposeAutoCompleteAdapter(
@@ -394,6 +478,7 @@ class ComposeActivity :
         binding.composeEditField.doAfterTextChanged { editable ->
             highlightSpans(editable!!, mentionColour)
             updateVisibleCharactersLeft()
+            viewModel.updateContent(editable.toString())
         }
 
         // work around Android platform bug -> https://issuetracker.google.com/issues/67102093
@@ -419,7 +504,9 @@ class ComposeActivity :
         }
 
         lifecycleScope.launch {
-            viewModel.showContentWarning.combine(viewModel.markMediaAsSensitive) { showContentWarning, markSensitive ->
+            viewModel.showContentWarning.combine(
+                viewModel.markMediaAsSensitive
+            ) { showContentWarning, markSensitive ->
                 updateSensitiveMediaToggle(markSensitive, showContentWarning)
                 showContentWarning(showContentWarning)
             }.collect()
@@ -434,7 +521,10 @@ class ComposeActivity :
                 mediaAdapter.submitList(media)
 
                 binding.composeMediaPreviewBar.visible(media.isNotEmpty())
-                updateSensitiveMediaToggle(viewModel.markMediaAsSensitive.value, viewModel.showContentWarning.value)
+                updateSensitiveMediaToggle(
+                    viewModel.markMediaAsSensitive.value,
+                    viewModel.showContentWarning.value
+                )
             }
         }
 
@@ -480,6 +570,12 @@ class ComposeActivity :
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.closeConfirmation.collect {
+                updateOnBackPressedCallbackState()
+            }
+        }
     }
 
     private fun setupButtons() {
@@ -489,6 +585,17 @@ class ComposeActivity :
         addMediaBehavior = BottomSheetBehavior.from(binding.addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(binding.composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(binding.emojiView)
+
+        val bottomSheetCallback = object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                updateOnBackPressedCallbackState()
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) { }
+        }
+        composeOptionsBehavior.addBottomSheetCallback(bottomSheetCallback)
+        addMediaBehavior.addBottomSheetCallback(bottomSheetCallback)
+        scheduleBehavior.addBottomSheetCallback(bottomSheetCallback)
+        emojiBehavior.addBottomSheetCallback(bottomSheetCallback)
 
         enableButton(binding.composeEmojiButton, clickable = false, colorActive = false)
 
@@ -510,46 +617,58 @@ class ComposeActivity :
 
         val textColor = MaterialColors.getColor(binding.root, android.R.attr.textColorTertiary)
 
-        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply { colorInt = textColor; sizeDp = 18 }
-        binding.actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(cameraIcon, null, null, null)
+        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply {
+            colorInt = textColor
+            sizeDp = 18
+        }
+        binding.actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            cameraIcon,
+            null,
+            null,
+            null
+        )
 
-        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).apply { colorInt = textColor; sizeDp = 18 }
-        binding.actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(imageIcon, null, null, null)
+        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).apply {
+            colorInt = textColor
+            sizeDp = 18
+        }
+        binding.actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            imageIcon,
+            null,
+            null,
+            null
+        )
 
-        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply { colorInt = textColor; sizeDp = 18 }
-        binding.addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(pollIcon, null, null, null)
+        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply {
+            colorInt = textColor
+            sizeDp = 18
+        }
+        binding.addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            pollIcon,
+            null,
+            null,
+            null
+        )
 
-        binding.actionPhotoTake.visible(Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null)
+        binding.actionPhotoTake.visible(
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null
+        )
 
         binding.actionPhotoTake.setOnClickListener { initiateCameraApp() }
         binding.actionPhotoPick.setOnClickListener { onMediaPick() }
         binding.addPollTextActionTextView.setOnClickListener { openPollDialog() }
 
-        onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (composeOptionsBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        addMediaBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        emojiBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
-                        scheduleBehavior.state == BottomSheetBehavior.STATE_EXPANDED
-                    ) {
-                        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        return
-                    }
-
-                    handleCloseButton()
-                }
-            }
-        )
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun setupLanguageSpinner(initialLanguages: List<String>) {
         binding.composePostLanguageButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 viewModel.postLanguage = (parent.adapter.getItem(position) as Locale).modernLanguageCode
             }
 
@@ -592,10 +711,23 @@ class ComposeActivity :
         )
     }
 
+    private fun updateOnBackPressedCallbackState() {
+        val confirmation = viewModel.closeConfirmation.value
+        onBackPressedCallback.isEnabled = confirmation != ConfirmationKind.NONE ||
+            composeOptionsBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            addMediaBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            emojiBehavior.state != BottomSheetBehavior.STATE_HIDDEN ||
+            scheduleBehavior.state != BottomSheetBehavior.STATE_HIDDEN
+    }
+
     private fun replaceTextAtCaret(text: CharSequence) {
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
-        val start = binding.composeEditField.selectionStart.coerceAtMost(binding.composeEditField.selectionEnd)
-        val end = binding.composeEditField.selectionStart.coerceAtLeast(binding.composeEditField.selectionEnd)
+        val start = binding.composeEditField.selectionStart.coerceAtMost(
+            binding.composeEditField.selectionEnd
+        )
+        val end = binding.composeEditField.selectionStart.coerceAtLeast(
+            binding.composeEditField.selectionEnd
+        )
         val textToInsert = if (start > 0 && !binding.composeEditField.text[start - 1].isWhitespace()) {
             " $text"
         } else {
@@ -609,8 +741,12 @@ class ComposeActivity :
 
     fun prependSelectedWordsWith(text: CharSequence) {
         // If you select "backward" in an editable, you get SelectionStart > SelectionEnd
-        val start = binding.composeEditField.selectionStart.coerceAtMost(binding.composeEditField.selectionEnd)
-        val end = binding.composeEditField.selectionStart.coerceAtLeast(binding.composeEditField.selectionEnd)
+        val start = binding.composeEditField.selectionStart.coerceAtMost(
+            binding.composeEditField.selectionEnd
+        )
+        val end = binding.composeEditField.selectionStart.coerceAtLeast(
+            binding.composeEditField.selectionEnd
+        )
         val editorText = binding.composeEditField.text
 
         if (start == end) {
@@ -678,7 +814,10 @@ class ComposeActivity :
         this.viewModel.toggleMarkSensitive()
     }
 
-    private fun updateSensitiveMediaToggle(markMediaSensitive: Boolean, contentWarningShown: Boolean) {
+    private fun updateSensitiveMediaToggle(
+        markMediaSensitive: Boolean,
+        contentWarningShown: Boolean
+    ) {
         if (viewModel.media.value.isEmpty()) {
             binding.composeHideMediaButton.hide()
             binding.descriptionMissingWarningButton.hide()
@@ -695,7 +834,10 @@ class ComposeActivity :
                     getColor(R.color.tusky_blue)
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    MaterialColors.getColor(binding.composeHideMediaButton, android.R.attr.textColorTertiary)
+                    MaterialColors.getColor(
+                        binding.composeHideMediaButton,
+                        android.R.attr.textColorTertiary
+                    )
                 }
             }
             binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
@@ -717,7 +859,10 @@ class ComposeActivity :
             enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
             @ColorInt val color = if (binding.composeScheduleView.time == null) {
-                MaterialColors.getColor(binding.composeScheduleButton, android.R.attr.textColorTertiary)
+                MaterialColors.getColor(
+                    binding.composeScheduleButton,
+                    android.R.attr.textColorTertiary
+                )
             } else {
                 getColor(R.color.tusky_blue)
             }
@@ -748,7 +893,11 @@ class ComposeActivity :
         binding.composeToggleVisibilityButton.setImageResource(iconRes)
         if (viewModel.editing) {
             // Can't update visibility on published status
-            enableButton(binding.composeToggleVisibilityButton, clickable = false, colorActive = false)
+            enableButton(
+                binding.composeToggleVisibilityButton,
+                clickable = false,
+                colorActive = false
+            )
         }
     }
 
@@ -785,7 +934,11 @@ class ComposeActivity :
     private fun showEmojis() {
         binding.emojiView.adapter?.let {
             if (it.itemCount == 0) {
-                val errorMessage = getString(R.string.error_no_custom_emojis, accountManager.activeAccount!!.domain)
+                val errorMessage =
+                    getString(
+                        R.string.error_no_custom_emojis,
+                        accountManager.activeAccount!!.domain
+                    )
                 displayTransientMessage(errorMessage)
             } else {
                 if (emojiBehavior.state == BottomSheetBehavior.STATE_HIDDEN || emojiBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -813,7 +966,7 @@ class ComposeActivity :
 
     private fun onMediaPick() {
         addMediaBehavior.addBottomSheetCallback(
-            object : BottomSheetBehavior.BottomSheetCallback() {
+            object : BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     // Wait until bottom sheet is not collapsed and show next screen after
                     if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -852,9 +1005,14 @@ class ComposeActivity :
 
     private fun setupPollView() {
         val margin = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin)
-        val marginBottom = resources.getDimensionPixelSize(R.dimen.compose_media_preview_margin_bottom)
+        val marginBottom = resources.getDimensionPixelSize(
+            R.dimen.compose_media_preview_margin_bottom
+        )
 
-        val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         layoutParams.setMargins(margin, margin, margin, marginBottom)
         binding.pollPreview.layoutParams = layoutParams
 
@@ -876,7 +1034,7 @@ class ComposeActivity :
     }
 
     private fun removePoll() {
-        viewModel.poll.value = null
+        viewModel.updatePoll(null)
         binding.pollPreview.hide()
     }
 
@@ -905,7 +1063,10 @@ class ComposeActivity :
         val textColor = if (remainingLength < 0) {
             getColor(R.color.tusky_red)
         } else {
-            MaterialColors.getColor(binding.composeCharactersLeftView, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(
+                binding.composeCharactersLeftView,
+                android.R.attr.textColorTertiary
+            )
         }
         binding.composeCharactersLeftView.setTextColor(textColor)
     }
@@ -917,7 +1078,9 @@ class ComposeActivity :
     }
 
     private fun verifyScheduledTime(): Boolean {
-        return binding.composeScheduleView.verifyScheduledTime(binding.composeScheduleView.getDateTime(viewModel.scheduledAt.value))
+        return binding.composeScheduleView.verifyScheduledTime(
+            binding.composeScheduleView.getDateTime(viewModel.scheduledAt.value)
+        )
     }
 
     private fun onSendClicked() {
@@ -967,7 +1130,11 @@ class ComposeActivity :
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
@@ -1042,14 +1209,20 @@ class ComposeActivity :
         val tempFile = createNewImageFile(this, if (isPng) ".png" else ".jpg")
 
         // "Authority" must be the same as the android:authorities string in AndroidManifest.xml
-        val uriNew = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", tempFile)
+        val uriNew = FileProvider.getUriForFile(
+            this,
+            BuildConfig.APPLICATION_ID + ".fileprovider",
+            tempFile
+        )
 
         viewModel.cropImageItemOld = item
 
         cropImage.launch(
             options(uri = item.uri) {
                 setOutputUri(uriNew)
-                setOutputCompressFormat(if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG)
+                setOutputCompressFormat(
+                    if (isPng) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG
+                )
             }
         )
     }
@@ -1076,7 +1249,7 @@ class ComposeActivity :
     }
 
     private fun pickMedia(uri: Uri, description: String? = null) {
-        var sanitizedDescription = sanitizePickMediaDescription(description)
+        val sanitizedDescription = sanitizePickMediaDescription(description)
 
         lifecycleScope.launch {
             viewModel.pickMedia(uri, sanitizedDescription).onFailure { throwable ->
@@ -1087,7 +1260,9 @@ class ComposeActivity :
                         val formattedSize = decimalFormat.format(allowedSizeInMb)
                         getString(R.string.error_multimedia_size_limit, formattedSize)
                     }
-                    is VideoOrImageException -> getString(R.string.error_media_upload_image_or_video)
+                    is VideoOrImageException -> getString(
+                        R.string.error_media_upload_image_or_video
+                    )
                     else -> getString(R.string.error_media_upload_opening)
                 }
                 displayTransientMessage(errorString)
@@ -1096,16 +1271,23 @@ class ComposeActivity :
     }
 
     private fun showContentWarning(show: Boolean) {
-        TransitionManager.beginDelayedTransition(binding.composeContentWarningBar.parent as ViewGroup)
+        TransitionManager.beginDelayedTransition(
+            binding.composeContentWarningBar.parent as ViewGroup
+        )
         @ColorInt val color = if (show) {
             binding.composeContentWarningBar.show()
-            binding.composeContentWarningField.setSelection(binding.composeContentWarningField.text.length)
+            binding.composeContentWarningField.setSelection(
+                binding.composeContentWarningField.text.length
+            )
             binding.composeContentWarningField.requestFocus()
             getColor(R.color.tusky_blue)
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
-            MaterialColors.getColor(binding.composeContentWarningButton, android.R.attr.textColorTertiary)
+            MaterialColors.getColor(
+                binding.composeContentWarningButton,
+                android.R.attr.textColorTertiary
+            )
         }
         binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
@@ -1140,10 +1322,10 @@ class ComposeActivity :
     private fun handleCloseButton() {
         val contentText = binding.composeEditField.text.toString()
         val contentWarning = binding.composeContentWarningField.text.toString()
-        when (viewModel.handleCloseButton(contentText, contentWarning)) {
+        when (viewModel.closeConfirmation.value) {
             ConfirmationKind.NONE -> {
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
             ConfirmationKind.SAVE_OR_DISCARD ->
                 getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
@@ -1159,7 +1341,10 @@ class ComposeActivity :
     /**
      * User is editing a new post, and can either save the changes as a draft or discard them.
      */
-    private fun getSaveAsDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+    private fun getSaveAsDraftOrDiscardDialog(
+        contentText: String,
+        contentWarning: String
+    ): AlertDialog.Builder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
@@ -1182,7 +1367,10 @@ class ComposeActivity :
      * User is editing an existing draft, and can either update the draft with the new changes or
      * discard them.
      */
-    private fun getUpdateDraftOrDiscardDialog(contentText: String, contentWarning: String): AlertDialog.Builder {
+    private fun getUpdateDraftOrDiscardDialog(
+        contentText: String,
+        contentWarning: String
+    ): AlertDialog.Builder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
@@ -1197,7 +1385,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
     }
 
@@ -1213,7 +1401,7 @@ class ComposeActivity :
             }
             .setNegativeButton(R.string.action_discard) { _, _ ->
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
     }
 
@@ -1227,7 +1415,7 @@ class ComposeActivity :
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteDraft()
                 viewModel.stopUploads()
-                finishWithoutSlideOutAnimation()
+                finish()
             }
             .setNegativeButton(R.string.action_continue_edit) { _, _ ->
                 // Do nothing, dialog will dismiss, user can continue editing
@@ -1236,7 +1424,7 @@ class ComposeActivity :
 
     private fun deleteDraftAndFinish() {
         viewModel.deleteDraft()
-        finishWithoutSlideOutAnimation()
+        finish()
     }
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
@@ -1254,7 +1442,7 @@ class ComposeActivity :
             }
             viewModel.saveDraft(contentText, contentWarning)
             dialog?.cancel()
-            finishWithoutSlideOutAnimation()
+            finish()
         }
     }
 
@@ -1286,10 +1474,15 @@ class ComposeActivity :
         val state: State
     ) {
         enum class Type {
-            IMAGE, VIDEO, AUDIO;
+            IMAGE,
+            VIDEO,
+            AUDIO
         }
         enum class State {
-            UPLOADING, UNPROCESSED, PROCESSED, PUBLISHED
+            UPLOADING,
+            UNPROCESSED,
+            PROCESSED,
+            PUBLISHED
         }
     }
 
@@ -1370,10 +1563,7 @@ class ComposeActivity :
          * @return an Intent to start the ComposeActivity
          */
         @JvmStatic
-        fun startIntent(
-            context: Context,
-            options: ComposeOptions
-        ): Intent {
+        fun startIntent(context: Context, options: ComposeOptions): Intent {
             return Intent(context, ComposeActivity::class.java).apply {
                 putExtra(COMPOSE_OPTIONS_EXTRA, options)
             }

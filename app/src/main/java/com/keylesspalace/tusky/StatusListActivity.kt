@@ -35,11 +35,12 @@ import com.keylesspalace.tusky.databinding.ActivityStatuslistBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.isHttpNotFound
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -49,7 +50,9 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
     @Inject
     lateinit var eventHub: EventHub
 
-    private val binding: ActivityStatuslistBinding by viewBinding(ActivityStatuslistBinding::inflate)
+    private val binding: ActivityStatuslistBinding by viewBinding(
+        ActivityStatuslistBinding::inflate
+    )
     private lateinit var kind: Kind
     private var hashtag: String? = null
     private var followTagItem: MenuItem? = null
@@ -136,10 +139,18 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         followTagItem?.isVisible = false
                         unfollowTagItem?.isVisible = true
 
-                        Snackbar.make(binding.root, getString(R.string.following_hashtag_success_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.following_hashtag_success_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     },
                     {
-                        Snackbar.make(binding.root, getString(R.string.error_following_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.error_following_hashtag_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         Log.e(TAG, "Failed to follow #$tag", it)
                     }
                 )
@@ -158,10 +169,18 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         followTagItem?.isVisible = true
                         unfollowTagItem?.isVisible = false
 
-                        Snackbar.make(binding.root, getString(R.string.unfollowing_hashtag_success_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.unfollowing_hashtag_success_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     },
                     {
-                        Snackbar.make(binding.root, getString(R.string.error_unfollowing_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.error_unfollowing_hashtag_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         Log.e(TAG, "Failed to unfollow #$tag", it)
                     }
                 )
@@ -238,7 +257,12 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                 expiresInSeconds = null
             ).fold(
                 { filter ->
-                    if (mastodonApi.addFilterKeyword(filterId = filter.id, keyword = hashedTag, wholeWord = true).isSuccess) {
+                    if (mastodonApi.addFilterKeyword(
+                            filterId = filter.id,
+                            keyword = hashedTag,
+                            wholeWord = true
+                        ).isSuccess
+                    ) {
                         // must be requested again; otherwise does not contain the keyword (but server does)
                         mutedFilter = mastodonApi.getFilter(filter.id).getOrNull()
 
@@ -246,7 +270,11 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
                         filterCreateSuccess = true
                     } else {
-                        Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.error_muting_hashtag_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         Log.e(TAG, "Failed to mute #$tag")
                     }
                 },
@@ -265,12 +293,20 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                                 filterCreateSuccess = true
                             },
                             { throwable ->
-                                Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(
+                                    binding.root,
+                                    getString(R.string.error_muting_hashtag_format, tag),
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                                 Log.e(TAG, "Failed to mute #$tag", throwable)
                             }
                         )
                     } else {
-                        Snackbar.make(binding.root, getString(R.string.error_muting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.error_muting_hashtag_format, tag),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         Log.e(TAG, "Failed to mute #$tag", throwable)
                     }
                 }
@@ -278,7 +314,11 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
             if (filterCreateSuccess) {
                 updateTagMuteState(true)
-                Snackbar.make(binding.root, getString(R.string.muting_hashtag_success_format, tag), Snackbar.LENGTH_LONG).apply {
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.muting_hashtag_success_format, tag),
+                    Snackbar.LENGTH_LONG
+                ).apply {
                     setAction(R.string.action_view_filter) {
                         val intent = if (mutedFilter != null) {
                             Intent(this@StatusListActivity, EditFilterActivity::class.java).apply {
@@ -339,10 +379,18 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     mutedFilterV1 = null
                     mutedFilter = null
 
-                    Snackbar.make(binding.root, getString(R.string.unmuting_hashtag_success_format, tag), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.unmuting_hashtag_success_format, tag),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 },
                 { throwable ->
-                    Snackbar.make(binding.root, getString(R.string.error_unmuting_hashtag_format, tag), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.error_unmuting_hashtag_format, tag),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     Log.e(TAG, "Failed to unmute #$tag", throwable)
                 }
             )

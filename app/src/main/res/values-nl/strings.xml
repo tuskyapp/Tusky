@@ -124,8 +124,6 @@
     <string name="confirmation_reported">Verzonden!</string>
     <string name="confirmation_unblocked">Gebruiker is gedeblokkeerd</string>
     <string name="confirmation_unmuted">Gebruiker wordt niet langer genegeerd</string>
-    <string name="post_sent">Verzonden!</string>
-    <string name="post_sent_long">Reactie succesvol verzonden.</string>
     <string name="hint_domain">Welke Mastodonserver?</string>
     <string name="hint_compose">Wat wil je kwijt?</string>
     <string name="hint_content_warning">Tekstwaarschuwing</string>
@@ -617,8 +615,6 @@
     <string name="notification_unknown_name">Onbekend</string>
     <string name="ui_error_clear_notifications">Wissen meldingen mislukt: %s</string>
     <string name="ui_success_accepted_follow_request">Volgverzoek geaccepteerd</string>
-    <string name="error_list_load">Fout bij laden lijsten</string>
-    <string name="select_list_empty">Je hebt nog geen lijsten</string>
     <string name="select_list_manage">Lijsten beheren</string>
     <string name="pref_title_account_filter_keywords">Profielen</string>
     <string name="status_filtered_show_anyway">Toch tonen</string>

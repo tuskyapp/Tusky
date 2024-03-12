@@ -59,7 +59,10 @@ private fun ensureLanguagesAreFirst(locales: MutableList<Locale>, languages: Lis
     }
 }
 
-fun getInitialLanguages(language: String? = null, activeAccount: AccountEntity? = null): List<String> {
+fun getInitialLanguages(
+    language: String? = null,
+    activeAccount: AccountEntity? = null
+): List<String> {
     val selected = listOfNotNull(language, activeAccount?.defaultPostLanguage)
     val system = AppCompatDelegate.getApplicationLocales().toList() +
         LocaleListCompat.getDefault().toList()
@@ -76,4 +79,9 @@ fun getLocaleList(initialLanguages: List<String>): List<Locale> {
     }.sortedBy { it.displayName }.toMutableList()
     ensureLanguagesAreFirst(locales, initialLanguages)
     return locales
+}
+
+fun localeNameForUntrustedISO639LangCode(code: String): String {
+    // It seems like it never throws?
+    return Locale(code).displayName
 }

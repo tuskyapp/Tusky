@@ -41,10 +41,11 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
+import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.viewBinding
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
-import javax.inject.Inject
 
 /** Main login page, the first thing that users see. Has prompt for instance and login button. */
 class LoginActivity : BaseActivity(), Injectable {
@@ -123,13 +124,6 @@ class LoginActivity : BaseActivity(), Injectable {
         return false
     }
 
-    override fun finish() {
-        super.finish()
-        if (isAdditionalLogin() || isAccountMigration()) {
-            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add(R.string.action_browser_login)?.apply {
             setOnMenuItemClickListener {
@@ -201,7 +195,11 @@ class LoginActivity : BaseActivity(), Injectable {
         }
     }
 
-    private fun redirectUserToAuthorizeAndLogin(domain: String, clientId: String, openInWebView: Boolean) {
+    private fun redirectUserToAuthorizeAndLogin(
+        domain: String,
+        clientId: String,
+        openInWebView: Boolean
+    ) {
         // To authorize this app and log in it's necessary to redirect to the domain given,
         // login there, and the server will redirect back to the app with its response.
         val uri = HttpUrl.Builder()
@@ -316,10 +314,13 @@ class LoginActivity : BaseActivity(), Injectable {
             )
 
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
-            finish()
-            overridePendingTransition(R.anim.explode, R.anim.explode)
+            finishAffinity()
+            if (!supportsOverridingActivityTransitions()) {
+                @Suppress("DEPRECATION")
+                overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
+            }
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =

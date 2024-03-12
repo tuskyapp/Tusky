@@ -1,3 +1,18 @@
+/* Copyright 2019 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.service
 
 import android.app.Notification
@@ -38,6 +53,9 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.unsafeLazy
 import dagger.android.AndroidInjection
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -46,9 +64,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.HttpException
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class SendStatusService : Service(), Injectable {
 
@@ -73,7 +88,9 @@ class SendStatusService : Service(), Injectable {
     private val statusesToSend = ConcurrentHashMap<Int, StatusToSend>()
     private val sendJobs = ConcurrentHashMap<Int, Job>()
 
-    private val notificationManager by unsafeLazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+    private val notificationManager by unsafeLazy {
+        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     override fun onCreate() {
         AndroidInjection.inject(this)
@@ -88,7 +105,12 @@ class SendStatusService : Service(), Injectable {
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(CHANNEL_ID, getString(R.string.send_post_notification_channel_name), NotificationManager.IMPORTANCE_LOW)
+                val channel =
+                    NotificationChannel(
+                        CHANNEL_ID,
+                        getString(R.string.send_post_notification_channel_name),
+                        NotificationManager.IMPORTANCE_LOW
+                    )
                 notificationManager.createNotificationChannel(channel)
             }
 
@@ -104,7 +126,11 @@ class SendStatusService : Service(), Injectable {
                 .setProgress(1, 0, true)
                 .setOngoing(true)
                 .setColor(getColor(R.color.notification_color))
-                .addAction(0, getString(android.R.string.cancel), cancelSendingIntent(sendingNotificationId))
+                .addAction(
+                    0,
+                    getString(android.R.string.cancel),
+                    cancelSendingIntent(sendingNotificationId)
+                )
 
             if (statusesToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
@@ -115,13 +141,21 @@ class SendStatusService : Service(), Injectable {
 
             statusesToSend[sendingNotificationId] = statusToSend
             sendStatus(sendingNotificationId--)
-        } else {
-            if (intent.hasExtra(KEY_CANCEL)) {
-                cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
-            }
+        } else if (intent.hasExtra(KEY_CANCEL)) {
+            cancelSending(intent.getIntExtra(KEY_CANCEL, 0))
         }
 
         return START_NOT_STICKY
+    }
+
+    override fun onTimeout(startId: Int) {
+        // https://developer.android.com/about/versions/14/changes/fgs-types-required#short-service
+        // max time for short service reached on Android 14+, stop sending
+        statusesToSend.forEach { (statusId, _) ->
+            serviceScope.launch {
+                failSending(statusId)
+            }
+        }
     }
 
     private fun sendStatus(statusId: Int) {
@@ -281,7 +315,9 @@ class SendStatusService : Service(), Injectable {
         // when statusToSend == null, sending has been canceled
         val statusToSend = statusesToSend[statusId] ?: return
 
-        val backoff = TimeUnit.SECONDS.toMillis(statusToSend.retries.toLong()).coerceAtMost(MAX_RETRY_INTERVAL)
+        val backoff = TimeUnit.SECONDS.toMillis(
+            statusToSend.retries.toLong()
+        ).coerceAtMost(MAX_RETRY_INTERVAL)
 
         delay(backoff)
         sendStatus(statusId)
@@ -289,7 +325,10 @@ class SendStatusService : Service(), Injectable {
 
     private fun stopSelfWhenDone() {
         if (statusesToSend.isEmpty()) {
-            ServiceCompat.stopForeground(this@SendStatusService, ServiceCompat.STOP_FOREGROUND_REMOVE)
+            ServiceCompat.stopForeground(
+                this@SendStatusService,
+                ServiceCompat.STOP_FOREGROUND_REMOVE
+            )
             stopSelf()
         }
     }
@@ -416,10 +455,7 @@ class SendStatusService : Service(), Injectable {
         private var sendingNotificationId = -1 // use negative ids to not clash with other notis
         private var errorNotificationId = Int.MIN_VALUE // use even more negative ids to not clash with other notis
 
-        fun sendStatusIntent(
-            context: Context,
-            statusToSend: StatusToSend
-        ): Intent {
+        fun sendStatusIntent(context: Context, statusToSend: StatusToSend): Intent {
             val intent = Intent(context, SendStatusService::class.java)
             intent.putExtra(KEY_STATUS, statusToSend)
 
@@ -467,7 +503,8 @@ data class StatusToSend(
 @Parcelize
 data class MediaToSend(
     val localId: Int,
-    val id: String?, // null if media is not yet completely uploaded
+    // null if media is not yet completely uploaded
+    val id: String?,
     val uri: String,
     val description: String?,
     val focus: Attachment.Focus?,

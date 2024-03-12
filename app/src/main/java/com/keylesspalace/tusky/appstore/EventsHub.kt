@@ -1,30 +1,33 @@
 package com.keylesspalace.tusky.appstore
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import java.util.function.Consumer
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
 interface Event
 
 @Singleton
 class EventHub @Inject constructor() {
 
-    private val sharedEventFlow: MutableSharedFlow<Event> = MutableSharedFlow()
-    val events: Flow<Event> = sharedEventFlow
-
-    //  TODO remove this old stuff as soon as NotificationsFragment is Kotlin
-    private val eventsSubject = PublishSubject.create<Event>()
-    val eventsObservable: Observable<Event> = eventsSubject
+    private val sharedEventFlow = MutableSharedFlow<Event>()
+    val events: SharedFlow<Event> = sharedEventFlow.asSharedFlow()
 
     suspend fun dispatch(event: Event) {
         sharedEventFlow.emit(event)
-        eventsSubject.onNext(event)
     }
 
-    fun dispatchOld(event: Event) {
-        eventsSubject.onNext(event)
+    //  TODO remove as soon as NotificationsFragment is Kotlin
+    fun subscribe(lifecycleOwner: LifecycleOwner, consumer: Consumer<Event>) {
+        lifecycleOwner.lifecycleScope.launch {
+            events.collect { event ->
+                consumer.accept(event)
+            }
+        }
     }
 }
