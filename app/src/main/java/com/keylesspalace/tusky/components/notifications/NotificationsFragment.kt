@@ -235,6 +235,10 @@ class NotificationsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener,
         TODO("Not yet implemented")
     }
 
+    override fun onUntranslate(position: Int) {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         fun newInstance() = NotificationsFragment()
     }

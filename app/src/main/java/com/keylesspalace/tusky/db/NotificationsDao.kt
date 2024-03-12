@@ -61,7 +61,7 @@ r.category as 'r_category', r.statusIds as 'r_statusIds',
 r.createdAt as 'r_createdAt',
 ra.id as 'ra_id', ra.tuskyAccountId as 'ra_tuskyAccountId',
 ra.localUsername as 'ra_localUsername', ra.username as 'ra_username',
-ra.displayName as 'ra_displayName', ra.url as 'a_url', ra.avatar as 'ra_avatar',
+ra.displayName as 'ra_displayName', ra.url as 'ra_url', ra.avatar as 'ra_avatar',
 ra.emojis as 'ra_emojis', ra.bot as 'ra_bot'
 FROM NotificationEntity n
 LEFT JOIN NotificationAccountEntity a ON (n.tuskyAccountId = a.tuskyAccountId AND n.accountId = a.id)
