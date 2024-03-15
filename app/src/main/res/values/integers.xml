@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="image_aspect_min_tenth">5</integer>
+    <integer name="image_aspect_max_tenth">20</integer>
     <integer name="profile_media_column_count">3</integer>
-
     <integer name="trending_column_count">1</integer>
 </resources>
