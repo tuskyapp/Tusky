@@ -150,6 +150,7 @@ fun defaultTabs(): List<TabData> {
         createTabDataFromId(HOME),
         createTabDataFromId(NOTIFICATIONS),
         createTabDataFromId(LOCAL),
+        createTabDataFromId(FEDERATED),
         createTabDataFromId(DIRECT)
     )
 }
