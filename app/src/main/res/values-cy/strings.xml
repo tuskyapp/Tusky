@@ -614,12 +614,12 @@
         <item quantity="other">Nid oes modd i ti lanlwytho mwy na %1$d atodiad cyfryngau.</item>
     </plurals>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="zero">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
-        <item quantity="one">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
-        <item quantity="two">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
-        <item quantity="few">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
-        <item quantity="many">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
-        <item quantity="other">Disgrifia\'r cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="zero">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="one">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="two">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="few">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="many">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
+        <item quantity="other">Disgrifiwch y cynnwys ar gyfer pobl â nam ar eu golwg (terfyn nodau o %d)</item>
     </plurals>
     <string name="action_continue_edit">Parhau i olygu</string>
     <string name="status_edit_info">Golygwyd: %1$s</string>
@@ -735,11 +735,11 @@
     <string name="following_hashtag_success_format">Bellach yn dilyn yr hashnod #%s</string>
     <string name="error_unblocking_domain">Wedi methu dad-dewi %1$s: %2$s</string>
     <string name="error_blocking_domain">Wedi methu tewi %1$s: %2$s</string>
-    <string name="help_empty_lists">Dyma dy <b>olwg rhestri</b>. Galli di ddiffinio nifer o restri preifat ac yn ychwanegu cyfrifiadau atyn.
+    <string name="help_empty_lists">Dyma\'ch <b>golwg rhestri</b>. Gallwch chi diffinio nifer o restri preifat ac yn ychwanegu cyfrifiadau atyn.
 \n
-\n·SYLWCH y galli di ychwanegu dim ond cyfrifiadau dy fod yn dilyn i\'th restri.
+\n·SYLWCH y gallwch chi ychwanegu dim ond cyfrifiadau eich bod chi\'n dilyn i\'ch rhestri.
 \n
-\n·Gall y rhestri yma yn cael eu defynyddio fel tab yn Newisiadau cyfrif [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabiau.· </string>
+\n·Gall y rhestri hyn yn cael eu defnyddio fel tab yn Newisiadau cyfrif [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabiau.· </string>
     <string name="list_reply_policy_list">Aelodau\'r rhestr</string>
     <string name="list_reply_policy_followed">Unrhyw ddefnyddiwr a ddilynir</string>
     <string name="list_reply_policy_label">Dangos ymatebion i</string>
