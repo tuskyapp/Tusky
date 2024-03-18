@@ -1,0 +1,6 @@
+Tusky 24.1
+- Bildschirm schaltet sich beim Anschauen eines Videos nicht mehr aus.
+- Ein Memory Leak wurde behoben. Dies sollte die Stabilität und Leistung verbessern.
+- Emojis werden jetzt korrekt als 1 Zeichen gezählt, wenn ein Beitrag verfasst wird.
+- Absturz auf einigen Geräten bei der Textauswahl behoben.
+- Symbole in den Hilfetexten von leeren Timelines werden nun immer korrekt ausgerichtet.
