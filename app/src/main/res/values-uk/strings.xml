@@ -721,4 +721,9 @@
     <string name="pref_title_show_notifications_filter">Показати фільтр сповіщень</string>
     <string name="reply_sending">Надсилання…</string>
     <string name="reply_sending_long">Вашу відповідь надіслано.</string>
+    <string name="action_translate">Перекласти</string>
+    <string name="action_show_original">Показати оригінал</string>
+    <string name="label_translating">Перекладається…</string>
+    <string name="label_translated">Перекладено з %1$s на %2$s</string>
+    <string name="ui_error_translate">Неможливо перекласти: %s</string>
 </resources>
