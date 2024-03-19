@@ -39,7 +39,6 @@ import com.keylesspalace.tusky.util.Single
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import java.util.Locale
 import javax.inject.Inject
-import okhttp3.ResponseBody
 import retrofit2.Response
 
 /**
@@ -182,7 +181,7 @@ class TimelineCases @Inject constructor(
         return Single { runCatching { mastodonApi.notifications(maxId, sinceId, limit, excludes) } }
     }
 
-    fun clearNotificationsOld(): Single<ResponseBody> {
+    fun clearNotificationsOld(): Single<Unit> {
         return Single { mastodonApi.clearNotifications() }
     }
 
