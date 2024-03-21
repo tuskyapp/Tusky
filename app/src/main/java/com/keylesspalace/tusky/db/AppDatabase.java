@@ -44,7 +44,8 @@ import java.io.File;
         NotificationEntity.class,
         NotificationStatusEntity.class,
         NotificationReportEntity.class,
-        NotificationAccountEntity.class
+        NotificationAccountEntity.class,
+        HomeTimelineEntity.class
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.

@@ -39,7 +39,7 @@ import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.db.HomeTimelineData
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -79,7 +79,7 @@ class CachedTimelineViewModel @Inject constructor(
     filterModel
 ) {
 
-    private var currentPagingSource: PagingSource<Int, TimelineStatusWithAccount>? = null
+    private var currentPagingSource: PagingSource<Int, HomeTimelineData>? = null
 
     /** Map from status id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
@@ -105,9 +105,9 @@ class CachedTimelineViewModel @Inject constructor(
         // adding another cachedIn() for the overall result.
         .cachedIn(viewModelScope)
         .combine(translations) { pagingData, translations ->
-            pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
-                val translation = translations[timelineStatus.status.serverId]
-                timelineStatus.toViewData(
+            pagingData.map(Dispatchers.Default.asExecutor()) { timelineData ->
+                val translation = translations[timelineData.status?.serverId]
+                timelineData.toViewData(
                     gson,
                     isDetailed = false,
                     translation = translation
@@ -171,7 +171,7 @@ class CachedTimelineViewModel @Inject constructor(
 
                 val activeAccount = accountManager.activeAccount!!
 
-                timelineDao.insertStatus(
+                timelineDao.insertHomeTimelineItem(
                     Placeholder(placeholderId, loading = true).toEntity(
                         activeAccount.id
                     )
@@ -225,7 +225,7 @@ class CachedTimelineViewModel @Inject constructor(
                             }
                         timelineDao.insertStatus(
                             status.toEntity(
-                                timelineUserId = activeAccount.id,
+                                tuskyAccountId = activeAccount.id,
                                 gson = gson,
                                 expanded = activeAccount.alwaysOpenSpoiler,
                                 contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
@@ -244,7 +244,7 @@ class CachedTimelineViewModel @Inject constructor(
                             OLDEST_FIRST -> statuses.first().id
                             NEWEST_FIRST -> statuses.last().id
                         }
-                        timelineDao.insertStatus(
+                        timelineDao.insertHomeTimelineItem(
                             Placeholder(
                                 idToConvert,
                                 loading = false
@@ -264,7 +264,7 @@ class CachedTimelineViewModel @Inject constructor(
         Log.w("CachedTimelineVM", "failed loading statuses", e)
         val activeAccount = accountManager.activeAccount!!
         db.timelineDao()
-            .insertStatus(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
+            .insertHomeTimelineItem(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
     }
 
     override fun handleStatusChangedEvent(status: Status) {

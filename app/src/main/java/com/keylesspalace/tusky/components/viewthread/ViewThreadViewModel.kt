@@ -110,7 +110,7 @@ class ViewThreadViewModel @Inject constructor(
             val contextCall = async { api.statusContext(id) }
             val timelineStatus = db.timelineDao().getStatus(accountManager.activeAccount!!.id, id)
 
-            var detailedStatus = if (timelineStatus != null) {
+            var detailedStatus = /*if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
                 val viewData = timelineStatus.toViewData(
                     gson,
@@ -126,7 +126,7 @@ class ViewThreadViewModel @Inject constructor(
                 } else {
                     viewData
                 }
-            } else {
+            } else */run {
                 Log.d(TAG, "Loaded status from network")
                 val result = api.status(id).getOrElse { exception ->
                     _uiState.value = ThreadUiState.Error(exception)
@@ -147,7 +147,7 @@ class ViewThreadViewModel @Inject constructor(
             if (timelineStatus != null) {
                 api.status(id).getOrNull()?.let { result ->
                     db.timelineDao().update(
-                        accountId = accountManager.activeAccount!!.id,
+                        tuskyAccountId = accountManager.activeAccount!!.id,
                         status = result,
                         gson = gson
                     )

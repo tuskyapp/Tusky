@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 60,
-    "identityHash": "0f2fbca5d599542a7591eacdf38cb14d",
+    "identityHash": "996cc5b0e68e353463fe9c5f9310e6a0",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -530,7 +530,7 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `timelineUserId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`serverId`, `timelineUserId`), FOREIGN KEY(`authorServerId`, `timelineUserId`) REFERENCES `TimelineAccountEntity`(`serverId`, `timelineUserId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -545,8 +545,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "timelineUserId",
-            "columnName": "timelineUserId",
+            "fieldPath": "tuskyAccountId",
+            "columnName": "tuskyAccountId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -554,7 +554,7 @@
             "fieldPath": "authorServerId",
             "columnName": "authorServerId",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "inReplyToId",
@@ -671,18 +671,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "reblogServerId",
-            "columnName": "reblogServerId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "reblogAccountId",
-            "columnName": "reblogAccountId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "poll",
             "columnName": "poll",
             "affinity": "TEXT",
@@ -741,19 +729,19 @@
           "autoGenerate": false,
           "columnNames": [
             "serverId",
-            "timelineUserId"
+            "tuskyAccountId"
           ]
         },
         "indices": [
           {
-            "name": "index_TimelineStatusEntity_authorServerId_timelineUserId",
+            "name": "index_TimelineStatusEntity_authorServerId_tuskyAccountId",
             "unique": false,
             "columnNames": [
               "authorServerId",
-              "timelineUserId"
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_timelineUserId` ON `${TABLE_NAME}` (`authorServerId`, `timelineUserId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_tuskyAccountId` ON `${TABLE_NAME}` (`authorServerId`, `tuskyAccountId`)"
           }
         ],
         "foreignKeys": [
@@ -763,18 +751,18 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "authorServerId",
-              "timelineUserId"
+              "tuskyAccountId"
             ],
             "referencedColumns": [
               "serverId",
-              "timelineUserId"
+              "tuskyAccountId"
             ]
           }
         ]
       },
       {
         "tableName": "TimelineAccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `timelineUserId` INTEGER NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, `emojis` TEXT NOT NULL, `bot` INTEGER NOT NULL, PRIMARY KEY(`serverId`, `timelineUserId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `tuskyAccountId` INTEGER NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, `emojis` TEXT NOT NULL, `bot` INTEGER NOT NULL, PRIMARY KEY(`serverId`, `tuskyAccountId`))",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -783,8 +771,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "timelineUserId",
-            "columnName": "timelineUserId",
+            "fieldPath": "tuskyAccountId",
+            "columnName": "tuskyAccountId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -835,7 +823,7 @@
           "autoGenerate": false,
           "columnNames": [
             "serverId",
-            "timelineUserId"
+            "tuskyAccountId"
           ]
         },
         "indices": [],
@@ -1425,12 +1413,96 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "HomeTimelineEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `statusId` TEXT, `reblogAccountId` TEXT, `loading` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`), FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`reblogAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "tuskyAccountId",
+            "columnName": "tuskyAccountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statusId",
+            "columnName": "statusId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "reblogAccountId",
+            "columnName": "reblogAccountId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loading",
+            "columnName": "loading",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id",
+            "tuskyAccountId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_HomeTimelineEntity_tuskyAccountId_statusId_reblogAccountId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
+              "statusId",
+              "reblogAccountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_statusId_reblogAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`, `reblogAccountId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "TimelineStatusEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "statusId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          },
+          {
+            "table": "TimelineAccountEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "reblogAccountId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0f2fbca5d599542a7591eacdf38cb14d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '996cc5b0e68e353463fe9c5f9310e6a0')"
     ]
   }
 }

@@ -18,9 +18,10 @@ package com.keylesspalace.tusky.components.timeline
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.keylesspalace.tusky.db.HomeTimelineData
+import com.keylesspalace.tusky.db.HomeTimelineEntity
 import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
@@ -44,10 +45,10 @@ private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
 private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
 private val tagListType = object : TypeToken<List<HashTag>>() {}.type
 
-fun TimelineAccount.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
+fun TimelineAccount.toEntity(tuskyAccountId: Long, gson: Gson): TimelineAccountEntity {
     return TimelineAccountEntity(
         serverId = id,
-        timelineUserId = accountId,
+        tuskyAccountId = tuskyAccountId,
         localUsername = localUsername,
         username = username,
         displayName = name,
@@ -72,56 +73,27 @@ fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
     )
 }
 
-fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
-    return TimelineStatusEntity(
-        serverId = this.id,
-        url = null,
-        timelineUserId = timelineUserId,
-        authorServerId = null,
-        inReplyToId = null,
-        inReplyToAccountId = null,
-        content = null,
-        createdAt = 0L,
-        editedAt = 0L,
-        emojis = null,
-        reblogsCount = 0,
-        favouritesCount = 0,
-        reblogged = false,
-        favourited = false,
-        bookmarked = false,
-        sensitive = false,
-        spoilerText = "",
-        visibility = Status.Visibility.UNKNOWN,
-        attachments = null,
-        mentions = null,
-        tags = null,
-        application = null,
-        reblogServerId = null,
+fun Placeholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity {
+    return HomeTimelineEntity(
+        id = this.id,
+        tuskyAccountId = tuskyAccountId,
+        statusId = null,
         reblogAccountId = null,
-        poll = null,
-        muted = false,
-        expanded = loading,
-        contentCollapsed = false,
-        contentShowing = false,
-        pinned = false,
-        card = null,
-        repliesCount = 0,
-        language = null,
-        filtered = null
+        loading = this.loading
     )
 }
 
 fun Status.toEntity(
-    timelineUserId: Long,
+    tuskyAccountId: Long,
     gson: Gson,
     expanded: Boolean,
     contentShowing: Boolean,
     contentCollapsed: Boolean
 ): TimelineStatusEntity {
     return TimelineStatusEntity(
-        serverId = this.id,
+        serverId = id,
         url = actionableStatus.url,
-        timelineUserId = timelineUserId,
+        tuskyAccountId = tuskyAccountId,
         authorServerId = actionableStatus.account.id,
         inReplyToId = actionableStatus.inReplyToId,
         inReplyToAccountId = actionableStatus.inReplyToAccountId,
@@ -141,8 +113,6 @@ fun Status.toEntity(
         mentions = actionableStatus.mentions.let(gson::toJson),
         tags = actionableStatus.tags.let(gson::toJson),
         application = actionableStatus.application.let(gson::toJson),
-        reblogServerId = reblog?.id,
-        reblogAccountId = reblog?.let { this.account.id },
         poll = actionableStatus.poll.let(gson::toJson),
         muted = actionableStatus.muted,
         expanded = expanded,
@@ -156,10 +126,10 @@ fun Status.toEntity(
     )
 }
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
-    if (this.account == null) {
-        Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
-        return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
+fun HomeTimelineData.toViewData(gson: Gson, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
+    if (this.account == null || this.status == null) {
+        Log.d(TAG, "Constructing Placeholder(${this.id}, ${false})")
+        return StatusViewData.Placeholder(this.id, false)
     }
 
     val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
@@ -170,7 +140,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
     val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
     val card: Card? = gson.fromJson(status.card, Card::class.java)
 
-    val reblog = status.reblogServerId?.let { id ->
+    val reblog = reblogAccount?.let {
         Status(
             id = id,
             url = status.url,
