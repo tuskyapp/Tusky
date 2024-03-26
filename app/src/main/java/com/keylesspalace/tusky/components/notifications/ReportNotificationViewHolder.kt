@@ -20,8 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.NotificationsAdapter.NotificationActionListener
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
+import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
@@ -32,7 +32,8 @@ import java.util.Date
 
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
-    private val listener: NotificationActionListener
+    private val listener: NotificationActionListener,
+    private val accountActionListener: AccountActionListener
 ) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
 
     override fun bind(
@@ -73,13 +74,13 @@ class ReportNotificationViewHolder(
         binding.notificationReporteeAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onViewAccount(report.targetAccount.id)
+                accountActionListener.onViewAccount(report.targetAccount.id)
             }
         }
         binding.notificationReporterAvatar.setOnClickListener {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onViewAccount(reporter.id)
+                accountActionListener.onViewAccount(reporter.id)
             }
         }
 

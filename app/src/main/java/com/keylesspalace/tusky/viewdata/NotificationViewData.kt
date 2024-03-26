@@ -34,4 +34,6 @@ sealed class NotificationViewData {
         override val id: String,
         val isLoading: Boolean
     ) : NotificationViewData()
+
+    fun asStatusOrNull() = (this as? Concrete)?.statusViewData
 }

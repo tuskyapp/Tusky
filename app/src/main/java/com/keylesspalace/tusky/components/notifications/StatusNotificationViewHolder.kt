@@ -35,7 +35,6 @@ import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.NotificationsAdapter
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.entity.Emoji
@@ -49,7 +48,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.setClickableText
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -59,7 +57,6 @@ import java.util.Date
 internal class StatusNotificationViewHolder(
     private val binding: ItemStatusNotificationBinding,
     private val statusActionListener: StatusActionListener,
-    private val notificationActionListener: NotificationsAdapter.NotificationActionListener,
     private val absoluteTimeFormatter: AbsoluteTimeFormatter
 ) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
     private val avatarRadius48dp = itemView.context.resources.getDimensionPixelSize(
@@ -112,7 +109,7 @@ internal class StatusNotificationViewHolder(
                     // TODO
                 }
                 binding.notificationTopText.setOnClickListener {
-                    notificationActionListener.onViewAccount(viewData.account.id)
+                    statusActionListener.onViewAccount(viewData.account.id)
                 }
             }
             setMessage(viewData, statusActionListener, statusDisplayOptions.animateEmojis)
@@ -294,7 +291,7 @@ internal class StatusNotificationViewHolder(
             }
             binding.notificationContentWarningButton.setOnClickListener {
                 if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
-                    notificationActionListener.onExpandedChange(
+                    statusActionListener.onExpandedChange(
                         !statusViewData.isExpanded,
                         bindingAdapterPosition
                     )
@@ -324,7 +321,7 @@ internal class StatusNotificationViewHolder(
             binding.buttonToggleNotificationContent.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    notificationActionListener.onNotificationContentCollapsedChange(
+                    statusActionListener.onContentCollapsedChange(
                         !statusViewData.isCollapsed,
                         position
                     )

@@ -2,9 +2,9 @@ package com.keylesspalace.tusky.components.notifications
 
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.NotificationsAdapter.NotificationActionListener
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
@@ -13,7 +13,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowViewHolder(
     private val binding: ItemFollowBinding,
-    private val listener: NotificationActionListener,
+    private val listener: AccountActionListener,
 ) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
 
     override fun bind(

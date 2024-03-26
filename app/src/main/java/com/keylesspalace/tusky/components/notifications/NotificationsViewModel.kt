@@ -1,4 +1,4 @@
-/* Copyright 2021 Tusky Contributors
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -26,45 +26,37 @@ import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
-import androidx.room.withTransaction
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
-import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
-import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.NotificationDataEntity
-import com.keylesspalace.tusky.db.NotificationEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.NotificationViewData
-import com.keylesspalace.tusky.viewdata.NotificationViewData2
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import javax.inject.Inject
 
 /**
  * TimelineViewModel that caches all statuses in a local database
  */
 class NotificationsViewModel @Inject constructor(
-    timelineCases: TimelineCases,
+    private val timelineCases: TimelineCases,
     private val api: MastodonApi,
     eventHub: EventHub,
-    accountManager: AccountManager,
+    private val accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel,
     private val db: AppDatabase,
@@ -98,7 +90,6 @@ class NotificationsViewModel @Inject constructor(
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
-
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
             Notification.Type.MENTION, Notification.Type.STATUS, Notification.Type.POLL -> {
@@ -109,6 +100,80 @@ class NotificationsViewModel @Inject constructor(
                 Filter.Action.NONE
             }
             else -> Filter.Action.NONE
+        }
+    }
+
+    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        timelineCases.reblog(status.actionableId, reblog).onFailure { t ->
+            ifExpected(t) {
+                Log.w(TAG, "Failed to reblog status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        timelineCases.favourite(status.actionableId, favorite).onFailure { t ->
+            ifExpected(t) {
+                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        timelineCases.bookmark(status.actionableId, bookmark).onFailure { t ->
+            ifExpected(t) {
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete) = viewModelScope.launch {
+        val poll = status.status.actionableStatus.poll ?: run {
+            Log.d(TAG, "No poll on status ${status.id}")
+            return@launch
+        }
+        timelineCases.voteInPoll(status.actionableId, poll.id, choices).onFailure { t ->
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            }
+        }
+    }
+
+    fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao().setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+        }
+    }
+
+    fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao()
+                .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
+        }
+    }
+
+    fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao()
+                .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
+        }
+    }
+
+    fun removeAllByAccountId(accountId: String) {
+        viewModelScope.launch {
+            db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
+        }
+    }
+
+    fun removeAllByInstance(instance: String) {
+        viewModelScope.launch {
+            db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
+        }
+    }
+
+    fun clearWarning(status: StatusViewData.Concrete) {
+        viewModelScope.launch {
+            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 

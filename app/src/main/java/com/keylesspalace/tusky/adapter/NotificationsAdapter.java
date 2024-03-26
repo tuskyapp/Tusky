@@ -143,7 +143,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             case VIEW_TYPE_REPORT: {
                 ItemReportNotificationBinding binding = ItemReportNotificationBinding.inflate(inflater, parent, false);
-                return new ReportNotificationViewHolder(binding, notificationActionListener);
+                return new PlaceholderViewHolder(ItemStatusPlaceholderBinding.inflate(inflater, parent, false), statusListener);
             }
             default:
             case VIEW_TYPE_UNKNOWN: {

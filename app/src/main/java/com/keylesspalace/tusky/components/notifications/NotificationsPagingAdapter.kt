@@ -6,7 +6,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
-import com.keylesspalace.tusky.adapter.NotificationsAdapter
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
@@ -23,6 +22,10 @@ import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
+interface NotificationActionListener {
+    fun onViewReport(reportId: String?)
+}
+
 interface NotificationsViewHolder {
     fun bind(
         viewData: NotificationViewData.Concrete,
@@ -35,7 +38,7 @@ class NotificationsPagingAdapter(
     private val accountId: String,
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener,
-    private val notificationActionListener: NotificationsAdapter.NotificationActionListener,
+    private val notificationActionListener: NotificationActionListener,
     private val accountActionListener: AccountActionListener
 ) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
 
@@ -78,12 +81,11 @@ class NotificationsPagingAdapter(
             VIEW_TYPE_STATUS_NOTIFICATION -> StatusNotificationViewHolder(
                 ItemStatusNotificationBinding.inflate(inflater, parent, false),
                 statusListener,
-                notificationActionListener,
                 absoluteTimeFormatter
             )
             VIEW_TYPE_FOLLOW -> FollowViewHolder(
                 ItemFollowBinding.inflate(inflater, parent, false),
-                notificationActionListener
+                accountActionListener
             )
             VIEW_TYPE_FOLLOW_REQUEST -> FollowRequestViewHolder(
                 ItemFollowRequestBinding.inflate(inflater, parent, false),
@@ -96,7 +98,8 @@ class NotificationsPagingAdapter(
             )
             VIEW_TYPE_REPORT -> ReportNotificationViewHolder(
                 ItemReportNotificationBinding.inflate(inflater, parent, false),
-                notificationActionListener
+                notificationActionListener,
+                accountActionListener
             )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
