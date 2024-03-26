@@ -17,6 +17,8 @@ package com.keylesspalace.tusky.db
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Notification
@@ -39,7 +41,31 @@ data class NotificationDataEntity(
 )
 
 @Entity(
-    primaryKeys = ["id", "tuskyAccountId"]
+    primaryKeys = ["id", "tuskyAccountId"],
+    foreignKeys = (
+        [
+            ForeignKey(
+                entity = TimelineAccountEntity::class,
+                parentColumns = ["serverId", "tuskyAccountId"],
+                childColumns = ["accountId", "tuskyAccountId"]
+            ),
+            ForeignKey(
+                entity = TimelineStatusEntity::class,
+                parentColumns = ["serverId", "tuskyAccountId"],
+                childColumns = ["statusId", "tuskyAccountId"]
+            ),
+            ForeignKey(
+                entity = NotificationReportEntity::class,
+                parentColumns = ["serverId", "tuskyAccountId"],
+                childColumns = ["reportId", "tuskyAccountId"]
+            )
+        ]
+        ),
+    indices = [
+        Index("tuskyAccountId", "accountId"),
+        Index("tuskyAccountId", "statusId"),
+        Index("tuskyAccountId", "reportId"),
+    ]
 )
 @TypeConverters(Converters::class)
 data class NotificationEntity(
@@ -56,7 +82,19 @@ data class NotificationEntity(
 )
 
 @Entity(
-    primaryKeys = ["serverId", "tuskyAccountId"]
+    primaryKeys = ["serverId", "tuskyAccountId"],
+    foreignKeys = (
+        [
+            ForeignKey(
+                entity = TimelineAccountEntity::class,
+                parentColumns = ["serverId", "tuskyAccountId"],
+                childColumns = ["targetAccountId", "tuskyAccountId"]
+            )
+        ]
+    ),
+    indices = [
+        Index("tuskyAccountId", "targetAccountId"),
+    ]
 )
 @TypeConverters(Converters::class)
 data class NotificationReportEntity(

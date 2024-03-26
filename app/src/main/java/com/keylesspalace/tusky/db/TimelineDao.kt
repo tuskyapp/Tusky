@@ -211,35 +211,52 @@ AND serverId = :statusId"""
 
     /**
      * Cleans the TimelineStatusEntity and TimelineAccountEntity tables from old entries.
-     * @param accountId id of the account for which to clean tables
-     * @param limit how many statuses to keep
+     * @param tuskyAccountId id of the account for which to clean tables
+     * @param limit how many timeline items to keep
      */
-    suspend fun cleanup(accountId: Long, limit: Int) {
-        cleanupStatuses(accountId, limit)
-        cleanupAccounts(accountId)
+    suspend fun cleanup(tuskyAccountId: Long, limit: Int) {
+        cleanupHomeTimeline(tuskyAccountId, limit)
+        cleanupStatuses(tuskyAccountId)
+        cleanupAccounts(tuskyAccountId)
     }
 
     /**
-     * Cleans the TimelineStatusEntity table from old status entries.
-     * @param tuskyAccountId id of the account for which to clean statuses
-     * @param limit how many statuses to keep
+     * Cleans the TimelineStatusEntity and TimelineAccountEntity tables from old entries.
+     * @param tuskyAccountId id of the account for which to clean tables
+     * @param limit how many timeline items to keep
      */
     @Query(
-        """DELETE FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND serverId NOT IN
-        (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :limit)
+        """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND id NOT IN
+        (SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT :limit)
     """
     )
-    abstract suspend fun cleanupStatuses(tuskyAccountId: Long, limit: Int)
+    abstract suspend fun cleanupHomeTimeline(tuskyAccountId: Long, limit: Int)
 
     /**
-     * Cleans the TimelineAccountEntity table from accounts that are no longer referenced in the TimelineStatusEntity table
+     * Cleans the TimelineStatusEntity table from unreferenced status entries.
+     * @param tuskyAccountId id of the account for which to clean statuses
+     */
+    @Query(
+        """DELETE FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId
+        AND serverId NOT IN
+        (SELECT statusId FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NOT NULL)
+        AND serverId NOT IN
+        (SELECT statusId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NOT NULL)"""
+    )
+    abstract suspend fun cleanupStatuses(tuskyAccountId: Long)
+
+    /**
+     * Cleans the TimelineAccountEntity table from accounts that are no longer referenced by either TimelineStatusEntity, HomeTimelineEntity or NotificationEntity
      * @param tuskyAccountId id of the user account for which to clean timeline accounts
      */
     @Query(
-        """DELETE FROM TimelineAccountEntity WHERE tuskyAccountId = :tuskyAccountId AND serverId NOT IN
+        """DELETE FROM TimelineAccountEntity WHERE tuskyAccountId = :tuskyAccountId
+        AND serverId NOT IN
         (SELECT authorServerId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId)
         AND serverId NOT IN
-        (SELECT reblogAccountId FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND reblogAccountId IS NOT NULL)"""
+        (SELECT reblogAccountId FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND reblogAccountId IS NOT NULL)
+        AND serverId NOT IN
+        (SELECT accountId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND accountId IS NOT NULL)"""
     )
     abstract suspend fun cleanupAccounts(tuskyAccountId: Long)
 

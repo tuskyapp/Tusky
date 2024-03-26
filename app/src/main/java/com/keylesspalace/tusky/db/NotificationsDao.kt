@@ -81,4 +81,38 @@ AND
 
     @Query("SELECT id FROM NotificationEntity WHERE tuskyAccountId = :accountId AND type IS NULL ORDER BY LENGTH(id) DESC, id DESC LIMIT 1")
     abstract suspend fun getTopPlaceholderId(accountId: Long): String?
+
+    /**
+     * Cleans the NotificationEntity and ReportEntity tables from old entries.
+     * [TimelineDao.cleanup] should be run afterwards so no longer referenced statuses or accounts are cleaned up as well.
+     * @param tuskyAccountId id of the account for which to clean tables
+     * @param limit how many notifications to keep
+     */
+    suspend fun cleanup(tuskyAccountId: Long, limit: Int) {
+        cleanupNotifications(tuskyAccountId, limit)
+        cleanupReports(tuskyAccountId)
+    }
+
+    /**
+     * Cleans the NotificationEntity table from old entries.
+     * @param tuskyAccountId id of the account for which to clean tables
+     * @param limit how many timeline items to keep
+     */
+    @Query(
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND id NOT IN
+        (SELECT id FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT :limit)
+    """
+    )
+    abstract suspend fun cleanupNotifications(tuskyAccountId: Long, limit: Int)
+
+    /**
+     * Cleans the NotificationReportEntity table from unreferenced entries.
+     * @param tuskyAccountId id of the account for which to clean the table
+     */
+    @Query(
+        """DELETE FROM NotificationReportEntity WHERE tuskyAccountId = :tuskyAccountId
+        AND serverId NOT IN
+        (SELECT reportId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId and reportId IS NOT NULL)"""
+    )
+    abstract suspend fun cleanupReports(tuskyAccountId: Long)
 }

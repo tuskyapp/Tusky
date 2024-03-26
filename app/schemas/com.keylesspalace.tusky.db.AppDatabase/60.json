@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 60,
-    "identityHash": "25f77873866c00d7dcb45d6245143b58",
+    "identityHash": "982e2707959ee449b46932ae89c58ad3",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -1020,7 +1020,7 @@
       },
       {
         "tableName": "NotificationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `type` TEXT, `id` TEXT NOT NULL, `accountId` TEXT, `statusId` TEXT, `reportId` TEXT, `loading` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `type` TEXT, `id` TEXT NOT NULL, `accountId` TEXT, `statusId` TEXT, `reportId` TEXT, `loading` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`), FOREIGN KEY(`accountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`reportId`, `tuskyAccountId`) REFERENCES `NotificationReportEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "tuskyAccountId",
@@ -1072,12 +1072,83 @@
             "tuskyAccountId"
           ]
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_NotificationEntity_tuskyAccountId_accountId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_accountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `accountId`)"
+          },
+          {
+            "name": "index_NotificationEntity_tuskyAccountId_statusId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
+              "statusId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_statusId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`)"
+          },
+          {
+            "name": "index_NotificationEntity_tuskyAccountId_reportId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
+              "reportId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_reportId` ON `${TABLE_NAME}` (`tuskyAccountId`, `reportId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "TimelineAccountEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          },
+          {
+            "table": "TimelineStatusEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "statusId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          },
+          {
+            "table": "NotificationReportEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "reportId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          }
+        ]
       },
       {
         "tableName": "NotificationReportEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `serverId` TEXT NOT NULL, `category` TEXT NOT NULL, `statusIds` TEXT, `createdAt` INTEGER NOT NULL, `targetAccountId` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `serverId` TEXT NOT NULL, `category` TEXT NOT NULL, `statusIds` TEXT, `createdAt` INTEGER NOT NULL, `targetAccountId` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`targetAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "tuskyAccountId",
@@ -1123,8 +1194,33 @@
             "tuskyAccountId"
           ]
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_NotificationReportEntity_tuskyAccountId_targetAccountId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
+              "targetAccountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationReportEntity_tuskyAccountId_targetAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `targetAccountId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "TimelineAccountEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "targetAccountId",
+              "tuskyAccountId"
+            ],
+            "referencedColumns": [
+              "serverId",
+              "tuskyAccountId"
+            ]
+          }
+        ]
       },
       {
         "tableName": "HomeTimelineEntity",
@@ -1223,7 +1319,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25f77873866c00d7dcb45d6245143b58')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '982e2707959ee449b46932ae89c58ad3')"
     ]
   }
 }
