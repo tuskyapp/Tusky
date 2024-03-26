@@ -21,7 +21,7 @@ import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onSuccess
-import at.connyduck.calladapter.networkresult.recover
+import at.connyduck.calladapter.networkresult.recoverCatching
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.EmojisEntity
@@ -117,7 +117,7 @@ class InstanceInfoRepository @Inject constructor(
         val instance = this.instanceName
         return api.getInstance()
             .map { it.toEntity() }
-            .recover { t ->
+            .recoverCatching { t ->
                 if (t.isHttpNotFound()) {
                     api.getInstanceV1().map { it.toEntity(instance) }.getOrThrow()
                 } else {
