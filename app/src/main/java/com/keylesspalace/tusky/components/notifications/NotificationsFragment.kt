@@ -4,10 +4,14 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -37,7 +41,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -51,6 +54,7 @@ class NotificationsFragment :
     StatusActionListener,
     NotificationActionListener,
     AccountActionListener,
+    MenuProvider,
     Injectable {
 
     @Inject
@@ -106,7 +110,8 @@ class NotificationsFragment :
         )
 
         // setup the notifications filter bar
-        binding.appBarOptions.visible(preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true))
+        showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
+        updateFilterBarVisibility()
         binding.buttonClear.setOnClickListener { v -> confirmClearNotifications() }
         binding.buttonFilter.setOnClickListener { v -> showFilterMenu() }
 
@@ -362,24 +367,47 @@ class NotificationsFragment :
             PrefKeys.SHOW_NOTIFICATIONS_FILTER -> {
                 if (isAdded) {
                     showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
-                    updateFilterVisibility()
+                    updateFilterBarVisibility()
                 }
             }
         }
     }
 
-    private fun updateFilterVisibility() {
+    private fun updateFilterBarVisibility() {
         val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
         if (showNotificationsFilterBar) {
             binding.appBarOptions.setExpanded(true, false)
-            binding.appBarOptions.visibility = View.VISIBLE
+            binding.appBarOptions.show()
             // Set content behaviour to hide filter on scroll
             params.behavior = AppBarLayout.ScrollingViewBehavior()
         } else {
             binding.appBarOptions.setExpanded(false, false)
-            binding.appBarOptions.visibility = View.GONE
+            binding.appBarOptions.hide()
             // Clear behaviour to hide app bar
             params.behavior = null
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_notifications, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                onRefresh()
+                return true
+            }
+            R.id.action_edit_notification_filter -> {
+                showFilterMenu()
+                return true
+            }
+            R.id.action_clear_notifications -> {
+                confirmClearNotifications()
+                return true
+            }
+            else -> return false
         }
     }
 
