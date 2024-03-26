@@ -26,6 +26,7 @@ import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
@@ -49,9 +50,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-/**
- * TimelineViewModel that caches all statuses in a local database
- */
 class NotificationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val api: MastodonApi,
@@ -174,6 +172,19 @@ class NotificationsViewModel @Inject constructor(
     fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+        }
+    }
+
+    fun clearNotifications() {
+        viewModelScope.launch {
+            api.clearNotifications().fold(
+                {
+                    db.notificationsDao().cleanupNotifications(accountManager.activeAccount!!.id, 0)
+                },
+                { t ->
+                   Log.w(TAG, "failed to clear notifications", t)
+                }
+            )
         }
     }
 

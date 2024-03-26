@@ -1,10 +1,12 @@
 package com.keylesspalace.tusky.components.notifications
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -91,7 +93,10 @@ class NotificationsFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
+        // setup the notifications filter bar
         binding.appBarOptions.visible(preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true))
+        binding.buttonClear.setOnClickListener { v -> confirmClearNotifications() }
+        binding.buttonFilter.setOnClickListener { v -> showFilterMenu() }
 
         // Setup the SwipeRefreshLayout.
         binding.swipeRefreshLayout.setOnRefreshListener(this)
@@ -283,6 +288,22 @@ class NotificationsFragment :
 
     override fun onUntranslate(position: Int) {
         TODO("Not yet implemented")
+    }
+
+    private fun confirmClearNotifications() {
+        AlertDialog.Builder(requireContext())
+            .setMessage(R.string.notification_clear_text)
+            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int -> clearNotifications() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun clearNotifications() {
+        viewModel.clearNotifications()
+    }
+
+    private fun showFilterMenu() {
+
     }
 
     companion object {

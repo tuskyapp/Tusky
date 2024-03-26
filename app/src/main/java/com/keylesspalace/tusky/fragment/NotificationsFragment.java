@@ -711,7 +711,6 @@ public class NotificationsFragment extends SFragment implements
         window.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         window.showAsDropDown(binding.buttonFilter);
-
     }
 
     private String getNotificationText(Notification.Type type) {
@@ -757,7 +756,6 @@ public class NotificationsFragment extends SFragment implements
             saveNotificationsFilter();
             fullyRefreshWithProgressBar(true);
         }
-
     }
 
     private void loadNotificationsFilter() {

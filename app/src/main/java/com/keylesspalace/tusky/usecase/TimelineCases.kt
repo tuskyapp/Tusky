@@ -182,7 +182,7 @@ class TimelineCases @Inject constructor(
         return Single { runCatching { mastodonApi.notifications(maxId, sinceId, limit, excludes) } }
     }
 
-    fun clearNotificationsOld(): Single<ResponseBody> {
+    fun clearNotificationsOld(): Single<Unit> {
         return Single { mastodonApi.clearNotifications() }
     }
 
