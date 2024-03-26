@@ -51,7 +51,7 @@ data class TimelineStatusEntity(
     val authorServerId: String,
     val inReplyToId: String?,
     val inReplyToAccountId: String?,
-    val content: String?,
+    val content: String,
     val createdAt: Long,
     val editedAt: Long?,
     val emojis: String?,
@@ -115,7 +115,10 @@ data class TimelineAccountEntity(
             )
         ]
         ),
-    indices = [Index("tuskyAccountId", "statusId", "reblogAccountId")]
+    indices = [
+        Index("tuskyAccountId", "statusId"),
+        Index("tuskyAccountId", "reblogAccountId"),
+    ]
 )
 data class HomeTimelineEntity(
     val tuskyAccountId: Long,
@@ -137,4 +140,4 @@ data class HomeTimelineData(
     @Embedded val status: TimelineStatusEntity?,
     @Embedded(prefix = "a_") val account: TimelineAccountEntity?,
     @Embedded(prefix = "rb_") val reblogAccount: TimelineAccountEntity?
-) 
+)

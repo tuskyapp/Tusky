@@ -42,9 +42,7 @@ import java.io.File;
         TimelineAccountEntity.class,
         ConversationEntity.class,
         NotificationEntity.class,
-        NotificationStatusEntity.class,
         NotificationReportEntity.class,
-        NotificationAccountEntity.class,
         HomeTimelineEntity.class
     },
     // Note: Starting with version 54, database versions in Tusky are always even.

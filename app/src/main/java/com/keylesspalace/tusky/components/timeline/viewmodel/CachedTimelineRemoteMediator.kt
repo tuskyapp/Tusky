@@ -179,7 +179,9 @@ class CachedTimelineRemoteMediator(
                     statusId = status.actionableId,
                     reblogAccountId = if (status.reblog != null) {
                         status.account.id
-                    } else null
+                    } else {
+                        null
+                    }
                 )
             )
         }

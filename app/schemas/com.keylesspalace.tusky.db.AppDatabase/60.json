@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 60,
-    "identityHash": "996cc5b0e68e353463fe9c5f9310e6a0",
+    "identityHash": "25f77873866c00d7dcb45d6245143b58",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -530,7 +530,7 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -572,7 +572,7 @@
             "fieldPath": "content",
             "columnName": "content",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "createdAt",
@@ -1076,227 +1076,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "NotificationStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `reblogServerId` TEXT, `reblogAccountId` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`id`, `tuskyAccountId`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "url",
-            "columnName": "url",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "tuskyAccountId",
-            "columnName": "tuskyAccountId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "authorServerId",
-            "columnName": "authorServerId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "inReplyToId",
-            "columnName": "inReplyToId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "inReplyToAccountId",
-            "columnName": "inReplyToAccountId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "content",
-            "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "createdAt",
-            "columnName": "createdAt",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "editedAt",
-            "columnName": "editedAt",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "emojis",
-            "columnName": "emojis",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "reblogsCount",
-            "columnName": "reblogsCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "favouritesCount",
-            "columnName": "favouritesCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "repliesCount",
-            "columnName": "repliesCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "reblogged",
-            "columnName": "reblogged",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "bookmarked",
-            "columnName": "bookmarked",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "favourited",
-            "columnName": "favourited",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "sensitive",
-            "columnName": "sensitive",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "spoilerText",
-            "columnName": "spoilerText",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "visibility",
-            "columnName": "visibility",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "attachments",
-            "columnName": "attachments",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "mentions",
-            "columnName": "mentions",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "tags",
-            "columnName": "tags",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "application",
-            "columnName": "application",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "reblogServerId",
-            "columnName": "reblogServerId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "reblogAccountId",
-            "columnName": "reblogAccountId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "poll",
-            "columnName": "poll",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "muted",
-            "columnName": "muted",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "expanded",
-            "columnName": "expanded",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "contentCollapsed",
-            "columnName": "contentCollapsed",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "contentShowing",
-            "columnName": "contentShowing",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "pinned",
-            "columnName": "pinned",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "card",
-            "columnName": "card",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "language",
-            "columnName": "language",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "filtered",
-            "columnName": "filtered",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id",
-            "tuskyAccountId"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "NotificationReportEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `id` TEXT NOT NULL, `category` TEXT NOT NULL, `statusIds` TEXT, `createdAt` INTEGER NOT NULL, `targetAccountId` TEXT, PRIMARY KEY(`id`, `tuskyAccountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `serverId` TEXT NOT NULL, `category` TEXT NOT NULL, `statusIds` TEXT, `createdAt` INTEGER NOT NULL, `targetAccountId` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`))",
         "fields": [
           {
             "fieldPath": "tuskyAccountId",
@@ -1305,8 +1086,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "serverId",
+            "columnName": "serverId",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -1338,76 +1119,7 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "id",
-            "tuskyAccountId"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "NotificationAccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `tuskyAccountId` INTEGER NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, `emojis` TEXT NOT NULL, `bot` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "tuskyAccountId",
-            "columnName": "tuskyAccountId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "localUsername",
-            "columnName": "localUsername",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "username",
-            "columnName": "username",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "displayName",
-            "columnName": "displayName",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "url",
-            "columnName": "url",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "avatar",
-            "columnName": "avatar",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "emojis",
-            "columnName": "emojis",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "bot",
-            "columnName": "bot",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id",
+            "serverId",
             "tuskyAccountId"
           ]
         },
@@ -1458,15 +1170,24 @@
         },
         "indices": [
           {
-            "name": "index_HomeTimelineEntity_tuskyAccountId_statusId_reblogAccountId",
+            "name": "index_HomeTimelineEntity_tuskyAccountId_statusId",
             "unique": false,
             "columnNames": [
               "tuskyAccountId",
-              "statusId",
+              "statusId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_statusId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`)"
+          },
+          {
+            "name": "index_HomeTimelineEntity_tuskyAccountId_reblogAccountId",
+            "unique": false,
+            "columnNames": [
+              "tuskyAccountId",
               "reblogAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_statusId_reblogAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`, `reblogAccountId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_reblogAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `reblogAccountId`)"
           }
         ],
         "foreignKeys": [
@@ -1502,7 +1223,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '996cc5b0e68e353463fe9c5f9310e6a0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25f77873866c00d7dcb45d6245143b58')"
     ]
   }
 }

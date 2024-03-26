@@ -1,4 +1,4 @@
-/* Copyright 2023 Tusky Contributors
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -22,11 +22,13 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.google.gson.Gson
+import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.NotificationDataEntity
-import com.keylesspalace.tusky.db.NotificationStatusEntity
+import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
@@ -42,6 +44,7 @@ class NotificationsRemoteMediator(
     private var initialRefresh = false
 
     private val notificationsDao = db.notificationsDao()
+    private val timelineDao = db.timelineDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
@@ -111,7 +114,7 @@ class NotificationsRemoteMediator(
                        to guarantee the placeholder has an id that exists on the server as not all
                        servers handle client generated ids as expected */
                     notificationsDao.insertNotification(
-                        Placeholder(notifications.last().id, loading = false).toEntity(activeAccount.id)
+                        Placeholder(notifications.last().id, loading = false).toNotificationEntity(activeAccount.id)
                     )
                 }
             }
@@ -139,15 +142,15 @@ class NotificationsRemoteMediator(
         }
 
         for (notification in notifications) {
-            notificationsDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
+            timelineDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
             notification.report?.let {
-                notificationsDao.insertAccount(it.targetAccount.toEntity(activeAccount.id, gson))
-                notificationsDao.insertReport(it.toEntity(activeAccount.id, gson))
+                timelineDao.insertAccount(it.targetAccount.toEntity(activeAccount.id, gson))
+                notificationsDao.insertReport(it.toEntity(activeAccount.id))
             }
 
             // check if we already have one of the newly loaded statuses cached locally
             // in case we do, copy the local state (expanded, contentShowing, contentCollapsed) over so it doesn't get lost
-            var oldStatus: NotificationStatusEntity? = null
+            var oldStatus: TimelineStatusEntity? = null
             for (page in state.pages) {
                 oldStatus = page.data.find { s ->
                     s.id == notification.id
@@ -160,9 +163,9 @@ class NotificationsRemoteMediator(
                 val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !it.actionableStatus.sensitive
                 val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-                notificationsDao.insertAccount(it.account.toEntity(activeAccount.id, gson))
+                timelineDao.insertAccount(it.account.toEntity(activeAccount.id, gson))
 
-                notificationsDao.insertStatus(
+                timelineDao.insertStatus(
                     it.toEntity(
                         tuskyAccountId = activeAccount.id,
                         gson = gson,
@@ -175,13 +178,9 @@ class NotificationsRemoteMediator(
 
             notificationsDao.insertNotification(
                 notification.toEntity(
-                    activeAccount.id,
-                    gson,
-                    true,
-                    true,
-                    true
-                ))
-
+                    activeAccount.id
+                )
+            )
         }
         return overlappedNotifications
     }

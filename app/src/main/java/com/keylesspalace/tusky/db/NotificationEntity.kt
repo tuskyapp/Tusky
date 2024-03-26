@@ -1,4 +1,4 @@
-/* Copyright 2021 Tusky Contributors
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -24,15 +24,18 @@ import com.keylesspalace.tusky.entity.Status
 import java.util.Date
 
 data class NotificationDataEntity(
-    val tuskyAccountId: Long, // id of the account logged into Tusky this notifications belongs to
-    val type: Notification.Type?, // null when placeholder
+    // id of the account logged into Tusky this notifications belongs to
+    val tuskyAccountId: Long,
+    // null when placeholder
+    val type: Notification.Type?,
     val id: String,
-    @Embedded(prefix = "a_") val account: NotificationAccountEntity?,
-    @Embedded(prefix = "s_") val status: NotificationStatusEntity?,
-    @Embedded(prefix = "sa_") val statusAccount: NotificationAccountEntity?,
+    @Embedded(prefix = "a_") val account: TimelineAccountEntity,
+    @Embedded(prefix = "s_") val status: TimelineStatusEntity?,
+    @Embedded(prefix = "sa_") val statusAccount: TimelineAccountEntity?,
     @Embedded(prefix = "r_") val report: NotificationReportEntity?,
-    @Embedded(prefix = "ra_") val reportTargetAccount: NotificationAccountEntity?,
-    val loading: Boolean = false // relevant when it is a placeholder
+    @Embedded(prefix = "ra_") val reportTargetAccount: TimelineAccountEntity?,
+    // relevant when it is a placeholder
+    val loading: Boolean = false
 )
 
 @Entity(
@@ -40,81 +43,28 @@ data class NotificationDataEntity(
 )
 @TypeConverters(Converters::class)
 data class NotificationEntity(
-    val tuskyAccountId: Long, // id of the account logged into Tusky this notifications belongs to
-    val type: Notification.Type?, // null when placeholder
+    // id of the account logged into Tusky this notifications belongs to
+    val tuskyAccountId: Long,
+    // null when placeholder
+    val type: Notification.Type?,
     val id: String,
     val accountId: String?,
     val statusId: String?,
     val reportId: String?,
-    val loading: Boolean = false // relevant when it is a placeholder
+    // relevant when it is a placeholder
+    val loading: Boolean = false
 )
 
 @Entity(
-    primaryKeys = ["id", "tuskyAccountId"]
+    primaryKeys = ["serverId", "tuskyAccountId"]
 )
 @TypeConverters(Converters::class)
 data class NotificationReportEntity(
-    val tuskyAccountId: Long, // id of the account logged into Tusky this report belongs to
-    val id: String,
+    // id of the account logged into Tusky this report belongs to
+    val tuskyAccountId: Long,
+    val serverId: String,
     val category: String,
     val statusIds: List<String>?,
     val createdAt: Date,
     val targetAccountId: String?
-)
-
-@Entity(
-    primaryKeys = ["id", "tuskyAccountId"]
-)
-@TypeConverters(Converters::class)
-data class NotificationStatusEntity(
-    val id: String,
-    val url: String?,
-    val tuskyAccountId: Long,
-    val authorServerId: String?,
-    val inReplyToId: String?,
-    val inReplyToAccountId: String?,
-    val content: String?,
-    val createdAt: Long,
-    val editedAt: Long?,
-    val emojis: String?,
-    val reblogsCount: Int,
-    val favouritesCount: Int,
-    val repliesCount: Int,
-    val reblogged: Boolean,
-    val bookmarked: Boolean,
-    val favourited: Boolean,
-    val sensitive: Boolean,
-    val spoilerText: String,
-    val visibility: Status.Visibility,
-    val attachments: String?,
-    val mentions: String?,
-    val tags: String?,
-    val application: String?,
-    val reblogServerId: String?, // if it has a reblogged status, it's id is stored here
-    val reblogAccountId: String?,
-    val poll: String?,
-    val muted: Boolean?,
-    /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
-    val expanded: Boolean,
-    val contentCollapsed: Boolean,
-    val contentShowing: Boolean,
-    val pinned: Boolean,
-    val card: String?,
-    val language: String?,
-    val filtered: List<FilterResult>?
-)
-
-@Entity(
-    primaryKeys = ["id", "tuskyAccountId"]
-)
-data class NotificationAccountEntity(
-    val id: String,
-    val tuskyAccountId: Long,
-    val localUsername: String,
-    val username: String,
-    val displayName: String,
-    val url: String,
-    val avatar: String,
-    val emojis: String,
-    val bot: Boolean
 )

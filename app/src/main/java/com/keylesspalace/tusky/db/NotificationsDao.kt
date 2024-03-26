@@ -28,47 +28,40 @@ abstract class NotificationsDao {
     abstract suspend fun insertNotification(notificationEntity: NotificationEntity): Long
 
     @Insert(onConflict = REPLACE)
-    abstract suspend fun insertAccount(notificationsAccountEntity: NotificationAccountEntity): Long
-
-    @Insert(onConflict = REPLACE)
-    abstract suspend fun insertStatus(notificationStatusEntity: NotificationStatusEntity): Long
-
-    @Insert(onConflict = REPLACE)
     abstract suspend fun insertReport(notificationReportDataEntity: NotificationReportEntity): Long
 
     @Query(
         """
 SELECT n.tuskyAccountId, n.type, n.id, n.loading,
-a.id as 'a_id', a.tuskyAccountId as 'a_tuskyAccountId',
+a.serverId as 'a_serverId', a.tuskyAccountId as 'a_tuskyAccountId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
 a.emojis as 'a_emojis', a.bot as 'a_bot',
-s.id as 's_id', s.url as 's_url', s.tuskyAccountId as 's_tuskyAccountId',
+s.serverId as 's_serverId', s.url as 's_url', s.tuskyAccountId as 's_tuskyAccountId',
 s.authorServerId as 's_authorServerId', s.inReplyToId as 's_inReplyToId', s.inReplyToAccountId as 's_inReplyToAccountId',
 s.content as 's_content', s.createdAt as 's_createdAt', s.editedAt as 's_editedAt', s.emojis as 's_emojis', s.reblogsCount as 's_reblogsCount',
 s.favouritesCount as 's_favouritesCount', s.repliesCount as 's_repliesCount', s.reblogged as 's_reblogged', s.favourited as 's_favourited',
 s.bookmarked as 's_bookmarked', s.sensitive as 's_sensitive', s.spoilerText as 's_spoilerText', s.visibility as 's_visibility',
-s.mentions as 's_mentions', s.tags as 's_tags', s.application as 's_application', s.reblogServerId as 's_reblogServerId',
-s.reblogAccountId as 's_reblogAccountId', s.content as 's_content', s.attachments as 's_attachments', s.poll as 's_poll',
+s.mentions as 's_mentions', s.tags as 's_tags', s.application as 's_application', s.content as 's_content', s.attachments as 's_attachments', s.poll as 's_poll',
 s.card as 's_card', s.muted as 's_muted', s.expanded as 's_expanded', s.contentShowing as 's_contentShowing', s.contentCollapsed as 's_contentCollapsed',
 s.pinned as 's_pinned', s.language as 's_language', s.filtered as 's_filtered',
-sa.id as 'sa_id', sa.tuskyAccountId as 'sa_tuskyAccountId',
+sa.serverId as 'sa_serverId', sa.tuskyAccountId as 'sa_tuskyAccountId',
 sa.localUsername as 'sa_localUsername', sa.username as 'sa_username',
 sa.displayName as 'sa_displayName', sa.url as 'sa_url', sa.avatar as 'sa_avatar',
 sa.emojis as 'sa_emojis', sa.bot as 'sa_bot',
-r.id as 'r_id', r.tuskyAccountId as 'r_tuskyAccountId',
+r.serverId as 'r_serverId', r.tuskyAccountId as 'r_tuskyAccountId',
 r.category as 'r_category', r.statusIds as 'r_statusIds',
 r.createdAt as 'r_createdAt',
-ra.id as 'ra_id', ra.tuskyAccountId as 'ra_tuskyAccountId',
+ra.serverId as 'ra_serverId', ra.tuskyAccountId as 'ra_tuskyAccountId',
 ra.localUsername as 'ra_localUsername', ra.username as 'ra_username',
 ra.displayName as 'ra_displayName', ra.url as 'ra_url', ra.avatar as 'ra_avatar',
 ra.emojis as 'ra_emojis', ra.bot as 'ra_bot'
 FROM NotificationEntity n
-LEFT JOIN NotificationAccountEntity a ON (n.tuskyAccountId = a.tuskyAccountId AND n.accountId = a.id)
-LEFT JOIN NotificationStatusEntity s ON (n.tuskyAccountId = s.tuskyAccountId AND n.statusId = s.id)
-LEFT JOIN NotificationAccountEntity sa ON (n.tuskyAccountId = sa.tuskyAccountId AND s.authorServerId = sa.id)
-LEFT JOIN NotificationReportEntity r ON (n.tuskyAccountId = r.tuskyAccountId AND n.reportId = r.id)
-LEFT JOIN NotificationAccountEntity ra ON (n.tuskyAccountId = ra.tuskyAccountId AND r.targetAccountId = ra.id)
+LEFT JOIN TimelineAccountEntity a ON (n.tuskyAccountId = a.tuskyAccountId AND n.accountId = a.serverId)
+LEFT JOIN TimelineStatusEntity s ON (n.tuskyAccountId = s.tuskyAccountId AND n.statusId = s.serverId)
+LEFT JOIN TimelineAccountEntity sa ON (n.tuskyAccountId = sa.tuskyAccountId AND s.authorServerId = sa.serverId)
+LEFT JOIN NotificationReportEntity r ON (n.tuskyAccountId = r.tuskyAccountId AND n.reportId = r.serverId)
+LEFT JOIN TimelineAccountEntity ra ON (n.tuskyAccountId = ra.tuskyAccountId AND r.targetAccountId = ra.serverId)
 WHERE s.tuskyAccountId = :account
 ORDER BY LENGTH(n.id) DESC, n.id DESC"""
     )
