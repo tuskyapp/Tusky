@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 60,
-    "identityHash": "982e2707959ee449b46932ae89c58ad3",
+    "identityHash": "668f612ff84a3702c1b7188d05360e21",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -1074,34 +1074,34 @@
         },
         "indices": [
           {
-            "name": "index_NotificationEntity_tuskyAccountId_accountId",
+            "name": "index_NotificationEntity_accountId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "accountId"
+              "accountId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_accountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `accountId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_accountId_tuskyAccountId` ON `${TABLE_NAME}` (`accountId`, `tuskyAccountId`)"
           },
           {
-            "name": "index_NotificationEntity_tuskyAccountId_statusId",
+            "name": "index_NotificationEntity_statusId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "statusId"
+              "statusId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_statusId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_statusId_tuskyAccountId` ON `${TABLE_NAME}` (`statusId`, `tuskyAccountId`)"
           },
           {
-            "name": "index_NotificationEntity_tuskyAccountId_reportId",
+            "name": "index_NotificationEntity_reportId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "reportId"
+              "reportId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_tuskyAccountId_reportId` ON `${TABLE_NAME}` (`tuskyAccountId`, `reportId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_reportId_tuskyAccountId` ON `${TABLE_NAME}` (`reportId`, `tuskyAccountId`)"
           }
         ],
         "foreignKeys": [
@@ -1196,14 +1196,14 @@
         },
         "indices": [
           {
-            "name": "index_NotificationReportEntity_tuskyAccountId_targetAccountId",
+            "name": "index_NotificationReportEntity_targetAccountId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "targetAccountId"
+              "targetAccountId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationReportEntity_tuskyAccountId_targetAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `targetAccountId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_NotificationReportEntity_targetAccountId_tuskyAccountId` ON `${TABLE_NAME}` (`targetAccountId`, `tuskyAccountId`)"
           }
         ],
         "foreignKeys": [
@@ -1266,24 +1266,24 @@
         },
         "indices": [
           {
-            "name": "index_HomeTimelineEntity_tuskyAccountId_statusId",
+            "name": "index_HomeTimelineEntity_statusId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "statusId"
+              "statusId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_statusId` ON `${TABLE_NAME}` (`tuskyAccountId`, `statusId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_statusId_tuskyAccountId` ON `${TABLE_NAME}` (`statusId`, `tuskyAccountId`)"
           },
           {
-            "name": "index_HomeTimelineEntity_tuskyAccountId_reblogAccountId",
+            "name": "index_HomeTimelineEntity_reblogAccountId_tuskyAccountId",
             "unique": false,
             "columnNames": [
-              "tuskyAccountId",
-              "reblogAccountId"
+              "reblogAccountId",
+              "tuskyAccountId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_tuskyAccountId_reblogAccountId` ON `${TABLE_NAME}` (`tuskyAccountId`, `reblogAccountId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_reblogAccountId_tuskyAccountId` ON `${TABLE_NAME}` (`reblogAccountId`, `tuskyAccountId`)"
           }
         ],
         "foreignKeys": [
@@ -1319,7 +1319,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '982e2707959ee449b46932ae89c58ad3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '668f612ff84a3702c1b7188d05360e21')"
     ]
   }
 }

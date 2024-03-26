@@ -62,9 +62,9 @@ data class NotificationDataEntity(
         ]
         ),
     indices = [
-        Index("tuskyAccountId", "accountId"),
-        Index("tuskyAccountId", "statusId"),
-        Index("tuskyAccountId", "reportId"),
+        Index("accountId", "tuskyAccountId"),
+        Index("statusId", "tuskyAccountId"),
+        Index("reportId", "tuskyAccountId"),
     ]
 )
 @TypeConverters(Converters::class)
@@ -93,7 +93,7 @@ data class NotificationEntity(
         ]
     ),
     indices = [
-        Index("tuskyAccountId", "targetAccountId"),
+        Index("targetAccountId", "tuskyAccountId"),
     ]
 )
 @TypeConverters(Converters::class)
@@ -105,4 +105,14 @@ data class NotificationReportEntity(
     val statusIds: List<String>?,
     val createdAt: Date,
     val targetAccountId: String?
+)
+
+data class NotificationReportDataEntity(
+    // id of the account logged into Tusky this report belongs to
+    val tuskyAccountId: Long,
+    val serverId: String,
+    val category: String,
+    val statusIds: List<String>?,
+    val createdAt: Date,
+    val targetAccount: String?
 )

@@ -51,7 +51,7 @@ sa.displayName as 'sa_displayName', sa.url as 'sa_url', sa.avatar as 'sa_avatar'
 sa.emojis as 'sa_emojis', sa.bot as 'sa_bot',
 r.serverId as 'r_serverId', r.tuskyAccountId as 'r_tuskyAccountId',
 r.category as 'r_category', r.statusIds as 'r_statusIds',
-r.createdAt as 'r_createdAt',
+r.createdAt as 'r_createdAt', r.targetAccountId as 'r_targetAccountId',
 ra.serverId as 'ra_serverId', ra.tuskyAccountId as 'ra_tuskyAccountId',
 ra.localUsername as 'ra_localUsername', ra.username as 'ra_username',
 ra.displayName as 'ra_displayName', ra.url as 'ra_url', ra.avatar as 'ra_avatar',

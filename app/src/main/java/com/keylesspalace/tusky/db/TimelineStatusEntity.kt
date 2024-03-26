@@ -116,8 +116,8 @@ data class TimelineAccountEntity(
         ]
         ),
     indices = [
-        Index("tuskyAccountId", "statusId"),
-        Index("tuskyAccountId", "reblogAccountId"),
+        Index("statusId", "tuskyAccountId"),
+        Index("reblogAccountId", "tuskyAccountId"),
     ]
 )
 data class HomeTimelineEntity(
