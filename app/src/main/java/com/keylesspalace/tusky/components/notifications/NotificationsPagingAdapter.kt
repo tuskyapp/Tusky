@@ -18,7 +18,6 @@ import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -38,8 +37,7 @@ class NotificationsPagingAdapter(
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationsAdapter.NotificationActionListener,
     private val accountActionListener: AccountActionListener
-)
-    : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
+) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
@@ -168,6 +166,4 @@ class NotificationsPagingAdapter(
             }
         }
     }
-
 }
-

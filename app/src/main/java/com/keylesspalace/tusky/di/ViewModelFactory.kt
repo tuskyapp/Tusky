@@ -33,6 +33,7 @@ import com.keylesspalace.tusky.components.filters.EditFilterViewModel
 import com.keylesspalace.tusky.components.filters.FiltersViewModel
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsViewModel
 import com.keylesspalace.tusky.components.login.LoginWebViewViewModel
+import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusViewModel
 import com.keylesspalace.tusky.components.search.SearchViewModel
@@ -41,7 +42,6 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineView
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
 import com.keylesspalace.tusky.components.viewthread.ViewThreadViewModel
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsViewModel
-import com.keylesspalace.tusky.components.notifications.NotificationsViewModel
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ListsViewModel

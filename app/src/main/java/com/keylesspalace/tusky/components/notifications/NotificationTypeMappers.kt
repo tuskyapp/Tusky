@@ -85,7 +85,9 @@ fun NotificationDataEntity.toViewData(
                 isShowingContent = this.status.contentShowing,
                 isCollapsed = this.status.contentCollapsed
             )
-        } else null,
+        } else {
+            null
+        },
         report = if (report != null && reportTargetAccount != null) {
             report.toViewData(reportTargetAccount, gson)
         } else {

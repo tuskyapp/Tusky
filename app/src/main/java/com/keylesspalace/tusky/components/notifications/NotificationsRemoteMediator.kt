@@ -51,8 +51,6 @@ class NotificationsRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, NotificationDataEntity>
     ): MediatorResult {
-
-        Log.d("NotificationsRM", "loadType $loadType")
         if (!activeAccount.isLoggedIn()) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -71,7 +69,8 @@ class NotificationsRemoteMediator(
                 topId?.let { cachedTopId ->
                     val notificationResponse = api.notifications(
                         maxId = cachedTopId,
-                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
+                        // so already existing placeholders don't get accidentally overwritten
+                        sinceId = topPlaceholderId,
                         limit = state.config.pageSize
                     )
 

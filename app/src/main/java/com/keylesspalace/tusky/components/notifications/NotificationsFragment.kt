@@ -30,12 +30,16 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.NotificationViewData
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class NotificationsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    StatusActionListener, NotificationsAdapter.NotificationActionListener, AccountActionListener, Injectable {
+class NotificationsFragment : Fragment(),
+    SwipeRefreshLayout.OnRefreshListener,
+    StatusActionListener,
+    NotificationsAdapter.NotificationActionListener,
+    AccountActionListener,
+    Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -56,7 +60,6 @@ class NotificationsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener,
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val showNotificationsFilter = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
@@ -69,13 +72,13 @@ class NotificationsFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.recyclerView.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         adapter = NotificationsPagingAdapter(
-            accountId = "1", //TODO
+            accountId = "1", // TODO
             statusListener = this,
             notificationActionListener = this,
             accountActionListener = this,
             statusDisplayOptions = StatusDisplayOptions(
                 true,true,true,true,true,CardViewMode.INDENTED,true,true,true,true,true,true,true
-            ) //TODO
+            ) // TODO
         )
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.setAccessibilityDelegateCompat(

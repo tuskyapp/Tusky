@@ -127,7 +127,6 @@ fun TimelineStatusEntity.toStatus(
     gson: Gson,
     account: TimelineAccountEntity
 ): Status {
-
     val attachments: ArrayList<Attachment> = gson.fromJson(attachments, attachmentArrayListType) ?: arrayListOf()
     val mentions: List<Status.Mention> = gson.fromJson(mentions, mentionListType) ?: emptyList()
     val tags: List<HashTag>? = gson.fromJson(tags, tagListType)

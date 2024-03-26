@@ -111,8 +111,4 @@ object PrefKeys {
 
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
-
-    /** Keys that are no longer used (e.g., the preference has been removed */
-    object Deprecated {
-    }
 }

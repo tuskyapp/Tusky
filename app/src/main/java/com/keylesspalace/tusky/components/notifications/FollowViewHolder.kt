@@ -45,7 +45,8 @@ class FollowViewHolder(
             account.avatar,
             binding.notificationAvatar,
             avatarRadius,
-            statusDisplayOptions.animateAvatars, null
+            statusDisplayOptions.animateAvatars,
+            null
         )
 
         itemView.setOnClickListener { listener.onViewAccount(account.id) }

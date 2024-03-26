@@ -20,9 +20,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
-import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Status
 import java.util.Date
 
 data class NotificationDataEntity(
@@ -91,7 +89,7 @@ data class NotificationEntity(
                 childColumns = ["targetAccountId", "tuskyAccountId"]
             )
         ]
-    ),
+        ),
     indices = [
         Index("targetAccountId", "tuskyAccountId"),
     ]
