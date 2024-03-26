@@ -139,5 +139,6 @@ data class HomeTimelineData(
     val id: String,
     @Embedded val status: TimelineStatusEntity?,
     @Embedded(prefix = "a_") val account: TimelineAccountEntity?,
-    @Embedded(prefix = "rb_") val reblogAccount: TimelineAccountEntity?
+    @Embedded(prefix = "rb_") val reblogAccount: TimelineAccountEntity?,
+    val loading: Boolean
 )

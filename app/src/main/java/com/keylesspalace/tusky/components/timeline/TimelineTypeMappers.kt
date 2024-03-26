@@ -170,7 +170,7 @@ fun TimelineStatusEntity.toStatus(
 
 fun HomeTimelineData.toViewData(gson: Gson, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
     if (this.account == null || this.status == null) {
-        return StatusViewData.Placeholder(this.id, false)
+        return StatusViewData.Placeholder(this.id, loading)
     }
 
     val originalStatus = status.toStatus(gson, account)
