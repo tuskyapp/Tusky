@@ -24,12 +24,14 @@ import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -108,25 +110,20 @@ class ViewThreadViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "Finding status with: $id")
             val contextCall = async { api.statusContext(id) }
-            val timelineStatus = db.timelineDao().getStatus(accountManager.activeAccount!!.id, id)
+            val statusAndAccount = db.timelineDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
 
-            var detailedStatus = /*if (timelineStatus != null) {
+            var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
-                val viewData = timelineStatus.toViewData(
-                    gson,
-                    isDetailed = true,
-                ) as StatusViewData.Concrete
 
-                // Return the correct status, depending on which one matched. If you do not do
-                // this the status IDs will be different between the status that's displayed with
-                // ThreadUiState.LoadingThread and ThreadUiState.Success, even though the apparent
-                // status content is the same. Then the status flickers as it is drawn twice.
-                if (viewData.actionableId == id) {
-                    viewData.actionable.toViewData(isDetailed = true)
-                } else {
-                    viewData
-                }
-            } else */run {
+                StatusViewData.Concrete(
+                    status = statusAndAccount.first.toStatus(gson, statusAndAccount.second),
+                    isExpanded = statusAndAccount.first.expanded,
+                    isShowingContent = statusAndAccount.first.contentShowing,
+                    isCollapsed = statusAndAccount.first.contentCollapsed,
+                    isDetailed = true,
+                    translation = null
+                )
+            } else {
                 Log.d(TAG, "Loaded status from network")
                 val result = api.status(id).getOrElse { exception ->
                     _uiState.value = ThreadUiState.Error(exception)
@@ -143,9 +140,9 @@ class ViewThreadViewModel @Inject constructor(
             // If the detailedStatus was loaded from the database it might be out-of-date
             // compared to the remote one. Now the user has a working UI do a background fetch
             // for the status. Ignore errors, the user still has a functioning UI if the fetch
-            // failed.
-            if (timelineStatus != null) {
-                api.status(id).getOrNull()?.let { result ->
+            // failed. Update the database when the fetch was successful.
+            if (statusAndAccount != null) {
+                api.status(id).onSuccess { result ->
                     db.timelineDao().update(
                         tuskyAccountId = accountManager.activeAccount!!.id,
                         status = result,

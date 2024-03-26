@@ -183,7 +183,7 @@ fun HomeTimelineData.toViewData(gson: Gson, isDetailed: Boolean = false, transla
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = originalStatus,
-            content = status.content.orEmpty(),
+            content = status.content,
             // lie but whatever?
             createdAt = Date(status.createdAt),
             editedAt = null,

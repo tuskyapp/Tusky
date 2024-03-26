@@ -110,7 +110,9 @@ class NotificationsFragment :
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
-                binding.recyclerView, this, StatusProvider { pos: Int ->
+                binding.recyclerView,
+                this,
+                StatusProvider { pos: Int ->
                     if (pos in 0 until adapter.itemCount) {
                         val notification = adapter.peek(pos)
                         // We support replies only for now
@@ -122,7 +124,8 @@ class NotificationsFragment :
                     } else {
                         null
                     }
-                })
+                }
+            )
         )
 
         binding.recyclerView.adapter = adapter
