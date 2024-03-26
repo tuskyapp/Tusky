@@ -40,12 +40,16 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
+import com.keylesspalace.tusky.util.deserialize
+import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -61,12 +65,18 @@ class NotificationsViewModel @Inject constructor(
     private val gson: Gson
 ) : ViewModel() {
 
+    private val _filters: MutableStateFlow<Set<Notification.Type>> = MutableStateFlow(
+        accountManager.activeAccount?.let { account -> deserialize(account.notificationsFilter) } ?: emptySet()
+    )
+    val filters: StateFlow<Set<Notification.Type>> = _filters
+
     private var currentPagingSource: PagingSource<Int, NotificationDataEntity>? = null
+    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
 
     @OptIn(ExperimentalPagingApi::class)
     val notifications = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson),
+        remoteMediator = remoteMediator,
         pagingSourceFactory = {
             val activeAccount = accountManager.activeAccount
             if (activeAccount == null) {
@@ -87,6 +97,22 @@ class NotificationsViewModel @Inject constructor(
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
+
+    fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
+        if (newFilters != _filters.value) {
+            val account = accountManager.activeAccount
+            if (account != null) {
+                viewModelScope.launch {
+                    account.notificationsFilter = serialize(newFilters)
+                    accountManager.saveAccount(account)
+                    remoteMediator.excludes = newFilters
+                    // clear the cache
+                    db.notificationsDao().cleanupNotifications(account.id, 0)
+                    _filters.value = newFilters
+                }
+            }
+        }
+    }
 
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
@@ -182,7 +208,7 @@ class NotificationsViewModel @Inject constructor(
                     db.notificationsDao().cleanupNotifications(accountManager.activeAccount!!.id, 0)
                 },
                 { t ->
-                   Log.w(TAG, "failed to clear notifications", t)
+                    Log.w(TAG, "failed to clear notifications", t)
                 }
             )
         }

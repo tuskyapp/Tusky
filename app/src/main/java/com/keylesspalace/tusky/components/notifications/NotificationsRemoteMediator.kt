@@ -38,8 +38,13 @@ class NotificationsRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val gson: Gson,
+    var excludes: Set<Notification.Type>
 ) : RemoteMediator<Int, NotificationDataEntity>() {
+
+    init {
+        println(excludes)
+    }
 
     private var initialRefresh = false
 
@@ -71,7 +76,8 @@ class NotificationsRemoteMediator(
                         maxId = cachedTopId,
                         // so already existing placeholders don't get accidentally overwritten
                         sinceId = topPlaceholderId,
-                        limit = state.config.pageSize
+                        limit = state.config.pageSize,
+                        excludes = excludes
                     )
 
                     val notifications = notificationResponse.body()
@@ -87,14 +93,14 @@ class NotificationsRemoteMediator(
 
             val notificationResponse = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.notifications(sinceId = topPlaceholderId, limit = state.config.pageSize)
+                    api.notifications(sinceId = topPlaceholderId, limit = state.config.pageSize, excludes = excludes)
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.APPEND -> {
                     val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.id
-                    api.notifications(maxId = maxId, limit = state.config.pageSize)
+                    api.notifications(maxId = maxId, limit = state.config.pageSize, excludes = excludes)
                 }
             }
 

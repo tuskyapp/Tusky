@@ -9,6 +9,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.PopupWindow
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.MenuProvider
@@ -26,8 +29,11 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
+import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Notification.Type.Companion.visibleTypes
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -157,7 +163,6 @@ class NotificationsFragment :
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-
 
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -347,7 +352,51 @@ class NotificationsFragment :
     }
 
     private fun showFilterMenu() {
+        val notificationTypeList = Notification.Type.visibleTypes.map { type ->
+            getNotificationText(type)
+        }
 
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, notificationTypeList)
+        val window = PopupWindow(requireContext())
+        val menuBinding = NotificationsFilterBinding.inflate(LayoutInflater.from(requireContext()), binding.root as ViewGroup, false)
+
+        menuBinding.buttonApply.setOnClickListener {
+            val checkedItems = menuBinding.listView.getCheckedItemPositions()
+            val excludes = Notification.Type.visibleTypes.filterIndexed { index, _ ->
+                !checkedItems[index, false]
+            }
+            window.dismiss()
+            viewModel.updateNotificationFilters(excludes.toSet())
+        }
+
+        menuBinding.listView.setAdapter(adapter)
+        menuBinding.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE)
+
+        Notification.Type.visibleTypes.forEachIndexed { index, type ->
+            menuBinding.listView.setItemChecked(index, !viewModel.filters.value.contains(type))
+        }
+
+        window.setContentView(menuBinding.root)
+        window.isFocusable = true
+        window.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        window.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        window.showAsDropDown(binding.buttonFilter)
+    }
+
+    private fun getNotificationText(type: Notification.Type): String {
+        return when (type) {
+            Notification.Type.MENTION -> getString(R.string.notification_mention_name)
+            Notification.Type.FAVOURITE -> getString(R.string.notification_favourite_name)
+            Notification.Type.REBLOG -> getString(R.string.notification_boost_name)
+            Notification.Type.FOLLOW -> getString(R.string.notification_follow_name)
+            Notification.Type.FOLLOW_REQUEST -> getString(R.string.notification_follow_request_name)
+            Notification.Type.POLL -> getString(R.string.notification_poll_name)
+            Notification.Type.STATUS -> getString(R.string.notification_subscription_name)
+            Notification.Type.SIGN_UP -> getString(R.string.notification_sign_up_name)
+            Notification.Type.UPDATE -> getString(R.string.notification_update_name)
+            Notification.Type.REPORT -> getString(R.string.notification_report_name)
+            else -> "Unknown"
+        }
     }
 
     private fun onPreferenceChanged(key: String) {
