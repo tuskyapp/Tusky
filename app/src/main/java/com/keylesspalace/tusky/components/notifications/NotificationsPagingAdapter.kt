@@ -36,11 +36,20 @@ interface NotificationsViewHolder {
 
 class NotificationsPagingAdapter(
     private val accountId: String,
-    private val statusDisplayOptions: StatusDisplayOptions,
+    private var statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
     private val accountActionListener: AccountActionListener
 ) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
+
+    var mediaPreviewEnabled: Boolean
+        get() = statusDisplayOptions.mediaPreviewEnabled
+        set(mediaPreviewEnabled) {
+            statusDisplayOptions = statusDisplayOptions.copy(
+                mediaPreviewEnabled = mediaPreviewEnabled
+            )
+            notifyItemRangeChanged(0, itemCount)
+        }
 
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 

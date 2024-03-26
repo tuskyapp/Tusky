@@ -7,20 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
@@ -53,12 +59,18 @@ class NotificationsFragment :
     @Inject
     lateinit var preferences: SharedPreferences
 
+    @Inject
+    lateinit var eventHub: EventHub
+
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
 
     private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
 
     private lateinit var layoutManager: LayoutManager
     private lateinit var adapter: NotificationsPagingAdapter
+
+    private var hideFab: Boolean = false
+    private var showNotificationsFilterBar: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -141,6 +153,25 @@ class NotificationsFragment :
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
 
+
+        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+                val composeButton = (activity as ActionButtonActivity).actionButton
+                if (composeButton != null) {
+                    if (hideFab) {
+                        if (dy > 0 && composeButton.isShown) {
+                            composeButton.hide() // hides the button if we're scrolling down
+                        } else if (dy < 0 && !composeButton.isShown) {
+                            composeButton.show() // shows it if we are scrolling up
+                        }
+                    } else if (!composeButton.isShown) {
+                        composeButton.show()
+                    }
+                }
+            }
+        })
+
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -171,6 +202,14 @@ class NotificationsFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.notifications.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventHub.events.collect { event ->
+                if (event is PreferenceChangedEvent) {
+                    onPreferenceChanged(event.preferenceKey)
+                }
             }
         }
     }
@@ -304,6 +343,44 @@ class NotificationsFragment :
 
     private fun showFilterMenu() {
 
+    }
+
+    private fun onPreferenceChanged(key: String) {
+        when (key) {
+            PrefKeys.FAB_HIDE -> {
+                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
+            }
+
+            PrefKeys.MEDIA_PREVIEW_ENABLED -> {
+                val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
+                val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
+                if (enabled != oldMediaPreviewEnabled) {
+                    adapter.mediaPreviewEnabled = enabled
+                }
+            }
+
+            PrefKeys.SHOW_NOTIFICATIONS_FILTER -> {
+                if (isAdded) {
+                    showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
+                    updateFilterVisibility()
+                }
+            }
+        }
+    }
+
+    private fun updateFilterVisibility() {
+        val params = binding.swipeRefreshLayout.layoutParams as CoordinatorLayout.LayoutParams
+        if (showNotificationsFilterBar) {
+            binding.appBarOptions.setExpanded(true, false)
+            binding.appBarOptions.visibility = View.VISIBLE
+            // Set content behaviour to hide filter on scroll
+            params.behavior = AppBarLayout.ScrollingViewBehavior()
+        } else {
+            binding.appBarOptions.setExpanded(false, false)
+            binding.appBarOptions.visibility = View.GONE
+            // Clear behaviour to hide app bar
+            params.behavior = null
+        }
     }
 
     companion object {
