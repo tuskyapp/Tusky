@@ -699,4 +699,9 @@
     <string name="reply_sending_long">Verið er að senda svarið þitt.</string>
     <string name="reply_sending">Sendi…</string>
     <string name="pref_title_show_notifications_filter">Birta tilkynningasíu</string>
+    <string name="action_translate">Þýða</string>
+    <string name="action_show_original">Sýna upprunalegt</string>
+    <string name="label_translating">Þýði…</string>
+    <string name="label_translated">Þýtt úr %1$s með %2$s</string>
+    <string name="ui_error_translate">Tókst ekki að þýða: %s</string>
 </resources>
