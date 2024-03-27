@@ -26,6 +26,7 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class AnnouncementsActivity :
     BottomSheetActivity(),
@@ -111,41 +113,46 @@ class AnnouncementsActivity :
 
         binding.announcementsList.adapter = adapter
 
-        viewModel.announcements.observe(this) {
-            when (it) {
-                is Success -> {
-                    binding.progressBar.hide()
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    if (it.data.isNullOrEmpty()) {
-                        binding.errorMessageView.setup(
-                            R.drawable.elephant_friend_empty,
-                            R.string.no_announcements
-                        )
-                        binding.errorMessageView.show()
-                    } else {
+        lifecycleScope.launch {
+            viewModel.announcements.collect {
+                if (it == null) return@collect
+                when (it) {
+                    is Success -> {
+                        binding.progressBar.hide()
+                        binding.swipeRefreshLayout.isRefreshing = false
+                        if (it.data.isNullOrEmpty()) {
+                            binding.errorMessageView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.no_announcements
+                            )
+                            binding.errorMessageView.show()
+                        } else {
+                            binding.errorMessageView.hide()
+                        }
+                        adapter.updateList(it.data ?: listOf())
+                    }
+                    is Loading -> {
                         binding.errorMessageView.hide()
                     }
-                    adapter.updateList(it.data ?: listOf())
-                }
-                is Loading -> {
-                    binding.errorMessageView.hide()
-                }
-                is Error -> {
-                    binding.progressBar.hide()
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    binding.errorMessageView.setup(
-                        R.drawable.errorphant_error,
-                        R.string.error_generic
-                    ) {
-                        refreshAnnouncements()
+                    is Error -> {
+                        binding.progressBar.hide()
+                        binding.swipeRefreshLayout.isRefreshing = false
+                        binding.errorMessageView.setup(
+                            R.drawable.errorphant_error,
+                            R.string.error_generic
+                        ) {
+                            refreshAnnouncements()
+                        }
+                        binding.errorMessageView.show()
                     }
-                    binding.errorMessageView.show()
                 }
             }
         }
 
-        viewModel.emojis.observe(this) {
-            picker.adapter = EmojiAdapter(it, this, animateEmojis)
+        lifecycleScope.launch {
+            viewModel.emoji.collect {
+                picker.adapter = EmojiAdapter(it, this@AnnouncementsActivity, animateEmojis)
+            }
         }
 
         viewModel.load()

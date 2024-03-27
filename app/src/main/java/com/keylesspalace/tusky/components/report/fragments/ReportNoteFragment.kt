@@ -20,6 +20,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
@@ -35,6 +36,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
 
@@ -79,11 +81,14 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     }
 
     private fun subscribeObservables() {
-        viewModel.reportingState.observe(viewLifecycleOwner) {
-            when (it) {
-                is Success -> viewModel.navigateTo(Screen.Done)
-                is Loading -> showLoading()
-                is Error -> showError(it.cause)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.reportingState.collect {
+                if (it == null) return@collect
+                when (it) {
+                    is Success -> viewModel.navigateTo(Screen.Done)
+                    is Loading -> showLoading()
+                    is Error -> showError(it.cause)
+                }
             }
         }
     }

@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.viewmodel
 import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
@@ -40,6 +39,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
@@ -66,10 +66,17 @@ class EditProfileViewModel @Inject constructor(
     private val instanceInfoRepo: InstanceInfoRepository
 ) : ViewModel() {
 
-    val profileData = MutableLiveData<Resource<Account>>()
-    val avatarData = MutableLiveData<Uri>()
-    val headerData = MutableLiveData<Uri>()
-    val saveData = MutableLiveData<Resource<Nothing>>()
+    private val _profileData = MutableStateFlow(null as Resource<Account>?)
+    val profileData: StateFlow<Resource<Account>?> = _profileData.asStateFlow()
+
+    private val _avatarData = MutableStateFlow(null as Uri?)
+    val avatarData: StateFlow<Uri?> = _avatarData.asStateFlow()
+
+    private val _headerData = MutableStateFlow(null as Uri?)
+    val headerData: StateFlow<Uri?> = _headerData.asStateFlow()
+
+    private val _saveData = MutableStateFlow(null as Resource<Nothing>?)
+    val saveData: StateFlow<Resource<Nothing>?> = _saveData.asStateFlow()
 
     val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getUpdatedInstanceInfoOrFallback.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
@@ -80,16 +87,16 @@ class EditProfileViewModel @Inject constructor(
     private var apiProfileAccount: Account? = null
 
     fun obtainProfile() = viewModelScope.launch {
-        if (profileData.value == null || profileData.value is Error) {
-            profileData.postValue(Loading())
+        if (_profileData.value == null || _profileData.value is Error) {
+            _profileData.value = Loading()
 
             mastodonApi.accountVerifyCredentials().fold(
                 { profile ->
                     apiProfileAccount = profile
-                    profileData.postValue(Success(profile))
+                    _profileData.value = Success(profile)
                 },
                 {
-                    profileData.postValue(Error())
+                    _profileData.value = Error()
                 }
             )
         }
@@ -100,11 +107,11 @@ class EditProfileViewModel @Inject constructor(
     fun getHeaderUri() = getCacheFileForName(HEADER_FILE_NAME).toUri()
 
     fun newAvatarPicked() {
-        avatarData.value = getAvatarUri()
+        _avatarData.value = getAvatarUri()
     }
 
     fun newHeaderPicked() {
-        headerData.value = getHeaderUri()
+        _headerData.value = getHeaderUri()
     }
 
     internal fun dataChanged(newProfileData: ProfileDataInUi) {
@@ -112,16 +119,16 @@ class EditProfileViewModel @Inject constructor(
     }
 
     internal fun save(newProfileData: ProfileDataInUi) {
-        if (saveData.value is Loading || profileData.value !is Success) {
+        if (_saveData.value is Loading || _profileData.value !is Success) {
             return
         }
 
-        saveData.value = Loading()
+        _saveData.value = Loading()
 
         val diff = getProfileDiff(apiProfileAccount, newProfileData)
         if (!diff.hasChanges()) {
             // if nothing has changed, there is no need to make an api call
-            saveData.value = Success()
+            _saveData.value = Success()
             return
         }
 
@@ -160,11 +167,11 @@ class EditProfileViewModel @Inject constructor(
                 diff.field4?.second?.toRequestBody(MultipartBody.FORM)
             ).fold(
                 { newAccountData ->
-                    saveData.postValue(Success())
+                    _saveData.value = Success()
                     eventHub.dispatch(ProfileEditedEvent(newAccountData))
                 },
                 { throwable ->
-                    saveData.postValue(Error(errorMessage = throwable.getServerErrorMessage()))
+                    _saveData.value = Error(errorMessage = throwable.getServerErrorMessage())
                 }
             )
         }
@@ -172,18 +179,18 @@ class EditProfileViewModel @Inject constructor(
 
     // cache activity state for rotation change
     internal fun updateProfile(newProfileData: ProfileDataInUi) {
-        if (profileData.value is Success) {
-            val newProfileSource = profileData.value?.data?.source?.copy(
+        if (_profileData.value is Success) {
+            val newProfileSource = _profileData.value?.data?.source?.copy(
                 note = newProfileData.note,
                 fields = newProfileData.fields
             )
-            val newProfile = profileData.value?.data?.copy(
+            val newProfile = _profileData.value?.data?.copy(
                 displayName = newProfileData.displayName,
                 locked = newProfileData.locked,
                 source = newProfileSource
             )
 
-            profileData.value = Success(newProfile)
+            _profileData.value = Success(newProfile)
         }
     }
 
@@ -209,13 +216,13 @@ class EditProfileViewModel @Inject constructor(
             newProfileData.locked
         }
 
-        val avatarFile = if (avatarData.value != null) {
+        val avatarFile = if (_avatarData.value != null) {
             getCacheFileForName(AVATAR_FILE_NAME)
         } else {
             null
         }
 
-        val headerFile = if (headerData.value != null) {
+        val headerFile = if (_headerData.value != null) {
             getCacheFileForName(HEADER_FILE_NAME)
         } else {
             null
