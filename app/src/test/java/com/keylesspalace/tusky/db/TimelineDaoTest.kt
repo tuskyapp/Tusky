@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -39,7 +39,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun insertGetStatus() = runBlocking {
+    fun insertGetStatus() = runTest {
         val setOne = mockHomeTimelineData(id = "3")
         val setTwo = mockHomeTimelineData(id = "20", reblog = true)
         val ignoredOne = mockHomeTimelineData(id = "1")
@@ -65,7 +65,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun cleanup() = runBlocking {
+    fun cleanup() = runTest {
         val statusesBeforeCleanup = listOf(
             mockHomeTimelineData(id = "100", authorServerId = "100"),
             mockHomeTimelineData(id = "10", authorServerId = "3"),
@@ -122,7 +122,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun overwriteDeletedStatus() = runBlocking {
+    fun overwriteDeletedStatus() = runTest {
         val oldStatuses = listOf(
             mockHomeTimelineData(id = "3"),
             mockHomeTimelineData(id = "2"),
@@ -153,7 +153,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun deleteRange() = runBlocking {
+    fun deleteRange() = runTest {
         val statuses = listOf(
             mockHomeTimelineData(id = "100"),
             mockHomeTimelineData(id = "50"),
@@ -197,7 +197,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun deleteAllForInstance() = runBlocking {
+    fun deleteAllForInstance() = runTest {
         val statusWithRedDomain1 = mockHomeTimelineData(
             id = "15",
             tuskyAccountId = 1,
@@ -252,12 +252,12 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun `should return null as topId when db is empty`() = runBlocking {
+    fun `should return null as topId when db is empty`() = runTest {
         assertNull(timelineDao.getTopId(1))
     }
 
     @Test
-    fun `should return correct topId`() = runBlocking {
+    fun `should return correct topId`() = runTest {
         val statusData = listOf(
             mockHomeTimelineData(
                 id = "4",
@@ -285,7 +285,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun `should return correct placeholderId after other ids`() = runBlocking {
+    fun `should return correct placeholderId after other ids`() = runTest {
         val statusData = listOf(
             mockHomeTimelineData(id = "1000"),
             mockPlaceholderHomeTimelineData(id = "99"),
@@ -303,7 +303,7 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun `should return correct top placeholderId`() = runBlocking {
+    fun `should return correct top placeholderId`() = runTest {
         val statusData = listOf(
             mockHomeTimelineData(id = "1000"),
             mockPlaceholderHomeTimelineData(id = "99"),
