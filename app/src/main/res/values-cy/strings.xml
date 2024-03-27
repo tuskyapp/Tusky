@@ -100,7 +100,7 @@
     <string name="send_post_content_to">Rhannu\'r neges i…</string>
     <string name="send_media_to">Rhannu\'r cyfryngau i…</string>
     <string name="confirmation_reported">Anfonwyd!</string>
-    <string name="confirmation_unblocked">Dadflociwyd y defnyddiwr</string>
+    <string name="confirmation_unblocked">Dadrwystrwyd y defnyddiwr</string>
     <string name="confirmation_unmuted">Dad-dawyd defnyddiwr</string>
     <string name="hint_domain">Pa weinydd\?</string>
     <string name="hint_compose">Beth sy\'n digwydd?</string>
@@ -416,7 +416,7 @@
     <string name="poll_allow_multiple_choices">Amlddewis</string>
     <string name="poll_new_choice_hint">Dewis %d</string>
     <string name="no_announcements">Does dim cyhoeddiadau.</string>
-    <string name="account_note_hint">Dy nodyn preifat ynghylch y cyfrif hwn</string>
+    <string name="account_note_hint">Eich nodyn preifat ynghylch y cyfrif hwn</string>
     <string name="account_note_saved">Cadwyd!</string>
     <string name="action_subscribe_account">Tanysgrifio</string>
     <string name="action_unsubscribe_account">Dad-danysgrifo</string>
@@ -453,7 +453,7 @@
     <string name="tusky_compose_post_quicksetting_label">Ysgrifennu Neges</string>
     <string name="tips_push_notification_migration">Mewngofnodwch i\'ch gyfrifon eto er mwyn galluogi hysbysiadau i\'ch ffôn.</string>
     <string name="dialog_push_notification_migration">Er mwyn derbyn hysbysiadau i\'ch ffôn drwy UnifiedPush, mae angen caniatâd ar Tusky i danysgrifio i hysbysiadau ar eich gweinydd Mastodon. Bydd rhaid i chi mewngofnodi eto i newid y sgôp OAuth sy\'n cael ei roi i Tusky. Bydd defnyddio\'r opsiwn ail-fewngofnodi yma neu yn Newisiadau cyfrif yn cadw eich holl ddrafftiau a\'ch storfa leol.</string>
-    <string name="mute_domain_warning">Ydych chi\'n siŵr eich bod am flocio %s gyfan\? Fyddwch chi ddim yn gweld dim cynnwys o\'r parth hwnnw mewn unrhyw ffrwd gyhoeddus na chwaith yn eich hysbysiadau. Bydd eich dilynwyr o\'r parth hwnnw yn cael eu dileu.</string>
+    <string name="mute_domain_warning">Ydych chi\'n siŵr eich bod am rwystro %s gyfan\? Fyddwch chi ddim yn gweld dim cynnwys o\'r parth hwnnw mewn unrhyw ffrwd gyhoeddus na chwaith yn eich hysbysiadau. Bydd eich dilynwyr o\'r parth hwnnw yn cael eu dileu.</string>
     <string name="duration_indefinite">Dim diwedd</string>
     <plurals name="favs">
         <item quantity="zero"><b>%1$s</b> Ffefryn</item>
@@ -706,7 +706,7 @@
     <string name="load_newest_notifications">Llwytho hysbysiadau diweddaraf</string>
     <string name="compose_delete_draft">Dileu\'r drafft\?</string>
     <string name="error_media_upload_sending_fmt">Methodd llwytho i fyny: %s</string>
-    <string name="about_device_info_title">Dy ddyfais</string>
+    <string name="about_device_info_title">Eich dyfais</string>
     <string name="about_device_info">%s %s
 \nFersiwn Android: %s
 \nFersiwn SDK: %d</string>
