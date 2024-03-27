@@ -24,7 +24,6 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,13 +39,13 @@ import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
@@ -104,17 +103,15 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.accountsSearchRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.accountsSearchRecycler.adapter = searchAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
-                when (state.accounts) {
-                    is Either.Right -> binding.messageView.hide()
-                    is Either.Left -> handleError(state.accounts.value)
-                }
-
-                setupSearchView(state)
+            when (state.accounts) {
+                is Either.Right -> binding.messageView.hide()
+                is Either.Left -> handleError(state.accounts.value)
             }
+
+            setupSearchView(state)
         }
 
         binding.searchView.isSubmitButtonEnabled = true

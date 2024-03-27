@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +14,12 @@ import com.keylesspalace.tusky.databinding.FragmentDomainBlocksBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectable {
 
@@ -41,16 +40,12 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiEvents.collect { event ->
-                showSnackbar(event)
-            }
+        viewModel.uiEvents.observe(viewLifecycleOwner) { event ->
+            showSnackbar(event)
         }
 
-        lifecycleScope.launch {
-            viewModel.domainPager.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.domainPager.observeLatest { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         adapter.addLoadStateListener { loadState ->

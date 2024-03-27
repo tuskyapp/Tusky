@@ -107,6 +107,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -123,7 +124,6 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -490,91 +490,70 @@ class ComposeActivity :
     }
 
     private fun subscribeToUpdates(mediaAdapter: MediaPreviewAdapter) {
-        lifecycleScope.launch {
-            viewModel.instanceInfo.collect { instanceData ->
-                maximumTootCharacters = instanceData.maxChars
-                charactersReservedPerUrl = instanceData.charactersReservedPerUrl
-                maxUploadMediaNumber = instanceData.maxMediaAttachments
-                updateVisibleCharactersLeft()
+        viewModel.instanceInfo.observe { instanceData ->
+            maximumTootCharacters = instanceData.maxChars
+            charactersReservedPerUrl = instanceData.charactersReservedPerUrl
+            maxUploadMediaNumber = instanceData.maxMediaAttachments
+            updateVisibleCharactersLeft()
+        }
+
+        viewModel.emoji.observe(::setEmojiList)
+
+        viewModel.showContentWarning.combine(
+            viewModel.markMediaAsSensitive
+        ) { showContentWarning, markSensitive ->
+            updateSensitiveMediaToggle(markSensitive, showContentWarning)
+            showContentWarning(showContentWarning)
+        }.observe()
+        viewModel.statusVisibility.observe(::setStatusVisibility)
+
+        viewModel.media.observe { media ->
+            mediaAdapter.submitList(media)
+
+            binding.composeMediaPreviewBar.visible(media.isNotEmpty())
+            updateSensitiveMediaToggle(
+                viewModel.markMediaAsSensitive.value,
+                viewModel.showContentWarning.value
+            )
+        }
+
+        viewModel.poll.observe { poll ->
+            binding.pollPreview.visible(poll != null)
+            poll?.let(binding.pollPreview::setPoll)
+        }
+
+        viewModel.scheduledAt.observe { scheduledAt ->
+            if (scheduledAt == null) {
+                binding.composeScheduleView.resetSchedule()
+            } else {
+                binding.composeScheduleView.setDateTime(scheduledAt)
             }
+            updateScheduleButton()
         }
 
-        lifecycleScope.launch {
-            viewModel.emoji.collect(::setEmojiList)
-        }
+        viewModel.media.combine(viewModel.poll) { media, poll ->
+            val active = poll == null &&
+                media.size < maxUploadMediaNumber &&
+                (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
+            enableButton(binding.composeAddMediaButton, active, active)
+            enablePollButton(media.isEmpty())
+        }.observe()
 
-        lifecycleScope.launch {
-            viewModel.showContentWarning.combine(
-                viewModel.markMediaAsSensitive
-            ) { showContentWarning, markSensitive ->
-                updateSensitiveMediaToggle(markSensitive, showContentWarning)
-                showContentWarning(showContentWarning)
-            }.collect()
-        }
-
-        lifecycleScope.launch {
-            viewModel.statusVisibility.collect(::setStatusVisibility)
-        }
-
-        lifecycleScope.launch {
-            viewModel.media.collect { media ->
-                mediaAdapter.submitList(media)
-
-                binding.composeMediaPreviewBar.visible(media.isNotEmpty())
-                updateSensitiveMediaToggle(
-                    viewModel.markMediaAsSensitive.value,
-                    viewModel.showContentWarning.value
+        viewModel.uploadError.observe { throwable ->
+            if (throwable is UploadServerError) {
+                displayTransientMessage(throwable.errorMessage)
+            } else {
+                displayTransientMessage(
+                    getString(
+                        R.string.error_media_upload_sending_fmt,
+                        throwable.message
+                    )
                 )
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.poll.collect { poll ->
-                binding.pollPreview.visible(poll != null)
-                poll?.let(binding.pollPreview::setPoll)
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.scheduledAt.collect { scheduledAt ->
-                if (scheduledAt == null) {
-                    binding.composeScheduleView.resetSchedule()
-                } else {
-                    binding.composeScheduleView.setDateTime(scheduledAt)
-                }
-                updateScheduleButton()
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.media.combine(viewModel.poll) { media, poll ->
-                val active = poll == null &&
-                    media.size < maxUploadMediaNumber &&
-                    (media.isEmpty() || media.first().type == QueuedMedia.Type.IMAGE)
-                enableButton(binding.composeAddMediaButton, active, active)
-                enablePollButton(media.isEmpty())
-            }.collect()
-        }
-
-        lifecycleScope.launch {
-            viewModel.uploadError.collect { throwable ->
-                if (throwable is UploadServerError) {
-                    displayTransientMessage(throwable.errorMessage)
-                } else {
-                    displayTransientMessage(
-                        getString(
-                            R.string.error_media_upload_sending_fmt,
-                            throwable.message
-                        )
-                    )
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.closeConfirmation.collect {
-                updateOnBackPressedCallbackState()
-            }
+        viewModel.closeConfirmation.observe {
+            updateOnBackPressedCallbackState()
         }
     }
 

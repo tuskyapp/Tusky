@@ -65,6 +65,8 @@ import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
@@ -78,7 +80,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class TimelineFragment :
@@ -278,10 +279,8 @@ class TimelineFragment :
             }
         })
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.statuses.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.statuses.observeLatest(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         if (actionButtonPresent()) {
@@ -305,21 +304,18 @@ class TimelineFragment :
             })
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                when (event) {
-                    is PreferenceChangedEvent -> {
-                        onPreferenceChanged(event.preferenceKey)
-                    }
+        eventHub.events.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is PreferenceChangedEvent -> {
+                    onPreferenceChanged(event.preferenceKey)
+                }
 
-                    is StatusComposedEvent -> {
-                        val status = event.status
-                        handleStatusComposeEvent(status)
-                    }
+                is StatusComposedEvent -> {
+                    val status = event.status
+                    handleStatusComposeEvent(status)
                 }
             }
         }
-
         updateRelativeTimePeriodically {
             adapter.notifyItemRangeChanged(
                 0,

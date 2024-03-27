@@ -51,6 +51,7 @@ import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -156,103 +157,99 @@ class ViewThreadFragment :
         var initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
         var threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is ThreadUiState.Loading -> {
-                        revealButtonState = RevealButtonState.NO_BUTTON
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            when (uiState) {
+                is ThreadUiState.Loading -> {
+                    revealButtonState = RevealButtonState.NO_BUTTON
 
-                        binding.recyclerView.hide()
-                        binding.statusView.hide()
+                    binding.recyclerView.hide()
+                    binding.statusView.hide()
 
-                        initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
-                        initialProgressBar.start()
+                    initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
+                    initialProgressBar.start()
+                }
+
+                is ThreadUiState.LoadingThread -> {
+                    if (uiState.statusViewDatum == null) {
+                        // no detailed statuses available, e.g. because author is blocked
+                        activity?.finish()
+                        return@observe
                     }
 
-                    is ThreadUiState.LoadingThread -> {
-                        if (uiState.statusViewDatum == null) {
-                            // no detailed statuses available, e.g. because author is blocked
-                            activity?.finish()
-                            return@collect
+                    initialProgressBar.cancel()
+                    threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
+                    threadProgressBar.start()
+
+                    if (viewModel.isInitialLoad) {
+                        adapter.submitList(listOf(uiState.statusViewDatum))
+
+                        // else this "submit one and then all on success below" will always center on the one
+                    }
+
+                    revealButtonState = uiState.revealButton
+                    binding.swipeRefreshLayout.isRefreshing = false
+
+                    binding.recyclerView.show()
+                    binding.statusView.hide()
+                }
+
+                is ThreadUiState.Error -> {
+                    Log.w(TAG, "failed to load status", uiState.throwable)
+                    initialProgressBar.cancel()
+                    threadProgressBar.cancel()
+
+                    revealButtonState = RevealButtonState.NO_BUTTON
+                    binding.swipeRefreshLayout.isRefreshing = false
+
+                    binding.recyclerView.hide()
+                    binding.statusView.show()
+
+                    binding.statusView.setup(
+                        uiState.throwable
+                    ) { viewModel.retry(thisThreadsStatusId) }
+                }
+
+                is ThreadUiState.Success -> {
+                    if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
+                        // no detailed statuses available, e.g. because author is blocked
+                        activity?.finish()
+                        return@observe
+                    }
+
+                    threadProgressBar.cancel()
+
+                    adapter.submitList(uiState.statusViewData) {
+                        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) && viewModel.isInitialLoad) {
+                            viewModel.isInitialLoad = false
+
+                            // Ensure the top of the status is visible
+                            (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                                uiState.detailedStatusPosition,
+                                0
+                            )
                         }
-
-                        initialProgressBar.cancel()
-                        threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
-                        threadProgressBar.start()
-
-                        if (viewModel.isInitialLoad) {
-                            adapter.submitList(listOf(uiState.statusViewDatum))
-
-                            // else this "submit one and then all on success below" will always center on the one
-                        }
-
-                        revealButtonState = uiState.revealButton
-                        binding.swipeRefreshLayout.isRefreshing = false
-
-                        binding.recyclerView.show()
-                        binding.statusView.hide()
                     }
 
-                    is ThreadUiState.Error -> {
-                        Log.w(TAG, "failed to load status", uiState.throwable)
-                        initialProgressBar.cancel()
-                        threadProgressBar.cancel()
+                    revealButtonState = uiState.revealButton
+                    binding.swipeRefreshLayout.isRefreshing = false
 
-                        revealButtonState = RevealButtonState.NO_BUTTON
-                        binding.swipeRefreshLayout.isRefreshing = false
+                    binding.recyclerView.show()
+                    binding.statusView.hide()
+                }
 
-                        binding.recyclerView.hide()
-                        binding.statusView.show()
-
-                        binding.statusView.setup(
-                            uiState.throwable
-                        ) { viewModel.retry(thisThreadsStatusId) }
-                    }
-
-                    is ThreadUiState.Success -> {
-                        if (uiState.statusViewData.none { viewData -> viewData.isDetailed }) {
-                            // no detailed statuses available, e.g. because author is blocked
-                            activity?.finish()
-                            return@collect
-                        }
-
-                        threadProgressBar.cancel()
-
-                        adapter.submitList(uiState.statusViewData) {
-                            if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) && viewModel.isInitialLoad) {
-                                viewModel.isInitialLoad = false
-
-                                // Ensure the top of the status is visible
-                                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
-                                    uiState.detailedStatusPosition,
-                                    0
-                                )
-                            }
-                        }
-
-                        revealButtonState = uiState.revealButton
-                        binding.swipeRefreshLayout.isRefreshing = false
-
-                        binding.recyclerView.show()
-                        binding.statusView.hide()
-                    }
-
-                    is ThreadUiState.Refreshing -> {
-                        threadProgressBar.cancel()
-                    }
+                is ThreadUiState.Refreshing -> {
+                    threadProgressBar.cancel()
                 }
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.errors.collect { throwable ->
-                Log.w(TAG, "failed to load status context", throwable)
-                Snackbar.make(binding.root, R.string.error_generic, Snackbar.LENGTH_SHORT)
-                    .setAction(R.string.action_retry) {
-                        viewModel.retry(thisThreadsStatusId)
-                    }
-                    .show()
-            }
+        viewModel.errors.observe { throwable ->
+            Log.w(TAG, "failed to load status context", throwable)
+            Snackbar.make(binding.root, R.string.error_generic, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.action_retry) {
+                    viewModel.retry(thisThreadsStatusId)
+                }
+                .show()
         }
 
         viewModel.loadThread(thisThreadsStatusId)

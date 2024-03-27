@@ -17,11 +17,21 @@
 
 package com.keylesspalace.tusky.util
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlin.time.Duration
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 /**
  * Returns a flow that mirrors the original flow, but filters out values that occur within
@@ -63,3 +73,45 @@ fun <T> Flow<T>.throttleFirst(timeout: Duration, timeSource: TimeSource = TimeSo
             }
         }
     }
+
+fun <T> Flow<T>.observe(
+    scope: CoroutineScope,
+    collector: FlowCollector<T>
+): Job = scope.launch {
+    collect(collector)
+}
+
+fun <T> Flow<T>.observeLatest(
+    scope: CoroutineScope,
+    action: suspend (value: T) -> Unit
+): Job = scope.launch {
+    collectLatest(action)
+}
+
+fun <T> Flow<T>.observe(
+    lifecycleOwner: LifecycleOwner,
+    collector: FlowCollector<T>? = null
+): Job = lifecycleOwner.lifecycleScope.launch {
+    lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        if (collector == null) {
+            collect()
+        } else {
+            collect(collector)
+        }
+    }
+}
+
+fun <T> Flow<T>.observeLatest(
+    lifecycleOwner: LifecycleOwner,
+    action: suspend (value: T) -> Unit
+): Job = observeLatest(lifecycleOwner.lifecycleScope, action)
+
+context(LifecycleOwner)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>? = null
+): Job = observe(this@LifecycleOwner, collector)
+
+context(LifecycleOwner)
+fun <T> Flow<T>.observeLatest(
+    action: suspend (value: T) -> Unit
+): Job = observeLatest(this@LifecycleOwner, action)

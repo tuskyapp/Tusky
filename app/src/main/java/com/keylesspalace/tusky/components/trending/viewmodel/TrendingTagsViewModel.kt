@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.end
 import com.keylesspalace.tusky.entity.start
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 import java.io.IOException
@@ -62,13 +63,11 @@ class TrendingTagsViewModel @Inject constructor(
         // Collect PreferenceChangedEvent, FiltersActivity creates them when a filter is created
         // or deleted. Unfortunately, there's nothing in the event to determine if it's a filter
         // that was modified, so refresh on every preference change.
-        viewModelScope.launch {
-            eventHub.events
-                .filterIsInstance<PreferenceChangedEvent>()
-                .collect {
-                    invalidate()
-                }
-        }
+        eventHub.events
+            .filterIsInstance<PreferenceChangedEvent>()
+            .observe(viewModelScope) {
+                invalidate()
+            }
     }
 
     /**

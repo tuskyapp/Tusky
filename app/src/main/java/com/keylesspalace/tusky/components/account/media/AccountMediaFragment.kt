@@ -26,7 +26,6 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,6 +40,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -50,8 +50,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * Fragment with multiple columns of media previews for the specified account.
@@ -109,10 +107,8 @@ class AccountMediaFragment :
 
         binding.statusView.visibility = View.GONE
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.media.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.media.observeLatest(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         adapter.addLoadStateListener { loadState ->
