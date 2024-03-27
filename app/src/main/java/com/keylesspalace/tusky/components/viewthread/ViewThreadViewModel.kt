@@ -52,6 +52,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -65,9 +66,8 @@ class ViewThreadViewModel @Inject constructor(
     private val gson: Gson
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ThreadUiState> = MutableStateFlow(ThreadUiState.Loading)
-    val uiState: Flow<ThreadUiState>
-        get() = _uiState
+    private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
+    val uiState: Flow<ThreadUiState> = _uiState.asStateFlow()
 
     private val _errors =
         MutableSharedFlow<Throwable>(

@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky.components.report
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -40,6 +38,9 @@ import com.keylesspalace.tusky.util.toViewData
 import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -49,20 +50,20 @@ class ReportViewModel @Inject constructor(
     private val eventHub: EventHub
 ) : ViewModel() {
 
-    private val navigationMutable = MutableLiveData<Screen?>()
-    val navigation: LiveData<Screen?> = navigationMutable
+    private val navigationMutable = MutableStateFlow(null as Screen?)
+    val navigation: StateFlow<Screen?> = navigationMutable.asStateFlow()
 
-    private val muteStateMutable = MutableLiveData<Resource<Boolean>>()
-    val muteState: LiveData<Resource<Boolean>> = muteStateMutable
+    private val muteStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    val muteState: StateFlow<Resource<Boolean>?> = muteStateMutable.asStateFlow()
 
-    private val blockStateMutable = MutableLiveData<Resource<Boolean>>()
-    val blockState: LiveData<Resource<Boolean>> = blockStateMutable
+    private val blockStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    val blockState: StateFlow<Resource<Boolean>?> = blockStateMutable.asStateFlow()
 
-    private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
-    var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
+    private val reportingStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    var reportingState: StateFlow<Resource<Boolean>?> = reportingStateMutable.asStateFlow()
 
-    private val checkUrlMutable = MutableLiveData<String?>()
-    val checkUrl: LiveData<String?> = checkUrlMutable
+    private val checkUrlMutable = MutableStateFlow(null as String?)
+    val checkUrl: StateFlow<String?> = checkUrlMutable.asStateFlow()
 
     private val accountIdFlow = MutableSharedFlow<String>(
         replay = 1,

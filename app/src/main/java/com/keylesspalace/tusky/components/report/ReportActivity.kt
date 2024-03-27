@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
@@ -28,6 +29,7 @@ import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -82,8 +84,9 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun subscribeObservables() {
-        viewModel.navigation.observe(this) { screen ->
-            if (screen != null) {
+        lifecycleScope.launch {
+            viewModel.navigation.collect { screen ->
+                if (screen == null) return@collect
                 viewModel.navigated()
                 when (screen) {
                     Screen.Statuses -> showStatusesPage()
@@ -95,10 +98,12 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
             }
         }
 
-        viewModel.checkUrl.observe(this) {
-            if (!it.isNullOrBlank()) {
-                viewModel.urlChecked()
-                viewUrl(it)
+        lifecycleScope.launch {
+            viewModel.checkUrl.collect {
+                if (!it.isNullOrBlank()) {
+                    viewModel.urlChecked()
+                    viewUrl(it)
+                }
             }
         }
     }

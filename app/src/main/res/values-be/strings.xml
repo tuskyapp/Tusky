@@ -192,7 +192,7 @@
     <string name="action_compose">Напісаць</string>
     <string name="action_login">Увайсці з Tusky</string>
     <string name="action_logout">Выхад</string>
-    <string name="action_logout_confirm">Вы ўпэўнены, што жадаеце выйсці з уліковага запісу %1$s\?</string>
+    <string name="action_logout_confirm">Вы ўпэўнены, што жадаеце выйсці з уліковага запісу %1$s\? У выніку будуць выдалены ўсе лакальныя даныя уліковага запісу разам з чарнавікамі і наладамі.</string>
     <string name="action_follow">Падпісацца</string>
     <string name="action_unfollow">Адпісацца</string>
     <string name="action_block">Заблакаваць</string>
@@ -657,4 +657,15 @@
     <string name="filter_keyword_display_format">%s (цэлае слова)</string>
     <string name="filter_keyword_addition_title">Дадаць ключавое слова</string>
     <string name="filter_edit_keyword_title">Змяніць ключавое слова</string>
+    <string name="reply_sending_long">Ваш адказ адасланы.</string>
+    <string name="reply_sending">Адсылаю…</string>
+    <string name="label_image">Рысунак</string>
+    <string name="action_translate">Перакласці</string>
+    <string name="action_show_original">Паказаць арыгінал</string>
+    <string name="title_public_trending_statuses">Папулярныя допісы</string>
+    <string name="error_blocking_domain">Не атрымалася заблакіраваць %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Не атрымалася разблакіраваць %1$s: %2$s</string>
+    <string name="pref_title_per_timeline_preferences">Налады па стужкам</string>
+    <string name="pref_title_show_self_boosts">Паказаць самацытаванне</string>
+    <string name="pref_title_show_self_boosts_description">Нехта цытуе ўласныя допісы</string>
 </resources>
