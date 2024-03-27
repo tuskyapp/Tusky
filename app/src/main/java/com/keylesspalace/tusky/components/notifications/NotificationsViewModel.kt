@@ -65,10 +65,10 @@ class NotificationsViewModel @Inject constructor(
     private val gson: Gson
 ) : ViewModel() {
 
-    private val _filters: MutableStateFlow<Set<Notification.Type>> = MutableStateFlow(
+    private val _filters = MutableStateFlow(
         accountManager.activeAccount?.let { account -> deserialize(account.notificationsFilter) } ?: emptySet()
     )
-    val filters: StateFlow<Set<Notification.Type>> = _filters
+    val filters: StateFlow<Set<Notification.Type>> = _filters.asStateFlow()
 
     private var currentPagingSource: PagingSource<Int, NotificationDataEntity>? = null
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
