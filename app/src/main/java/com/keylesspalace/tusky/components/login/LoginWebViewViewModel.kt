@@ -23,13 +23,15 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginWebViewViewModel @Inject constructor(
     private val api: MastodonApi
 ) : ViewModel() {
 
-    val instanceRules: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+    private val _instanceRules = MutableStateFlow(emptyList<String>())
+    val instanceRules = _instanceRules.asStateFlow()
 
     private var domain: String? = null
 
@@ -39,13 +41,13 @@ class LoginWebViewViewModel @Inject constructor(
             viewModelScope.launch {
                 api.getInstance().fold(
                     { instance ->
-                        instanceRules.value = instance.rules.orEmpty().map { rule -> rule.text }
+                        _instanceRules.value = instance.rules.orEmpty().map { rule -> rule.text }
                     },
                     { throwable ->
                         if (throwable.isHttpNotFound()) {
                             api.getInstanceV1(domain).fold(
                                 { instance ->
-                                    instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
+                                    _instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
                                 },
                                 { throwable ->
                                     Log.w(

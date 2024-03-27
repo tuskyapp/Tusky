@@ -45,7 +45,7 @@ import org.pageseeder.xmlwriter.XMLStringWriter
 
 class ViewEditsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<EditsUiState> = MutableStateFlow(EditsUiState.Initial)
+    private val _uiState = MutableStateFlow(EditsUiState.Initial as EditsUiState)
     val uiState: StateFlow<EditsUiState> = _uiState.asStateFlow()
 
     /** The API call to fetch edit history returned less than two items */
