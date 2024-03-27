@@ -11,79 +11,91 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 
 class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub: EventHub) : ViewModel() {
     private var originalFilter: Filter? = null
-    val title = MutableStateFlow("")
-    val keywords = MutableStateFlow(listOf<FilterKeyword>())
-    val action = MutableStateFlow(Filter.Action.WARN)
-    val duration = MutableStateFlow(0)
-    val contexts = MutableStateFlow(listOf<Filter.Kind>())
+
+    private val _title = MutableStateFlow("")
+    val title: StateFlow<String> = _title.asStateFlow()
+
+    private val _keywords = MutableStateFlow(listOf<FilterKeyword>())
+    val keywords: StateFlow<List<FilterKeyword>> = _keywords.asStateFlow()
+
+    private val _action = MutableStateFlow(Filter.Action.WARN)
+    val action: StateFlow<Filter.Action> = _action.asStateFlow()
+
+    private val _duration = MutableStateFlow(0)
+    val duration: StateFlow<Int> = _duration.asStateFlow()
+
+    private val _contexts = MutableStateFlow(listOf<Filter.Kind>())
+    val contexts: StateFlow<List<Filter.Kind>> = _contexts.asStateFlow()
 
     fun load(filter: Filter) {
         originalFilter = filter
-        title.value = filter.title
-        keywords.value = filter.keywords
-        action.value = filter.action
-        duration.value = if (filter.expiresAt == null) {
+        _title.value = filter.title
+        _keywords.value = filter.keywords
+        _action.value = filter.action
+        _duration.value = if (filter.expiresAt == null) {
             0
         } else {
             -1
         }
-        contexts.value = filter.kinds
+        _contexts.value = filter.kinds
     }
 
     fun addKeyword(keyword: FilterKeyword) {
-        keywords.value += keyword
+        _keywords.value += keyword
     }
 
     fun deleteKeyword(keyword: FilterKeyword) {
-        keywords.value = keywords.value.filterNot { it == keyword }
+        _keywords.value = _keywords.value.filterNot { it == keyword }
     }
 
     fun modifyKeyword(original: FilterKeyword, updated: FilterKeyword) {
-        val index = keywords.value.indexOf(original)
+        val index = _keywords.value.indexOf(original)
         if (index >= 0) {
-            keywords.value = keywords.value.toMutableList().apply {
+            _keywords.value = _keywords.value.toMutableList().apply {
                 set(index, updated)
             }
         }
     }
 
     fun setTitle(title: String) {
-        this.title.value = title
+        this._title.value = title
     }
 
     fun setDuration(index: Int) {
-        duration.value = index
+        _duration.value = index
     }
 
     fun setAction(action: Filter.Action) {
-        this.action.value = action
+        this._action.value = action
     }
 
     fun addContext(context: Filter.Kind) {
-        if (!contexts.value.contains(context)) {
-            contexts.value += context
+        if (!_contexts.value.contains(context)) {
+            _contexts.value += context
         }
     }
 
     fun removeContext(context: Filter.Kind) {
-        contexts.value = contexts.value.filter { it != context }
+        _contexts.value = _contexts.value.filter { it != context }
     }
 
     fun validate(): Boolean {
-        return title.value.isNotBlank() &&
-            keywords.value.isNotEmpty() &&
-            contexts.value.isNotEmpty()
+        return _title.value.isNotBlank() &&
+            _keywords.value.isNotEmpty() &&
+            _contexts.value.isNotEmpty()
     }
 
     suspend fun saveChanges(context: Context): Boolean {
-        val contexts = contexts.value.map { it.kind }
-        val title = title.value
-        val durationIndex = duration.value
-        val action = action.value.action
+        val contexts = _contexts.value.map { it.kind }
+        val title = _title.value
+        val durationIndex = _duration.value
+        val action = _action.value.action
 
         return withContext(viewModelScope.coroutineContext) {
             originalFilter?.let { filter ->
@@ -108,7 +120,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
         ).fold(
             { newFilter ->
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
-                return keywords.value.map { keyword ->
+                return _keywords.value.map { keyword ->
                     api.addFilterKeyword(
                         filterId = newFilter.id,
                         keyword = keyword.keyword,
@@ -144,7 +156,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
         ).fold(
             {
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
-                val results = keywords.value.map { keyword ->
+                val results = _keywords.value.map { keyword ->
                     if (keyword.id.isEmpty()) {
                         api.addFilterKeyword(filterId = originalFilter.id, keyword = keyword.keyword, wholeWord = keyword.wholeWord)
                     } else {
@@ -152,7 +164,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
                     }
                 } + originalFilter.keywords.filter { keyword ->
                     // Deleted keywords
-                    keywords.value.none { it.id == keyword.id }
+                    _keywords.value.none { it.id == keyword.id }
                 }.map { api.deleteFilterKeyword(it.id) }
 
                 return results.none { it.isFailure }
@@ -170,13 +182,13 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi, val eventHub
     }
 
     private suspend fun createFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
-        return keywords.value.map { keyword ->
+        return _keywords.value.map { keyword ->
             api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiresInSeconds)
         }.none { it.isFailure }
     }
 
     private suspend fun updateFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
-        val results = keywords.value.map { keyword ->
+        val results = _keywords.value.map { keyword ->
             if (originalFilter == null) {
                 api.createFilterV1(
                     phrase = keyword.keyword,

@@ -1040,7 +1040,7 @@ class ComposeActivity :
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {
         composeOptionsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        viewModel.statusVisibility.value = visibility
+        viewModel.changeStatusVisibility(visibility)
     }
 
     @VisibleForTesting

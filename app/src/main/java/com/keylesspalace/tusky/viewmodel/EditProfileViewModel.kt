@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -73,7 +74,8 @@ class EditProfileViewModel @Inject constructor(
     val instanceData: Flow<InstanceInfo> = instanceInfoRepo::getUpdatedInstanceInfoOrFallback.asFlow()
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
-    val isChanged = MutableStateFlow(false)
+    private val _isChanged = MutableStateFlow(false)
+    val isChanged = _isChanged.asStateFlow()
 
     private var apiProfileAccount: Account? = null
 
@@ -106,7 +108,7 @@ class EditProfileViewModel @Inject constructor(
     }
 
     internal fun dataChanged(newProfileData: ProfileDataInUi) {
-        isChanged.value = getProfileDiff(apiProfileAccount, newProfileData).hasChanges()
+        _isChanged.value = getProfileDiff(apiProfileAccount, newProfileData).hasChanges()
     }
 
     internal fun save(newProfileData: ProfileDataInUi) {
