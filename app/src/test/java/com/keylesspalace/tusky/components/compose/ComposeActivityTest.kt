@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.InstanceV1
+import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
 import java.util.Locale
@@ -49,6 +50,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
@@ -123,6 +125,9 @@ class ComposeActivityTest {
                     NetworkResult.success(instance)
                 }
             }
+            onBlocking { search(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn NetworkResult.success(
+                SearchResult(emptyList(), emptyList(), emptyList())
+            )
         }
 
         val instanceDaoMock: InstanceDao = mock {
