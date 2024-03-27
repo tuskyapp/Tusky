@@ -706,4 +706,9 @@
     <string name="pref_title_show_notifications_filter">Bildirim süzgecini göster</string>
     <string name="reply_sending">Gönderiliyor…</string>
     <string name="reply_sending_long">Cevabınız gönderiliyor.</string>
+    <string name="action_show_original">Özgünü göster</string>
+    <string name="label_translated">Dilinden%1$s ile %2$s çevrildi</string>
+    <string name="ui_error_translate">Çeviri yapılamadı: %s</string>
+    <string name="action_translate">Çevir</string>
+    <string name="label_translating">Çeviri…</string>
 </resources>
