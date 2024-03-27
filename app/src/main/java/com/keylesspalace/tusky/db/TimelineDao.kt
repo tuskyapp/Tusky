@@ -231,7 +231,7 @@ AND serverId = :statusId"""
         (SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT :limit)
     """
     )
-    abstract suspend fun cleanupHomeTimeline(tuskyAccountId: Long, limit: Int)
+    protected abstract suspend fun cleanupHomeTimeline(tuskyAccountId: Long, limit: Int)
 
     /**
      * Cleans the TimelineStatusEntity table from unreferenced status entries.
@@ -244,7 +244,7 @@ AND serverId = :statusId"""
         AND serverId NOT IN
         (SELECT statusId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NOT NULL)"""
     )
-    abstract suspend fun cleanupStatuses(tuskyAccountId: Long)
+    protected abstract suspend fun cleanupStatuses(tuskyAccountId: Long)
 
     /**
      * Cleans the TimelineAccountEntity table from accounts that are no longer referenced by either TimelineStatusEntity, HomeTimelineEntity or NotificationEntity
@@ -259,7 +259,7 @@ AND serverId = :statusId"""
         AND serverId NOT IN
         (SELECT accountId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND accountId IS NOT NULL)"""
     )
-    abstract suspend fun cleanupAccounts(tuskyAccountId: Long)
+    protected abstract suspend fun cleanupAccounts(tuskyAccountId: Long)
 
     @Query(
         """UPDATE TimelineStatusEntity SET poll = :poll
@@ -300,11 +300,12 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     abstract suspend fun setPinned(tuskyAccountId: Long, statusId: String, pinned: Boolean)
 
     @Query(
-        """DELETE FROM TimelineStatusEntity
-WHERE tuskyAccountId = :tuskyAccountId AND authorServerId IN (
-SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
+        """DELETE FROM HomeTimelineEntity
+WHERE tuskyAccountId = :tuskyAccountId AND statusId IN (
+SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId in
+( SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
 AND tuskyAccountId = :tuskyAccountId
-)"""
+))"""
     )
     abstract suspend fun deleteAllFromInstance(tuskyAccountId: Long, instanceDomain: String)
 
@@ -314,12 +315,12 @@ AND tuskyAccountId = :tuskyAccountId
     abstract suspend fun clearWarning(tuskyAccountId: Long, statusId: String): Int
 
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
     abstract suspend fun getTopId(tuskyAccountId: Long): String?
 
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId IS NULL ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NULL ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
     abstract suspend fun getTopPlaceholderId(tuskyAccountId: Long): String?
 
@@ -327,7 +328,7 @@ AND tuskyAccountId = :tuskyAccountId
      * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
      */
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) < LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId < serverId)) ORDER BY LENGTH(serverId) ASC, serverId ASC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) < LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId < id)) ORDER BY LENGTH(id) ASC, id ASC LIMIT 1"
     )
     abstract suspend fun getIdAbove(tuskyAccountId: Long, serverId: String): String?
 
@@ -336,7 +337,7 @@ AND tuskyAccountId = :tuskyAccountId
      * status
      */
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) > LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
     abstract suspend fun getIdBelow(tuskyAccountId: Long, serverId: String): String?
 
@@ -344,12 +345,12 @@ AND tuskyAccountId = :tuskyAccountId
      * Returns the id of the next placeholder after [serverId]
      */
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId IS NULL AND (LENGTH(:serverId) > LENGTH(serverId) OR (LENGTH(:serverId) = LENGTH(serverId) AND :serverId > serverId)) ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NULL AND (LENGTH(:serverId) > LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
     abstract suspend fun getNextPlaceholderIdAfter(tuskyAccountId: Long, serverId: String): String?
 
-    @Query("SELECT COUNT(*) FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId")
-    abstract suspend fun getStatusCount(tuskyAccountId: Long): Int
+    @Query("SELECT COUNT(*) FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId")
+    abstract suspend fun getHomeTimelineItemCount(tuskyAccountId: Long): Int
 
     /** Developer tools: Find N most recent status IDs */
     @Query(
@@ -357,7 +358,7 @@ AND tuskyAccountId = :tuskyAccountId
     )
     abstract suspend fun getMostRecentNStatusIds(tuskyAccountId: Long, count: Int): List<String>
 
-    /** Developer tools: Convert a status to a placeholder */
-    @Query("UPDATE TimelineStatusEntity SET authorServerId = NULL WHERE serverId = :serverId")
-    abstract suspend fun convertStatustoPlaceholder(serverId: String)
+    /** Developer tools: Convert a home timeline item to a placeholder */
+    @Query("UPDATE HomeTimelineEntity SET statusId = NULL, reblogAccountId = NULL WHERE id = :serverId")
+    abstract suspend fun convertStatusToPlaceholder(serverId: String)
 }

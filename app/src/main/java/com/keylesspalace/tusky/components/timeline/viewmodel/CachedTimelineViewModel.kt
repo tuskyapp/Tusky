@@ -288,7 +288,7 @@ class CachedTimelineViewModel @Inject constructor(
 
     override suspend fun invalidate() {
         // invalidating when we don't have statuses yet can cause empty timelines because it cancels the network load
-        if (db.timelineDao().getStatusCount(accountManager.activeAccount!!.id) > 0) {
+        if (db.timelineDao().getHomeTimelineItemCount(accountManager.activeAccount!!.id) > 0) {
             currentPagingSource?.invalidate()
         }
     }

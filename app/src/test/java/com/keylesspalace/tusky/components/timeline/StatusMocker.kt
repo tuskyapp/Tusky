@@ -1,33 +1,48 @@
 package com.keylesspalace.tusky.components.timeline
 
+import androidx.paging.PagingSource
 import com.google.gson.Gson
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.HomeTimelineData
+import com.keylesspalace.tusky.db.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert
 
 private val fixedDate = Date(1638889052000)
 
+fun mockAccount(
+    authorServerId: String = "100",
+    domain: String = "mastodon.example"
+) = TimelineAccount(
+    id = authorServerId,
+    localUsername = "connyduck",
+    username = "connyduck@$domain",
+    displayName = "Conny Duck",
+    note = "This is their bio",
+    url = "https://$domain/@ConnyDuck",
+    avatar = "https://$domain/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
+)
+
 fun mockStatus(
     id: String = "100",
+    authorServerId: String = "100",
     inReplyToId: String? = null,
     inReplyToAccountId: String? = null,
     spoilerText: String = "",
     reblogged: Boolean = false,
     favourited: Boolean = true,
-    bookmarked: Boolean = true
+    bookmarked: Boolean = true,
+    domain: String = "mastodon.example"
 ) = Status(
     id = id,
-    url = "https://mastodon.example/@ConnyDuck/$id",
-    account = TimelineAccount(
-        id = "1",
-        localUsername = "connyduck",
-        username = "connyduck@mastodon.example",
-        displayName = "Conny Duck",
-        note = "This is their bio",
-        url = "https://mastodon.example/@ConnyDuck",
-        avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
+    url = "https://$domain/@ConnyDuck/$id",
+    account = mockAccount(
+        authorServerId = authorServerId,
+        domain = domain
     ),
     inReplyToId = inReplyToId,
     inReplyToAccountId = inReplyToAccountId,
@@ -85,34 +100,97 @@ fun mockStatusViewData(
     isDetailed = isDetailed
 )
 
-fun mockStatusEntityWithAccount(
+fun mockHomeTimelineData(
     id: String = "100",
-    userId: Long = 1,
-    expanded: Boolean = false
-): TimelineStatusWithAccount {
-    val mockedStatus = mockStatus(id)
+    tuskyAccountId: Long = 1,
+    authorServerId: String = "100",
+    expanded: Boolean = false,
+    domain: String = "mastodon.example",
+    reblog: Boolean = false
+): HomeTimelineData {
+    val mockedStatus = mockStatus(
+        id = id,
+        authorServerId = authorServerId,
+        domain = domain
+    )
     val gson = Gson()
 
-    return TimelineStatusWithAccount(
+    return HomeTimelineData(
+        id = id,
         status = mockedStatus.toEntity(
-            timelineUserId = userId,
+            tuskyAccountId = tuskyAccountId,
             gson = gson,
             expanded = expanded,
             contentShowing = false,
             contentCollapsed = true
         ),
         account = mockedStatus.account.toEntity(
-            accountId = userId,
+            tuskyAccountId = tuskyAccountId,
             gson = gson
-        )
+        ),
+        reblogAccount = if (reblog) {
+            mockAccount(
+                authorServerId = "R$authorServerId"
+            ).toEntity(tuskyAccountId, gson)
+        } else {
+            null
+        },
+        loading = false
     )
 }
 
-fun mockPlaceholderEntityWithAccount(
-    id: String,
-    userId: Long = 1
-): TimelineStatusWithAccount {
-    return TimelineStatusWithAccount(
-        status = Placeholder(id, false).toEntity(userId)
-    )
+fun mockPlaceholderHomeTimelineData(
+    id: String
+) = HomeTimelineData(
+    id = id,
+    account = null,
+    status = null,
+    reblogAccount = null,
+    loading = false
+)
+
+fun AppDatabase.insert(timelineItems: List<HomeTimelineData>, tuskyAccountId: Long = 1) {
+    runBlocking {
+        timelineItems.forEach { timelineItem ->
+            timelineItem.account?.let { account ->
+                timelineDao().insertAccount(account)
+            }
+            timelineItem.reblogAccount?.let { account ->
+                timelineDao().insertAccount(account)
+            }
+            timelineItem.status?.let { status ->
+                timelineDao().insertStatus(status)
+            }
+            timelineDao().insertHomeTimelineItem(
+                HomeTimelineEntity(
+                    tuskyAccountId = tuskyAccountId,
+                    id = timelineItem.id,
+                    statusId = timelineItem.status?.serverId,
+                    reblogAccountId = timelineItem.reblogAccount?.serverId,
+                    loading = timelineItem.loading
+                )
+            )
+        }
+    }
+}
+
+fun AppDatabase.assertTimeline(
+    expected: List<HomeTimelineData>,
+    tuskyAccountId: Long = 1
+) {
+    val pagingSource = timelineDao().getStatuses(tuskyAccountId)
+
+    val loadResult = runBlocking {
+        pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
+    }
+
+    val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
+
+    Assert.assertEquals(expected.size, loadedStatuses.size)
+
+    for ((exp, prov) in expected.zip(loadedStatuses)) {
+        Assert.assertEquals(exp.status, prov.status)
+        Assert.assertEquals(exp.account, prov.account)
+        Assert.assertEquals(exp.reblogAccount, prov.reblogAccount)
+    }
 }

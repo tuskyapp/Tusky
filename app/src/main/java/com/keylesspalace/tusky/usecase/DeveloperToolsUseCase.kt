@@ -36,7 +36,7 @@ class DeveloperToolsUseCase @Inject constructor(
             )
 
             timelineDao.deleteRange(accountId, minId, maxId)
-            timelineDao.convertStatustoPlaceholder(placeHolderId)
+            timelineDao.convertStatusToPlaceholder(placeHolderId)
         }
     }
 
