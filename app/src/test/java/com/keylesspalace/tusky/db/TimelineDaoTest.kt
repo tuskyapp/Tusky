@@ -90,6 +90,7 @@ class TimelineDaoTest {
             loadedStatuses.add(tuskyAccountId to serverId)
             statusesCursor.moveToNext()
         }
+        statusesCursor.close()
 
         val expectedStatuses = listOf(
             1L to "10",
@@ -109,6 +110,7 @@ class TimelineDaoTest {
             loadedAccounts.add(tuskyAccountId to serverId)
             accountCursor.moveToNext()
         }
+        accountCursor.close()
 
         val expectedAccounts = listOf(
             1L to "10",
