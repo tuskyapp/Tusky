@@ -62,10 +62,10 @@ LEFT JOIN TimelineStatusEntity s ON (n.tuskyAccountId = s.tuskyAccountId AND n.s
 LEFT JOIN TimelineAccountEntity sa ON (n.tuskyAccountId = sa.tuskyAccountId AND s.authorServerId = sa.serverId)
 LEFT JOIN NotificationReportEntity r ON (n.tuskyAccountId = r.tuskyAccountId AND n.reportId = r.serverId)
 LEFT JOIN TimelineAccountEntity ra ON (n.tuskyAccountId = ra.tuskyAccountId AND r.targetAccountId = ra.serverId)
-WHERE s.tuskyAccountId = :account
+WHERE n.tuskyAccountId = :tuskyAccountId
 ORDER BY LENGTH(n.id) DESC, n.id DESC"""
     )
-    abstract fun getNotifications(account: Long): PagingSource<Int, NotificationDataEntity>
+    abstract fun getNotifications(tuskyAccountId: Long): PagingSource<Int, NotificationDataEntity>
 
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :accountId AND

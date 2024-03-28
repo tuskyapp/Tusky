@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
@@ -33,7 +32,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.NotificationDataEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.FilterModel
@@ -48,8 +46,12 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -70,7 +72,6 @@ class NotificationsViewModel @Inject constructor(
     )
     val filters: StateFlow<Set<Notification.Type>> = _filters.asStateFlow()
 
-    private var currentPagingSource: PagingSource<Int, NotificationDataEntity>? = null
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
 
     @OptIn(ExperimentalPagingApi::class)
@@ -83,8 +84,6 @@ class NotificationsViewModel @Inject constructor(
                 EmptyPagingSource()
             } else {
                 db.notificationsDao().getNotifications(activeAccount.id)
-            }.also { newPagingSource ->
-                this.currentPagingSource = newPagingSource
             }
         }
     ).flow
@@ -124,6 +123,33 @@ class NotificationsViewModel @Inject constructor(
                 Filter.Action.NONE
             }
             else -> Filter.Action.NONE
+        }
+    }
+
+    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String): Flow<Boolean> {
+        return callbackFlow {
+            viewModelScope.launch {
+                if (accept) {
+                    api.authorizeFollowRequest(accountId)
+                } else {
+                    api.rejectFollowRequest(accountId)
+                }.fold(
+                    onSuccess = {
+                        // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
+                        db.notificationsDao().deleteRange(accountManager.activeAccount!!.id, notificationId, notificationId)
+                        if (accept) {
+                            // Accepting a follow request will generate a new follow notification.
+                            // For it to show up, notifications need to be refreshed which is done easiest by refreshing the adapter in the Fragment.
+                            // We use this boolean to signal the need for refreshing to the ui.
+                            send(true)
+                        }
+                    },
+                    onFailure = { t ->
+                        Log.e(TAG, "Failed to to respond to follow request from account id $accountId.", t)
+                    }
+                )
+            }
+            awaitClose()
         }
     }
 

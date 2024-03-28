@@ -113,6 +113,7 @@ class NotificationsPagingAdapter(
             )
             VIEW_TYPE_FOLLOW_REQUEST -> FollowRequestViewHolder(
                 ItemFollowRequestBinding.inflate(inflater, parent, false),
+                accountActionListener,
                 statusListener,
                 true
             )

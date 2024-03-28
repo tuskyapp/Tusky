@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
+    private val accountListener: AccountActionListener,
     private val linkListener: LinkListener,
     private val showHeader: Boolean
 ) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
@@ -48,7 +49,13 @@ class FollowRequestViewHolder(
         payloads: List<*>?,
         statusDisplayOptions: StatusDisplayOptions
     ) {
-        TODO("Not yet implemented")
+        setupWithAccount(
+            viewData.account,
+            statusDisplayOptions.animateAvatars,
+            statusDisplayOptions.animateEmojis,
+            statusDisplayOptions.showBotOverlay
+        )
+        setupActionListener(accountListener, viewData.account.id)
     }
 
     fun setupWithAccount(
