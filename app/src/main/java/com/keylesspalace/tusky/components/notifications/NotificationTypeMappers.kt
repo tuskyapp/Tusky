@@ -28,10 +28,10 @@ import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 
-fun Placeholder.toNotificationEntity(timelineUserId: Long): NotificationEntity {
+fun Placeholder.toNotificationEntity(tuskyAccountId: Long): NotificationEntity {
     return NotificationEntity(
         id = this.id,
-        tuskyAccountId = timelineUserId,
+        tuskyAccountId = tuskyAccountId,
         type = null,
         accountId = null,
         statusId = null,
@@ -41,31 +41,27 @@ fun Placeholder.toNotificationEntity(timelineUserId: Long): NotificationEntity {
 }
 
 fun Notification.toEntity(
-    timelineUserId: Long
-): NotificationEntity {
-    return NotificationEntity(
-        tuskyAccountId = timelineUserId,
-        type = type,
-        id = id,
-        accountId = account.id,
-        statusId = status?.id,
-        reportId = report?.id,
-        loading = false
-    )
-}
+    tuskyAccountId: Long
+) = NotificationEntity(
+    tuskyAccountId = tuskyAccountId,
+    type = type,
+    id = id,
+    accountId = account.id,
+    statusId = status?.id,
+    reportId = report?.id,
+    loading = false
+)
 
 fun Report.toEntity(
     tuskyAccountId: Long
-): NotificationReportEntity {
-    return NotificationReportEntity(
-        tuskyAccountId = tuskyAccountId,
-        serverId = id,
-        category = category,
-        statusIds = statusIds,
-        createdAt = createdAt,
-        targetAccountId = targetAccount.id
-    )
-}
+) = NotificationReportEntity(
+    tuskyAccountId = tuskyAccountId,
+    serverId = id,
+    category = category,
+    statusIds = statusIds,
+    createdAt = createdAt,
+    targetAccountId = targetAccount.id
+)
 
 fun NotificationDataEntity.toViewData(
     gson: Gson,
@@ -89,19 +85,20 @@ fun NotificationDataEntity.toViewData(
             null
         },
         report = if (report != null && reportTargetAccount != null) {
-            report.toViewData(reportTargetAccount, gson)
+            report.toReport(reportTargetAccount, gson)
         } else {
             null
         }
     )
 }
 
-fun NotificationReportEntity.toViewData(account: TimelineAccountEntity, gson: Gson): Report {
-    return Report(
-        id = serverId,
-        category = category,
-        statusIds = statusIds,
-        createdAt = createdAt,
-        targetAccount = account.toAccount(gson)
-    )
-}
+fun NotificationReportEntity.toReport(
+    account: TimelineAccountEntity,
+    gson: Gson
+) = Report(
+    id = serverId,
+    category = category,
+    statusIds = statusIds,
+    createdAt = createdAt,
+    targetAccount = account.toAccount(gson)
+)
