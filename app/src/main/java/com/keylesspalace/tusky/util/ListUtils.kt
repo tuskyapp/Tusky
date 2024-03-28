@@ -21,13 +21,6 @@ import java.util.ArrayList
 import java.util.LinkedHashSet
 
 /**
- * @return true if list is null or else return list.isEmpty()
- */
-fun isEmpty(list: List<*>?): Boolean {
-    return list == null || list.isEmpty()
-}
-
-/**
  * @return a new ArrayList containing the elements without duplicates in the same order
  */
 fun <T> removeDuplicates(list: List<T>): ArrayList<T> {

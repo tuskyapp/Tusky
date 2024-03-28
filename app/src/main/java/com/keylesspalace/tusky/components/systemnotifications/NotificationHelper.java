@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.components.notifications;
+package com.keylesspalace.tusky.components.systemnotifications;
 
 import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;

@@ -23,9 +23,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.notifications.NotificationFetcher
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.NotificationHelper.NOTIFICATION_ID_FETCH_NOTIFICATION
+import com.keylesspalace.tusky.components.systemnotifications.NotificationFetcher
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.NOTIFICATION_ID_FETCH_NOTIFICATION
 import javax.inject.Inject
 
 /** Fetch and show new notifications. */

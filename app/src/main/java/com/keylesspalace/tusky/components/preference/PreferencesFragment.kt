@@ -163,6 +163,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(true)
+                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
+                    setTitle(R.string.pref_title_show_notifications_filter)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.FAB_HIDE
                     setTitle(R.string.pref_title_hide_follow_button)

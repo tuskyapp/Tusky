@@ -29,7 +29,7 @@ class CacheUpdater @Inject constructor(
                     is StatusChangedEvent -> {
                         val status = event.status
                         timelineDao.update(
-                            accountId = accountId,
+                            tuskyAccountId = accountId,
                             status = status,
                             gson = gson
                         )

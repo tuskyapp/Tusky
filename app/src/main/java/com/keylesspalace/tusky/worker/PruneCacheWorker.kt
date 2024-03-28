@@ -20,13 +20,14 @@ package com.keylesspalace.tusky.worker
 import android.app.Notification
 import android.content.Context
 import android.util.Log
+import androidx.room.withTransaction
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import javax.inject.Inject
@@ -45,8 +46,11 @@ class PruneCacheWorker(
 
     override suspend fun doWork(): Result {
         for (account in accountManager.accounts) {
-            Log.d(TAG, "Pruning database using account ID: ${account.id}")
-            appDatabase.timelineDao().cleanup(account.id, MAX_STATUSES_IN_CACHE)
+            appDatabase.withTransaction {
+                Log.d(TAG, "Pruning database using account ID: ${account.id}")
+                appDatabase.notificationsDao().cleanup(account.id, MAX_NOTIFICATIONS_IN_CACHE)
+                appDatabase.timelineDao().cleanup(account.id, MAX_STATUSES_IN_CACHE)
+            }
         }
         return Result.success()
     }
@@ -59,6 +63,7 @@ class PruneCacheWorker(
     companion object {
         private const val TAG = "PruneCacheWorker"
         private const val MAX_STATUSES_IN_CACHE = 1000
+        private const val MAX_NOTIFICATIONS_IN_CACHE = 1000
         const val PERIODIC_WORK_TAG = "PruneCacheWorker_periodic"
     }
 

@@ -40,11 +40,14 @@ import java.io.File;
         InstanceEntity.class,
         TimelineStatusEntity.class,
         TimelineAccountEntity.class,
-        ConversationEntity.class
+        ConversationEntity.class,
+        NotificationEntity.class,
+        NotificationReportEntity.class,
+        HomeTimelineEntity.class
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 58,
+    version = 60,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
@@ -61,6 +64,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract ConversationsDao conversationDao();
     @NonNull public abstract TimelineDao timelineDao();
     @NonNull public abstract DraftDao draftDao();
+    @NonNull public abstract NotificationsDao notificationsDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

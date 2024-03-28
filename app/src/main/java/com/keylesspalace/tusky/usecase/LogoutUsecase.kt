@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.usecase
 
 import android.content.Context
 import com.keylesspalace.tusky.components.drafts.DraftHelper
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotificationsForAccount
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.disableUnifiedPushNotificationsForAccount
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
