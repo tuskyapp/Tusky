@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.buildSpannedString
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
@@ -175,9 +176,9 @@ class StatusDetailedViewHolder(view: View) : StatusBaseViewHolder(view) {
     }
 
     private fun hideQuantitativeStats() {
-        reblogs.visibility = View.GONE
-        favourites.visibility = View.GONE
-        infoDivider.visibility = View.GONE
+        reblogs.isVisible = false
+        favourites.isVisible = false
+        infoDivider.isVisible = false
     }
 
     companion object {

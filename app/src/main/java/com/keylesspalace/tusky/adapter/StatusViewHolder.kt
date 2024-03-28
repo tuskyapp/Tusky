@@ -18,6 +18,8 @@ import android.text.InputFilter
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
@@ -67,10 +69,8 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
             }
         }
 
-        reblogsCountLabel.visibility =
-            if (statusDisplayOptions.showStatsInline) View.VISIBLE else View.INVISIBLE
-        favouritedCountLabel.visibility =
-            if (statusDisplayOptions.showStatsInline) View.VISIBLE else View.INVISIBLE
+        reblogsCountLabel.isInvisible = !statusDisplayOptions.showStatsInline
+        favouritedCountLabel.isInvisible = !statusDisplayOptions.showStatsInline
         setFavouritedCount(status.actionable.favouritesCount)
         setReblogsCount(status.actionable.reblogsCount)
 
@@ -91,7 +91,7 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
             statusDisplayOptions.animateEmojis
         )
         statusInfo.text = emojifiedText
-        statusInfo.visibility = View.VISIBLE
+        statusInfo.isVisible = true
     }
 
     // don't use this on the same ViewHolder as setRebloggedByDisplayName, will cause recycling issues as paddings are changed
@@ -101,7 +101,7 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
         statusInfo.compoundDrawablePadding =
             Utils.dpToPx(statusInfo.context, 10)
         statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.context, 28), 0, 0, 0)
-        statusInfo.visibility = View.VISIBLE
+        statusInfo.isVisible = true
     }
 
     protected fun setReblogsCount(reblogsCount: Int) {
@@ -113,7 +113,7 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
     }
 
     fun hideStatusInfo() {
-        statusInfo.visibility = View.GONE
+        statusInfo.isVisible = false
     }
 
     private fun setupCollapsedState(
@@ -134,7 +134,7 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
                 }
             }
 
-            contentCollapseButton.visibility = View.VISIBLE
+            contentCollapseButton.isVisible = true
             if (status.isCollapsed) {
                 contentCollapseButton.setText(R.string.post_content_warning_show_more)
                 content.filters = COLLAPSE_INPUT_FILTER
@@ -143,15 +143,14 @@ class StatusViewHolder(itemView: View) : StatusBaseViewHolder(itemView) {
                 content.filters = NO_INPUT_FILTER
             }
         } else {
-            contentCollapseButton.visibility = View.GONE
+            contentCollapseButton.isVisible = false
             content.filters = NO_INPUT_FILTER
         }
     }
 
     override fun showStatusContent(show: Boolean) {
         super.showStatusContent(show)
-        contentCollapseButton.visibility =
-            if (show) View.VISIBLE else View.GONE
+        contentCollapseButton.isVisible = show
     }
 
     override fun toggleExpandedState(

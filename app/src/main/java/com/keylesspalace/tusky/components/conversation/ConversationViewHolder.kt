@@ -18,6 +18,7 @@ import android.text.InputFilter
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
@@ -79,12 +80,12 @@ class ConversationViewHolder(
                 }
                 // Hide the unused label.
                 for (mediaLabel in mediaLabels) {
-                    mediaLabel.visibility = View.GONE
+                    mediaLabel.isVisible = false
                 }
             } else {
                 setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent)
                 // Hide all unused views.
-                mediaPreview.visibility = View.GONE
+                mediaPreview.isVisible = false
                 hideSensitiveMediaWarning()
             }
 
@@ -132,7 +133,7 @@ class ConversationViewHolder(
     private fun setAvatars(accounts: List<ConversationAccountEntity>) {
         for (i in avatars.indices) {
             val avatarView = avatars[i]
-            avatarView.visibility = if (i < accounts.size) {
+            avatarView.isVisible = if (i < accounts.size) {
                 loadAvatar(
                     accounts[i].avatar,
                     avatarView,
@@ -140,9 +141,9 @@ class ConversationViewHolder(
                     statusDisplayOptions.animateAvatars,
                     null
                 )
-                View.VISIBLE
+                true
             } else {
-                View.GONE
+                false
             }
         }
     }
@@ -163,7 +164,7 @@ class ConversationViewHolder(
                 }
             }
 
-            contentCollapseButton.visibility = View.VISIBLE
+            contentCollapseButton.isVisible = true
             if (collapsed) {
                 contentCollapseButton.setText(R.string.post_content_warning_show_more)
                 content.filters = COLLAPSE_INPUT_FILTER
@@ -172,7 +173,7 @@ class ConversationViewHolder(
                 content.filters = NO_INPUT_FILTER
             }
         } else {
-            contentCollapseButton.visibility = View.GONE
+            contentCollapseButton.isVisible = false
             content.filters = NO_INPUT_FILTER
         }
     }
