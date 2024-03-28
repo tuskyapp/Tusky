@@ -51,6 +51,7 @@ android {
 
             kotlinOptions {
                 freeCompilerArgs = [
+                    // TODO: remvoe this flag after fully migrate to Kotlin.
                     "-Xjvm-default=all",
                     "-Xno-param-assertions",
                     "-Xno-call-assertions",
