@@ -60,7 +60,7 @@ LEFT JOIN TimelineAccountEntity rb ON (h.reblogAccountId = rb.serverId AND rb.tu
 WHERE h.tuskyAccountId = :tuskyAccountId
 ORDER BY LENGTH(h.id) DESC, h.id DESC"""
     )
-    abstract fun getStatuses(tuskyAccountId: Long): PagingSource<Int, HomeTimelineData>
+    abstract fun getHomeTimeline(tuskyAccountId: Long): PagingSource<Int, HomeTimelineData>
 
     @Transaction
     open suspend fun getStatusWithAccount(accountId: Long, statusId: String): Pair<TimelineStatusEntity, TimelineAccountEntity>? {
@@ -190,13 +190,19 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     abstract suspend fun removeAllByUser(tuskyAccountId: Long, userId: String)
 
     /**
-     * Removes everything in the TimelineStatusEntity and TimelineAccountEntity tables for one user account
-     * @param accountId id of the account for which to clean tables
+     * // Todo this is dangerous because it can break foreign keys to NotificationEntity
+     * Removes everything in the HomeTimelineEntity, TimelineStatusEntity and TimelineAccountEntity tables for one Tusky user account.
+     * @param tuskyAccountId id of the account for which to clean tables
      */
-    suspend fun removeAll(accountId: Long) {
-        removeAllStatuses(accountId)
-        removeAllAccounts(accountId)
+    @Transaction
+    open suspend fun removeAll(tuskyAccountId: Long) {
+        removeAllHomeTimelineItems(tuskyAccountId)
+        removeAllStatuses(tuskyAccountId)
+        removeAllAccounts(tuskyAccountId)
     }
+
+    @Query("DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId")
+    abstract suspend fun removeAllHomeTimelineItems(tuskyAccountId: Long)
 
     @Query("DELETE FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId")
     abstract suspend fun removeAllStatuses(tuskyAccountId: Long)
@@ -211,7 +217,7 @@ AND serverId = :statusId"""
     abstract suspend fun delete(tuskyAccountId: Long, statusId: String)
 
     /**
-     * Cleans the TimelineStatusEntity and TimelineAccountEntity tables from old entries.
+     * Cleans the HomeTimelineEntity, TimelineStatusEntity and TimelineAccountEntity tables from old entries.
      * @param tuskyAccountId id of the account for which to clean tables
      * @param limit how many timeline items to keep
      */
@@ -222,8 +228,8 @@ AND serverId = :statusId"""
     }
 
     /**
-     * Cleans the TimelineStatusEntity and TimelineAccountEntity tables from old entries.
-     * @param tuskyAccountId id of the account for which to clean tables
+     * Trims the HomeTimelineEntity table down to [limit] entries by deleting the oldest in case there are more than [limit].
+     * @param tuskyAccountId id of the account for which to clean the home timeline
      * @param limit how many timeline items to keep
      */
     @Query(
@@ -325,36 +331,35 @@ AND tuskyAccountId = :tuskyAccountId
     abstract suspend fun getTopPlaceholderId(tuskyAccountId: Long): String?
 
     /**
-     * Returns the id directly above [serverId], or null if [serverId] is the id of the top status
+     * Returns the id directly above [id], or null if [id] is the id of the top item
      */
     @Query(
-        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) < LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId < id)) ORDER BY LENGTH(id) ASC, id ASC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:id) < LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id < id)) ORDER BY LENGTH(id) ASC, id ASC LIMIT 1"
     )
-    abstract suspend fun getIdAbove(tuskyAccountId: Long, serverId: String): String?
+    abstract suspend fun getIdAbove(tuskyAccountId: Long, id: String): String?
 
     /**
-     * Returns the ID directly below [serverId], or null if [serverId] is the ID of the bottom
-     * status
+     * Returns the ID directly below [id], or null if [id] is the ID of the bottom item
      */
     @Query(
-        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:serverId) > LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:id) > LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
-    abstract suspend fun getIdBelow(tuskyAccountId: Long, serverId: String): String?
+    abstract suspend fun getIdBelow(tuskyAccountId: Long, id: String): String?
 
     /**
-     * Returns the id of the next placeholder after [serverId]
+     * Returns the id of the next placeholder after [id], or null if there is no placeholder.
      */
     @Query(
-        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NULL AND (LENGTH(:serverId) > LENGTH(id) OR (LENGTH(:serverId) = LENGTH(id) AND :serverId > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NULL AND (LENGTH(:id) > LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
     )
-    abstract suspend fun getNextPlaceholderIdAfter(tuskyAccountId: Long, serverId: String): String?
+    abstract suspend fun getNextPlaceholderIdAfter(tuskyAccountId: Long, id: String): String?
 
     @Query("SELECT COUNT(*) FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId")
     abstract suspend fun getHomeTimelineItemCount(tuskyAccountId: Long): Int
 
     /** Developer tools: Find N most recent status IDs */
     @Query(
-        "SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(serverId) DESC, serverId DESC LIMIT :count"
+        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT :count"
     )
     abstract suspend fun getMostRecentNStatusIds(tuskyAccountId: Long, count: Int): List<String>
 

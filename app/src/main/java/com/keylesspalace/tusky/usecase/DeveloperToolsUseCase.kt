@@ -31,7 +31,7 @@ class DeveloperToolsUseCase @Inject constructor(
             val placeHolderId = ids[9]
 
             Log.d(
-                "TAG",
+                TAG,
                 "createLoadMoreGap: creating gap between $minId .. $maxId (new placeholder: $placeHolderId"
             )
 

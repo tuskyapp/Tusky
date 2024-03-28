@@ -93,7 +93,7 @@ class CachedTimelineViewModel @Inject constructor(
             if (activeAccount == null) {
                 EmptyPagingSource()
             } else {
-                db.timelineDao().getStatuses(activeAccount.id)
+                db.timelineDao().getHomeTimeline(activeAccount.id)
             }.also { newPagingSource ->
                 this.currentPagingSource = newPagingSource
             }
@@ -274,7 +274,7 @@ class CachedTimelineViewModel @Inject constructor(
     override fun fullReload() {
         viewModelScope.launch {
             val activeAccount = accountManager.activeAccount!!
-            db.timelineDao().removeAll(activeAccount.id)
+            db.timelineDao().removeAllHomeTimelineItems(activeAccount.id)
         }
     }
 

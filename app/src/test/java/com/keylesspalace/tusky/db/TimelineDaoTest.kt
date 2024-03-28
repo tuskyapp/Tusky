@@ -54,7 +54,7 @@ class TimelineDaoTest {
             tuskyAccountId = 2
         )
 
-        val pagingSource = timelineDao.getStatuses(1)
+        val pagingSource = timelineDao.getHomeTimeline(1)
 
         val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 2, false))
 
@@ -145,7 +145,7 @@ class TimelineDaoTest {
         db.insert(newStatuses, 1)
 
         // make sure status 2 is no longer in db
-        val pagingSource = timelineDao.getStatuses(1)
+        val pagingSource = timelineDao.getHomeTimeline(1)
 
         val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
 
@@ -180,8 +180,8 @@ class TimelineDaoTest {
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val statusesAccount1 = (timelineDao.getStatuses(1).load(loadParams) as PagingSource.LoadResult.Page).data
-        val statusesAccount2 = (timelineDao.getStatuses(2).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount1 = (timelineDao.getHomeTimeline(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount2 = (timelineDao.getHomeTimeline(2).load(loadParams) as PagingSource.LoadResult.Page).data
 
         val remainingStatusesAccount1 = listOf(
             mockHomeTimelineData(id = "100"),
@@ -246,8 +246,8 @@ class TimelineDaoTest {
 
         val loadParams: PagingSource.LoadParams<Int> = PagingSource.LoadParams.Refresh(null, 100, false)
 
-        val statusesAccount1 = (timelineDao.getStatuses(1).load(loadParams) as PagingSource.LoadResult.Page).data
-        val statusesAccount2 = (timelineDao.getStatuses(2).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount1 = (timelineDao.getHomeTimeline(1).load(loadParams) as PagingSource.LoadResult.Page).data
+        val statusesAccount2 = (timelineDao.getHomeTimeline(2).load(loadParams) as PagingSource.LoadResult.Page).data
 
         assertEquals(listOf(statusWithBlueDomain, statusWithGreenDomain), statusesAccount1)
         assertEquals(listOf(statusWithRedDomainOtherAccount, statusWithBlueDomainOtherAccount), statusesAccount2)

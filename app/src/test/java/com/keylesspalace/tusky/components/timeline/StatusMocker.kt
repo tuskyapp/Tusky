@@ -175,7 +175,7 @@ suspend fun AppDatabase.assertTimeline(
     expected: List<HomeTimelineData>,
     tuskyAccountId: Long = 1
 ) {
-    val pagingSource = timelineDao().getStatuses(tuskyAccountId)
+    val pagingSource = timelineDao().getHomeTimeline(tuskyAccountId)
 
     val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
 
