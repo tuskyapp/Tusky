@@ -18,6 +18,7 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
 import java.util.Date
 import kotlinx.coroutines.test.TestScope
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -58,6 +59,11 @@ class MainActivityTest {
     @Before
     fun setup() {
         WorkManagerTestInitHelper.initializeTestWorkManager(context)
+    }
+
+    @After
+    fun teardown() {
+        WorkManagerTestInitHelper.closeWorkDatabase()
     }
 
     @Test

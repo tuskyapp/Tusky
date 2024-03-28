@@ -77,7 +77,9 @@ class ViewThreadViewModelTest {
     fun setup() {
         shadowOf(getMainLooper()).idle()
 
-        api = mock()
+        api = mock {
+            onBlocking { getFilters() } doReturn NetworkResult.success(emptyList())
+        }
         eventHub = EventHub()
         val filterModel = FilterModel()
         val timelineCases = TimelineCases(api, eventHub)
