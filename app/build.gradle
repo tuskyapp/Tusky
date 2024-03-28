@@ -51,6 +51,7 @@ android {
 
             kotlinOptions {
                 freeCompilerArgs = [
+                    "-Xjvm-default=all",
                     "-Xno-param-assertions",
                     "-Xno-call-assertions",
                     "-Xno-receiver-assertions"
