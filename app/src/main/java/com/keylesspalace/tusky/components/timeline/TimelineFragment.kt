@@ -472,7 +472,7 @@ class TimelineFragment :
         viewModel.bookmark(bookmark, status)
     }
 
-    override fun onVoteInPoll(position: Int, choices: List<Int>) {
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
         viewModel.voteInPoll(choices, status)
     }

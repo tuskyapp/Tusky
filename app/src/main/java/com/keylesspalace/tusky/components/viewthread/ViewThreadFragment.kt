@@ -463,7 +463,7 @@ class ViewThreadFragment :
         }
     }
 
-    override fun onVoteInPoll(position: Int, choices: List<Int>) {
+    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
         val status = adapter.currentList[position]
         viewModel.voteInPoll(choices, status)
     }

@@ -1088,7 +1088,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         return false
     }
 
-    override fun getActionButton(): FloatingActionButton? {
+    override val actionButton: FloatingActionButton? get() {
         return if (!blocking) {
             binding.accountFloatingActionButton
         } else {

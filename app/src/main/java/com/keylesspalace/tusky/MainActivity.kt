@@ -62,6 +62,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -1215,7 +1216,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         return intent.getBooleanExtra(OPEN_WITH_EXPLODE_ANIMATION, false)
     }
 
-    override fun getActionButton() = binding.composeButton
+    override val actionButton: FloatingActionButton get() = binding.composeButton
 
     override fun androidInjector() = androidInjector
 

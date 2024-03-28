@@ -12,60 +12,55 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.interfaces
 
-package com.keylesspalace.tusky.interfaces;
+import android.view.View
 
-import android.view.View;
-
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public interface StatusActionListener extends LinkListener {
-    void onReply(int position);
-    void onReblog(final boolean reblog, final int position);
-    void onFavourite(final boolean favourite, final int position);
-    void onBookmark(final boolean bookmark, final int position);
-    void onMore(@NonNull View view, final int position);
-    void onViewMedia(int position, int attachmentIndex, @Nullable View view);
-    void onViewThread(int position);
+@JvmDefaultWithCompatibility
+interface StatusActionListener : LinkListener {
+    fun onReply(position: Int)
+    fun onReblog(reblog: Boolean, position: Int)
+    fun onFavourite(favourite: Boolean, position: Int)
+    fun onBookmark(bookmark: Boolean, position: Int)
+    fun onMore(view: View, position: Int)
+    fun onViewMedia(position: Int, attachmentIndex: Int, view: View?)
+    fun onViewThread(position: Int)
 
     /**
      * Open reblog author for the status.
      * @param position At which position in the list status is located
      */
-    void onOpenReblog(int position);
-    void onExpandedChange(boolean expanded, int position);
-    void onContentHiddenChange(boolean isShowing, int position);
-    void onLoadMore(int position);
+    fun onOpenReblog(position: Int)
+    fun onExpandedChange(expanded: Boolean, position: Int)
+    fun onContentHiddenChange(isShowing: Boolean, position: Int)
+    fun onLoadMore(position: Int)
 
     /**
-     * Called when the status {@link android.widget.ToggleButton} responsible for collapsing long
+     * Called when the status [android.widget.ToggleButton] responsible for collapsing long
      * status content is interacted with.
      *
      * @param isCollapsed Whether the status content is shown in a collapsed state or fully.
      * @param position    The position of the status in the list.
      */
-    void onContentCollapsedChange(boolean isCollapsed, int position);
+    fun onContentCollapsedChange(isCollapsed: Boolean, position: Int)
 
     /**
      * called when the reblog count has been clicked
      * @param position The position of the status in the list.
      */
-    default void onShowReblogs(int position) {}
+    fun onShowReblogs(position: Int) {}
 
     /**
      * called when the favourite count has been clicked
      * @param position The position of the status in the list.
      */
-    default void onShowFavs(int position) {}
+    fun onShowFavs(position: Int) {}
 
-    void onVoteInPoll(int position, @NonNull List<Integer> choices);
+    fun onVoteInPoll(position: Int, choices: MutableList<Int>)
 
-    default void onShowEdits(int position) {}
+    fun onShowEdits(position: Int) {}
 
-    void clearWarningAction(int position);
+    fun clearWarningAction(position: Int)
 
-    void onUntranslate(int position);
+    fun onUntranslate(position: Int)
 }
