@@ -94,7 +94,7 @@ class ViewEditsFragment :
             R.dimen.avatar_radius_48dp
         )
 
-        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+        viewModel.uiState.observe { uiState ->
             when (uiState) {
                 EditsUiState.Initial -> {}
                 EditsUiState.Loading -> {

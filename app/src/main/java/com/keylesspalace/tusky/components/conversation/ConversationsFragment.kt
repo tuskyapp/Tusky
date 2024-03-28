@@ -203,7 +203,7 @@ class ConversationsFragment :
             }
         })
 
-        viewModel.conversationFlow.observeLatest(viewLifecycleOwner) { pagingData ->
+        viewModel.conversationFlow.observeLatest { pagingData ->
             adapter.submitData(pagingData)
         }
 

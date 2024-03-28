@@ -107,7 +107,7 @@ class AccountMediaFragment :
 
         binding.statusView.visibility = View.GONE
 
-        viewModel.media.observeLatest(viewLifecycleOwner) { pagingData ->
+        viewModel.media.observeLatest { pagingData ->
             adapter.submitData(pagingData)
         }
 

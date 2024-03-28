@@ -157,7 +157,7 @@ class ViewThreadFragment :
         var initialProgressBar = getProgressBarJob(binding.initialProgressBar, 500)
         var threadProgressBar = getProgressBarJob(binding.threadProgressBar, 500)
 
-        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+        viewModel.uiState.observe { uiState ->
             when (uiState) {
                 is ThreadUiState.Loading -> {
                     revealButtonState = RevealButtonState.NO_BUTTON

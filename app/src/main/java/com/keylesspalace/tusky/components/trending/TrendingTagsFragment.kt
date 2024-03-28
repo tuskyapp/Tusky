@@ -88,7 +88,7 @@ class TrendingTagsFragment :
             }
         })
 
-        viewModel.uiState.observeLatest(viewLifecycleOwner) { trendingState ->
+        viewModel.uiState.observeLatest { trendingState ->
             processViewState(trendingState)
         }
 

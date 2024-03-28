@@ -80,7 +80,7 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
     }
 
     private fun subscribeObservables() {
-        viewModel.reportingState.observe(viewLifecycleOwner) {
+        viewModel.reportingState.observe {
             if (it == null) return@observe
             when (it) {
                 is Success -> viewModel.navigateTo(Screen.Done)

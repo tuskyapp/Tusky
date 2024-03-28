@@ -40,7 +40,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        viewModel.uiEvents.observe(viewLifecycleOwner) { event ->
+        viewModel.uiEvents.observe { event ->
             showSnackbar(event)
         }
 

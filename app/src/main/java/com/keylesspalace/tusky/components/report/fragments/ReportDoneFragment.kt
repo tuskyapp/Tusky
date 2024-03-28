@@ -48,7 +48,7 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
     }
 
     private fun subscribeObservables() {
-        viewModel.muteState.observe(viewLifecycleOwner) {
+        viewModel.muteState.observe {
             if (it == null) return@observe
             if (it !is Loading) {
                 binding.buttonMute.show()
@@ -66,7 +66,7 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
             )
         }
 
-        viewModel.blockState.observe(viewLifecycleOwner) {
+        viewModel.blockState.observe {
             if (it == null) return@observe
             if (it !is Loading) {
                 binding.buttonBlock.show()

@@ -279,7 +279,7 @@ class TimelineFragment :
             }
         })
 
-        viewModel.statuses.observeLatest(viewLifecycleOwner) { pagingData ->
+        viewModel.statuses.observeLatest { pagingData ->
             adapter.submitData(pagingData)
         }
 
@@ -304,7 +304,7 @@ class TimelineFragment :
             })
         }
 
-        eventHub.events.observe(viewLifecycleOwner) { event ->
+        eventHub.events.observe { event ->
             when (event) {
                 is PreferenceChangedEvent -> {
                     onPreferenceChanged(event.preferenceKey)

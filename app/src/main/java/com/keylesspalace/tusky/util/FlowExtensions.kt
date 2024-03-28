@@ -17,6 +17,7 @@
 
 package com.keylesspalace.tusky.util
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -109,9 +110,17 @@ fun <T> Flow<T>.observeLatest(
 context(LifecycleOwner)
 fun <T> Flow<T>.observe(
     collector: FlowCollector<T>? = null
-): Job = observe(this@LifecycleOwner, collector)
+): Job {
+    // Prefer using viewLifecycleOwner in Fragments.
+    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
+    return observe(realLifecycleOwner, collector)
+}
 
 context(LifecycleOwner)
 fun <T> Flow<T>.observeLatest(
     action: suspend (value: T) -> Unit
-): Job = observeLatest(this@LifecycleOwner, action)
+): Job {
+    // Prefer using viewLifecycleOwner in Fragments.
+    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
+    return observeLatest(realLifecycleOwner, action)
+}

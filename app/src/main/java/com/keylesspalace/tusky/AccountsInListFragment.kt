@@ -103,7 +103,7 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         binding.accountsSearchRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.accountsSearchRecycler.adapter = searchAdapter
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
+        viewModel.state.observe { state ->
             adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
 
             when (state.accounts) {
