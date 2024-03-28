@@ -26,11 +26,11 @@ import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FollowedTagsActivity :
@@ -69,10 +69,8 @@ class FollowedTagsActivity :
         setupAdapter().let { adapter ->
             setupRecyclerView(adapter)
 
-            lifecycleScope.launch {
-                viewModel.pager.collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
-                }
+            viewModel.pager.observeLatest { pagingData ->
+                adapter.submitData(pagingData)
             }
         }
     }

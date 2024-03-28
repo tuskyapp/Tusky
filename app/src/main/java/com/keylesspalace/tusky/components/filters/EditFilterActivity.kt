@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import java.util.Date
@@ -145,33 +146,25 @@ class EditFilterActivity : BaseActivity() {
     }
 
     private fun observeModel() {
-        lifecycleScope.launch {
-            viewModel.title.collect { title ->
-                if (title != binding.filterTitle.text.toString()) {
-                    // We also get this callback when typing in the field,
-                    // which messes with the cursor focus
-                    binding.filterTitle.setText(title)
-                }
+        viewModel.title.observe { title ->
+            if (title != binding.filterTitle.text.toString()) {
+                // We also get this callback when typing in the field,
+                // which messes with the cursor focus
+                binding.filterTitle.setText(title)
             }
         }
-        lifecycleScope.launch {
-            viewModel.keywords.collect { keywords ->
-                updateKeywords(keywords)
+        viewModel.keywords.observe { keywords ->
+            updateKeywords(keywords)
+        }
+        viewModel.contexts.observe { contexts ->
+            for (entry in contextSwitches) {
+                entry.key.isChecked = contexts.contains(entry.value)
             }
         }
-        lifecycleScope.launch {
-            viewModel.contexts.collect { contexts ->
-                for (entry in contextSwitches) {
-                    entry.key.isChecked = contexts.contains(entry.value)
-                }
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.action.collect { action ->
-                when (action) {
-                    Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
-                    else -> binding.filterActionWarn.isChecked = true
-                }
+        viewModel.action.observe { action ->
+            when (action) {
+                Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
+                else -> binding.filterActionWarn.isChecked = true
             }
         }
     }

@@ -9,7 +9,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
@@ -28,6 +27,7 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -37,8 +37,6 @@ import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 abstract class SearchFragment<T : Any> :
     Fragment(R.layout.fragment_search),
@@ -79,10 +77,8 @@ abstract class SearchFragment<T : Any> :
     }
 
     private fun subscribeObservables() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            data.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        data.observeLatest { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         adapter.addLoadStateListener { loadState ->

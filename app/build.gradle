@@ -51,6 +51,7 @@ android {
 
             kotlinOptions {
                 freeCompilerArgs = [
+                    "-Xcontext-receivers",
                     "-Xno-param-assertions",
                     "-Xno-call-assertions",
                     "-Xno-receiver-assertions"

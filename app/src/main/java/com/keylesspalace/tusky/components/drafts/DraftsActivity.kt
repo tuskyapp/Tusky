@@ -36,10 +36,10 @@ import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.isHttpNotFound
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class DraftsActivity : BaseActivity(), DraftActionListener {
@@ -80,10 +80,8 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
 
         bottomSheet = BottomSheetBehavior.from(binding.bottomSheet.root)
 
-        lifecycleScope.launch {
-            viewModel.drafts.collectLatest { draftData ->
-                adapter.submitData(draftData)
-            }
+        viewModel.drafts.observeLatest { draftData ->
+            adapter.submitData(draftData)
         }
 
         adapter.addLoadStateListener {

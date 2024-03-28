@@ -35,7 +35,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
@@ -43,10 +42,10 @@ import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
 /** Contract for starting [LoginWebViewActivity]. */
@@ -197,18 +196,16 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
 
         viewModel.init(data.domain)
 
-        lifecycleScope.launch {
-            viewModel.instanceRules.collect { instanceRules ->
-                binding.loginRules.visible(instanceRules.isNotEmpty())
-                binding.loginRules.setOnClickListener {
-                    AlertDialog.Builder(this@LoginWebViewActivity)
-                        .setTitle(getString(R.string.instance_rule_title, data.domain))
-                        .setMessage(
-                            instanceRules.joinToString(separator = "\n\n") { "• $it" }
-                        )
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show()
-                }
+        viewModel.instanceRules.observe { instanceRules ->
+            binding.loginRules.visible(instanceRules.isNotEmpty())
+            binding.loginRules.setOnClickListener {
+                AlertDialog.Builder(this@LoginWebViewActivity)
+                    .setTitle(getString(R.string.instance_rule_title, data.domain))
+                    .setMessage(
+                        instanceRules.joinToString(separator = "\n\n") { "• $it" }
+                    )
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
             }
         }
     }

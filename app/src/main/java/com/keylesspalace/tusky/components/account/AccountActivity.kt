@@ -48,7 +48,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -89,6 +88,7 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
@@ -110,7 +110,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
-import kotlinx.coroutines.launch
 
 class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, HasAndroidInjector, LinkListener {
 
@@ -431,32 +430,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        lifecycleScope.launch {
-            viewModel.accountData.collect {
-                if (it == null) return@collect
-                when (it) {
-                    is Success -> onAccountChanged(it.data)
-                    is Error -> {
-                        Snackbar.make(
-                            binding.accountCoordinatorLayout,
-                            R.string.error_generic,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.action_retry) { viewModel.refresh() }
-                            .show()
-                    }
-                    is Loading -> { }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            viewModel.relationshipData.collect {
-                val relation = it?.data
-                if (relation != null) {
-                    onRelationshipChanged(relation)
-                }
-
-                if (it is Error) {
+        viewModel.accountData.observe {
+            if (it == null) return@observe
+            when (it) {
+                is Success -> onAccountChanged(it.data)
+                is Error -> {
                     Snackbar.make(
                         binding.accountCoordinatorLayout,
                         R.string.error_generic,
@@ -465,12 +443,27 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                         .setAction(R.string.action_retry) { viewModel.refresh() }
                         .show()
                 }
+                is Loading -> { }
             }
         }
-        lifecycleScope.launch {
-            viewModel.noteSaved.collect {
-                binding.saveNoteInfo.visible(it, View.INVISIBLE)
+        viewModel.relationshipData.observe {
+            val relation = it?.data
+            if (relation != null) {
+                onRelationshipChanged(relation)
             }
+
+            if (it is Error) {
+                Snackbar.make(
+                    binding.accountCoordinatorLayout,
+                    R.string.error_generic,
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction(R.string.action_retry) { viewModel.refresh() }
+                    .show()
+            }
+        }
+        viewModel.noteSaved.observe {
+            binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
 
         // "Post failed" dialog should display in this activity
@@ -487,10 +480,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      */
     private fun setupRefreshLayout() {
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
-        lifecycleScope.launch {
-            viewModel.isRefreshing.collect { isRefreshing ->
-                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
-            }
+        viewModel.isRefreshing.observe { isRefreshing ->
+            binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
         }
         binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }

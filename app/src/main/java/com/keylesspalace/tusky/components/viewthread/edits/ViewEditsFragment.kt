@@ -26,7 +26,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +44,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unicodeWrap
@@ -54,7 +54,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 class ViewEditsFragment :
     Fragment(R.layout.fragment_view_edits),
@@ -95,67 +94,65 @@ class ViewEditsFragment :
             R.dimen.avatar_radius_48dp
         )
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    EditsUiState.Initial -> {}
-                    EditsUiState.Loading -> {
-                        binding.recyclerView.hide()
-                        binding.statusView.hide()
-                        binding.initialProgressBar.show()
-                    }
-                    EditsUiState.Refreshing -> {}
-                    is EditsUiState.Error -> {
-                        Log.w(TAG, "failed to load edits", uiState.throwable)
+        viewModel.uiState.observe { uiState ->
+            when (uiState) {
+                EditsUiState.Initial -> {}
+                EditsUiState.Loading -> {
+                    binding.recyclerView.hide()
+                    binding.statusView.hide()
+                    binding.initialProgressBar.show()
+                }
+                EditsUiState.Refreshing -> {}
+                is EditsUiState.Error -> {
+                    Log.w(TAG, "failed to load edits", uiState.throwable)
 
-                        binding.swipeRefreshLayout.isRefreshing = false
-                        binding.recyclerView.hide()
-                        binding.statusView.show()
-                        binding.initialProgressBar.hide()
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    binding.recyclerView.hide()
+                    binding.statusView.show()
+                    binding.initialProgressBar.hide()
 
-                        when (uiState.throwable) {
-                            is ViewEditsViewModel.MissingEditsException -> {
-                                binding.statusView.setup(
-                                    R.drawable.elephant_friend_empty,
-                                    R.string.error_missing_edits
-                                )
-                            }
-                            else -> {
-                                binding.statusView.setup(uiState.throwable) {
-                                    viewModel.loadEdits(statusId, force = true)
-                                }
+                    when (uiState.throwable) {
+                        is ViewEditsViewModel.MissingEditsException -> {
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.error_missing_edits
+                            )
+                        }
+                        else -> {
+                            binding.statusView.setup(uiState.throwable) {
+                                viewModel.loadEdits(statusId, force = true)
                             }
                         }
                     }
-                    is EditsUiState.Success -> {
-                        binding.swipeRefreshLayout.isRefreshing = false
-                        binding.recyclerView.show()
-                        binding.statusView.hide()
-                        binding.initialProgressBar.hide()
+                }
+                is EditsUiState.Success -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    binding.recyclerView.show()
+                    binding.statusView.hide()
+                    binding.initialProgressBar.hide()
 
-                        binding.recyclerView.adapter = ViewEditsAdapter(
-                            edits = uiState.edits,
-                            animateEmojis = animateEmojis,
-                            useBlurhash = useBlurhash,
-                            listener = this@ViewEditsFragment
-                        )
+                    binding.recyclerView.adapter = ViewEditsAdapter(
+                        edits = uiState.edits,
+                        animateEmojis = animateEmojis,
+                        useBlurhash = useBlurhash,
+                        listener = this@ViewEditsFragment
+                    )
 
-                        // Focus on the most recent version
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(
-                            0
-                        )
+                    // Focus on the most recent version
+                    (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(
+                        0
+                    )
 
-                        val account = uiState.edits.first().account
-                        loadAvatar(
-                            account.avatar,
-                            binding.statusAvatar,
-                            avatarRadius,
-                            animateAvatars
-                        )
+                    val account = uiState.edits.first().account
+                    loadAvatar(
+                        account.avatar,
+                        binding.statusAvatar,
+                        avatarRadius,
+                        animateAvatars
+                    )
 
-                        binding.statusDisplayName.text = account.name.unicodeWrap().emojify(account.emojis, binding.statusDisplayName, animateEmojis)
-                        binding.statusUsername.text = account.username
-                    }
+                    binding.statusDisplayName.text = account.name.unicodeWrap().emojify(account.emojis, binding.statusDisplayName, animateEmojis)
+                    binding.statusUsername.text = account.username
                 }
             }
         }

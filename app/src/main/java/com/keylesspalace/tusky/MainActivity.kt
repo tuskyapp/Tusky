@@ -108,6 +108,7 @@ import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -349,46 +350,44 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         setupTabs(showNotificationTab)
 
-        lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                when (event) {
-                    is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
-                    is MainTabsChangedEvent -> {
-                        refreshMainDrawerItems(
-                            addSearchButton = hideTopToolbar,
-                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
-                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES)
-                        )
+        eventHub.events.observe { event ->
+            when (event) {
+                is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
+                is MainTabsChangedEvent -> {
+                    refreshMainDrawerItems(
+                        addSearchButton = hideTopToolbar,
+                        addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
+                        addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES)
+                    )
 
-                        setupTabs(false)
-                    }
-                    is AnnouncementReadEvent -> {
-                        unreadAnnouncementsCount--
-                        updateAnnouncementsBadge()
-                    }
-                    is NewNotificationsEvent -> {
-                        directMessageTab?.let {
-                            if (event.accountId == activeAccount.accountId) {
-                                val hasDirectMessageNotification =
-                                    event.notifications.any {
-                                        it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
-                                    }
-
-                                if (hasDirectMessageNotification) {
-                                    showDirectMessageBadge(true)
+                    setupTabs(false)
+                }
+                is AnnouncementReadEvent -> {
+                    unreadAnnouncementsCount--
+                    updateAnnouncementsBadge()
+                }
+                is NewNotificationsEvent -> {
+                    directMessageTab?.let {
+                        if (event.accountId == activeAccount.accountId) {
+                            val hasDirectMessageNotification =
+                                event.notifications.any {
+                                    it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
                                 }
+
+                            if (hasDirectMessageNotification) {
+                                showDirectMessageBadge(true)
                             }
                         }
                     }
-                    is NotificationsLoadingEvent -> {
-                        if (event.accountId == activeAccount.accountId) {
-                            showDirectMessageBadge(false)
-                        }
+                }
+                is NotificationsLoadingEvent -> {
+                    if (event.accountId == activeAccount.accountId) {
+                        showDirectMessageBadge(false)
                     }
-                    is ConversationsLoadingEvent -> {
-                        if (event.accountId == activeAccount.accountId) {
-                            showDirectMessageBadge(false)
-                        }
+                }
+                is ConversationsLoadingEvent -> {
+                    if (event.accountId == activeAccount.accountId) {
+                        showDirectMessageBadge(false)
                     }
                 }
             }

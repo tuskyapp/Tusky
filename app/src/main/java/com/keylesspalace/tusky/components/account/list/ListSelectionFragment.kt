@@ -40,13 +40,13 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ListSelectionFragment : DialogFragment(), Injectable {
@@ -102,58 +102,52 @@ class ListSelectionFragment : DialogFragment(), Injectable {
         showProgressBarJob.start()
 
         // TODO change this to a (single) LoadState like elsewhere?
-        lifecycleScope.launch {
-            viewModel.states.collectLatest { states ->
-                binding.progressBar.hide()
-                showProgressBarJob.cancel()
-                if (states.isEmpty()) {
-                    binding.messageView.show()
-                    binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists)
-                } else {
-                    binding.listsView.show()
-                    adapter.submitList(states)
-                }
+        viewModel.states.observeLatest { states ->
+            binding.progressBar.hide()
+            showProgressBarJob.cancel()
+            if (states.isEmpty()) {
+                binding.messageView.show()
+                binding.messageView.setup(R.drawable.elephant_friend_empty, R.string.no_lists)
+            } else {
+                binding.listsView.show()
+                adapter.submitList(states)
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.loadError.collectLatest { error ->
-                Log.e(TAG, "failed to load lists", error)
-                binding.progressBar.hide()
-                showProgressBarJob.cancel()
-                binding.listsView.hide()
-                binding.messageView.apply {
-                    show()
-                    setup(error) { load() }
-                }
+        viewModel.loadError.observeLatest { error ->
+            Log.e(TAG, "failed to load lists", error)
+            binding.progressBar.hide()
+            showProgressBarJob.cancel()
+            binding.listsView.hide()
+            binding.messageView.apply {
+                show()
+                setup(error) { load() }
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.actionError.collectLatest { error ->
-                when (error.type) {
-                    ActionError.Type.ADD -> {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.failed_to_add_to_list,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.action_retry) {
-                                viewModel.addAccountToList(accountId!!, error.listId)
-                            }
-                            .show()
-                    }
-                    ActionError.Type.REMOVE -> {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.failed_to_remove_from_list,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.action_retry) {
-                                viewModel.removeAccountFromList(accountId!!, error.listId)
-                            }
-                            .show()
-                    }
+        viewModel.actionError.observeLatest { error ->
+            when (error.type) {
+                ActionError.Type.ADD -> {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.failed_to_add_to_list,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.action_retry) {
+                            viewModel.addAccountToList(accountId!!, error.listId)
+                        }
+                        .show()
+                }
+                ActionError.Type.REMOVE -> {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.failed_to_remove_from_list,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.action_retry) {
+                            viewModel.removeAccountFromList(accountId!!, error.listId)
+                        }
+                        .show()
                 }
             }
         }
