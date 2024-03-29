@@ -70,7 +70,9 @@ sealed class StatusViewData {
             actionable.spoilerText.translated { translation -> translation.spoilerWarning ?: this }
 
         val poll = actionable.poll?.translated { translation ->
-            val translatedOptionsText = translation.poll ?: return@translated this
+            val translatedOptionsText = translation.poll?.options?.map { option ->
+                option.title
+            } ?: return@translated this
             val translatedOptions = options.zip(translatedOptionsText) { option, translatedText ->
                 option.copy(title = translatedText)
             }
