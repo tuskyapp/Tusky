@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -46,7 +47,7 @@ class AccountViewModel @Inject constructor(
     val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
 
     private val _isRefreshing = MutableSharedFlow<Boolean>(1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val isRefreshing: SharedFlow<Boolean> = _isRefreshing
+    val isRefreshing: SharedFlow<Boolean> = _isRefreshing.asSharedFlow()
 
     private var isDataLoading = false
 
