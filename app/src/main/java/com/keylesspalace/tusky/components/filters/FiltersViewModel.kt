@@ -11,8 +11,9 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FiltersViewModel @Inject constructor(
@@ -30,8 +31,8 @@ class FiltersViewModel @Inject constructor(
 
     data class State(val filters: List<Filter>, val loadingState: LoadingState)
 
-    val state: Flow<State> get() = _state
     private val _state = MutableStateFlow(State(emptyList(), LoadingState.INITIAL))
+    val state: StateFlow<State> = _state.asStateFlow()
 
     fun load() {
         this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.LOADING)

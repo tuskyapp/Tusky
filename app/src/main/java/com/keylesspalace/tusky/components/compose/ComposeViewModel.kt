@@ -47,6 +47,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
@@ -107,12 +108,12 @@ class ComposeViewModel @Inject constructor(
     private val _media = MutableStateFlow(emptyList<QueuedMedia>())
     val media: StateFlow<List<QueuedMedia>> = _media.asStateFlow()
 
-    val uploadError =
-        MutableSharedFlow<Throwable>(
-            replay = 0,
-            extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
-        )
+    private val _uploadError = MutableSharedFlow<Throwable>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val uploadError: SharedFlow<Throwable> = _uploadError.asSharedFlow()
 
     private val _closeConfirmation = MutableStateFlow(ConfirmationKind.NONE)
     val closeConfirmation: StateFlow<ConfirmationKind> = _closeConfirmation.asStateFlow()
@@ -202,7 +203,7 @@ class ComposeViewModel @Inject constructor(
                             )
                         is UploadEvent.ErrorEvent -> {
                             _media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
-                            uploadError.emit(event.error)
+                            _uploadError.emit(event.error)
                             return@collect
                         }
                     }
