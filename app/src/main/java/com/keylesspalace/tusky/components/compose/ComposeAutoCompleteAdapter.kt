@@ -145,12 +145,12 @@ class ComposeAutoCompleteAdapter(
         }
     }
 
-    sealed class AutocompleteResult {
-        class AccountResult(val account: TimelineAccount) : AutocompleteResult()
+    sealed interface AutocompleteResult {
+        class AccountResult(val account: TimelineAccount) : AutocompleteResult
 
-        class HashtagResult(val hashtag: String) : AutocompleteResult()
+        class HashtagResult(val hashtag: String) : AutocompleteResult
 
-        class EmojiResult(val emoji: Emoji) : AutocompleteResult()
+        class EmojiResult(val emoji: Emoji) : AutocompleteResult
     }
 
     interface AutocompletionProvider {
