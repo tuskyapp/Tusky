@@ -101,7 +101,7 @@ class DraftHelper @Inject constructor(
             }
         }
 
-        val attachments: List<DraftAttachment> = buildList {
+        val attachments: List<DraftAttachment> = buildList(mediaUris.size) {
             for (i in mediaUris.indices) {
                 add(
                     DraftAttachment(

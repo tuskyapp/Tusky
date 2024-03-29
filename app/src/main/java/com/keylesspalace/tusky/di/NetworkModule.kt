@@ -22,7 +22,6 @@ import android.util.Log
 import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.DraftAttachmentJsonAdapter
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
@@ -68,7 +67,6 @@ object NetworkModule {
     fun providesMoshi(): Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter())
         .add(GuardedAdapter.ANNOTATION_FACTORY)
-        .add(DraftAttachmentJsonAdapter.FACTORY)
         // Enum types with fallback value
         .add(
             Attachment.Type::class.java,
