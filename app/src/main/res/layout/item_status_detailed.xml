@@ -78,6 +78,46 @@
         app:layout_constraintTop_toBottomOf="@id/status_display_name"
         tools:text="\@ConnyDuck\@mastodon.social" />
 
+    <Button
+        android:id="@+id/status_button_untranslate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_show_original"
+        app:layout_constraintTop_toTopOf="@id/status_translation_status"
+        app:layout_constraintBottom_toBottomOf="@id/status_translation_status"
+        style="@style/TuskyButton.TextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="14dp"
+        android:minHeight="0dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/status_translation_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextSizeSmall"
+        android:layout_marginStart="14dp"
+        tools:text="Translated from blah using service"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:layout_constraintEnd_toStartOf="@id/status_button_untranslate"
+        android:minLines="2"
+        android:lineSpacingMultiplier="1.1"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginEnd="4dp"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/status_translation_barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="status_translation_status, status_button_untranslate" />
+
+
     <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
@@ -93,7 +133,7 @@
         android:textSize="?attr/status_text_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/status_translation_barrier"
         tools:text="CW this is a long long long long long long long long content warning" />
 
     <com.google.android.material.button.MaterialButton

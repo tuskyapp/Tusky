@@ -20,6 +20,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
@@ -52,7 +53,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 abstract class TimelineViewModel(
-    private val timelineCases: TimelineCases,
+    protected val timelineCases: TimelineCases,
     private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
@@ -85,9 +86,9 @@ abstract class TimelineViewModel(
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
             filterRemoveReplies =
-                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
-            filterRemoveReblogs =
                 !(accountManager.activeAccount?.isShowHomeReplies ?: true)
+            filterRemoveReblogs =
+                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
             filterRemoveSelfReblogs =
                 !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
         }
@@ -311,6 +312,9 @@ abstract class TimelineViewModel(
             )
         }
     }
+
+    abstract suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit>
+    abstract fun untranslate(status: StatusViewData.Concrete)
 
     companion object {
         private const val TAG = "TimelineVM"

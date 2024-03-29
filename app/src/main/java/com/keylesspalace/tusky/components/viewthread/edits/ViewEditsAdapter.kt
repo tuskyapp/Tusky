@@ -303,7 +303,7 @@ class EditsTagHandler(val context: Context) : TuskyTagHandler() {
         // won't be called for it.
         const val DELETED_TEXT_EL = "tusky-del"
 
-        /** XML element to represet text that has been inserted */
+        /** XML element to represent text that has been inserted */
         // Can't be an element that Android's HTML parser recognises, otherwise the tagHandler
         // won't be called for it.
         const val INSERTED_TEXT_EL = "tusky-ins"

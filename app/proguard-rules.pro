@@ -39,15 +39,6 @@
 
 # TUSKY SPECIFIC OPTIONS
 
-# Retain generic signatures of classes used in MastodonApi so Retrofit works
--keep,allowobfuscation,allowshrinking class retrofit2.Response
--keep,allowobfuscation,allowshrinking class kotlin.collections.List
--keep,allowobfuscation,allowshrinking class kotlin.collections.Map
--keep,allowobfuscation,allowshrinking class retrofit2.Call
-
-# https://github.com/square/retrofit/pull/3563
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
-
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile

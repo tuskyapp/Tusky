@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
@@ -30,6 +31,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
 
@@ -47,37 +49,43 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done), Injectable {
     }
 
     private fun subscribeObservables() {
-        viewModel.muteState.observe(viewLifecycleOwner) {
-            if (it !is Loading) {
-                binding.buttonMute.show()
-                binding.progressMute.show()
-            } else {
-                binding.buttonMute.hide()
-                binding.progressMute.hide()
-            }
-
-            binding.buttonMute.setText(
-                when (it.data) {
-                    true -> R.string.action_unmute
-                    else -> R.string.action_mute
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.muteState.collect {
+                if (it == null) return@collect
+                if (it !is Loading) {
+                    binding.buttonMute.show()
+                    binding.progressMute.show()
+                } else {
+                    binding.buttonMute.hide()
+                    binding.progressMute.hide()
                 }
-            )
+
+                binding.buttonMute.setText(
+                    when (it.data) {
+                        true -> R.string.action_unmute
+                        else -> R.string.action_mute
+                    }
+                )
+            }
         }
 
-        viewModel.blockState.observe(viewLifecycleOwner) {
-            if (it !is Loading) {
-                binding.buttonBlock.show()
-                binding.progressBlock.show()
-            } else {
-                binding.buttonBlock.hide()
-                binding.progressBlock.hide()
-            }
-            binding.buttonBlock.setText(
-                when (it.data) {
-                    true -> R.string.action_unblock
-                    else -> R.string.action_block
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.blockState.collect {
+                if (it == null) return@collect
+                if (it !is Loading) {
+                    binding.buttonBlock.show()
+                    binding.progressBlock.show()
+                } else {
+                    binding.buttonBlock.hide()
+                    binding.progressBlock.hide()
                 }
-            )
+                binding.buttonBlock.setText(
+                    when (it.data) {
+                        true -> R.string.action_unblock
+                        else -> R.string.action_block
+                    }
+                )
+            }
         }
     }
 

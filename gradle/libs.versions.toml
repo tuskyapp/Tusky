@@ -1,8 +1,8 @@
 [versions]
-agp = "8.2.2"
+agp = "8.3.1"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
-androidx-browser = "1.7.0"
+androidx-browser = "1.8.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
 androidx-core = "1.12.0"
@@ -10,7 +10,7 @@ androidx-exifinterface = "1.3.7"
 androidx-fragment = "1.6.2"
 androidx-junit = "1.1.5"
 androidx-lifecycle = "2.7.0"
-androidx-media3 = "1.2.1"
+androidx-media3 = "1.3.0"
 androidx-paging = "3.2.1"
 androidx-preference = "1.2.1"
 androidx-recyclerview = "1.3.0"
@@ -32,7 +32,7 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 image-cropper = "4.3.2"
 material = "1.11.0"
 material-drawer = "8.4.5"
@@ -42,18 +42,18 @@ mockito-kotlin = "5.2.1"
 moshi = "1.15.1"
 networkresult-calladapter = "1.1.0"
 okhttp = "4.12.0"
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 robolectric = "4.11.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
 truth = "1.4.2"
-turbine = "1.0.0"
+turbine = "1.1.0"
 unified-push = "2.4.0"
 xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:1.9.22-1.0.17"
+google-ksp = "com.google.devtools.ksp:1.9.23-1.0.19"
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
@@ -74,14 +74,8 @@ androidx-emoji2-views-core = { module = "androidx.emoji2:emoji2-views", version.
 androidx-emoji2-view-helper = { module = "androidx.emoji2:emoji2-views-helper", version.ref = "emoji2" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
-androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
-androidx-media3-exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx-media3" }
-androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "androidx-media3" }
-androidx-media3-exoplayer-rtsp = { module = "androidx.media3:media3-exoplayer-rtsp", version.ref = "androidx-media3" }
 androidx-media3-datasource-okhttp = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "androidx-media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "androidx-paging" }
@@ -142,10 +136,9 @@ xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "
 androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", "androidx-browser", "androidx-swiperefreshlayout",
     "androidx-recyclerview", "androidx-exifinterface", "androidx-cardview", "androidx-preference-ktx", "androidx-sharetarget",
     "androidx-emoji2-core", "androidx-emoji2-views-core", "androidx-emoji2-view-helper", "androidx-lifecycle-viewmodel-ktx",
-    "androidx-lifecycle-livedata-ktx", "androidx-lifecycle-common-java8", "androidx-lifecycle-reactivestreams-ktx",
     "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
-    "androidx-core-splashscreen", "androidx-activity", "androidx-media3-exoplayer", "androidx-media3-exoplayer-dash",
-    "androidx-media3-exoplayer-hls", "androidx-media3-exoplayer-rtsp", "androidx-media3-datasource-okhttp", "androidx-media3-ui"]
+    "androidx-core-splashscreen", "androidx-activity", "androidx-media3-exoplayer", "androidx-media3-datasource-okhttp",
+    "androidx-media3-ui"]
 dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
 dagger-processors = ["dagger-compiler", "dagger-android-processor"]
 filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-defaults"]

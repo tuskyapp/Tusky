@@ -41,20 +41,23 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
 
 fun Status.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
-    isDetailed: Boolean = false
+    isDetailed: Boolean = false,
+    translation: TranslationViewData? = null,
 ): StatusViewData.Concrete {
     return StatusViewData.Concrete(
         status = this,
         isShowingContent = isShowingContent,
         isCollapsed = isCollapsed,
         isExpanded = isExpanded,
-        isDetailed = isDetailed
+        isDetailed = isDetailed,
+        translation = translation,
     )
 }
 

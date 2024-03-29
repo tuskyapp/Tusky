@@ -216,6 +216,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
 
+        if (supportsOverridingActivityTransitions() && explodeAnimationWasRequested()) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.activity_open_exit)
+        }
+
         var showNotificationTab = false
 
         // check for savedInstanceState in order to not handle intent events more than once
@@ -979,7 +983,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         cacheUpdater.stop()
         accountManager.setActiveAccount(newSelectedId)
         val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
         if (forward != null) {
             intent.type = forward.type
             intent.action = forward.action
@@ -987,11 +991,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         startActivity(intent)
         finish()
-        if (supportsOverridingActivityTransitions()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.explode)
-        } else {
+        if (!supportsOverridingActivityTransitions()) {
             @Suppress("DEPRECATION")
-            overridePendingTransition(R.anim.explode, R.anim.explode)
+            overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
         }
     }
 
@@ -1209,11 +1211,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
+    private fun explodeAnimationWasRequested(): Boolean {
+        return intent.getBooleanExtra(OPEN_WITH_EXPLODE_ANIMATION, false)
+    }
+
     override fun getActionButton() = binding.composeButton
 
     override fun androidInjector() = androidInjector
 
     companion object {
+        const val OPEN_WITH_EXPLODE_ANIMATION = "explode"
+
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14

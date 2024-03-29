@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky.components.account
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
@@ -23,6 +22,9 @@ import com.keylesspalace.tusky.util.getDomain
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AccountViewModel @Inject constructor(
@@ -31,12 +33,18 @@ class AccountViewModel @Inject constructor(
     accountManager: AccountManager
 ) : ViewModel() {
 
-    val accountData = MutableLiveData<Resource<Account>>()
-    val relationshipData = MutableLiveData<Resource<Relationship>>()
+    private val _accountData = MutableStateFlow(null as Resource<Account>?)
+    val accountData: StateFlow<Resource<Account>?> = _accountData.asStateFlow()
 
-    val noteSaved = MutableLiveData<Boolean>()
+    private val _relationshipData = MutableStateFlow(null as Resource<Relationship>?)
+    val relationshipData: StateFlow<Resource<Relationship>?> = _relationshipData.asStateFlow()
 
-    val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
+    private val _noteSaved = MutableStateFlow(false)
+    val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
     private var isDataLoading = false
 
     lateinit var accountId: String
@@ -55,17 +63,17 @@ class AccountViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             eventHub.events.collect { event ->
-                if (event is ProfileEditedEvent && event.newProfileData.id == accountData.value?.data?.id) {
-                    accountData.postValue(Success(event.newProfileData))
+                if (event is ProfileEditedEvent && event.newProfileData.id == _accountData.value?.data?.id) {
+                    _accountData.value = Success(event.newProfileData)
                 }
             }
         }
     }
 
     private fun obtainAccount(reload: Boolean = false) {
-        if (accountData.value == null || reload) {
+        if (_accountData.value == null || reload) {
             isDataLoading = true
-            accountData.postValue(Loading())
+            _accountData.value = Loading()
 
             viewModelScope.launch {
                 mastodonApi.account(accountId)
@@ -74,15 +82,15 @@ class AccountViewModel @Inject constructor(
                             domain = getDomain(account.url)
                             isFromOwnDomain = domain == activeAccount.domain
 
-                            accountData.postValue(Success(account))
+                            _accountData.value = Success(account)
                             isDataLoading = false
-                            isRefreshing.postValue(false)
+                            _isRefreshing.value = false
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
-                            accountData.postValue(Error(cause = t))
+                            _accountData.value = Error(cause = t)
                             isDataLoading = false
-                            isRefreshing.postValue(false)
+                            _isRefreshing.value = false
                         }
                     )
             }
@@ -90,14 +98,14 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun obtainRelationship(reload: Boolean = false) {
-        if (relationshipData.value == null || reload) {
-            relationshipData.postValue(Loading())
+        if (_relationshipData.value == null || reload) {
+            _relationshipData.value = Loading()
 
             viewModelScope.launch {
                 mastodonApi.relationships(listOf(accountId))
                     .fold(
                         { relationships ->
-                            relationshipData.postValue(
+                            _relationshipData.value =
                                 if (relationships.isNotEmpty()) {
                                     Success(
                                         relationships[0]
@@ -105,11 +113,10 @@ class AccountViewModel @Inject constructor(
                                 } else {
                                     Error()
                                 }
-                            )
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining relationships", t)
-                            relationshipData.postValue(Error(cause = t))
+                            _relationshipData.value = Error(cause = t)
                         }
                     )
             }
@@ -117,7 +124,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeFollowState() {
-        val relationship = relationshipData.value?.data
+        val relationship = _relationshipData.value?.data
         if (relationship?.following == true || relationship?.requested == true) {
             changeRelationship(RelationShipAction.UNFOLLOW)
         } else {
@@ -126,7 +133,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeBlockState() {
-        if (relationshipData.value?.data?.blocking == true) {
+        if (_relationshipData.value?.data?.blocking == true) {
             changeRelationship(RelationShipAction.UNBLOCK)
         } else {
             changeRelationship(RelationShipAction.BLOCK)
@@ -142,7 +149,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeSubscribingState() {
-        val relationship = relationshipData.value?.data
+        val relationship = _relationshipData.value?.data
         if (relationship?.notifying == true || // Mastodon 3.3.0rc1
             relationship?.subscribing == true // Pleroma
         ) {
@@ -156,9 +163,9 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             mastodonApi.blockDomain(instance).fold({
                 eventHub.dispatch(DomainMuteEvent(instance))
-                val relation = relationshipData.value?.data
+                val relation = _relationshipData.value?.data
                 if (relation != null) {
-                    relationshipData.postValue(Success(relation.copy(blockingDomain = true)))
+                    _relationshipData.value = Success(relation.copy(blockingDomain = true))
                 }
             }, { e ->
                 Log.e(TAG, "Error muting $instance", e)
@@ -169,9 +176,9 @@ class AccountViewModel @Inject constructor(
     fun unblockDomain(instance: String) {
         viewModelScope.launch {
             mastodonApi.unblockDomain(instance).fold({
-                val relation = relationshipData.value?.data
+                val relation = _relationshipData.value?.data
                 if (relation != null) {
-                    relationshipData.postValue(Success(relation.copy(blockingDomain = false)))
+                    _relationshipData.value = Success(relation.copy(blockingDomain = false))
                 }
             }, { e ->
                 Log.e(TAG, "Error unmuting $instance", e)
@@ -180,7 +187,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun changeShowReblogsState() {
-        if (relationshipData.value?.data?.showingReblogs == true) {
+        if (_relationshipData.value?.data?.showingReblogs == true) {
             changeRelationship(RelationShipAction.FOLLOW, false)
         } else {
             changeRelationship(RelationShipAction.FOLLOW, true)
@@ -195,9 +202,9 @@ class AccountViewModel @Inject constructor(
         parameter: Boolean? = null,
         duration: Int? = null
     ) = viewModelScope.launch {
-        val relation = relationshipData.value?.data
-        val account = accountData.value?.data
-        val isMastodon = relationshipData.value?.data?.notifying != null
+        val relation = _relationshipData.value?.data
+        val account = _accountData.value?.data
+        val isMastodon = _relationshipData.value?.data?.notifying != null
 
         if (relation != null && account != null) {
             // optimistically post new state for faster response
@@ -230,7 +237,7 @@ class AccountViewModel @Inject constructor(
                     }
                 }
             }
-            relationshipData.postValue(Loading(newRelation))
+            _relationshipData.value = Loading(newRelation)
         }
 
         val relationshipCall = when (relationshipAction) {
@@ -265,7 +272,7 @@ class AccountViewModel @Inject constructor(
 
         relationshipCall.fold(
             { relationship ->
-                relationshipData.postValue(Success(relationship))
+                _relationshipData.value = Success(relationship)
 
                 when (relationshipAction) {
                     RelationShipAction.UNFOLLOW -> eventHub.dispatch(UnfollowEvent(accountId))
@@ -276,22 +283,22 @@ class AccountViewModel @Inject constructor(
             },
             { t ->
                 Log.w(TAG, "failed loading relationship", t)
-                relationshipData.postValue(Error(relation, cause = t))
+                _relationshipData.value = Error(relation, cause = t)
             }
         )
     }
 
     fun noteChanged(newNote: String) {
-        noteSaved.postValue(false)
+        _noteSaved.value = false
         noteUpdateJob?.cancel()
         noteUpdateJob = viewModelScope.launch {
             delay(1500)
             mastodonApi.updateAccountNote(accountId, newNote)
                 .fold(
                     {
-                        noteSaved.postValue(true)
+                        _noteSaved.value = true
                         delay(4000)
-                        noteSaved.postValue(false)
+                        _noteSaved.value = false
                     },
                     { t ->
                         Log.w(TAG, "Error updating note", t)

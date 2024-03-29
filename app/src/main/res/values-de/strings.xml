@@ -190,7 +190,7 @@
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
     <string name="pref_default_post_privacy">Standard-Beitragssichtbarkeit</string>
     <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen</string>
-    <string name="pref_publishing">Beiträge</string>
+    <string name="pref_publishing">Wird veröffentlicht … (mit Server synchronisiert)</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
@@ -703,4 +703,12 @@
     <string name="pref_title_show_self_boosts">Eigene geteilte Beiträge anzeigen</string>
     <string name="pref_title_show_self_boosts_description">Die Person teilt ihre eigenen Beiträge</string>
     <string name="pref_title_per_timeline_preferences">Einstellungen pro Zeitleiste</string>
+    <string name="reply_sending">Wird gesendet …</string>
+    <string name="reply_sending_long">Deine Antwort wird gesendet.</string>
+    <string name="action_translate">Übersetzen</string>
+    <string name="action_show_original">Ursprünglichen Beitrag anzeigen</string>
+    <string name="label_translating">Wird übersetzt …</string>
+    <string name="label_translated">Aus %1$s mittels %2$s übersetzt</string>
+    <string name="ui_error_translate">Fehler beim Übersetzen: %s</string>
+    <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
 </resources>

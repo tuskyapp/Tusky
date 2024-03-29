@@ -45,10 +45,10 @@ import com.keylesspalace.tusky.entity.StatusContext
 import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.entity.StatusSource
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.entity.TrendingTag
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -176,7 +176,7 @@ interface MastodonApi {
     ): Response<List<Notification>>
 
     @POST("api/v1/notifications/clear")
-    suspend fun clearNotifications(): NetworkResult<ResponseBody>
+    suspend fun clearNotifications(): NetworkResult<Unit>
 
     @FormUrlEncoded
     @PUT("api/v1/media/{mediaId}")
@@ -272,7 +272,7 @@ interface MastodonApi {
     @DELETE("api/v1/scheduled_statuses/{id}")
     suspend fun deleteScheduledStatus(
         @Path("id") scheduledStatusId: String
-    ): NetworkResult<ResponseBody>
+    ): NetworkResult<Unit>
 
     @GET("api/v1/accounts/verify_credentials")
     suspend fun accountVerifyCredentials(
@@ -542,7 +542,7 @@ interface MastodonApi {
     ): NetworkResult<FilterV1>
 
     @DELETE("api/v1/filters/{id}")
-    suspend fun deleteFilterV1(@Path("id") id: String): NetworkResult<ResponseBody>
+    suspend fun deleteFilterV1(@Path("id") id: String): NetworkResult<Unit>
 
     @FormUrlEncoded
     @POST("api/v2/filters")
@@ -564,7 +564,7 @@ interface MastodonApi {
     ): NetworkResult<Filter>
 
     @DELETE("api/v2/filters/{id}")
-    suspend fun deleteFilter(@Path("id") id: String): NetworkResult<ResponseBody>
+    suspend fun deleteFilter(@Path("id") id: String): NetworkResult<Unit>
 
     @FormUrlEncoded
     @POST("api/v2/filters/{filterId}/keywords")
@@ -585,7 +585,7 @@ interface MastodonApi {
     @DELETE("api/v2/filters/keywords/{keywordId}")
     suspend fun deleteFilterKeyword(
         @Path("keywordId") keywordId: String
-    ): NetworkResult<ResponseBody>
+    ): NetworkResult<Unit>
 
     @FormUrlEncoded
     @POST("api/v1/polls/{id}/votes")
@@ -600,19 +600,19 @@ interface MastodonApi {
     ): NetworkResult<List<Announcement>>
 
     @POST("api/v1/announcements/{id}/dismiss")
-    suspend fun dismissAnnouncement(@Path("id") announcementId: String): NetworkResult<ResponseBody>
+    suspend fun dismissAnnouncement(@Path("id") announcementId: String): NetworkResult<Unit>
 
     @PUT("api/v1/announcements/{id}/reactions/{name}")
     suspend fun addAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): NetworkResult<ResponseBody>
+    ): NetworkResult<Unit>
 
     @DELETE("api/v1/announcements/{id}/reactions/{name}")
     suspend fun removeAnnouncementReaction(
         @Path("id") announcementId: String,
         @Path("name") name: String
-    ): NetworkResult<ResponseBody>
+    ): NetworkResult<Unit>
 
     @FormUrlEncoded
     @POST("api/v1/reports")
@@ -676,7 +676,7 @@ interface MastodonApi {
     suspend fun unsubscribePushNotifications(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String
-    ): NetworkResult<ResponseBody>
+    ): NetworkResult<Unit>
 
     @GET("api/v1/tags/{name}")
     suspend fun tag(@Path("name") name: String): NetworkResult<HashTag>
@@ -703,4 +703,11 @@ interface MastodonApi {
         @Query("limit") limit: Int? = null,
         @Query("offset") offset: String? = null
     ): Response<List<Status>>
+
+    @FormUrlEncoded
+    @POST("api/v1/statuses/{id}/translate")
+    suspend fun translate(
+        @Path("id") statusId: String,
+        @Field("lang") targetLanguage: String?
+    ): NetworkResult<Translation>
 }

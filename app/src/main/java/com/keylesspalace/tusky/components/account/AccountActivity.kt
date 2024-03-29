@@ -48,6 +48,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -109,6 +110,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlinx.coroutines.launch
 
 class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, HasAndroidInjector, LinkListener {
 
@@ -429,10 +431,32 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Subscribe to data loaded at the view model
      */
     private fun subscribeObservables() {
-        viewModel.accountData.observe(this) {
-            when (it) {
-                is Success -> onAccountChanged(it.data)
-                is Error -> {
+        lifecycleScope.launch {
+            viewModel.accountData.collect {
+                if (it == null) return@collect
+                when (it) {
+                    is Success -> onAccountChanged(it.data)
+                    is Error -> {
+                        Snackbar.make(
+                            binding.accountCoordinatorLayout,
+                            R.string.error_generic,
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction(R.string.action_retry) { viewModel.refresh() }
+                            .show()
+                    }
+                    is Loading -> { }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.relationshipData.collect {
+                val relation = it?.data
+                if (relation != null) {
+                    onRelationshipChanged(relation)
+                }
+
+                if (it is Error) {
                     Snackbar.make(
                         binding.accountCoordinatorLayout,
                         R.string.error_generic,
@@ -441,27 +465,12 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                         .setAction(R.string.action_retry) { viewModel.refresh() }
                         .show()
                 }
-                is Loading -> { }
             }
         }
-        viewModel.relationshipData.observe(this) {
-            val relation = it?.data
-            if (relation != null) {
-                onRelationshipChanged(relation)
+        lifecycleScope.launch {
+            viewModel.noteSaved.collect {
+                binding.saveNoteInfo.visible(it, View.INVISIBLE)
             }
-
-            if (it is Error) {
-                Snackbar.make(
-                    binding.accountCoordinatorLayout,
-                    R.string.error_generic,
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction(R.string.action_retry) { viewModel.refresh() }
-                    .show()
-            }
-        }
-        viewModel.noteSaved.observe(this) {
-            binding.saveNoteInfo.visible(it, View.INVISIBLE)
         }
 
         // "Post failed" dialog should display in this activity
@@ -478,10 +487,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      */
     private fun setupRefreshLayout() {
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
-        viewModel.isRefreshing.observe(
-            this
-        ) { isRefreshing ->
-            binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+        lifecycleScope.launch {
+            viewModel.isRefreshing.collect { isRefreshing ->
+                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+            }
         }
         binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }

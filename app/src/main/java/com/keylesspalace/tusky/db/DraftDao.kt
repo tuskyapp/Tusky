@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.db
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DraftDao {
@@ -32,7 +32,7 @@ interface DraftDao {
     fun draftsPagingSource(accountId: Long): PagingSource<Int, DraftEntity>
 
     @Query("SELECT COUNT(*) FROM DraftEntity WHERE accountId = :accountId AND failedToSendNew = 1")
-    fun draftsNeedUserAlert(accountId: Long): LiveData<Int>
+    fun draftsNeedUserAlert(accountId: Long): Flow<Int>
 
     @Query(
         "UPDATE DraftEntity SET failedToSendNew = 0 WHERE accountId = :accountId AND failedToSendNew = 1"

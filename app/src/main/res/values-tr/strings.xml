@@ -14,19 +14,19 @@
     <string name="error_media_upload_opening">Dosya açılamadı.</string>
     <string name="error_media_upload_permission">Medya okuma izni gerekli.</string>
     <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
-    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderide yayınlanamaz.</string>
+    <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderi de yayınlanamaz.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
     <string name="error_sender_account_gone">Gönderi gönderilirken hata.</string>
     <string name="title_home">Anasayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
     <string name="title_public_federated">Federe</string>
-    <string name="title_direct_messages">Doğrudan mesajlar</string>
+    <string name="title_direct_messages">Doğrudan iletiler</string>
     <string name="title_tab_preferences">Sekmeler</string>
     <string name="title_view_thread">Konu</string>
     <string name="title_posts">Gönderiler</string>
     <string name="title_posts_with_replies">Yanıtlarıyla</string>
-    <string name="title_posts_pinned">Sabitlenmiş</string>
+    <string name="title_posts_pinned">Sabitlenen</string>
     <string name="title_follows">Takip edilenler</string>
     <string name="title_followers">Takipçiler</string>
     <string name="title_favourites">Gözdeler</string>
@@ -704,4 +704,11 @@
     <string name="pref_title_show_self_boosts_description">Birisi kendi gönderisini yükseltiyor</string>
     <string name="pref_title_per_timeline_preferences">Zaman akışı başına tercihler</string>
     <string name="pref_title_show_notifications_filter">Bildirim süzgecini göster</string>
+    <string name="reply_sending">Gönderiliyor…</string>
+    <string name="reply_sending_long">Cevabınız gönderiliyor.</string>
+    <string name="action_show_original">Özgünü göster</string>
+    <string name="label_translated">Dilinden%1$s ile %2$s çevrildi</string>
+    <string name="ui_error_translate">Çeviri yapılamadı: %s</string>
+    <string name="action_translate">Çevir</string>
+    <string name="label_translating">Çeviri…</string>
 </resources>

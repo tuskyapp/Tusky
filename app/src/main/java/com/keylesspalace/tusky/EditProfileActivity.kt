@@ -30,7 +30,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -59,6 +58,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class EditProfileActivity : BaseActivity(), Injectable {
@@ -152,51 +152,54 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         viewModel.obtainProfile()
 
-        viewModel.profileData.observe(this) { profileRes ->
-            when (profileRes) {
-                is Success -> {
-                    val me = profileRes.data
-                    if (me != null) {
-                        binding.displayNameEditText.setText(me.displayName)
-                        binding.noteEditText.setText(me.source?.note)
-                        binding.lockedCheckBox.isChecked = me.locked
+        lifecycleScope.launch {
+            viewModel.profileData.collect { profileRes ->
+                if (profileRes == null) return@collect
+                when (profileRes) {
+                    is Success -> {
+                        val me = profileRes.data
+                        if (me != null) {
+                            binding.displayNameEditText.setText(me.displayName)
+                            binding.noteEditText.setText(me.source?.note)
+                            binding.lockedCheckBox.isChecked = me.locked
 
-                        accountFieldEditAdapter.setFields(me.source?.fields.orEmpty())
-                        binding.addFieldButton.isVisible =
-                            (me.source?.fields?.size ?: 0) < maxAccountFields
+                            accountFieldEditAdapter.setFields(me.source?.fields.orEmpty())
+                            binding.addFieldButton.isVisible =
+                                (me.source?.fields?.size ?: 0) < maxAccountFields
 
-                        if (viewModel.avatarData.value == null) {
-                            Glide.with(this)
-                                .load(me.avatar)
-                                .placeholder(R.drawable.avatar_default)
-                                .transform(
-                                    FitCenter(),
-                                    RoundedCorners(
-                                        resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp)
+                            if (viewModel.avatarData.value == null) {
+                                Glide.with(this@EditProfileActivity)
+                                    .load(me.avatar)
+                                    .placeholder(R.drawable.avatar_default)
+                                    .transform(
+                                        FitCenter(),
+                                        RoundedCorners(
+                                            resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp)
+                                        )
                                     )
-                                )
-                                .into(binding.avatarPreview)
-                        }
+                                    .into(binding.avatarPreview)
+                            }
 
-                        if (viewModel.headerData.value == null) {
-                            Glide.with(this)
-                                .load(me.header)
-                                .into(binding.headerPreview)
+                            if (viewModel.headerData.value == null) {
+                                Glide.with(this@EditProfileActivity)
+                                    .load(me.header)
+                                    .into(binding.headerPreview)
+                            }
                         }
                     }
+                    is Error -> {
+                        Snackbar.make(
+                            binding.avatarButton,
+                            R.string.error_generic,
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction(R.string.action_retry) {
+                                viewModel.obtainProfile()
+                            }
+                            .show()
+                    }
+                    is Loading -> { }
                 }
-                is Error -> {
-                    Snackbar.make(
-                        binding.avatarButton,
-                        R.string.error_generic,
-                        Snackbar.LENGTH_LONG
-                    )
-                        .setAction(R.string.action_retry) {
-                            viewModel.obtainProfile()
-                        }
-                        .show()
-                }
-                is Loading -> { }
             }
         }
 
@@ -215,18 +218,19 @@ class EditProfileActivity : BaseActivity(), Injectable {
         observeImage(viewModel.avatarData, binding.avatarPreview, true)
         observeImage(viewModel.headerData, binding.headerPreview, false)
 
-        viewModel.saveData.observe(
-            this
-        ) {
-            when (it) {
-                is Success -> {
-                    finish()
-                }
-                is Loading -> {
-                    binding.saveProgressBar.visibility = View.VISIBLE
-                }
-                is Error -> {
-                    onSaveFailure(it.errorMessage)
+        lifecycleScope.launch {
+            viewModel.saveData.collect {
+                if (it == null) return@collect
+                when (it) {
+                    is Success -> {
+                        finish()
+                    }
+                    is Loading -> {
+                        binding.saveProgressBar.visibility = View.VISIBLE
+                    }
+                    is Error -> {
+                        onSaveFailure(it.errorMessage)
+                    }
                 }
             }
         }
@@ -269,30 +273,30 @@ class EditProfileActivity : BaseActivity(), Injectable {
     }
 
     private fun observeImage(
-        liveData: LiveData<Uri>,
+        flow: StateFlow<Uri?>,
         imageView: ImageView,
         roundedCorners: Boolean
     ) {
-        liveData.observe(
-            this
-        ) { imageUri ->
+        lifecycleScope.launch {
+            flow.collect { imageUri ->
 
-            // skipping all caches so we can always reuse the same uri
-            val glide = Glide.with(imageView)
-                .load(imageUri)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                // skipping all caches so we can always reuse the same uri
+                val glide = Glide.with(imageView)
+                    .load(imageUri)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
 
-            if (roundedCorners) {
-                glide.transform(
-                    FitCenter(),
-                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
-                ).into(imageView)
-            } else {
-                glide.into(imageView)
+                if (roundedCorners) {
+                    glide.transform(
+                        FitCenter(),
+                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                    ).into(imageView)
+                } else {
+                    glide.into(imageView)
+                }
+
+                imageView.show()
             }
-
-            imageView.show()
         }
     }
 
