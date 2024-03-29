@@ -143,7 +143,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    private inline fun updateState(crossinline fn: State.() -> State) {
+    private inline fun updateState(fn: State.() -> State) {
         _state.value = fn(_state.value)
     }
 

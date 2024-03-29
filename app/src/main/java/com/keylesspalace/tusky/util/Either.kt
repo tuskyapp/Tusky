@@ -38,7 +38,7 @@ sealed interface Either<out L, out R> {
     fun asRight(): R = (this as Right<L, R>).value
 
     companion object {
-        inline fun <L, R, N> Either<L, R>.map(crossinline mapper: (R) -> N): Either<L, N> {
+        inline fun <L, R, N> Either<L, R>.map(mapper: (R) -> N): Either<L, N> {
             return if (this.isLeft()) {
                 Left(this.asLeft())
             } else {
