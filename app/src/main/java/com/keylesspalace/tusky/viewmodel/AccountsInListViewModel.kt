@@ -23,6 +23,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.Either.Companion.map
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.withoutFirstWhich
