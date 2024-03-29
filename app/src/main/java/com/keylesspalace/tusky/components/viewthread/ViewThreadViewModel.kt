@@ -51,6 +51,8 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -68,14 +70,12 @@ class ViewThreadViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
     val uiState: Flow<ThreadUiState> = _uiState.asStateFlow()
 
-    private val _errors =
-        MutableSharedFlow<Throwable>(
-            replay = 0,
-            extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
-        )
-    val errors: Flow<Throwable>
-        get() = _errors
+    private val _errors = MutableSharedFlow<Throwable>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errors: SharedFlow<Throwable> = _errors.asSharedFlow()
 
     var isInitialLoad: Boolean = true
 

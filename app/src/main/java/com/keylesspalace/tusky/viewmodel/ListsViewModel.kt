@@ -27,9 +27,12 @@ import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
@@ -49,15 +52,15 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
 
     data class State(val lists: List<MastoList>, val loadingState: LoadingState)
 
-    val state: Flow<State> get() = _state
-    val events: Flow<Event> get() = _events
     private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
-    private val _events =
-        MutableSharedFlow<Event>(
-            replay = 0,
-            extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
-        )
+    val state: StateFlow<State> = _state.asStateFlow()
+
+    private val _events = MutableSharedFlow<Event>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val events: SharedFlow<Event> = _events.asSharedFlow()
 
     fun retryLoading() {
         loadIfNeeded()
