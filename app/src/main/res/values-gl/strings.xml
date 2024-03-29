@@ -699,4 +699,9 @@
     <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
     <string name="reply_sending">A enviar…</string>
     <string name="reply_sending_long">Enviouse a resposta.</string>
+    <string name="action_translate">Traducir</string>
+    <string name="action_show_original">Mostrar orixinal</string>
+    <string name="label_translated">Traducida do %1$s con %2$s</string>
+    <string name="label_translating">A traducir…</string>
+    <string name="ui_error_translate">Non se puido traducir: %s</string>
 </resources>
