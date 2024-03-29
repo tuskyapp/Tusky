@@ -67,7 +67,7 @@ sealed class StatusViewData {
             actionable.attachments.translated { translation -> map { it.translated(translation) } }
 
         val spoilerText: String =
-            actionable.spoilerText.translated { translation -> translation.spoilerWarning ?: this }
+            actionable.spoilerText.translated { translation -> translation.spoilerText ?: this }
 
         val poll = actionable.poll?.translated { translation ->
             val translatedOptionsText = translation.poll?.options?.map { option ->

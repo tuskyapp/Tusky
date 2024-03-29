@@ -14,8 +14,8 @@ data class MediaTranslation(
  */
 data class Translation(
     val content: String,
-    @SerializedName("spoiler_warning")
-    val spoilerWarning: String?,
+    @SerializedName("spoiler_text")
+    val spoilerText: String?,
     val poll: TranslatedPoll?,
     @SerializedName("media_attachments")
     val mediaAttachments: List<MediaTranslation>,
