@@ -17,15 +17,14 @@ package com.keylesspalace.tusky.viewdata
 
 import java.util.Date
 
-sealed class TrendingViewData {
-    abstract val id: String
+sealed interface TrendingViewData {
+    val id: String
 
     data class Header(
         val start: Date,
         val end: Date
-    ) : TrendingViewData() {
-        override val id: String
-            get() = start.toString() + end.toString()
+    ) : TrendingViewData {
+        override val id: String = start.toString() + end.toString()
     }
 
     data class Tag(
@@ -33,8 +32,7 @@ sealed class TrendingViewData {
         val usage: List<Long>,
         val accounts: List<Long>,
         val maxTrendingValue: Long
-    ) : TrendingViewData() {
-        override val id: String
-            get() = name
+    ) : TrendingViewData {
+        override val id: String = name
     }
 }

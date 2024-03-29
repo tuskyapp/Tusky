@@ -22,12 +22,12 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
-sealed class TranslationViewData {
-    abstract val data: Translation?
+sealed interface TranslationViewData {
+    val data: Translation?
 
-    data class Loaded(override val data: Translation) : TranslationViewData()
+    data class Loaded(override val data: Translation) : TranslationViewData
 
-    data object Loading : TranslationViewData() {
+    data object Loading : TranslationViewData {
         override val data: Translation?
             get() = null
     }
