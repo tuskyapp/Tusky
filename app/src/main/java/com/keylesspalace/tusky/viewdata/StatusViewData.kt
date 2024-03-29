@@ -22,12 +22,12 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
 
-sealed class TranslationViewData {
-    abstract val data: Translation?
+sealed interface TranslationViewData {
+    val data: Translation?
 
-    data class Loaded(override val data: Translation) : TranslationViewData()
+    data class Loaded(override val data: Translation) : TranslationViewData
 
-    data object Loading : TranslationViewData() {
+    data object Loading : TranslationViewData {
         override val data: Translation?
             get() = null
     }
@@ -67,10 +67,12 @@ sealed class StatusViewData {
             actionable.attachments.translated { translation -> map { it.translated(translation) } }
 
         val spoilerText: String =
-            actionable.spoilerText.translated { translation -> translation.spoilerWarning ?: this }
+            actionable.spoilerText.translated { translation -> translation.spoilerText ?: this }
 
         val poll = actionable.poll?.translated { translation ->
-            val translatedOptionsText = translation.poll ?: return@translated this
+            val translatedOptionsText = translation.poll?.options?.map { option ->
+                option.title
+            } ?: return@translated this
             val translatedOptions = options.zip(translatedOptionsText) { option, translatedText ->
                 option.copy(title = translatedText)
             }

@@ -17,12 +17,22 @@ data class MediaTranslation(
 @JsonClass(generateAdapter = true)
 data class Translation(
     val content: String,
-    @Json(name = "spoiler_warning")
-    val spoilerWarning: String? = null,
-    val poll: List<String>? = null,
+    @Json(name = "spoiler_text")
+    val spoilerText: String? = null,
+    val poll: TranslatedPoll? = null,
     @Json(name = "media_attachments")
     val mediaAttachments: List<MediaTranslation>,
     @Json(name = "detected_source_language")
     val detectedSourceLanguage: String,
     val provider: String,
+)
+
+@JsonClass(generateAdapter = true)
+data class TranslatedPoll(
+    val options: List<TranslatedPollOption>
+)
+
+@JsonClass(generateAdapter = true)
+data class TranslatedPollOption(
+    val title: String
 )
