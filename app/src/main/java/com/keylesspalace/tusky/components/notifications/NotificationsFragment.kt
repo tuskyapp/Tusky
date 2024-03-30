@@ -247,11 +247,11 @@ class NotificationsFragment :
     }
 
     override fun onMute(mute: Boolean, id: String, position: Int, notifications: Boolean) {
-        TODO("Not yet implemented")
+        // not needed, muting via the more menu on statuses is handled in SFragment
     }
 
     override fun onBlock(block: Boolean, id: String, position: Int) {
-        TODO("Not yet implemented")
+        // not needed, blocking via the more menu on statuses is handled in SFragment
     }
 
     override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
