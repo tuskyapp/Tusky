@@ -36,4 +36,5 @@ sealed class NotificationViewData {
     ) : NotificationViewData()
 
     fun asStatusOrNull() = (this as? Concrete)?.statusViewData
+    fun asPlaceholderOrNull() = (this as? Placeholder)
 }

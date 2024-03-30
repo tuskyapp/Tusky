@@ -68,6 +68,11 @@ ORDER BY LENGTH(n.id) DESC, n.id DESC"""
     abstract fun getNotifications(tuskyAccountId: Long): PagingSource<Int, NotificationDataEntity>
 
     @Query(
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND id = :notificationId"""
+    )
+    abstract suspend fun delete(tuskyAccountId: Long, notificationId: String): Int
+
+    @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :accountId AND
         (LENGTH(id) < LENGTH(:maxId) OR LENGTH(id) == LENGTH(:maxId) AND id <= :maxId)
 AND
@@ -115,4 +120,20 @@ AND
         (SELECT reportId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId and reportId IS NOT NULL)"""
     )
     abstract suspend fun cleanupReports(tuskyAccountId: Long)
+
+    /**
+     * Returns the id directly above [id], or null if [id] is the id of the top item
+     */
+    @Query(
+        "SELECT id FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:id) < LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id < id)) ORDER BY LENGTH(id) ASC, id ASC LIMIT 1"
+    )
+    abstract suspend fun getIdAbove(tuskyAccountId: Long, id: String): String?
+
+    /**
+     * Returns the ID directly below [id], or null if [id] is the ID of the bottom item
+     */
+    @Query(
+        "SELECT id FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND (LENGTH(:id) > LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
+    )
+    abstract suspend fun getIdBelow(tuskyAccountId: Long, id: String): String?
 }

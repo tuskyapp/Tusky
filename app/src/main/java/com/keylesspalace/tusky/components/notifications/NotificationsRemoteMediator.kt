@@ -148,9 +148,9 @@ class NotificationsRemoteMediator(
 
         for (notification in notifications) {
             timelineDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
-            notification.report?.let {
-                timelineDao.insertAccount(it.targetAccount.toEntity(activeAccount.id, gson))
-                notificationsDao.insertReport(it.toEntity(activeAccount.id))
+            notification.report?.let { report ->
+                timelineDao.insertAccount(report.targetAccount.toEntity(activeAccount.id, gson))
+                notificationsDao.insertReport(report.toEntity(activeAccount.id))
             }
 
             // check if we already have one of the newly loaded statuses cached locally
@@ -163,15 +163,15 @@ class NotificationsRemoteMediator(
                 if (oldStatus != null) break
             }
 
-            notification.status?.let {
+            notification.status?.let { status ->
                 val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
-                val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !it.actionableStatus.sensitive
+                val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.sensitive)
                 val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-                timelineDao.insertAccount(it.account.toEntity(activeAccount.id, gson))
+                timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
 
                 timelineDao.insertStatus(
-                    it.toEntity(
+                    status.toEntity(
                         tuskyAccountId = activeAccount.id,
                         gson = gson,
                         expanded = expanded,

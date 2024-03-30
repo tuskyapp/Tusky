@@ -40,11 +40,13 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.preference.PreferencesFragment
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -97,6 +99,11 @@ class NotificationsFragment :
 
     private var hideFab: Boolean = false
     private var showNotificationsFilterBar: Boolean = true
+    private var readingOrder: PreferencesFragment.ReadingOrder = PreferencesFragment.ReadingOrder.NEWEST_FIRST
+
+    /** see [com.keylesspalace.tusky.components.timeline.TimelineFragment] for explanation of the load more mechanism */
+    private var loadMorePosition: Int? = null
+    private var statusIdBelowLoadMore: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -181,6 +188,8 @@ class NotificationsFragment :
         )
 
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
+        readingOrder = PreferencesFragment.ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
+
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
                 val composeButton = (activity as ActionButtonActivity).actionButton
@@ -224,6 +233,24 @@ class NotificationsFragment :
                 }
             }
         }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                    binding.recyclerView.post {
+                        if (getView() != null) {
+                            binding.recyclerView.scrollBy(
+                                0,
+                                Utils.dpToPx(requireContext(), -30)
+                            )
+                        }
+                    }
+                }
+                if (readingOrder == PreferencesFragment.ReadingOrder.OLDEST_FIRST) {
+                    updateReadingPositionForOldestFirst()
+                }
+            }
+        })
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.notifications.collectLatest { pagingData ->
@@ -379,7 +406,11 @@ class NotificationsFragment :
     }
 
     override fun onLoadMore(position: Int) {
-        TODO("Not yet implemented")
+        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        loadMorePosition = position
+        statusIdBelowLoadMore =
+            if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
+        viewModel.loadMore(placeholder.id)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
@@ -483,6 +514,29 @@ class NotificationsFragment :
             // Clear behaviour to hide app bar
             params.behavior = null
         }
+    }
+
+    private fun updateReadingPositionForOldestFirst() {
+        var position = loadMorePosition ?: return
+        val notificationIdBelowLoadMore = statusIdBelowLoadMore ?: return
+
+        var notification: NotificationViewData?
+        while (adapter.peek(position).let {
+                notification = it
+                it != null
+            }
+        ) {
+            if (notification?.id == notificationIdBelowLoadMore) {
+                val lastVisiblePosition =
+                    (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (position > lastVisiblePosition) {
+                    binding.recyclerView.scrollToPosition(position)
+                }
+                break
+            }
+            position++
+        }
+        loadMorePosition = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

@@ -25,20 +25,25 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
+import androidx.room.withTransaction
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.timeline.toViewData
+import com.keylesspalace.tusky.components.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.util.deserialize
@@ -58,8 +63,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class NotificationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
@@ -81,6 +86,9 @@ class NotificationsViewModel @Inject constructor(
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
+
+    private var readingOrder: PreferencesFragment.ReadingOrder =
+        PreferencesFragment.ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
     @OptIn(ExperimentalPagingApi::class)
     val notifications = Pager(
@@ -271,6 +279,122 @@ class NotificationsViewModel @Inject constructor(
 
     fun untranslate(status: StatusViewData.Concrete) {
         translations.value -= status.id
+    }
+
+    fun loadMore(placeholderId: String) {
+        viewModelScope.launch {
+            try {
+                val notificationsDao = db.notificationsDao()
+
+                val activeAccount = accountManager.activeAccount!!
+
+                notificationsDao.insertNotification(
+                    Placeholder(placeholderId, loading = true).toNotificationEntity(
+                        activeAccount.id
+                    )
+                )
+
+                val response = db.withTransaction {
+                    val idAbovePlaceholder = notificationsDao.getIdAbove(activeAccount.id, placeholderId)
+                    val idBelowPlaceholder = notificationsDao.getIdBelow(activeAccount.id, placeholderId)
+                    when (readingOrder) {
+                        // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
+                        // after minId and no larger than maxId
+                        PreferencesFragment.ReadingOrder.OLDEST_FIRST -> api.notifications(
+                            maxId = idAbovePlaceholder,
+                            minId = idBelowPlaceholder,
+                            limit = TimelineViewModel.LOAD_AT_ONCE
+                        )
+                        // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
+                        // maxId, and no smaller than minId.
+                        PreferencesFragment.ReadingOrder.NEWEST_FIRST -> api.notifications(
+                            maxId = idAbovePlaceholder,
+                            sinceId = idBelowPlaceholder,
+                            limit = TimelineViewModel.LOAD_AT_ONCE
+                        )
+                    }
+                }
+
+                val notifications = response.body()
+                if (!response.isSuccessful || notifications == null) {
+                    loadMoreFailed(placeholderId, HttpException(response))
+                    return@launch
+                }
+
+                val timelineDao = db.timelineDao()
+
+                db.withTransaction {
+                    notificationsDao.delete(activeAccount.id, placeholderId)
+
+                    val overlappedNotifications = if (notifications.isNotEmpty()) {
+                        notificationsDao.deleteRange(
+                            activeAccount.id,
+                            notifications.last().id,
+                            notifications.first().id
+                        )
+                    } else {
+                        0
+                    }
+
+                    for (notification in notifications) {
+                        timelineDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
+                        notification.report?.let { report ->
+                            timelineDao.insertAccount(report.targetAccount.toEntity(activeAccount.id, gson))
+                            notificationsDao.insertReport(report.toEntity(activeAccount.id))
+                        }
+                        notification.status?.let { status ->
+                            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+
+                            timelineDao.insertStatus(
+                                status.toEntity(
+                                    tuskyAccountId = activeAccount.id,
+                                    gson = gson,
+                                    expanded = activeAccount.alwaysOpenSpoiler,
+                                    contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.sensitive,
+                                    contentCollapsed = true
+                                )
+                            )
+                        }
+                        notificationsDao.insertNotification(
+                            notification.toEntity(
+                                activeAccount.id
+                            )
+                        )
+                    }
+
+                    /* In case we loaded a whole page and there was no overlap with existing notifications,
+                       we insert a placeholder because there might be even more unknown notifications */
+                    if (overlappedNotifications == 0 && notifications.size == TimelineViewModel.LOAD_AT_ONCE) {
+                        /* This overrides the first/last of the newly loaded notifications with a placeholder
+                           to guarantee the placeholder has an id that exists on the server as not all
+                           servers handle client generated ids as expected */
+                        val idToConvert = when (readingOrder) {
+                            PreferencesFragment.ReadingOrder.OLDEST_FIRST -> notifications.first().id
+                            PreferencesFragment.ReadingOrder.NEWEST_FIRST -> notifications.last().id
+                        }
+                        notificationsDao.insertNotification(
+                            Placeholder(
+                                idToConvert,
+                                loading = false
+                            ).toNotificationEntity(activeAccount.id)
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                ifExpected(e) {
+                    loadMoreFailed(placeholderId, e)
+                }
+            }
+        }
+    }
+
+    private suspend fun loadMoreFailed(placeholderId: String, e: Exception) {
+        Log.w(TAG, "failed loading notifications", e)
+        val activeAccount = accountManager.activeAccount!!
+        db.notificationsDao()
+            .insertNotification(
+                Placeholder(placeholderId, loading = false).toNotificationEntity(activeAccount.id)
+            )
     }
 
     companion object {
