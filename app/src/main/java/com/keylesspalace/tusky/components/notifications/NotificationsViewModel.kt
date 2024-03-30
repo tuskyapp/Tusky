@@ -25,10 +25,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -42,6 +45,7 @@ import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -52,6 +56,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -72,6 +77,9 @@ class NotificationsViewModel @Inject constructor(
     )
     val filters: StateFlow<Set<Notification.Type>> = _filters.asStateFlow()
 
+    /** Map from status id to translation. */
+    private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
+
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
 
     @OptIn(ExperimentalPagingApi::class)
@@ -87,15 +95,19 @@ class NotificationsViewModel @Inject constructor(
             }
         }
     ).flow
-        .map { pagingData ->
+        .cachedIn(viewModelScope)
+        .combine(translations) { pagingData, translations ->
             pagingData.map(Dispatchers.Default.asExecutor()) { notification ->
-                notification.toViewData(gson)
+                val translation = translations[notification.status?.serverId]
+                notification.toViewData(
+                    gson,
+                    translation = translation
+                )
             }.filter(Dispatchers.Default.asExecutor()) { notificationViewData ->
                 shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
-        .cachedIn(viewModelScope)
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
         if (newFilters != _filters.value) {
@@ -244,6 +256,21 @@ class NotificationsViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
+        translations.value += (status.id to TranslationViewData.Loading)
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                translations.value += (status.id to TranslationViewData.Loaded(translation))
+            }
+            .onFailure {
+                translations.value -= status.id
+            }
+    }
+
+    fun untranslate(status: StatusViewData.Concrete) {
+        translations.value -= status.id
     }
 
     companion object {

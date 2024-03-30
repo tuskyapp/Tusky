@@ -293,8 +293,35 @@ class NotificationsFragment :
         viewModel.reblog(reblog, status)
     }
 
-    override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
-        get() = TODO("Not yet implemented")
+    override val onMoreTranslate: (translate: Boolean, position: Int) -> Unit
+        get() = { translate: Boolean, position: Int ->
+            if (translate) {
+                onTranslate(position)
+            } else {
+                onUntranslate(
+                    position
+                )
+            }
+        }
+
+    private fun onTranslate(position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        lifecycleScope.launch {
+            viewModel.translate(status)
+                .onFailure {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.ui_error_translate, it.message),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+        }
+    }
+
+    override fun onUntranslate(position: Int) {
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        viewModel.untranslate(status)
+    }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
@@ -358,10 +385,6 @@ class NotificationsFragment :
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
-    }
-
-    override fun onUntranslate(position: Int) {
-        TODO("Not yet implemented")
     }
 
     private fun confirmClearNotifications() {

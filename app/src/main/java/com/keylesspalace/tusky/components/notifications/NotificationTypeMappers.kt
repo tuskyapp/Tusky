@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 
 fun Placeholder.toNotificationEntity(tuskyAccountId: Long): NotificationEntity {
     return NotificationEntity(
@@ -65,6 +66,7 @@ fun Report.toEntity(
 
 fun NotificationDataEntity.toViewData(
     gson: Gson,
+    translation: TranslationViewData? = null
 ): NotificationViewData {
     if (type == null) {
         return NotificationViewData.Placeholder(id = id, isLoading = loading)
@@ -79,7 +81,8 @@ fun NotificationDataEntity.toViewData(
                 status = status.toStatus(gson, statusAccount),
                 isExpanded = this.status.expanded,
                 isShowingContent = this.status.contentShowing,
-                isCollapsed = this.status.contentCollapsed
+                isCollapsed = this.status.contentCollapsed,
+                translation = translation
             )
         } else {
             null
