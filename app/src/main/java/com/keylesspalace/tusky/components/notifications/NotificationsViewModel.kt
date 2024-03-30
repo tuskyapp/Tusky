@@ -209,6 +209,12 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
+    fun remove(notificationId: String) {
+        viewModelScope.launch {
+            db.notificationsDao().deleteRange(accountManager.activeAccount!!.id, notificationId, notificationId)
+        }
+    }
+
     fun removeAllByAccountId(accountId: String) {
         viewModelScope.launch {
             db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)

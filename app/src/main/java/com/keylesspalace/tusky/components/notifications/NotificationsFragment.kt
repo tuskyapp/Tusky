@@ -39,7 +39,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -282,7 +284,8 @@ class NotificationsFragment :
     }
 
     override fun removeItem(position: Int) {
-        TODO("Not yet implemented")
+        val notification = adapter.peek(position) ?: return
+        viewModel.remove(notification.id)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
