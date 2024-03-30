@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.HomeTimelineData
+import com.keylesspalace.tusky.db.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -230,6 +231,18 @@ class CachedTimelineViewModel @Inject constructor(
                                 expanded = activeAccount.alwaysOpenSpoiler,
                                 contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                                 contentCollapsed = true
+                            )
+                        )
+                        timelineDao.insertHomeTimelineItem(
+                            HomeTimelineEntity(
+                                tuskyAccountId = activeAccount.id,
+                                id = status.id,
+                                statusId = status.actionableId,
+                                reblogAccountId = if (status.reblog != null) {
+                                    status.account.id
+                                } else {
+                                    null
+                                }
                             )
                         )
                     }
