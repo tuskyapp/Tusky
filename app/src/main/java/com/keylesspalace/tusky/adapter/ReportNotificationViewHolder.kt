@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
-import java.util.Date
 
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding
