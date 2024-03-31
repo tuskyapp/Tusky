@@ -94,7 +94,6 @@ class NotificationsFragment :
 
     private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
 
-    private lateinit var layoutManager: LayoutManager
     private lateinit var adapter: NotificationsPagingAdapter
 
     private var hideFab: Boolean = false
@@ -150,7 +149,6 @@ class NotificationsFragment :
 
         // Setup the RecyclerView.
         binding.recyclerView.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
         adapter = NotificationsPagingAdapter(
             accountId = accountManager.activeAccount!!.accountId,
             statusListener = this,
@@ -158,7 +156,7 @@ class NotificationsFragment :
             accountActionListener = this,
             statusDisplayOptions = statusDisplayOptions
         )
-        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
                 binding.recyclerView,
@@ -497,6 +495,12 @@ class NotificationsFragment :
                     showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
                     updateFilterBarVisibility()
                 }
+            }
+
+            PrefKeys.READING_ORDER -> {
+                readingOrder = PreferencesFragment.ReadingOrder.from(
+                    preferences.getString(PrefKeys.READING_ORDER, null)
+                )
             }
         }
     }
