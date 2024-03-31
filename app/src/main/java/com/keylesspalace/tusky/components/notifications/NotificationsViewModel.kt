@@ -32,6 +32,7 @@ import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
@@ -71,7 +72,7 @@ class NotificationsViewModel @Inject constructor(
     private val api: MastodonApi,
     eventHub: EventHub,
     private val accountManager: AccountManager,
-    sharedPreferences: SharedPreferences,
+    private val preferences: SharedPreferences,
     private val filterModel: FilterModel,
     private val db: AppDatabase,
     private val gson: Gson
@@ -88,7 +89,7 @@ class NotificationsViewModel @Inject constructor(
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
 
     private var readingOrder: ReadingOrder =
-        ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+        ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
     @OptIn(ExperimentalPagingApi::class)
     val notifications = Pager(
@@ -116,6 +117,16 @@ class NotificationsViewModel @Inject constructor(
             }
         }
         .flowOn(Dispatchers.Default)
+
+    init {
+        viewModelScope.launch {
+            eventHub.events.collect { event ->
+                if (event is PreferenceChangedEvent) {
+                    onPreferenceChanged(event.preferenceKey)
+                }
+            }
+        }
+    }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
         if (newFilters != _filters.value) {
@@ -395,6 +406,16 @@ class NotificationsViewModel @Inject constructor(
             .insertNotification(
                 Placeholder(placeholderId, loading = false).toNotificationEntity(activeAccount.id)
             )
+    }
+
+    private fun onPreferenceChanged(key: String) {
+        when (key) {
+            PrefKeys.READING_ORDER -> {
+                readingOrder = ReadingOrder.from(
+                    preferences.getString(PrefKeys.READING_ORDER, null)
+                )
+            }
+        }
     }
 
     companion object {
