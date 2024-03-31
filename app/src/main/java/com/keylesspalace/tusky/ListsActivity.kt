@@ -28,7 +28,6 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +41,7 @@ import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
@@ -56,7 +56,6 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 // TODO use the ListSelectionFragment (and/or its adapter or binding) here; but keep the LoadingState from here (?)
 
@@ -95,9 +94,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.retryLoading() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
-        lifecycleScope.launch {
-            viewModel.state.collect(this@ListsActivity::update)
-        }
+        viewModel.state.observe(this@ListsActivity::update)
 
         viewModel.retryLoading()
 
@@ -105,13 +102,11 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             showlistNameDialog(null)
         }
 
-        lifecycleScope.launch {
-            viewModel.events.collect { event ->
-                when (event) {
-                    Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
-                    Event.UPDATE_ERROR -> showMessage(R.string.error_rename_list)
-                    Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
-                }
+        viewModel.events.observe { event ->
+            when (event) {
+                Event.CREATE_ERROR -> showMessage(R.string.error_create_list)
+                Event.UPDATE_ERROR -> showMessage(R.string.error_rename_list)
+                Event.DELETE_ERROR -> showMessage(R.string.error_delete_list)
             }
         }
     }

@@ -19,17 +19,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.databinding.ActivityReportBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
@@ -84,26 +83,22 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
     }
 
     private fun subscribeObservables() {
-        lifecycleScope.launch {
-            viewModel.navigation.collect { screen ->
-                if (screen == null) return@collect
-                viewModel.navigated()
-                when (screen) {
-                    Screen.Statuses -> showStatusesPage()
-                    Screen.Note -> showNotesPage()
-                    Screen.Done -> showDonePage()
-                    Screen.Back -> showPreviousScreen()
-                    Screen.Finish -> closeScreen()
-                }
+        viewModel.navigation.observe { screen ->
+            if (screen == null) return@observe
+            viewModel.navigated()
+            when (screen) {
+                Screen.Statuses -> showStatusesPage()
+                Screen.Note -> showNotesPage()
+                Screen.Done -> showDonePage()
+                Screen.Back -> showPreviousScreen()
+                Screen.Finish -> closeScreen()
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.checkUrl.collect {
-                if (!it.isNullOrBlank()) {
-                    viewModel.urlChecked()
-                    viewUrl(it)
-                }
+        viewModel.checkUrl.observe {
+            if (!it.isNullOrBlank()) {
+                viewModel.urlChecked()
+                viewUrl(it)
             }
         }
     }

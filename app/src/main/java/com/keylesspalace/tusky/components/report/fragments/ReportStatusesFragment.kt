@@ -26,7 +26,6 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -52,6 +51,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -60,8 +60,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ReportStatusesFragment :
     Fragment(R.layout.fragment_report_statuses),
@@ -175,10 +173,8 @@ class ReportStatusesFragment :
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        lifecycleScope.launch {
-            viewModel.statusesFlow.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.statusesFlow.observeLatest { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         adapter.addLoadStateListener { loadState ->

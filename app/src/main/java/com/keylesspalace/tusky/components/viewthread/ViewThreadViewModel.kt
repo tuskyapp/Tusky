@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.isHttpNotFound
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -87,16 +88,13 @@ class ViewThreadViewModel @Inject constructor(
         alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
         alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-        viewModelScope.launch {
-            eventHub.events
-                .collect { event ->
-                    when (event) {
-                        is StatusChangedEvent -> handleStatusChangedEvent(event.status)
-                        is BlockEvent -> removeAllByAccountId(event.accountId)
-                        is StatusComposedEvent -> handleStatusComposedEvent(event)
-                        is StatusDeletedEvent -> handleStatusDeletedEvent(event)
-                    }
-                }
+        eventHub.events.observe { event ->
+            when (event) {
+                is StatusChangedEvent -> handleStatusChangedEvent(event.status)
+                is BlockEvent -> removeAllByAccountId(event.accountId)
+                is StatusComposedEvent -> handleStatusComposedEvent(event)
+                is StatusDeletedEvent -> handleStatusDeletedEvent(event)
+            }
         }
 
         loadFilters()

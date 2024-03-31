@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.await
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
@@ -152,85 +153,79 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         viewModel.obtainProfile()
 
-        lifecycleScope.launch {
-            viewModel.profileData.collect { profileRes ->
-                if (profileRes == null) return@collect
-                when (profileRes) {
-                    is Success -> {
-                        val me = profileRes.data
-                        if (me != null) {
-                            binding.displayNameEditText.setText(me.displayName)
-                            binding.noteEditText.setText(me.source?.note)
-                            binding.lockedCheckBox.isChecked = me.locked
+        viewModel.profileData.observe { profileRes ->
+            if (profileRes == null) return@observe
+            when (profileRes) {
+                is Success -> {
+                    val me = profileRes.data
+                    if (me != null) {
+                        binding.displayNameEditText.setText(me.displayName)
+                        binding.noteEditText.setText(me.source?.note)
+                        binding.lockedCheckBox.isChecked = me.locked
 
-                            accountFieldEditAdapter.setFields(me.source?.fields.orEmpty())
-                            binding.addFieldButton.isVisible =
-                                (me.source?.fields?.size ?: 0) < maxAccountFields
+                        accountFieldEditAdapter.setFields(me.source?.fields.orEmpty())
+                        binding.addFieldButton.isVisible =
+                            (me.source?.fields?.size ?: 0) < maxAccountFields
 
-                            if (viewModel.avatarData.value == null) {
-                                Glide.with(this@EditProfileActivity)
-                                    .load(me.avatar)
-                                    .placeholder(R.drawable.avatar_default)
-                                    .transform(
-                                        FitCenter(),
-                                        RoundedCorners(
-                                            resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp)
-                                        )
+                        if (viewModel.avatarData.value == null) {
+                            Glide.with(this@EditProfileActivity)
+                                .load(me.avatar)
+                                .placeholder(R.drawable.avatar_default)
+                                .transform(
+                                    FitCenter(),
+                                    RoundedCorners(
+                                        resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp)
                                     )
-                                    .into(binding.avatarPreview)
-                            }
+                                )
+                                .into(binding.avatarPreview)
+                        }
 
-                            if (viewModel.headerData.value == null) {
-                                Glide.with(this@EditProfileActivity)
-                                    .load(me.header)
-                                    .into(binding.headerPreview)
-                            }
+                        if (viewModel.headerData.value == null) {
+                            Glide.with(this@EditProfileActivity)
+                                .load(me.header)
+                                .into(binding.headerPreview)
                         }
                     }
-                    is Error -> {
-                        Snackbar.make(
-                            binding.avatarButton,
-                            R.string.error_generic,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.action_retry) {
-                                viewModel.obtainProfile()
-                            }
-                            .show()
-                    }
-                    is Loading -> { }
                 }
+                is Error -> {
+                    Snackbar.make(
+                        binding.avatarButton,
+                        R.string.error_generic,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.action_retry) {
+                            viewModel.obtainProfile()
+                        }
+                        .show()
+                }
+                is Loading -> { }
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.instanceData.collect { instanceInfo ->
-                maxAccountFields = instanceInfo.maxFields
-                accountFieldEditAdapter.setFieldLimits(
-                    instanceInfo.maxFieldNameLength,
-                    instanceInfo.maxFieldValueLength
-                )
-                binding.addFieldButton.isVisible =
-                    accountFieldEditAdapter.itemCount < maxAccountFields
-            }
+        viewModel.instanceData.observe { instanceInfo ->
+            maxAccountFields = instanceInfo.maxFields
+            accountFieldEditAdapter.setFieldLimits(
+                instanceInfo.maxFieldNameLength,
+                instanceInfo.maxFieldValueLength
+            )
+            binding.addFieldButton.isVisible =
+                accountFieldEditAdapter.itemCount < maxAccountFields
         }
 
         observeImage(viewModel.avatarData, binding.avatarPreview, true)
         observeImage(viewModel.headerData, binding.headerPreview, false)
 
-        lifecycleScope.launch {
-            viewModel.saveData.collect {
-                if (it == null) return@collect
-                when (it) {
-                    is Success -> {
-                        finish()
-                    }
-                    is Loading -> {
-                        binding.saveProgressBar.visibility = View.VISIBLE
-                    }
-                    is Error -> {
-                        onSaveFailure(it.errorMessage)
-                    }
+        viewModel.saveData.observe {
+            if (it == null) return@observe
+            when (it) {
+                is Success -> {
+                    finish()
+                }
+                is Loading -> {
+                    binding.saveProgressBar.visibility = View.VISIBLE
+                }
+                is Error -> {
+                    onSaveFailure(it.errorMessage)
                 }
             }
         }
@@ -258,10 +253,8 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
 
         onBackPressedDispatcher.addCallback(this, onBackCallback)
-        lifecycleScope.launch {
-            viewModel.isChanged.collect { dataWasChanged ->
-                onBackCallback.isEnabled = dataWasChanged
-            }
+        viewModel.isChanged.observe { dataWasChanged ->
+            onBackCallback.isEnabled = dataWasChanged
         }
     }
 
@@ -277,26 +270,23 @@ class EditProfileActivity : BaseActivity(), Injectable {
         imageView: ImageView,
         roundedCorners: Boolean
     ) {
-        lifecycleScope.launch {
-            flow.collect { imageUri ->
+        flow.observe { imageUri ->
+            // skipping all caches so we can always reuse the same uri
+            val glide = Glide.with(imageView)
+                .load(imageUri)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
 
-                // skipping all caches so we can always reuse the same uri
-                val glide = Glide.with(imageView)
-                    .load(imageUri)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-
-                if (roundedCorners) {
-                    glide.transform(
-                        FitCenter(),
-                        RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
-                    ).into(imageView)
-                } else {
-                    glide.into(imageView)
-                }
-
-                imageView.show()
+            if (roundedCorners) {
+                glide.transform(
+                    FitCenter(),
+                    RoundedCorners(resources.getDimensionPixelSize(R.dimen.avatar_radius_80dp))
+                ).into(imageView)
+            } else {
+                glide.into(imageView)
             }
+
+            imageView.show()
         }
     }
 

@@ -24,7 +24,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +38,8 @@ import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
@@ -46,8 +47,6 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ScheduledStatusActivity :
     BaseActivity(),
@@ -89,10 +88,8 @@ class ScheduledStatusActivity :
         binding.scheduledTootList.addItemDecoration(divider)
         binding.scheduledTootList.adapter = adapter
 
-        lifecycleScope.launch {
-            viewModel.data.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.data.observeLatest { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         adapter.addLoadStateListener { loadState ->
@@ -120,11 +117,9 @@ class ScheduledStatusActivity :
             }
         }
 
-        lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                if (event is StatusScheduledEvent) {
-                    adapter.refresh()
-                }
+        eventHub.events.observe { event ->
+            if (event is StatusScheduledEvent) {
+                adapter.refresh()
             }
         }
     }

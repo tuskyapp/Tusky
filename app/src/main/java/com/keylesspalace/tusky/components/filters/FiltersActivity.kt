@@ -11,6 +11,7 @@ import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
@@ -53,48 +54,46 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                binding.progressBar.visible(
-                    state.loadingState == FiltersViewModel.LoadingState.LOADING
-                )
-                binding.swipeRefreshLayout.isRefreshing = state.loadingState == FiltersViewModel.LoadingState.LOADING
-                binding.addFilterButton.visible(
-                    state.loadingState == FiltersViewModel.LoadingState.LOADED
-                )
+        viewModel.state.observe { state ->
+            binding.progressBar.visible(
+                state.loadingState == FiltersViewModel.LoadingState.LOADING
+            )
+            binding.swipeRefreshLayout.isRefreshing = state.loadingState == FiltersViewModel.LoadingState.LOADING
+            binding.addFilterButton.visible(
+                state.loadingState == FiltersViewModel.LoadingState.LOADED
+            )
 
-                when (state.loadingState) {
-                    FiltersViewModel.LoadingState.INITIAL, FiltersViewModel.LoadingState.LOADING -> binding.messageView.hide()
-                    FiltersViewModel.LoadingState.ERROR_NETWORK -> {
-                        binding.messageView.setup(
-                            R.drawable.errorphant_offline,
-                            R.string.error_network
-                        ) {
-                            loadFilters()
-                        }
-                        binding.messageView.show()
+            when (state.loadingState) {
+                FiltersViewModel.LoadingState.INITIAL, FiltersViewModel.LoadingState.LOADING -> binding.messageView.hide()
+                FiltersViewModel.LoadingState.ERROR_NETWORK -> {
+                    binding.messageView.setup(
+                        R.drawable.errorphant_offline,
+                        R.string.error_network
+                    ) {
+                        loadFilters()
                     }
-                    FiltersViewModel.LoadingState.ERROR_OTHER -> {
-                        binding.messageView.setup(
-                            R.drawable.errorphant_error,
-                            R.string.error_generic
-                        ) {
-                            loadFilters()
-                        }
-                        binding.messageView.show()
+                    binding.messageView.show()
+                }
+                FiltersViewModel.LoadingState.ERROR_OTHER -> {
+                    binding.messageView.setup(
+                        R.drawable.errorphant_error,
+                        R.string.error_generic
+                    ) {
+                        loadFilters()
                     }
-                    FiltersViewModel.LoadingState.LOADED -> {
-                        binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
-                        if (state.filters.isEmpty()) {
-                            binding.messageView.setup(
-                                R.drawable.elephant_friend_empty,
-                                R.string.message_empty,
-                                null
-                            )
-                            binding.messageView.show()
-                        } else {
-                            binding.messageView.hide()
-                        }
+                    binding.messageView.show()
+                }
+                FiltersViewModel.LoadingState.LOADED -> {
+                    binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
+                    if (state.filters.isEmpty()) {
+                        binding.messageView.setup(
+                            R.drawable.elephant_friend_empty,
+                            R.string.message_empty,
+                            null
+                        )
+                        binding.messageView.show()
+                    } else {
+                        binding.messageView.hide()
                     }
                 }
             }

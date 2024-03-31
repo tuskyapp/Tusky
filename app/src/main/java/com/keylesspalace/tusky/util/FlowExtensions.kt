@@ -17,11 +17,22 @@
 
 package com.keylesspalace.tusky.util
 
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import kotlin.time.Duration
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 /**
  * Returns a flow that mirrors the original flow, but filters out values that occur within
@@ -63,3 +74,49 @@ fun <T> Flow<T>.throttleFirst(timeout: Duration, timeSource: TimeSource = TimeSo
             }
         }
     }
+
+fun <T> Flow<T>.observe(
+    scope: CoroutineScope,
+    collector: FlowCollector<T>? = null,
+): Job = scope.launch {
+    if (collector == null) {
+        collect()
+    } else {
+        collect(collector)
+    }
+}
+
+context(LifecycleOwner)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>? = null,
+): Job {
+    // Prefer using viewLifecycleOwner in Fragments.
+    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
+    return observe(realLifecycleOwner.lifecycleScope, collector)
+}
+
+context(ViewModel)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>? = null,
+): Job = observe(viewModelScope, collector)
+
+fun <T> Flow<T>.observeLatest(
+    scope: CoroutineScope,
+    action: suspend (value: T) -> Unit
+): Job = scope.launch {
+    collectLatest(action)
+}
+
+context(LifecycleOwner)
+fun <T> Flow<T>.observeLatest(
+    action: suspend (value: T) -> Unit
+): Job {
+    // Prefer using viewLifecycleOwner in Fragments.
+    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
+    return observeLatest(realLifecycleOwner.lifecycleScope, action)
+}
+
+context(ViewModel)
+fun <T> Flow<T>.observeLatest(
+    action: suspend (value: T) -> Unit
+): Job = observeLatest(viewModelScope, action)

@@ -56,6 +56,8 @@ import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.isAnyLoading
+import com.keylesspalace.tusky.util.observe
+import com.keylesspalace.tusky.util.observeLatest
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -67,7 +69,6 @@ import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ConversationsFragment :
@@ -202,10 +203,8 @@ class ConversationsFragment :
             }
         })
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.conversationFlow.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
-            }
+        viewModel.conversationFlow.observeLatest { pagingData ->
+            adapter.submitData(pagingData)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -222,11 +221,9 @@ class ConversationsFragment :
             }
         }
 
-        lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                if (event is PreferenceChangedEvent) {
-                    onPreferenceChanged(event.preferenceKey)
-                }
+        eventHub.events.observe { event ->
+            if (event is PreferenceChangedEvent) {
+                onPreferenceChanged(event.preferenceKey)
             }
         }
     }

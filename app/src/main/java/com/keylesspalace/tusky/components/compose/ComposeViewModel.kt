@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
+import com.keylesspalace.tusky.util.observe
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -182,42 +183,40 @@ class ComposeViewModel @Inject constructor(
         }
         val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
 
-        viewModelScope.launch {
-            mediaUploader
-                .uploadMedia(mediaItem, instanceInfo.first())
-                .collect { event ->
-                    val item = _media.value.find { it.localId == mediaItem.localId }
-                        ?: return@collect
-                    val newMediaItem = when (event) {
-                        is UploadEvent.ProgressEvent ->
-                            item.copy(uploadPercent = event.percentage)
-                        is UploadEvent.FinishedEvent ->
-                            item.copy(
-                                id = event.mediaId,
-                                uploadPercent = -1,
-                                state = if (event.processed) {
-                                    QueuedMedia.State.PROCESSED
-                                } else {
-                                    QueuedMedia.State.UNPROCESSED
-                                }
-                            )
-                        is UploadEvent.ErrorEvent -> {
-                            _media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
-                            _uploadError.emit(event.error)
-                            return@collect
-                        }
-                    }
-                    _media.update { mediaList ->
-                        mediaList.map { mediaItem ->
-                            if (mediaItem.localId == newMediaItem.localId) {
-                                newMediaItem
+        mediaUploader
+            .uploadMedia(mediaItem, instanceInfo.first())
+            .observe { event ->
+                val item = _media.value.find { it.localId == mediaItem.localId }
+                    ?: return@observe
+                val newMediaItem = when (event) {
+                    is UploadEvent.ProgressEvent ->
+                        item.copy(uploadPercent = event.percentage)
+                    is UploadEvent.FinishedEvent ->
+                        item.copy(
+                            id = event.mediaId,
+                            uploadPercent = -1,
+                            state = if (event.processed) {
+                                QueuedMedia.State.PROCESSED
                             } else {
-                                mediaItem
+                                QueuedMedia.State.UNPROCESSED
                             }
+                        )
+                    is UploadEvent.ErrorEvent -> {
+                        _media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
+                        _uploadError.emit(event.error)
+                        return@observe
+                    }
+                }
+                _media.update { mediaList ->
+                    mediaList.map { mediaItem ->
+                        if (mediaItem.localId == newMediaItem.localId) {
+                            newMediaItem
+                        } else {
+                            mediaItem
                         }
                     }
                 }
-        }
+            }
         updateCloseConfirmation()
         return mediaItem
     }

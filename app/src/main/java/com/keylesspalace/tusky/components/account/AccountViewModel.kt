@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getDomain
+import com.keylesspalace.tusky.util.observe
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
@@ -65,11 +66,9 @@ class AccountViewModel @Inject constructor(
     private val activeAccount = accountManager.activeAccount!!
 
     init {
-        viewModelScope.launch {
-            eventHub.events.collect { event ->
-                if (event is ProfileEditedEvent && event.newProfileData.id == _accountData.value?.data?.id) {
-                    _accountData.value = Success(event.newProfileData)
-                }
+        eventHub.events.observe { event ->
+            if (event is ProfileEditedEvent && event.newProfileData.id == _accountData.value?.data?.id) {
+                _accountData.value = Success(event.newProfileData)
             }
         }
     }
