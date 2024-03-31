@@ -320,7 +320,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
         if (mutable) {
             muteConversationItem.setTitle(
-                if (status.muted == true) {
+                if (status.muted) {
                     R.string.action_unmute_conversation
                 } else {
                     R.string.action_mute_conversation
@@ -392,7 +392,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
                 R.id.status_mute_conversation -> {
                     searchAdapter.peek(position)?.let { foundStatus ->
-                        viewModel.muteConversation(foundStatus, status.muted != true)
+                        viewModel.muteConversation(foundStatus, !status.muted)
                     }
                     return@setOnMenuItemClickListener true
                 }

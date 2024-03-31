@@ -212,7 +212,7 @@ abstract class SFragment : Fragment(), Injectable {
         muteConversationItem.isVisible = mutable
         if (mutable) {
             muteConversationItem.setTitle(
-                if (status.muted != true) {
+                if (!status.muted) {
                     R.string.action_mute_conversation
                 } else {
                     R.string.action_unmute_conversation
@@ -341,7 +341,7 @@ abstract class SFragment : Fragment(), Injectable {
 
                 R.id.status_mute_conversation -> {
                     lifecycleScope.launch {
-                        timelineCases.muteConversation(status.id, status.muted != true)
+                        timelineCases.muteConversation(status.id, !status.muted)
                     }
                     return@setOnMenuItemClickListener true
                 }

@@ -17,11 +17,12 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /** @see [Error](https://docs.joinmastodon.org/entities/Error/) */
 @JsonClass(generateAdapter = true)
 data class Error(
     val error: String,
-    val error_description: String? = null
+    @Json(name = "error_description") val errorDescription: String? = null
 )

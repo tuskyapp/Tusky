@@ -26,7 +26,7 @@ data class DeletedStatus(
     @Json(name = "spoiler_text") val spoilerText: String,
     val visibility: Status.Visibility,
     val sensitive: Boolean,
-    @Json(name = "media_attachments") val attachments: List<Attachment> = emptyList(),
+    @Json(name = "media_attachments") val attachments: List<Attachment>,
     val poll: Poll? = null,
     @Json(name = "created_at") val createdAt: Date,
     val language: String? = null

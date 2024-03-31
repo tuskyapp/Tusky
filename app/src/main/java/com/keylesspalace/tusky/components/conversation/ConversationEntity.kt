@@ -174,7 +174,7 @@ fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed
         showingHiddenContent = contentShowing,
         expanded = expanded,
         collapsed = contentCollapsed,
-        muted = muted ?: false,
+        muted = muted,
         poll = poll,
         language = language
     )

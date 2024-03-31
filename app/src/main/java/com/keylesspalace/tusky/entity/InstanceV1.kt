@@ -29,7 +29,7 @@ data class InstanceV1(
     // val stats: Map<String, Int>?,
     // val thumbnail: String?,
     // val languages: List<String>,
-    // @Json(name = "contact_account") val contactAccount: Account,
+    // @Json(name = "contact_account") val contactAccount: Account?,
     @Json(name = "max_toot_chars") val maxTootChars: Int? = null,
     @Json(name = "poll_limits") val pollConfiguration: PollConfiguration? = null,
     val configuration: InstanceConfiguration? = null,

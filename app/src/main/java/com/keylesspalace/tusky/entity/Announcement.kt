@@ -28,7 +28,7 @@ data class Announcement(
     @Json(name = "all_day") val allDay: Boolean,
     @Json(name = "published_at") val publishedAt: Date,
     @Json(name = "updated_at") val updatedAt: Date,
-    val read: Boolean,
+    val read: Boolean = false,
     val mentions: List<Status.Mention>,
     val statuses: List<Status>,
     val tags: List<HashTag>,
@@ -51,7 +51,7 @@ data class Announcement(
     data class Reaction(
         val name: String,
         val count: Int,
-        val me: Boolean,
+        val me: Boolean = false,
         val url: String? = null,
         @Json(name = "static_url") val staticUrl: String? = null
     )

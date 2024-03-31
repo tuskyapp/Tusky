@@ -14,14 +14,14 @@ data class Poll(
     // nullable for compatibility with Pleroma
     @Json(name = "voters_count") val votersCount: Int? = null,
     val options: List<PollOption>,
-    val voted: Boolean,
+    val voted: Boolean = false,
     @Json(name = "own_votes") val ownVotes: List<Int> = emptyList()
 ) {
 
     fun votedCopy(choices: List<Int>): Poll {
         val newOptions = options.mapIndexed { index, option ->
             if (choices.contains(index)) {
-                option.copy(votesCount = option.votesCount + 1)
+                option.copy(votesCount = (option.votesCount ?: 0) + 1)
             } else {
                 option
             }
@@ -47,5 +47,5 @@ data class Poll(
 @JsonClass(generateAdapter = true)
 data class PollOption(
     val title: String,
-    @Json(name = "votes_count") val votesCount: Int
+    @Json(name = "votes_count") val votesCount: Int? = null
 )
