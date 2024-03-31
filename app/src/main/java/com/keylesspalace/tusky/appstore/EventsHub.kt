@@ -14,11 +14,11 @@ interface Event
 @Singleton
 class EventHub @Inject constructor() {
 
-    private val sharedEventFlow = MutableSharedFlow<Event>()
-    val events: SharedFlow<Event> = sharedEventFlow.asSharedFlow()
+    private val _events = MutableSharedFlow<Event>()
+    val events: SharedFlow<Event> = _events.asSharedFlow()
 
     suspend fun dispatch(event: Event) {
-        sharedEventFlow.emit(event)
+        _events.emit(event)
     }
 
     //  TODO remove as soon as NotificationsFragment is Kotlin

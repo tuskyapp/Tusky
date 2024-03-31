@@ -90,15 +90,15 @@ data class LoginData(
     val oauthRedirectUrl: Uri
 ) : Parcelable
 
-sealed class LoginResult : Parcelable {
+sealed interface LoginResult : Parcelable {
     @Parcelize
-    data class Ok(val code: String) : LoginResult()
+    data class Ok(val code: String) : LoginResult
 
     @Parcelize
-    data class Err(val errorMessage: String) : LoginResult()
+    data class Err(val errorMessage: String) : LoginResult
 
     @Parcelize
-    data object Cancel : LoginResult()
+    data object Cancel : LoginResult
 }
 
 /** Activity to do Oauth process using WebView. */

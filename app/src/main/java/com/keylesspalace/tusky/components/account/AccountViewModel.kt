@@ -22,9 +22,13 @@ import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.observe
 import javax.inject.Inject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -43,8 +47,8 @@ class AccountViewModel @Inject constructor(
     private val _noteSaved = MutableStateFlow(false)
     val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
 
-    private val _isRefreshing = MutableStateFlow(false)
-    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+    private val _isRefreshing = MutableSharedFlow<Boolean>(1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val isRefreshing: SharedFlow<Boolean> = _isRefreshing.asSharedFlow()
 
     private var isDataLoading = false
 
@@ -83,13 +87,13 @@ class AccountViewModel @Inject constructor(
 
                             _accountData.value = Success(account)
                             isDataLoading = false
-                            _isRefreshing.value = false
+                            _isRefreshing.emit(false)
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
                             _accountData.value = Error(cause = t)
                             isDataLoading = false
-                            _isRefreshing.value = false
+                            _isRefreshing.emit(false)
                         }
                     )
             }
