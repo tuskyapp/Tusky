@@ -77,10 +77,28 @@ fun <T> Flow<T>.throttleFirst(timeout: Duration, timeSource: TimeSource = TimeSo
 
 fun <T> Flow<T>.observe(
     scope: CoroutineScope,
-    collector: FlowCollector<T>
+    collector: FlowCollector<T>? = null,
 ): Job = scope.launch {
-    collect(collector)
+    if (collector == null) {
+        collect()
+    } else {
+        collect(collector)
+    }
 }
+
+context(LifecycleOwner)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>? = null,
+): Job {
+    // Prefer using viewLifecycleOwner in Fragments.
+    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
+    return observe(realLifecycleOwner.lifecycleScope, collector)
+}
+
+context(ViewModel)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>? = null,
+): Job = observe(viewModelScope, collector)
 
 fun <T> Flow<T>.observeLatest(
     scope: CoroutineScope,
@@ -89,43 +107,13 @@ fun <T> Flow<T>.observeLatest(
     collectLatest(action)
 }
 
-fun <T> Flow<T>.observe(
-    lifecycleOwner: LifecycleOwner,
-    collector: FlowCollector<T>? = null
-): Job = lifecycleOwner.lifecycleScope.launch {
-    if (collector == null) {
-        collect()
-    } else {
-        collect(collector)
-    }
-}
-
-fun <T> Flow<T>.observeLatest(
-    lifecycleOwner: LifecycleOwner,
-    action: suspend (value: T) -> Unit
-): Job = observeLatest(lifecycleOwner.lifecycleScope, action)
-
-context(LifecycleOwner)
-fun <T> Flow<T>.observe(
-    collector: FlowCollector<T>? = null
-): Job {
-    // Prefer using viewLifecycleOwner in Fragments.
-    val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
-    return observe(realLifecycleOwner, collector)
-}
-
-context(ViewModel)
-fun <T> Flow<T>.observe(
-    collector: FlowCollector<T>
-): Job = observe(viewModelScope, collector)
-
 context(LifecycleOwner)
 fun <T> Flow<T>.observeLatest(
     action: suspend (value: T) -> Unit
 ): Job {
     // Prefer using viewLifecycleOwner in Fragments.
     val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
-    return observeLatest(realLifecycleOwner, action)
+    return observeLatest(realLifecycleOwner.lifecycleScope, action)
 }
 
 context(ViewModel)

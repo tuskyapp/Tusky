@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.appstore
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.util.observe
 import java.util.function.Consumer
 import javax.inject.Inject
@@ -23,7 +24,7 @@ class EventHub @Inject constructor() {
 
     //  TODO remove as soon as NotificationsFragment is Kotlin
     fun subscribe(lifecycleOwner: LifecycleOwner, consumer: Consumer<Event>) {
-        events.observe(lifecycleOwner) { event ->
+        events.observe(lifecycleOwner.lifecycleScope) { event ->
             consumer.accept(event)
         }
     }
