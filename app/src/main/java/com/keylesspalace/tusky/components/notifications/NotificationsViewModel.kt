@@ -32,7 +32,7 @@ import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -82,13 +82,13 @@ class NotificationsViewModel @Inject constructor(
     )
     val filters: StateFlow<Set<Notification.Type>> = _filters.asStateFlow()
 
-    /** Map from status id to translation. */
+    /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
 
-    private var readingOrder: PreferencesFragment.ReadingOrder =
-        PreferencesFragment.ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+    private var readingOrder: ReadingOrder =
+        ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
     @OptIn(ExperimentalPagingApi::class)
     val notifications = Pager(
@@ -300,14 +300,14 @@ class NotificationsViewModel @Inject constructor(
                     when (readingOrder) {
                         // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
                         // after minId and no larger than maxId
-                        PreferencesFragment.ReadingOrder.OLDEST_FIRST -> api.notifications(
+                        ReadingOrder.OLDEST_FIRST -> api.notifications(
                             maxId = idAbovePlaceholder,
                             minId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE
                         )
                         // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
                         // maxId, and no smaller than minId.
-                        PreferencesFragment.ReadingOrder.NEWEST_FIRST -> api.notifications(
+                        ReadingOrder.NEWEST_FIRST -> api.notifications(
                             maxId = idAbovePlaceholder,
                             sinceId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE
@@ -369,8 +369,8 @@ class NotificationsViewModel @Inject constructor(
                            to guarantee the placeholder has an id that exists on the server as not all
                            servers handle client generated ids as expected */
                         val idToConvert = when (readingOrder) {
-                            PreferencesFragment.ReadingOrder.OLDEST_FIRST -> notifications.first().id
-                            PreferencesFragment.ReadingOrder.NEWEST_FIRST -> notifications.last().id
+                            ReadingOrder.OLDEST_FIRST -> notifications.first().id
+                            ReadingOrder.NEWEST_FIRST -> notifications.last().id
                         }
                         notificationsDao.insertNotification(
                             Placeholder(

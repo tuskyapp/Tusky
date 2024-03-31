@@ -36,7 +36,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.connyduck.calladapter.networkresult.onFailure
@@ -46,7 +45,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.components.preference.PreferencesFragment
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.di.Injectable
@@ -98,7 +97,7 @@ class NotificationsFragment :
 
     private var hideFab: Boolean = false
     private var showNotificationsFilterBar: Boolean = true
-    private var readingOrder: PreferencesFragment.ReadingOrder = PreferencesFragment.ReadingOrder.NEWEST_FIRST
+    private var readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST
 
     /** see [com.keylesspalace.tusky.components.timeline.TimelineFragment] for explanation of the load more mechanism */
     private var loadMorePosition: Int? = null
@@ -186,7 +185,7 @@ class NotificationsFragment :
         )
 
         hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        readingOrder = PreferencesFragment.ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
+        readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -244,7 +243,7 @@ class NotificationsFragment :
                         }
                     }
                 }
-                if (readingOrder == PreferencesFragment.ReadingOrder.OLDEST_FIRST) {
+                if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst()
                 }
             }
@@ -498,7 +497,7 @@ class NotificationsFragment :
             }
 
             PrefKeys.READING_ORDER -> {
-                readingOrder = PreferencesFragment.ReadingOrder.from(
+                readingOrder = ReadingOrder.from(
                     preferences.getString(PrefKeys.READING_ORDER, null)
                 )
             }
