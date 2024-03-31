@@ -18,11 +18,9 @@
 package com.keylesspalace.tusky.util
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import kotlin.time.Duration
 import kotlin.time.TimeMark
@@ -95,12 +93,10 @@ fun <T> Flow<T>.observe(
     lifecycleOwner: LifecycleOwner,
     collector: FlowCollector<T>? = null
 ): Job = lifecycleOwner.lifecycleScope.launch {
-    lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-        if (collector == null) {
-            collect()
-        } else {
-            collect(collector)
-        }
+    if (collector == null) {
+        collect()
+    } else {
+        collect(collector)
     }
 }
 
