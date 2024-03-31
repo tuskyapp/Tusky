@@ -156,7 +156,7 @@ class NotificationsViewModel @Inject constructor(
                 }.fold(
                     onSuccess = {
                         // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
-                        db.notificationsDao().deleteRange(accountManager.activeAccount!!.id, notificationId, notificationId)
+                        db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
                         if (accept) {
                             // Accepting a follow request will generate a new follow notification.
                             // For it to show up, notifications need to be refreshed which is done easiest by refreshing the adapter in the Fragment.
@@ -231,7 +231,7 @@ class NotificationsViewModel @Inject constructor(
 
     fun remove(notificationId: String) {
         viewModelScope.launch {
-            db.notificationsDao().deleteRange(accountManager.activeAccount!!.id, notificationId, notificationId)
+            db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
         }
     }
 
