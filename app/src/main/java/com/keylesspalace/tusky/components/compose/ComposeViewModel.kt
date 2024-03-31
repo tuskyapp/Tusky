@@ -185,7 +185,7 @@ class ComposeViewModel @Inject constructor(
 
         mediaUploader
             .uploadMedia(mediaItem, instanceInfo.first())
-            .observe(viewModelScope) { event ->
+            .observe { event ->
                 val item = _media.value.find { it.localId == mediaItem.localId }
                     ?: return@observe
                 val newMediaItem = when (event) {

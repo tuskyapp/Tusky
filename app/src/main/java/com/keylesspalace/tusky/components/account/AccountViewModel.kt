@@ -66,7 +66,7 @@ class AccountViewModel @Inject constructor(
     private val activeAccount = accountManager.activeAccount!!
 
     init {
-        eventHub.events.observe(viewModelScope) { event ->
+        eventHub.events.observe { event ->
             if (event is ProfileEditedEvent && event.newProfileData.id == _accountData.value?.data?.id) {
                 _accountData.value = Success(event.newProfileData)
             }

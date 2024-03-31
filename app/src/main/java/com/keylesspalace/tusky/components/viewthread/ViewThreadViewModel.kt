@@ -88,7 +88,7 @@ class ViewThreadViewModel @Inject constructor(
         alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
         alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
-        eventHub.events.observe(viewModelScope) { event ->
+        eventHub.events.observe { event ->
             when (event) {
                 is StatusChangedEvent -> handleStatusChangedEvent(event.status)
                 is BlockEvent -> removeAllByAccountId(event.accountId)

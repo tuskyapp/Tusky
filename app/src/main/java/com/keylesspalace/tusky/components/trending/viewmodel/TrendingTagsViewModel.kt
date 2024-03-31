@@ -65,7 +65,7 @@ class TrendingTagsViewModel @Inject constructor(
         // that was modified, so refresh on every preference change.
         eventHub.events
             .filterIsInstance<PreferenceChangedEvent>()
-            .observe(viewModelScope) {
+            .observe {
                 invalidate()
             }
     }

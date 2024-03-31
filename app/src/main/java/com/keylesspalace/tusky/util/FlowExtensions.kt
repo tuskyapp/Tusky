@@ -20,8 +20,10 @@ package com.keylesspalace.tusky.util
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import kotlin.time.Duration
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
@@ -116,6 +118,11 @@ fun <T> Flow<T>.observe(
     return observe(realLifecycleOwner, collector)
 }
 
+context(ViewModel)
+fun <T> Flow<T>.observe(
+    collector: FlowCollector<T>
+): Job = observe(viewModelScope, collector)
+
 context(LifecycleOwner)
 fun <T> Flow<T>.observeLatest(
     action: suspend (value: T) -> Unit
@@ -124,3 +131,8 @@ fun <T> Flow<T>.observeLatest(
     val realLifecycleOwner = (this@LifecycleOwner as? Fragment)?.viewLifecycleOwner ?: this@LifecycleOwner
     return observeLatest(realLifecycleOwner, action)
 }
+
+context(ViewModel)
+fun <T> Flow<T>.observeLatest(
+    action: suspend (value: T) -> Unit
+): Job = observeLatest(viewModelScope, action)

@@ -98,7 +98,7 @@ abstract class TimelineViewModel(
         this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
         this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
 
-        eventHub.events.observe(viewModelScope) { event -> handleEvent(event) }
+        eventHub.events.observe { event -> handleEvent(event) }
 
         reloadFilters()
     }
