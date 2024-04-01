@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.db.HomeTimelineData
 import com.keylesspalace.tusky.db.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -143,18 +142,6 @@ class CachedTimelineViewModel @Inject constructor(
         }
     }
 
-    override fun removeAllByAccountId(accountId: String) {
-        viewModelScope.launch {
-            db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
-        }
-    }
-
-    override fun removeAllByInstance(instance: String) {
-        viewModelScope.launch {
-            db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
-        }
-    }
-
     override fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
@@ -206,7 +193,7 @@ class CachedTimelineViewModel @Inject constructor(
                 }
 
                 db.withTransaction {
-                    timelineDao.delete(activeAccount.id, placeholderId)
+                    timelineDao.deleteHomeTimelineItem(activeAccount.id, placeholderId)
 
                     val overlappedStatuses = if (statuses.isNotEmpty()) {
                         timelineDao.deleteRange(
@@ -278,10 +265,6 @@ class CachedTimelineViewModel @Inject constructor(
         val activeAccount = accountManager.activeAccount!!
         db.timelineDao()
             .insertHomeTimelineItem(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
-    }
-
-    override fun handleStatusChangedEvent(status: Status) {
-        // handled by CacheUpdater
     }
 
     override fun fullReload() {

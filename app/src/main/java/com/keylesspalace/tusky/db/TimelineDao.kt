@@ -63,9 +63,9 @@ ORDER BY LENGTH(h.id) DESC, h.id DESC"""
     abstract fun getHomeTimeline(tuskyAccountId: Long): PagingSource<Int, HomeTimelineData>
 
     @Transaction
-    open suspend fun getStatusWithAccount(accountId: Long, statusId: String): Pair<TimelineStatusEntity, TimelineAccountEntity>? {
-        val status = getStatus(accountId, statusId) ?: return null
-        val account = getAccount(accountId, status.authorServerId) ?: return null
+    open suspend fun getStatusWithAccount(tuskyAccountId: Long, statusId: String): Pair<TimelineStatusEntity, TimelineAccountEntity>? {
+        val status = getStatus(tuskyAccountId, statusId) ?: return null
+        val account = getAccount(tuskyAccountId, status.authorServerId) ?: return null
         return status to account
     }
 
@@ -184,10 +184,32 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     )
     abstract suspend fun setReblogged(tuskyAccountId: Long, statusId: String, reblogged: Boolean)
 
+    /**
+     * Remove all home timeline items that are statuses or reblogs by the user with id [userId], including reblogs from other people.
+     * (e.g. because user was blocked)
+     */
     @Query(
-        """DELETE FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId = :userId"""
+        """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND
+            (id IN
+            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
+            OR reblogAccountId == :userId)
+        """
     )
     abstract suspend fun removeAllByUser(tuskyAccountId: Long, userId: String)
+
+    /**
+     * Remove all home timeline items that are statuses or reblogs by the user with id [userId], but not reblogs from other users.
+     * (e.g. because user was unfollowed)
+     */
+    @Query(
+        """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND
+            (id IN
+            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
+            OR reblogAccountId == :userId)
+            AND reblogAccountId != :userId
+        """
+    )
+    abstract suspend fun removeStatusesAndReblogsByUser(tuskyAccountId: Long, userId: String)
 
     /**
      * // Todo this is dangerous because it can break foreign keys to NotificationEntity
@@ -211,10 +233,17 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     abstract suspend fun removeAllAccounts(tuskyAccountId: Long)
 
     @Query(
-        """DELETE FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId
-AND serverId = :statusId"""
+        """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND id = :id"""
     )
-    abstract suspend fun delete(tuskyAccountId: Long, statusId: String)
+    abstract suspend fun deleteHomeTimelineItem(tuskyAccountId: Long, id: String)
+
+    /**
+     * Deletes all hometimeline items that reference the status with it [statusId]. They can be regular statuses or reblogs.
+     */
+    @Query(
+        """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId = :statusId"""
+    )
+    abstract suspend fun deleteAllWithStatus(tuskyAccountId: Long, statusId: String)
 
     /**
      * Cleans the HomeTimelineEntity, TimelineStatusEntity and TimelineAccountEntity tables from old entries.

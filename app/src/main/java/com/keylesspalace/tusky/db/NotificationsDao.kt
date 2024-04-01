@@ -81,6 +81,36 @@ AND
     )
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
+    @Query(
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId = :statusId"""
+    )
+    abstract suspend fun deleteAllWithStatus(tuskyAccountId: Long, statusId: String)
+
+    /**
+     * Remove all notifications from user with id [userId] unless they are admin notifications.
+     */
+    @Query(
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND
+            (id IN
+            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
+            OR accountId == :userId)
+            AND type != "admin.sign_up" AND type != "admin.report"
+        """
+    )
+    abstract suspend fun removeAllByUser(tuskyAccountId: Long, userId: String)
+
+    @Query(
+        """DELETE FROM NotificationEntity
+            WHERE tuskyAccountId = :tuskyAccountId AND statusId IN (
+            SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId in
+            ( SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
+            AND tuskyAccountId = :tuskyAccountId)
+            OR accountId IN ( SELECT serverId FROM TimelineAccountEntity WHERE username LIKE '%@' || :instanceDomain
+            AND tuskyAccountId = :tuskyAccountId)
+            )"""
+    )
+    abstract suspend fun deleteAllFromInstance(tuskyAccountId: Long, instanceDomain: String)
+
     @Query("SELECT id FROM NotificationEntity WHERE tuskyAccountId = :accountId ORDER BY LENGTH(id) DESC, id DESC LIMIT 1")
     abstract suspend fun getTopId(accountId: Long): String?
 
