@@ -72,7 +72,7 @@ android {
 
     lint {
         lintConfig file("lint.xml")
-        // Regenerate by running `./gradlew app:newLintBaseline`
+        // Regenerate by deleting the file and running `./gradlew app:lintGreenDebug`
         baseline = file("lint-baseline.xml")
     }
 
