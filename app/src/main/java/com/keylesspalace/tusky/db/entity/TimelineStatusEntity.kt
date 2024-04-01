@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.db.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -80,66 +79,4 @@ data class TimelineStatusEntity(
     val card: String?,
     val language: String?,
     val filtered: List<FilterResult>?
-)
-
-@Entity(
-    primaryKeys = ["serverId", "tuskyAccountId"]
-)
-data class TimelineAccountEntity(
-    val serverId: String,
-    val tuskyAccountId: Long,
-    val localUsername: String,
-    val username: String,
-    val displayName: String,
-    val url: String,
-    val avatar: String,
-    val emojis: String,
-    val bot: Boolean
-)
-
-/**
- * Entity to store an item on the home timeline. Can be a standalone status, a reblog, or a placeholder.
- */
-@Entity(
-    primaryKeys = ["id", "tuskyAccountId"],
-    foreignKeys = (
-        [
-            ForeignKey(
-                entity = TimelineStatusEntity::class,
-                parentColumns = ["serverId", "tuskyAccountId"],
-                childColumns = ["statusId", "tuskyAccountId"]
-            ),
-            ForeignKey(
-                entity = TimelineAccountEntity::class,
-                parentColumns = ["serverId", "tuskyAccountId"],
-                childColumns = ["reblogAccountId", "tuskyAccountId"]
-            )
-        ]
-        ),
-    indices = [
-        Index("statusId", "tuskyAccountId"),
-        Index("reblogAccountId", "tuskyAccountId"),
-    ]
-)
-data class HomeTimelineEntity(
-    val tuskyAccountId: Long,
-    // the id by which the timeline is sorted
-    val id: String,
-    // the id of the status, null when a placeholder
-    val statusId: String?,
-    // the id of the account who reblogged the status, null if no reblog
-    val reblogAccountId: String?,
-    // only relevant when this is a placeholder
-    val loading: Boolean = false
-)
-
-/**
- * Helper class for queries that return HomeTimelineEntity including all references
- */
-data class HomeTimelineData(
-    val id: String,
-    @Embedded val status: TimelineStatusEntity?,
-    @Embedded(prefix = "a_") val account: TimelineAccountEntity?,
-    @Embedded(prefix = "rb_") val reblogAccount: TimelineAccountEntity?,
-    val loading: Boolean
 )
