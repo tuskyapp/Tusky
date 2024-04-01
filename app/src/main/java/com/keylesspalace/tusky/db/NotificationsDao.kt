@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Transaction
 
 @Dao
 abstract class NotificationsDao {
@@ -80,6 +81,26 @@ AND
     """
     )
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
+
+    @Transaction
+    open suspend fun removeAll(tuskyAccountId: Long) {
+        removeAllNotifications(tuskyAccountId)
+        removeAllReports(tuskyAccountId)
+    }
+
+    @Query(
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId"""
+    )
+    protected abstract suspend fun removeAllNotifications(tuskyAccountId: Long)
+
+    /**
+     * Deletes all NotificationReportEntities for Tusky user with id [tuskyAccountId].
+     * Warning: This can violate foreign key constraints if reports are still referenced in the NotificationEntity table.
+     */
+    @Query(
+        """DELETE FROM NotificationReportEntity WHERE tuskyAccountId = :tuskyAccountId"""
+    )
+    protected abstract suspend fun removeAllReports(tuskyAccountId: Long)
 
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId = :statusId"""

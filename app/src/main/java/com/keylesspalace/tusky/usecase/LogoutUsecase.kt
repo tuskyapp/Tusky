@@ -53,6 +53,7 @@ class LogoutUsecase @Inject constructor(
             val otherAccountAvailable = accountManager.logActiveAccountOut() != null
 
             // clear the database - this could trigger network calls so do it last when all tokens are gone
+            db.notificationsDao().removeAll(activeAccount.id)
             db.timelineDao().removeAll(activeAccount.id)
             db.conversationDao().deleteForAccount(activeAccount.id)
             draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
