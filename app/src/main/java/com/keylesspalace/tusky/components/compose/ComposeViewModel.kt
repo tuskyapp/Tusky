@@ -53,7 +53,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class ComposeViewModel @Inject constructor(
@@ -431,28 +430,24 @@ class ComposeViewModel @Inject constructor(
 
     fun searchAutocompleteSuggestions(token: String): List<AutocompleteResult> {
         return when (token[0]) {
-            '@' -> runBlocking {
-                api.searchAccounts(query = token.substring(1), limit = 10)
-                    .fold({ accounts ->
-                        accounts.map { AutocompleteResult.AccountResult(it) }
-                    }, { e ->
-                        Log.e(TAG, "Autocomplete search for $token failed.", e)
-                        emptyList()
-                    })
-            }
-            '#' -> runBlocking {
-                api.search(
-                    query = token,
-                    type = SearchType.Hashtag.apiParameter,
-                    limit = 10
-                )
-                    .fold({ searchResult ->
-                        searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
-                    }, { e ->
-                        Log.e(TAG, "Autocomplete search for $token failed.", e)
-                        emptyList()
-                    })
-            }
+            '@' -> api.searchAccountsSync(query = token.substring(1), limit = 10)
+                .fold({ accounts ->
+                    accounts.map { AutocompleteResult.AccountResult(it) }
+                }, { e ->
+                    Log.e(TAG, "Autocomplete search for $token failed.", e)
+                    emptyList()
+                })
+            '#' -> api.searchSync(
+                query = token,
+                type = SearchType.Hashtag.apiParameter,
+                limit = 10
+            )
+                .fold({ searchResult ->
+                    searchResult.hashtags.map { AutocompleteResult.HashtagResult(it.name) }
+                }, { e ->
+                    Log.e(TAG, "Autocomplete search for $token failed.", e)
+                    emptyList()
+                })
             ':' -> {
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
