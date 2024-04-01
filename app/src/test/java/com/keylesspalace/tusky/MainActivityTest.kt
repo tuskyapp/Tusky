@@ -12,7 +12,7 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount

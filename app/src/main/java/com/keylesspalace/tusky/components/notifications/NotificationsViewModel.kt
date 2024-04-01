@@ -222,20 +222,21 @@ class NotificationsViewModel @Inject constructor(
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+            db.timelineStatusDao()
+                .setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
         }
     }
 
     fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao()
+            db.timelineStatusDao()
                 .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
         }
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao()
+            db.timelineStatusDao()
                 .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
         }
     }
@@ -246,21 +247,9 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun removeAllByAccountId(accountId: String) {
-        viewModelScope.launch {
-            db.timelineDao().removeAllByUser(accountManager.activeAccount!!.id, accountId)
-        }
-    }
-
-    fun removeAllByInstance(instance: String) {
-        viewModelScope.launch {
-            db.timelineDao().deleteAllFromInstance(accountManager.activeAccount!!.id, instance)
-        }
-    }
-
     fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+            db.timelineStatusDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 
@@ -333,6 +322,8 @@ class NotificationsViewModel @Inject constructor(
                 }
 
                 val timelineDao = db.timelineDao()
+                val statusDao = db.timelineStatusDao()
+                val accountDao = db.timelineAccountDao()
 
                 db.withTransaction {
                     notificationsDao.delete(activeAccount.id, placeholderId)
@@ -348,15 +339,15 @@ class NotificationsViewModel @Inject constructor(
                     }
 
                     for (notification in notifications) {
-                        timelineDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
+                        accountDao.insert(notification.account.toEntity(activeAccount.id, gson))
                         notification.report?.let { report ->
-                            timelineDao.insertAccount(report.targetAccount.toEntity(activeAccount.id, gson))
+                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id, gson))
                             notificationsDao.insertReport(report.toEntity(activeAccount.id))
                         }
                         notification.status?.let { status ->
-                            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+                            accountDao.insert(status.account.toEntity(activeAccount.id, gson))
 
-                            timelineDao.insertStatus(
+                            statusDao.insert(
                                 status.toEntity(
                                     tuskyAccountId = activeAccount.id,
                                     gson = gson,

@@ -7,8 +7,8 @@ import androidx.annotation.WorkerThread
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.filterNotification
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Marker
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi

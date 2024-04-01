@@ -25,12 +25,12 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import com.google.gson.Gson
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.EmojisEntity
-import com.keylesspalace.tusky.db.InstanceDao
-import com.keylesspalace.tusky.db.InstanceInfoEntity
+import com.keylesspalace.tusky.db.dao.InstanceDao
+import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.db.entity.EmojisEntity
+import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration

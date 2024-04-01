@@ -13,13 +13,14 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.keylesspalace.tusky.db.entity.AccountEntity
 
 @Dao
 interface AccountDao {

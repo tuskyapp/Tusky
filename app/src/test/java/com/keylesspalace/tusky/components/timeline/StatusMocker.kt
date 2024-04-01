@@ -3,8 +3,8 @@ package com.keylesspalace.tusky.components.timeline
 import androidx.paging.PagingSource
 import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.HomeTimelineData
-import com.keylesspalace.tusky.db.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData

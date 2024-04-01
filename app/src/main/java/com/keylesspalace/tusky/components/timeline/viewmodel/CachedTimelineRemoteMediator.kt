@@ -27,9 +27,9 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.HomeTimelineData
-import com.keylesspalace.tusky.db.HomeTimelineEntity
-import com.keylesspalace.tusky.db.TimelineStatusEntity
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
@@ -45,6 +45,8 @@ class CachedTimelineRemoteMediator(
     private var initialRefresh = false
 
     private val timelineDao = db.timelineDao()
+    private val statusDao = db.timelineStatusDao()
+    private val accountDao = db.timelineAccountDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
@@ -144,9 +146,9 @@ class CachedTimelineRemoteMediator(
         }
 
         for (status in statuses) {
-            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+            accountDao.insert(status.account.toEntity(activeAccount.id, gson))
             status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
-                timelineDao.insertAccount(rebloggedAccount)
+                accountDao.insert(rebloggedAccount)
             }
 
             // check if we already have one of the newly loaded statuses cached locally
@@ -163,7 +165,7 @@ class CachedTimelineRemoteMediator(
             val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-            timelineDao.insertStatus(
+            statusDao.insert(
                 status.actionableStatus.toEntity(
                     tuskyAccountId = activeAccount.id,
                     gson = gson,

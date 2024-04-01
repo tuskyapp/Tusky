@@ -17,10 +17,10 @@ package com.keylesspalace.tusky.components.timeline
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.db.HomeTimelineData
-import com.keylesspalace.tusky.db.HomeTimelineEntity
-import com.keylesspalace.tusky.db.TimelineAccountEntity
-import com.keylesspalace.tusky.db.TimelineStatusEntity
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji

@@ -39,8 +39,8 @@ import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.HomeTimelineData
-import com.keylesspalace.tusky.db.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
@@ -124,27 +124,28 @@ class CachedTimelineViewModel @Inject constructor(
 
     override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+            db.timelineStatusDao()
+                .setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
         }
     }
 
     override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao()
+            db.timelineStatusDao()
                 .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
         }
     }
 
     override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao()
+            db.timelineStatusDao()
                 .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
         }
     }
 
     override fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+            db.timelineStatusDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
         }
     }
 
@@ -156,6 +157,8 @@ class CachedTimelineViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val timelineDao = db.timelineDao()
+                val statusDao = db.timelineStatusDao()
+                val accountDao = db.timelineAccountDao()
 
                 val activeAccount = accountManager.activeAccount!!
 
@@ -206,12 +209,12 @@ class CachedTimelineViewModel @Inject constructor(
                     }
 
                     for (status in statuses) {
-                        timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+                        accountDao.insert(status.account.toEntity(activeAccount.id, gson))
                         status.reblog?.account?.toEntity(activeAccount.id, gson)
                             ?.let { rebloggedAccount ->
-                                timelineDao.insertAccount(rebloggedAccount)
+                                accountDao.insert(rebloggedAccount)
                             }
-                        timelineDao.insertStatus(
+                        statusDao.insert(
                             status.toEntity(
                                 tuskyAccountId = activeAccount.id,
                                 gson = gson,

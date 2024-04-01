@@ -19,10 +19,10 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.toStatus
-import com.keylesspalace.tusky.db.NotificationDataEntity
-import com.keylesspalace.tusky.db.NotificationEntity
-import com.keylesspalace.tusky.db.NotificationReportEntity
-import com.keylesspalace.tusky.db.TimelineAccountEntity
+import com.keylesspalace.tusky.db.entity.NotificationDataEntity
+import com.keylesspalace.tusky.db.entity.NotificationEntity
+import com.keylesspalace.tusky.db.entity.NotificationReportEntity
+import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.viewdata.NotificationViewData

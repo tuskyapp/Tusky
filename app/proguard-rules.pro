@@ -48,9 +48,9 @@
 }
 
 -keepclassmembers class com.keylesspalace.tusky.components.conversation.ConversationAccountEntity { *; }
--keepclassmembers class com.keylesspalace.tusky.db.DraftAttachment { *; }
+-keepclassmembers class com.keylesspalace.tusky.db.entity.DraftAttachment { *; }
 
--keep enum com.keylesspalace.tusky.db.DraftAttachment$Type {
+-keep enum com.keylesspalace.tusky.db.entity.DraftAttachment$Type {
     public *;
 }
 

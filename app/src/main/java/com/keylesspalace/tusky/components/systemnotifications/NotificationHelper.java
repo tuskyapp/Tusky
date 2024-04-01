@@ -55,7 +55,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
-import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;

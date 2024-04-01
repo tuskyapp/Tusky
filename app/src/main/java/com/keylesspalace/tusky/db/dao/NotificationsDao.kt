@@ -13,14 +13,16 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import androidx.room.Transaction
+import com.keylesspalace.tusky.db.entity.NotificationDataEntity
+import com.keylesspalace.tusky.db.entity.NotificationEntity
+import com.keylesspalace.tusky.db.entity.NotificationReportEntity
 
 @Dao
 abstract class NotificationsDao {
@@ -82,16 +84,10 @@ AND
     )
     abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
 
-    @Transaction
-    open suspend fun removeAll(tuskyAccountId: Long) {
-        removeAllNotifications(tuskyAccountId)
-        removeAllReports(tuskyAccountId)
-    }
-
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId"""
     )
-    protected abstract suspend fun removeAllNotifications(tuskyAccountId: Long)
+    internal abstract suspend fun removeAllNotifications(tuskyAccountId: Long)
 
     /**
      * Deletes all NotificationReportEntities for Tusky user with id [tuskyAccountId].
@@ -100,7 +96,7 @@ AND
     @Query(
         """DELETE FROM NotificationReportEntity WHERE tuskyAccountId = :tuskyAccountId"""
     )
-    protected abstract suspend fun removeAllReports(tuskyAccountId: Long)
+    internal abstract suspend fun removeAllReports(tuskyAccountId: Long)
 
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId = :statusId"""
@@ -159,7 +155,7 @@ AND
         (SELECT id FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId ORDER BY LENGTH(id) DESC, id DESC LIMIT :limit)
     """
     )
-    abstract suspend fun cleanupNotifications(tuskyAccountId: Long, limit: Int)
+    internal abstract suspend fun cleanupNotifications(tuskyAccountId: Long, limit: Int)
 
     /**
      * Cleans the NotificationReportEntity table from unreferenced entries.
@@ -170,7 +166,7 @@ AND
         AND serverId NOT IN
         (SELECT reportId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId and reportId IS NOT NULL)"""
     )
-    abstract suspend fun cleanupReports(tuskyAccountId: Long)
+    internal abstract suspend fun cleanupReports(tuskyAccountId: Long)
 
     /**
      * Returns the id directly above [id], or null if [id] is the id of the top item

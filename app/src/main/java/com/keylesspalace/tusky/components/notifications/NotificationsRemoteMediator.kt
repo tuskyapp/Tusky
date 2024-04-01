@@ -27,8 +27,8 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.NotificationDataEntity
-import com.keylesspalace.tusky.db.TimelineStatusEntity
+import com.keylesspalace.tusky.db.entity.NotificationDataEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
@@ -50,6 +50,8 @@ class NotificationsRemoteMediator(
 
     private val notificationsDao = db.notificationsDao()
     private val timelineDao = db.timelineDao()
+    private val accountDao = db.timelineAccountDao()
+    private val statusDao = db.timelineStatusDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
@@ -147,9 +149,9 @@ class NotificationsRemoteMediator(
         }
 
         for (notification in notifications) {
-            timelineDao.insertAccount(notification.account.toEntity(activeAccount.id, gson))
+            accountDao.insert(notification.account.toEntity(activeAccount.id, gson))
             notification.report?.let { report ->
-                timelineDao.insertAccount(report.targetAccount.toEntity(activeAccount.id, gson))
+                accountDao.insert(report.targetAccount.toEntity(activeAccount.id, gson))
                 notificationsDao.insertReport(report.toEntity(activeAccount.id))
             }
 
@@ -168,9 +170,9 @@ class NotificationsRemoteMediator(
                 val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.sensitive)
                 val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-                timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
+                accountDao.insert(status.account.toEntity(activeAccount.id, gson))
 
-                timelineDao.insertStatus(
+                statusDao.insert(
                     status.toEntity(
                         tuskyAccountId = activeAccount.id,
                         gson = gson,

@@ -27,6 +27,22 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
+import com.keylesspalace.tusky.db.dao.AccountDao;
+import com.keylesspalace.tusky.db.dao.CleanupDao;
+import com.keylesspalace.tusky.db.dao.DraftDao;
+import com.keylesspalace.tusky.db.dao.InstanceDao;
+import com.keylesspalace.tusky.db.dao.NotificationsDao;
+import com.keylesspalace.tusky.db.dao.TimelineAccountDao;
+import com.keylesspalace.tusky.db.dao.TimelineDao;
+import com.keylesspalace.tusky.db.dao.TimelineStatusDao;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
+import com.keylesspalace.tusky.db.entity.DraftEntity;
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity;
+import com.keylesspalace.tusky.db.entity.InstanceEntity;
+import com.keylesspalace.tusky.db.entity.NotificationEntity;
+import com.keylesspalace.tusky.db.entity.NotificationReportEntity;
+import com.keylesspalace.tusky.db.entity.TimelineAccountEntity;
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity;
 
 import java.io.File;
 
@@ -65,6 +81,9 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract TimelineDao timelineDao();
     @NonNull public abstract DraftDao draftDao();
     @NonNull public abstract NotificationsDao notificationsDao();
+    @NonNull public abstract TimelineStatusDao timelineStatusDao();
+    @NonNull public abstract TimelineAccountDao timelineAccountDao();
+    @NonNull public abstract CleanupDao cleanupDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

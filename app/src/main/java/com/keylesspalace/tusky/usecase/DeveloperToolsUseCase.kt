@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.usecase
 import android.util.Log
 import androidx.room.withTransaction
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineDao
+import com.keylesspalace.tusky.db.dao.TimelineDao
 import javax.inject.Inject
 
 /**
@@ -25,7 +25,7 @@ class DeveloperToolsUseCase @Inject constructor(
      */
     suspend fun createLoadMoreGap(accountId: Long) {
         db.withTransaction {
-            val ids = timelineDao.getMostRecentNStatusIds(accountId, 10)
+            val ids = timelineDao.getMostRecentNHomeTimelineIds(accountId, 10)
             val maxId = ids[2]
             val minId = ids[8]
             val placeHolderId = ids[9]
@@ -36,7 +36,7 @@ class DeveloperToolsUseCase @Inject constructor(
             )
 
             timelineDao.deleteRange(accountId, minId, maxId)
-            timelineDao.convertStatusToPlaceholder(placeHolderId)
+            timelineDao.convertHomeTimelineItemToPlaceholder(placeHolderId)
         }
     }
 

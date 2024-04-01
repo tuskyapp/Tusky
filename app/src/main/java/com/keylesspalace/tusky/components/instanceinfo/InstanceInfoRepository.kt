@@ -24,8 +24,8 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.recoverCatching
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.EmojisEntity
-import com.keylesspalace.tusky.db.InstanceInfoEntity
+import com.keylesspalace.tusky.db.entity.EmojisEntity
+import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance

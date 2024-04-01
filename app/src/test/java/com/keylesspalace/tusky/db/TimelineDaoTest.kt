@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
+import com.keylesspalace.tusky.db.dao.TimelineDao
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals

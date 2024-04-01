@@ -24,6 +24,7 @@ class CacheUpdater @Inject constructor(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val timelineDao = appDatabase.timelineDao()
+    private val statusDao = appDatabase.timelineStatusDao()
     private val notificationsDao = appDatabase.notificationsDao()
 
     init {
@@ -31,7 +32,7 @@ class CacheUpdater @Inject constructor(
             eventHub.events.collect { event ->
                 val tuskyAccountId = accountManager.activeAccount?.id ?: return@collect
                 when (event) {
-                    is StatusChangedEvent -> timelineDao.update(
+                    is StatusChangedEvent -> statusDao.update(
                         tuskyAccountId = tuskyAccountId,
                         status = event.status,
                         gson = gson
@@ -54,7 +55,7 @@ class CacheUpdater @Inject constructor(
 
                     is PollVoteEvent -> {
                         val pollString = gson.toJson(event.poll)
-                        timelineDao.setVoted(tuskyAccountId, event.statusId, pollString)
+                        statusDao.setVoted(tuskyAccountId, event.statusId, pollString)
                     }
                 }
             }

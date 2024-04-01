@@ -109,7 +109,7 @@ class ViewThreadViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "Finding status with: $id")
             val contextCall = async { api.statusContext(id) }
-            val statusAndAccount = db.timelineDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
+            val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
 
             var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
@@ -142,7 +142,7 @@ class ViewThreadViewModel @Inject constructor(
             // failed. Update the database when the fetch was successful.
             if (statusAndAccount != null) {
                 api.status(id).onSuccess { result ->
-                    db.timelineDao().update(
+                    db.timelineStatusDao().update(
                         tuskyAccountId = accountManager.activeAccount!!.id,
                         status = result,
                         gson = gson
