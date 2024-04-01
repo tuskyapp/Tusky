@@ -63,13 +63,6 @@ data class Status(
     val actionableStatus: Status
         get() = reblog ?: this
 
-    /** Helpers for Java */
-    fun copyWithFavourited(favourited: Boolean): Status = copy(favourited = favourited)
-    fun copyWithReblogged(reblogged: Boolean): Status = copy(reblogged = reblogged)
-    fun copyWithBookmarked(bookmarked: Boolean): Status = copy(bookmarked = bookmarked)
-    fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
-    fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
-
     enum class Visibility(val num: Int) {
         UNKNOWN(0),
 

@@ -118,11 +118,7 @@ class NotificationsFragment :
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
-            cardViewMode = if (preferences.getBoolean(
-                    PrefKeys.SHOW_CARDS_IN_TIMELINES,
-                    false
-                )
-            ) {
+            cardViewMode = if (preferences.getBoolean(PrefKeys.SHOW_CARDS_IN_TIMELINES, false)) {
                 CardViewMode.INDENTED
             } else {
                 CardViewMode.NONE
@@ -139,8 +135,8 @@ class NotificationsFragment :
         // setup the notifications filter bar
         showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
         updateFilterBarVisibility()
-        binding.buttonClear.setOnClickListener { v -> confirmClearNotifications() }
-        binding.buttonFilter.setOnClickListener { v -> showFilterMenu() }
+        binding.buttonClear.setOnClickListener { confirmClearNotifications() }
+        binding.buttonFilter.setOnClickListener { showFilterMenu() }
 
         // Setup the SwipeRefreshLayout.
         binding.swipeRefreshLayout.setOnRefreshListener(this)
@@ -322,9 +318,7 @@ class NotificationsFragment :
             if (translate) {
                 onTranslate(position)
             } else {
-                onUntranslate(
-                    position
-                )
+                onUntranslate(position)
             }
         }
 

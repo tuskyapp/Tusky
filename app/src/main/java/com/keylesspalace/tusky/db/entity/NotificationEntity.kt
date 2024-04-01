@@ -105,13 +105,3 @@ data class NotificationReportEntity(
     val createdAt: Date,
     val targetAccountId: String?
 )
-
-data class NotificationReportDataEntity(
-    // id of the account logged into Tusky this report belongs to
-    val tuskyAccountId: Long,
-    val serverId: String,
-    val category: String,
-    val statusIds: List<String>?,
-    val createdAt: Date,
-    val targetAccount: String?
-)

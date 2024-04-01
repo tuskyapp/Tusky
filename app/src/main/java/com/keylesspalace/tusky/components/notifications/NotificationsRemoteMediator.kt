@@ -49,7 +49,6 @@ class NotificationsRemoteMediator(
     private var initialRefresh = false
 
     private val notificationsDao = db.notificationsDao()
-    private val timelineDao = db.timelineDao()
     private val accountDao = db.timelineAccountDao()
     private val statusDao = db.timelineStatusDao()
     private val activeAccount = accountManager.activeAccount!!
