@@ -151,13 +151,13 @@ fun mockPlaceholderHomeTimelineData(
 suspend fun AppDatabase.insert(timelineItems: List<HomeTimelineData>, tuskyAccountId: Long = 1) {
     timelineItems.forEach { timelineItem ->
         timelineItem.account?.let { account ->
-            timelineDao().insertAccount(account)
+            timelineAccountDao().insert(account)
         }
         timelineItem.reblogAccount?.let { account ->
-            timelineDao().insertAccount(account)
+            timelineAccountDao().insert(account)
         }
         timelineItem.status?.let { status ->
-            timelineDao().insertStatus(status)
+            timelineStatusDao().insert(status)
         }
         timelineDao().insertHomeTimelineItem(
             HomeTimelineEntity(

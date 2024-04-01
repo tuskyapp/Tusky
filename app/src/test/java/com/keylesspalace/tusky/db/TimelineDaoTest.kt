@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
+import com.keylesspalace.tusky.db.dao.CleanupDao
 import com.keylesspalace.tusky.db.dao.TimelineDao
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -22,6 +23,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class TimelineDaoTest {
     private lateinit var timelineDao: TimelineDao
+    private lateinit var cleanupDao: CleanupDao
     private lateinit var db: AppDatabase
 
     @Before
@@ -32,6 +34,7 @@ class TimelineDaoTest {
             .allowMainThreadQueries()
             .build()
         timelineDao = db.timelineDao()
+        cleanupDao = db.cleanupDao()
     }
 
     @After
@@ -80,7 +83,7 @@ class TimelineDaoTest {
         db.insert(statusesBeforeCleanup - statusesBeforeCleanup[5], 1)
         db.insert(listOf(statusesBeforeCleanup[5]), 2)
 
-        timelineDao.cleanup(tuskyAccountId = 1, limit = 3)
+        cleanupDao.cleanupOldData(tuskyAccountId = 1, timelineLimit = 3, notificationLimit = 3)
 
         val loadedStatuses: MutableList<Pair<Long, String>> = mutableListOf()
         val statusesCursor = db.query("SELECT tuskyAccountId, serverId FROM TimelineStatusEntity ORDER BY tuskyAccountId, serverId", null)
