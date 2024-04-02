@@ -721,4 +721,126 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeSelfBoosts` INTEGER NOT NULL DEFAULT 1");
         }
     };
+
+    public static final Migration MIGRATION_58_60 = new Migration(58, 60) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // drop the old tables - they are only caches anyway
+            database.execSQL("DROP TABLE `TimelineStatusEntity`");
+            database.execSQL("DROP TABLE `TimelineAccountEntity`");
+
+            // create the new tables
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (
+                `serverId` TEXT NOT NULL,
+                `tuskyAccountId` INTEGER NOT NULL,
+                `localUsername` TEXT NOT NULL,
+                `username` TEXT NOT NULL,
+                `displayName` TEXT NOT NULL,
+                `url` TEXT NOT NULL,
+                `avatar` TEXT NOT NULL,
+                `emojis` TEXT NOT NULL,
+                `bot` INTEGER NOT NULL,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`)
+                )"""
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (
+                `serverId` TEXT NOT NULL,
+                `url` TEXT,
+                `tuskyAccountId` INTEGER NOT NULL,
+                `authorServerId` TEXT NOT NULL,
+                `inReplyToId` TEXT,
+                `inReplyToAccountId` TEXT,
+                `content` TEXT NOT NULL,
+                `createdAt` INTEGER NOT NULL,
+                `editedAt` INTEGER,
+                `emojis` TEXT,
+                `reblogsCount` INTEGER NOT NULL,
+                `favouritesCount` INTEGER NOT NULL,
+                `repliesCount` INTEGER NOT NULL,
+                `reblogged` INTEGER NOT NULL,
+                `bookmarked` INTEGER NOT NULL,
+                `favourited` INTEGER NOT NULL,
+                `sensitive` INTEGER NOT NULL,
+                `spoilerText` TEXT NOT NULL,
+                `visibility` INTEGER NOT NULL,
+                `attachments` TEXT,
+                `mentions` TEXT,
+                `tags` TEXT,
+                `application` TEXT,
+                `poll` TEXT,
+                `muted` INTEGER,
+                `expanded` INTEGER NOT NULL,
+                `contentCollapsed` INTEGER NOT NULL,
+                `contentShowing` INTEGER NOT NULL,
+                `pinned` INTEGER NOT NULL,
+                `card` TEXT, `language` TEXT,
+                `filtered` TEXT,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`),
+                FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_tuskyAccountId` ON `TimelineStatusEntity` (`authorServerId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `HomeTimelineEntity` (
+                `tuskyAccountId` INTEGER NOT NULL,
+                `id` TEXT NOT NULL,
+                `statusId` TEXT,
+                `reblogAccountId` TEXT,
+                `loading` INTEGER NOT NULL,
+                PRIMARY KEY(`id`, `tuskyAccountId`),
+                FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`reblogAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_statusId_tuskyAccountId` ON `HomeTimelineEntity` (`statusId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_reblogAccountId_tuskyAccountId` ON `HomeTimelineEntity` (`reblogAccountId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `NotificationReportEntity`(
+                `tuskyAccountId` INTEGER NOT NULL,
+                `serverId` TEXT NOT NULL,
+                `category` TEXT NOT NULL,
+                `statusIds` TEXT,
+                `createdAt` INTEGER NOT NULL,
+                `targetAccountId` TEXT,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`),
+                FOREIGN KEY(`targetAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationReportEntity_targetAccountId_tuskyAccountId` ON `NotificationReportEntity` (`targetAccountId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `NotificationEntity` (
+                `tuskyAccountId` INTEGER NOT NULL,
+                `type` TEXT,
+                `id` TEXT NOT NULL,
+                `accountId` TEXT,
+                `statusId` TEXT,
+                `reportId` TEXT,
+                `loading` INTEGER NOT NULL,
+                PRIMARY KEY(`id`, `tuskyAccountId`),
+                FOREIGN KEY(`accountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`reportId`, `tuskyAccountId`) REFERENCES `NotificationReportEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_accountId_tuskyAccountId` ON `NotificationEntity` (`accountId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_statusId_tuskyAccountId` ON `NotificationEntity` (`statusId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_reportId_tuskyAccountId` ON `NotificationEntity` (`reportId`, `tuskyAccountId`)"
+            );
+        }
+    };
 }
