@@ -22,7 +22,6 @@ import android.os.Looper.getMainLooper
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
-import com.google.gson.Gson
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountManager
@@ -31,6 +30,7 @@ import com.keylesspalace.tusky.db.dao.InstanceDao
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.EmojisEntity
 import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
+import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.entity.InstanceV1
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.StatusConfiguration
 import com.keylesspalace.tusky.network.MastodonApi
+import com.squareup.moshi.adapter
 import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -98,7 +99,7 @@ class ComposeActivityTest {
     private var instanceV1ResponseCallback: (() -> InstanceV1)? = null
     private var instanceResponseCallback: (() -> Instance)? = null
     private var composeOptions: ComposeActivity.ComposeOptions? = null
-    private val gson = Gson()
+    private val moshi = NetworkModule.providesMoshi()
 
     @Before
     fun setupActivity() {
@@ -583,7 +584,7 @@ class ComposeActivityTest {
 
     private fun getConfiguration(maximumStatusCharacters: Int?, charactersReservedPerUrl: Int?): Instance.Configuration {
         return Instance.Configuration(
-            Instance.Configuration.Urls(streamingApi = ""),
+            Instance.Configuration.Urls(),
             Instance.Configuration.Accounts(1),
             Instance.Configuration.Statuses(
                 maximumStatusCharacters ?: InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT,
@@ -622,8 +623,9 @@ class ComposeActivityTest {
         )
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getSampleFriendicaInstance(): Instance {
-        return gson.fromJson(sampleFriendicaResponse, Instance::class.java)
+        return moshi.adapter<Instance>().fromJson(sampleFriendicaResponse)!!
     }
 
     companion object {

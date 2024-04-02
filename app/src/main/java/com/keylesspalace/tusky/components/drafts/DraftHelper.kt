@@ -101,16 +101,17 @@ class DraftHelper @Inject constructor(
             }
         }
 
-        val attachments: MutableList<DraftAttachment> = mutableListOf()
-        for (i in mediaUris.indices) {
-            attachments.add(
-                DraftAttachment(
-                    uriString = uris[i].toString(),
-                    description = mediaDescriptions[i],
-                    focus = mediaFocus[i],
-                    type = types[i]
+        val attachments: List<DraftAttachment> = buildList(mediaUris.size) {
+            for (i in mediaUris.indices) {
+                add(
+                    DraftAttachment(
+                        uriString = uris[i].toString(),
+                        description = mediaDescriptions[i],
+                        focus = mediaFocus[i],
+                        type = types[i]
+                    )
                 )
-            )
+            }
         }
 
         val draft = DraftEntity(

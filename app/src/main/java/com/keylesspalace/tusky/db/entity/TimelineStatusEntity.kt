@@ -54,7 +54,7 @@ data class TimelineStatusEntity(
     val content: String,
     val createdAt: Long,
     val editedAt: Long?,
-    val emojis: String?,
+    val emojis: String,
     val reblogsCount: Int,
     val favouritesCount: Int,
     val repliesCount: Int,
@@ -64,13 +64,13 @@ data class TimelineStatusEntity(
     val sensitive: Boolean,
     val spoilerText: String,
     val visibility: Status.Visibility,
-    val attachments: String?,
-    val mentions: String?,
-    val tags: String?,
+    val attachments: String,
+    val mentions: String,
+    val tags: String,
     val application: String?,
     // if it has a reblogged status, it's id is stored here
     val poll: String?,
-    val muted: Boolean?,
+    val muted: Boolean,
     /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
     val expanded: Boolean,
     val contentCollapsed: Boolean,
@@ -78,5 +78,5 @@ data class TimelineStatusEntity(
     val pinned: Boolean,
     val card: String?,
     val language: String?,
-    val filtered: List<FilterResult>?
+    val filtered: List<FilterResult>
 )

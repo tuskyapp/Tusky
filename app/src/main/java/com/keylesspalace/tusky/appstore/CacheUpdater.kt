@@ -1,8 +1,10 @@
 package com.keylesspalace.tusky.appstore
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.entity.Poll
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +16,12 @@ import kotlinx.coroutines.launch
  * Updates the database cache in response to events.
  * This is important for the home timeline and notifications to be up to date.
  */
+@OptIn(ExperimentalStdlibApi::class)
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
     accountManager: AccountManager,
     appDatabase: AppDatabase,
-    gson: Gson
+    moshi: Moshi
 ) {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -35,7 +38,7 @@ class CacheUpdater @Inject constructor(
                     is StatusChangedEvent -> statusDao.update(
                         tuskyAccountId = tuskyAccountId,
                         status = event.status,
-                        gson = gson
+                        moshi = moshi
                     )
 
                     is UnfollowEvent -> timelineDao.removeStatusesAndReblogsByUser(tuskyAccountId, event.accountId)
@@ -54,7 +57,7 @@ class CacheUpdater @Inject constructor(
                     }
 
                     is PollVoteEvent -> {
-                        val pollString = gson.toJson(event.poll)
+                        val pollString = moshi.adapter<Poll>().toJson(event.poll)
                         statusDao.setVoted(tuskyAccountId, event.statusId, pollString)
                     }
                 }

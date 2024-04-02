@@ -30,7 +30,6 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
@@ -52,6 +51,7 @@ import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -75,7 +75,7 @@ class NotificationsViewModel @Inject constructor(
     private val preferences: SharedPreferences,
     private val filterModel: FilterModel,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val moshi: Moshi
 ) : ViewModel() {
 
     private val _filters = MutableStateFlow(
@@ -86,7 +86,7 @@ class NotificationsViewModel @Inject constructor(
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
-    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, gson, filters.value)
+    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, moshi, filters.value)
 
     private var readingOrder: ReadingOrder =
         ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
@@ -109,7 +109,7 @@ class NotificationsViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { notification ->
                 val translation = translations[notification.status?.serverId]
                 notification.toViewData(
-                    gson,
+                    moshi,
                     translation = translation
                 )
             }.filter(Dispatchers.Default.asExecutor()) { notificationViewData ->
@@ -321,7 +321,6 @@ class NotificationsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val timelineDao = db.timelineDao()
                 val statusDao = db.timelineStatusDao()
                 val accountDao = db.timelineAccountDao()
 
@@ -339,18 +338,18 @@ class NotificationsViewModel @Inject constructor(
                     }
 
                     for (notification in notifications) {
-                        accountDao.insert(notification.account.toEntity(activeAccount.id, gson))
+                        accountDao.insert(notification.account.toEntity(activeAccount.id, moshi))
                         notification.report?.let { report ->
-                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id, gson))
+                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id, moshi))
                             notificationsDao.insertReport(report.toEntity(activeAccount.id))
                         }
                         notification.status?.let { status ->
-                            accountDao.insert(status.account.toEntity(activeAccount.id, gson))
+                            accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
 
                             statusDao.insert(
                                 status.toEntity(
                                     tuskyAccountId = activeAccount.id,
-                                    gson = gson,
+                                    moshi = moshi,
                                     expanded = activeAccount.alwaysOpenSpoiler,
                                     contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.sensitive,
                                     contentCollapsed = true

@@ -21,11 +21,11 @@ import androidx.core.net.toUri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 @Entity
@@ -47,21 +47,18 @@ data class DraftEntity(
     val statusId: String?
 )
 
-/**
- * The alternate names are here because we accidentally published versions were DraftAttachment was minified
- * Tusky 15: uriString = e, description = f, type = g
- * Tusky 16 beta: uriString = i, description = j, type = k
- */
+@JsonClass(generateAdapter = true)
 @Parcelize
 data class DraftAttachment(
-    @SerializedName(value = "uriString", alternate = ["e", "i"]) val uriString: String,
-    @SerializedName(value = "description", alternate = ["f", "j"]) val description: String?,
-    @SerializedName(value = "focus") val focus: Attachment.Focus?,
-    @SerializedName(value = "type", alternate = ["g", "k"]) val type: Type
+    val uriString: String,
+    val description: String?,
+    val focus: Attachment.Focus?,
+    val type: Type
 ) : Parcelable {
     val uri: Uri
         get() = uriString.toUri()
 
+    @JsonClass(generateAdapter = false)
     enum class Type {
         IMAGE,
         VIDEO,

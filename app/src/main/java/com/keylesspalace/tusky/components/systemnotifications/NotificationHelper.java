@@ -840,7 +840,7 @@ public class NotificationHelper {
                         PollOption option = options.get(i);
                         builder.append(buildDescription(option.getTitle(),
                                 PollViewDataKt.calculatePercent(option.getVotesCount(), poll.getVotersCount(), poll.getVotesCount()),
-                                poll.getOwnVotes() != null && poll.getOwnVotes().contains(i),
+                                poll.getOwnVotes().contains(i),
                                 context));
                         builder.append('\n');
                     }

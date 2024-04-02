@@ -21,12 +21,18 @@ import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.TypeConverters
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Card
+import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 
 @Dao
 abstract class TimelineStatusDao(
@@ -52,13 +58,14 @@ AND s.tuskyAccountId = :tuskyAccountId"""
     )
     abstract suspend fun getStatus(tuskyAccountId: Long, statusId: String): TimelineStatusEntity?
 
-    suspend fun update(tuskyAccountId: Long, status: Status, gson: Gson) {
+    @OptIn(ExperimentalStdlibApi::class)
+    suspend fun update(tuskyAccountId: Long, status: Status, moshi: Moshi) {
         update(
             tuskyAccountId = tuskyAccountId,
             statusId = status.id,
             content = status.content,
             editedAt = status.editedAt?.time,
-            emojis = gson.toJson(status.emojis),
+            emojis = moshi.adapter<List<Emoji>?>().toJson(status.emojis),
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
             repliesCount = status.repliesCount,
@@ -68,13 +75,13 @@ AND s.tuskyAccountId = :tuskyAccountId"""
             sensitive = status.sensitive,
             spoilerText = status.spoilerText,
             visibility = status.visibility,
-            attachments = gson.toJson(status.attachments),
-            mentions = gson.toJson(status.mentions),
-            tags = gson.toJson(status.tags),
-            poll = gson.toJson(status.poll),
+            attachments = moshi.adapter<List<Attachment>?>().toJson(status.attachments),
+            mentions = moshi.adapter<List<Status.Mention>?>().toJson(status.mentions),
+            tags = moshi.adapter<List<HashTag>?>().toJson(status.tags),
+            poll = moshi.adapter<Poll?>().toJson(status.poll),
             muted = status.muted,
-            pinned = status.pinned ?: false,
-            card = gson.toJson(status.card),
+            pinned = status.pinned,
+            card = moshi.adapter<Card?>().toJson(status.card),
             language = status.language
         )
     }

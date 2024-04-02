@@ -21,7 +21,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -31,6 +30,7 @@ import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -38,7 +38,7 @@ class NotificationsRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val gson: Gson,
+    private val moshi: Moshi,
     var excludes: Set<Notification.Type>
 ) : RemoteMediator<Int, NotificationDataEntity>() {
 
@@ -148,9 +148,9 @@ class NotificationsRemoteMediator(
         }
 
         for (notification in notifications) {
-            accountDao.insert(notification.account.toEntity(activeAccount.id, gson))
+            accountDao.insert(notification.account.toEntity(activeAccount.id, moshi))
             notification.report?.let { report ->
-                accountDao.insert(report.targetAccount.toEntity(activeAccount.id, gson))
+                accountDao.insert(report.targetAccount.toEntity(activeAccount.id, moshi))
                 notificationsDao.insertReport(report.toEntity(activeAccount.id))
             }
 
@@ -169,12 +169,12 @@ class NotificationsRemoteMediator(
                 val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.sensitive)
                 val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-                accountDao.insert(status.account.toEntity(activeAccount.id, gson))
+                accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
 
                 statusDao.insert(
                     status.toEntity(
                         tuskyAccountId = activeAccount.id,
-                        gson = gson,
+                        moshi = moshi,
                         expanded = expanded,
                         contentShowing = contentShowing,
                         contentCollapsed = contentCollapsed

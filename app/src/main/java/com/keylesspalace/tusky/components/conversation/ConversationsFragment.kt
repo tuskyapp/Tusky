@@ -300,7 +300,7 @@ class ConversationsFragment :
             val popup = PopupMenu(requireContext(), view)
             popup.inflate(R.menu.conversation_more)
 
-            if (conversation.lastStatus.status.muted == true) {
+            if (conversation.lastStatus.status.muted) {
                 popup.menu.removeItem(R.id.status_mute_conversation)
             } else {
                 popup.menu.removeItem(R.id.status_unmute_conversation)

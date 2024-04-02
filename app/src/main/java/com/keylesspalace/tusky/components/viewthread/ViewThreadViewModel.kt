@@ -25,7 +25,6 @@ import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
@@ -45,6 +44,7 @@ import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -65,7 +65,7 @@ class ViewThreadViewModel @Inject constructor(
     eventHub: EventHub,
     private val accountManager: AccountManager,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val moshi: Moshi
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
@@ -113,9 +113,8 @@ class ViewThreadViewModel @Inject constructor(
 
             var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
-
                 StatusViewData.Concrete(
-                    status = statusAndAccount.first.toStatus(gson, statusAndAccount.second),
+                    status = statusAndAccount.first.toStatus(moshi, statusAndAccount.second),
                     isExpanded = statusAndAccount.first.expanded,
                     isShowingContent = statusAndAccount.first.contentShowing,
                     isCollapsed = statusAndAccount.first.contentCollapsed,
@@ -145,7 +144,7 @@ class ViewThreadViewModel @Inject constructor(
                     db.timelineStatusDao().update(
                         tuskyAccountId = accountManager.activeAccount!!.id,
                         status = result,
-                        gson = gson
+                        moshi = moshi
                     )
                     detailedStatus = result.toViewData(isDetailed = true)
                 }
@@ -516,7 +515,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun clearWarning(viewData: StatusViewData.Concrete) {
         updateStatus(viewData.id) { status ->
-            status.copy(filtered = null)
+            status.copy(filtered = emptyList())
         }
     }
 

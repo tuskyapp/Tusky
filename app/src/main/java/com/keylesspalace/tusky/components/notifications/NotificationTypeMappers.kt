@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.notifications
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.toStatus
@@ -28,6 +27,7 @@ import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 
 fun Placeholder.toNotificationEntity(tuskyAccountId: Long): NotificationEntity {
     return NotificationEntity(
@@ -65,7 +65,7 @@ fun Report.toEntity(
 )
 
 fun NotificationDataEntity.toViewData(
-    gson: Gson,
+    moshi: Moshi,
     translation: TranslationViewData? = null
 ): NotificationViewData {
     if (type == null) {
@@ -75,10 +75,10 @@ fun NotificationDataEntity.toViewData(
     return NotificationViewData.Concrete(
         id = id,
         type = type,
-        account = account.toAccount(gson),
+        account = account.toAccount(moshi),
         statusViewData = if (status != null && statusAccount != null) {
             StatusViewData.Concrete(
-                status = status.toStatus(gson, statusAccount),
+                status = status.toStatus(moshi, statusAccount),
                 isExpanded = this.status.expanded,
                 isShowingContent = this.status.contentShowing,
                 isCollapsed = this.status.contentCollapsed,
@@ -88,7 +88,7 @@ fun NotificationDataEntity.toViewData(
             null
         },
         report = if (report != null && reportTargetAccount != null) {
-            report.toReport(reportTargetAccount, gson)
+            report.toReport(reportTargetAccount, moshi)
         } else {
             null
         }
@@ -97,11 +97,11 @@ fun NotificationDataEntity.toViewData(
 
 fun NotificationReportEntity.toReport(
     account: TimelineAccountEntity,
-    gson: Gson
+    moshi: Moshi
 ) = Report(
     id = serverId,
     category = category,
     statusIds = statusIds,
     createdAt = createdAt,
-    targetAccount = account.toAccount(gson)
+    targetAccount = account.toAccount(moshi)
 )

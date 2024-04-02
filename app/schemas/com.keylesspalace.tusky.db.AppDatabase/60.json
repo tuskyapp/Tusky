@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 60,
-    "identityHash": "668f612ff84a3702c1b7188d05360e21",
+    "identityHash": "1f8ec0c172cc1cae16313d737f6f8e34",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -530,7 +530,7 @@
       },
       {
         "tableName": "TimelineStatusEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT, `mentions` TEXT, `tags` TEXT, `application` TEXT, `poll` TEXT, `muted` INTEGER, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `url` TEXT, `tuskyAccountId` INTEGER NOT NULL, `authorServerId` TEXT NOT NULL, `inReplyToId` TEXT, `inReplyToAccountId` TEXT, `content` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `editedAt` INTEGER, `emojis` TEXT NOT NULL, `reblogsCount` INTEGER NOT NULL, `favouritesCount` INTEGER NOT NULL, `repliesCount` INTEGER NOT NULL, `reblogged` INTEGER NOT NULL, `bookmarked` INTEGER NOT NULL, `favourited` INTEGER NOT NULL, `sensitive` INTEGER NOT NULL, `spoilerText` TEXT NOT NULL, `visibility` INTEGER NOT NULL, `attachments` TEXT NOT NULL, `mentions` TEXT NOT NULL, `tags` TEXT NOT NULL, `application` TEXT, `poll` TEXT, `muted` INTEGER NOT NULL, `expanded` INTEGER NOT NULL, `contentCollapsed` INTEGER NOT NULL, `contentShowing` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, `card` TEXT, `language` TEXT, `filtered` TEXT NOT NULL, PRIMARY KEY(`serverId`, `tuskyAccountId`), FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -590,7 +590,7 @@
             "fieldPath": "emojis",
             "columnName": "emojis",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "reblogsCount",
@@ -650,19 +650,19 @@
             "fieldPath": "attachments",
             "columnName": "attachments",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "mentions",
             "columnName": "mentions",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "tags",
             "columnName": "tags",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "application",
@@ -680,7 +680,7 @@
             "fieldPath": "muted",
             "columnName": "muted",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "expanded",
@@ -722,7 +722,7 @@
             "fieldPath": "filtered",
             "columnName": "filtered",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -1319,7 +1319,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '668f612ff84a3702c1b7188d05360e21')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1f8ec0c172cc1cae16313d737f6f8e34')"
     ]
   }
 }

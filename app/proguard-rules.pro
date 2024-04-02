@@ -39,6 +39,7 @@
 
 # TUSKY SPECIFIC OPTIONS
 
+<<<<<<< HEAD
 # keep members of our model classes, they are used in json de/serialization
 -keepclassmembers class com.keylesspalace.tusky.entity.* { *; }
 
@@ -67,6 +68,8 @@
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
+=======
+>>>>>>> develop
 # preserve line numbers for crash reporting
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile

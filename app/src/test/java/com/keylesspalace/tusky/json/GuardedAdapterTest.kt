@@ -1,13 +1,17 @@
 package com.keylesspalace.tusky.json
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.entity.Relationship
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class GuardedBooleanAdapterTest {
+@OptIn(ExperimentalStdlibApi::class)
+class GuardedAdapterTest {
 
-    private val gson = Gson()
+    private val moshi = Moshi.Builder()
+        .add(GuardedAdapter.ANNOTATION_FACTORY)
+        .build()
 
     @Test
     fun `should deserialize Relationship when attribute 'subscribing' is a boolean`() {
@@ -45,7 +49,7 @@ class GuardedBooleanAdapterTest {
                 note = "Hi",
                 notifying = false
             ),
-            gson.fromJson(jsonInput, Relationship::class.java)
+            moshi.adapter<Relationship>().fromJson(jsonInput)
         )
     }
 
@@ -85,7 +89,7 @@ class GuardedBooleanAdapterTest {
                 note = "Hi",
                 notifying = false
             ),
-            gson.fromJson(jsonInput, Relationship::class.java)
+            moshi.adapter<Relationship>().fromJson(jsonInput)
         )
     }
 
@@ -124,7 +128,7 @@ class GuardedBooleanAdapterTest {
                 note = "Hi",
                 notifying = false
             ),
-            gson.fromJson(jsonInput, Relationship::class.java)
+            moshi.adapter<Relationship>().fromJson(jsonInput)
         )
     }
 }

@@ -4,12 +4,12 @@ import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
 import com.keylesspalace.tusky.db.dao.CleanupDao
 import com.keylesspalace.tusky.db.dao.TimelineDao
+import com.keylesspalace.tusky.di.NetworkModule
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,11 +26,13 @@ class TimelineDaoTest {
     private lateinit var cleanupDao: CleanupDao
     private lateinit var db: AppDatabase
 
+    private val moshi = NetworkModule.providesMoshi()
+
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .addTypeConverter(Converters(Gson()))
+            .addTypeConverter(Converters(moshi))
             .allowMainThreadQueries()
             .build()
         timelineDao = db.timelineDao()

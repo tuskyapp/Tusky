@@ -1,10 +1,10 @@
 package com.keylesspalace.tusky.components.timeline
 
 import androidx.paging.PagingSource
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -68,7 +68,7 @@ fun mockStatus(
     poll = null,
     card = null,
     language = null,
-    filtered = null
+    filtered = emptyList()
 )
 
 fun mockStatusViewData(
@@ -112,25 +112,25 @@ fun mockHomeTimelineData(
         authorServerId = authorServerId,
         domain = domain
     )
-    val gson = Gson()
+    val moshi = NetworkModule.providesMoshi()
 
     return HomeTimelineData(
         id = id,
         status = mockedStatus.toEntity(
             tuskyAccountId = tuskyAccountId,
-            gson = gson,
+            moshi = moshi,
             expanded = expanded,
             contentShowing = false,
             contentCollapsed = true
         ),
         account = mockedStatus.account.toEntity(
             tuskyAccountId = tuskyAccountId,
-            gson = gson
+            moshi = moshi
         ),
         reblogAccount = if (reblog) {
             mockAccount(
                 authorServerId = "R$authorServerId"
-            ).toEntity(tuskyAccountId, gson)
+            ).toEntity(tuskyAccountId, moshi)
         } else {
             null
         },

@@ -136,7 +136,7 @@ internal class StatusNotificationViewHolder(
         binding.notificationNotificationAvatar.visible(show)
     }
 
-    private fun setDisplayName(name: String, emojis: List<Emoji>?, animateEmojis: Boolean) {
+    private fun setDisplayName(name: String, emojis: List<Emoji>, animateEmojis: Boolean) {
         val emojifiedName = name.emojify(emojis, binding.statusDisplayName, animateEmojis)
         binding.statusDisplayName.text = emojifiedName
     }
