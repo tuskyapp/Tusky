@@ -14,7 +14,8 @@ data class Filter(
     val context: List<String>,
     @Json(name = "expires_at") val expiresAt: Date? = null,
     @Json(name = "filter_action") val filterAction: String,
-    val keywords: List<FilterKeyword>,
+    // This field is mandatory according to the API documentation but is in fact optional in some instances
+    val keywords: List<FilterKeyword> = emptyList(),
     // val statuses: List<FilterStatus>,
 ) : Parcelable {
     enum class Action(val action: String) {
