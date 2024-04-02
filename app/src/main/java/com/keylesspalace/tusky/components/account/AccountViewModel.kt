@@ -45,8 +45,6 @@ class AccountViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
-    private var isDataLoading = false
-
     lateinit var accountId: String
     var isSelf = false
 
@@ -72,7 +70,6 @@ class AccountViewModel @Inject constructor(
 
     private fun obtainAccount(reload: Boolean = false) {
         if (_accountData.value == null || reload) {
-            isDataLoading = true
             _isRefreshing.value = true
             _accountData.value = Loading()
 
@@ -84,13 +81,11 @@ class AccountViewModel @Inject constructor(
                             isFromOwnDomain = domain == activeAccount.domain
 
                             _accountData.value = Success(account)
-                            isDataLoading = false
                             _isRefreshing.value = false
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
                             _accountData.value = Error(cause = t)
-                            isDataLoading = false
                             _isRefreshing.value = false
                         }
                     )
@@ -313,7 +308,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun reload(isReload: Boolean = false) {
-        if (isDataLoading) {
+        if (_isRefreshing.value) {
             return
         }
         accountId.let {
