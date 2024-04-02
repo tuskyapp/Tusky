@@ -13,11 +13,11 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package com.keylesspalace.tusky.components.timeline
 
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.keylesspalace.tusky.db.TimelineAccountEntity
 import com.keylesspalace.tusky.db.TimelineStatusEntity
 import com.keylesspalace.tusky.db.TimelineStatusWithAccount
@@ -30,6 +30,8 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import java.util.Date
 
 private const val TAG = "TimelineTypeMappers"
@@ -39,12 +41,7 @@ data class Placeholder(
     val loading: Boolean
 )
 
-private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
-private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
-private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
-private val tagListType = object : TypeToken<List<HashTag>>() {}.type
-
-fun TimelineAccount.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
+fun TimelineAccount.toEntity(accountId: Long, moshi: Moshi): TimelineAccountEntity {
     return TimelineAccountEntity(
         serverId = id,
         timelineUserId = accountId,
@@ -53,12 +50,12 @@ fun TimelineAccount.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity
         displayName = name,
         url = url,
         avatar = avatar,
-        emojis = gson.toJson(emojis),
+        emojis = moshi.adapter<List<Emoji>>().toJson(emojis),
         bot = bot
     )
 }
 
-fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
+fun TimelineAccountEntity.toAccount(moshi: Moshi): TimelineAccount {
     return TimelineAccount(
         id = serverId,
         localUsername = localUsername,
@@ -68,7 +65,7 @@ fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
         url = url,
         avatar = avatar,
         bot = bot,
-        emojis = gson.fromJson(emojis, emojisListType)
+        emojis = moshi.adapter<List<Emoji>?>().fromJson(emojis).orEmpty()
     )
 }
 
@@ -107,13 +104,13 @@ fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
         card = null,
         repliesCount = 0,
         language = null,
-        filtered = null
+        filtered = emptyList()
     )
 }
 
 fun Status.toEntity(
     timelineUserId: Long,
-    gson: Gson,
+    moshi: Moshi,
     expanded: Boolean,
     contentShowing: Boolean,
     contentCollapsed: Boolean
@@ -128,7 +125,7 @@ fun Status.toEntity(
         content = actionableStatus.content,
         createdAt = actionableStatus.createdAt.time,
         editedAt = actionableStatus.editedAt?.time,
-        emojis = actionableStatus.emojis.let(gson::toJson),
+        emojis = actionableStatus.emojis.let { moshi.adapter<List<Emoji>>().toJson(it) },
         reblogsCount = actionableStatus.reblogsCount,
         favouritesCount = actionableStatus.favouritesCount,
         reblogged = actionableStatus.reblogged,
@@ -137,44 +134,44 @@ fun Status.toEntity(
         sensitive = actionableStatus.sensitive,
         spoilerText = actionableStatus.spoilerText,
         visibility = actionableStatus.visibility,
-        attachments = actionableStatus.attachments.let(gson::toJson),
-        mentions = actionableStatus.mentions.let(gson::toJson),
-        tags = actionableStatus.tags.let(gson::toJson),
-        application = actionableStatus.application.let(gson::toJson),
+        attachments = actionableStatus.attachments.let { moshi.adapter<List<Attachment>>().toJson(it) },
+        mentions = actionableStatus.mentions.let { moshi.adapter<List<Status.Mention>>().toJson(it) },
+        tags = actionableStatus.tags.let { moshi.adapter<List<HashTag>?>().toJson(it) },
+        application = actionableStatus.application.let { moshi.adapter<Status.Application?>().toJson(it) },
         reblogServerId = reblog?.id,
         reblogAccountId = reblog?.let { this.account.id },
-        poll = actionableStatus.poll.let(gson::toJson),
+        poll = actionableStatus.poll.let { moshi.adapter<Poll?>().toJson(it) },
         muted = actionableStatus.muted,
         expanded = expanded,
         contentShowing = contentShowing,
         contentCollapsed = contentCollapsed,
-        pinned = actionableStatus.pinned == true,
-        card = actionableStatus.card?.let(gson::toJson),
+        pinned = actionableStatus.pinned,
+        card = actionableStatus.card?.let { moshi.adapter<Card>().toJson(it) },
         repliesCount = actionableStatus.repliesCount,
         language = actionableStatus.language,
         filtered = actionableStatus.filtered
     )
 }
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
+fun TimelineStatusWithAccount.toViewData(moshi: Moshi, isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
     if (this.account == null) {
         Log.d(TAG, "Constructing Placeholder(${this.status.serverId}, ${this.status.expanded})")
         return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
     }
 
-    val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
-    val mentions: List<Status.Mention> = gson.fromJson(status.mentions, mentionListType) ?: emptyList()
-    val tags: List<HashTag>? = gson.fromJson(status.tags, tagListType)
-    val application = gson.fromJson(status.application, Status.Application::class.java)
-    val emojis: List<Emoji> = gson.fromJson(status.emojis, emojisListType) ?: emptyList()
-    val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
-    val card: Card? = gson.fromJson(status.card, Card::class.java)
+    val attachments: List<Attachment> = status.attachments?.let { moshi.adapter<List<Attachment>?>().fromJson(it) }.orEmpty()
+    val mentions: List<Status.Mention> = status.mentions?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) }.orEmpty()
+    val tags: List<HashTag>? = status.tags?.let { moshi.adapter<List<HashTag>?>().fromJson(it) }
+    val application = status.application?.let { moshi.adapter<Status.Application?>().fromJson(it) }
+    val emojis: List<Emoji> = status.emojis?.let { moshi.adapter<List<Emoji>?>().fromJson(it) }.orEmpty()
+    val poll: Poll? = status.poll?.let { moshi.adapter<Poll?>().fromJson(it) }
+    val card: Card? = status.card?.let { moshi.adapter<Card?>().fromJson(it) }
 
     val reblog = status.reblogServerId?.let { id ->
         Status(
             id = id,
             url = status.url,
-            account = account.toAccount(gson),
+            account = account.toAccount(moshi),
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = null,
@@ -195,12 +192,12 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             tags = tags,
             application = application,
             pinned = false,
-            muted = status.muted,
+            muted = status.muted ?: false,
             poll = poll,
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
-            filtered = status.filtered,
+            filtered = status.filtered.orEmpty(),
         )
     }
     val status = if (reblog != null) {
@@ -208,7 +205,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             id = status.serverId,
             // no url for reblogs
             url = null,
-            account = this.reblogAccount!!.toAccount(gson),
+            account = this.reblogAccount!!.toAccount(moshi),
             inReplyToId = null,
             inReplyToAccountId = null,
             reblog = reblog,
@@ -216,7 +213,7 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             // lie but whatever?
             createdAt = Date(status.createdAt),
             editedAt = null,
-            emojis = listOf(),
+            emojis = emptyList(),
             reblogsCount = 0,
             favouritesCount = 0,
             reblogged = false,
@@ -225,23 +222,23 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             sensitive = false,
             spoilerText = "",
             visibility = status.visibility,
-            attachments = ArrayList(),
-            mentions = listOf(),
-            tags = listOf(),
+            attachments = emptyList(),
+            mentions = emptyList(),
+            tags = emptyList(),
             application = null,
             pinned = status.pinned,
-            muted = status.muted,
+            muted = status.muted ?: false,
             poll = null,
             card = null,
             repliesCount = status.repliesCount,
             language = status.language,
-            filtered = status.filtered
+            filtered = status.filtered.orEmpty()
         )
     } else {
         Status(
             id = status.serverId,
             url = status.url,
-            account = account.toAccount(gson),
+            account = account.toAccount(moshi),
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
             reblog = null,
@@ -262,12 +259,12 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson, isDetailed: Boolean = false
             tags = tags,
             application = application,
             pinned = status.pinned,
-            muted = status.muted,
+            muted = status.muted ?: false,
             poll = poll,
             card = card,
             repliesCount = status.repliesCount,
             language = status.language,
-            filtered = status.filtered
+            filtered = status.filtered.orEmpty()
         )
     }
     return StatusViewData.Concrete(

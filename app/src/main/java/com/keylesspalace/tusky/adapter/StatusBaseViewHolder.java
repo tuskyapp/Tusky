@@ -815,7 +815,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setTranslationStatus(status, listener);
 
-            setRebloggingEnabled(actionable.rebloggingAllowed(), actionable.getVisibility());
+            setRebloggingEnabled(actionable.isRebloggingAllowed(), actionable.getVisibility());
 
             setSpoilerAndContent(status, statusDisplayOptions, listener);
 

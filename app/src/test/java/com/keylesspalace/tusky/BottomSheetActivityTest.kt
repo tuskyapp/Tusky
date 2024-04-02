@@ -94,7 +94,7 @@ class BottomSheetActivityTest {
         poll = null,
         card = null,
         language = null,
-        filtered = null
+        filtered = emptyList()
     )
     private val statusResult = NetworkResult.success(SearchResult(emptyList(), listOf(status), emptyList()))
 

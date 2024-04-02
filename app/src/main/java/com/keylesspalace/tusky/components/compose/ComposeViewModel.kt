@@ -386,7 +386,7 @@ class ComposeViewModel @Inject constructor(
         val tootToSend = StatusToSend(
             text = content,
             warningText = spoilerText,
-            visibility = _statusVisibility.value.serverString(),
+            visibility = _statusVisibility.value.serverString,
             sensitive = attachedMedia.isNotEmpty() && (_markMediaAsSensitive.value || _showContentWarning.value),
             media = attachedMedia,
             scheduledAt = _scheduledAt.value,
