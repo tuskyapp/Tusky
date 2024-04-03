@@ -103,10 +103,10 @@ internal class StatusNotificationViewHolder(
                 }
 
                 binding.notificationContainer.setOnClickListener {
-                    // TODO
+                    statusActionListener.onViewThread(bindingAdapterPosition)
                 }
                 binding.notificationContent.setOnClickListener {
-                    // TODO
+                    statusActionListener.onViewThread(bindingAdapterPosition)
                 }
                 binding.notificationTopText.setOnClickListener {
                     statusActionListener.onViewAccount(viewData.account.id)
