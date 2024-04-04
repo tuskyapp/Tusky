@@ -89,7 +89,9 @@ interface MastodonApi {
     ): NetworkResult<InstanceV1>
 
     @GET("api/v2/instance")
-    suspend fun getInstance(): NetworkResult<Instance>
+    suspend fun getInstance(
+        @Header(DOMAIN_HEADER) domain: String? = null
+    ): NetworkResult<Instance>
 
     @GET("api/v1/filters")
     suspend fun getFiltersV1(): NetworkResult<List<FilterV1>>
