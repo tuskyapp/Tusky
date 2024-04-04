@@ -125,21 +125,21 @@ class CachedTimelineViewModel @Inject constructor(
     override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+                .setExpanded(accountManager.activeAccount!!.id, status.actionableId, expanded)
         }
     }
 
     override fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
+                .setContentShowing(accountManager.activeAccount!!.id, status.actionableId, isShowing)
         }
     }
 
     override fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
+                .setContentCollapsed(accountManager.activeAccount!!.id, status.actionableId, isCollapsed)
         }
     }
 
