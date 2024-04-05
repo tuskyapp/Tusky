@@ -488,8 +488,16 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     private fun setupRefreshLayout() {
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         lifecycleScope.launch {
-            viewModel.isRefreshing.collect {
-                binding.swipeToRefreshLayout.isRefreshing = it
+            viewModel.refreshState.collect {
+                when (it) {
+                    AccountViewModel.RefreshState.INITIAL -> Unit
+                    AccountViewModel.RefreshState.REFRESHING -> {
+                        binding.swipeToRefreshLayout.isRefreshing = true
+                    }
+                    AccountViewModel.RefreshState.IDLE -> {
+                        binding.swipeToRefreshLayout.isRefreshing = false
+                    }
+                }
             }
         }
         binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)

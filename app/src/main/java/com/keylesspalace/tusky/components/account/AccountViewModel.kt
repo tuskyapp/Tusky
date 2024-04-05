@@ -42,8 +42,8 @@ class AccountViewModel @Inject constructor(
     private val _noteSaved = MutableStateFlow(false)
     val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
 
-    private val _isRefreshing = MutableStateFlow(false)
-    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+    private val _refreshState = MutableStateFlow(RefreshState.INITIAL)
+    val refreshState: StateFlow<RefreshState> = _refreshState.asStateFlow()
 
     lateinit var accountId: String
     var isSelf = false
@@ -70,7 +70,7 @@ class AccountViewModel @Inject constructor(
 
     private fun obtainAccount(reload: Boolean = false) {
         if (_accountData.value == null || reload) {
-            _isRefreshing.value = true
+            _refreshState.value = RefreshState.REFRESHING
             _accountData.value = Loading()
 
             viewModelScope.launch {
@@ -81,12 +81,12 @@ class AccountViewModel @Inject constructor(
                             isFromOwnDomain = domain == activeAccount.domain
 
                             _accountData.value = Success(account)
-                            _isRefreshing.value = false
+                            _refreshState.value = RefreshState.IDLE
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
                             _accountData.value = Error(cause = t)
-                            _isRefreshing.value = false
+                            _refreshState.value = RefreshState.IDLE
                         }
                     )
             }
@@ -308,7 +308,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun reload(isReload: Boolean = false) {
-        if (_isRefreshing.value) {
+        if (_refreshState.value == RefreshState.REFRESHING) {
             return
         }
         accountId.let {
@@ -334,6 +334,12 @@ class AccountViewModel @Inject constructor(
         UNMUTE,
         SUBSCRIBE,
         UNSUBSCRIBE
+    }
+
+    enum class RefreshState {
+        INITIAL,
+        REFRESHING,
+        IDLE
     }
 
     companion object {
