@@ -156,7 +156,7 @@ class CachedTimelineRemoteMediator(
             var oldStatus: TimelineStatusEntity? = null
             for (page in state.pages) {
                 oldStatus = page.data.find { s ->
-                    s.status?.serverId == status.id
+                    s.status?.serverId == status.actionableId
                 }?.status
                 if (oldStatus != null) break
             }
