@@ -69,7 +69,7 @@ AND
      */
     @Query(
         """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND
-            (id IN
+            (statusId IN
             (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
             OR reblogAccountId == :userId)
         """
@@ -82,10 +82,10 @@ AND
      */
     @Query(
         """DELETE FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND
-            (id IN
+            ((statusId IN
             (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
+            AND reblogAccountId IS NULL)
             OR reblogAccountId == :userId)
-            AND reblogAccountId != :userId
         """
     )
     abstract suspend fun removeStatusesAndReblogsByUser(tuskyAccountId: Long, userId: String)

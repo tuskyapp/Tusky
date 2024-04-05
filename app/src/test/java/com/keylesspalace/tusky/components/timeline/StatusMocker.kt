@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.components.timeline
 
 import androidx.paging.PagingSource
+import androidx.room.withTransaction
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
@@ -14,10 +15,10 @@ import org.junit.Assert
 private val fixedDate = Date(1638889052000)
 
 fun mockAccount(
-    authorServerId: String = "100",
+    id: String = "100",
     domain: String = "mastodon.example"
 ) = TimelineAccount(
-    id = authorServerId,
+    id = id,
     localUsername = "connyduck",
     username = "connyduck@$domain",
     displayName = "Conny Duck",
@@ -40,7 +41,7 @@ fun mockStatus(
     id = id,
     url = "https://$domain/@ConnyDuck/$id",
     account = mockAccount(
-        authorServerId = authorServerId,
+        id = authorServerId,
         domain = domain
     ),
     inReplyToId = inReplyToId,
@@ -101,14 +102,15 @@ fun mockStatusViewData(
 
 fun mockHomeTimelineData(
     id: String = "100",
+    statusId: String = id,
     tuskyAccountId: Long = 1,
     authorServerId: String = "100",
     expanded: Boolean = false,
     domain: String = "mastodon.example",
-    reblog: Boolean = false
+    reblogAuthorServerId: String? = null
 ): HomeTimelineData {
     val mockedStatus = mockStatus(
-        id = id,
+        id = statusId,
         authorServerId = authorServerId,
         domain = domain
     )
@@ -127,12 +129,13 @@ fun mockHomeTimelineData(
             tuskyAccountId = tuskyAccountId,
             moshi = moshi
         ),
-        reblogAccount = if (reblog) {
+        reblogAccount = reblogAuthorServerId?.let { reblogAuthorId ->
             mockAccount(
-                authorServerId = "R$authorServerId"
-            ).toEntity(tuskyAccountId, moshi)
-        } else {
-            null
+                id = reblogAuthorId
+            ).toEntity(
+                tuskyAccountId = tuskyAccountId,
+                moshi = moshi
+            )
         },
         loading = false
     )
@@ -148,7 +151,7 @@ fun mockPlaceholderHomeTimelineData(
     loading = false
 )
 
-suspend fun AppDatabase.insert(timelineItems: List<HomeTimelineData>, tuskyAccountId: Long = 1) {
+suspend fun AppDatabase.insert(timelineItems: List<HomeTimelineData>, tuskyAccountId: Long = 1) = withTransaction {
     timelineItems.forEach { timelineItem ->
         timelineItem.account?.let { account ->
             timelineAccountDao().insert(account)

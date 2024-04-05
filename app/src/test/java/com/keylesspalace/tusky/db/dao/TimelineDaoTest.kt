@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Room
@@ -7,8 +7,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
-import com.keylesspalace.tusky.db.dao.CleanupDao
-import com.keylesspalace.tusky.db.dao.TimelineDao
+import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.di.NetworkModule
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -47,7 +47,7 @@ class TimelineDaoTest {
     @Test
     fun insertGetStatus() = runTest {
         val setOne = mockHomeTimelineData(id = "3")
-        val setTwo = mockHomeTimelineData(id = "20", reblog = true)
+        val setTwo = mockHomeTimelineData(id = "20", reblogAuthorServerId = "R1")
         val ignoredOne = mockHomeTimelineData(id = "1")
         val ignoredTwo = mockHomeTimelineData(id = "2", tuskyAccountId = 2)
 
@@ -75,7 +75,7 @@ class TimelineDaoTest {
         val statusesBeforeCleanup = listOf(
             mockHomeTimelineData(id = "100", authorServerId = "100"),
             mockHomeTimelineData(id = "10", authorServerId = "3"),
-            mockHomeTimelineData(id = "8", reblog = true, authorServerId = "10"),
+            mockHomeTimelineData(id = "8", reblogAuthorServerId = "R10", authorServerId = "10"),
             mockHomeTimelineData(id = "5", authorServerId = "100"),
             mockHomeTimelineData(id = "3", authorServerId = "4"),
             mockHomeTimelineData(id = "2", tuskyAccountId = 2, authorServerId = "5"),
@@ -325,5 +325,95 @@ class TimelineDaoTest {
         db.insert(statusData)
 
         assertEquals("99", timelineDao.getTopPlaceholderId(1))
+    }
+
+    @Test
+    fun `should correctly delete all by user`() = runTest {
+        val statusData = listOf(
+            // will be deleted because it is a direct post
+            mockHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
+            // different author
+            mockHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
+            // different author and reblogger
+            mockHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
+            // will be deleted because it is a reblog
+            mockHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
+            // not a status
+            mockPlaceholderHomeTimelineData(id = "5"),
+            // will be deleted because it is a self reblog
+            mockHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
+            // will be deleted because it direct post reblogged by another user
+            mockHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
+        )
+
+        db.insert(statusData - statusData[1] - statusData[8] - statusData [9], tuskyAccountId = 1)
+        db.insert(listOf(statusData[1], statusData[8], statusData [9]), tuskyAccountId = 2)
+
+        timelineDao.removeAllByUser(1, "1")
+
+        val loadedHomeTimelineItems: MutableList<String> = mutableListOf()
+        val accountCursor = db.query("SELECT id FROM HomeTimelineEntity ORDER BY id ASC", null)
+        accountCursor.moveToFirst()
+        while (!accountCursor.isAfterLast) {
+            val id: String = accountCursor.getString(accountCursor.getColumnIndex("id"))
+            loadedHomeTimelineItems.add(id)
+            accountCursor.moveToNext()
+        }
+        accountCursor.close()
+
+        val expectedHomeTimelineItems = listOf("1", "2", "3", "5", "8", "9")
+
+        assertEquals(expectedHomeTimelineItems, loadedHomeTimelineItems)
+    }
+
+    @Test
+    fun `should correctly delete statuses and reblogs by user`() = runTest {
+        val statusData = listOf(
+            // will be deleted because it is a direct post
+            mockHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
+            // different author
+            mockHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
+            // different author and reblogger
+            mockHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
+            // will be deleted because it is a reblog
+            mockHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
+            // not a status
+            mockPlaceholderHomeTimelineData(id = "5"),
+            // will be deleted because it is a self reblog
+            mockHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
+            // will NOT be deleted because it direct post reblogged by another user
+            mockHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
+            // different Tusky Account
+            mockHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
+        )
+
+        db.insert(statusData - statusData[1] - statusData[8] - statusData [9], tuskyAccountId = 1)
+        db.insert(listOf(statusData[1], statusData[8], statusData [9]), tuskyAccountId = 2)
+
+        timelineDao.removeStatusesAndReblogsByUser(1, "1")
+
+        val loadedHomeTimelineItems: MutableList<String> = mutableListOf()
+        val accountCursor = db.query("SELECT id FROM HomeTimelineEntity ORDER BY id ASC", null)
+        accountCursor.moveToFirst()
+        while (!accountCursor.isAfterLast) {
+            val id: String = accountCursor.getString(accountCursor.getColumnIndex("id"))
+            loadedHomeTimelineItems.add(id)
+            accountCursor.moveToNext()
+        }
+        accountCursor.close()
+
+        val expectedHomeTimelineItems = listOf("1", "2", "3", "5", "7", "8", "9")
+
+        assertEquals(expectedHomeTimelineItems, loadedHomeTimelineItems)
     }
 }
