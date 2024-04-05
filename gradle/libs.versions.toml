@@ -32,7 +32,6 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
-gson = "2.10.1"
 kotlin = "1.9.23"
 image-cropper = "4.3.2"
 material = "1.11.0"
@@ -40,10 +39,11 @@ material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
 mockito-inline = "5.2.0"
 mockito-kotlin = "5.2.1"
+moshi = "1.15.1"
 networkresult-calladapter = "1.1.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
-robolectric = "4.12"
+robolectric = "4.12.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
 truth = "1.4.2"
@@ -107,7 +107,6 @@ glide-animation-plugin = { module = "com.github.penfeizhou.android.animation:gli
 glide-compiler = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 glide-core = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 image-cropper = { module = "com.github.CanHub:Android-Image-Cropper", version.ref = "image-cropper" }
@@ -117,10 +116,13 @@ material-typeface = { module = "com.mikepenz:google-material-typeface", version.
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito-inline" }
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+moshi-core = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 networkresult-calladapter = { module = "at.connyduck:networkresult-calladapter", version.ref = "networkresult-calladapter" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
@@ -143,7 +145,8 @@ filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-de
 glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]
 mockito = ["mockito-kotlin", "mockito-inline"]
+moshi = ["moshi-core", "moshi-adapters"]
 okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
-retrofit = ["retrofit-core", "retrofit-converter-gson"]
+retrofit = ["retrofit-core", "retrofit-converter-moshi"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 xmldiff = ["diffx", "xmlwriter"]

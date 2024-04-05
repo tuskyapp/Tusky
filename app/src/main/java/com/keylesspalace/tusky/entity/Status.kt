@@ -17,44 +17,47 @@ package com.keylesspalace.tusky.entity
 
 import android.text.SpannableStringBuilder
 import android.text.style.URLSpan
-import com.google.gson.annotations.SerializedName
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
+@JsonClass(generateAdapter = true)
 data class Status(
     val id: String,
     // not present if it's reblog
-    val url: String?,
+    val url: String? = null,
     val account: TimelineAccount,
-    @SerializedName("in_reply_to_id") val inReplyToId: String?,
-    @SerializedName("in_reply_to_account_id") val inReplyToAccountId: String?,
-    val reblog: Status?,
+    @Json(name = "in_reply_to_id") val inReplyToId: String? = null,
+    @Json(name = "in_reply_to_account_id") val inReplyToAccountId: String? = null,
+    val reblog: Status? = null,
     val content: String,
-    @SerializedName("created_at") val createdAt: Date,
-    @SerializedName("edited_at") val editedAt: Date?,
+    @Json(name = "created_at") val createdAt: Date,
+    @Json(name = "edited_at") val editedAt: Date? = null,
     val emojis: List<Emoji>,
-    @SerializedName("reblogs_count") val reblogsCount: Int,
-    @SerializedName("favourites_count") val favouritesCount: Int,
-    @SerializedName("replies_count") val repliesCount: Int,
-    val reblogged: Boolean,
-    val favourited: Boolean,
-    val bookmarked: Boolean,
+    @Json(name = "reblogs_count") val reblogsCount: Int,
+    @Json(name = "favourites_count") val favouritesCount: Int,
+    @Json(name = "replies_count") val repliesCount: Int,
+    val reblogged: Boolean = false,
+    val favourited: Boolean = false,
+    val bookmarked: Boolean = false,
     val sensitive: Boolean,
-    @SerializedName("spoiler_text") val spoilerText: String,
+    @Json(name = "spoiler_text") val spoilerText: String,
     val visibility: Visibility,
-    @SerializedName("media_attachments") val attachments: List<Attachment>,
+    @Json(name = "media_attachments") val attachments: List<Attachment>,
     val mentions: List<Mention>,
-    val tags: List<HashTag>?,
-    val application: Application?,
-    val pinned: Boolean?,
-    val muted: Boolean?,
-    val poll: Poll?,
+    // Use null to mark the absence of tags because of semantic differences in LinkHelper
+    val tags: List<HashTag>? = null,
+    val application: Application? = null,
+    val pinned: Boolean = false,
+    val muted: Boolean = false,
+    val poll: Poll? = null,
     /** Preview card for links included within status content. */
-    val card: Card?,
+    val card: Card? = null,
     /** ISO 639 language code for this status. */
-    val language: String?,
+    val language: String? = null,
     /** If the current token has an authorized user: The filter and keywords that matched this status. */
-    val filtered: List<FilterResult>?
+    val filtered: List<FilterResult> = emptyList()
 ) {
 
     val actionableId: String
@@ -70,30 +73,30 @@ data class Status(
     fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
     fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
 
+    @JsonClass(generateAdapter = false)
     enum class Visibility(val num: Int) {
         UNKNOWN(0),
 
-        @SerializedName("public")
+        @Json(name = "public")
         PUBLIC(1),
 
-        @SerializedName("unlisted")
+        @Json(name = "unlisted")
         UNLISTED(2),
 
-        @SerializedName("private")
+        @Json(name = "private")
         PRIVATE(3),
 
-        @SerializedName("direct")
+        @Json(name = "direct")
         DIRECT(4);
 
-        fun serverString(): String {
-            return when (this) {
+        val serverString: String
+            get() = when (this) {
                 PUBLIC -> "public"
                 UNLISTED -> "unlisted"
                 PRIVATE -> "private"
                 DIRECT -> "direct"
                 UNKNOWN -> "unknown"
             }
-        }
 
         companion object {
 
@@ -123,13 +126,10 @@ data class Status(
         }
     }
 
-    fun rebloggingAllowed(): Boolean {
-        return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
-    }
-
-    fun isPinned(): Boolean {
-        return pinned ?: false
-    }
+    val isRebloggingAllowed: Boolean
+        get() {
+            return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
+        }
 
     fun toDeletedStatus(): DeletedStatus {
         return DeletedStatus(
@@ -164,16 +164,18 @@ data class Status(
         return builder.toString()
     }
 
+    @JsonClass(generateAdapter = true)
     data class Mention(
         val id: String,
         val url: String,
-        @SerializedName("acct") val username: String,
-        @SerializedName("username") val localUsername: String
+        @Json(name = "acct") val username: String,
+        @Json(name = "username") val localUsername: String
     )
 
+    @JsonClass(generateAdapter = true)
     data class Application(
         val name: String,
-        val website: String?
+        val website: String? = null
     )
 
     companion object {

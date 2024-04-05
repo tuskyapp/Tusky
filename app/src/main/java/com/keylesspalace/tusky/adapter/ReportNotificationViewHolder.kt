@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
-import java.util.Date
 
 class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding
@@ -54,7 +53,7 @@ class ReportNotificationViewHolder(
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
-        binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, Date().time), report.status_ids?.size ?: 0)
+        binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, System.currentTimeMillis()), report.statusIds?.size ?: 0)
         binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
 
         // Fancy avatar inset

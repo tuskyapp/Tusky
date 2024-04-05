@@ -72,7 +72,7 @@ android {
 
     lint {
         lintConfig file("lint.xml")
-        // Regenerate by running `./gradlew app:newLintBaseline`
+        // Regenerate by deleting the file and running `./gradlew app:lintGreenDebug`
         baseline = file("lint-baseline.xml")
     }
 
@@ -142,7 +142,8 @@ dependencies {
 
     implementation libs.android.material
 
-    implementation libs.gson
+    implementation libs.bundles.moshi
+    ksp libs.moshi.kotlin.codegen
 
     implementation libs.bundles.retrofit
     implementation libs.networkresult.calladapter

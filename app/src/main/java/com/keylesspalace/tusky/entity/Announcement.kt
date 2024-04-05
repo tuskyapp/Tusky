@@ -15,18 +15,20 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
+@JsonClass(generateAdapter = true)
 data class Announcement(
     val id: String,
     val content: String,
-    @SerializedName("starts_at") val startsAt: Date?,
-    @SerializedName("ends_at") val endsAt: Date?,
-    @SerializedName("all_day") val allDay: Boolean,
-    @SerializedName("published_at") val publishedAt: Date,
-    @SerializedName("updated_at") val updatedAt: Date,
-    val read: Boolean,
+    @Json(name = "starts_at") val startsAt: Date? = null,
+    @Json(name = "ends_at") val endsAt: Date? = null,
+    @Json(name = "all_day") val allDay: Boolean,
+    @Json(name = "published_at") val publishedAt: Date,
+    @Json(name = "updated_at") val updatedAt: Date,
+    val read: Boolean = false,
     val mentions: List<Status.Mention>,
     val statuses: List<Status>,
     val tags: List<HashTag>,
@@ -36,21 +38,21 @@ data class Announcement(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
+        if (other !is Announcement) return false
 
-        val announcement = other as Announcement?
-        return id == announcement?.id
+        return id == other.id
     }
 
     override fun hashCode(): Int {
         return id.hashCode()
     }
 
+    @JsonClass(generateAdapter = true)
     data class Reaction(
         val name: String,
         val count: Int,
-        val me: Boolean,
-        val url: String?,
-        @SerializedName("static_url") val staticUrl: String?
+        val me: Boolean = false,
+        val url: String? = null,
+        @Json(name = "static_url") val staticUrl: String? = null
     )
 }
