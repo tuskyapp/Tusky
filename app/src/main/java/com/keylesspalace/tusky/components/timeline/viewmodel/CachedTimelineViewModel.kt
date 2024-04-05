@@ -215,7 +215,7 @@ class CachedTimelineViewModel @Inject constructor(
                                 accountDao.insert(rebloggedAccount)
                             }
                         statusDao.insert(
-                            status.toEntity(
+                            status.actionableStatus.toEntity(
                                 tuskyAccountId = activeAccount.id,
                                 moshi = moshi,
                                 expanded = activeAccount.alwaysOpenSpoiler,
