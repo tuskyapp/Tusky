@@ -226,7 +226,7 @@ AND tuskyAccountId = :tuskyAccountId
     abstract suspend fun deleteAllFromInstance(tuskyAccountId: Long, instanceDomain: String)
 
     @Query(
-        "UPDATE TimelineStatusEntity SET filtered = NULL WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"
+        "UPDATE TimelineStatusEntity SET filtered = '[]' WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"
     )
     abstract suspend fun clearWarning(tuskyAccountId: Long, statusId: String): Int
 
