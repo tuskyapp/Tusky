@@ -70,6 +70,8 @@ object PlayerModule {
                     context,
                     MediaCodecSelector.DEFAULT,
                     DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS,
+                    // enableDecoderFallback = true, helps playing videos even if one decoder fails
+                    true,
                     eventHandler,
                     videoRendererEventListener,
                     DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY
@@ -77,6 +79,8 @@ object PlayerModule {
                 MediaCodecAudioRenderer(
                     context,
                     MediaCodecSelector.DEFAULT,
+                    // enableDecoderFallback = true
+                    true,
                     eventHandler,
                     audioRendererEventListener,
                     audioSink
