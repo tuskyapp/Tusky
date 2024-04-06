@@ -101,9 +101,6 @@ data class Notification(
         return other.id == this.id
     }
 
-    /** Helper for Java */
-    fun copyWithStatus(status: Status?): Notification = copy(status = status)
-
     // for Pleroma compatibility that uses Mention type
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
         if (type == Type.MENTION && status != null) {
