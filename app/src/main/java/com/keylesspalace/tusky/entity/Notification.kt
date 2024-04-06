@@ -75,7 +75,6 @@ data class Notification(
         REPORT("admin.report", R.string.notification_report_name);
 
         companion object {
-            @JvmStatic
             fun byString(s: String): Type {
                 return entries.firstOrNull { it.presentation == s } ?: UNKNOWN
             }
@@ -85,20 +84,7 @@ data class Notification(
                 listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
         }
 
-        override fun toString(): String {
-            return presentation
-        }
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Notification) {
-            return false
-        }
-        return other.id == this.id
+        override fun toString() = presentation
     }
 
     // for Pleroma compatibility that uses Mention type
