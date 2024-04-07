@@ -48,7 +48,9 @@ abstract class TimelineAccountDao {
         AND serverId NOT IN
         (SELECT reblogAccountId FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND reblogAccountId IS NOT NULL)
         AND serverId NOT IN
-        (SELECT accountId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND accountId IS NOT NULL)"""
+        (SELECT accountId FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND accountId IS NOT NULL)
+        AND serverId NOT IN
+        (SELECT targetAccountId FROM NotificationReportEntity WHERE tuskyAccountId = :tuskyAccountId AND targetAccountId IS NOT NULL)"""
     )
     abstract suspend fun cleanupAccounts(tuskyAccountId: Long)
 }

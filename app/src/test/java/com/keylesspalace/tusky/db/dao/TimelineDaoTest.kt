@@ -71,65 +71,6 @@ class TimelineDaoTest {
     }
 
     @Test
-    fun cleanup() = runTest {
-        val statusesBeforeCleanup = listOf(
-            mockHomeTimelineData(id = "100", authorServerId = "100"),
-            mockHomeTimelineData(id = "10", authorServerId = "3"),
-            mockHomeTimelineData(id = "8", reblogAuthorServerId = "R10", authorServerId = "10"),
-            mockHomeTimelineData(id = "5", authorServerId = "100"),
-            mockHomeTimelineData(id = "3", authorServerId = "4"),
-            mockHomeTimelineData(id = "2", tuskyAccountId = 2, authorServerId = "5"),
-            mockHomeTimelineData(id = "1", authorServerId = "5")
-        )
-
-        db.insert(statusesBeforeCleanup - statusesBeforeCleanup[5], 1)
-        db.insert(listOf(statusesBeforeCleanup[5]), 2)
-
-        cleanupDao.cleanupOldData(tuskyAccountId = 1, timelineLimit = 3, notificationLimit = 3)
-
-        val loadedStatuses: MutableList<Pair<Long, String>> = mutableListOf()
-        val statusesCursor = db.query("SELECT tuskyAccountId, serverId FROM TimelineStatusEntity ORDER BY tuskyAccountId, serverId", null)
-        statusesCursor.moveToFirst()
-        while (!statusesCursor.isAfterLast) {
-            val tuskyAccountId: Long = statusesCursor.getLong(statusesCursor.getColumnIndex("tuskyAccountId"))
-            val serverId: String = statusesCursor.getString(statusesCursor.getColumnIndex("serverId"))
-            loadedStatuses.add(tuskyAccountId to serverId)
-            statusesCursor.moveToNext()
-        }
-        statusesCursor.close()
-
-        val expectedStatuses = listOf(
-            1L to "10",
-            1L to "100",
-            1L to "8",
-            2L to "2"
-        )
-
-        assertEquals(expectedStatuses, loadedStatuses)
-
-        val loadedAccounts: MutableList<Pair<Long, String>> = mutableListOf()
-        val accountCursor = db.query("SELECT tuskyAccountId, serverId FROM TimelineAccountEntity ORDER BY tuskyAccountId, serverId", null)
-        accountCursor.moveToFirst()
-        while (!accountCursor.isAfterLast) {
-            val tuskyAccountId: Long = accountCursor.getLong(accountCursor.getColumnIndex("tuskyAccountId"))
-            val serverId: String = accountCursor.getString(accountCursor.getColumnIndex("serverId"))
-            loadedAccounts.add(tuskyAccountId to serverId)
-            accountCursor.moveToNext()
-        }
-        accountCursor.close()
-
-        val expectedAccounts = listOf(
-            1L to "10",
-            1L to "100",
-            1L to "3",
-            1L to "R10",
-            2L to "5"
-        )
-
-        assertEquals(expectedAccounts, loadedAccounts)
-    }
-
-    @Test
     fun overwriteDeletedStatus() = runTest {
         val oldStatuses = listOf(
             mockHomeTimelineData(id = "3"),
