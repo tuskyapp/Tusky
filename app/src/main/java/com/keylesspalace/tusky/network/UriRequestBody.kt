@@ -16,7 +16,7 @@ package com.keylesspalace.tusky.network
 
 import android.content.ContentResolver
 import android.net.Uri
-import java.io.IOException
+import java.io.FileNotFoundException
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.Buffer
@@ -42,7 +42,7 @@ fun Uri.asRequestBody(contentResolver: ContentResolver, contentType: MediaType? 
         override fun writeTo(sink: BufferedSink) {
             val buffer = Buffer()
             var uploaded: Long = 0
-            val inputStream = contentResolver.openInputStream(this@asRequestBody) ?: throw IOException("Unable to open content")
+            val inputStream = contentResolver.openInputStream(this@asRequestBody) ?: throw FileNotFoundException("Unavailable ContentProvider")
 
             inputStream.source().use { source ->
                 while (true) {
