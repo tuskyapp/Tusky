@@ -5,6 +5,7 @@ import com.keylesspalace.tusky.components.timeline.mockAccount
 import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
 import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Notification
@@ -40,6 +41,28 @@ fun mockReport(
     createdAt = createdAt,
     targetAccount = targetAccount
 )
+
+fun Notification.toNotificationDataEntity(
+    tuskyAccountId: Long
+): NotificationDataEntity {
+    val moshi = NetworkModule.providesMoshi()
+    return NotificationDataEntity(
+        tuskyAccountId = tuskyAccountId,
+        type = type,
+        id = id,
+        account = account.toEntity(tuskyAccountId, moshi),
+        status = status?.toEntity(
+            tuskyAccountId = tuskyAccountId,
+            moshi = moshi,
+            expanded = false,
+            contentShowing = false,
+            contentCollapsed = false
+        ),
+        statusAccount = status?.account?.toEntity(tuskyAccountId, moshi),
+        report = report?.toEntity(tuskyAccountId),
+        reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId, moshi)
+    )
+}
 
 suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId: Long = 1) = withTransaction {
     val moshi = NetworkModule.providesMoshi()

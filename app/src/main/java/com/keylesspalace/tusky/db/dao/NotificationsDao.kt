@@ -76,13 +76,13 @@ ORDER BY LENGTH(n.id) DESC, n.id DESC"""
     abstract suspend fun delete(tuskyAccountId: Long, notificationId: String): Int
 
     @Query(
-        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :accountId AND
+        """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND
         (LENGTH(id) < LENGTH(:maxId) OR LENGTH(id) == LENGTH(:maxId) AND id <= :maxId)
 AND
 (LENGTH(id) > LENGTH(:minId) OR LENGTH(id) == LENGTH(:minId) AND id >= :minId)
     """
     )
-    abstract suspend fun deleteRange(accountId: Long, minId: String, maxId: String): Int
+    abstract suspend fun deleteRange(tuskyAccountId: Long, minId: String, maxId: String): Int
 
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId"""
@@ -108,9 +108,9 @@ AND
      */
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND
-            (id IN
-            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId == :userId)
-            OR accountId == :userId)
+            statusId IN
+            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND
+            (authorServerId == :userId OR accountId == :userId))
             AND type != "admin.sign_up" AND type != "admin.report"
         """
     )

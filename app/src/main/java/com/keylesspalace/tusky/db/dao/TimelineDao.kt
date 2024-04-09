@@ -154,14 +154,6 @@ AND tuskyAccountId = :tuskyAccountId
     )
     abstract suspend fun getIdBelow(tuskyAccountId: Long, id: String): String?
 
-    /**
-     * Returns the id of the next placeholder after [id], or null if there is no placeholder.
-     */
-    @Query(
-        "SELECT id FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId AND statusId IS NULL AND (LENGTH(:id) > LENGTH(id) OR (LENGTH(:id) = LENGTH(id) AND :id > id)) ORDER BY LENGTH(id) DESC, id DESC LIMIT 1"
-    )
-    abstract suspend fun getNextPlaceholderIdAfter(tuskyAccountId: Long, id: String): String?
-
     @Query("SELECT COUNT(*) FROM HomeTimelineEntity WHERE tuskyAccountId = :tuskyAccountId")
     abstract suspend fun getHomeTimelineItemCount(tuskyAccountId: Long): Int
 

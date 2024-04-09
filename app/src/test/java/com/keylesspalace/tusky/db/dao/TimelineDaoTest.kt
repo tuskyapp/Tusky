@@ -23,7 +23,6 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class TimelineDaoTest {
     private lateinit var timelineDao: TimelineDao
-    private lateinit var cleanupDao: CleanupDao
     private lateinit var db: AppDatabase
 
     private val moshi = NetworkModule.providesMoshi()
@@ -36,7 +35,6 @@ class TimelineDaoTest {
             .allowMainThreadQueries()
             .build()
         timelineDao = db.timelineDao()
-        cleanupDao = db.cleanupDao()
     }
 
     @After
@@ -231,24 +229,6 @@ class TimelineDaoTest {
         db.insert(statusData, 1)
 
         assertEquals("33", timelineDao.getTopId(1))
-    }
-
-    @Test
-    fun `should return correct placeholderId after other ids`() = runTest {
-        val statusData = listOf(
-            mockHomeTimelineData(id = "1000"),
-            mockPlaceholderHomeTimelineData(id = "99"),
-            mockHomeTimelineData(id = "97"),
-            mockHomeTimelineData(id = "95"),
-            mockPlaceholderHomeTimelineData(id = "94"),
-            mockHomeTimelineData(id = "90")
-        )
-
-        db.insert(statusData, 1)
-
-        assertEquals("99", timelineDao.getNextPlaceholderIdAfter(1, "1000"))
-        assertEquals("94", timelineDao.getNextPlaceholderIdAfter(1, "99"))
-        assertNull(timelineDao.getNextPlaceholderIdAfter(1, "90"))
     }
 
     @Test
