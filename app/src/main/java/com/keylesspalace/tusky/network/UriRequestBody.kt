@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
