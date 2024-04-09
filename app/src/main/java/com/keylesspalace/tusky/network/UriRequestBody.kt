@@ -31,13 +31,9 @@ fun interface UploadCallback {
 
 fun Uri.asRequestBody(contentResolver: ContentResolver, contentType: MediaType? = null, contentLength: Long = -1L, uploadListener: UploadCallback? = null): RequestBody {
     return object : RequestBody() {
-        override fun contentType(): MediaType? {
-            return contentType
-        }
+        override fun contentType(): MediaType? = contentType
 
-        override fun contentLength(): Long {
-            return contentLength
-        }
+        override fun contentLength(): Long = contentLength
 
         override fun writeTo(sink: BufferedSink) {
             val buffer = Buffer()
