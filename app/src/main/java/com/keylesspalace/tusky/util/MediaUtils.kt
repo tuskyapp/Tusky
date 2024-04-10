@@ -69,7 +69,7 @@ fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
 
 @Throws(FileNotFoundException::class)
 fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Long {
-    val input = contentResolver.openInputStream(uri)
+    val input = contentResolver.openInputStream(uri) ?: throw FileNotFoundException("Unavailable ContentProvider")
 
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
