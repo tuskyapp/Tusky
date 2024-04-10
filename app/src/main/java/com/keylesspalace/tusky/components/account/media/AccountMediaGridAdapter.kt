@@ -21,7 +21,7 @@ import com.keylesspalace.tusky.util.getFormattedDescription
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import java.util.Random
+import kotlin.random.Random
 
 class AccountMediaGridAdapter(
     private val useBlurhash: Boolean,
@@ -60,7 +60,6 @@ class AccountMediaGridAdapter(
     )
 
     private val itemBgBaseHSV = FloatArray(3)
-    private val random = Random()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -72,7 +71,7 @@ class AccountMediaGridAdapter(
             false
         )
         Color.colorToHSV(baseItemBackgroundColor, itemBgBaseHSV)
-        itemBgBaseHSV[2] = itemBgBaseHSV[2] + random.nextFloat() / 3f - 1f / 6f
+        itemBgBaseHSV[2] = itemBgBaseHSV[2] + Random.nextFloat() / 3f - 1f / 6f
         binding.root.setBackgroundColor(Color.HSVToColor(itemBgBaseHSV))
         return BindingHolder(binding)
     }
