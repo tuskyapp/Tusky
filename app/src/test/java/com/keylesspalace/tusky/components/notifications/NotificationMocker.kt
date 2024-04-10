@@ -1,6 +1,8 @@
 package com.keylesspalace.tusky.components.notifications
 
+import androidx.paging.PagingSource
 import androidx.room.withTransaction
+import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.mockAccount
 import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.components.timeline.toEntity
@@ -13,12 +15,13 @@ import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import java.util.Date
+import org.junit.Assert.assertEquals
 
 fun mockNotification(
     type: Notification.Type = Notification.Type.FAVOURITE,
     id: String = "1",
-    account: TimelineAccount = mockAccount(),
-    status: Status? = mockStatus(),
+    account: TimelineAccount = mockAccount(id = id),
+    status: Status? = mockStatus(id = id),
     report: Report? = null
 ) = Notification(
     type = type,
@@ -43,7 +46,9 @@ fun mockReport(
 )
 
 fun Notification.toNotificationDataEntity(
-    tuskyAccountId: Long
+    tuskyAccountId: Long,
+    isStatusExpanded: Boolean = false,
+    isStatusContentShowing: Boolean = false
 ): NotificationDataEntity {
     val moshi = NetworkModule.providesMoshi()
     return NotificationDataEntity(
@@ -54,15 +59,28 @@ fun Notification.toNotificationDataEntity(
         status = status?.toEntity(
             tuskyAccountId = tuskyAccountId,
             moshi = moshi,
-            expanded = false,
-            contentShowing = false,
-            contentCollapsed = false
+            expanded = isStatusExpanded,
+            contentShowing = isStatusContentShowing,
+            contentCollapsed = true
         ),
         statusAccount = status?.account?.toEntity(tuskyAccountId, moshi),
         report = report?.toEntity(tuskyAccountId),
         reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId, moshi)
     )
 }
+
+fun Placeholder.toNotificationDataEntity(
+    tuskyAccountId: Long
+) = NotificationDataEntity(
+    tuskyAccountId = tuskyAccountId,
+    type = null,
+    id = id,
+    account = null,
+    status = null,
+    statusAccount = null,
+    report = null,
+    reportTargetAccount = null
+)
 
 suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId: Long = 1) = withTransaction {
     val moshi = NetworkModule.providesMoshi()
@@ -94,7 +112,7 @@ suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId
                     moshi = moshi,
                     expanded = false,
                     contentShowing = false,
-                    contentCollapsed = false
+                    contentCollapsed = true
                 )
             )
         }
@@ -110,4 +128,17 @@ suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId
             )
         )
     }
+}
+
+suspend fun AppDatabase.assertNotifications(
+    expected: List<NotificationDataEntity>,
+    tuskyAccountId: Long = 1
+) {
+    val pagingSource = notificationsDao().getNotifications(tuskyAccountId)
+
+    val loadResult = pagingSource.load(PagingSource.LoadParams.Refresh(null, 100, false))
+
+    val loaded = (loadResult as PagingSource.LoadResult.Page).data
+
+    assertEquals(expected, loaded)
 }

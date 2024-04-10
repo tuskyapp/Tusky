@@ -10,7 +10,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.util.Date
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 
 private val fixedDate = Date(1638889052000)
 
@@ -184,11 +184,11 @@ suspend fun AppDatabase.assertTimeline(
 
     val loadedStatuses = (loadResult as PagingSource.LoadResult.Page).data
 
-    Assert.assertEquals(expected.size, loadedStatuses.size)
+    assertEquals(expected.size, loadedStatuses.size)
 
     for ((exp, prov) in expected.zip(loadedStatuses)) {
-        Assert.assertEquals(exp.status, prov.status)
-        Assert.assertEquals(exp.account, prov.account)
-        Assert.assertEquals(exp.reblogAccount, prov.reblogAccount)
+        assertEquals(exp.status, prov.status)
+        assertEquals(exp.account, prov.account)
+        assertEquals(exp.reblogAccount, prov.reblogAccount)
     }
 }

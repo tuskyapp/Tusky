@@ -138,6 +138,7 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
+    @Throws(Exception::class)
     suspend fun notifications(
         /** Return results older than this ID */
         @Query("max_id") maxId: String? = null,

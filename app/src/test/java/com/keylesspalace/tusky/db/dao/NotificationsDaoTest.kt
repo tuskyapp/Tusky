@@ -125,10 +125,10 @@ class NotificationsDaoTest {
     fun deleteAllForInstance() = runTest {
         val redAccount = mockNotification(id = "500", account = mockAccount(id = "500", domain = "mastodon.red"))
         val blueAccount = mockNotification(id = "501", account = mockAccount(id = "501", domain = "mastodon.blue"))
-        val redStatus = mockNotification(id = "502", status = mockStatus(id = "502", domain = "mastodon.red", authorServerId = "502"))
-        val blueStatus = mockNotification(id = "503", status = mockStatus(id = "503", domain = "mastodon.blue", authorServerId = "503"))
+        val redStatus = mockNotification(id = "502", account = mockAccount(id = "502", domain = "mastodon.example"), status = mockStatus(id = "502", domain = "mastodon.red", authorServerId = "502a"))
+        val blueStatus = mockNotification(id = "503", account = mockAccount(id = "503", domain = "mastodon.example"), status = mockStatus(id = "503", domain = "mastodon.blue", authorServerId = "503a"))
 
-        val redStatus2 = mockNotification(id = "600", status = mockStatus(id = "600", domain = "mastodon.red", authorServerId = "600"))
+        val redStatus2 = mockNotification(id = "600", account = mockAccount(id = "600", domain = "mastodon.red"))
 
         db.insert(listOf(redAccount, blueAccount, redStatus, blueStatus), 1)
         db.insert(listOf(redStatus2), 2)

@@ -68,7 +68,7 @@ fun NotificationDataEntity.toViewData(
     moshi: Moshi,
     translation: TranslationViewData? = null
 ): NotificationViewData {
-    if (type == null) {
+    if (type == null || account == null) {
         return NotificationViewData.Placeholder(id = id, isLoading = loading)
     }
 

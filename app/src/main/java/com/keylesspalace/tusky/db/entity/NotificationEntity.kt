@@ -30,7 +30,7 @@ data class NotificationDataEntity(
     // null when placeholder
     val type: Notification.Type?,
     val id: String,
-    @Embedded(prefix = "a_") val account: TimelineAccountEntity,
+    @Embedded(prefix = "a_") val account: TimelineAccountEntity?,
     @Embedded(prefix = "s_") val status: TimelineStatusEntity?,
     @Embedded(prefix = "sa_") val statusAccount: TimelineAccountEntity?,
     @Embedded(prefix = "r_") val report: NotificationReportEntity?,
