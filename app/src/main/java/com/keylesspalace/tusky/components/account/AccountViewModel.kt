@@ -42,8 +42,8 @@ class AccountViewModel @Inject constructor(
     private val _noteSaved = MutableStateFlow(false)
     val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
 
-    private val _refreshState = MutableStateFlow(RefreshState.INITIAL)
-    val refreshState: StateFlow<RefreshState> = _refreshState.asStateFlow()
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     lateinit var accountId: String
     var isSelf = false
@@ -71,7 +71,7 @@ class AccountViewModel @Inject constructor(
     private fun obtainAccount(reload: Boolean = false) {
         if (_accountData.value == null || reload) {
             if (reload) {
-                _refreshState.value = RefreshState.REFRESHING
+                _isRefreshing.value = true
             }
             _accountData.value = Loading()
 
@@ -83,12 +83,12 @@ class AccountViewModel @Inject constructor(
                             isFromOwnDomain = domain == activeAccount.domain
 
                             _accountData.value = Success(account)
-                            _refreshState.value = RefreshState.IDLE
+                            _isRefreshing.value = false
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
                             _accountData.value = Error(cause = t)
-                            _refreshState.value = RefreshState.IDLE
+                            _isRefreshing.value = false
                         }
                     )
             }
@@ -310,7 +310,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun reload(isReload: Boolean = false) {
-        if (_refreshState.value == RefreshState.REFRESHING) {
+        if (_isRefreshing.value) {
             return
         }
         accountId.let {
@@ -336,12 +336,6 @@ class AccountViewModel @Inject constructor(
         UNMUTE,
         SUBSCRIBE,
         UNSUBSCRIBE
-    }
-
-    enum class RefreshState {
-        INITIAL,
-        REFRESHING,
-        IDLE
     }
 
     companion object {
