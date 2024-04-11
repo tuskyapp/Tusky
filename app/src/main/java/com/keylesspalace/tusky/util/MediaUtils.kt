@@ -27,7 +27,6 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -147,30 +146,23 @@ fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
 }
 
 fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
-    val inputStream: InputStream?
     try {
-        inputStream = contentResolver.openInputStream(uri)
-    } catch (e: FileNotFoundException) {
-        Log.w(TAG, e)
-        return ExifInterface.ORIENTATION_UNDEFINED
-    }
-    if (inputStream == null) {
-        return ExifInterface.ORIENTATION_UNDEFINED
-    }
-    val exifInterface: ExifInterface
-    try {
-        exifInterface = ExifInterface(inputStream)
+        val inputStream = contentResolver.openInputStream(uri)
+            ?: return ExifInterface.ORIENTATION_UNDEFINED
+
+        try {
+            val exifInterface = ExifInterface(inputStream)
+            return exifInterface.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        } finally {
+            inputStream.closeQuietly()
+        }
     } catch (e: IOException) {
         Log.w(TAG, e)
-        inputStream.closeQuietly()
         return ExifInterface.ORIENTATION_UNDEFINED
     }
-    val orientation = exifInterface.getAttributeInt(
-        ExifInterface.TAG_ORIENTATION,
-        ExifInterface.ORIENTATION_NORMAL
-    )
-    inputStream.closeQuietly()
-    return orientation
 }
 
 fun deleteStaleCachedMedia(mediaDirectory: File?) {
