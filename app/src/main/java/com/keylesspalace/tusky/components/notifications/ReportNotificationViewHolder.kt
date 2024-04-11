@@ -16,9 +16,7 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
