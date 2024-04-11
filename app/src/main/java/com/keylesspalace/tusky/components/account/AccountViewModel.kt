@@ -70,7 +70,9 @@ class AccountViewModel @Inject constructor(
 
     private fun obtainAccount(reload: Boolean = false) {
         if (_accountData.value == null || reload) {
-            _refreshState.value = RefreshState.REFRESHING
+            if (reload) {
+                _refreshState.value = RefreshState.REFRESHING
+            }
             _accountData.value = Loading()
 
             viewModelScope.launch {
