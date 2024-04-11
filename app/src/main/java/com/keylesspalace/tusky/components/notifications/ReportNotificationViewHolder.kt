@@ -46,16 +46,9 @@ class ReportNotificationViewHolder(
         val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, statusDisplayOptions.animateEmojis)
         val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, statusDisplayOptions.animateEmojis)
 
-        val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
-
-        binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, System.currentTimeMillis()), report.statusIds?.size ?: 0)
         binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
-
-        // Fancy avatar inset
-        val padding = Utils.dpToPx(binding.notificationReporteeAvatar.context, 12)
-        binding.notificationReporteeAvatar.setPaddingRelative(0, 0, padding, padding)
 
         loadAvatar(
             report.targetAccount.avatar,
