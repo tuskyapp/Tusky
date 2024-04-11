@@ -83,8 +83,8 @@ data class Attachment(
     @JsonClass(generateAdapter = true)
     @Parcelize
     data class Size(
-        val width: Int,
-        val height: Int,
+        val width: Int = 0,
+        val height: Int = 0,
         val aspect: Double = 0.0
     ) : Parcelable
 }

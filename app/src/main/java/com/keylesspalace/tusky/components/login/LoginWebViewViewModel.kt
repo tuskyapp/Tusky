@@ -39,7 +39,7 @@ class LoginWebViewViewModel @Inject constructor(
         if (this.domain == null) {
             this.domain = domain
             viewModelScope.launch {
-                api.getInstance().fold(
+                api.getInstance(domain).fold(
                     { instance ->
                         _instanceRules.value = instance.rules.map { rule -> rule.text }
                     },
