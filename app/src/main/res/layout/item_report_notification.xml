@@ -56,15 +56,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="-4dp"
+        android:layout_marginTop="6dp"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toRightOf="@id/notification_reporter_avatar"
-        app:layout_constraintTop_toTopOf="@id/notification_reportee_avatar"
-        tools:ignore="NegativeMargin"
+        app:layout_constraintTop_toBottomOf="@id/notification_top_text"
         tools:text="30 minutes ago · 2 posts attached" />
 
     <TextView
@@ -81,11 +80,5 @@
         app:layout_constraintLeft_toRightOf="@id/notification_reporter_avatar"
         app:layout_constraintTop_toBottomOf="@id/notification_summary"
         tools:text="Spam" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="notification_reporter_avatar, notification_category" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
