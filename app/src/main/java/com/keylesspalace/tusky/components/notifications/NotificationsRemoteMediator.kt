@@ -30,12 +30,13 @@ import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.isLessThan
 import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class NotificationsRemoteMediator(
-    accountManager: AccountManager,
+    private val accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
     private val moshi: Moshi,
@@ -184,7 +185,24 @@ class NotificationsRemoteMediator(
                 )
             )
         }
+        notifications.firstOrNull()?.let { notification ->
+            saveNewestNotificationId(notification)
+        }
         return overlappedNotifications
+    }
+
+    private fun saveNewestNotificationId(notification: Notification) {
+        val account = accountManager.activeAccount
+        // make sure the account we are currently working with is still active
+        if (account == activeAccount) {
+            val lastNotificationId: String = activeAccount.lastNotificationId
+            val newestNotificationId = notification.id
+            if (lastNotificationId.isLessThan(newestNotificationId)) {
+                Log.d(TAG, "saving newest noti id: $lastNotificationId for account ${account.id}")
+                account.lastNotificationId = newestNotificationId
+                accountManager.saveAccount(account)
+            }
+        }
     }
 
     companion object {
