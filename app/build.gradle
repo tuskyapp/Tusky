@@ -149,6 +149,7 @@ dependencies {
     implementation libs.networkresult.calladapter
 
     implementation libs.bundles.okhttp
+    implementation libs.okio
 
     implementation libs.conscrypt.android
 
