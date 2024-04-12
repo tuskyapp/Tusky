@@ -423,7 +423,7 @@ class NotificationsFragment :
 
     private fun showFilterMenu() {
         val notificationTypeList = Notification.Type.visibleTypes.map { type ->
-            getNotificationText(type)
+            getString(type.uiString)
         }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, notificationTypeList)
@@ -451,22 +451,6 @@ class NotificationsFragment :
         window.width = ViewGroup.LayoutParams.WRAP_CONTENT
         window.height = ViewGroup.LayoutParams.WRAP_CONTENT
         window.showAsDropDown(binding.buttonFilter)
-    }
-
-    private fun getNotificationText(type: Notification.Type): String {
-        return when (type) {
-            Notification.Type.MENTION -> getString(R.string.notification_mention_name)
-            Notification.Type.FAVOURITE -> getString(R.string.notification_favourite_name)
-            Notification.Type.REBLOG -> getString(R.string.notification_boost_name)
-            Notification.Type.FOLLOW -> getString(R.string.notification_follow_name)
-            Notification.Type.FOLLOW_REQUEST -> getString(R.string.notification_follow_request_name)
-            Notification.Type.POLL -> getString(R.string.notification_poll_name)
-            Notification.Type.STATUS -> getString(R.string.notification_subscription_name)
-            Notification.Type.SIGN_UP -> getString(R.string.notification_sign_up_name)
-            Notification.Type.UPDATE -> getString(R.string.notification_update_name)
-            Notification.Type.REPORT -> getString(R.string.notification_report_name)
-            else -> "Unknown"
-        }
     }
 
     private fun onPreferenceChanged(key: String) {
