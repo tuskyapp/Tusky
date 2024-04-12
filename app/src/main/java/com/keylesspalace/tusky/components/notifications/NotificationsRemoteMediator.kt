@@ -42,10 +42,6 @@ class NotificationsRemoteMediator(
     var excludes: Set<Notification.Type>
 ) : RemoteMediator<Int, NotificationDataEntity>() {
 
-    init {
-        println(excludes)
-    }
-
     private var initialRefresh = false
 
     private val notificationsDao = db.notificationsDao()

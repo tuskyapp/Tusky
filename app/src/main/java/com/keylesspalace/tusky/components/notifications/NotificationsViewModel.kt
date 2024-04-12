@@ -136,7 +136,7 @@ class NotificationsViewModel @Inject constructor(
                     account.notificationsFilter = serialize(newFilters)
                     accountManager.saveAccount(account)
                     remoteMediator.excludes = newFilters
-                    // clear the cache
+                    // clear the cache to trigger a reload
                     db.notificationsDao().cleanupNotifications(account.id, 0)
                     _filters.value = newFilters
                 }

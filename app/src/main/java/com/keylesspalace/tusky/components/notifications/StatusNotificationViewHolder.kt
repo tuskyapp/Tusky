@@ -148,14 +148,14 @@ internal class StatusNotificationViewHolder(
         binding.statusUsername.text = usernameText
     }
 
-    private fun setCreatedAt(createdAt: Date?, useAbsoluteTime: Boolean) {
+    private fun setCreatedAt(createdAt: Date, useAbsoluteTime: Boolean) {
         if (useAbsoluteTime) {
             binding.statusMetaInfo.text = absoluteTimeFormatter.format(createdAt, true)
         } else {
             val readout: String // visible timestamp
             val readoutAloud: CharSequence // for screenreaders so they don't mispronounce timestamps like "17m" as 17 meters
-            if (createdAt != null) {
-                val then = createdAt.time
+
+            val then = createdAt.time
                 val now = System.currentTimeMillis()
                 readout = getRelativeTimeSpanString(binding.statusMetaInfo.context, then, now)
                 readoutAloud = DateUtils.getRelativeTimeSpanString(
@@ -164,11 +164,7 @@ internal class StatusNotificationViewHolder(
                     DateUtils.SECOND_IN_MILLIS,
                     DateUtils.FORMAT_ABBREV_RELATIVE
                 )
-            } else {
-                // unknown minutes~
-                readout = "?m"
-                readoutAloud = "? minutes"
-            }
+
             binding.statusMetaInfo.text = readout
             binding.statusMetaInfo.contentDescription = readoutAloud
         }
@@ -343,11 +339,10 @@ internal class StatusNotificationViewHolder(
             binding.buttonToggleNotificationContent.visibility = View.GONE
             binding.notificationContent.filters = NO_INPUT_FILTER
         }
-        val emojifiedText =
-            content.emojify(
-                emojis,
-                binding.notificationContent,
-                animateEmojis
+        val emojifiedText = content.emojify(
+                emojis = emojis,
+                view = binding.notificationContent,
+                animate = animateEmojis
             )
         setClickableText(
             binding.notificationContent,
