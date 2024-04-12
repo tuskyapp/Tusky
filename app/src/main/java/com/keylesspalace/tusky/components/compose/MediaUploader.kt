@@ -37,8 +37,6 @@ import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -58,6 +56,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.shareIn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okio.buffer
+import okio.sink
+import okio.source
 import retrofit2.HttpException
 
 sealed interface FinalUploadEvent
@@ -161,22 +162,22 @@ class MediaUploader @Inject constructor(
 
                     val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
 
-                    contentResolver.openInputStream(inUri).use { input ->
+                    contentResolver.openInputStream(inUri)?.source().use { input ->
                         if (input == null) {
                             Log.w(TAG, "Media input is null")
                             uri = inUri
                             return@use
                         }
                         val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
-                        FileOutputStream(file.absoluteFile).use { out ->
-                            input.copyTo(out)
-                            uri = FileProvider.getUriForFile(
-                                context,
-                                BuildConfig.APPLICATION_ID + ".fileprovider",
-                                file
-                            )
-                            mediaSize = getMediaSize(contentResolver, uri)
+                        file.absoluteFile.sink().buffer().use { out ->
+                            out.writeAll(input)
                         }
+                        uri = FileProvider.getUriForFile(
+                            context,
+                            BuildConfig.APPLICATION_ID + ".fileprovider",
+                            file
+                        )
+                        mediaSize = getMediaSize(contentResolver, uri)
                     }
                 }
                 ContentResolver.SCHEME_FILE -> {
@@ -189,17 +190,18 @@ class MediaUploader @Inject constructor(
                     val suffix = inputFile.name.substringAfterLast('.', "tmp")
                     mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix)
                     val file = File.createTempFile("randomTemp1", ".$suffix", context.cacheDir)
-                    val input = FileInputStream(inputFile)
 
-                    FileOutputStream(file.absoluteFile).use { out ->
-                        input.copyTo(out)
-                        uri = FileProvider.getUriForFile(
-                            context,
-                            BuildConfig.APPLICATION_ID + ".fileprovider",
-                            file
-                        )
-                        mediaSize = getMediaSize(contentResolver, uri)
+                    inputFile.source().use { input ->
+                        file.absoluteFile.sink().buffer().use { out ->
+                            out.writeAll(input)
+                        }
                     }
+                    uri = FileProvider.getUriForFile(
+                        context,
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
+                        file
+                    )
+                    mediaSize = getMediaSize(contentResolver, uri)
                 }
                 else -> {
                     Log.w(TAG, "Unknown uri scheme $uri")
