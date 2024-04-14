@@ -23,7 +23,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
@@ -341,21 +340,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
         binding.accountToolbar.background = toolbarBackground
 
-        // Provide a non-transparent background to the navigation and overflow icons to ensure
-        // they remain visible over whatever the profile background image might be.
-        val backgroundCircle = AppCompatResources.getDrawable(this, R.drawable.background_circle)!!
-        backgroundCircle.alpha = 210 // Any lower than this and the backgrounds interfere
-        binding.accountToolbar.navigationIcon = LayerDrawable(
-            arrayOf(
-                backgroundCircle,
-                binding.accountToolbar.navigationIcon
-            )
-        )
-        binding.accountToolbar.overflowIcon = LayerDrawable(
-            arrayOf(
-                backgroundCircle,
-                binding.accountToolbar.overflowIcon
-            )
+        binding.accountToolbar.setNavigationIcon(R.drawable.ic_arrow_back_with_background)
+        binding.accountToolbar.setOverflowIcon(
+            AppCompatResources.getDrawable(this, R.drawable.ic_more_with_background)
         )
 
         binding.accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
