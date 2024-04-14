@@ -684,7 +684,7 @@
 \nÖrneğin, bir hesabın profil görünümünde başlayabilir ve oluştur düğmesine [iconics gmd_edit] dokunabilir ve görünürlüğü değiştirebilirsiniz. </string>
     <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz.
 \n
-\n \u0020Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın.
+\n Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın.
 \n
 \n \u0020Bu listeler Hesap tercihleri [iconics gmd_account_circle] [iconics gmd_navigate_next] Sekmelerinde sekme olarak kullanılabilir. </string>
     <string name="muting_hashtag_success_format">Uyarı olarak #%s etiketini susturma</string>

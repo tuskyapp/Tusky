@@ -1,7 +1,9 @@
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class MediaTranslation(
     val id: String,
     val description: String,
@@ -12,14 +14,25 @@ data class MediaTranslation(
  *
  * See [doc](https://docs.joinmastodon.org/entities/Translation/).
  */
+@JsonClass(generateAdapter = true)
 data class Translation(
     val content: String,
-    @SerializedName("spoiler_warning")
-    val spoilerWarning: String?,
-    val poll: List<String>?,
-    @SerializedName("media_attachments")
+    @Json(name = "spoiler_text")
+    val spoilerText: String? = null,
+    val poll: TranslatedPoll? = null,
+    @Json(name = "media_attachments")
     val mediaAttachments: List<MediaTranslation>,
-    @SerializedName("detected_source_language")
+    @Json(name = "detected_source_language")
     val detectedSourceLanguage: String,
     val provider: String,
+)
+
+@JsonClass(generateAdapter = true)
+data class TranslatedPoll(
+    val options: List<TranslatedPollOption>
+)
+
+@JsonClass(generateAdapter = true)
+data class TranslatedPollOption(
+    val title: String
 )

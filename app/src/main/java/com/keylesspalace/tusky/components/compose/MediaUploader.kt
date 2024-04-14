@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.components.compose
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.media.MediaMetadataRetriever
@@ -31,7 +30,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.network.MediaUploadApi
-import com.keylesspalace.tusky.network.ProgressRequestBody
+import com.keylesspalace.tusky.network.asRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
 import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
@@ -41,7 +40,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
@@ -64,13 +62,13 @@ import retrofit2.HttpException
 
 sealed interface FinalUploadEvent
 
-sealed class UploadEvent {
-    data class ProgressEvent(val percentage: Int) : UploadEvent()
+sealed interface UploadEvent {
+    data class ProgressEvent(val percentage: Int) : UploadEvent
     data class FinishedEvent(
         val mediaId: String,
         val processed: Boolean
-    ) : UploadEvent(), FinalUploadEvent
-    data class ErrorEvent(val error: Throwable) : UploadEvent(), FinalUploadEvent
+    ) : UploadEvent, FinalUploadEvent
+    data class ErrorEvent(val error: Throwable) : UploadEvent, FinalUploadEvent
 }
 
 data class UploadData(
@@ -246,7 +244,6 @@ class MediaUploader @Inject constructor(
 
     private val contentResolver = context.contentResolver
 
-    @SuppressLint("Recycle") // stream is closed in ProgressRequestBody
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
@@ -265,22 +262,20 @@ class MediaUploader @Inject constructor(
             }
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = "%s_%s_%s.%s".format(
+            val filename = "%s_%d_%s.%s".format(
                 context.getString(R.string.app_name),
-                Date().time.toString(),
+                System.currentTimeMillis(),
                 randomAlphanumericString(10),
                 fileExtension
             )
 
-            val stream = contentResolver.openInputStream(media.uri)
-
             if (mimeType == null) mimeType = "multipart/form-data"
 
             var lastProgress = -1
-            val fileBody = ProgressRequestBody(
-                stream!!,
-                media.mediaSize,
-                mimeType.toMediaTypeOrNull()!!
+            val fileBody = media.uri.asRequestBody(
+                contentResolver,
+                requireNotNull(mimeType.toMediaTypeOrNull()) { "Invalid Content Type" },
+                media.mediaSize
             ) { percentage ->
                 if (percentage != lastProgress) {
                     trySend(UploadEvent.ProgressEvent(percentage))

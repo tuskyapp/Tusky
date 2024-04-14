@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -50,6 +51,7 @@ data class ConversationEntity(
     }
 }
 
+@JsonClass(generateAdapter = true)
 data class ConversationAccountEntity(
     val id: String,
     val localUsername: String,
@@ -131,7 +133,7 @@ data class ConversationStatusEntity(
                 poll = poll,
                 card = null,
                 language = language,
-                filtered = null
+                filtered = emptyList()
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
@@ -172,7 +174,7 @@ fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed
         showingHiddenContent = contentShowing,
         expanded = expanded,
         collapsed = contentCollapsed,
-        muted = muted ?: false,
+        muted = muted,
         poll = poll,
         language = language
     )

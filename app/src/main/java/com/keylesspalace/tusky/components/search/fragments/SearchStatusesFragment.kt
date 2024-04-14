@@ -284,7 +284,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
                     val textId =
                         getString(
-                            if (status.isPinned()) R.string.unpin_action else R.string.pin_action
+                            if (status.pinned) R.string.unpin_action else R.string.pin_action
                         )
                     menu.add(0, R.id.pin, 1, textId)
                 }
@@ -320,7 +320,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
         if (mutable) {
             muteConversationItem.setTitle(
-                if (status.muted == true) {
+                if (status.muted) {
                     R.string.action_unmute_conversation
                 } else {
                     R.string.action_mute_conversation
@@ -392,7 +392,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
                 R.id.status_mute_conversation -> {
                     searchAdapter.peek(position)?.let { foundStatus ->
-                        viewModel.muteConversation(foundStatus, status.muted != true)
+                        viewModel.muteConversation(foundStatus, !status.muted)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -438,7 +438,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.pin -> {
-                    viewModel.pinAccount(status, !status.isPinned())
+                    viewModel.pinAccount(status, !status.pinned)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -562,7 +562,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                             { deletedStatus ->
                                 removeItem(position)
 
-                                val redraftStatus = if (deletedStatus.isEmpty()) {
+                                val redraftStatus = if (deletedStatus.isEmpty) {
                                     status.toDeletedStatus()
                                 } else {
                                     deletedStatus

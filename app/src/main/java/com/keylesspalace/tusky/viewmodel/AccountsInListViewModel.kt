@@ -23,6 +23,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Either
+import com.keylesspalace.tusky.util.Either.Companion.map
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.withoutFirstWhich
@@ -117,7 +118,7 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    private inline fun updateState(crossinline fn: State.() -> State) {
+    private inline fun updateState(fn: State.() -> State) {
         _state.value = fn(_state.value)
     }
 }

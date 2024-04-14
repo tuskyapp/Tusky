@@ -29,7 +29,6 @@ import androidx.room.withTransaction
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
@@ -49,6 +48,7 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
@@ -69,7 +69,7 @@ class CachedTimelineViewModel @Inject constructor(
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val moshi: Moshi
 ) : TimelineViewModel(
     timelineCases,
     api,
@@ -87,7 +87,7 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, gson),
+        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, moshi),
         pagingSourceFactory = {
             val activeAccount = accountManager.activeAccount
             if (activeAccount == null) {
@@ -108,7 +108,7 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineStatus ->
                 val translation = translations[timelineStatus.status.serverId]
                 timelineStatus.toViewData(
-                    gson,
+                    moshi,
                     isDetailed = false,
                     translation = translation
                 )
@@ -218,15 +218,15 @@ class CachedTimelineViewModel @Inject constructor(
                     }
 
                     for (status in statuses) {
-                        timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
-                        status.reblog?.account?.toEntity(activeAccount.id, gson)
+                        timelineDao.insertAccount(status.account.toEntity(activeAccount.id, moshi))
+                        status.reblog?.account?.toEntity(activeAccount.id, moshi)
                             ?.let { rebloggedAccount ->
                                 timelineDao.insertAccount(rebloggedAccount)
                             }
                         timelineDao.insertStatus(
                             status.toEntity(
                                 timelineUserId = activeAccount.id,
-                                gson = gson,
+                                moshi = moshi,
                                 expanded = activeAccount.alwaysOpenSpoiler,
                                 contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                                 contentCollapsed = true

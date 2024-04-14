@@ -24,7 +24,6 @@ import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
-import com.google.gson.Gson
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
@@ -44,6 +43,7 @@ import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -51,6 +51,8 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -62,20 +64,18 @@ class ViewThreadViewModel @Inject constructor(
     eventHub: EventHub,
     private val accountManager: AccountManager,
     private val db: AppDatabase,
-    private val gson: Gson
+    private val moshi: Moshi
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
     val uiState: Flow<ThreadUiState> = _uiState.asStateFlow()
 
-    private val _errors =
-        MutableSharedFlow<Throwable>(
-            replay = 0,
-            extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
-        )
-    val errors: Flow<Throwable>
-        get() = _errors
+    private val _errors = MutableSharedFlow<Throwable>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errors: SharedFlow<Throwable> = _errors.asSharedFlow()
 
     var isInitialLoad: Boolean = true
 
@@ -113,7 +113,7 @@ class ViewThreadViewModel @Inject constructor(
             var detailedStatus = if (timelineStatus != null) {
                 Log.d(TAG, "Loaded status from local timeline")
                 val viewData = timelineStatus.toViewData(
-                    gson,
+                    moshi,
                     isDetailed = true,
                 ) as StatusViewData.Concrete
 
@@ -148,8 +148,7 @@ class ViewThreadViewModel @Inject constructor(
                 api.status(id).getOrNull()?.let { result ->
                     db.timelineDao().update(
                         accountId = accountManager.activeAccount!!.id,
-                        status = result,
-                        gson = gson
+                        status = result
                     )
                     detailedStatus = result.toViewData(isDetailed = true)
                 }
@@ -520,7 +519,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun clearWarning(viewData: StatusViewData.Concrete) {
         updateStatus(viewData.id) { status ->
-            status.copy(filtered = null)
+            status.copy(filtered = emptyList())
         }
     }
 

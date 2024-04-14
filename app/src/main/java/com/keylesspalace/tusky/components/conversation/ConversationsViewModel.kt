@@ -159,12 +159,12 @@ class ConversationsViewModel @Inject constructor(
             try {
                 timelineCases.muteConversation(
                     conversation.lastStatus.id,
-                    !(conversation.lastStatus.status.muted ?: false)
+                    !conversation.lastStatus.status.muted
                 )
 
                 val newConversation = conversation.toEntity(
                     accountId = accountManager.activeAccount!!.id,
-                    muted = !(conversation.lastStatus.status.muted ?: false)
+                    muted = !conversation.lastStatus.status.muted
                 )
 
                 database.conversationDao().insert(newConversation)

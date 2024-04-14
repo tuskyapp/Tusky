@@ -28,6 +28,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -53,13 +54,13 @@ class ListsForAccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _states = MutableSharedFlow<List<AccountListState>>(1)
-    val states: SharedFlow<List<AccountListState>> = _states
+    val states: SharedFlow<List<AccountListState>> = _states.asSharedFlow()
 
     private val _loadError = MutableSharedFlow<Throwable>(1)
-    val loadError: SharedFlow<Throwable> = _loadError
+    val loadError: SharedFlow<Throwable> = _loadError.asSharedFlow()
 
     private val _actionError = MutableSharedFlow<ActionError>(1)
-    val actionError: SharedFlow<ActionError> = _actionError
+    val actionError: SharedFlow<ActionError> = _actionError.asSharedFlow()
 
     fun load(accountId: String?) {
         _loadError.resetReplayCache()

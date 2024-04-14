@@ -514,8 +514,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         )
         setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
 
-        accountFieldAdapter.fields = account.fields.orEmpty()
-        accountFieldAdapter.emojis = account.emojis.orEmpty()
+        accountFieldAdapter.fields = account.fields
+        accountFieldAdapter.emojis = account.emojis
         accountFieldAdapter.notifyDataSetChanged()
 
         binding.accountLockedImageView.visible(account.locked)
@@ -656,7 +656,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      */
     private fun updateRemoteAccount() {
         loadedAccount?.let { account ->
-            if (account.isRemote()) {
+            if (account.isRemote) {
                 binding.accountRemoveView.show()
                 binding.accountRemoveView.setOnClickListener {
                     openLink(account.url)
@@ -1084,7 +1084,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     }
 
     private fun getFullUsername(account: Account): String {
-        return if (account.isRemote()) {
+        return if (account.isRemote) {
             "@" + account.username
         } else {
             val localUsername = account.localUsername

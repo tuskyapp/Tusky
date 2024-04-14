@@ -15,6 +15,9 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class SearchResult(
     val accounts: List<TimelineAccount>,
     val statuses: List<Status>,

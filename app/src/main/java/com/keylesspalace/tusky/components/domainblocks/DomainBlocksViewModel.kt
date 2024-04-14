@@ -10,6 +10,8 @@ import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.R
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class DomainBlocksViewModel @Inject constructor(
@@ -18,12 +20,13 @@ class DomainBlocksViewModel @Inject constructor(
 
     val domainPager = repo.domainPager.cachedIn(viewModelScope)
 
-    val uiEvents = MutableSharedFlow<SnackbarEvent>()
+    private val _uiEvents = MutableSharedFlow<SnackbarEvent>()
+    val uiEvents: SharedFlow<SnackbarEvent> = _uiEvents.asSharedFlow()
 
     fun block(domain: String) {
         viewModelScope.launch {
             repo.block(domain).onFailure { e ->
-                uiEvents.emit(
+                _uiEvents.emit(
                     SnackbarEvent(
                         message = R.string.error_blocking_domain,
                         domain = domain,
@@ -39,7 +42,7 @@ class DomainBlocksViewModel @Inject constructor(
     fun unblock(domain: String) {
         viewModelScope.launch {
             repo.unblock(domain).fold({
-                uiEvents.emit(
+                _uiEvents.emit(
                     SnackbarEvent(
                         message = R.string.confirmation_domain_unmuted,
                         domain = domain,
@@ -49,7 +52,7 @@ class DomainBlocksViewModel @Inject constructor(
                     )
                 )
             }, { e ->
-                uiEvents.emit(
+                _uiEvents.emit(
                     SnackbarEvent(
                         message = R.string.error_unblocking_domain,
                         domain = domain,

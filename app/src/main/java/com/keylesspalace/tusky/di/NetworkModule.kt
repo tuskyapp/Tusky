@@ -20,11 +20,12 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.json.Rfc3339DateJsonAdapter
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.json.GuardedAdapter
 import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
@@ -33,6 +34,9 @@ import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
 import com.keylesspalace.tusky.settings.ProxyConfiguration
 import com.keylesspalace.tusky.util.getNonNullString
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.EnumJsonAdapter
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
 import java.net.IDN
@@ -46,7 +50,7 @@ import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 /**
@@ -54,13 +58,32 @@ import retrofit2.create
  */
 
 @Module
-class NetworkModule {
+object NetworkModule {
+
+    private const val TAG = "NetworkModule"
 
     @Provides
     @Singleton
-    fun providesGson(): Gson = GsonBuilder()
-        .registerTypeAdapter(Date::class.java, Rfc3339DateJsonAdapter())
-        .create()
+    fun providesMoshi(): Moshi = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
+        .add(GuardedAdapter.ANNOTATION_FACTORY)
+        // Enum types with fallback value
+        .add(
+            Attachment.Type::class.java,
+            EnumJsonAdapter.create(Attachment.Type::class.java)
+                .withUnknownFallback(Attachment.Type.UNKNOWN)
+        )
+        .add(
+            Notification.Type::class.java,
+            EnumJsonAdapter.create(Notification.Type::class.java)
+                .withUnknownFallback(Notification.Type.UNKNOWN)
+        )
+        .add(
+            Status.Visibility::class.java,
+            EnumJsonAdapter.create(Status.Visibility::class.java)
+                .withUnknownFallback(Status.Visibility.UNKNOWN)
+        )
+        .build()
 
     @Provides
     @Singleton
@@ -113,10 +136,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(httpClient: OkHttpClient, gson: Gson): Retrofit {
+    fun providesRetrofit(httpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
     }
@@ -137,9 +160,5 @@ class NetworkModule {
             .client(longTimeOutOkHttpClient)
             .build()
             .create()
-    }
-
-    companion object {
-        private const val TAG = "NetworkModule"
     }
 }
