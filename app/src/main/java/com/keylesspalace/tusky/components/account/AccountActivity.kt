@@ -318,6 +318,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 bottom = bottom,
                 left = left
             )
+            binding.swipeToRefreshLayout.setProgressViewEndTarget(
+                false,
+                top + resources.getDimensionPixelSize(R.dimen.account_swiperefresh_distance)
+            )
 
             WindowInsetsCompat.CONSUMED
         }

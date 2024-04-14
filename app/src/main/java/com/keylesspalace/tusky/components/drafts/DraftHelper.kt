@@ -187,10 +187,8 @@ class DraftHelper @Inject constructor(
 
                 val response = okHttpClient.newCall(request).execute()
 
-                val sink = file.sink().buffer()
-
-                response.body?.source()?.use { input ->
-                    sink.use { output ->
+                file.sink().buffer().use { output ->
+                    response.body?.source()?.use { input ->
                         output.writeAll(input)
                     }
                 }

@@ -73,4 +73,6 @@
     <dimen name="profile_badge_icon_start_padding">8dp</dimen>
     <dimen name="profile_badge_icon_end_padding">0dp</dimen>
 
+    <dimen name="account_swiperefresh_distance">64dp</dimen>
+
 </resources>

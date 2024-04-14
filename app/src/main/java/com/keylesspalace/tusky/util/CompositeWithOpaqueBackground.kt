@@ -24,11 +24,11 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Paint
 import android.graphics.Shader
+import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
 import java.nio.ByteBuffer
-import java.nio.charset.Charset
 import java.security.MessageDigest
 
 /**
@@ -57,11 +57,11 @@ class CompositeWithOpaqueBackground(val backgroundColor: Int) : BitmapTransforma
         return false
     }
 
-    override fun hashCode() = Util.hashCode(ID.hashCode(), backgroundColor.hashCode())
+    override fun hashCode() = Util.hashCode(ID.hashCode(), Util.hashCode(backgroundColor))
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)
-        messageDigest.update(ByteBuffer.allocate(4).putInt(backgroundColor.hashCode()).array())
+        messageDigest.update(ByteBuffer.allocate(Int.SIZE_BYTES).putInt(backgroundColor).array())
     }
 
     override fun transform(
@@ -111,7 +111,7 @@ class CompositeWithOpaqueBackground(val backgroundColor: Int) : BitmapTransforma
         @Suppress("unused")
         private const val TAG = "CompositeWithOpaqueBackground"
         private val ID = CompositeWithOpaqueBackground::class.qualifiedName!!
-        private val ID_BYTES = ID.toByteArray(Charset.forName("UTF-8"))
+        private val ID_BYTES = ID.toByteArray(Key.CHARSET)
 
         /** Paint with a color filter that converts 8bpp alpha images to a 1bpp mask */
         private val EXTRACT_MASK_PAINT = Paint().apply {
