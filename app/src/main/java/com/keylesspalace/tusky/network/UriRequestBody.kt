@@ -1,4 +1,5 @@
-/* Copyright 2024 Tusky Contributors
+/*
+ * Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -11,7 +12,8 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>. */
+ * see <http://www.gnu.org/licenses>.
+ */
 package com.keylesspalace.tusky.network
 
 import android.content.ContentResolver
@@ -23,13 +25,19 @@ import okio.Buffer
 import okio.BufferedSink
 import okio.source
 
+// Align with Okio Segment size for better performance
 private const val DEFAULT_CHUNK_SIZE = 8192L
 
 fun interface UploadCallback {
     fun onProgressUpdate(percentage: Int)
 }
 
-fun Uri.asRequestBody(contentResolver: ContentResolver, contentType: MediaType? = null, contentLength: Long = -1L, uploadListener: UploadCallback? = null): RequestBody {
+fun Uri.asRequestBody(
+    contentResolver: ContentResolver,
+    contentType: MediaType? = null,
+    contentLength: Long = -1L,
+    uploadListener: UploadCallback? = null
+): RequestBody {
     return object : RequestBody() {
         override fun contentType(): MediaType? = contentType
 
@@ -38,7 +46,8 @@ fun Uri.asRequestBody(contentResolver: ContentResolver, contentType: MediaType? 
         override fun writeTo(sink: BufferedSink) {
             val buffer = Buffer()
             var uploaded: Long = 0
-            val inputStream = contentResolver.openInputStream(this@asRequestBody) ?: throw FileNotFoundException("Unavailable ContentProvider")
+            val inputStream = contentResolver.openInputStream(this@asRequestBody)
+                ?: throw FileNotFoundException("Unavailable ContentProvider")
 
             inputStream.source().use { source ->
                 while (true) {
