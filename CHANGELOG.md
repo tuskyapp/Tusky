@@ -6,6 +6,41 @@
 
 ### Significant bug fixes
 
+## v25.0
+
+### New features and other improvements
+
+- Added support for the [Mastodon translation api](https://docs.joinmastodon.org/methods/statuses/#translate). [PR#4307](https://github.com/tuskyapp/Tusky/pull/4307)
+  You can now find a new option "translate" in the three-dot-menu on posts that are not in your display language when your server supports the translation api.
+  Support is determined by checking the `configuration.translation.enabled` attribute of the `/api/v2/instance` endpoint.
+- The language of a post is now shown in the metadata section of the detail post view, if it is available. [PR#4127](https://github.com/tuskyapp/Tusky/pull/4127)
+- The transitions between screens have been changed to feel faster and align more with default Android transitions. [PR#4285](https://github.com/tuskyapp/Tusky/pull/4285)
+- The post statistic section has been moved below the buttons in the detail view to prevent layout shifts on the first like or boost. [PR#4205](https://github.com/tuskyapp/Tusky/pull/4205)
+- The filters for boosts/replies/self-boosts in the home timeline have moved from general preferences to account specific preferences. [PR#4115](https://github.com/tuskyapp/Tusky/pull/4115)
+- The json parsing library has been migrated from Gson to Moshi. This change will make Tusky no longer crash on unexpected server responses. [PR#4309](https://github.com/tuskyapp/Tusky/pull/4309)
+- Small layout improvements to the header of the profile view [PR#4375](https://github.com/tuskyapp/Tusky/pull/4375) [PR#4371](https://github.com/tuskyapp/Tusky/pull/4371)
+- support for Android 14 Upside Down Cake [PR#4224](https://github.com/tuskyapp/Tusky/pull/4224)
+- Various internal refactorings to improve performance and maintainability.
+  [PR#4269](https://github.com/tuskyapp/Tusky/pull/4269)
+  [PR#4290](https://github.com/tuskyapp/Tusky/pull/4290)
+  [PR#4291](https://github.com/tuskyapp/Tusky/pull/4291)
+  [PR#4296](https://github.com/tuskyapp/Tusky/pull/4296)
+  [PR#4364](https://github.com/tuskyapp/Tusky/pull/4364)
+  [PR#4366](https://github.com/tuskyapp/Tusky/pull/4366)
+  [PR#4372](https://github.com/tuskyapp/Tusky/pull/4372)
+  [PR#4356](https://github.com/tuskyapp/Tusky/pull/4356)
+  [PR#4348](https://github.com/tuskyapp/Tusky/pull/4348)
+  [PR#4339](https://github.com/tuskyapp/Tusky/pull/4339)
+  [PR#4337](https://github.com/tuskyapp/Tusky/pull/4337)
+  [PR#4336](https://github.com/tuskyapp/Tusky/pull/4336)
+  [PR#4330](https://github.com/tuskyapp/Tusky/pull/4330)
+  [PR#4235](https://github.com/tuskyapp/Tusky/pull/4235)
+  [PR#4081](https://github.com/tuskyapp/Tusky/pull/4081)
+
+### Significant bug fixes
+
+- The setting to hide the notification filter bar that was accidentally removed is back. [PR#4225](https://github.com/tuskyapp/Tusky/pull/4225)
+
 ## v24.1
 
 - The screen will stay on again while a video is playing. [PR#4168](https://github.com/tuskyapp/Tusky/pull/4168)
