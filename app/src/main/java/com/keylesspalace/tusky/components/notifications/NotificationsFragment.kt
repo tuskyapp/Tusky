@@ -236,7 +236,7 @@ class NotificationsFragment :
                         if (getView() != null) {
                             binding.recyclerView.scrollBy(
                                 0,
-                                Utils.dpToPx(requireContext(), -30)
+                                Utils.dpToPx(binding.recyclerView.context, -30)
                             )
                         }
                     }
