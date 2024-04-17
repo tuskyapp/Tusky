@@ -10,9 +10,10 @@
 
 ### New features and other improvements
 
-- Added support for the [Mastodon translation api](https://docs.joinmastodon.org/methods/statuses/#translate). [PR#4307](https://github.com/tuskyapp/Tusky/pull/4307)
+- Added support for the [Mastodon translation api](https://docs.joinmastodon.org/methods/statuses/#translate).
   You can now find a new option "translate" in the three-dot-menu on posts that are not in your display language when your server supports the translation api.
   Support is determined by checking the `configuration.translation.enabled` attribute of the `/api/v2/instance` endpoint.
+  [PR#4307](https://github.com/tuskyapp/Tusky/pull/4307)
 - The language of a post is now shown in the metadata section of the detail post view, if it is available. [PR#4127](https://github.com/tuskyapp/Tusky/pull/4127)
 - The transitions between screens have been changed to feel faster and align more with default Android transitions. [PR#4285](https://github.com/tuskyapp/Tusky/pull/4285)
 - The post statistic section has been moved below the buttons in the detail view to prevent layout shifts on the first like or boost. [PR#4205](https://github.com/tuskyapp/Tusky/pull/4205)
@@ -45,7 +46,7 @@
 
 - The screen will stay on again while a video is playing. [PR#4168](https://github.com/tuskyapp/Tusky/pull/4168)
 - A memory leak has been fixed. This should improve stability and performance. [PR#4150](https://github.com/tuskyapp/Tusky/pull/4150) [PR#4153](https://github.com/tuskyapp/Tusky/pull/4153)
-- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](hhttps://github.com/tuskyapp/Tusky/pull/4152)
+- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](https://github.com/tuskyapp/Tusky/pull/4152)
 - Fixed a crash when text was selected on some devices. [PR#4166](https://github.com/tuskyapp/Tusky/pull/4166)
 - The icons in the help texts of empty timelines will now always be correctly
   aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)
