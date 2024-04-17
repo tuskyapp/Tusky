@@ -6,24 +6,22 @@ import android.content.Context
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.seconds
 
 fun Attachment.getFormattedDescription(context: Context): CharSequence {
-    var duration = ""
-    if (meta?.duration != null && meta.duration > 0) {
-        duration = formatDuration(meta.duration.toDouble()) + " "
-    }
-    return if (description.isNullOrEmpty()) {
-        duration + context.getString(R.string.description_post_media_no_description_placeholder)
+    val durationInSeconds = meta?.duration ?: 0f
+    val duration = if (durationInSeconds > 0f) {
+        durationInSeconds.roundToInt().seconds.toComponents { hours, minutes, seconds, _ ->
+            "%d:%02d:%02d ".format(hours, minutes, seconds)
+        }
     } else {
-        duration + description
+        ""
     }
-}
-
-private fun formatDuration(durationInSeconds: Double): String {
-    val seconds = durationInSeconds.roundToInt() % 60
-    val minutes = durationInSeconds.toInt() % 3600 / 60
-    val hours = durationInSeconds.toInt() / 3600
-    return "%d:%02d:%02d".format(hours, minutes, seconds)
+    return duration + if (description.isNullOrEmpty()) {
+        context.getString(R.string.description_post_media_no_description_placeholder)
+    } else {
+        description
+    }
 }
 
 fun List<Attachment>.aspectRatios(): List<Double> {
