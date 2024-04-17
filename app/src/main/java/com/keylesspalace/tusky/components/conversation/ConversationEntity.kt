@@ -148,7 +148,7 @@ fun TimelineAccount.toEntity() = ConversationAccountEntity(
     username = username,
     displayName = name,
     avatar = avatar,
-    emojis = emojis.orEmpty()
+    emojis = emojis
 )
 
 fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) =
