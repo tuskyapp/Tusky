@@ -41,8 +41,8 @@ import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class PreferencesActivity :
     BaseActivity(),
@@ -112,7 +112,6 @@ class PreferencesActivity :
             pref.fragment!!
         )
         fragment.arguments = args
-        fragment.setTargetFragment(caller, 0)
         supportFragmentManager.commit {
             setCustomAnimations(
                 R.anim.activity_open_enter,
