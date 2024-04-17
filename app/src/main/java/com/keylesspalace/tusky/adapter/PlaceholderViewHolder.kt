@@ -29,19 +29,19 @@ import com.keylesspalace.tusky.util.visible
  */
 class PlaceholderViewHolder(
     private val binding: ItemStatusPlaceholderBinding,
-    private val listener: StatusActionListener
+    listener: StatusActionListener
 ) : RecyclerView.ViewHolder(binding.root) {
+
+    init {
+        binding.loadMoreButton.setOnClickListener {
+            binding.loadMoreButton.hide()
+            binding.loadMoreProgressBar.show()
+            listener.onLoadMore(bindingAdapterPosition)
+        }
+    }
 
     fun setup(loading: Boolean) {
         binding.loadMoreButton.visible(!loading)
         binding.loadMoreProgressBar.visible(loading)
-
-        if (!loading) {
-            binding.loadMoreButton.setOnClickListener {
-                binding.loadMoreButton.hide()
-                binding.loadMoreProgressBar.show()
-                listener.onLoadMore(bindingAdapterPosition)
-            }
-        }
     }
 }
