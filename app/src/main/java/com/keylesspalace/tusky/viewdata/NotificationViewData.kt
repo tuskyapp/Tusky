@@ -22,7 +22,7 @@ sealed class NotificationViewData {
 
     abstract val id: String
 
-    class Concrete(
+    data class Concrete(
         override val id: String,
         val type: Notification.Type,
         val account: TimelineAccount,
@@ -30,7 +30,7 @@ sealed class NotificationViewData {
         val report: Report?
     ) : NotificationViewData()
 
-    class Placeholder(
+    data class Placeholder(
         override val id: String,
         val isLoading: Boolean
     ) : NotificationViewData()
