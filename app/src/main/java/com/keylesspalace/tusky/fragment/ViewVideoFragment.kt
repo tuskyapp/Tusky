@@ -33,6 +33,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
+import androidx.core.os.BundleCompat
 import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -131,7 +132,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+        val attachment = BundleCompat.getParcelable(requireArguments(), ARG_ATTACHMENT, Attachment::class.java)
             ?: throw IllegalArgumentException("attachment has to be set")
 
         val url = attachment.url
