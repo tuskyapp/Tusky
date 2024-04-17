@@ -28,6 +28,8 @@
     <color name="botBadgeForeground">@color/white</color>
     <color name="botBadgeBackground">@color/tusky_grey_10</color>
 
+    <color name="toolbar_icon_background">#CC444B5D</color>
+
     <!-- colors used to show inserted/deleted text -->
     <color name="view_edits_background_insert">#00731B</color>
     <color name="view_edits_background_delete">#DF0000</color>
