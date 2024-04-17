@@ -244,12 +244,12 @@ class AccountListFragment :
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
+    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(accountId)
+                api.authorizeFollowRequest(id)
             } else {
-                api.rejectFollowRequest(accountId)
+                api.rejectFollowRequest(id)
             }.fold(
                 onSuccess = {
                     onRespondToFollowRequestSuccess(position)
@@ -260,7 +260,7 @@ class AccountListFragment :
                     } else {
                         "reject"
                     }
-                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                    Log.e(TAG, "Failed to $verb account id $id.", throwable)
                 }
             )
         }
