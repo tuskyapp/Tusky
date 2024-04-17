@@ -246,11 +246,11 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
-                mediaAttributes = media.map { media ->
+                mediaAttributes = media.map { mediaItem ->
                     MediaAttribute(
-                        id = media.id!!,
-                        description = media.description,
-                        focus = media.focus?.toMastodonApiString(),
+                        id = mediaItem.id!!,
+                        description = mediaItem.description,
+                        focus = mediaItem.focus?.toMastodonApiString(),
                         thumbnail = null
                     )
                 }
