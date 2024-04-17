@@ -379,7 +379,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (!userVisibleHint) {
+        if (view == null) {
             return
         }
 

@@ -45,9 +45,9 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.ortiz.touchview.OnTouchCoordinatesListener
 import com.ortiz.touchview.TouchImageView
-import kotlin.math.abs
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class ViewImageFragment : ViewMediaFragment() {
     interface PhotoActionsListener {
@@ -232,7 +232,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (!userVisibleHint) return
+        if (view == null) return
 
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
