@@ -54,6 +54,7 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
+import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
@@ -78,6 +79,7 @@ class NotificationsFragment :
     NotificationActionListener,
     AccountActionListener,
     MenuProvider,
+    ReselectableFragment,
     Injectable {
 
     @Inject
@@ -257,6 +259,13 @@ class NotificationsFragment :
                     onPreferenceChanged(event.preferenceKey)
                 }
             }
+        }
+    }
+
+    override fun onReselect() {
+        if (isAdded) {
+            binding.recyclerView.layoutManager?.scrollToPosition(0)
+            binding.recyclerView.stopScroll()
         }
     }
 
