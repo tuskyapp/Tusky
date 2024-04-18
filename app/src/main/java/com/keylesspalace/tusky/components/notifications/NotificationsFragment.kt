@@ -533,23 +533,21 @@ class NotificationsFragment :
         menuInflater.inflate(R.menu.fragment_notifications, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                onRefresh()
-                return true
-            }
-            R.id.action_edit_notification_filter -> {
-                showFilterMenu()
-                return true
-            }
-            R.id.action_clear_notifications -> {
-                confirmClearNotifications()
-                return true
-            }
-            else -> return false
+    override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            onRefresh()
+            true
         }
+        R.id.action_edit_notification_filter -> {
+            showFilterMenu()
+            true
+        }
+        R.id.action_clear_notifications -> {
+            confirmClearNotifications()
+            true
+        }
+        else -> false
     }
 
     companion object {
