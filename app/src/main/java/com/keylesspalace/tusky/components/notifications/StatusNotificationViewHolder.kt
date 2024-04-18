@@ -270,7 +270,7 @@ internal class StatusNotificationViewHolder(
         )
         binding.notificationTopText.text = emojifiedText
         if (statusViewData != null) {
-            val hasSpoiler = statusViewData.status.spoilerText.isEmpty()
+            val hasSpoiler = statusViewData.status.spoilerText.isNotEmpty()
             binding.notificationContentWarningDescription.visibility =
                 if (hasSpoiler) View.VISIBLE else View.GONE
             binding.notificationContentWarningButton.visibility =
@@ -304,7 +304,7 @@ internal class StatusNotificationViewHolder(
         animateEmojis: Boolean
     ) {
         val shouldShowContentIfSpoiler = statusViewData.isExpanded
-        val hasSpoiler = statusViewData.status.spoilerText.isEmpty()
+        val hasSpoiler = statusViewData.status.spoilerText.isNotEmpty()
         if (!shouldShowContentIfSpoiler && hasSpoiler) {
             binding.notificationContent.visibility = View.GONE
         } else {
