@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
@@ -68,8 +67,7 @@ class CachedTimelineViewModel @Inject constructor(
     accountManager: AccountManager,
     sharedPreferences: SharedPreferences,
     filterModel: FilterModel,
-    private val db: AppDatabase,
-    private val moshi: Moshi
+    private val db: AppDatabase
 ) : TimelineViewModel(
     timelineCases,
     api,
@@ -87,7 +85,7 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db, moshi),
+        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db),
         pagingSourceFactory = {
             val activeAccount = accountManager.activeAccount
             if (activeAccount == null) {
@@ -108,7 +106,6 @@ class CachedTimelineViewModel @Inject constructor(
             pagingData.map(Dispatchers.Default.asExecutor()) { timelineData ->
                 val translation = translations[timelineData.status?.serverId]
                 timelineData.toViewData(
-                    moshi,
                     isDetailed = false,
                     translation = translation
                 )
@@ -209,15 +206,14 @@ class CachedTimelineViewModel @Inject constructor(
                     }
 
                     for (status in statuses) {
-                        accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
-                        status.reblog?.account?.toEntity(activeAccount.id, moshi)
+                        accountDao.insert(status.account.toEntity(activeAccount.id))
+                        status.reblog?.account?.toEntity(activeAccount.id)
                             ?.let { rebloggedAccount ->
                                 accountDao.insert(rebloggedAccount)
                             }
                         statusDao.insert(
                             status.actionableStatus.toEntity(
                                 tuskyAccountId = activeAccount.id,
-                                moshi = moshi,
                                 expanded = activeAccount.alwaysOpenSpoiler,
                                 contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
                                 contentCollapsed = true

@@ -51,7 +51,6 @@ import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import com.squareup.moshi.Moshi
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -75,7 +74,6 @@ class NotificationsViewModel @Inject constructor(
     private val preferences: SharedPreferences,
     private val filterModel: FilterModel,
     private val db: AppDatabase,
-    private val moshi: Moshi
 ) : ViewModel() {
 
     private val _filters = MutableStateFlow(
@@ -86,7 +84,7 @@ class NotificationsViewModel @Inject constructor(
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
-    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, moshi, filters.value)
+    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, filters.value)
 
     private var readingOrder: ReadingOrder =
         ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
@@ -108,10 +106,7 @@ class NotificationsViewModel @Inject constructor(
         .combine(translations) { pagingData, translations ->
             pagingData.map(Dispatchers.Default.asExecutor()) { notification ->
                 val translation = translations[notification.status?.serverId]
-                notification.toViewData(
-                    moshi,
-                    translation = translation
-                )
+                notification.toViewData(translation = translation)
             }.filter(Dispatchers.Default.asExecutor()) { notificationViewData ->
                 shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
             }
@@ -338,18 +333,17 @@ class NotificationsViewModel @Inject constructor(
                     }
 
                     for (notification in notifications) {
-                        accountDao.insert(notification.account.toEntity(activeAccount.id, moshi))
+                        accountDao.insert(notification.account.toEntity(activeAccount.id))
                         notification.report?.let { report ->
-                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id, moshi))
+                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id))
                             notificationsDao.insertReport(report.toEntity(activeAccount.id))
                         }
                         notification.status?.let { status ->
-                            accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
+                            accountDao.insert(status.account.toEntity(activeAccount.id))
 
                             statusDao.insert(
                                 status.toEntity(
                                     tuskyAccountId = activeAccount.id,
-                                    moshi = moshi,
                                     expanded = activeAccount.alwaysOpenSpoiler,
                                     contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.sensitive,
                                     contentCollapsed = true

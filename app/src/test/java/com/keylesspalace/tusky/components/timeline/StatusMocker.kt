@@ -5,7 +5,6 @@ import androidx.room.withTransaction
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
-import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -114,27 +113,23 @@ fun mockHomeTimelineData(
         authorServerId = authorServerId,
         domain = domain
     )
-    val moshi = NetworkModule.providesMoshi()
 
     return HomeTimelineData(
         id = id,
         status = mockedStatus.toEntity(
             tuskyAccountId = tuskyAccountId,
-            moshi = moshi,
             expanded = expanded,
             contentShowing = false,
             contentCollapsed = true
         ),
         account = mockedStatus.account.toEntity(
             tuskyAccountId = tuskyAccountId,
-            moshi = moshi
         ),
         reblogAccount = reblogAuthorServerId?.let { reblogAuthorId ->
             mockAccount(
                 id = reblogAuthorId
             ).toEntity(
                 tuskyAccountId = tuskyAccountId,
-                moshi = moshi
             )
         },
         loading = false

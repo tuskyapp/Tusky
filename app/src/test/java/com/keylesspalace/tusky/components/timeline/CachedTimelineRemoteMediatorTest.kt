@@ -82,7 +82,6 @@ class CachedTimelineRemoteMediatorTest {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
-            moshi = moshi
         )
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
@@ -101,7 +100,6 @@ class CachedTimelineRemoteMediatorTest {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
-            moshi = moshi
         )
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
@@ -117,7 +115,6 @@ class CachedTimelineRemoteMediatorTest {
             accountManager = accountManager,
             api = mock(),
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -168,7 +165,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -229,7 +225,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -289,7 +284,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -334,7 +328,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -385,7 +378,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -441,7 +433,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(
@@ -493,7 +484,6 @@ class CachedTimelineRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi
         )
 
         val state = state(

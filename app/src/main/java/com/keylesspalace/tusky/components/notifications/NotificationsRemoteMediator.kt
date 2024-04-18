@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isLessThan
-import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -39,7 +38,6 @@ class NotificationsRemoteMediator(
     private val accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val moshi: Moshi,
     var excludes: Set<Notification.Type>
 ) : RemoteMediator<Int, NotificationDataEntity>() {
 
@@ -145,9 +143,9 @@ class NotificationsRemoteMediator(
         }
 
         for (notification in notifications) {
-            accountDao.insert(notification.account.toEntity(activeAccount.id, moshi))
+            accountDao.insert(notification.account.toEntity(activeAccount.id))
             notification.report?.let { report ->
-                accountDao.insert(report.targetAccount.toEntity(activeAccount.id, moshi))
+                accountDao.insert(report.targetAccount.toEntity(activeAccount.id))
                 notificationsDao.insertReport(report.toEntity(activeAccount.id))
             }
 
@@ -166,12 +164,11 @@ class NotificationsRemoteMediator(
                 val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.sensitive)
                 val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-                accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
+                accountDao.insert(status.account.toEntity(activeAccount.id))
 
                 statusDao.insert(
                     status.toEntity(
                         tuskyAccountId = activeAccount.id,
-                        moshi = moshi,
                         expanded = expanded,
                         contentShowing = contentShowing,
                         contentCollapsed = contentCollapsed

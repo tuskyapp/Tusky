@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -39,7 +38,6 @@ class CachedTimelineRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val moshi: Moshi
 ) : RemoteMediator<Int, HomeTimelineData>() {
 
     private var initialRefresh = false
@@ -146,8 +144,8 @@ class CachedTimelineRemoteMediator(
         }
 
         for (status in statuses) {
-            accountDao.insert(status.account.toEntity(activeAccount.id, moshi))
-            status.reblog?.account?.toEntity(activeAccount.id, moshi)?.let { rebloggedAccount ->
+            accountDao.insert(status.account.toEntity(activeAccount.id))
+            status.reblog?.account?.toEntity(activeAccount.id)?.let { rebloggedAccount ->
                 accountDao.insert(rebloggedAccount)
             }
 
@@ -168,7 +166,6 @@ class CachedTimelineRemoteMediator(
             statusDao.insert(
                 status.actionableStatus.toEntity(
                     tuskyAccountId = activeAccount.id,
-                    moshi = moshi,
                     expanded = expanded,
                     contentShowing = contentShowing,
                     contentCollapsed = contentCollapsed

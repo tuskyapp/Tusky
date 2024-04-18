@@ -27,19 +27,18 @@ import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import com.squareup.moshi.Moshi
 
-fun Placeholder.toNotificationEntity(tuskyAccountId: Long): NotificationEntity {
-    return NotificationEntity(
-        id = this.id,
-        tuskyAccountId = tuskyAccountId,
-        type = null,
-        accountId = null,
-        statusId = null,
-        reportId = null,
-        loading = loading
-    )
-}
+fun Placeholder.toNotificationEntity(
+    tuskyAccountId: Long
+) = NotificationEntity(
+    id = this.id,
+    tuskyAccountId = tuskyAccountId,
+    type = null,
+    accountId = null,
+    statusId = null,
+    reportId = null,
+    loading = loading
+)
 
 fun Notification.toEntity(
     tuskyAccountId: Long
@@ -65,7 +64,6 @@ fun Report.toEntity(
 )
 
 fun NotificationDataEntity.toViewData(
-    moshi: Moshi,
     translation: TranslationViewData? = null
 ): NotificationViewData {
     if (type == null || account == null) {
@@ -75,10 +73,10 @@ fun NotificationDataEntity.toViewData(
     return NotificationViewData.Concrete(
         id = id,
         type = type,
-        account = account.toAccount(moshi),
+        account = account.toAccount(),
         statusViewData = if (status != null && statusAccount != null) {
             StatusViewData.Concrete(
-                status = status.toStatus(moshi, statusAccount),
+                status = status.toStatus(statusAccount),
                 isExpanded = this.status.expanded,
                 isShowingContent = this.status.contentShowing,
                 isCollapsed = this.status.contentCollapsed,
@@ -88,7 +86,7 @@ fun NotificationDataEntity.toViewData(
             null
         },
         report = if (report != null && reportTargetAccount != null) {
-            report.toReport(reportTargetAccount, moshi)
+            report.toReport(reportTargetAccount)
         } else {
             null
         }
@@ -96,12 +94,11 @@ fun NotificationDataEntity.toViewData(
 }
 
 fun NotificationReportEntity.toReport(
-    account: TimelineAccountEntity,
-    moshi: Moshi
+    account: TimelineAccountEntity
 ) = Report(
     id = serverId,
     category = category,
     statusIds = statusIds,
     createdAt = createdAt,
-    targetAccount = account.toAccount(moshi)
+    targetAccount = account.toAccount()
 )

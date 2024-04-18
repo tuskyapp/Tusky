@@ -190,6 +190,11 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
+    fun jsonToCard(cardJson: String?): Card? {
+        return cardJson?.let { moshi.adapter<Card?>().fromJson(cardJson) }
+    }
+
+    @TypeConverter
     fun stringListToJson(list: List<String>?): String? {
         return moshi.adapter<List<String>?>().toJson(list)
     }
@@ -197,5 +202,15 @@ class Converters @Inject constructor(
     @TypeConverter
     fun jsonToStringList(listJson: String?): List<String>? {
         return listJson?.let { moshi.adapter<List<String>?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun applicationToJson(application: Status.Application?): String {
+        return moshi.adapter<Status.Application?>().toJson(application)
+    }
+
+    @TypeConverter
+    fun jsonToApplication(applicationJson: String?): Status.Application? {
+        return applicationJson?.let { moshi.adapter<Status.Application?>().fromJson(it) }
     }
 }

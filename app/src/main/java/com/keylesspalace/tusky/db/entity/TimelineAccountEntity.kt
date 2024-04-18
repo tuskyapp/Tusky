@@ -16,10 +16,14 @@
 package com.keylesspalace.tusky.db.entity
 
 import androidx.room.Entity
+import androidx.room.TypeConverters
+import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.entity.Emoji
 
 @Entity(
     primaryKeys = ["serverId", "tuskyAccountId"]
 )
+@TypeConverters(Converters::class)
 data class TimelineAccountEntity(
     val serverId: String,
     val tuskyAccountId: Long,
@@ -28,6 +32,6 @@ data class TimelineAccountEntity(
     val displayName: String,
     val url: String,
     val avatar: String,
-    val emojis: String,
+    val emojis: List<Emoji>,
     val bot: Boolean
 )

@@ -82,7 +82,6 @@ class NotificationsRemoteMediatorTest {
                 onBlocking { notifications(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -102,7 +101,6 @@ class NotificationsRemoteMediatorTest {
                 onBlocking { notifications(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -119,7 +117,6 @@ class NotificationsRemoteMediatorTest {
             accountManager = accountManager,
             api = mock(),
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -171,7 +168,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -233,7 +229,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -294,7 +289,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -340,7 +334,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -395,7 +388,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -457,7 +449,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 
@@ -510,7 +501,6 @@ class NotificationsRemoteMediatorTest {
                 )
             },
             db = db,
-            moshi = moshi,
             excludes = emptySet()
         )
 

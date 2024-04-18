@@ -20,7 +20,12 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Card
+import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
+import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 
 /**
@@ -54,7 +59,7 @@ data class TimelineStatusEntity(
     val content: String,
     val createdAt: Long,
     val editedAt: Long?,
-    val emojis: String,
+    val emojis: List<Emoji>,
     val reblogsCount: Int,
     val favouritesCount: Int,
     val repliesCount: Int,
@@ -64,19 +69,19 @@ data class TimelineStatusEntity(
     val sensitive: Boolean,
     val spoilerText: String,
     val visibility: Status.Visibility,
-    val attachments: String,
-    val mentions: String,
-    val tags: String,
-    val application: String?,
+    val attachments: List<Attachment>,
+    val mentions: List<Status.Mention>,
+    val tags: List<HashTag>,
+    val application: Status.Application?,
     // if it has a reblogged status, it's id is stored here
-    val poll: String?,
+    val poll: Poll?,
     val muted: Boolean,
     /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
     val expanded: Boolean,
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
     val pinned: Boolean,
-    val card: String?,
+    val card: Card?,
     val language: String?,
     val filtered: List<FilterResult>
 )

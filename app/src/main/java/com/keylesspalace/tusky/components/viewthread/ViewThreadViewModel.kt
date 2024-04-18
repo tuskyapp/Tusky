@@ -114,7 +114,7 @@ class ViewThreadViewModel @Inject constructor(
             var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
                 StatusViewData.Concrete(
-                    status = statusAndAccount.first.toStatus(moshi, statusAndAccount.second),
+                    status = statusAndAccount.first.toStatus(statusAndAccount.second),
                     isExpanded = statusAndAccount.first.expanded,
                     isShowingContent = statusAndAccount.first.contentShowing,
                     isCollapsed = statusAndAccount.first.contentCollapsed,

@@ -9,7 +9,6 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
-import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.Status
@@ -49,25 +48,21 @@ fun Notification.toNotificationDataEntity(
     tuskyAccountId: Long,
     isStatusExpanded: Boolean = false,
     isStatusContentShowing: Boolean = false
-): NotificationDataEntity {
-    val moshi = NetworkModule.providesMoshi()
-    return NotificationDataEntity(
+) = NotificationDataEntity(
+    tuskyAccountId = tuskyAccountId,
+    type = type,
+    id = id,
+    account = account.toEntity(tuskyAccountId),
+    status = status?.toEntity(
         tuskyAccountId = tuskyAccountId,
-        type = type,
-        id = id,
-        account = account.toEntity(tuskyAccountId, moshi),
-        status = status?.toEntity(
-            tuskyAccountId = tuskyAccountId,
-            moshi = moshi,
-            expanded = isStatusExpanded,
-            contentShowing = isStatusContentShowing,
-            contentCollapsed = true
-        ),
-        statusAccount = status?.account?.toEntity(tuskyAccountId, moshi),
-        report = report?.toEntity(tuskyAccountId),
-        reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId, moshi)
-    )
-}
+        expanded = isStatusExpanded,
+        contentShowing = isStatusContentShowing,
+        contentCollapsed = true
+    ),
+    statusAccount = status?.account?.toEntity(tuskyAccountId),
+    report = report?.toEntity(tuskyAccountId),
+    reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId)
+)
 
 fun Placeholder.toNotificationDataEntity(
     tuskyAccountId: Long
@@ -83,18 +78,16 @@ fun Placeholder.toNotificationDataEntity(
 )
 
 suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId: Long = 1) = withTransaction {
-    val moshi = NetworkModule.providesMoshi()
     notifications.forEach { notification ->
 
         timelineAccountDao().insert(
-            notification.account.toEntity(tuskyAccountId, moshi)
+            notification.account.toEntity(tuskyAccountId)
         )
 
         notification.report?.let { report ->
             timelineAccountDao().insert(
                 report.targetAccount.toEntity(
                     tuskyAccountId = tuskyAccountId,
-                    moshi = moshi
                 )
             )
             notificationsDao().insertReport(report.toEntity(tuskyAccountId))
@@ -103,13 +96,11 @@ suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId
             timelineAccountDao().insert(
                 status.account.toEntity(
                     tuskyAccountId = tuskyAccountId,
-                    moshi = moshi
                 )
             )
             timelineStatusDao().insert(
                 status.toEntity(
                     tuskyAccountId = tuskyAccountId,
-                    moshi = moshi,
                     expanded = false,
                     contentShowing = false,
                     contentCollapsed = true
