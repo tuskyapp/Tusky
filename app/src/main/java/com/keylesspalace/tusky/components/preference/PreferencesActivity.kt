@@ -41,8 +41,8 @@ import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 class PreferencesActivity :
     BaseActivity(),
