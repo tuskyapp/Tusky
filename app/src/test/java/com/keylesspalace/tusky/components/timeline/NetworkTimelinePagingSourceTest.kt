@@ -16,7 +16,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class NetworkTimelinePagingSourceTest {
 
-    private val status = mockStatusViewData()
+    private val status = fakeStatusViewData()
 
     private val timelineViewModel: NetworkTimelineViewModel = mock {
         on { statusData } doReturn mutableListOf(status)

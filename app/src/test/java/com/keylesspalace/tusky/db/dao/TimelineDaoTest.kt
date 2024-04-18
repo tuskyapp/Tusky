@@ -4,9 +4,9 @@ import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.components.timeline.fakeHomeTimelineData
+import com.keylesspalace.tusky.components.timeline.fakePlaceholderHomeTimelineData
 import com.keylesspalace.tusky.components.timeline.insert
-import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
-import com.keylesspalace.tusky.components.timeline.mockPlaceholderHomeTimelineData
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.di.NetworkModule
@@ -44,10 +44,10 @@ class TimelineDaoTest {
 
     @Test
     fun insertGetStatus() = runTest {
-        val setOne = mockHomeTimelineData(id = "3")
-        val setTwo = mockHomeTimelineData(id = "20", reblogAuthorServerId = "R1")
-        val ignoredOne = mockHomeTimelineData(id = "1")
-        val ignoredTwo = mockHomeTimelineData(id = "2", tuskyAccountId = 2)
+        val setOne = fakeHomeTimelineData(id = "3")
+        val setTwo = fakeHomeTimelineData(id = "20", reblogAuthorServerId = "R1")
+        val ignoredOne = fakeHomeTimelineData(id = "1")
+        val ignoredTwo = fakeHomeTimelineData(id = "2", tuskyAccountId = 2)
 
         db.insert(
             listOf(setOne, setTwo, ignoredOne),
@@ -71,17 +71,17 @@ class TimelineDaoTest {
     @Test
     fun overwriteDeletedStatus() = runTest {
         val oldStatuses = listOf(
-            mockHomeTimelineData(id = "3"),
-            mockHomeTimelineData(id = "2"),
-            mockHomeTimelineData(id = "1")
+            fakeHomeTimelineData(id = "3"),
+            fakeHomeTimelineData(id = "2"),
+            fakeHomeTimelineData(id = "1")
         )
 
         db.insert(oldStatuses, 1)
 
         // status 2 gets deleted, newly loaded status contain only 1 + 3
         val newStatuses = listOf(
-            mockHomeTimelineData(id = "3"),
-            mockHomeTimelineData(id = "1")
+            fakeHomeTimelineData(id = "3"),
+            fakeHomeTimelineData(id = "1")
         )
 
         val deletedCount = timelineDao.deleteRange(1, newStatuses.last().id, newStatuses.first().id)
@@ -102,15 +102,15 @@ class TimelineDaoTest {
     @Test
     fun deleteRange() = runTest {
         val statuses = listOf(
-            mockHomeTimelineData(id = "100"),
-            mockHomeTimelineData(id = "50"),
-            mockHomeTimelineData(id = "15"),
-            mockHomeTimelineData(id = "14"),
-            mockHomeTimelineData(id = "13"),
-            mockHomeTimelineData(id = "13", tuskyAccountId = 2),
-            mockHomeTimelineData(id = "12"),
-            mockHomeTimelineData(id = "11"),
-            mockHomeTimelineData(id = "9")
+            fakeHomeTimelineData(id = "100"),
+            fakeHomeTimelineData(id = "50"),
+            fakeHomeTimelineData(id = "15"),
+            fakeHomeTimelineData(id = "14"),
+            fakeHomeTimelineData(id = "13"),
+            fakeHomeTimelineData(id = "13", tuskyAccountId = 2),
+            fakeHomeTimelineData(id = "12"),
+            fakeHomeTimelineData(id = "11"),
+            fakeHomeTimelineData(id = "9")
         )
 
         db.insert(statuses - statuses[5], 1)
@@ -129,14 +129,14 @@ class TimelineDaoTest {
         val statusesAccount2 = (timelineDao.getHomeTimeline(2).load(loadParams) as PagingSource.LoadResult.Page).data
 
         val remainingStatusesAccount1 = listOf(
-            mockHomeTimelineData(id = "100"),
-            mockHomeTimelineData(id = "15"),
-            mockHomeTimelineData(id = "11"),
-            mockHomeTimelineData(id = "9")
+            fakeHomeTimelineData(id = "100"),
+            fakeHomeTimelineData(id = "15"),
+            fakeHomeTimelineData(id = "11"),
+            fakeHomeTimelineData(id = "9")
         )
 
         val remainingStatusesAccount2 = listOf(
-            mockHomeTimelineData(id = "13", tuskyAccountId = 2)
+            fakeHomeTimelineData(id = "13", tuskyAccountId = 2)
         )
 
         assertEquals(remainingStatusesAccount1, statusesAccount1)
@@ -145,37 +145,37 @@ class TimelineDaoTest {
 
     @Test
     fun deleteAllForInstance() = runTest {
-        val statusWithRedDomain1 = mockHomeTimelineData(
+        val statusWithRedDomain1 = fakeHomeTimelineData(
             id = "15",
             tuskyAccountId = 1,
             domain = "mastodon.red",
             authorServerId = "1"
         )
-        val statusWithRedDomain2 = mockHomeTimelineData(
+        val statusWithRedDomain2 = fakeHomeTimelineData(
             id = "14",
             tuskyAccountId = 1,
             domain = "mastodon.red",
             authorServerId = "2"
         )
-        val statusWithRedDomainOtherAccount = mockHomeTimelineData(
+        val statusWithRedDomainOtherAccount = fakeHomeTimelineData(
             id = "12",
             tuskyAccountId = 2,
             domain = "mastodon.red",
             authorServerId = "2"
         )
-        val statusWithBlueDomain = mockHomeTimelineData(
+        val statusWithBlueDomain = fakeHomeTimelineData(
             id = "10",
             tuskyAccountId = 1,
             domain = "mastodon.blue",
             authorServerId = "4"
         )
-        val statusWithBlueDomainOtherAccount = mockHomeTimelineData(
+        val statusWithBlueDomainOtherAccount = fakeHomeTimelineData(
             id = "10",
             tuskyAccountId = 2,
             domain = "mastodon.blue",
             authorServerId = "5"
         )
-        val statusWithGreenDomain = mockHomeTimelineData(
+        val statusWithGreenDomain = fakeHomeTimelineData(
             id = "8",
             tuskyAccountId = 1,
             domain = "mastodon.green",
@@ -206,19 +206,19 @@ class TimelineDaoTest {
     @Test
     fun `should return correct topId`() = runTest {
         val statusData = listOf(
-            mockHomeTimelineData(
+            fakeHomeTimelineData(
                 id = "4",
                 tuskyAccountId = 1,
                 domain = "mastodon.test",
                 authorServerId = "1"
             ),
-            mockHomeTimelineData(
+            fakeHomeTimelineData(
                 id = "33",
                 tuskyAccountId = 1,
                 domain = "mastodon.test",
                 authorServerId = "2"
             ),
-            mockHomeTimelineData(
+            fakeHomeTimelineData(
                 id = "22",
                 tuskyAccountId = 1,
                 domain = "mastodon.test",
@@ -234,13 +234,13 @@ class TimelineDaoTest {
     @Test
     fun `should return correct top placeholderId`() = runTest {
         val statusData = listOf(
-            mockHomeTimelineData(id = "1000"),
-            mockPlaceholderHomeTimelineData(id = "99"),
-            mockHomeTimelineData(id = "97"),
-            mockPlaceholderHomeTimelineData(id = "96"),
-            mockHomeTimelineData(id = "90"),
-            mockPlaceholderHomeTimelineData(id = "80"),
-            mockHomeTimelineData(id = "77")
+            fakeHomeTimelineData(id = "1000"),
+            fakePlaceholderHomeTimelineData(id = "99"),
+            fakeHomeTimelineData(id = "97"),
+            fakePlaceholderHomeTimelineData(id = "96"),
+            fakeHomeTimelineData(id = "90"),
+            fakePlaceholderHomeTimelineData(id = "80"),
+            fakeHomeTimelineData(id = "77")
         )
 
         db.insert(statusData)
@@ -252,25 +252,25 @@ class TimelineDaoTest {
     fun `should correctly delete all by user`() = runTest {
         val statusData = listOf(
             // will be deleted because it is a direct post
-            mockHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
+            fakeHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
             // different Tusky Account
-            mockHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
+            fakeHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
             // different author
-            mockHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
+            fakeHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
             // different author and reblogger
-            mockHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
+            fakeHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
             // will be deleted because it is a reblog
-            mockHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
             // not a status
-            mockPlaceholderHomeTimelineData(id = "5"),
+            fakePlaceholderHomeTimelineData(id = "5"),
             // will be deleted because it is a self reblog
-            mockHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
             // will be deleted because it direct post reblogged by another user
-            mockHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
+            fakeHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
             // different Tusky Account
-            mockHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
+            fakeHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
             // different Tusky Account
-            mockHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
         )
 
         db.insert(statusData - statusData[1] - statusData[8] - statusData [9], tuskyAccountId = 1)
@@ -297,25 +297,25 @@ class TimelineDaoTest {
     fun `should correctly delete statuses and reblogs by user`() = runTest {
         val statusData = listOf(
             // will be deleted because it is a direct post
-            mockHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
+            fakeHomeTimelineData(id = "0", tuskyAccountId = 1, authorServerId = "1"),
             // different Tusky Account
-            mockHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
+            fakeHomeTimelineData(id = "1", tuskyAccountId = 2, authorServerId = "1"),
             // different author
-            mockHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
+            fakeHomeTimelineData(id = "2", tuskyAccountId = 1, authorServerId = "2"),
             // different author and reblogger
-            mockHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
+            fakeHomeTimelineData(id = "3", tuskyAccountId = 1, authorServerId = "2", statusId = "100", reblogAuthorServerId = "3"),
             // will be deleted because it is a reblog
-            mockHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "4", tuskyAccountId = 1, authorServerId = "2", statusId = "101", reblogAuthorServerId = "1"),
             // not a status
-            mockPlaceholderHomeTimelineData(id = "5"),
+            fakePlaceholderHomeTimelineData(id = "5"),
             // will be deleted because it is a self reblog
-            mockHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "6", tuskyAccountId = 1, authorServerId = "1", statusId = "102", reblogAuthorServerId = "1"),
             // will NOT be deleted because it direct post reblogged by another user
-            mockHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
+            fakeHomeTimelineData(id = "7", tuskyAccountId = 1, authorServerId = "1", statusId = "103", reblogAuthorServerId = "3"),
             // different Tusky Account
-            mockHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
+            fakeHomeTimelineData(id = "8", tuskyAccountId = 2, authorServerId = "3", statusId = "104", reblogAuthorServerId = "2"),
             // different Tusky Account
-            mockHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
+            fakeHomeTimelineData(id = "9", tuskyAccountId = 2, authorServerId = "3", statusId = "105", reblogAuthorServerId = "1"),
         )
 
         db.insert(statusData - statusData[1] - statusData[8] - statusData [9], tuskyAccountId = 1)

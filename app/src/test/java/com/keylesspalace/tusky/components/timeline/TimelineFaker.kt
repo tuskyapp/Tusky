@@ -13,7 +13,7 @@ import org.junit.Assert.assertEquals
 
 private val fixedDate = Date(1638889052000)
 
-fun mockAccount(
+fun fakeAccount(
     id: String = "100",
     domain: String = "mastodon.example"
 ) = TimelineAccount(
@@ -26,7 +26,7 @@ fun mockAccount(
     avatar = "https://$domain/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
 )
 
-fun mockStatus(
+fun fakeStatus(
     id: String = "100",
     authorServerId: String = "100",
     inReplyToId: String? = null,
@@ -39,7 +39,7 @@ fun mockStatus(
 ) = Status(
     id = id,
     url = "https://$domain/@ConnyDuck/$id",
-    account = mockAccount(
+    account = fakeAccount(
         id = authorServerId,
         domain = domain
     ),
@@ -71,7 +71,7 @@ fun mockStatus(
     filtered = emptyList()
 )
 
-fun mockStatusViewData(
+fun fakeStatusViewData(
     id: String = "100",
     inReplyToId: String? = null,
     inReplyToAccountId: String? = null,
@@ -84,7 +84,7 @@ fun mockStatusViewData(
     favourited: Boolean = true,
     bookmarked: Boolean = true
 ) = StatusViewData.Concrete(
-    status = mockStatus(
+    status = fakeStatus(
         id = id,
         inReplyToId = inReplyToId,
         inReplyToAccountId = inReplyToAccountId,
@@ -99,7 +99,7 @@ fun mockStatusViewData(
     isDetailed = isDetailed
 )
 
-fun mockHomeTimelineData(
+fun fakeHomeTimelineData(
     id: String = "100",
     statusId: String = id,
     tuskyAccountId: Long = 1,
@@ -108,7 +108,7 @@ fun mockHomeTimelineData(
     domain: String = "mastodon.example",
     reblogAuthorServerId: String? = null
 ): HomeTimelineData {
-    val mockedStatus = mockStatus(
+    val mockedStatus = fakeStatus(
         id = statusId,
         authorServerId = authorServerId,
         domain = domain
@@ -126,7 +126,7 @@ fun mockHomeTimelineData(
             tuskyAccountId = tuskyAccountId,
         ),
         reblogAccount = reblogAuthorServerId?.let { reblogAuthorId ->
-            mockAccount(
+            fakeAccount(
                 id = reblogAuthorId
             ).toEntity(
                 tuskyAccountId = tuskyAccountId,
@@ -136,7 +136,7 @@ fun mockHomeTimelineData(
     )
 }
 
-fun mockPlaceholderHomeTimelineData(
+fun fakePlaceholderHomeTimelineData(
     id: String
 ) = HomeTimelineData(
     id = id,

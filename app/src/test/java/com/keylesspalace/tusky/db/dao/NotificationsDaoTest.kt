@@ -4,14 +4,14 @@ import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.components.notifications.fakeNotification
+import com.keylesspalace.tusky.components.notifications.fakeReport
 import com.keylesspalace.tusky.components.notifications.insert
-import com.keylesspalace.tusky.components.notifications.mockNotification
-import com.keylesspalace.tusky.components.notifications.mockReport
 import com.keylesspalace.tusky.components.notifications.toNotificationDataEntity
 import com.keylesspalace.tusky.components.notifications.toNotificationEntity
 import com.keylesspalace.tusky.components.timeline.Placeholder
-import com.keylesspalace.tusky.components.timeline.mockAccount
-import com.keylesspalace.tusky.components.timeline.mockStatus
+import com.keylesspalace.tusky.components.timeline.fakeAccount
+import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.di.NetworkModule
@@ -52,14 +52,14 @@ class NotificationsDaoTest {
     fun insertAndGetNotification() = runTest {
         db.insert(
             listOf(
-                mockNotification(id = "1"),
-                mockNotification(id = "2"),
-                mockNotification(id = "3"),
+                fakeNotification(id = "1"),
+                fakeNotification(id = "2"),
+                fakeNotification(id = "3"),
             ),
             tuskyAccountId = 1
         )
         db.insert(
-            listOf(mockNotification(id = "3")),
+            listOf(fakeNotification(id = "3")),
             tuskyAccountId = 2
         )
 
@@ -71,8 +71,8 @@ class NotificationsDaoTest {
 
         assertEquals(
             listOf(
-                mockNotification(id = "3").toNotificationDataEntity(1),
-                mockNotification(id = "2").toNotificationDataEntity(1)
+                fakeNotification(id = "3").toNotificationDataEntity(1),
+                fakeNotification(id = "2").toNotificationDataEntity(1)
             ),
             loadedStatuses
         )
@@ -81,18 +81,18 @@ class NotificationsDaoTest {
     @Test
     fun deleteRange() = runTest {
         val notifications = listOf(
-            mockNotification(id = "100"),
-            mockNotification(id = "50"),
-            mockNotification(id = "15"),
-            mockNotification(id = "14"),
-            mockNotification(id = "13"),
-            mockNotification(id = "12"),
-            mockNotification(id = "11"),
-            mockNotification(id = "9")
+            fakeNotification(id = "100"),
+            fakeNotification(id = "50"),
+            fakeNotification(id = "15"),
+            fakeNotification(id = "14"),
+            fakeNotification(id = "13"),
+            fakeNotification(id = "12"),
+            fakeNotification(id = "11"),
+            fakeNotification(id = "9")
         )
 
         db.insert(notifications, 1)
-        db.insert(listOf(mockNotification(id = "13")), 2)
+        db.insert(listOf(fakeNotification(id = "13")), 2)
 
         assertEquals(3, notificationsDao.deleteRange(1, "12", "14"))
         assertEquals(0, notificationsDao.deleteRange(1, "80", "80"))
@@ -107,14 +107,14 @@ class NotificationsDaoTest {
         val notificationsAccount2 = (notificationsDao.getNotifications(2).load(loadParams) as PagingSource.LoadResult.Page).data
 
         val remainingNotificationsAccount1 = listOf(
-            mockNotification(id = "100").toNotificationDataEntity(1),
-            mockNotification(id = "15").toNotificationDataEntity(1),
-            mockNotification(id = "11").toNotificationDataEntity(1),
-            mockNotification(id = "9").toNotificationDataEntity(1)
+            fakeNotification(id = "100").toNotificationDataEntity(1),
+            fakeNotification(id = "15").toNotificationDataEntity(1),
+            fakeNotification(id = "11").toNotificationDataEntity(1),
+            fakeNotification(id = "9").toNotificationDataEntity(1)
         )
 
         val remainingNotificationsAccount2 = listOf(
-            mockNotification(id = "13").toNotificationDataEntity(2)
+            fakeNotification(id = "13").toNotificationDataEntity(2)
         )
 
         assertEquals(remainingNotificationsAccount1, notificationsAccount1)
@@ -123,12 +123,12 @@ class NotificationsDaoTest {
 
     @Test
     fun deleteAllForInstance() = runTest {
-        val redAccount = mockNotification(id = "500", account = mockAccount(id = "500", domain = "mastodon.red"))
-        val blueAccount = mockNotification(id = "501", account = mockAccount(id = "501", domain = "mastodon.blue"))
-        val redStatus = mockNotification(id = "502", account = mockAccount(id = "502", domain = "mastodon.example"), status = mockStatus(id = "502", domain = "mastodon.red", authorServerId = "502a"))
-        val blueStatus = mockNotification(id = "503", account = mockAccount(id = "503", domain = "mastodon.example"), status = mockStatus(id = "503", domain = "mastodon.blue", authorServerId = "503a"))
+        val redAccount = fakeNotification(id = "500", account = fakeAccount(id = "500", domain = "mastodon.red"))
+        val blueAccount = fakeNotification(id = "501", account = fakeAccount(id = "501", domain = "mastodon.blue"))
+        val redStatus = fakeNotification(id = "502", account = fakeAccount(id = "502", domain = "mastodon.example"), status = fakeStatus(id = "502", domain = "mastodon.red", authorServerId = "502a"))
+        val blueStatus = fakeNotification(id = "503", account = fakeAccount(id = "503", domain = "mastodon.example"), status = fakeStatus(id = "503", domain = "mastodon.blue", authorServerId = "503a"))
 
-        val redStatus2 = mockNotification(id = "600", account = mockAccount(id = "600", domain = "mastodon.red"))
+        val redStatus2 = fakeNotification(id = "600", account = fakeAccount(id = "600", domain = "mastodon.red"))
 
         db.insert(listOf(redAccount, blueAccount, redStatus, blueStatus), 1)
         db.insert(listOf(redStatus2), 2)
@@ -161,18 +161,18 @@ class NotificationsDaoTest {
     fun `should return correct topId`() = runTest {
         db.insert(
             listOf(
-                mockNotification(id = "100"),
-                mockNotification(id = "3"),
-                mockNotification(id = "33"),
-                mockNotification(id = "8"),
+                fakeNotification(id = "100"),
+                fakeNotification(id = "3"),
+                fakeNotification(id = "33"),
+                fakeNotification(id = "8"),
             ),
             tuskyAccountId = 1
         )
         db.insert(
             listOf(
-                mockNotification(id = "200"),
-                mockNotification(id = "300"),
-                mockNotification(id = "1000"),
+                fakeNotification(id = "200"),
+                fakeNotification(id = "300"),
+                fakeNotification(id = "1000"),
             ),
             tuskyAccountId = 2
         )
@@ -184,10 +184,10 @@ class NotificationsDaoTest {
     @Test
     fun `should return correct top placeholderId`() = runTest {
         val notifications = listOf(
-            mockNotification(id = "1000"),
-            mockNotification(id = "97"),
-            mockNotification(id = "90"),
-            mockNotification(id = "77")
+            fakeNotification(id = "1000"),
+            fakeNotification(id = "97"),
+            fakeNotification(id = "90"),
+            fakeNotification(id = "77")
         )
         db.insert(notifications)
 
@@ -202,18 +202,18 @@ class NotificationsDaoTest {
     fun `should correctly delete all by user`() = runTest {
         val notificationsAccount1 = listOf(
             // will be removed because it is a like by account 1
-            mockNotification(id = "1", account = mockAccount(id = "1"), status = mockStatus(id = "1", authorServerId = "100")),
+            fakeNotification(id = "1", account = fakeAccount(id = "1"), status = fakeStatus(id = "1", authorServerId = "100")),
             // will be removed because it references a status by account 1
-            mockNotification(id = "2", account = mockAccount(id = "2"), status = mockStatus(id = "2", authorServerId = "1")),
+            fakeNotification(id = "2", account = fakeAccount(id = "2"), status = fakeStatus(id = "2", authorServerId = "1")),
             // will not be removed because they are admin notifications
-            mockNotification(type = Notification.Type.REPORT, id = "3", account = mockAccount(id = "3"), status = null, report = mockReport(id = "1", targetAccount = mockAccount(id = "1"))),
-            mockNotification(type = Notification.Type.SIGN_UP, id = "4", account = mockAccount(id = "1"), status = null, report = mockReport(id = "1", targetAccount = mockAccount(id = "4"))),
+            fakeNotification(type = Notification.Type.REPORT, id = "3", account = fakeAccount(id = "3"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "1"))),
+            fakeNotification(type = Notification.Type.SIGN_UP, id = "4", account = fakeAccount(id = "1"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "4"))),
             // will not be removed because it does not reference account 1
-            mockNotification(id = "5", account = mockAccount(id = "5"), status = mockStatus(id = "5", authorServerId = "100")),
+            fakeNotification(id = "5", account = fakeAccount(id = "5"), status = fakeStatus(id = "5", authorServerId = "100")),
         )
 
         db.insert(notificationsAccount1, tuskyAccountId = 1)
-        db.insert(listOf(mockNotification(id = "6")), tuskyAccountId = 2)
+        db.insert(listOf(fakeNotification(id = "6")), tuskyAccountId = 2)
 
         notificationsDao.removeAllByUser(1, "1")
 

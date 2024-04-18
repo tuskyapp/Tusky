@@ -124,7 +124,7 @@ class NotificationsRemoteMediatorTest {
             listOf(
                 PagingSource.LoadResult.Page(
                     data = listOf(
-                        mockNotification(id = "3").toNotificationDataEntity(1)
+                        fakeNotification(id = "3").toNotificationDataEntity(1)
                     ),
                     prevKey = null,
                     nextKey = 1
@@ -142,9 +142,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and insert placeholder when a whole page with no overlap to existing notifications is loaded`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "3"),
-            mockNotification(id = "2"),
-            mockNotification(id = "1")
+            fakeNotification(id = "3"),
+            fakeNotification(id = "2"),
+            fakeNotification(id = "1")
         )
 
         db.insert(notificationsAlreadyInDb)
@@ -154,16 +154,16 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(limit = 3, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "8"),
-                        mockNotification(id = "7"),
-                        mockNotification(id = "5")
+                        fakeNotification(id = "8"),
+                        fakeNotification(id = "7"),
+                        fakeNotification(id = "5")
                     )
                 )
                 onBlocking { notifications(maxId = "3", limit = 3, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "3"),
-                        mockNotification(id = "2"),
-                        mockNotification(id = "1")
+                        fakeNotification(id = "3"),
+                        fakeNotification(id = "2"),
+                        fakeNotification(id = "1")
                     )
                 )
             },
@@ -189,12 +189,12 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "8").toNotificationDataEntity(1),
-                mockNotification(id = "7").toNotificationDataEntity(1),
+                fakeNotification(id = "8").toNotificationDataEntity(1),
+                fakeNotification(id = "7").toNotificationDataEntity(1),
                 Placeholder(id = "5", loading = false).toNotificationDataEntity(1),
-                mockNotification(id = "3").toNotificationDataEntity(1),
-                mockNotification(id = "2").toNotificationDataEntity(1),
-                mockNotification(id = "1").toNotificationDataEntity(1)
+                fakeNotification(id = "3").toNotificationDataEntity(1),
+                fakeNotification(id = "2").toNotificationDataEntity(1),
+                fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )
     }
@@ -203,9 +203,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholder when less than a whole page is loaded`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "3"),
-            mockNotification(id = "2"),
-            mockNotification(id = "1")
+            fakeNotification(id = "3"),
+            fakeNotification(id = "2"),
+            fakeNotification(id = "1")
         )
 
         db.insert(notificationsAlreadyInDb)
@@ -215,16 +215,16 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "8"),
-                        mockNotification(id = "7"),
-                        mockNotification(id = "5")
+                        fakeNotification(id = "8"),
+                        fakeNotification(id = "7"),
+                        fakeNotification(id = "5")
                     )
                 )
                 onBlocking { notifications(maxId = "3", limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "3"),
-                        mockNotification(id = "2"),
-                        mockNotification(id = "1")
+                        fakeNotification(id = "3"),
+                        fakeNotification(id = "2"),
+                        fakeNotification(id = "1")
                     )
                 )
             },
@@ -249,12 +249,12 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "8").toNotificationDataEntity(1),
-                mockNotification(id = "7").toNotificationDataEntity(1),
-                mockNotification(id = "5").toNotificationDataEntity(1),
-                mockNotification(id = "3").toNotificationDataEntity(1),
-                mockNotification(id = "2").toNotificationDataEntity(1),
-                mockNotification(id = "1").toNotificationDataEntity(1)
+                fakeNotification(id = "8").toNotificationDataEntity(1),
+                fakeNotification(id = "7").toNotificationDataEntity(1),
+                fakeNotification(id = "5").toNotificationDataEntity(1),
+                fakeNotification(id = "3").toNotificationDataEntity(1),
+                fakeNotification(id = "2").toNotificationDataEntity(1),
+                fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )
     }
@@ -263,9 +263,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholders when there is overlap with existing notifications`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "3"),
-            mockNotification(id = "2"),
-            mockNotification(id = "1")
+            fakeNotification(id = "3"),
+            fakeNotification(id = "2"),
+            fakeNotification(id = "1")
         )
 
         db.insert(notificationsAlreadyInDb)
@@ -275,16 +275,16 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(limit = 3, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "6"),
-                        mockNotification(id = "4"),
-                        mockNotification(id = "3")
+                        fakeNotification(id = "6"),
+                        fakeNotification(id = "4"),
+                        fakeNotification(id = "3")
                     )
                 )
                 onBlocking { notifications(maxId = "3", limit = 3, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "3"),
-                        mockNotification(id = "2"),
-                        mockNotification(id = "1")
+                        fakeNotification(id = "3"),
+                        fakeNotification(id = "2"),
+                        fakeNotification(id = "1")
                     )
                 )
             },
@@ -310,11 +310,11 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "6").toNotificationDataEntity(1),
-                mockNotification(id = "4").toNotificationDataEntity(1),
-                mockNotification(id = "3").toNotificationDataEntity(1),
-                mockNotification(id = "2").toNotificationDataEntity(1),
-                mockNotification(id = "1").toNotificationDataEntity(1)
+                fakeNotification(id = "6").toNotificationDataEntity(1),
+                fakeNotification(id = "4").toNotificationDataEntity(1),
+                fakeNotification(id = "3").toNotificationDataEntity(1),
+                fakeNotification(id = "2").toNotificationDataEntity(1),
+                fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )
     }
@@ -327,9 +327,9 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "5"),
-                        mockNotification(id = "4"),
-                        mockNotification(id = "3")
+                        fakeNotification(id = "5"),
+                        fakeNotification(id = "4"),
+                        fakeNotification(id = "3")
                     )
                 )
             },
@@ -354,9 +354,9 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "5").toNotificationDataEntity(1),
-                mockNotification(id = "4").toNotificationDataEntity(1),
-                mockNotification(id = "3").toNotificationDataEntity(1)
+                fakeNotification(id = "5").toNotificationDataEntity(1),
+                fakeNotification(id = "4").toNotificationDataEntity(1),
+                fakeNotification(id = "3").toNotificationDataEntity(1)
             )
         )
     }
@@ -365,9 +365,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should remove deleted notification from db and keep state of statuses in the remaining ones`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "3"),
-            mockNotification(id = "2"),
-            mockNotification(id = "1")
+            fakeNotification(id = "3"),
+            fakeNotification(id = "2"),
+            fakeNotification(id = "1")
         )
         db.insert(notificationsAlreadyInDb)
 
@@ -382,8 +382,8 @@ class NotificationsRemoteMediatorTest {
 
                 onBlocking { notifications(maxId = "3", limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "3"),
-                        mockNotification(id = "1")
+                        fakeNotification(id = "3"),
+                        fakeNotification(id = "1")
                     )
                 )
             },
@@ -395,9 +395,9 @@ class NotificationsRemoteMediatorTest {
             listOf(
                 PagingSource.LoadResult.Page(
                     data = listOf(
-                        mockNotification(id = "3").toNotificationDataEntity(1, isStatusExpanded = true),
-                        mockNotification(id = "2").toNotificationDataEntity(1, isStatusExpanded = true),
-                        mockNotification(id = "1").toNotificationDataEntity(1, isStatusContentShowing = true)
+                        fakeNotification(id = "3").toNotificationDataEntity(1, isStatusExpanded = true),
+                        fakeNotification(id = "2").toNotificationDataEntity(1, isStatusExpanded = true),
+                        fakeNotification(id = "1").toNotificationDataEntity(1, isStatusContentShowing = true)
                     ),
                     prevKey = null,
                     nextKey = 0
@@ -412,8 +412,8 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "3").toNotificationDataEntity(1, isStatusExpanded = true),
-                mockNotification(id = "1").toNotificationDataEntity(1, isStatusContentShowing = true)
+                fakeNotification(id = "3").toNotificationDataEntity(1, isStatusExpanded = true),
+                fakeNotification(id = "1").toNotificationDataEntity(1, isStatusContentShowing = true)
             )
         )
     }
@@ -422,9 +422,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not remove placeholder in timeline`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "8"),
-            mockNotification(id = "7"),
-            mockNotification(id = "1")
+            fakeNotification(id = "8"),
+            fakeNotification(id = "7"),
+            fakeNotification(id = "1")
         )
         db.insert(notificationsAlreadyInDb)
 
@@ -436,15 +436,15 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(sinceId = "6", limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "9"),
-                        mockNotification(id = "8"),
-                        mockNotification(id = "7")
+                        fakeNotification(id = "9"),
+                        fakeNotification(id = "8"),
+                        fakeNotification(id = "7")
                     )
                 )
                 onBlocking { notifications(maxId = "8", sinceId = "6", limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "8"),
-                        mockNotification(id = "7")
+                        fakeNotification(id = "8"),
+                        fakeNotification(id = "7")
                     )
                 )
             },
@@ -469,11 +469,11 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                mockNotification(id = "9").toNotificationDataEntity(1),
-                mockNotification(id = "8").toNotificationDataEntity(1),
-                mockNotification(id = "7").toNotificationDataEntity(1),
+                fakeNotification(id = "9").toNotificationDataEntity(1),
+                fakeNotification(id = "8").toNotificationDataEntity(1),
+                fakeNotification(id = "7").toNotificationDataEntity(1),
                 Placeholder(id = "6", loading = false).toNotificationDataEntity(1),
-                mockNotification(id = "1").toNotificationDataEntity(1)
+                fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )
     }
@@ -482,9 +482,9 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should append notifications`() = runTest {
         val notificationsAlreadyInDb = listOf(
-            mockNotification(id = "8"),
-            mockNotification(id = "7"),
-            mockNotification(id = "5")
+            fakeNotification(id = "8"),
+            fakeNotification(id = "7"),
+            fakeNotification(id = "5")
         )
 
         db.insert(notificationsAlreadyInDb)
@@ -494,9 +494,9 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(maxId = "5", limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        mockNotification(id = "3"),
-                        mockNotification(id = "2"),
-                        mockNotification(id = "1")
+                        fakeNotification(id = "3"),
+                        fakeNotification(id = "2"),
+                        fakeNotification(id = "1")
                     )
                 )
             },
@@ -520,12 +520,12 @@ class NotificationsRemoteMediatorTest {
         assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
         db.assertNotifications(
             listOf(
-                mockNotification(id = "8").toNotificationDataEntity(1),
-                mockNotification(id = "7").toNotificationDataEntity(1),
-                mockNotification(id = "5").toNotificationDataEntity(1),
-                mockNotification(id = "3").toNotificationDataEntity(1),
-                mockNotification(id = "2").toNotificationDataEntity(1),
-                mockNotification(id = "1").toNotificationDataEntity(1)
+                fakeNotification(id = "8").toNotificationDataEntity(1),
+                fakeNotification(id = "7").toNotificationDataEntity(1),
+                fakeNotification(id = "5").toNotificationDataEntity(1),
+                fakeNotification(id = "3").toNotificationDataEntity(1),
+                fakeNotification(id = "2").toNotificationDataEntity(1),
+                fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )
     }

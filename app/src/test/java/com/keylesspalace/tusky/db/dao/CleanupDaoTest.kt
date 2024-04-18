@@ -3,13 +3,13 @@ package com.keylesspalace.tusky.db.dao
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.keylesspalace.tusky.components.notifications.fakeNotification
+import com.keylesspalace.tusky.components.notifications.fakeReport
 import com.keylesspalace.tusky.components.notifications.insert
-import com.keylesspalace.tusky.components.notifications.mockNotification
-import com.keylesspalace.tusky.components.notifications.mockReport
+import com.keylesspalace.tusky.components.timeline.fakeAccount
+import com.keylesspalace.tusky.components.timeline.fakeHomeTimelineData
+import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.components.timeline.insert
-import com.keylesspalace.tusky.components.timeline.mockAccount
-import com.keylesspalace.tusky.components.timeline.mockHomeTimelineData
-import com.keylesspalace.tusky.components.timeline.mockStatus
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
@@ -156,38 +156,38 @@ class CleanupDaoTest {
     private suspend fun fillDatabase() {
         db.insert(
             listOf(
-                mockHomeTimelineData(id = "100", authorServerId = "100"),
-                mockHomeTimelineData(id = "10", authorServerId = "3"),
-                mockHomeTimelineData(id = "8", reblogAuthorServerId = "R10", authorServerId = "10"),
-                mockHomeTimelineData(id = "5", authorServerId = "100"),
-                mockHomeTimelineData(id = "3", authorServerId = "4"),
-                mockHomeTimelineData(id = "1", authorServerId = "5")
+                fakeHomeTimelineData(id = "100", authorServerId = "100"),
+                fakeHomeTimelineData(id = "10", authorServerId = "3"),
+                fakeHomeTimelineData(id = "8", reblogAuthorServerId = "R10", authorServerId = "10"),
+                fakeHomeTimelineData(id = "5", authorServerId = "100"),
+                fakeHomeTimelineData(id = "3", authorServerId = "4"),
+                fakeHomeTimelineData(id = "1", authorServerId = "5")
             ),
             tuskyAccountId = 1
         )
         db.insert(
             listOf(
-                mockHomeTimelineData(id = "2", tuskyAccountId = 2, authorServerId = "5")
+                fakeHomeTimelineData(id = "2", tuskyAccountId = 2, authorServerId = "5")
             ),
             tuskyAccountId = 2
         )
 
         db.insert(
             listOf(
-                mockNotification(id = "1", account = mockAccount(id = "n1"), status = mockStatus(id = "n1")),
-                mockNotification(id = "2", account = mockAccount(id = "n2"), status = mockStatus(id = "n2"), report = mockReport(targetAccount = mockAccount(id = "r1"))),
-                mockNotification(id = "3", account = mockAccount(id = "n3"), status = mockStatus(id = "n3")),
-                mockNotification(id = "4", account = mockAccount(id = "n4"), status = mockStatus(id = "n4"), report = mockReport(id = "2", targetAccount = mockAccount(id = "r2"))),
-                mockNotification(id = "5", account = mockAccount(id = "n5"), status = mockStatus(id = "n5")),
+                fakeNotification(id = "1", account = fakeAccount(id = "n1"), status = fakeStatus(id = "n1")),
+                fakeNotification(id = "2", account = fakeAccount(id = "n2"), status = fakeStatus(id = "n2"), report = fakeReport(targetAccount = fakeAccount(id = "r1"))),
+                fakeNotification(id = "3", account = fakeAccount(id = "n3"), status = fakeStatus(id = "n3")),
+                fakeNotification(id = "4", account = fakeAccount(id = "n4"), status = fakeStatus(id = "n4"), report = fakeReport(id = "2", targetAccount = fakeAccount(id = "r2"))),
+                fakeNotification(id = "5", account = fakeAccount(id = "n5"), status = fakeStatus(id = "n5")),
             ),
             tuskyAccountId = 1
         )
         db.insert(
             listOf(
-                mockNotification(id = "1", account = mockAccount(id = "n1"), status = mockStatus(id = "n1")),
-                mockNotification(id = "2", account = mockAccount(id = "n2"), status = mockStatus(id = "n2")),
-                mockNotification(id = "3", account = mockAccount(id = "n3"), status = mockStatus(id = "n3")),
-                mockNotification(id = "4", account = mockAccount(id = "n4"), status = mockStatus(id = "n4"), report = mockReport(targetAccount = mockAccount(id = "r1")))
+                fakeNotification(id = "1", account = fakeAccount(id = "n1"), status = fakeStatus(id = "n1")),
+                fakeNotification(id = "2", account = fakeAccount(id = "n2"), status = fakeStatus(id = "n2")),
+                fakeNotification(id = "3", account = fakeAccount(id = "n3"), status = fakeStatus(id = "n3")),
+                fakeNotification(id = "4", account = fakeAccount(id = "n4"), status = fakeStatus(id = "n4"), report = fakeReport(targetAccount = fakeAccount(id = "r1")))
             ),
             tuskyAccountId = 2
         )

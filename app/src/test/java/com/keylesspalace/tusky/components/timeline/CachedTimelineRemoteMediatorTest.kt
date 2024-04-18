@@ -121,7 +121,7 @@ class CachedTimelineRemoteMediatorTest {
             listOf(
                 PagingSource.LoadResult.Page(
                     data = listOf(
-                        mockHomeTimelineData("3")
+                        fakeHomeTimelineData("3")
                     ),
                     prevKey = null,
                     nextKey = 1
@@ -139,9 +139,9 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and insert placeholder when a whole page with no overlap to existing statuses is loaded`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("3"),
-            mockHomeTimelineData("2"),
-            mockHomeTimelineData("1")
+            fakeHomeTimelineData("3"),
+            fakeHomeTimelineData("2"),
+            fakeHomeTimelineData("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -151,16 +151,16 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
                     listOf(
-                        mockStatus("8"),
-                        mockStatus("7"),
-                        mockStatus("5")
+                        fakeStatus("8"),
+                        fakeStatus("7"),
+                        fakeStatus("5")
                     )
                 )
                 onBlocking { homeTimeline(maxId = "3", limit = 3) } doReturn Response.success(
                     listOf(
-                        mockStatus("3"),
-                        mockStatus("2"),
-                        mockStatus("1")
+                        fakeStatus("3"),
+                        fakeStatus("2"),
+                        fakeStatus("1")
                     )
                 )
             },
@@ -185,12 +185,12 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("8"),
-                mockHomeTimelineData("7"),
-                mockPlaceholderHomeTimelineData("5"),
-                mockHomeTimelineData("3"),
-                mockHomeTimelineData("2"),
-                mockHomeTimelineData("1")
+                fakeHomeTimelineData("8"),
+                fakeHomeTimelineData("7"),
+                fakePlaceholderHomeTimelineData("5"),
+                fakeHomeTimelineData("3"),
+                fakeHomeTimelineData("2"),
+                fakeHomeTimelineData("1")
             )
         )
     }
@@ -199,9 +199,9 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholder when less than a whole page is loaded`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("3"),
-            mockHomeTimelineData("2"),
-            mockHomeTimelineData("1")
+            fakeHomeTimelineData("3"),
+            fakeHomeTimelineData("2"),
+            fakeHomeTimelineData("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -211,16 +211,16 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("8"),
-                        mockStatus("7"),
-                        mockStatus("5")
+                        fakeStatus("8"),
+                        fakeStatus("7"),
+                        fakeStatus("5")
                     )
                 )
                 onBlocking { homeTimeline(maxId = "3", limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("3"),
-                        mockStatus("2"),
-                        mockStatus("1")
+                        fakeStatus("3"),
+                        fakeStatus("2"),
+                        fakeStatus("1")
                     )
                 )
             },
@@ -244,12 +244,12 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("8"),
-                mockHomeTimelineData("7"),
-                mockHomeTimelineData("5"),
-                mockHomeTimelineData("3"),
-                mockHomeTimelineData("2"),
-                mockHomeTimelineData("1")
+                fakeHomeTimelineData("8"),
+                fakeHomeTimelineData("7"),
+                fakeHomeTimelineData("5"),
+                fakeHomeTimelineData("3"),
+                fakeHomeTimelineData("2"),
+                fakeHomeTimelineData("1")
             )
         )
     }
@@ -258,9 +258,9 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should refresh and not insert placeholders when there is overlap with existing statuses`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("3"),
-            mockHomeTimelineData("2"),
-            mockHomeTimelineData("1")
+            fakeHomeTimelineData("3"),
+            fakeHomeTimelineData("2"),
+            fakeHomeTimelineData("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -270,16 +270,16 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
                     listOf(
-                        mockStatus("6"),
-                        mockStatus("4"),
-                        mockStatus("3")
+                        fakeStatus("6"),
+                        fakeStatus("4"),
+                        fakeStatus("3")
                     )
                 )
                 onBlocking { homeTimeline(maxId = "3", limit = 3) } doReturn Response.success(
                     listOf(
-                        mockStatus("3"),
-                        mockStatus("2"),
-                        mockStatus("1")
+                        fakeStatus("3"),
+                        fakeStatus("2"),
+                        fakeStatus("1")
                     )
                 )
             },
@@ -304,11 +304,11 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("6"),
-                mockHomeTimelineData("4"),
-                mockHomeTimelineData("3"),
-                mockHomeTimelineData("2"),
-                mockHomeTimelineData("1")
+                fakeHomeTimelineData("6"),
+                fakeHomeTimelineData("4"),
+                fakeHomeTimelineData("3"),
+                fakeHomeTimelineData("2"),
+                fakeHomeTimelineData("1")
             )
         )
     }
@@ -321,9 +321,9 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("5"),
-                        mockStatus("4"),
-                        mockStatus("3")
+                        fakeStatus("5"),
+                        fakeStatus("4"),
+                        fakeStatus("3")
                     )
                 )
             },
@@ -347,9 +347,9 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("5"),
-                mockHomeTimelineData("4"),
-                mockHomeTimelineData("3")
+                fakeHomeTimelineData("5"),
+                fakeHomeTimelineData("4"),
+                fakeHomeTimelineData("3")
             )
         )
     }
@@ -358,9 +358,9 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should remove deleted status from db and keep state of other cached statuses`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("3", expanded = true),
-            mockHomeTimelineData("2"),
-            mockHomeTimelineData("1", expanded = false)
+            fakeHomeTimelineData("3", expanded = true),
+            fakeHomeTimelineData("2"),
+            fakeHomeTimelineData("1", expanded = false)
         )
 
         db.insert(statusesAlreadyInDb)
@@ -372,8 +372,8 @@ class CachedTimelineRemoteMediatorTest {
 
                 onBlocking { homeTimeline(maxId = "3", limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("3"),
-                        mockStatus("1")
+                        fakeStatus("3"),
+                        fakeStatus("1")
                     )
                 )
             },
@@ -397,8 +397,8 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("3", expanded = true),
-                mockHomeTimelineData("1", expanded = false)
+                fakeHomeTimelineData("3", expanded = true),
+                fakeHomeTimelineData("1", expanded = false)
             )
         )
     }
@@ -407,10 +407,10 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not remove placeholder in timeline`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("8"),
-            mockHomeTimelineData("7"),
-            mockPlaceholderHomeTimelineData("6"),
-            mockHomeTimelineData("1")
+            fakeHomeTimelineData("8"),
+            fakeHomeTimelineData("7"),
+            fakePlaceholderHomeTimelineData("6"),
+            fakeHomeTimelineData("1")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -420,15 +420,15 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(sinceId = "6", limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("9"),
-                        mockStatus("8"),
-                        mockStatus("7")
+                        fakeStatus("9"),
+                        fakeStatus("8"),
+                        fakeStatus("7")
                     )
                 )
                 onBlocking { homeTimeline(maxId = "8", sinceId = "6", limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("8"),
-                        mockStatus("7")
+                        fakeStatus("8"),
+                        fakeStatus("7")
                     )
                 )
             },
@@ -452,11 +452,11 @@ class CachedTimelineRemoteMediatorTest {
 
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("9"),
-                mockHomeTimelineData("8"),
-                mockHomeTimelineData("7"),
-                mockPlaceholderHomeTimelineData("6"),
-                mockHomeTimelineData("1")
+                fakeHomeTimelineData("9"),
+                fakeHomeTimelineData("8"),
+                fakeHomeTimelineData("7"),
+                fakePlaceholderHomeTimelineData("6"),
+                fakeHomeTimelineData("1")
             )
         )
     }
@@ -465,9 +465,9 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should append statuses`() = runTest {
         val statusesAlreadyInDb = listOf(
-            mockHomeTimelineData("8"),
-            mockHomeTimelineData("7"),
-            mockHomeTimelineData("5")
+            fakeHomeTimelineData("8"),
+            fakeHomeTimelineData("7"),
+            fakeHomeTimelineData("5")
         )
 
         db.insert(statusesAlreadyInDb)
@@ -477,9 +477,9 @@ class CachedTimelineRemoteMediatorTest {
             api = mock {
                 onBlocking { homeTimeline(maxId = "5", limit = 20) } doReturn Response.success(
                     listOf(
-                        mockStatus("3"),
-                        mockStatus("2"),
-                        mockStatus("1")
+                        fakeStatus("3"),
+                        fakeStatus("2"),
+                        fakeStatus("1")
                     )
                 )
             },
@@ -502,12 +502,12 @@ class CachedTimelineRemoteMediatorTest {
         assertEquals(false, (result as RemoteMediator.MediatorResult.Success).endOfPaginationReached)
         db.assertTimeline(
             listOf(
-                mockHomeTimelineData("8"),
-                mockHomeTimelineData("7"),
-                mockHomeTimelineData("5"),
-                mockHomeTimelineData("3"),
-                mockHomeTimelineData("2"),
-                mockHomeTimelineData("1")
+                fakeHomeTimelineData("8"),
+                fakeHomeTimelineData("7"),
+                fakeHomeTimelineData("5"),
+                fakeHomeTimelineData("3"),
+                fakeHomeTimelineData("2"),
+                fakeHomeTimelineData("1")
             )
         )
     }
