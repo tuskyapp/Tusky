@@ -40,7 +40,6 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.IntentCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -54,6 +53,7 @@ import com.keylesspalace.tusky.fragment.ViewImageFragment
 import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.submitAsync
@@ -105,11 +105,7 @@ class ViewMediaActivity :
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = IntentCompat.getParcelableArrayListExtra(
-            intent,
-            EXTRA_ATTACHMENTS,
-            AttachmentViewData::class.java
-        )
+        attachments = intent.getParcelableArrayListExtraCompat(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener

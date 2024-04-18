@@ -33,7 +33,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
-import androidx.core.os.BundleCompat
 import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -54,6 +53,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -132,7 +132,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = BundleCompat.getParcelable(requireArguments(), ARG_ATTACHMENT, Attachment::class.java)
+        val attachment = arguments?.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
             ?: throw IllegalArgumentException("attachment has to be set")
 
         val url = attachment.url
