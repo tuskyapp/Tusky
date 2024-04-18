@@ -287,12 +287,10 @@ class NotificationsFragment :
 
     override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         val notification = adapter.peek(position) ?: return
-        val refreshAdapterFlow = viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
+        val refreshAdapter = viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
         lifecycleScope.launch {
-            refreshAdapterFlow.collect { refreshAdapter ->
-                if (refreshAdapter) {
-                    adapter.refresh()
-                }
+            if (refreshAdapter.await()) {
+                adapter.refresh()
             }
         }
     }

@@ -52,15 +52,14 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -152,30 +151,24 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String): Flow<Boolean> {
-        return callbackFlow {
-            viewModelScope.launch {
-                if (accept) {
-                    api.authorizeFollowRequest(accountId)
-                } else {
-                    api.rejectFollowRequest(accountId)
-                }.fold(
-                    onSuccess = {
-                        // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
-                        db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
-                        if (accept) {
-                            // Accepting a follow request will generate a new follow notification.
-                            // For it to show up, notifications need to be refreshed which is done easiest by refreshing the adapter in the Fragment.
-                            // We use this boolean to signal the need for refreshing to the ui.
-                            send(true)
-                        }
-                    },
-                    onFailure = { t ->
-                        Log.e(TAG, "Failed to to respond to follow request from account id $accountId.", t)
-                    }
-                )
-            }
-            awaitClose()
+    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String): Deferred<Boolean> {
+        return viewModelScope.async {
+            if (accept) {
+                api.authorizeFollowRequest(accountId)
+            } else {
+                api.rejectFollowRequest(accountId)
+            }.fold(
+                onSuccess = {
+                    // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
+                    db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
+                    // return true
+                    accept
+                },
+                onFailure = { t ->
+                    Log.e(TAG, "Failed to to respond to follow request from account id $accountId.", t)
+                    false
+                }
+            )
         }
     }
 
