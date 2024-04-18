@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
     android:paddingBottom="14dp">
 
     <TextView
@@ -23,7 +23,7 @@
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:drawableStartCompat="@drawable/ic_flag_24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Someone reported someone else" />
 
@@ -37,7 +37,7 @@
         android:paddingEnd="12dp"
         android:paddingBottom="12dp"
         android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notification_top_text"
         tools:ignore="RtlHardcoded,RtlSymmetry"
         tools:src="@drawable/avatar_default" />
@@ -48,7 +48,7 @@
         android:layout_height="24dp"
         android:contentDescription="@string/action_view_profile"
         app:layout_constraintBottom_toBottomOf="@id/notification_reportee_avatar"
-        app:layout_constraintRight_toRightOf="@id/notification_reportee_avatar"
+        app:layout_constraintEnd_toEndOf="@id/notification_reportee_avatar"
         tools:src="@drawable/avatar_default" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintLeft_toRightOf="@id/notification_reporter_avatar"
+        app:layout_constraintStart_toEndOf="@id/notification_reporter_avatar"
         app:layout_constraintTop_toBottomOf="@id/notification_top_text"
         tools:text="30 minutes ago · 2 posts attached" />
 
@@ -77,7 +77,7 @@
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/notification_reporter_avatar"
+        app:layout_constraintStart_toEndOf="@id/notification_reporter_avatar"
         app:layout_constraintTop_toBottomOf="@id/notification_summary"
         tools:text="Spam" />
 
