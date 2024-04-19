@@ -12,15 +12,13 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky.interfaces
 
-package com.keylesspalace.tusky.interfaces;
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-public interface ActionButtonActivity {
-
-    /* return the ActionButton of the Activity to hide or show it on scroll */
-    @Nullable
-    FloatingActionButton getActionButton();
+interface ActionButtonActivity {
+    /**
+     * return the ActionButton of the Activity to hide or show it on scroll
+     */
+    val actionButton: FloatingActionButton?
 }
