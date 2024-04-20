@@ -1,0 +1,8 @@
+Tusky 25
+
+- Support Mastodon translation API
+- Show post language
+- Improved screen transitions
+- Filter settings are moved to account preferences
+- Post stats now have stable position
+- A lot off under-the-hood stability & performance improvements
