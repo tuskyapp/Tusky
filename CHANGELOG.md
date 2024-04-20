@@ -16,7 +16,8 @@
   [PR#4307](https://github.com/tuskyapp/Tusky/pull/4307)
 - The language of a post is now shown in the metadata section of the detail post view, if it is available. [PR#4127](https://github.com/tuskyapp/Tusky/pull/4127)
 - The transitions between screens have been changed to feel faster and align more with default Android transitions. [PR#4285](https://github.com/tuskyapp/Tusky/pull/4285)
-- The post statistic section has been moved below the buttons in the detail view to prevent layout shifts on the first like or boost. [PR#4205](https://github.com/tuskyapp/Tusky/pull/4205)
+- The post statistic section below the detail post view is now always shown to prevent layout shifts on the first like or boost.
+  [PR#4205](https://github.com/tuskyapp/Tusky/pull/4205) [PR#4260](https://github.com/tuskyapp/Tusky/pull/4260)
 - The filters for boosts/replies/self-boosts in the home timeline have moved from general preferences to account specific preferences. [PR#4115](https://github.com/tuskyapp/Tusky/pull/4115)
 - The json parsing library has been migrated from Gson to Moshi. This change will make Tusky no longer crash on unexpected server responses. [PR#4309](https://github.com/tuskyapp/Tusky/pull/4309)
 - Small layout improvements to the header of the profile view [PR#4375](https://github.com/tuskyapp/Tusky/pull/4375) [PR#4371](https://github.com/tuskyapp/Tusky/pull/4371)
