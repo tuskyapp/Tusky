@@ -36,8 +36,8 @@
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="title_drafts">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s teilte</string>
+    <string name="post_username_format">\@%1$s</string>
+    <string name="post_boosted_format">%1$s teilte</string>
     <string name="post_sensitive_media_title">Inhaltswarnung</string>
     <string name="post_media_hidden_title">Mediendateien ausgeblendet</string>
     <string name="post_media_alt">ALT</string>
@@ -48,10 +48,10 @@
     <string name="post_content_show_less">Einklappen</string>
     <string name="message_empty">Hier ist nichts.</string>
     <string name="footer_empty">Noch keine Beiträge. Ziehe zum Aktualisieren nach unten!</string>
-    <string name="notification_reblog_format">%s teilte deinen Beitrag</string>
-    <string name="notification_favourite_format">%s favorisierte deinen Beitrag</string>
-    <string name="notification_follow_format">%s folgt dir</string>
-    <string name="report_username_format">\@%s melden</string>
+    <string name="notification_reblog_format">%1$s teilte deinen Beitrag</string>
+    <string name="notification_favourite_format">%1$s favorisierte deinen Beitrag</string>
+    <string name="notification_follow_format">%1$s folgt dir</string>
+    <string name="report_username_format">\@%1$s melden</string>
     <string name="report_comment_hint">Ergänzende Hinweise\?</string>
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
@@ -113,10 +113,10 @@
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Erwähnungen</string>
     <string name="title_links_dialog">Links</string>
-    <string name="action_open_media_n">Datei #%d öffnen</string>
+    <string name="action_open_media_n">Datei #%1$d öffnen</string>
     <string name="download_image">%1$s heruntergeladen</string>
     <string name="action_copy_link">Link kopieren</string>
-    <string name="action_open_as">Als %s öffnen</string>
+    <string name="action_open_as">Als %1$s öffnen</string>
     <string name="action_share_as">Teilen als …</string>
     <string name="send_post_link_to">Beitragslink teilen an …</string>
     <string name="send_post_content_to">Beitrag teilen an …</string>
@@ -209,13 +209,13 @@
     <string name="notification_boost_description">Benachrichtigungen, wenn deine Beiträge geteilt werden</string>
     <string name="notification_favourite_name">Favorisierte Beiträge</string>
     <string name="notification_favourite_description">Benachrichtigungen, wenn deine Beiträge favorisiert werden</string>
-    <string name="notification_mention_format">%s hat dich erwähnt</string>
+    <string name="notification_mention_format">%1$s hat dich erwähnt</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s und %4$d andere</string>
     <string name="notification_summary_medium">%1$s, %2$s, und %3$s</string>
     <string name="notification_summary_small">%1$s und %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d neue Interaktion</item>
-        <item quantity="other">%d neue Interaktionen</item>
+        <item quantity="one">%1$d neue Interaktion</item>
+        <item quantity="other">%1$d neue Interaktionen</item>
     </plurals>
     <string name="description_account_locked">Geschütztes Profil</string>
     <string name="about_title_activity">Über</string>
@@ -239,7 +239,7 @@
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Mediendateien mit Inhaltswarnung immer anzeigen</string>
     <string name="title_media">Medien</string>
-    <string name="replying_to">Antwort an @%s</string>
+    <string name="replying_to">Antwort an @%1$s</string>
     <string name="load_more_placeholder_text">mehr laden</string>
     <string name="pref_title_thread_filter_keywords">Unterhaltungen</string>
     <string name="filter_addition_title">Filter hinzufügen</string>
@@ -256,8 +256,8 @@
     <string name="action_add_to_list">Konto zur Liste hinzufügen</string>
     <string name="compose_active_account_description">Veröffentlichen als %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Inhalt für Menschen mit Sehbehinderung beschreiben (%d Zeichen)</item>
-        <item quantity="other">Inhalte für Menschen mit Sehbehinderung beschreiben (%d Zeichen)</item>
+        <item quantity="one">Inhalt für Menschen mit Sehbehinderung beschreiben (%1$d Zeichen)</item>
+        <item quantity="other">Inhalte für Menschen mit Sehbehinderung beschreiben (%1$d Zeichen)</item>
     </plurals>
     <string name="action_set_caption">Beschreibung eingeben</string>
     <string name="action_remove">Entfernen</string>
@@ -270,7 +270,7 @@
     <string name="send_post_notification_cancel_title">Senden abgebrochen</string>
     <string name="send_post_notification_saved_content">Eine Kopie des Beitrags wurde in deine Entwürfe gespeichert</string>
     <string name="action_compose_shortcut">Beitrag erstellen</string>
-    <string name="error_no_custom_emojis">Deine Instanz %s hat keine Emojis definiert</string>
+    <string name="error_no_custom_emojis">Deine Instanz %1$s hat keine Emojis definiert</string>
     <string name="emoji_style">Emoji-Stil</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du musst diese Emoji-Sets zunächst herunterladen</string>
@@ -328,8 +328,8 @@
         <item quantity="other"><b>%1$s</b> Favoriten</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
-    <string name="description_post_media">Medien: %s</string>
-    <string name="description_post_cw">Inhaltswarnung: %s</string>
+    <string name="description_post_media">Medien: %1$s</string>
+    <string name="description_post_cw">Inhaltswarnung: %1$s</string>
     <string name="description_post_reblogged">Geteilt</string>
     <string name="description_visibility_unlisted">Nicht gelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
@@ -346,35 +346,35 @@
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
     <string name="poll_info_format"> <!-- 15 Stimmen • noch 1 Stunde --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s Stimme</item>
-        <item quantity="other">%s Stimmen</item>
+        <item quantity="one">%1$s Stimme</item>
+        <item quantity="other">%1$s Stimmen</item>
     </plurals>
-    <string name="poll_info_time_absolute">endet um %s</string>
+    <string name="poll_info_time_absolute">endet um %1$s</string>
     <string name="poll_info_closed">Geschlossen</string>
     <string name="poll_vote">Abstimmen</string>
     <string name="poll_ended_voted">Eine Umfrage, in der du abgestimmt hast, ist vorbei</string>
     <string name="poll_ended_created">Eine Umfrage, die du erstellt hast, ist vorbei</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">noch %d Tag</item>
-        <item quantity="other">noch %d Tage</item>
+        <item quantity="one">noch %1$d Tag</item>
+        <item quantity="other">noch %1$d Tage</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">noch %d Stunde</item>
-        <item quantity="other">noch %d Stunden</item>
+        <item quantity="one">noch %1$d Stunde</item>
+        <item quantity="other">noch %1$d Stunden</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">noch %d Minute</item>
-        <item quantity="other">noch %d Minuten</item>
+        <item quantity="one">noch %1$d Minute</item>
+        <item quantity="other">noch %1$d Minuten</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">noch %d Sekunde</item>
-        <item quantity="other">noch %d Sekunden</item>
+        <item quantity="one">noch %1$d Sekunde</item>
+        <item quantity="other">noch %1$d Sekunden</item>
     </plurals>
     <string name="title_domain_mutes">Ausgeblendete Domains</string>
     <string name="action_view_domain_mutes">Ausgeblendete Domains</string>
-    <string name="action_mute_domain">%s stummschalten</string>
-    <string name="confirmation_domain_unmuted">%s nicht mehr ausgeblendet</string>
-    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %s blockieren möchtest\? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
+    <string name="action_mute_domain">%1$s stummschalten</string>
+    <string name="confirmation_domain_unmuted">%1$s nicht mehr ausgeblendet</string>
+    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %1$s blockieren möchtest\? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
     <string name="mute_domain_warning_dialog_ok">Gesamte Domain ausblenden</string>
     <string name="pref_title_animate_gif_avatars">GIF-Profilbilder animieren</string>
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
@@ -382,9 +382,9 @@
     <string name="button_continue">Weiter</string>
     <string name="button_back">Zurück</string>
     <string name="button_done">Fertig</string>
-    <string name="report_sent_success">\@%s wurde erfolgreich gemeldet</string>
+    <string name="report_sent_success">\@%1$s wurde erfolgreich gemeldet</string>
     <string name="hint_additional_info">Zusätzliche Anmerkungen</string>
-    <string name="report_remote_instance">An %s weiterleiten</string>
+    <string name="report_remote_instance">An %1$s weiterleiten</string>
     <string name="failed_report">Melden fehlgeschlagen</string>
     <string name="report_description_1">Die Meldung wird an die Moderator*innen deines Servers geschickt. Du kannst hier eine Erklärung angeben, warum du dieses Konto meldest:</string>
     <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie der Meldung auch dorthin geschickt werden\?</string>
@@ -397,17 +397,17 @@
     <string name="duration_3_days">3 Tage</string>
     <string name="duration_7_days">7 Tage</string>
     <string name="edit_poll">Bearbeiten</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="action_add_poll">Umfrage hinzufügen</string>
     <string name="pref_title_alway_open_spoiler">Beiträge mit Inhaltswarnungen immer ausklappen</string>
     <string name="description_poll">Umfrage mit den Möglichkeiten: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="compose_preview_image_description">Aktionen für Bild %s</string>
+    <string name="compose_preview_image_description">Aktionen für Bild %1$s</string>
     <string name="failed_fetch_posts">Beiträge konnten nicht abgerufen werden</string>
     <string name="title_accounts">Profile</string>
     <string name="failed_search">Fehler beim Suchen</string>
     <string name="add_poll_choice">Auswahlmöglichkeit hinzufügen</string>
     <string name="poll_allow_multiple_choices">Mehrere Möglichkeiten</string>
-    <string name="poll_new_choice_hint">Möglichkeit %d</string>
+    <string name="poll_new_choice_hint">Möglichkeit %1$d</string>
     <string name="title_scheduled_posts">Geplante Beiträge</string>
     <string name="action_edit">Bearbeiten</string>
     <string name="action_access_scheduled_posts">Geplante Beiträge</string>
@@ -421,42 +421,42 @@
     <string name="select_list_title">Liste auswählen</string>
     <string name="select_list_manage">Listen verwalten</string>
     <string name="list">Liste</string>
-    <string name="post_lookup_error_format">Fehler beim Nachschlagen von %s</string>
+    <string name="post_lookup_error_format">Fehler beim Nachschlagen von %1$s</string>
     <string name="no_drafts">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
     <string name="pref_title_notification_filter_follow_requests">neue Folgeanfrage</string>
     <string name="notification_follow_request_name">Folgeanfragen</string>
-    <string name="dialog_mute_warning">\@%s stummschalten\?</string>
-    <string name="dialog_block_warning">\@%s blockieren\?</string>
+    <string name="dialog_mute_warning">\@%1$s stummschalten\?</string>
+    <string name="dialog_block_warning">\@%1$s blockieren\?</string>
     <string name="action_unmute_conversation">Stummschaltung der Unterhaltung aufheben</string>
     <string name="action_mute_conversation">Unterhaltung stummschalten</string>
-    <string name="notification_follow_request_format">%s möchte dir folgen</string>
+    <string name="notification_follow_request_format">%1$s möchte dir folgen</string>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Hashtag hinzufügen</string>
     <string name="pref_title_confirm_reblogs">Vor dem Teilen bestätigen</string>
     <string name="pref_title_show_cards_in_timelines">Linkvorschau in Timelines anzeigen</string>
     <string name="pref_title_enable_swipe_for_tabs">Wischgeste zum Wechseln zwischen Tabs aktivieren</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s Person</item>
-        <item quantity="other">%s Personen</item>
+        <item quantity="one">%1$s Person</item>
+        <item quantity="other">%1$s Personen</item>
     </plurals>
     <string name="pref_title_gradient_for_media">Farbverlauf für verborgene Medien anzeigen</string>
     <string name="pref_main_nav_position_option_bottom">Unten</string>
     <string name="pref_main_nav_position_option_top">Oben</string>
-    <string name="action_unmute_domain">%s nicht mehr stummschalten</string>
+    <string name="action_unmute_domain">%1$s nicht mehr stummschalten</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b>-mal geteilt</item>
-        <item quantity="other"><b>%s</b>-mal geteilt</item>
+        <item quantity="one"><b>%1$s</b>-mal geteilt</item>
+        <item quantity="other"><b>%1$s</b>-mal geteilt</item>
     </plurals>
     <string name="pref_main_nav_position">Position der Hauptnavigation</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
-    <string name="action_unmute_desc">%s nicht mehr stummschalten</string>
-    <string name="abbreviated_seconds_ago">%d Sek.</string>
-    <string name="abbreviated_hours_ago">%d Std.</string>
-    <string name="abbreviated_in_days">in %d T.</string>
-    <string name="abbreviated_years_ago">%d J.</string>
+    <string name="action_unmute_desc">%1$s nicht mehr stummschalten</string>
+    <string name="abbreviated_seconds_ago">%1$d Sek.</string>
+    <string name="abbreviated_hours_ago">%1$d Std.</string>
+    <string name="abbreviated_in_days">in %1$d T.</string>
+    <string name="abbreviated_years_ago">%1$d J.</string>
     <string name="account_note_saved">Gespeichert!</string>
     <string name="account_note_hint">Private Notiz über dieses Konto</string>
     <string name="pref_title_hide_top_toolbar">Titel der Hauptnavigation ausblenden</string>
@@ -465,7 +465,7 @@
     <string name="drafts_post_reply_removed">Der Beitrag, auf den du antworten wolltest, wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
     <string name="drafts_post_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
-    <string name="dialog_delete_list_warning">Möchtest du die Liste %s wirklich löschen\?</string>
+    <string name="dialog_delete_list_warning">Möchtest du die Liste %1$s wirklich löschen\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
         <item quantity="other">Du kannst nicht mehr als %1$d Anhänge hochladen.</item>
@@ -479,8 +479,8 @@
     <string name="notification_subscription_name">Neue Beiträge</string>
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
     <string name="pref_title_notification_filter_subscriptions">jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
-    <string name="notification_subscription_format">%s hat gerade etwas veröffentlicht</string>
-    <string name="abbreviated_minutes_ago">%d Min.</string>
+    <string name="notification_subscription_format">%1$s hat gerade etwas veröffentlicht</string>
+    <string name="abbreviated_minutes_ago">%1$d Min.</string>
     <string name="review_notifications">Benachrichtigungen überprüfen</string>
     <string name="wellbeing_mode_notice">Informationen, die dein geistiges Wohlbefinden beeinflussen könnten, werden ausgeblendet. Dazu gehören:
 \n
@@ -495,12 +495,12 @@
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>
     <string name="action_subscribe_account">Abonnieren</string>
     <string name="action_unsubscribe_account">Deabonnieren</string>
-    <string name="abbreviated_in_minutes">in %d Min.</string>
-    <string name="abbreviated_in_hours">in %d Std.</string>
+    <string name="abbreviated_in_minutes">in %1$d Min.</string>
+    <string name="abbreviated_in_hours">in %1$d Std.</string>
     <string name="drafts_failed_loading_reply">Informationen zur Antwort konnten nicht geladen werden</string>
-    <string name="abbreviated_days_ago">%d T.</string>
-    <string name="abbreviated_in_years">in %d J.</string>
-    <string name="abbreviated_in_seconds">in %d Sek.</string>
+    <string name="abbreviated_days_ago">%1$d T.</string>
+    <string name="abbreviated_in_years">in %1$d J.</string>
+    <string name="abbreviated_in_seconds">in %1$d Sek.</string>
     <string name="action_unbookmark">Lesezeichen entfernen</string>
     <string name="pref_title_confirm_favourites">Vor dem Favorisieren bestätigen</string>
     <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
@@ -512,11 +512,11 @@
     <string name="duration_14_days">14 Tage</string>
     <string name="duration_180_days">180 Tage</string>
     <string name="tusky_compose_post_quicksetting_label">Beitrag erstellen</string>
-    <string name="notification_update_format">%s hat den Beitrag bearbeitet</string>
+    <string name="notification_update_format">%1$s hat den Beitrag bearbeitet</string>
     <string name="pref_title_notification_filter_updates">ein Beitrag, mit dem ich interagiert habe, bearbeitet wurde</string>
     <string name="notification_sign_up_name">Registrierungen</string>
     <string name="notification_sign_up_description">Benachrichtigungen über neue Profile</string>
-    <string name="notification_sign_up_format">%s hat sich registriert</string>
+    <string name="notification_sign_up_format">%1$s hat sich registriert</string>
     <string name="pref_title_notification_filter_sign_ups">jemand sich registriert</string>
     <string name="notification_update_description">Benachrichtigungen, wenn Beiträge bearbeitet werden, mit denen du interagiert hast</string>
     <string name="title_login">Anmelden</string>
@@ -535,12 +535,12 @@
     <string name="action_details">Details</string>
     <string name="error_image_edit_failed">Das Bild konnte nicht bearbeitet werden.</string>
     <string name="saving_draft">Entwurf wird gespeichert …</string>
-    <string name="error_multimedia_size_limit">Video- und Audiodateien dürfen nicht größer als %s MB sein.</string>
-    <string name="error_following_hashtag_format">Fehler beim Folgen von #%s</string>
-    <string name="error_unfollowing_hashtag_format">Fehler beim Entfolgen von #%s</string>
+    <string name="error_multimedia_size_limit">Video- und Audiodateien dürfen nicht größer als %1$s MB sein.</string>
+    <string name="error_following_hashtag_format">Fehler beim Folgen von #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Fehler beim Entfolgen von #%1$s</string>
     <string name="delete_scheduled_post_warning">Diesen geplanten Beitrag löschen\?</string>
-    <string name="instance_rule_title">%s-Regeln</string>
-    <string name="instance_rule_info">Mit dem Anmelden stimmst du den Regeln von %s zu.</string>
+    <string name="instance_rule_title">%1$s-Regeln</string>
+    <string name="instance_rule_info">Mit dem Anmelden stimmst du den Regeln von %1$s zu.</string>
     <string name="set_focus_description">Tippe oder ziehe den Kreis auf die Stelle, die in Vorschaubildern immer sichtbar sein soll.</string>
     <string name="compose_save_draft_loses_media">Entwurf speichern\? (Anhänge werden erneut hochgeladen, sobald du den Entwurf wiederherstellst.)</string>
     <string name="duration_no_change">(Keine Änderung)</string>
@@ -550,7 +550,7 @@
     <string name="pref_show_self_username_always">Immer</string>
     <string name="pref_show_self_username_disambiguate">Wenn mit mehreren Konten angemeldet</string>
     <string name="pref_show_self_username_never">Niemals</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="description_post_language">Sprache des Beitrags</string>
     <string name="action_set_focus">Fokuspunkt setzen</string>
     <string name="action_add_reaction">Reaktion hinzufügen</string>
@@ -558,17 +558,17 @@
     <string name="action_add_or_remove_from_list">Zur Liste hzfg. / aus Liste entf.</string>
     <string name="failed_to_add_to_list">Das Konto konnte nicht zur Liste hinzugefügt werden</string>
     <string name="no_lists">Du hast keine Listen.</string>
-    <string name="notification_summary_report_format">%s · %d Beiträge angehängt</string>
-    <string name="notification_header_report_format">%s meldete %s</string>
-    <string name="confirmation_hashtag_unfollowed">#%s entfolgt</string>
+    <string name="notification_summary_report_format">%1$s · %2$d Beiträge angehängt</string>
+    <string name="notification_header_report_format">%1$s meldete %2$s</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s entfolgt</string>
     <string name="pref_default_post_language">Standard-Beitragssprache</string>
     <string name="report_category_violation">Regelverstoß</string>
-    <string name="language_display_name_format">%s (%s)</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Sonstiges</string>
     <string name="error_following_hashtags_unsupported">Diese Instanz unterstützt das Folgen von Hashtags nicht.</string>
     <string name="title_followed_hashtags">Gefolgte Hashtags</string>
-    <string name="action_unfollow_hashtag_format">#%s entfolgen\?</string>
+    <string name="action_unfollow_hashtag_format">#%1$s entfolgen\?</string>
     <string name="description_post_edited">Bearbeitet</string>
     <string name="a11y_label_loading_thread">Thread wird geladen …</string>
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
@@ -580,8 +580,8 @@
     <string name="pref_summary_http_proxy_missing">&lt;nicht gesetzt&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;ungültig&gt;</string>
     <string name="compose_unsaved_changes">Du hast nicht gespeicherte Änderungen.</string>
-    <string name="pref_title_http_proxy_port_message">Port sollte zwischen %d und %d liegen</string>
-    <string name="error_muting_hashtag_format">Fehler beim Stummschalten von #%s</string>
+    <string name="pref_title_http_proxy_port_message">Port sollte zwischen %1$d und %2$d liegen</string>
+    <string name="error_muting_hashtag_format">Fehler beim Stummschalten von #%1$s</string>
     <string name="action_post_failed">Hochladen fehlgeschlagen</string>
     <string name="action_post_failed_detail">Dein Beitrag konnte nicht gepostet werden und wurde als Entwurf gespeichert.
 \n
@@ -591,7 +591,7 @@
 \nEntweder ist die Verbindung zum Server fehlgeschlagen oder der Server hat die Beiträge abgelehnt.</string>
     <string name="action_post_failed_show_drafts">Entwürfe anzeigen</string>
     <string name="action_post_failed_do_nothing">Abbrechen</string>
-    <string name="post_edited">Bearbeitet %s</string>
+    <string name="post_edited">Bearbeitet %1$s</string>
     <string name="action_discard">Änderungen verwerfen</string>
     <string name="action_continue_edit">Bearbeiten fortsetzen</string>
     <string name="action_browser_login">Mit Browser anmelden</string>
@@ -602,10 +602,10 @@
     <string name="account_username_copied">Profilname kopiert</string>
     <string name="status_edit_info">Bearbeitet: %1$s</string>
     <string name="status_created_info">Erstellt: %1$s</string>
-    <string name="notification_report_format">Neue Meldung über %s</string>
+    <string name="notification_report_format">Neue Meldung über %1$s</string>
     <string name="notification_report_description">Benachrichtigungen über Moderationsmeldungen</string>
     <string name="pref_title_notification_filter_reports">es eine neue Meldung gibt</string>
-    <string name="error_unmuting_hashtag_format">Fehler beim Aufheben der Stummschaltung von #%s</string>
+    <string name="error_unmuting_hashtag_format">Fehler beim Aufheben der Stummschaltung von #%1$s</string>
     <string name="description_login">Funktioniert in den meisten Fällen. Keine Daten werden mit anderen Apps geteilt.</string>
     <string name="description_browser_login">Zusätzliche Authentisierungsmethoden können unterstützt werden. Ein unterstützter Browser wird benötigt.</string>
     <string name="notification_report_name">Meldungen</string>
@@ -618,18 +618,18 @@
     <string name="dialog_follow_hashtag_hint">#Hashtag</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="socket_timeout_exception">Kontaktaufnahme mit dem Server dauerte zu lange</string>
-    <string name="ui_error_bookmark">Beitrag konnte nicht als Lesezeichen gespeichert werden: %s</string>
-    <string name="ui_error_reblog">Beitrag konnte nicht geteilt werden: %s</string>
-    <string name="ui_error_favourite">Beitrag konnte nicht favorisiert werden: %s</string>
-    <string name="ui_error_vote">Abstimmen bei der Umfrage schlug fehl: %s</string>
-    <string name="ui_error_accept_follow_request">Akzeptieren der Folgeanfrage schlug fehl: %s</string>
+    <string name="ui_error_bookmark">Beitrag konnte nicht als Lesezeichen gespeichert werden: %1$s</string>
+    <string name="ui_error_reblog">Beitrag konnte nicht geteilt werden: %1$s</string>
+    <string name="ui_error_favourite">Beitrag konnte nicht favorisiert werden: %1$s</string>
+    <string name="ui_error_vote">Abstimmen bei der Umfrage schlug fehl: %1$s</string>
+    <string name="ui_error_accept_follow_request">Akzeptieren der Folgeanfrage schlug fehl: %1$s</string>
     <string name="ui_success_accepted_follow_request">Folgeanfrage akzeptiert</string>
     <string name="ui_success_rejected_follow_request">Folgeanfrage blockiert</string>
     <string name="notification_unknown_name">Unbekannt</string>
     <string name="ui_error_unknown">Unbekannter Grund</string>
-    <string name="ui_error_clear_notifications">Löschen der Benachrichtigungen schlug fehl: %s</string>
-    <string name="ui_error_reject_follow_request">Ablehnen der Folgeanfrage schlug fehl: %s</string>
-    <string name="status_filter_placeholder_label_format">Gefiltert: %s</string>
+    <string name="ui_error_clear_notifications">Löschen der Benachrichtigungen schlug fehl: %1$s</string>
+    <string name="ui_error_reject_follow_request">Ablehnen der Folgeanfrage schlug fehl: %1$s</string>
+    <string name="status_filter_placeholder_label_format">Gefiltert: %1$s</string>
     <string name="pref_title_account_filter_keywords">Profile</string>
     <string name="hint_filter_title">Mein Filter</string>
     <string name="label_filter_title">Titel</string>
@@ -641,10 +641,10 @@
     <string name="label_filter_action">Filteraktion</string>
     <string name="label_filter_keywords">Schlagwörter oder Ausdrücke zum Filtern</string>
     <string name="action_add">Hinzufügen</string>
-    <string name="filter_keyword_display_format">%s (ganzes Wort)</string>
+    <string name="filter_keyword_display_format">%1$s (ganzes Wort)</string>
     <string name="filter_keyword_addition_title">Schlagwort hinzufügen</string>
     <string name="filter_edit_keyword_title">Schlagwort bearbeiten</string>
-    <string name="filter_description_format">%s: %s</string>
+    <string name="filter_description_format">%1$s: %2$s</string>
     <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
     <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst.
 \n
@@ -662,16 +662,16 @@
 \n
 \nHierbei handelt es sich um <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon Issue #25398</a>.</string>
     <string name="about_device_info_title">Dein Gerät</string>
-    <string name="about_device_info">%s %s
-\nAndroid-Version: %s
-\nSDK-Version: %d</string>
+    <string name="about_device_info">%1$s %2$s
+\nAndroid-Version: %3$s
+\nSDK-Version: %4$d</string>
     <string name="about_account_info_title">Dein Konto</string>
-    <string name="about_account_info">\@%s@%s
-\nVersion: %s</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nVersion: %3$s</string>
     <string name="about_copied">Version und Geräteinformationen kopiert</string>
     <string name="about_copy">Version und Geräteinformationen kopieren</string>
     <string name="list_exclusive_label">Nicht in der Startseite anzeigen</string>
-    <string name="error_media_upload_sending_fmt">Das Hochladen ist fehlgeschlagen: %s</string>
+    <string name="error_media_upload_sending_fmt">Das Hochladen ist fehlgeschlagen: %1$s</string>
     <string name="label_image">Bild</string>
     <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen.
 \n
@@ -684,15 +684,15 @@
 \n
 \nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit. </string>
     <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
-    <string name="error_media_playback">Wiedergabe fehlgeschlagen: %s</string>
+    <string name="error_media_playback">Wiedergabe fehlgeschlagen: %1$s</string>
     <string name="dialog_delete_filter_positive_action">Entfernen</string>
     <string name="dialog_delete_filter_text">Filter »%1$s« entfernen\?</string>
     <string name="dialog_save_profile_changes_message">Möchtest du deine Änderungen am Profil speichern\?</string>
-    <string name="unmuting_hashtag_success_format">Hashtag #%s nicht mehr stummschalten</string>
+    <string name="unmuting_hashtag_success_format">Hashtag #%1$s nicht mehr stummschalten</string>
     <string name="action_view_filter">Filter ansehen</string>
-    <string name="muting_hashtag_success_format">Hashtag #%s als Warnung stummschalten</string>
-    <string name="following_hashtag_success_format">Hashtag #%s wird jetzt gefolgt</string>
-    <string name="unfollowing_hashtag_success_format">Hashtag #%s wird nicht länger gefolgt</string>
+    <string name="muting_hashtag_success_format">Hashtag #%1$s als Warnung stummschalten</string>
+    <string name="following_hashtag_success_format">Hashtag #%1$s wird jetzt gefolgt</string>
+    <string name="unfollowing_hashtag_success_format">Hashtag #%1$s wird nicht länger gefolgt</string>
     <string name="title_public_trending_statuses">Angesagte Beiträge</string>
     <string name="error_blocking_domain">Fehler beim Stummschalten von %1$s: %2$s</string>
     <string name="error_unblocking_domain">Fehler beim Aufheben der Stummschaltung von %1$s: %2$s</string>
@@ -709,6 +709,6 @@
     <string name="action_show_original">Ursprünglichen Beitrag anzeigen</string>
     <string name="label_translating">Wird übersetzt …</string>
     <string name="label_translated">Aus %1$s mittels %2$s übersetzt</string>
-    <string name="ui_error_translate">Fehler beim Übersetzen: %s</string>
+    <string name="ui_error_translate">Fehler beim Übersetzen: %1$s</string>
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
 </resources>
