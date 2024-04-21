@@ -664,6 +664,11 @@
     <string name="error_media_upload_sending_fmt">بارگذاری شکست خورد: %1$s</string>
     <string name="about_account_info_title">حسابتان</string>
     <string name="about_device_info_title">افزاره‌تان</string>
+    <string name="about_device_info">%1$s %2$s
+\nنگارش اندروید: %3$s
+\nنگارش SDK‏: %4$d</string>
+    <string name="about_account_info">‎@%s@%s
+\nنگارش: %s</string>
     <string name="about_copy">رونوشت از اطّلاعات افزاره و نگارش</string>
     <string name="about_copied">اطّلاعات افزاره و نگارش رونوشت شد</string>
     <string name="list_exclusive_label">نهفتن از خط زمانی خانگی</string>
