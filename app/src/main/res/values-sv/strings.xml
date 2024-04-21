@@ -713,4 +713,9 @@
     <string name="reply_sending">Skickar…</string>
     <string name="pref_title_show_notifications_filter">Visa aviseringsfiltret</string>
     <string name="pref_title_per_timeline_preferences">Inställningar per tidslinje</string>
+    <string name="action_translate">Översätt</string>
+    <string name="action_show_original">Visa original</string>
+    <string name="label_translating">Översätter…</string>
+    <string name="label_translated">Översatt från %1$s med %2$s</string>
+    <string name="ui_error_translate">Kunde inte översätta: %1$s</string>
 </resources>

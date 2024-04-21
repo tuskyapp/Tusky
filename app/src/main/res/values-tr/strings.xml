@@ -4,10 +4,10 @@
     <string name="error_network">Bir ağ hatası oluştu. Lütfen bağlantını kontrol et ve tekrar dene.</string>
     <string name="error_empty">Bu alan boş bırakılmaz.</string>
     <string name="error_invalid_domain">Girilen alan adı geçersiz</string>
-    <string name="error_failed_app_registration">Bu sunucuda kimlik doğrulama başarısız oldu. Sorun devam ederse menüdeki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
+    <string name="error_failed_app_registration">Bu sunucu da kimlik doğrulama başarısız oldu. Sorun devam ederse menüde ki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
     <string name="error_no_web_browser_found">Kullanılabilir web tarayıcısı bulunamadı.</string>
     <string name="error_authorization_unknown">Tanımlanamayan bir yetkilendirme hatası oluştu. Sorun devam ederse menüdeki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
-    <string name="error_authorization_denied">Yetkilendirme reddedildi. Doğru hesap bilgilerini girdiğinden eminsen menüdeki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
+    <string name="error_authorization_denied">Yetkilendirme reddedildi. Doğru hesap bilgilerini girdiğinizden eminseniz menüdeki Tarayıcı ile Giriş Yap seçeneğini deneyiniz.</string>
     <string name="error_retrieving_oauth_token">Giriş belirteci alınırken hata oluştu. Sorun devam ederse menüdeki Tarayıcı ile Giriş Yap seçeneğini dene.</string>
     <string name="error_compose_character_limit">Gönderi çok uzun!</string>
     <string name="error_media_upload_type">Bu tür bir dosya yüklenemez.</string>
@@ -16,11 +16,11 @@
     <string name="error_media_download_permission">Medya kaydetme izni gerekli.</string>
     <string name="error_media_upload_image_or_video">Görüntüler ve videolar aynı gönderi de yayınlanamaz.</string>
     <string name="error_media_upload_sending">Yükleme başarısız oldu.</string>
-    <string name="error_sender_account_gone">Gönderi gönderilirken hata.</string>
+    <string name="error_sender_account_gone">Gönderi yayınlanırken hata.</string>
     <string name="title_home">Anasayfa</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_public_local">Yerel</string>
-    <string name="title_public_federated">Federe</string>
+    <string name="title_public_federated">Federasyon</string>
     <string name="title_direct_messages">Doğrudan iletiler</string>
     <string name="title_tab_preferences">Sekmeler</string>
     <string name="title_view_thread">Konu</string>
@@ -50,7 +50,7 @@
     <string name="notification_reblog_format">%1$s gönderinizi paylaştı</string>
     <string name="notification_favourite_format">%1$s gönderinizi gözdelerilerine ekledi</string>
     <string name="notification_follow_format">%1$s seni takip etti</string>
-    <string name="report_username_format">\@%1$s Bildir</string>
+    <string name="report_username_format">Bildir @%1$s</string>
     <string name="report_comment_hint">Daha fazla yorum?</string>
     <string name="action_quick_reply">Hızlı yanıt</string>
     <string name="action_reply">Yanıtla</string>
@@ -571,7 +571,7 @@
     <string name="notification_subscription_format">%1$s az önce paylaşım yaptı</string>
     <string name="notification_update_format">%1$s gönderilerini düzenledi</string>
     <string name="draft_deleted">Taslak Silindi</string>
-    <string name="error_unfollowing_hashtag_format">Takip etmeyi bırakırken Hata #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Takip etmeyi bırakırken hata #%1$s</string>
     <string name="status_count_one_plus">1+</string>
     <string name="label_duration">Süre</string>
     <string name="tips_push_notification_migration">Bildirim besleme desteğini etkinleştirmek için tüm hesaplara yeniden giriş yapın.</string>
@@ -693,7 +693,7 @@
     <string name="following_hashtag_success_format">Şimdi etiketi takip edin #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Artık etiketi takip etmiyorum #%1$s</string>
     <string name="error_unblocking_domain">Sesi açılamadı %1$s: %2$s</string>
-    <string name="title_public_trending_statuses">Gündemdeki gönderiler</string>
+    <string name="title_public_trending_statuses">Gündemdeki yayınlar</string>
     <string name="label_image">Resim</string>
     <string name="app_theme_system_black">Sistem Tasarımını Kullanın (siyah)</string>
     <string name="list_reply_policy_list">Liste üyeleri</string>
