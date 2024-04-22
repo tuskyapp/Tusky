@@ -89,7 +89,7 @@
     <string name="action_share">Condividi</string>
     <string name="action_mute">Silenzia</string>
     <string name="action_unmute">Smetti di silenziare</string>
-    <string name="action_mention">Menzioni</string>
+    <string name="action_mention">Menzione</string>
     <string name="action_hide_media">Nascondi media</string>
     <string name="action_open_drawer">Apri compositore</string>
     <string name="action_save">Salva</string>
@@ -178,7 +178,7 @@
     <string name="pref_title_hide_follow_button">Nascondi il pulsante Componi mentre scorri</string>
     <string name="pref_title_language">Lingua</string>
     <string name="pref_title_post_filter">Filtraggio della timeline</string>
-    <string name="pref_title_post_tabs">Schede</string>
+    <string name="pref_title_post_tabs">Timeline principale</string>
     <string name="pref_title_show_boosts">Mostra ricondivisioni</string>
     <string name="pref_title_show_replies">Mostra risposte</string>
     <string name="pref_title_show_media_preview">Mostra anteprime media</string>
@@ -190,7 +190,7 @@
     <string name="pref_default_post_privacy">Privacy di default dei post</string>
     <string name="pref_default_media_sensitivity">Segna sempre media come contenuto sensibile</string>
     <string name="pref_publishing">Pubblicazione (sincronizzato con il server)</string>
-    <string name="pref_failed_to_sync">Sincronizzazione delle impostazioni fallita</string>
+    <string name="pref_failed_to_sync">Sincronizzazione preferenze fallita</string>
     <string name="post_privacy_public">Pubblico</string>
     <string name="post_privacy_unlisted">Non in elenco</string>
     <string name="post_privacy_followers_only">Solo seguaci</string>
@@ -629,7 +629,7 @@
     <string name="accessibility_talking_about_tag">%1$d persone parlano dell\'hashtag %2$s</string>
     <string name="total_usage">Utilizzo totale</string>
     <string name="total_accounts">Account totali</string>
-    <string name="action_refresh">Aggiorna</string>
+    <string name="action_refresh">Ricarica</string>
     <string name="title_public_trending_hashtags">Hashtag di tendenza</string>
     <string name="help_empty_home">Questa è la tua <b>Timeline principale</b>. Mostra i post più recenti degli account che segui.
 \n
@@ -717,4 +717,13 @@
     <string name="list_reply_policy_followed">Qualsiasi utente seguito</string>
     <string name="list_reply_policy_label">Mostra risposte a</string>
     <string name="pref_title_show_self_boosts_description">Qualcuno boosta il proprio post</string>
+    <string name="reply_sending">Invio…</string>
+    <string name="reply_sending_long">La tua risposta viene inviata.</string>
+    <string name="action_translate">Traduci</string>
+    <string name="action_show_original">Mostra originale</string>
+    <string name="label_translating">Traduzione…</string>
+    <string name="label_translated">Tradotto da %1$s con %2$s</string>
+    <string name="ui_error_translate">Impossibile tradurre: %s</string>
+    <string name="pref_title_per_timeline_preferences">Preferenze per timeline</string>
+    <string name="pref_title_show_notifications_filter">Mostra filtro notifiche</string>
 </resources>
