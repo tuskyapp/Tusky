@@ -283,7 +283,7 @@
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
     <string name="load_more_placeholder_text">hiện những tút chưa đọc</string>
-    <string name="replying_to">Trả lời @%1$s</string>
+    <string name="replying_to">Trả lời đến @%1$s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Hiện nội dung nhạy cảm</string>
