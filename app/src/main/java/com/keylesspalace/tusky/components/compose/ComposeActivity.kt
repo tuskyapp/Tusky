@@ -21,7 +21,6 @@ import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -50,8 +49,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.IntentCompat
 import androidx.core.content.res.use
@@ -164,13 +161,30 @@ class ComposeActivity :
 
     private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
 
-    private val takePicture =
+    private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
                 pickMedia(photoUploadUri!!)
             }
         }
-    private val pickMediaFile = registerForActivityResult(PickMediaFiles()) { uris ->
+    private val pickMediaFilePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pickMediaFileLauncher.launch(true)
+            } else {
+                Snackbar.make(
+                    binding.activityCompose,
+                    R.string.error_media_upload_permission,
+                    Snackbar.LENGTH_SHORT
+                ).apply {
+                    setAction(R.string.action_retry) { onMediaPick() }
+                    // necessary so snackbar is shown over everything
+                    view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
+                    show()
+                }
+            }
+        }
+    private val pickMediaFileLauncher = registerForActivityResult(PickMediaFiles()) { uris ->
         if (viewModel.media.value.size + uris.size > maxUploadMediaNumber) {
             Toast.makeText(
                 this,
@@ -971,14 +985,10 @@ class ComposeActivity :
                     // Wait until bottom sheet is not collapsed and show next screen after
                     if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                         addMediaBehavior.removeBottomSheetCallback(this)
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(
-                                this@ComposeActivity,
-                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-                            )
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                            pickMediaFilePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                         } else {
-                            pickMediaFile.launch(true)
+                            pickMediaFileLauncher.launch(true)
                         }
                     }
                 }
@@ -1130,31 +1140,6 @@ class ComposeActivity :
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                pickMediaFile.launch(true)
-            } else {
-                Snackbar.make(
-                    binding.activityCompose,
-                    R.string.error_media_upload_permission,
-                    Snackbar.LENGTH_SHORT
-                ).apply {
-                    setAction(R.string.action_retry) { onMediaPick() }
-                    // necessary so snackbar is shown over everything
-                    view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
-                    show()
-                }
-            }
-        }
-    }
-
     private fun initiateCameraApp() {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
@@ -1171,7 +1156,7 @@ class ComposeActivity :
             BuildConfig.APPLICATION_ID + ".fileprovider",
             photoFile
         )
-        takePicture.launch(photoUploadUri)
+        takePictureLauncher.launch(photoUploadUri)
     }
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
@@ -1550,7 +1535,6 @@ class ComposeActivity :
 
     companion object {
         private const val TAG = "ComposeActivity" // logging tag
-        private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"
