@@ -23,7 +23,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
@@ -38,6 +37,7 @@ import android.view.View
 import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.IntentCompat
@@ -91,6 +91,19 @@ class ViewMediaActivity :
     private var attachments: ArrayList<AttachmentViewData>? = null
     private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
     private var imageUrl: String? = null
+
+    private val requestDownloadMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                downloadMedia()
+            } else {
+                showErrorDialog(
+                    binding.toolbar,
+                    R.string.error_media_download_permission,
+                    R.string.action_retry
+                ) { requestDownloadMedia() }
+            }
+        }
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
@@ -235,22 +248,7 @@ class ViewMediaActivity :
 
     private fun requestDownloadMedia() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ) { _, grantResults ->
-                if (
-                    grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    downloadMedia()
-                } else {
-                    showErrorDialog(
-                        binding.toolbar,
-                        R.string.error_media_download_permission,
-                        R.string.action_retry
-                    ) { requestDownloadMedia() }
-                }
-            }
+            requestDownloadMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
             downloadMedia()
         }
