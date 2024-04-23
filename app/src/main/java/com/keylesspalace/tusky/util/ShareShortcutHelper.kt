@@ -52,18 +52,12 @@ class ShareShortcutHelper @Inject constructor(
 
             val shortcuts = accountManager.accounts.take(maxNumberOfShortcuts).map { account ->
 
-                val bmp = if (TextUtils.isEmpty(account.profilePictureUrl)) {
-                    Glide.with(context)
-                        .asBitmap()
-                        .load(R.drawable.avatar_default)
-                        .submitAsync(innerSize, innerSize)
-                } else {
-                    Glide.with(context)
-                        .asBitmap()
-                        .load(account.profilePictureUrl)
-                        .error(R.drawable.avatar_default)
-                        .submitAsync(innerSize, innerSize)
-                }
+                val bmp = Glide.with(context)
+                    .asBitmap()
+                    .load(account.profilePictureUrl)
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_default)
+                    .submitAsync(innerSize, innerSize)
 
                 // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
                 val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
