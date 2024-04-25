@@ -1,6 +1,7 @@
 Tusky 22.0 beta 5
 
-Fixes:
+Correccións:
 
-- Rolled back APNG library to fix broken animated emojis
-- Save local copy of notification marker in case server does not support the API
+- Retrocedeu a biblioteca APNG para corrixir emojis animados rotos
+- Garda a copia local do marcador de notificación no caso de que o servidor non admita a API
+(trad. automática)
