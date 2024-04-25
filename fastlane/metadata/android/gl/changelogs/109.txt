@@ -1,10 +1,12 @@
 Tusky 22.0 beta 7
 
-Fixes:
+Correccións:
 
 
-### Significant bug fixes
+### Correccións de erros importantes
 
-- Fetch all outstanding Mastodon notifications when creating Android notifications
-- Clicking "Compose" from a notification would set the wrong account
-- Ensure "last read notification ID" is saved to the correct account
+- Obtén todas as notificacións pendentes de Mastodon ao crear notificacións de Android
+- Facendo clic en "Redactar" desde unha notificación, establecerase a conta incorrecta
+- Asegúrate de gardar o "ID de notificación da última lectura" na conta correcta
+
+(trad. automática)
