@@ -1,0 +1,8 @@
+Tusky 25
+
+- Hỗ trợ Mastodon Dịch API
+- Hiện ngôn ngữ tút
+- Cải thiện chuyển đổi màn hình
+- Cài đặt bộ lọc được chuyển sang tùy chọn tài khoản
+- Thống kê bài viết bây giờ đã có vị trí ổn định
+- Rất nhiều cải tiến về độ ổn định và hiệu suất bên trong
