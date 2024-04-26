@@ -51,8 +51,12 @@ class NotificationFetcher @Inject constructor(
     private val context: Context,
     private val eventHub: EventHub
 ) {
-    suspend fun fetchAndShow() {
+    suspend fun fetchAndShow(accountId: Long?) {
         for (account in accountManager.getAllAccountsOrderedByActive()) {
+            if (accountId != null && account.id != accountId) {
+                continue
+            }
+
             if (account.notificationsEnabled) {
                 try {
                     val notificationManager = context.getSystemService(

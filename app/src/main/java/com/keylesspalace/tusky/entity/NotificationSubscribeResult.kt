@@ -22,5 +22,6 @@ import com.squareup.moshi.JsonClass
 data class NotificationSubscribeResult(
     val id: Int,
     val endpoint: String,
+    val alerts: Map<String, Boolean>,
     @Json(name = "server_key") val serverKey: String
 )

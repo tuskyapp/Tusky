@@ -81,9 +81,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.Companion.canH
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.disableAllNotifications
-import com.keylesspalace.tusky.components.notifications.enablePushNotificationsWithFallback
-import com.keylesspalace.tusky.components.notifications.showMigrationNoticeIfNecessary
+import com.keylesspalace.tusky.components.notifications.PushNotificationManager
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
@@ -174,6 +172,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     @Inject
     @ApplicationScope
     lateinit var externalScope: CoroutineScope
+
+    @Inject
+    lateinit var pushNotificationManager: PushNotificationManager
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -1050,19 +1051,22 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             this
         )
 
-        // Setup push notifications
-        showMigrationNoticeIfNecessary(
-            this,
-            binding.mainCoordinatorLayout,
-            binding.composeButton,
-            accountManager
-        )
+        // Setup notifications
         if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
+            pushNotificationManager.showMigrationNoticeIfNecessary(binding.mainCoordinatorLayout, binding.composeButton)
+
             lifecycleScope.launch {
-                enablePushNotificationsWithFallback(this@MainActivity, mastodonApi, accountManager)
+                if (pushNotificationManager.canEnablePushNotifications()) {
+                    pushNotificationManager.enablePushNotifications()
+                } else {
+                    NotificationHelper.enablePullNotifications(this@MainActivity)
+                }
             }
         } else {
-            disableAllNotifications(this, accountManager)
+            NotificationHelper.disablePullNotifications(this)
+            lifecycleScope.launch {
+                pushNotificationManager.disableAllNotifications()
+            }
         }
 
         updateProfiles()

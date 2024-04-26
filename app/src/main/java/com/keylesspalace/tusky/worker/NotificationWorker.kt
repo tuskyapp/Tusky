@@ -40,7 +40,8 @@ class NotificationWorker(
     )
 
     override suspend fun doWork(): Result {
-        notificationsFetcher.fetchAndShow()
+        val accountId = inputData.getLong(KEY_ACCOUNT_ID, 0).takeIf { it != 0L }
+        notificationsFetcher.fetchAndShow(accountId)
         return Result.success()
     }
 
@@ -55,5 +56,9 @@ class NotificationWorker(
         override fun createWorker(appContext: Context, params: WorkerParameters): CoroutineWorker {
             return NotificationWorker(appContext, params, notificationsFetcher)
         }
+    }
+
+    companion object {
+        const val KEY_ACCOUNT_ID = "accountId"
     }
 }

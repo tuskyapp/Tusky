@@ -44,14 +44,15 @@ import java.io.File;
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 58,
+    version = 60,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
         @AutoMigration(from = 50, to = 51),
         @AutoMigration(from = 51, to = 52),
         @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
-        @AutoMigration(from = 56, to = 58) // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 58, to = 60) // AccountEntity gets a 'unifiedDistributorName'
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
