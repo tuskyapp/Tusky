@@ -22,7 +22,7 @@
     <string name="title_public_local">Helyi</string>
     <string name="title_public_federated">Föderációs</string>
     <string name="title_direct_messages">Közvetlen üzenetek</string>
-    <string name="title_tab_preferences">Fülek</string>
+    <string name="title_tab_preferences">Lapok</string>
     <string name="title_view_thread">Szál</string>
     <string name="title_posts">Bejegyzések</string>
     <string name="title_posts_with_replies">Válaszokkal</string>
@@ -66,7 +66,7 @@
     <string name="action_block">Letiltás</string>
     <string name="action_unblock">Letiltás feloldása</string>
     <string name="action_hide_reblogs">Megtolások elrejtése</string>
-    <string name="action_show_reblogs">Megtolások mutatása</string>
+    <string name="action_show_reblogs">Megtolások megjelenítése</string>
     <string name="action_report">Bejelentés</string>
     <string name="action_delete">Törlés</string>
     <string name="action_send">TÜLK</string>
@@ -100,20 +100,20 @@
     <string name="action_access_drafts">Piszkozatok</string>
     <string name="action_toggle_visibility">Bejegyzés láthatósága</string>
     <string name="action_content_warning">Tartalom figyelmeztetés</string>
-    <string name="action_emoji_keyboard">Emoji billentyűzet</string>
+    <string name="action_emoji_keyboard">Emodzsi billentyűzet</string>
     <string name="action_add_tab">Fül hozzáadása</string>
-    <string name="action_links">Linkek</string>
+    <string name="action_links">Hivatkozások</string>
     <string name="action_mentions">Említések</string>
     <string name="action_hashtags">Hashtagek</string>
     <string name="action_open_faved_by">Kedvencek megjelenítése</string>
     <string name="title_hashtags_dialog">Hashtagek</string>
     <string name="title_mentions_dialog">Említések</string>
-    <string name="title_links_dialog">Linkek</string>
+    <string name="title_links_dialog">Hivatkozások</string>
     <string name="download_image">%1$s letöltése</string>
-    <string name="action_copy_link">Link másolása</string>
+    <string name="action_copy_link">Hivatkozás másolása</string>
     <string name="action_open_as">Megnyitás mint %s</string>
     <string name="action_share_as">Megosztás mint …</string>
-    <string name="send_post_link_to">Bejegyzés URL megosztása…</string>
+    <string name="send_post_link_to">Bejegyzés webcímének megosztása…</string>
     <string name="send_post_content_to">Bejegyzés megosztása…</string>
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
@@ -165,13 +165,13 @@
     <string name="app_theme_black">Fekete</string>
     <string name="app_theme_auto">Automatikus naplementekor</string>
     <string name="pref_title_browser_settings">Böngésző</string>
-    <string name="pref_title_custom_tabs">Linkek megnyitása applikáción belül</string>
+    <string name="pref_title_custom_tabs">Hivatkozások megnyitása az alkalmazáson belül</string>
     <string name="pref_title_hide_follow_button">Szerkesztés gomb elrejtése görgetés közben</string>
     <string name="pref_title_post_filter">Idővonal szűrése</string>
     <string name="pref_title_post_tabs">Saját idővonal</string>
-    <string name="pref_title_show_boosts">Megtolások mutatása</string>
-    <string name="pref_title_show_replies">Válaszok mutatása</string>
-    <string name="pref_title_show_media_preview">Média előnézet mutatása</string>
+    <string name="pref_title_show_boosts">Megtolások megjelenítése</string>
+    <string name="pref_title_show_replies">Válaszok megjelenítése</string>
+    <string name="pref_title_show_media_preview">Médiaelőnézet megjelenítése</string>
     <string name="pref_title_proxy_settings">Proxy</string>
     <string name="pref_title_http_proxy_settings">HTTP proxy</string>
     <string name="pref_title_http_proxy_enable">HTTP proxy engedélyezése</string>
@@ -194,9 +194,9 @@
     <string name="notification_follow_name">Új követők</string>
     <string name="notification_follow_description">Értesítések új követőkről</string>
     <string name="notification_boost_name">Megtolások</string>
-    <string name="notification_boost_description">Értesítések bejegyzéseid megtolása esetén</string>
+    <string name="notification_boost_description">Értesítések a bejegyzéseid megtolásáról</string>
     <string name="notification_favourite_name">Kedvencek</string>
-    <string name="notification_favourite_description">Értesítések amikor a bejegyzéseidet kedvencnek jelölik</string>
+    <string name="notification_favourite_description">Értesítések a bejegyzéseid kedvencnek jelöléséről</string>
     <string name="notification_mention_format">%s megemlített téged</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s és még %4$d</string>
     <string name="notification_summary_medium">%1$s, %2$s meg %3$s</string>
@@ -241,19 +241,19 @@
     <string name="send_post_notification_cancel_title">Küldés megszakítva</string>
     <string name="send_post_notification_saved_content">A bejegyzés másolatát elmentettük a piszkozataid közé</string>
     <string name="action_compose_shortcut">Szerkesztés</string>
-    <string name="error_no_custom_emojis">A %s példánynak nincsenek egyedi emoji-jai</string>
-    <string name="emoji_style">Emoji stílus</string>
-    <string name="system_default">Rendszer alapértelmezés</string>
-    <string name="download_fonts">Először le kell töltened ezeket az emoji készleteket</string>
+    <string name="error_no_custom_emojis">A(z) %s példánynak nincsenek egyéni emodzsijai</string>
+    <string name="emoji_style">Emodzsik stílusa</string>
+    <string name="system_default">Rendszer alapértelmezése</string>
+    <string name="download_fonts">Először le kell töltened ezeket az emodzsikészleteket</string>
     <string name="performing_lookup_title">Keresés…</string>
     <string name="action_open_post">Bejegyzés megnyitása</string>
     <string name="restart_required">Az app újraindítása szükséges</string>
     <string name="restart_emoji">A beállítások érvényesítéséhez újra kell indítani a Tuskyt</string>
     <string name="later">Később</string>
     <string name="restart">Újraindítás</string>
-    <string name="caption_systememoji">Az eszközöd alapértelmezett emodzsi készlete</string>
+    <string name="caption_systememoji">Az eszközöd alapértelmezett emodzsikészlete</string>
     <string name="caption_blobmoji">Az Android 4.4–7.1 Blob emodzsijai</string>
-    <string name="caption_twemoji">A Mastodon alapértelmezett emodzsi készlete</string>
+    <string name="caption_twemoji">A Mastodon alapértelmezett emodzsikészlete</string>
     <string name="download_failed">Letöltés sikertelen</string>
     <string name="profile_badge_bot_text">Bot</string>
     <string name="account_moved_description">%1$s elköltözött:</string>
@@ -285,17 +285,17 @@
     <string name="pref_title_language">Nyelv</string>
     <string name="pref_publishing">Közzététel (szerverrel szinkronizált)</string>
     <string name="notification_poll_name">Szavazások</string>
-    <string name="notification_poll_description">Értesítés befejezett szavazásokról</string>
+    <string name="notification_poll_description">Értesítés a befejezett szavazásokról</string>
     <string name="about_tusky_license">Tusky ingyenes és nyílt forráskódú szoftver. A GNU General Public License Version 3 érvényes rá, amit itt tekinthetsz meg: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
-    <string name="abbreviated_in_years">%dé múlva</string>
-    <string name="abbreviated_in_days">%dn múlva</string>
-    <string name="abbreviated_in_hours">%dó múlva</string>
-    <string name="abbreviated_in_minutes">%dp múlva</string>
-    <string name="abbreviated_years_ago">%dé</string>
-    <string name="abbreviated_days_ago">%dn</string>
-    <string name="abbreviated_hours_ago">%dó</string>
-    <string name="abbreviated_minutes_ago">%dp</string>
-    <string name="abbreviated_seconds_ago">%dmp</string>
+    <string name="abbreviated_in_years">%d é múlva</string>
+    <string name="abbreviated_in_days">%d n múlva</string>
+    <string name="abbreviated_in_hours">%d ó múlva</string>
+    <string name="abbreviated_in_minutes">%d p múlva</string>
+    <string name="abbreviated_years_ago">%d é</string>
+    <string name="abbreviated_days_ago">%d n</string>
+    <string name="abbreviated_hours_ago">%d ó</string>
+    <string name="abbreviated_minutes_ago">%d p</string>
+    <string name="abbreviated_seconds_ago">%d mp</string>
     <string name="replying_to">Válasz @%s részére</string>
     <string name="pref_title_public_filter_keywords">Nyilvános idővonalak</string>
     <string name="pref_title_thread_filter_keywords">Beszélgetések</string>
@@ -315,14 +315,14 @@
     <string name="action_view_domain_mutes">Rejtett domainek</string>
     <string name="action_mute_domain">%s némítása</string>
     <string name="action_open_reblogger">Megtolás szerkesztő megnyitása</string>
-    <string name="action_open_reblogged_by">Megtolások mutatása</string>
+    <string name="action_open_reblogged_by">Megtolások megjelenítése</string>
     <string name="confirmation_domain_unmuted">%s elrejtése feloldva</string>
     <string name="mute_domain_warning">Biztos, hogy az egész %s domaint le akarod tiltani\? Egyetlen nyilvános idővonalon sem fogsz látni semmilyen tartalmat vagy értesítést innen. Az ebből a domainből származó követőidet el fogjuk távolítani.</string>
     <string name="mute_domain_warning_dialog_ok">Teljes domain elrejtése</string>
     <string name="pref_title_app_theme">Alkalmazástéma</string>
-    <string name="pref_title_bot_overlay">Bot jelölő mutatása</string>
+    <string name="pref_title_bot_overlay">Botok jelölőjének megjelenítése</string>
     <string name="pref_title_animate_gif_avatars">GIF profilképek animálása</string>
-    <string name="abbreviated_in_seconds">%dmp múlva</string>
+    <string name="abbreviated_in_seconds">%d mp múlva</string>
     <string name="filter_dialog_whole_word">Teljes szó</string>
     <string name="filter_dialog_whole_word_description">Ha a kulcsszó csak alfanumerikus karakterekből áll, csak teljes szóra fog illeszkedni</string>
     <string name="hint_search_people_list">Általad követettek keresése</string>
@@ -336,7 +336,7 @@
     <string name="action_set_caption">Cím beállítása</string>
     <string name="lock_account_label_description">Minden követődet külön engedélyezned kell</string>
     <string name="expand_collapse_all_posts">Összes bejegyzés kibontása/összecsukása</string>
-    <string name="caption_notoemoji">A Google jelenlegi emodzsi készlete</string>
+    <string name="caption_notoemoji">A Google jelenlegi emodzsikészlete</string>
     <string name="reblog_private">Megtolás az eredeti közönségnek</string>
     <string name="unreblog_private">Megtolás visszavonása</string>
     <string name="license_apache_2">Apache licenc alatt közzétéve (másolat alább)</string>
@@ -437,8 +437,8 @@
     <string name="no_scheduled_posts">Nincs egy ütemezett bejegyzésed sem.</string>
     <string name="warning_scheduling_interval">A Mastodonban a legrövidebb ütemezhető időintervallum 5 perc.</string>
     <string name="notification_follow_request_name">Követési kérelmek</string>
-    <string name="pref_title_confirm_reblogs">Jóváhagyás mutatása megtolás előtt</string>
-    <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének mutatása idővonalakon</string>
+    <string name="pref_title_confirm_reblogs">Jóváhagyás megjelenítése megtolás előtt</string>
+    <string name="pref_title_show_cards_in_timelines">Hivatkozás előnézetének megjelenítése az idővonalakon</string>
     <string name="pref_title_enable_swipe_for_tabs">Lapok közötti váltás engedélyezése csúsztatással</string>
     <plurals name="poll_info_people">
         <item quantity="one">%s személy</item>
@@ -446,11 +446,11 @@
     </plurals>
     <string name="hashtags">Hashtagek</string>
     <string name="add_hashtag_title">Hashtag hozzáadása</string>
-    <string name="notification_follow_request_description">Értesítések követési kérelmekről</string>
+    <string name="notification_follow_request_description">Értesítések a követési kérésekről</string>
     <string name="pref_main_nav_position_option_bottom">Lent</string>
     <string name="pref_main_nav_position_option_top">Fent</string>
     <string name="pref_main_nav_position">Fő navigálási pozíció</string>
-    <string name="pref_title_gradient_for_media">Színes homály mutatása rejtett médiánál</string>
+    <string name="pref_title_gradient_for_media">Színes homály megjelenítése a rejtett médiánál</string>
     <string name="pref_title_notification_filter_follow_requests">követni szeretnének</string>
     <string name="dialog_mute_hide_notifications">Értesítések elrejtése</string>
     <string name="dialog_block_warning">Letiltod: @%s\?</string>
@@ -477,37 +477,37 @@
     <string name="wellbeing_hide_stats_profile">Profilok mérőszámainak elrejtése</string>
     <string name="wellbeing_hide_stats_posts">Bejegyzések mérőszámainak elrejtése</string>
     <string name="limit_notifications">Idővonali értesítések korlátozása</string>
-    <string name="review_notifications">Értesítések Áttekintése</string>
-    <string name="wellbeing_mode_notice">Pár információ, ami befolyásolhatja a mentális jóllétedet rejtve marad. Ilyenek pl.:
+    <string name="review_notifications">Értesítések áttekintése</string>
+    <string name="wellbeing_mode_notice">Néhány információ, mely befolyásolhatja a mentális jóllétedet, rejtve marad. Ilyenek például:
 \n
-\n - Kedvenc/Megtolás/Bekövetés értesítései
-\n - Kedvenc/Megtolás számlálók a bejegyzéseken
-\n - Követő/Bejegyzés statisztikák a profilokon
+\n - Kedvencek, megtolások és követések értesítései
+\n - Kedvenc- és megtolásszámlálók a bejegyzéseken
+\n - Követő- és bejegyzésstatisztikák a profilokon
 \n
-\nA Push-értesítéseket ez nem befolyásolja, de kézzel átállíthatod az értesítési beállításaidat.</string>
+\nA leküldéses értesítéseket ez nem befolyásolja, de kézzel átnézheted az értesítési beállításaidat.</string>
     <string name="duration_indefinite">Végtelen</string>
     <string name="label_duration">Időtartam</string>
     <string name="post_media_attachments">Csatolmányok</string>
     <string name="post_media_audio">Audio</string>
-    <string name="notification_subscription_description">Értesítések általam követett személy új bejegyzéseiről</string>
+    <string name="notification_subscription_description">Értesítések az általam követettek új bejegyzéseiről</string>
     <string name="notification_subscription_name">Új bejegyzések</string>
     <string name="pref_title_notification_filter_subscriptions">valaki, akit követek új bejegyzést tett közzé</string>
     <string name="notification_subscription_format">%s épp bejegyzést írt</string>
     <string name="pref_title_wellbeing_mode">Jóllét</string>
-    <string name="pref_title_animate_custom_emojis">Egyedi emojik animálása</string>
+    <string name="pref_title_animate_custom_emojis">Egyéni emodzsik animálása</string>
     <string name="action_unsubscribe_account">Leiratkozás</string>
     <string name="action_subscribe_account">Feliratkozás</string>
     <string name="follow_requests_info">Bár a fiókod nincs zárolva, a %1$s csapata úgy gondolta, hogy ezen fiókok követési kérelmeit átnéznéd.</string>
     <string name="dialog_delete_conversation_warning">Töröljük ezt a beszélgetést\?</string>
     <string name="action_delete_conversation">Beszélgetés törlése</string>
     <string name="action_unbookmark">Könyvjelző törlése</string>
-    <string name="pref_title_confirm_favourites">Jóváhagyás mutatása kedvencnek jelölés előtt</string>
+    <string name="pref_title_confirm_favourites">Jóváhagyás megjelenítése kedvencnek jelölés előtt</string>
     <string name="notification_update_format">%s szerkesztette a bejegyzését</string>
     <string name="pref_title_notification_filter_updates">szerkesztették a bejegyzést, mellyel dolgod volt</string>
     <string name="notification_sign_up_format">%s regisztrált</string>
     <string name="pref_title_notification_filter_sign_ups">valaki regisztrált</string>
     <string name="notification_sign_up_name">Regisztrációk</string>
-    <string name="notification_sign_up_description">Értesítések új felhasználókról</string>
+    <string name="notification_sign_up_description">Értesítések az új felhasználókról</string>
     <string name="duration_14_days">14 nap</string>
     <string name="duration_30_days">30 nap</string>
     <string name="duration_60_days">60 nap</string>
@@ -526,12 +526,12 @@
     <string name="status_count_one_plus">1+</string>
     <string name="error_could_not_load_login_page">Nem tudtuk betölteni a bejelentkező oldalt.</string>
     <string name="saving_draft">Vázlat mentése…</string>
-    <string name="dialog_push_notification_migration">Ahhoz, hogy használhass leküldési értesítéseket a UnifiedPush szolgáltatás révén, a Tusky-nak fel kell iratkoznia az értesítésekre a Mastodon kiszolgálódon. Ehhez új bejelentkezésre van szükség, hogy a Tusky számára kiosztott OAuth jogosultságok megváltozzanak. Az újbóli bejelentkezés funkció használata itt vagy a Fiókbeállításoknál meg fogja őrizni a helyi piszkozataidat és a cache tartalmát.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tusky-t a leküldési értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így migrálva. Válts át rájuk és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
+    <string name="dialog_push_notification_migration">Ahhoz, hogy a UnifiedPush szolgáltatás révén leküldéses értesítéseket használhass, a Tuskynak fel kell iratkoznia az értesítésekre a Mastodon-kiszolgálódon. Ehhez új bejelentkezésre van szükség, hogy a Tusky számára kiosztott OAuth jogosultságok megváltozzanak. Az újbóli bejelentkezés funkció használata (itt vagy a fiókbeállításokban) megőrzi a helyi piszkozataidat és a gyorsítótár tartalmát.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tuskyt a leküldéses értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így átköltöztetve. Válts át rájuk, és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
     <string name="action_edit_image">Kép szerkesztése</string>
     <string name="error_image_edit_failed">A kép nem szerkeszthető.</string>
     <string name="error_loading_account_details">Nem sikerült betölteni a fiókadatokat</string>
-    <string name="pref_title_show_self_username">Felhasználónév mutatása az eszköztáron</string>
+    <string name="pref_title_show_self_username">Felhasználónév megjelenítése az eszköztáron</string>
     <string name="delete_scheduled_post_warning">Töröljük ezt az időzített bejegyzést\?</string>
     <string name="set_focus_description">Koppintsd vagy húzd a kört, hogy kijelöld azt a fókuszpontot, mely mindig látható lesz az előnézetekben.</string>
     <string name="filter_expiration_format">%s (%s)</string>
@@ -579,8 +579,8 @@
     <string name="title_followed_hashtags">Követett hashtagek</string>
     <string name="a11y_label_loading_thread">Szál betöltése</string>
     <string name="pref_title_reading_order">Olvasási sorrend</string>
-    <string name="pref_reading_order_oldest_first">Régebbi először</string>
-    <string name="pref_reading_order_newest_first">Újabb először</string>
+    <string name="pref_reading_order_oldest_first">Régebbi elöl</string>
+    <string name="pref_reading_order_newest_first">Újabb elöl</string>
     <string name="mute_notifications_switch">Értesítések némítása</string>
     <string name="pref_summary_http_proxy_disabled">Letiltva</string>
     <string name="pref_summary_http_proxy_missing">&lt;nincs beállítva&gt;</string>
@@ -592,9 +592,9 @@
     <string name="action_discard">Változtatások elvetése</string>
     <string name="action_continue_edit">Szerkesztés folytatása</string>
     <string name="compose_unsaved_changes">Elmentetlen változtatásaid vannak.</string>
-    <string name="action_share_account_link">Fiókra történő hivatkozás megosztása</string>
+    <string name="action_share_account_link">Fiókhivatkozás megosztása</string>
     <string name="action_share_account_username">Fiók felhasználói nevének megosztása</string>
-    <string name="send_account_link_to">Fiók URL megosztása vele…</string>
+    <string name="send_account_link_to">Fiók webcímének megosztása…</string>
     <string name="send_account_username_to">Fiók felhasználói nevének megosztása vele…</string>
     <string name="account_username_copied">Felhasználónév másolva</string>
     <string name="action_post_failed">Feltöltés meghiúsult</string>
@@ -604,7 +604,7 @@
     <string name="action_post_failed_detail_plural">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
 \n
 \nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</string>
-    <string name="action_post_failed_show_drafts">Vázlatok mutatása</string>
+    <string name="action_post_failed_show_drafts">Vázlatok megjelenítése</string>
     <string name="action_post_failed_do_nothing">Elvetés</string>
     <string name="action_browser_login">Bejelentkezés Böngészővel</string>
     <string name="description_login">A legtöbb esetben működik. Nem szivárog ki adat más alkalmazások számára.</string>
@@ -640,7 +640,7 @@
     <string name="filter_keyword_display_format">%s (egész világ)</string>
     <string name="label_filter_context">Szűrőkontextus</string>
     <string name="label_filter_keywords">Szűrendő kulcsszavak vagy kifejezések</string>
-    <string name="pref_title_show_stat_inline">Bejegyzés-statisztikák mutatása az idővonalon</string>
+    <string name="pref_title_show_stat_inline">Bejegyzésstatisztikák megjelenítése az idővonalon</string>
     <string name="ui_error_reject_follow_request">Követési kérelem elutasítása sikertelen: %s</string>
     <string name="ui_success_accepted_follow_request">Követési kérelem elfogadva</string>
     <string name="filter_keyword_addition_title">Kulcsszó hozzáadása</string>
@@ -651,7 +651,7 @@
 \nMás fiókokat másik idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán [iconics gmd_group]. Vagy megkeresheted őket név szerint [iconics gmd_search]; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
     <string name="post_media_image">Kép</string>
     <string name="select_list_manage">Listák kezelése</string>
-    <string name="pref_ui_text_size">UI betűméret</string>
+    <string name="pref_ui_text_size">Felület betűmérete</string>
     <string name="notification_listenable_worker_name">Háttértevékenység</string>
     <string name="notification_listenable_worker_description">Értesítések, amikor a Tusky a háttérben működik</string>
     <string name="notification_notification_worker">Értesítések lekérése…</string>
@@ -674,7 +674,7 @@
     <string name="about_copy">Verzió és eszköz információk másolása</string>
     <string name="about_copied">Verzió és eszköz információ lemásolva</string>
     <string name="action_translate">Fordítás</string>
-    <string name="action_show_original">Eredeti mutatása</string>
+    <string name="action_show_original">Eredeti megjelenítése</string>
     <string name="label_translating">Fordítás…</string>
     <string name="label_translated">Fordítva %1$s forrásból %2$s eszközzel</string>
     <string name="list_exclusive_label">Elrejtés a saját idővonalról</string>
@@ -695,11 +695,11 @@
 \n
 \nPéldául indulhatsz egy profilon a létrehozásra kattintva [iconics gmd_edit] a láthatóságot megváltoztatva. </string>
     <string name="title_public_trending_statuses">Felkapott bejegyzések</string>
-    <string name="help_empty_lists">Ez a <b>lista nézeted</b>. Definiálhatsz privát listákat és rájuk rakhatsz fiókokat.
+    <string name="help_empty_lists">Ez a <b>listanézeted</b>. Meghatározhatsz privát listákat és fiókokat adhatsz hozzájuk.
 \n
 \nMEGJEGYZÉS: Csak olyan fiókot rakhatsz a listádra, melyet követsz is.
 \n
-\n Ezeket a listákat fülekként használhatod a Fiók beállítások [iconics gmd_account_circle] [iconics gmd_navigate_next] Füleknél. </string>
+\n Ezeket a listákat lapokként használhatod a Fiókbeállítások [iconics gmd_account_circle] [iconics gmd_navigate_next] Lapok alatt. </string>
     <string name="error_blocking_domain">Nem sikerült némítani %1$s: %2$s</string>
     <string name="error_unblocking_domain">Nem sikerült a némítás feloldása %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">A feltöltés sikertelen: %s</string>
@@ -707,8 +707,8 @@
     <string name="list_reply_policy_none">Senki</string>
     <string name="list_reply_policy_list">A lista tagjai</string>
     <string name="list_reply_policy_followed">Bármely követett felhasználó</string>
-    <string name="list_reply_policy_label">Erre való válaszok mutatása</string>
-    <string name="pref_title_show_self_boosts">Önmegtolások mutatása</string>
+    <string name="list_reply_policy_label">Erre való válaszok megjelenítése</string>
+    <string name="pref_title_show_self_boosts">Önmegtolások megjelenítése</string>
     <string name="pref_title_show_self_boosts_description">Valaki a saját bejegyzését tolja meg</string>
-    <string name="pref_title_show_notifications_filter">Értesítésszűrő mutatása</string>
+    <string name="pref_title_show_notifications_filter">Értesítésszűrő megjelenítése</string>
 </resources>
