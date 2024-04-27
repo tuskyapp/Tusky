@@ -65,7 +65,8 @@
             android:layout_gravity="bottom"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:fabAlignmentMode="end">
+            app:fabAlignmentMode="end"
+            app:navigationContentDescription="@string/action_open_drawer">
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"
@@ -74,7 +75,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
-                app:tabMode="scrollable"/>
+                app:tabMode="scrollable" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
