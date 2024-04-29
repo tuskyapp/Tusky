@@ -244,7 +244,7 @@ class ViewThreadFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.errors.collect { throwable ->
                 Log.w(TAG, "failed to load status context", throwable)
                 Snackbar.make(binding.root, R.string.error_generic, Snackbar.LENGTH_SHORT)

@@ -25,7 +25,7 @@
     <string name="title_tab_preferences">Sekmeler</string>
     <string name="title_view_thread">Konu</string>
     <string name="title_posts">Gönderiler</string>
-    <string name="title_posts_with_replies">Yanıtlarıyla</string>
+    <string name="title_posts_with_replies">Yanıtlar</string>
     <string name="title_posts_pinned">Sabitlenen</string>
     <string name="title_follows">Takip edilenler</string>
     <string name="title_followers">Takipçiler</string>
@@ -106,7 +106,7 @@
     <string name="action_copy_link">Bağlantıyı kopyala</string>
     <string name="action_open_as">Farklı aç %1$s</string>
     <string name="action_share_as">Olarak paylaş …</string>
-    <string name="send_post_link_to">Gönderi adresini paylaş…</string>
+    <string name="send_post_link_to">Gönderi bağlantısını paylaş…</string>
     <string name="send_post_content_to">Gönderiyi paylaş…</string>
     <string name="send_media_to">Medyayı paylaş…</string>
     <string name="confirmation_reported">Gönderildi!</string>
@@ -216,7 +216,7 @@
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tusky\'nin Profili</string>
     <string name="post_share_content">Gönderinin içeriğini paylaş</string>
-    <string name="post_share_link">Gönderinin adresini paylaş</string>
+    <string name="post_share_link">Gönderinin bağlantısını paylaş</string>
     <string name="post_media_images">Görseller</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Takip istenen</string>
@@ -627,7 +627,7 @@
     <string name="description_login">Çoğu durumda çalışır. Diğer uygulamalara veri sızmaz.</string>
     <string name="description_browser_login">Ek kimlik doğrulama yöntemlerini destekleyebilir ancak desteklenen bir tarayıcı gerektirir.</string>
     <string name="select_list_manage">Listeleri yönet</string>
-    <string name="action_share_account_link">Hesaba bağlantı paylaş</string>
+    <string name="action_share_account_link">Hesap bağlantısını paylaş</string>
     <string name="action_share_account_username">Hesap adını paylaş</string>
     <string name="account_username_copied">Kullanıcı adı kopyalandı</string>
     <string name="send_account_username_to">Hesabın kullanıcı adını şununla paylaş…</string>
@@ -707,7 +707,7 @@
     <string name="reply_sending">Gönderiliyor…</string>
     <string name="reply_sending_long">Cevabınız gönderiliyor.</string>
     <string name="action_show_original">Özgünü göster</string>
-    <string name="label_translated">Dilinden%1$s ile %2$s çevrildi</string>
+    <string name="label_translated">%1$s dilinden %2$s ile çevrildi</string>
     <string name="ui_error_translate">Çeviri yapılamadı: %1$s</string>
     <string name="action_translate">Çevir</string>
     <string name="label_translating">Çeviri…</string>
