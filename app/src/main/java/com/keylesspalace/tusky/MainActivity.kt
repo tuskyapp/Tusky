@@ -1066,7 +1066,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
 
         updateProfiles()
-        shareShortcutHelper.updateShortcut(accountManager.activeAccount!!)
+        shareShortcutHelper.updateShortcuts()
     }
 
     @SuppressLint("CheckResult")

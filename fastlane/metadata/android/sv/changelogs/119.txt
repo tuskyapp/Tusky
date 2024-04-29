@@ -1,0 +1,8 @@
+Tusky 25
+
+- Stöd för Mastodon översättning API
+- Visa språk för inlägg
+- Förbättrade skärmövergångar
+- Filter inställningar har flyttats till kontoinställningar
+- Poststatistik har nu stabil position
+- Mycket av stabilitet och prestandaförbättringar under huven

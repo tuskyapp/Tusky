@@ -202,6 +202,14 @@ interface MastodonApi {
         @Body status: NewStatus
     ): NetworkResult<Status>
 
+    @POST("api/v1/statuses")
+    suspend fun createScheduledStatus(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Header("Idempotency-Key") idempotencyKey: String,
+        @Body status: NewStatus
+    ): NetworkResult<ScheduledStatus>
+
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
 
