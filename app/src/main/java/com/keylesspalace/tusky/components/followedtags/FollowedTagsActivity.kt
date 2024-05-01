@@ -149,7 +149,7 @@ class FollowedTagsActivity :
         lifecycleScope.launch {
             api.unfollowTag(tagName).fold(
                 {
-                    viewModel.tags.removeAt(position)
+                    viewModel.tags.removeIf { tag -> tag.name == tagName }
                     Snackbar.make(
                         this@FollowedTagsActivity,
                         binding.followedTagsView,
