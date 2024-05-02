@@ -29,7 +29,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
         tools:text="ConnyDuck boosted"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:drawableTint="?android:textColorTertiary" />
 
     <ImageView
         android:id="@+id/status_avatar"

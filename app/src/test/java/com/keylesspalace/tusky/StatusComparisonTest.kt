@@ -44,12 +44,14 @@ class StatusComparisonTest {
     fun `two equal status view data - should be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
@@ -61,12 +63,14 @@ class StatusComparisonTest {
     fun `status view data with different isExpanded - should not be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = true,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
@@ -78,12 +82,14 @@ class StatusComparisonTest {
     fun `status view data with different statuses- should not be equal`() {
         val viewdata1 = StatusViewData.Concrete(
             status = createStatus(content = "whatever"),
+            inReplyToAccount = null,
             isExpanded = true,
             isShowingContent = false,
             isCollapsed = false
         )
         val viewdata2 = StatusViewData.Concrete(
             status = createStatus(),
+            inReplyToAccount = null,
             isExpanded = false,
             isShowingContent = false,
             isCollapsed = false
@@ -104,7 +110,7 @@ class StatusComparisonTest {
                 "id": "$id",
                 "created_at": "2022-02-26T09:54:45.000Z",
                 "in_reply_to_id": null,
-                "in_reply_to_account_id": null,
+                "in_reply_to_account": null,
                 "sensitive": false,
                 "spoiler_text": "",
                 "visibility": "public",

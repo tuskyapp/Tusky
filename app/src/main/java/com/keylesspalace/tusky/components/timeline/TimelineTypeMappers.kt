@@ -206,8 +206,8 @@ fun TimelineStatusWithAccount.toViewData(moshi: Moshi, isDetailed: Boolean = fal
             // no url for reblogs
             url = null,
             account = this.reblogAccount!!.toAccount(moshi),
-            inReplyToId = null,
-            inReplyToAccountId = null,
+            inReplyToId = status.inReplyToId,
+            inReplyToAccountId = status.inReplyToAccountId,
             reblog = reblog,
             content = "",
             // lie but whatever?
@@ -269,6 +269,7 @@ fun TimelineStatusWithAccount.toViewData(moshi: Moshi, isDetailed: Boolean = fal
     }
     return StatusViewData.Concrete(
         status = status,
+        inReplyToAccount = this.inReplyToAccount?.toAccount(moshi),
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
         isCollapsed = this.status.contentCollapsed,
