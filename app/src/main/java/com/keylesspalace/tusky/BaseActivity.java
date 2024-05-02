@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.ActivityConstants;
 import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
@@ -59,7 +60,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
-import static com.keylesspalace.tusky.util.ActivityExtensions.supportsOverridingActivityTransitions;
 
 public abstract class BaseActivity extends AppCompatActivity implements Injectable {
 
@@ -78,9 +78,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        if (activityTransitionWasRequested()) {
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                    R.anim.activity_open_enter,
+                    R.anim.activity_open_exit
+            );
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_CLOSE,
+                    R.anim.activity_close_enter,
+                    R.anim.activity_close_exit
+            );
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -187,15 +197,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        // if this activity was opened with slide-in, close it with slide out
-        if (!supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
-        }
     }
 
     protected void redirectIfNotLoggedIn() {

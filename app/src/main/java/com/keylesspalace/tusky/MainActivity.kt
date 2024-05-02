@@ -103,15 +103,16 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
+import com.keylesspalace.tusky.util.ActivityConstants
 import com.keylesspalace.tusky.util.ShareShortcutHelper
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
@@ -216,8 +217,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         val activeAccount = accountManager.activeAccount
             ?: return // will be redirected to LoginActivity by BaseActivity
 
-        if (supportsOverridingActivityTransitions() && explodeAnimationWasRequested()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.activity_open_exit)
+        if (explodeAnimationWasRequested()) {
+            overrideActivityTransitionCompat(
+                ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                R.anim.explode,
+                R.anim.activity_open_exit
+            )
         }
 
         var showNotificationTab = false
@@ -991,10 +996,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         startActivity(intent)
         finish()
-        if (!supportsOverridingActivityTransitions()) {
-            @Suppress("DEPRECATION")
-            overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
-        }
     }
 
     private fun logout() {
