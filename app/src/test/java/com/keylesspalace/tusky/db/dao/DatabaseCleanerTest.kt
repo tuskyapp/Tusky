@@ -12,6 +12,7 @@ import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.components.timeline.insert
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
 import com.keylesspalace.tusky.db.entity.NotificationReportEntity
@@ -29,9 +30,9 @@ import org.robolectric.annotation.Config
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
-class CleanupDaoTest {
+class DatabaseCleanerTest {
     private lateinit var timelineDao: TimelineDao
-    private lateinit var cleanupDao: CleanupDao
+    private lateinit var dbCleaner: DatabaseCleaner
     private lateinit var db: AppDatabase
 
     private val moshi = NetworkModule.providesMoshi()
@@ -44,7 +45,7 @@ class CleanupDaoTest {
             .allowMainThreadQueries()
             .build()
         timelineDao = db.timelineDao()
-        cleanupDao = db.cleanupDao()
+        dbCleaner = DatabaseCleaner(db)
     }
 
     @After
@@ -56,7 +57,7 @@ class CleanupDaoTest {
     fun cleanupOldData() = runTest {
         fillDatabase()
 
-        cleanupDao.cleanupOldData(tuskyAccountId = 1, timelineLimit = 3, notificationLimit = 3)
+        dbCleaner.cleanupOldData(tuskyAccountId = 1, timelineLimit = 3, notificationLimit = 3)
 
         // all but 3 timeline items and notifications and all references items should be gone for Tusky account 1
         // items of Tusky account 2 should be untouched
@@ -117,7 +118,7 @@ class CleanupDaoTest {
     fun cleanupEverything() = runTest {
         fillDatabase()
 
-        cleanupDao.cleanupEverything(tuskyAccountId = 1)
+        dbCleaner.cleanupEverything(tuskyAccountId = 1)
 
         // everything from Tusky account 1 should be gone
         // items of Tusky account 2 should be untouched

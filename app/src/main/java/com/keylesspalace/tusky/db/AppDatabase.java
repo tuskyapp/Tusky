@@ -28,7 +28,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 import com.keylesspalace.tusky.db.dao.AccountDao;
-import com.keylesspalace.tusky.db.dao.CleanupDao;
 import com.keylesspalace.tusky.db.dao.DraftDao;
 import com.keylesspalace.tusky.db.dao.InstanceDao;
 import com.keylesspalace.tusky.db.dao.NotificationsDao;
@@ -83,7 +82,6 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract NotificationsDao notificationsDao();
     @NonNull public abstract TimelineStatusDao timelineStatusDao();
     @NonNull public abstract TimelineAccountDao timelineAccountDao();
-    @NonNull public abstract CleanupDao cleanupDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override

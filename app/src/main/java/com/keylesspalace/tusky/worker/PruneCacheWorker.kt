@@ -28,14 +28,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.DatabaseCleaner
 import javax.inject.Inject
 
 /** Prune the database cache of old statuses. */
 class PruneCacheWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val appDatabase: AppDatabase,
+    private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager
 ) : CoroutineWorker(appContext, workerParams) {
     val notification: Notification = NotificationHelper.createWorkerNotification(
@@ -46,7 +46,7 @@ class PruneCacheWorker(
     override suspend fun doWork(): Result {
         for (account in accountManager.accounts) {
             Log.d(TAG, "Pruning database using account ID: ${account.id}")
-            appDatabase.cleanupDao().cleanupOldData(account.id, MAX_HOMETIMELINE_ITEMS_IN_CACHE, MAX_NOTIFICATIONS_IN_CACHE)
+            databaseCleaner.cleanupOldData(account.id, MAX_HOMETIMELINE_ITEMS_IN_CACHE, MAX_NOTIFICATIONS_IN_CACHE)
         }
         return Result.success()
     }
@@ -64,11 +64,11 @@ class PruneCacheWorker(
     }
 
     class Factory @Inject constructor(
-        private val appDatabase: AppDatabase,
+        private val databaseCleaner: DatabaseCleaner,
         private val accountManager: AccountManager
     ) : ChildWorkerFactory {
         override fun createWorker(appContext: Context, params: WorkerParameters): ListenableWorker {
-            return PruneCacheWorker(appContext, params, appDatabase, accountManager)
+            return PruneCacheWorker(appContext, params, databaseCleaner, accountManager)
         }
     }
 }
