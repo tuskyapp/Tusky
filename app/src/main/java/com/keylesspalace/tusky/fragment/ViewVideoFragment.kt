@@ -33,7 +33,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
-import androidx.core.view.GestureDetectorCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -151,7 +150,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             )
 
             /** Handle taps and flings */
-            val simpleGestureDetector = GestureDetectorCompat(
+            val simpleGestureDetector = GestureDetector(
                 requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onDown(e: MotionEvent) = true

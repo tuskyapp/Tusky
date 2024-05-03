@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.text.TextUtils
 import androidx.core.app.Person
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -30,70 +29,72 @@ import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ShareShortcutHelper @Inject constructor(
     private val context: Context,
+    private val accountManager: AccountManager,
     @ApplicationScope private val externalScope: CoroutineScope
 ) {
 
-    fun updateShortcut(account: AccountEntity) {
-        externalScope.launch {
+    fun updateShortcuts() {
+        externalScope.launch(Dispatchers.IO) {
             val innerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_inner_size)
             val outerSize = context.resources.getDimensionPixelSize(R.dimen.adaptive_bitmap_outer_size)
 
-            val bmp = if (TextUtils.isEmpty(account.profilePictureUrl)) {
-                Glide.with(context)
-                    .asBitmap()
-                    .load(R.drawable.avatar_default)
-                    .submitAsync(innerSize, innerSize)
-            } else {
-                Glide.with(context)
+            val maxNumberOfShortcuts = ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
+
+            val shortcuts = accountManager.accounts.take(maxNumberOfShortcuts).map { account ->
+
+                val bmp = Glide.with(context)
                     .asBitmap()
                     .load(account.profilePictureUrl)
+                    .placeholder(R.drawable.avatar_default)
                     .error(R.drawable.avatar_default)
                     .submitAsync(innerSize, innerSize)
+
+                // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
+                val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
+
+                val canvas = Canvas(outBmp)
+                canvas.drawBitmap(
+                    bmp,
+                    (outerSize - innerSize).toFloat() / 2f,
+                    (outerSize - innerSize).toFloat() / 2f,
+                    null
+                )
+
+                val icon = IconCompat.createWithAdaptiveBitmap(outBmp)
+
+                val person = Person.Builder()
+                    .setIcon(icon)
+                    .setName(account.displayName)
+                    .setKey(account.identifier)
+                    .build()
+
+                // This intent will be sent when the user clicks on one of the launcher shortcuts. Intent from share sheet will be different
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
+                    putExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID, account.id.toString())
+                }
+
+                ShortcutInfoCompat.Builder(context, account.id.toString())
+                    .setIntent(intent)
+                    .setCategories(setOf("com.keylesspalace.tusky.Share"))
+                    .setShortLabel(account.displayName)
+                    .setPerson(person)
+                    .setLongLived(true)
+                    .setIcon(icon)
+                    .build()
             }
 
-            // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
-            val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
-
-            val canvas = Canvas(outBmp)
-            canvas.drawBitmap(
-                bmp,
-                (outerSize - innerSize).toFloat() / 2f,
-                (outerSize - innerSize).toFloat() / 2f,
-                null
-            )
-
-            val icon = IconCompat.createWithAdaptiveBitmap(outBmp)
-
-            val person = Person.Builder()
-                .setIcon(icon)
-                .setName(account.displayName)
-                .setKey(account.identifier)
-                .build()
-
-            // This intent will be sent when the user clicks on one of the launcher shortcuts. Intent from share sheet will be different
-            val intent = Intent(context, MainActivity::class.java).apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                putExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID, account.id.toString())
-            }
-
-            val shortcutInfo = ShortcutInfoCompat.Builder(context, account.id.toString())
-                .setIntent(intent)
-                .setCategories(setOf("com.keylesspalace.tusky.Share"))
-                .setShortLabel(account.displayName)
-                .setPerson(person)
-                .setLongLived(true)
-                .setIcon(icon)
-                .build()
-
-            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))
+            ShortcutManagerCompat.addDynamicShortcuts(context, shortcuts)
         }
     }
 

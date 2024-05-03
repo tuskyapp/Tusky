@@ -1,10 +1,11 @@
 Tusky 22.0 beta 2
 
-Fixes including:
+Correccións que inclúen:
 
-- Improved notification loading speed
-- Restore showing 0/1/1+ for replies
-- Show filter titles, not filter keywords, on filtered posts
-- Fixed a bug where opening a status could open an unrelated link
-- Show "Add" button in correct place when there are no filters
-- Fixed assorted crashes
+- Velocidade de carga de notificacións mellorada
+- Restaurar mostrando 0/1/1+ para as respostas
+- Mostra títulos de filtro, non palabras clave de filtro, nas publicacións filtradas
+- Corrixiuse un erro no que abrir un estado podía abrir unha ligazón non relacionada
+- Mostrar o botón "Engadir" no lugar correcto cando non haxa filtros
+- Arranxáronse varios fallos
+ (trad. automática)

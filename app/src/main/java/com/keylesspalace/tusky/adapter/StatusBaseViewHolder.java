@@ -17,12 +17,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
@@ -74,7 +74,6 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -541,7 +540,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 imageView.setForeground(null);
             }
 
-            setAttachmentClickListener(imageView, listener, i, attachment, true);
+            final CharSequence formattedDescription = AttachmentHelper.getFormattedDescription(attachment, imageView.getContext());
+            setAttachmentClickListener(imageView, listener, i, formattedDescription, true);
 
             if (sensitive) {
                 sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
@@ -613,15 +613,15 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 int drawableId = getLabelIcon(attachments.get(0).getType());
                 mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
 
-                setAttachmentClickListener(mediaLabel, listener, i, attachment, false);
+                setAttachmentClickListener(mediaLabel, listener, i, mediaDescriptions[i], false);
             } else {
                 mediaLabel.setVisibility(View.GONE);
             }
         }
     }
 
-    private void setAttachmentClickListener(View view, @NonNull StatusActionListener listener,
-                                            int index, Attachment attachment, boolean animateTransition) {
+    private void setAttachmentClickListener(@NonNull View view, @NonNull StatusActionListener listener,
+                                            int index, CharSequence description, boolean animateTransition) {
         view.setOnClickListener(v -> {
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
@@ -632,11 +632,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
-        view.setOnLongClickListener(v -> {
-            CharSequence description = AttachmentHelper.getFormattedDescription(attachment, view.getContext());
-            Toast.makeText(view.getContext(), description, Toast.LENGTH_LONG).show();
-            return true;
-        });
+        TooltipCompat.setTooltipText(view, description);
     }
 
     protected void hideSensitiveMediaWarning() {
