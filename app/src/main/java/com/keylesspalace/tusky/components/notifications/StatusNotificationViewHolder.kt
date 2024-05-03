@@ -22,7 +22,6 @@ import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.InputFilter
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.format.DateUtils
 import android.text.style.StyleSpan
@@ -30,6 +29,7 @@ import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.bumptech.glide.Glide
@@ -254,16 +254,15 @@ internal class StatusNotificationViewHolder(
             null,
             null
         )
-        val wholeMessage = String.format(format, displayName)
-        val str = SpannableStringBuilder(wholeMessage)
+        val wholeMessage = String.format(format, displayName).toSpannable()
         val displayNameIndex = format.indexOf("%1\$s")
-        str.setSpan(
+        wholeMessage.setSpan(
             StyleSpan(Typeface.BOLD),
             displayNameIndex,
             displayNameIndex + displayName.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        val emojifiedText = str.emojify(
+        val emojifiedText = wholeMessage.emojify(
             notificationViewData.account.emojis,
             binding.notificationTopText,
             animateEmojis
