@@ -19,7 +19,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,8 +33,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.color.MaterialColors;
@@ -46,14 +43,11 @@ import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
-import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
 import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -70,9 +64,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     @NonNull
     public AccountManager accountManager;
-
-    private static final int REQUESTER_NONE = Integer.MAX_VALUE;
-    private HashMap<Integer, PermissionRequester> requesters;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,8 +98,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
         }
-
-        requesters = new HashMap<>();
     }
 
     private boolean activityTransitionWasRequested() {
@@ -272,37 +261,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requesters.containsKey(requestCode)) {
-            PermissionRequester requester = requesters.remove(requestCode);
-            requester.onRequestPermissionsResult(permissions, grantResults);
-        }
-    }
-
-    public void requestPermissions(@NonNull String[] permissions, @NonNull PermissionRequester requester) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for(String permission: permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.isEmpty()) {
-            int[] permissionsAlreadyGranted = new int[permissions.length];
-            requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
-            return;
-        }
-
-        int newKey = requester == null ? REQUESTER_NONE : requesters.size();
-        if (newKey != REQUESTER_NONE) {
-            requesters.put(newKey, requester);
-        }
-        String[] permissionsCopy = new String[permissionsToRequest.size()];
-        permissionsToRequest.toArray(permissionsCopy);
-        ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
-
     }
 }
