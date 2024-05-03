@@ -36,7 +36,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -515,7 +515,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         Drawable getIconWithColor(Context context, @DrawableRes int drawable, @ColorRes int color) {
-            Drawable icon = ContextCompat.getDrawable(context, drawable);
+            final Drawable icon = AppCompatResources.getDrawable(context, drawable);
             if (icon != null) {
                 icon.setColorFilter(context.getColor(color), PorterDuff.Mode.SRC_ATOP);
             }
@@ -554,7 +554,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     break;
                 }
             }
-            message.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            message.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
             String wholeMessage = String.format(format, displayName);
             final SpannableStringBuilder str = new SpannableStringBuilder(wholeMessage);
             int displayNameIndex = format.indexOf("%1$s");

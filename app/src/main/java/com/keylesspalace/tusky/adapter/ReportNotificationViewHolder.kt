@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.adapter
 
 import android.content.Context
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
@@ -49,9 +49,9 @@ class ReportNotificationViewHolder(
             itemView,
             animateEmojis
         )
-        val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
+        val icon = AppCompatResources.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
 
-        binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
+        binding.notificationTopText.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, System.currentTimeMillis()), report.statusIds?.size ?: 0)
         binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
