@@ -196,9 +196,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private val onBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
-            if (binding.viewPager.currentItem != 0) {
-                binding.viewPager.currentItem = 0
-            }
+            binding.viewPager.currentItem = 0
         }
     }
 
