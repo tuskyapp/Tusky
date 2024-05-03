@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.entity.TrendingTag
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -199,6 +198,14 @@ interface MastodonApi {
         @Body status: NewStatus
     ): NetworkResult<Status>
 
+    @POST("api/v1/statuses")
+    suspend fun createScheduledStatus(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Header("Idempotency-Key") idempotencyKey: String,
+        @Body status: NewStatus
+    ): NetworkResult<ScheduledStatus>
+
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
 
@@ -284,11 +291,11 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateSource(
+    suspend fun accountUpdateSource(
         @Field("source[privacy]") privacy: String?,
         @Field("source[sensitive]") sensitive: Boolean?,
         @Field("source[language]") language: String?
-    ): Call<Account>
+    ): NetworkResult<Account>
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")

@@ -22,12 +22,12 @@ import com.squareup.moshi.JsonClass
 data class Card(
     val url: String,
     val title: String,
-    val description: String,
-    @Json(name = "author_name") val authorName: String,
+    val description: String = "",
+    @Json(name = "author_name") val authorName: String = "",
     val image: String? = null,
     val type: String,
-    val width: Int,
-    val height: Int,
+    val width: Int = 0,
+    val height: Int = 0,
     val blurhash: String? = null,
     @Json(name = "embed_url") val embedUrl: String? = null
 ) {

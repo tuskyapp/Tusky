@@ -1160,8 +1160,7 @@ class ComposeActivity :
             this,
             BuildConfig.APPLICATION_ID + ".fileprovider",
             photoFile
-        )
-        takePicture.launch(photoUploadUri)
+        ).also { uri -> takePicture.launch(uri) }
     }
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {

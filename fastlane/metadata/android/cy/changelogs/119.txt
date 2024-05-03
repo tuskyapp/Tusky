@@ -1,0 +1,8 @@
+Tusky 25
+
+- Cynnal API cyfieithu Mastodon
+- Dangos iaith y neges
+- Gwella trawsnewidiadau'r sgrin
+- Mae gosodiadau hidlo wedi cael eu symud i osodiadau'r cyfrif
+- Mae ystadegau'r neges bob amser yn dangos yn yr un lle
+- Llawer o wella wedi'u cudd

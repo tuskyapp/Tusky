@@ -93,8 +93,8 @@
     <string name="action_compose">എഴുതുക</string>
     <string name="action_quick_reply">പെട്ടന്നുള്ള മറുപടി</string>
     <string name="report_comment_hint">കൂടുതൽ പറയാൻ ഉണ്ടോ\?</string>
-    <string name="report_username_format">അറിയിക്കുക @%s</string>
-    <string name="notification_follow_format">%s നിങ്ങളെ പിന്തുടരുന്നു</string>
+    <string name="report_username_format">അറിയിക്കുക @%1$s</string>
+    <string name="notification_follow_format">%1$s നിങ്ങളെ പിന്തുടരുന്നു</string>
     <string name="notification_favourite_name">പ്രിയപ്പെട്ടവ</string>
     <string name="title_media">മാധ്യമം</string>
     <string name="action_open_reblogged_by">ബൂട്ട്‌സ് കാണിക്കുക</string>
@@ -112,7 +112,7 @@
     <string name="title_announcements">പ്രഖ്യാപനങ്ങൾ</string>
     <string name="later">പിന്നീട്</string>
     <string name="account_note_saved">സംരക്ഷിച്ചു!</string>
-    <string name="post_boosted_format">%s ബൂസ്റ്റ് ചെയ്തു</string>
+    <string name="post_boosted_format">%1$s ബൂസ്റ്റ് ചെയ്തു</string>
     <string name="search_no_results">ഫലങ്ങൾ ഒന്നും ഇല്ല</string>
     <string name="confirmation_reported">അയച്ചൂ!</string>
     <string name="action_share">പങ്കിടുക</string>
@@ -155,7 +155,7 @@
     <string name="filter_dialog_update_button">പുതുക്കുക</string>
     <string name="label_avatar">അവതാർ</string>
     <string name="title_links_dialog">ലിങ്കുകൾ</string>
-    <string name="post_username_format">\@%s</string>
+    <string name="post_username_format">\@%1$s</string>
     <string name="post_media_video">വിഡിയോ</string>
     <string name="action_mention">സൂചിപ്പിക്കുക</string>
     <string name="filter_dialog_remove_button">നീക്കം ചെയ്യുക</string>

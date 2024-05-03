@@ -1,5 +1,5 @@
 Tusky 22.0 beta 4
 
-Fixes:
+Arranxo:
 
-- Fixed repeated fetch of notifications if configured with multiple accounts
+- das notificacións repetidas se hai varias contas

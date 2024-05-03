@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
+import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
@@ -256,13 +257,24 @@ class SendStatusService : Service(), Injectable {
                 }
             )
 
+            val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
+
             val sendResult = if (isNew) {
-                mastodonApi.createStatus(
-                    "Bearer " + account.accessToken,
-                    account.domain,
-                    statusToSend.idempotencyKey,
-                    newStatus
-                )
+                if (!scheduled) {
+                    mastodonApi.createStatus(
+                        "Bearer " + account.accessToken,
+                        account.domain,
+                        statusToSend.idempotencyKey,
+                        newStatus
+                    )
+                } else {
+                    mastodonApi.createScheduledStatus(
+                        "Bearer " + account.accessToken,
+                        account.domain,
+                        statusToSend.idempotencyKey,
+                        newStatus
+                    )
+                }
             } else {
                 mastodonApi.editStatus(
                     statusToSend.statusId!!,
@@ -282,14 +294,12 @@ class SendStatusService : Service(), Injectable {
 
                 mediaUploader.cancelUploadScope(*statusToSend.media.map { it.localId }.toIntArray())
 
-                val scheduled = !statusToSend.scheduledAt.isNullOrEmpty()
-
                 if (scheduled) {
-                    eventHub.dispatch(StatusScheduledEvent(sentStatus))
+                    eventHub.dispatch(StatusScheduledEvent(sentStatus as ScheduledStatus))
                 } else if (!isNew) {
-                    eventHub.dispatch(StatusChangedEvent(sentStatus))
+                    eventHub.dispatch(StatusChangedEvent(sentStatus as Status))
                 } else {
-                    eventHub.dispatch(StatusComposedEvent(sentStatus))
+                    eventHub.dispatch(StatusComposedEvent(sentStatus as Status))
                 }
 
                 notificationManager.cancel(statusId)

@@ -28,7 +28,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -117,7 +116,7 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        val singleTapDetector = GestureDetectorCompat(
+        val singleTapDetector = GestureDetector(
             requireContext(),
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
