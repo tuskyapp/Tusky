@@ -256,7 +256,7 @@ internal class StatusNotificationViewHolder(
         )
         val wholeMessage = String.format(format, displayName)
         val str = SpannableStringBuilder(wholeMessage)
-        val displayNameIndex = format.indexOf("%s")
+        val displayNameIndex = format.indexOf("%1\$s")
         str.setSpan(
             StyleSpan(Typeface.BOLD),
             displayNameIndex,

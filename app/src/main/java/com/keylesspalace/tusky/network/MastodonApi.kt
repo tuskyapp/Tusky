@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.entity.TrendingTag
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -295,11 +294,11 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateSource(
+    suspend fun accountUpdateSource(
         @Field("source[privacy]") privacy: String?,
         @Field("source[sensitive]") sensitive: Boolean?,
         @Field("source[language]") language: String?
-    ): Call<Account>
+    ): NetworkResult<Account>
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")

@@ -36,8 +36,8 @@
     <string name="title_edit_profile">আপনার প্রোফাইল সম্পাদনা করুন</string>
     <string name="title_drafts">খসড়াগুলো</string>
     <string name="title_licenses">লাইসেন্সগুলি</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s সমর্থন দিয়েছে</string>
+    <string name="post_username_format">\@%1$s</string>
+    <string name="post_boosted_format">%1$s সমর্থন দিয়েছে</string>
     <string name="post_sensitive_media_title">সংবেদনশীল কন্টেন্ট</string>
     <string name="post_media_hidden_title">মিডিয়া লুকানো</string>
     <string name="post_sensitive_media_directions">দেখার জন্য ক্লিক করুন</string>
@@ -47,10 +47,10 @@
     <string name="post_content_show_less">বন্ধ</string>
     <string name="message_empty">এখানে কিছুই নেই।</string>
     <string name="footer_empty">এখানে কিছু নেই. রিফ্রেশ করতে নিচে টানুন!</string>
-    <string name="notification_reblog_format">%s সমর্থন দিয়েছে</string>
-    <string name="notification_favourite_format">%s আপনার টুট পছন্দ করেছে</string>
-    <string name="notification_follow_format">%s আপনাকে অনুসরণ করেছেন</string>
-    <string name="report_username_format">রিপোর্ট @%s</string>
+    <string name="notification_reblog_format">%1$s সমর্থন দিয়েছে</string>
+    <string name="notification_favourite_format">%1$s আপনার টুট পছন্দ করেছে</string>
+    <string name="notification_follow_format">%1$s আপনাকে অনুসরণ করেছেন</string>
+    <string name="report_username_format">রিপোর্ট @%1$s</string>
     <string name="report_comment_hint">অতিরিক্ত মন্তব্যগুলি\?</string>
     <string name="action_quick_reply">দ্রুত উত্তর</string>
     <string name="action_reply">উত্তর</string>
@@ -114,10 +114,10 @@
     <string name="title_hashtags_dialog">হ্যাশট্যাগ</string>
     <string name="title_mentions_dialog">উল্লেখসমূহ</string>
     <string name="title_links_dialog">লিংকসমূহ</string>
-    <string name="action_open_media_n">মিডিয়া খুলুন #%d</string>
+    <string name="action_open_media_n">মিডিয়া খুলুন #%1$d</string>
     <string name="download_image">%1$s ডাউনলোড হচ্ছে</string>
     <string name="action_copy_link">লিঙ্ক অনুলিপি করুন</string>
-    <string name="action_open_as">%s হিসাবে খুলুন</string>
+    <string name="action_open_as">%1$s হিসাবে খুলুন</string>
     <string name="action_share_as">হিসাবে ভাগ করুন …</string>
     <string name="download_media">মিডিয়া ডাউনলোড করুন</string>
     <string name="downloading_media">মিডিয়া ডাউনলোড করা হচ্ছে</string>
@@ -217,16 +217,16 @@
     <string name="notification_favourite_description">আপনার টুটগুলি প্রিয় হিসাবে চিহ্নিত পেতে বিজ্ঞপ্তি</string>
     <string name="notification_poll_name">নির্বাচনগুলি</string>
     <string name="notification_poll_description">শেষ হয়েছে যে নির্বাচনগুলির সম্পর্কে বিজ্ঞপ্তি</string>
-    <string name="notification_mention_format">%s আপনাকে উল্লিখিত করেছে</string>
+    <string name="notification_mention_format">%1$s আপনাকে উল্লিখিত করেছে</string>
     <string name="notification_summary_large">%1$s,%2$s,%3$s এবং %4$d আরো অন্য জন</string>
     <string name="notification_summary_medium">%1$s, %2$s, আর %3$s</string>
     <string name="notification_summary_small">%1$s আর %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d নতুন মিথস্ক্রিয়া</item>
+        <item quantity="other">%1$d নতুন মিথস্ক্রিয়া</item>
     </plurals>
     <string name="description_account_locked">লক অ্যাকাউন্ট</string>
     <string name="about_title_activity">সম্পর্কিত</string>
-    <string name="about_tusky_version">টাস্কি %s</string>
+    <string name="about_tusky_version">টাস্কি %1$s</string>
     <string name="about_tusky_license">টাস্কি মুক্ত এবং ওপেন সোর্স সফ্টওয়্যার। এটি GNU জেনারেল পাবলিক লাইসেন্স সংস্করণ 3 এর অধীনে লাইসেন্সযুক্ত। আপনি এখানে লাইসেন্স দেখতে পারেন: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
@@ -245,20 +245,20 @@
     <string name="post_media_video">ভিডিও</string>
     <string name="state_follow_requested">অনুরোধ অনুসরণ করুন</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">%dy এ</string>
-    <string name="abbreviated_in_days">%dd এ</string>
-    <string name="abbreviated_in_hours">%dh এ</string>
-    <string name="abbreviated_in_minutes">%dm এ</string>
-    <string name="abbreviated_in_seconds">%ds এ</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_years">%1$dy এ</string>
+    <string name="abbreviated_in_days">%1$dd এ</string>
+    <string name="abbreviated_in_hours">%1$dh এ</string>
+    <string name="abbreviated_in_minutes">%1$dm এ</string>
+    <string name="abbreviated_in_seconds">%1$ds এ</string>
+    <string name="abbreviated_years_ago">%1$dy</string>
+    <string name="abbreviated_days_ago">%1$dd</string>
+    <string name="abbreviated_hours_ago">%1$dh</string>
+    <string name="abbreviated_minutes_ago">%1$dm</string>
+    <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">আপনাকে অনুসরন করে</string>
     <string name="pref_title_alway_show_sensitive_media">সর্বদা সংবেদনশীল কন্টেন্ট প্রদর্শন করুন</string>
     <string name="title_media">মিডিয়া</string>
-    <string name="replying_to">\@%s কে উত্তর দিচ্ছে</string>
+    <string name="replying_to">\@%1$s কে উত্তর দিচ্ছে</string>
     <string name="load_more_placeholder_text">আরো লোড কর</string>
     <string name="pref_title_public_filter_keywords">পাবলিক টাইমলাইন</string>
     <string name="pref_title_thread_filter_keywords">কথাবার্তা</string>
@@ -283,7 +283,7 @@
     <string name="compose_active_account_description">অ্যাকাউন্ট %1$s থেকে পোস্ট করা হচ্ছে</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">দৃষ্টি প্রতিবন্ধী জন্য বর্ণনা করুন
-\n(%d অক্ষর সীমা)</item>
+\n(%1$d অক্ষর সীমা)</item>
     </plurals>
     <string name="action_set_caption">ক্যাপশন সেট করুন</string>
     <string name="action_remove">সরান</string>
@@ -296,7 +296,7 @@
     <string name="send_post_notification_cancel_title">পাঠানো বাতিল</string>
     <string name="send_post_notification_saved_content">টুট এর একটি কপি আপনার ড্রাফটে সংরক্ষণ করা হয়েছে</string>
     <string name="action_compose_shortcut">রচনা</string>
-    <string name="error_no_custom_emojis">আপনার ইনস্ট্যান্স %s এর কোনো কাস্টম ইমোজিস নেই</string>
+    <string name="error_no_custom_emojis">আপনার ইনস্ট্যান্স %1$s এর কোনো কাস্টম ইমোজিস নেই</string>
     <string name="emoji_style">ইমোজি স্টাইল</string>
     <string name="system_default">সিস্টেমের ডিফল্ট</string>
     <string name="download_fonts">আপনাকে প্রথমে এই ইমোজি সেটগুলি ডাউনলোড করতে হবে</string>
@@ -333,16 +333,16 @@
         <item quantity="other"><b>%1$s</b> পছন্দসই</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> বুস্ট</item>
-        <item quantity="other"><b>%s</b> বুস্ট</item>
+        <item quantity="one"><b>%1$s</b> বুস্ট</item>
+        <item quantity="other"><b>%1$s</b> বুস্ট</item>
     </plurals>
     <string name="title_reblogged_by">দ্বারা সর্মথন</string>
     <string name="title_favourited_by">দ্বারা পছন্দ</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s এবং %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s এবং %3$d আরো অন্য জন</string>
-    <string name="description_post_media">মিডিয়া: %s</string>
-    <string name="description_post_cw">সতর্কবার্তা: %s</string>
+    <string name="description_post_media">মিডিয়া: %1$s</string>
+    <string name="description_post_cw">সতর্কবার্তা: %1$s</string>
     <string name="description_post_media_no_description_placeholder">বর্ণনা নাই</string>
     <string name="description_post_reblogged">আবার ব্লগ</string>
     <string name="description_post_favourited">পছন্দ</string>
@@ -359,9 +359,9 @@
     <string name="compose_shortcut_long_label">টুট রচনা করুন</string>
     <string name="compose_shortcut_short_label">রচনা</string>
     <string name="notification_clear_text">আপনি কি আপনার সমস্ত বিজ্ঞপ্তি স্থায়ীভাবে মুছে ফেলতে চান\?</string>
-    <string name="compose_preview_image_description">ছবি %s এর জন্য ক্রিয়া</string>
+    <string name="compose_preview_image_description">ছবি %1$s এর জন্য ক্রিয়া</string>
     <string name="poll_info_format"> <!-- ১৫ ভোট • ১ ঘন্টা বাকি --> %1$s • %2$s</string>
-    <string name="poll_info_time_absolute">%s এ শেষ হবে</string>
+    <string name="poll_info_time_absolute">%1$s এ শেষ হবে</string>
     <string name="poll_info_closed">বন্ধ</string>
     <string name="poll_vote">ভোট</string>
     <string name="poll_ended_voted">আপনি ভোট দিয়েছেন যে নির্বাচন এ সেটি শেষ হয়েছে</string>
@@ -369,18 +369,18 @@
     <string name="button_continue">চালিয়ে যাও</string>
     <string name="button_back">পিছাও</string>
     <string name="button_done">সম্পন্ন</string>
-    <string name="report_sent_success">%s এ সফলভাবে রিপোর্ট করা হয়েছে</string>
+    <string name="report_sent_success">%1$s এ সফলভাবে রিপোর্ট করা হয়েছে</string>
     <string name="hint_additional_info">অতিরিক্ত মন্তব্যগুলি</string>
-    <string name="report_remote_instance">%s এ ফরওয়ার্ড করুন</string>
+    <string name="report_remote_instance">%1$s এ ফরওয়ার্ড করুন</string>
     <string name="failed_report">রিপোর্ট করতে ব্যর্থ হয়েছে</string>
     <string name="failed_fetch_posts">স্টেটাসগুলি আনতে ব্যর্থ</string>
     <string name="report_description_1">রিপোর্ট আপনার সার্ভার মডারেটরে পাঠানো হবে। আপনি নীচের এই অ্যাকাউন্টটি কেন প্রতিবেদন করছেন তা ব্যাখ্যা করতে পারেন:</string>
     <string name="report_description_remote_instance">এই একাউন্ট তা একটি অন্য সার্ভারের। রিপোর্ট এর সঙ্গে একটি বেনামি কপি ওখানে পাঠাতে চান\?</string>
     <string name="title_domain_mutes">গোপন ডোমেইনগুলি</string>
     <string name="action_view_domain_mutes">গোপন ডোমেইনগুলি</string>
-    <string name="action_mute_domain">নিঃশব্দ %s</string>
-    <string name="confirmation_domain_unmuted">%s লুকোনো না</string>
-    <string name="mute_domain_warning">আপনি কি সব %s ব্লক করতে চান\? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
+    <string name="action_mute_domain">নিঃশব্দ %1$s</string>
+    <string name="confirmation_domain_unmuted">%1$s লুকোনো না</string>
+    <string name="mute_domain_warning">আপনি কি সব %1$s ব্লক করতে চান\? আপনি যে ডোমেন থেকে কোনও পাবলিক টাইমলাইনে বা আপনার বিজ্ঞপ্তিগুলিতে সামগ্রী দেখতে পাবেন না। আপনার অনুসরণকারীদের সরানো হবে।</string>
     <string name="mute_domain_warning_dialog_ok">পুরো ডোমেইন লুকান</string>
     <string name="filter_dialog_whole_word">সম্পূর্ণ শব্দ</string>
     <string name="filter_dialog_whole_word_description">যখন শব্দ বা বাক্যাংশটি শুধুমাত্র আলফানিউমেরিক হয় তখন এটি শুধুমাত্র তখনই প্রয়োগ করা হবে যদি এটি সম্পূর্ণ শব্দটির সাথে মেলে</string>
@@ -398,7 +398,7 @@
     <string name="duration_7_days">৭ দিন</string>
     <string name="add_poll_choice">পছন্দ যুক্ত করুন</string>
     <string name="poll_allow_multiple_choices">একাধিক পছন্দ</string>
-    <string name="poll_new_choice_hint">পছন্দ %d</string>
+    <string name="poll_new_choice_hint">পছন্দ %1$d</string>
     <string name="edit_poll">সম্পাদন</string>
     <string name="title_scheduled_posts">নির্ধারিত টুটগুলি</string>
     <string name="action_edit">সম্পাদন</string>
@@ -406,45 +406,45 @@
     <string name="action_schedule_post">নির্ধারিত টুট</string>
     <string name="action_reset_schedule">রিসেট</string>
     <string name="about_powered_by_tusky">টাস্কি দ্বারা চালিত</string>
-    <string name="post_lookup_error_format">%s পোস্ট অনুসন্ধানে ত্রুটি</string>
+    <string name="post_lookup_error_format">%1$s পোস্ট অনুসন্ধানে ত্রুটি</string>
     <string name="action_view_bookmarks">বুকমার্কগুলি</string>
     <string name="action_bookmark">বুকমার্ক</string>
-    <string name="notification_follow_request_format">%s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
+    <string name="notification_follow_request_format">%1$s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
     <string name="title_bookmarks">বুকমার্কগুলি</string>
     <string name="pref_title_notification_filter_follow_requests">অনুরোধ অনুসরণ করো</string>
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
-    <string name="dialog_mute_warning">নিঃশব্দ @%s\?</string>
-    <string name="dialog_block_warning">অবরুদ্ধ @%s\?</string>
+    <string name="dialog_mute_warning">নিঃশব্দ @%1$s\?</string>
+    <string name="dialog_block_warning">অবরুদ্ধ @%1$s\?</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d দিন বাকি</item>
-        <item quantity="other">%d দিন বাকি</item>
+        <item quantity="one">%1$d দিন বাকি</item>
+        <item quantity="other">%1$d দিন বাকি</item>
     </plurals>
     <string name="pref_title_gradient_for_media">লুকানো মিডিয়ার জন্য রঙিন গ্রেডিয়েন্ট ব্যবহার করি</string>
     <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
     <string name="action_mute_conversation">আলাপ বন্ধ করো</string>
-    <string name="action_unmute_domain">আনমিউট %s</string>
-    <string name="action_unmute_desc">আনমিউট %s</string>
+    <string name="action_unmute_domain">আনমিউট %1$s</string>
+    <string name="action_unmute_desc">আনমিউট %1$s</string>
     <string name="notification_follow_request_name">অনুরোধ অনুসরণ করুন</string>
     <string name="pref_title_confirm_reblogs">বুস্ট করার আগে নিশ্চিত করো</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d সেকেন্ড বাকি</item>
-        <item quantity="other">%d সেকেন্ড বাকি</item>
+        <item quantity="one">%1$d সেকেন্ড বাকি</item>
+        <item quantity="other">%1$d সেকেন্ড বাকি</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d মিনিট বাকি</item>
-        <item quantity="other">%d মিনিট বাকি</item>
+        <item quantity="one">%1$d মিনিট বাকি</item>
+        <item quantity="other">%1$d মিনিট বাকি</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d ঘন্টা বাকি</item>
-        <item quantity="other">%d ঘন্টা বাকি</item>
+        <item quantity="one">%1$d ঘন্টা বাকি</item>
+        <item quantity="other">%1$d ঘন্টা বাকি</item>
     </plurals>
     <plurals name="poll_info_people">
-        <item quantity="one">%s জন</item>
-        <item quantity="other">%s জন</item>
+        <item quantity="one">%1$s জন</item>
+        <item quantity="other">%1$s জন</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="one">%sটি ভোট</item>
-        <item quantity="other">%sটি ভোট</item>
+        <item quantity="one">%1$sটি ভোট</item>
+        <item quantity="other">%1$sটি ভোট</item>
     </plurals>
     <string name="list">তালিকা</string>
     <string name="select_list_title">তালিকা নির্বাচন করো</string>

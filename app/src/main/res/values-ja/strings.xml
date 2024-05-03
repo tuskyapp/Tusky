@@ -35,7 +35,7 @@
     <string name="title_edit_profile">プロフィールを編集</string>
     <string name="title_drafts">下書き</string>
     <string name="title_licenses">ライセンス</string>
-    <string name="post_boosted_format">%sさんがブーストしました</string>
+    <string name="post_boosted_format">%1$sさんがブーストしました</string>
     <string name="post_sensitive_media_title">閲覧注意</string>
     <string name="post_media_hidden_title">非表示のメディア</string>
     <string name="post_sensitive_media_directions">タップして表示</string>
@@ -45,10 +45,10 @@
     <string name="post_content_show_less">閉じる</string>
     <string name="message_empty">何もありません。</string>
     <string name="footer_empty">現在投稿はありません。更新するにはプルダウンしてください！</string>
-    <string name="notification_reblog_format">%sさんが投稿をブーストしました</string>
-    <string name="notification_favourite_format">%sさんが投稿をお気に入りに登録しました</string>
-    <string name="notification_follow_format">%sさんにフォローされました</string>
-    <string name="report_username_format">\@%sさんを通報</string>
+    <string name="notification_reblog_format">%1$sさんが投稿をブーストしました</string>
+    <string name="notification_favourite_format">%1$sさんが投稿をお気に入りに登録しました</string>
+    <string name="notification_follow_format">%1$sさんにフォローされました</string>
+    <string name="report_username_format">\@%1$sさんを通報</string>
     <string name="report_comment_hint">コメント</string>
     <string name="action_quick_reply">クイック返信</string>
     <string name="action_reply">返信</string>
@@ -107,7 +107,7 @@
     <string name="title_links_dialog">リンク</string>
     <string name="download_image">%1$s をダウンロードしています</string>
     <string name="action_copy_link">リンクをコピー</string>
-    <string name="action_open_as">%s として開く</string>
+    <string name="action_open_as">%1$s として開く</string>
     <string name="action_share_as">共有先…</string>
     <string name="send_post_link_to">投稿URLを共有…</string>
     <string name="send_post_content_to">投稿を共有…</string>
@@ -198,16 +198,16 @@
     <string name="notification_boost_description">あなたの投稿がブーストされたときの通知</string>
     <string name="notification_favourite_name">お気に入り</string>
     <string name="notification_favourite_description">あなたの投稿がお気に入りに登録されたときの通知</string>
-    <string name="notification_mention_format">%sさんが返信しました</string>
+    <string name="notification_mention_format">%1$sさんが返信しました</string>
     <string name="notification_summary_large">%1$sさん、%2$sさん、%3$sさんと他%4$d人</string>
     <string name="notification_summary_medium">%1$sさん、%2$sさん、%3$sさん</string>
     <string name="notification_summary_small">%1$sさん、%2$sさん</string>
     <plurals name="notification_title_summary">
-        <item quantity="other">%d件の新しい通知</item>
+        <item quantity="other">%1$d件の新しい通知</item>
     </plurals>
     <string name="description_account_locked">非公開アカウント</string>
     <string name="about_title_activity">このアプリについて</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="about_tusky_license">Tuskyは無料のオープンソースソフトウェアです。<!--
      -->GNU General Public License Version 3 の下で使用許諾されています。<!--
      -->ライセンスはここからご覧いただけます： https://www.gnu.org/licenses/gpl-3.0.ja.html</string>
@@ -227,20 +227,20 @@
     <string name="state_follow_requested">フォローリクエスト中</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="status_created_at_now">現在</string>
-    <string name="abbreviated_in_years">%d年後</string>
-    <string name="abbreviated_in_days">%d日後</string>
-    <string name="abbreviated_in_hours">%d時間後</string>
-    <string name="abbreviated_in_minutes">%d分後</string>
-    <string name="abbreviated_in_seconds">%d秒後</string>
-    <string name="abbreviated_years_ago">%d年前</string>
-    <string name="abbreviated_days_ago">%d日前</string>
-    <string name="abbreviated_hours_ago">%d時間前</string>
-    <string name="abbreviated_minutes_ago">%d分前</string>
-    <string name="abbreviated_seconds_ago">%d秒前</string>
+    <string name="abbreviated_in_years">%1$d年後</string>
+    <string name="abbreviated_in_days">%1$d日後</string>
+    <string name="abbreviated_in_hours">%1$d時間後</string>
+    <string name="abbreviated_in_minutes">%1$d分後</string>
+    <string name="abbreviated_in_seconds">%1$d秒後</string>
+    <string name="abbreviated_years_ago">%1$d年前</string>
+    <string name="abbreviated_days_ago">%1$d日前</string>
+    <string name="abbreviated_hours_ago">%1$d時間前</string>
+    <string name="abbreviated_minutes_ago">%1$d分前</string>
+    <string name="abbreviated_seconds_ago">%1$d秒前</string>
     <string name="follows_you">あなたをフォロー中</string>
     <string name="pref_title_alway_show_sensitive_media">閲覧注意のメディアを常に表示</string>
     <string name="title_media">メディア</string>
-    <string name="replying_to">\@%sに返信</string>
+    <string name="replying_to">\@%1$sに返信</string>
     <string name="load_more_placeholder_text">さらに読み込む</string>
     <string name="filter_addition_title">フィルターを追加</string>
     <string name="filter_edit_title">フィルターを編集</string>
@@ -252,7 +252,7 @@
     <string name="action_rename_list">リスト名の更新</string>
     <string name="compose_active_account_description">%1$sとして投稿</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">視覚障害者のためのコンテキストを記入してください (%d文字まで)</item>
+        <item quantity="other">視覚障害者のためのコンテキストを記入してください (%1$d文字まで)</item>
     </plurals>
     <string name="action_set_caption">説明を設定</string>
     <string name="action_remove">消去</string>
@@ -265,7 +265,7 @@
     <string name="send_post_notification_cancel_title">送信がキャンセルされました</string>
     <string name="send_post_notification_saved_content">投稿のコピーが下書きに保存されました</string>
     <string name="action_compose_shortcut">投稿する</string>
-    <string name="error_no_custom_emojis">インスタンス %s にはカスタム絵文字がありません</string>
+    <string name="error_no_custom_emojis">インスタンス %1$s にはカスタム絵文字がありません</string>
     <string name="emoji_style">絵文字スタイル</string>
     <string name="system_default">システムのデフォルト</string>
     <string name="download_fonts">最初にこれらの絵文字セットをダウンロードする必要があります</string>
@@ -300,7 +300,7 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; お気に入り</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%s&lt;/b&gt; ブースト</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; ブースト</item>
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
@@ -312,7 +312,7 @@
     </string>
     <string name="hint_list_name">リスト名</string>
     <string name="error_network">ネットワークエラーが発生しました。接続を確認してもう一度試してください。</string>
-    <string name="post_username_format">\@%s</string>
+    <string name="post_username_format">\@%1$s</string>
     <string name="action_unreblog">ブーストを解除</string>
     <string name="action_unfavourite">お気に入りを解除</string>
     <string name="action_open_reblogged_by">ブーストを表示</string>
@@ -323,24 +323,24 @@
     <string name="notifications_apply_filter">フィルター</string>
     <string name="notification_clear_text">すべての通知を完全に削除してよろしいですか？</string>
     <plurals name="poll_info_votes">
-        <item quantity="other">%s票</item>
+        <item quantity="other">%1$s票</item>
     </plurals>
     <string name="poll_vote">投票</string>
     <plurals name="poll_timespan_days">
-        <item quantity="other">残り%d日</item>
+        <item quantity="other">残り%1$d日</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="other">残り%d時間</item>
+        <item quantity="other">残り%1$d時間</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="other">残り%d分</item>
+        <item quantity="other">残り%1$d分</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="other">残り%d秒</item>
+        <item quantity="other">残り%1$d秒</item>
     </plurals>
     <string name="title_domain_mutes">非表示のドメイン</string>
     <string name="action_view_domain_mutes">非表示のドメイン</string>
-    <string name="action_mute_domain">%sをミュート</string>
+    <string name="action_mute_domain">%1$sをミュート</string>
     <string name="pref_title_notification_filter_poll">投票の集計が完了した</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">投票の集計が完了したときの通知</string>
@@ -375,7 +375,7 @@
     <string name="pref_title_bot_overlay">ボットマークを表示</string>
     <string name="pref_title_animate_gif_avatars">GIFアバターを動かす</string>
     <string name="pref_title_public_filter_keywords">公開タイムライン</string>
-    <string name="description_post_cw">閲覧注意：%s</string>
+    <string name="description_post_cw">閲覧注意：%1$s</string>
     <string name="filter_apply">適用</string>
     <string name="poll_info_closed">投票終了</string>
     <string name="title_accounts">アカウント</string>
@@ -391,12 +391,12 @@
     <string name="description_visibility_private">フォロワー</string>
     <string name="conversation_2_recipients">%1$sさん、%2$sさん</string>
     <string name="notification_follow_request_name">フォローリクエスト</string>
-    <string name="action_unmute_desc">%sさんのミュートを解除</string>
-    <string name="notification_follow_request_format">%sさんがあなたにフォローリクエストしました</string>
-    <string name="report_sent_success">\@%sさんを通報しました</string>
+    <string name="action_unmute_desc">%1$sさんのミュートを解除</string>
+    <string name="notification_follow_request_format">%1$sさんがあなたにフォローリクエストしました</string>
+    <string name="report_sent_success">\@%1$sさんを通報しました</string>
     <string name="no_scheduled_posts">予約した投稿はありません。</string>
     <string name="no_drafts">下書きはありません。</string>
-    <string name="poll_new_choice_hint">項目 %d</string>
+    <string name="poll_new_choice_hint">項目 %1$d</string>
     <string name="report_description_remote_instance">このアカウントは外部のサーバーにあります。匿名化された通報の複製をそちらにも送信しますか？</string>
     <string name="report_description_1">通報をサーバーのモデレーターに送信します。以下にこのアカウントを通報理由を入力できます:</string>
     <string name="failed_fetch_posts">投稿を取得できませんでした</string>
@@ -409,7 +409,7 @@
     <string name="hashtags">ハッシュタグ</string>
     <string name="add_hashtag_title">ハッシュタグを追加</string>
     <string name="description_post_media_no_description_placeholder">説明なし</string>
-    <string name="description_post_media">メディア: %s</string>
+    <string name="description_post_media">メディア: %1$s</string>
     <string name="conversation_more_recipients">%1$sさん、%2$sさんと他%3$d人</string>
     <string name="conversation_1_recipients">%1$sさん</string>
     <string name="filter_add_description">フィルターする語句</string>
@@ -421,41 +421,41 @@
     <string name="pref_title_gradient_for_media">非表示のメディアを色付きのぼかしで表示する</string>
     <string name="pref_title_notification_filter_follow_requests">フォローリクエスト</string>
     <string name="dialog_mute_hide_notifications">通知を非表示</string>
-    <string name="dialog_mute_warning">\@%sさんをミュートしますか？</string>
-    <string name="dialog_block_warning">\@%sさんをブロックしますか？</string>
+    <string name="dialog_mute_warning">\@%1$sさんをミュートしますか？</string>
+    <string name="dialog_block_warning">\@%1$sさんをブロックしますか？</string>
     <string name="pref_title_alway_open_spoiler">閲覧注意としてマークされた投稿を常に展開する</string>
-    <string name="action_open_media_n">メディア #%d を開く</string>
+    <string name="action_open_media_n">メディア #%1$d を開く</string>
     <string name="action_open_faved_by">お気に入りを表示</string>
     <string name="action_open_reblogger">ブーストしたユーザーを開く</string>
     <string name="action_unmute_conversation">会話のミュートを解除</string>
     <string name="action_mute_conversation">会話をミュート</string>
-    <string name="action_unmute_domain">%sのミュートを解除</string>
+    <string name="action_unmute_domain">%1$sのミュートを解除</string>
     <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
     <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
     <string name="pref_title_confirm_reblogs">ブーストする前に確認を表示</string>
     <string name="edit_hashtag_hint">ハッシュタグ (#をつけない)</string>
     <string name="select_list_title">リストを選択</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
-    <string name="poll_info_time_absolute">%sに終了</string>
+    <string name="poll_info_time_absolute">%1$sに終了</string>
     <string name="hint_additional_info">追加コメント</string>
-    <string name="report_remote_instance">%sに転送</string>
+    <string name="report_remote_instance">%1$sに転送</string>
     <string name="failed_report">通報に失敗しました</string>
     <plurals name="poll_info_people">
-        <item quantity="other">%s人</item>
+        <item quantity="other">%1$s人</item>
     </plurals>
     <string name="warning_scheduling_interval">Mastodonにおける予約までの最小間隔は5分です。</string>
-    <string name="notification_subscription_format">%sさんが投稿しました</string>
+    <string name="notification_subscription_format">%1$sさんが投稿しました</string>
     <string name="title_announcements">お知らせ</string>
-    <string name="mute_domain_warning">本当に %s のすべてをブロックするのですか？ そのドメインからのコンテンツは、公開タイムラインや通知に表示されなくなります。また、そのドメインのフォロワーは削除されます。</string>
+    <string name="mute_domain_warning">本当に %1$s のすべてをブロックするのですか？ そのドメインからのコンテンツは、公開タイムラインや通知に表示されなくなります。また、そのドメインのフォロワーは削除されます。</string>
     <string name="post_media_audio">音声</string>
     <string name="mute_domain_warning_dialog_ok">ドメイン全体を非表示</string>
     <string name="about_powered_by_tusky">Tuskyによって提供されています</string>
     <string name="delete_scheduled_post_warning">この予約投稿を削除しますか？</string>
-    <string name="instance_rule_info">ログインにより %s のルールに同意することになります。</string>
+    <string name="instance_rule_info">ログインにより %1$s のルールに同意することになります。</string>
     <string name="action_unbookmark">ブックマークを削除</string>
     <string name="action_delete_conversation">会話を削除</string>
     <string name="action_details">詳細情報</string>
-    <string name="notification_sign_up_format">%sさんがサインアップしました</string>
+    <string name="notification_sign_up_format">%1$sさんがサインアップしました</string>
     <string name="action_add_or_remove_from_list">リストへの追加または削除</string>
     <string name="description_post_language">投稿言語</string>
     <string name="description_post_favourited">お気に入りに追加しました</string>
@@ -467,7 +467,7 @@
     <string name="duration_60_days">60日間</string>
     <string name="no_lists">まだリストがありません。</string>
     <string name="pref_title_show_self_username">ツールバーにユーザー名を表示する</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="compose_save_draft_loses_media">下書きを保存しますか？ (添付ファイルは下書きの復元時に再アップロードされます。)</string>
     <string name="duration_90_days">90日間</string>
     <string name="duration_180_days">180日間</string>
@@ -485,27 +485,27 @@
     <string name="notification_subscription_name">新しい投稿</string>
     <string name="notification_subscription_description">あなたが購読した誰かが新しい投稿をしたときの通知</string>
     <string name="filter_dialog_whole_word">単語全体</string>
-    <string name="compose_preview_image_description">画像 %s に対する操作</string>
+    <string name="compose_preview_image_description">画像 %1$s に対する操作</string>
     <string name="duration_no_change">(変更なし)</string>
-    <string name="language_display_name_format">%s (%s)</string>
-    <string name="error_multimedia_size_limit">ビデオと音声ファイルのサイズは %s MB を超えることはできません。</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
+    <string name="error_multimedia_size_limit">ビデオと音声ファイルのサイズは %1$s MB を超えることはできません。</string>
     <string name="error_image_edit_failed">画像が編集できませんでした。</string>
     <string name="title_login">ログイン</string>
     <string name="action_edit_image">画像の編集</string>
-    <string name="instance_rule_title">%s のルール</string>
+    <string name="instance_rule_title">%1$s のルール</string>
     <string name="error_following_hashtags_unsupported">このインスタンスはハッシュタグのフォローに対応していません。</string>
     <string name="title_followed_hashtags">フォローしたハッシュタグ</string>
-    <string name="confirmation_domain_unmuted">%s のミュートが解除されました</string>
+    <string name="confirmation_domain_unmuted">%1$s のミュートが解除されました</string>
     <string name="dialog_push_notification_migration_other_accounts">プッシュ通知の購読許可を Tusky に与えるための現在のアカウントへの再ログインが完了しました。しかし、まだ他のアカウントはマイグレーションができていません。UnifiedPush 通知ｗ有効にするには、他のアカウントにも切り替えて、それぞれ再ログインをしてください。</string>
-    <string name="action_unfollow_hashtag_format">#%s をフォロー解除しますか？</string>
+    <string name="action_unfollow_hashtag_format">#%1$s をフォロー解除しますか？</string>
     <string name="notification_sign_up_description">新規ユーザーに関する通知</string>
     <string name="notification_update_name">投稿の編集</string>
-    <string name="notification_report_format">%s に関する新しい報告</string>
-    <string name="notification_update_format">%sさんが投稿を編集しました</string>
-    <string name="post_edited">%s を編集しました</string>
-    <string name="notification_header_report_format">%sさんが %s を報告しました</string>
+    <string name="notification_report_format">%1$s に関する新しい報告</string>
+    <string name="notification_update_format">%1$sさんが投稿を編集しました</string>
+    <string name="post_edited">%1$s を編集しました</string>
+    <string name="notification_header_report_format">%1$sさんが %2$s を報告しました</string>
     <string name="action_dismiss">キャンセル</string>
-    <string name="confirmation_hashtag_unfollowed">#%s をフォロー解除しました</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s をフォロー解除しました</string>
     <string name="pref_title_animate_custom_emojis">カスタム絵文字のアニメーションを有効化</string>
     <string name="dialog_delete_conversation_warning">この会話を削除しますか？</string>
     <string name="pref_title_notification_filter_reports">新しい報告があります</string>
@@ -529,7 +529,7 @@
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">%1$d 個以上のメディア添付ファイルはアップロードできません。</item>
     </plurals>
-    <string name="dialog_delete_list_warning">リスト %s を本当に削除しますか？</string>
+    <string name="dialog_delete_list_warning">リスト %1$s を本当に削除しますか？</string>
     <string name="drafts_post_failed_to_send">この投稿の送信に失敗しました！</string>
     <string name="drafts_failed_loading_reply">返信情報の読み込みに失敗しました</string>
     <string name="draft_deleted">下書きを削除しました</string>
@@ -550,16 +550,16 @@
     <string name="report_category_other">その他</string>
     <string name="tusky_compose_post_quicksetting_label">投稿する</string>
     <string name="dialog_push_notification_migration">UnifiedPush 経由でプッシュ通知を使用するには、Tusky に Mastodon サーバー上での購読許可が必要です。そのため、Tusky に与えられた OAuth スコープを変更するための再ログインが必要になります。ここかアカウント設定で再ログインのオプションを選んでも、ローカルの下書きとキャッシュは保存されます。</string>
-    <string name="error_following_hashtag_format">#%s のフォローエラー</string>
+    <string name="error_following_hashtag_format">#%1$s のフォローエラー</string>
     <string name="title_migration_relogin">プッシュ通知受け取るには再ログインしてください</string>
-    <string name="error_unfollowing_hashtag_format">#%s のフォロー解除エラー</string>
+    <string name="error_unfollowing_hashtag_format">#%1$s のフォロー解除エラー</string>
     <string name="error_could_not_load_login_page">ログインページが読み込めませんでした。</string>
     <string name="error_loading_account_details">アカウントの詳細情報の読み込みに失敗しました</string>
     <string name="hint_media_description_missing">メディアには説明文が必要です。</string>
     <string name="title_edits">編集</string>
     <string name="post_media_alt">ALT</string>
-    <string name="error_muting_hashtag_format">#%s のミュート中にエラーが起こりました</string>
-    <string name="error_unmuting_hashtag_format">#%s のミュート解除中にエラーが起こりました</string>
+    <string name="error_muting_hashtag_format">#%1$s のミュート中にエラーが起こりました</string>
+    <string name="error_unmuting_hashtag_format">#%1$s のミュート解除中にエラーが起こりました</string>
     <string name="action_add_reaction">リアクションを追加</string>
     <string name="action_discard">変更を破棄</string>
     <string name="action_continue_edit">編集を続ける</string>
@@ -577,7 +577,7 @@
     <string name="account_date_joined">%1$s に参加</string>
     <string name="status_edit_info">%1$s 編集</string>
     <string name="status_created_info">%1$s の投稿</string>
-    <string name="post_lookup_error_format">投稿 %s の検索エラー</string>
+    <string name="post_lookup_error_format">投稿 %1$s の検索エラー</string>
     <string name="follow_requests_info">アカウントがロックされていなかったとしても、%1$s のスタッフは以下のアカウントのフォローリクエストを確認した方がいいと判断しました。</string>
     <string name="action_set_focus">中心点の設定</string>
     <string name="compose_unsaved_changes">保存していない変更があります。</string>
@@ -587,7 +587,7 @@
     <string name="pref_summary_http_proxy_invalid">&lt;無効&gt;</string>
     <string name="pref_title_notification_filter_updates">やり取りした投稿が編集された時</string>
     <string name="notification_update_description">やり取りした投稿が編集されたときの通知</string>
-    <string name="pref_title_http_proxy_port_message">ポートは %d から %d の間でなければなりません</string>
+    <string name="pref_title_http_proxy_port_message">ポートは %1$d から %2$d の間でなければなりません</string>
     <string name="action_post_failed">アップロードに失敗しました</string>
     <string name="action_post_failed_detail">アップロードに失敗した投稿は下書きに保存されました。
 \n
@@ -622,51 +622,51 @@
     <string name="filter_description_hide">完全に隠す</string>
     <string name="label_filter_action">フィルターアクション</string>
     <string name="action_refresh">再読み込み</string>
-    <string name="ui_error_reblog">投稿のブーストに失敗しました: %s</string>
-    <string name="ui_error_clear_notifications">通知の消去に失敗しました: %s</string>
-    <string name="ui_error_favourite">投稿のお気に入りに失敗しました: %s</string>
-    <string name="ui_error_bookmark">投稿のブックマークに失敗しました: %s</string>
+    <string name="ui_error_reblog">投稿のブーストに失敗しました: %1$s</string>
+    <string name="ui_error_clear_notifications">通知の消去に失敗しました: %1$s</string>
+    <string name="ui_error_favourite">投稿のお気に入りに失敗しました: %1$s</string>
+    <string name="ui_error_bookmark">投稿のブックマークに失敗しました: %1$s</string>
     <string name="ui_success_rejected_follow_request">フォローリクエストがブロックされました</string>
     <string name="ui_success_accepted_follow_request">フォローリクエストが許可されました</string>
-    <string name="ui_error_vote">投票に失敗しました: %s</string>
+    <string name="ui_error_vote">投票に失敗しました: %1$s</string>
     <string name="action_add">追加</string>
-    <string name="filter_keyword_display_format">%s (単語全体)</string>
+    <string name="filter_keyword_display_format">%1$s (単語全体)</string>
     <string name="filter_keyword_addition_title">キーワードを追加</string>
     <string name="total_usage">合計使用量</string>
     <string name="total_accounts">総アカウント</string>
     <string name="ui_error_unknown">不明な理由</string>
-    <string name="ui_error_accept_follow_request">フォローリクエストの承認に失敗しました: %s</string>
-    <string name="ui_error_reject_follow_request">フォローリクエストの拒否に失敗しました: %s</string>
+    <string name="ui_error_accept_follow_request">フォローリクエストの承認に失敗しました: %1$s</string>
+    <string name="ui_error_reject_follow_request">フォローリクエストの拒否に失敗しました: %1$s</string>
     <string name="hint_filter_title">フィルター</string>
     <string name="label_filter_title">タイトル</string>
     <string name="filter_edit_keyword_title">キーワードを編集</string>
-    <string name="filter_description_format">%s: %s</string>
+    <string name="filter_description_format">%1$s: %2$s</string>
     <string name="load_newest_notifications">最新の通知を読み込む</string>
     <string name="compose_delete_draft">下書きを削除しますか？</string>
-    <string name="error_media_upload_sending_fmt">アップロードに失敗しました: %s</string>
+    <string name="error_media_upload_sending_fmt">アップロードに失敗しました: %1$s</string>
     <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
 \n
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
     <string name="title_public_trending_statuses">トレンドの投稿</string>
-    <string name="about_device_info">%s %s
-\nAndroid バージョン: %s
-\nSDK バージョン: %d</string>
+    <string name="about_device_info">%1$s %2$s
+\nAndroid バージョン: %3$s
+\nSDK バージョン: %4$d</string>
     <string name="about_account_info_title">あなたのアカウント</string>
     <string name="about_device_info_title">あなたのデバイス</string>
-    <string name="about_account_info">\@%s@%s
-\nバージョン: %s</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nバージョン: %3$s</string>
     <string name="about_copy">バージョンとデバイス情報をコピー</string>
     <string name="about_copied">バージョンとデバイス情報をコピーしました</string>
-    <string name="error_media_playback">再生に失敗しました: \t%s</string>
+    <string name="error_media_playback">再生に失敗しました: \t%1$s</string>
     <string name="dialog_delete_filter_text">フィルタ「%1$s」を削除しますか？</string>
     <string name="dialog_delete_filter_positive_action">削除する</string>
     <string name="dialog_save_profile_changes_message">プロファイルの変更を保存しますか？</string>
     <string name="app_theme_system_black">システムのデザインを使用 (ブラック)</string>
     <string name="list_exclusive_label">ホームタイムラインで隠す</string>
-    <string name="notification_summary_report_format">%s · %d 個の投稿を添付</string>
-    <string name="unmuting_hashtag_success_format">ハッシュタグ #%s のミュートを解除</string>
+    <string name="notification_summary_report_format">%1$s · %2$d 個の投稿を添付</string>
+    <string name="unmuting_hashtag_success_format">ハッシュタグ #%1$s のミュートを解除</string>
     <string name="action_view_filter">フィルタを表示</string>
-    <string name="status_filter_placeholder_label_format">フィルタ済み: %s</string>
+    <string name="status_filter_placeholder_label_format">フィルタ済み: %1$s</string>
     <string name="error_unblocking_domain">%1$s のミュート解除に失敗しました: %2$s</string>
     <string name="error_blocking_domain">%1$s のミュートに失敗しました: %2$s</string>
     <string name="label_image">画像</string>
