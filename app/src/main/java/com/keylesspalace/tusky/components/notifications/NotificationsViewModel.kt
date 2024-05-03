@@ -55,7 +55,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -103,10 +102,10 @@ class NotificationsViewModel @Inject constructor(
     ).flow
         .cachedIn(viewModelScope)
         .combine(translations) { pagingData, translations ->
-            pagingData.map(Dispatchers.Default.asExecutor()) { notification ->
+            pagingData.map { notification ->
                 val translation = translations[notification.status?.serverId]
                 notification.toViewData(translation = translation)
-            }.filter(Dispatchers.Default.asExecutor()) { notificationViewData ->
+            }.filter { notificationViewData ->
                 shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
             }
         }

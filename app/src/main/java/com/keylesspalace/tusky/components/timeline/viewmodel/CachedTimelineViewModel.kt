@@ -50,7 +50,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
@@ -103,13 +102,13 @@ class CachedTimelineViewModel @Inject constructor(
         // adding another cachedIn() for the overall result.
         .cachedIn(viewModelScope)
         .combine(translations) { pagingData, translations ->
-            pagingData.map(Dispatchers.Default.asExecutor()) { timelineData ->
+            pagingData.map { timelineData ->
                 val translation = translations[timelineData.status?.serverId]
                 timelineData.toViewData(
                     isDetailed = false,
                     translation = translation
                 )
-            }.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
+            }.filter { statusViewData ->
                 shouldFilterStatus(statusViewData) != Filter.Action.HIDE
             }
         }
