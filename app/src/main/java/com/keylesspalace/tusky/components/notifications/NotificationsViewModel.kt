@@ -54,12 +54,14 @@ import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -74,6 +76,8 @@ class NotificationsViewModel @Inject constructor(
     private val db: AppDatabase,
 ) : ViewModel() {
 
+    private val refreshTrigger = MutableStateFlow(0L)
+
     private val _filters = MutableStateFlow(
         accountManager.activeAccount?.let { account -> deserialize(account.notificationsFilter) } ?: emptySet()
     )
@@ -87,29 +91,31 @@ class NotificationsViewModel @Inject constructor(
     private var readingOrder: ReadingOrder =
         ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
-    @OptIn(ExperimentalPagingApi::class)
-    val notifications = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
-        remoteMediator = remoteMediator,
-        pagingSourceFactory = {
-            val activeAccount = accountManager.activeAccount
-            if (activeAccount == null) {
-                EmptyPagingSource()
-            } else {
-                db.notificationsDao().getNotifications(activeAccount.id)
+    @OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
+    val notifications = refreshTrigger.flatMapLatest {
+        Pager(
+            config = PagingConfig(pageSize = LOAD_AT_ONCE),
+            remoteMediator = remoteMediator,
+            pagingSourceFactory = {
+                val activeAccount = accountManager.activeAccount
+                if (activeAccount == null) {
+                    EmptyPagingSource()
+                } else {
+                    db.notificationsDao().getNotifications(activeAccount.id)
+                }
             }
-        }
-    ).flow
-        .cachedIn(viewModelScope)
-        .combine(translations) { pagingData, translations ->
-            pagingData.map { notification ->
-                val translation = translations[notification.status?.serverId]
-                notification.toViewData(translation = translation)
-            }.filter { notificationViewData ->
-                shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
+        ).flow
+            .cachedIn(viewModelScope)
+            .combine(translations) { pagingData, translations ->
+                pagingData.map { notification ->
+                    val translation = translations[notification.status?.serverId]
+                    notification.toViewData(translation = translation)
+                }.filter { notificationViewData ->
+                    shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
+                }
             }
-        }
-        .flowOn(Dispatchers.Default)
+    }
+            .flowOn(Dispatchers.Default)
 
     init {
         viewModelScope.launch {
@@ -150,8 +156,8 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String): Deferred<Boolean> {
-        return viewModelScope.async {
+    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String) {
+        viewModelScope.launch {
             if (accept) {
                 api.authorizeFollowRequest(accountId)
             } else {
@@ -160,12 +166,13 @@ class NotificationsViewModel @Inject constructor(
                 onSuccess = {
                     // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
                     db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
-                    // return true
-                    accept
+                    if (accept) {
+                        // refresh the notifications so the new follow notification will be loaded
+                        refreshTrigger.value++
+                    }
                 },
                 onFailure = { t ->
                     Log.e(TAG, "Failed to to respond to follow request from account id $accountId.", t)
-                    false
                 }
             )
         }
