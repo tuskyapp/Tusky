@@ -18,7 +18,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.SharedPreferences
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.settings.PrefKeys
 
 data class StatusDisplayOptions(

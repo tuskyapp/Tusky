@@ -13,40 +13,38 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.entity.Card
+import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
+import com.keylesspalace.tusky.entity.HashTag
+import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 
 /**
- * We're trying to play smart here. Server sends us reblogs as two entities one embedded into
- * another (reblogged status is a field inside of "reblog" status). But it's really inefficient from
- * the DB perspective and doesn't matter much for the display/interaction purposes.
- * What if when we store reblog we don't store almost empty "reblog status" but we store
- * *reblogged* status and we embed "reblog status" into reblogged status. This reversed
- * relationship takes much less space and is much faster to fetch (no N+1 type queries or JSON
- * serialization).
- * "Reblog status", if present, is marked by [reblogServerId], and [reblogAccountId]
- * fields.
+ * Entity for caching status data. Used within home timelines and notifications.
+ * The information if a status is a reblog is not stored here but in [HomeTimelineEntity].
  */
 @Entity(
-    primaryKeys = ["serverId", "timelineUserId"],
+    primaryKeys = ["serverId", "tuskyAccountId"],
     foreignKeys = (
         [
             ForeignKey(
                 entity = TimelineAccountEntity::class,
-                parentColumns = ["serverId", "timelineUserId"],
-                childColumns = ["authorServerId", "timelineUserId"]
+                parentColumns = ["serverId", "tuskyAccountId"],
+                childColumns = ["authorServerId", "tuskyAccountId"]
             )
         ]
         ),
     // Avoiding rescanning status table when accounts table changes. Recommended by Room(c).
-    indices = [Index("authorServerId", "timelineUserId")]
+    indices = [Index("authorServerId", "tuskyAccountId")]
 )
 @TypeConverters(Converters::class)
 data class TimelineStatusEntity(
@@ -54,14 +52,14 @@ data class TimelineStatusEntity(
     val serverId: String,
     val url: String?,
     // our local id for the logged in user in case there are multiple accounts per instance
-    val timelineUserId: Long,
-    val authorServerId: String?,
+    val tuskyAccountId: Long,
+    val authorServerId: String,
     val inReplyToId: String?,
     val inReplyToAccountId: String?,
-    val content: String?,
+    val content: String,
     val createdAt: Long,
     val editedAt: Long?,
-    val emojis: String?,
+    val emojis: List<Emoji>,
     val reblogsCount: Int,
     val favouritesCount: Int,
     val repliesCount: Int,
@@ -71,50 +69,19 @@ data class TimelineStatusEntity(
     val sensitive: Boolean,
     val spoilerText: String,
     val visibility: Status.Visibility,
-    val attachments: String?,
-    val mentions: String?,
-    val tags: String?,
-    val application: String?,
+    val attachments: List<Attachment>,
+    val mentions: List<Status.Mention>,
+    val tags: List<HashTag>,
+    val application: Status.Application?,
     // if it has a reblogged status, it's id is stored here
-    val reblogServerId: String?,
-    val reblogAccountId: String?,
-    val poll: String?,
-    val muted: Boolean?,
+    val poll: Poll?,
+    val muted: Boolean,
     /** Also used as the "loading" attribute when this TimelineStatusEntity is a placeholder */
     val expanded: Boolean,
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
     val pinned: Boolean,
-    val card: String?,
+    val card: Card?,
     val language: String?,
-    val filtered: List<FilterResult>?
-) {
-    val isPlaceholder: Boolean
-        get() = this.authorServerId == null
-}
-
-@Entity(
-    primaryKeys = ["serverId", "timelineUserId"]
-)
-data class TimelineAccountEntity(
-    val serverId: String,
-    val timelineUserId: Long,
-    val localUsername: String,
-    val username: String,
-    val displayName: String,
-    val url: String,
-    val avatar: String,
-    val emojis: String,
-    val bot: Boolean
-)
-
-data class TimelineStatusWithAccount(
-    @Embedded
-    val status: TimelineStatusEntity,
-    // null when placeholder
-    @Embedded(prefix = "a_")
-    val account: TimelineAccountEntity? = null,
-    // null when no reblog
-    @Embedded(prefix = "rb_")
-    val reblogAccount: TimelineAccountEntity? = null
+    val filtered: List<FilterResult>
 )

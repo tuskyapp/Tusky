@@ -1,4 +1,4 @@
-/* Copyright 2018 Conny Duck
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -13,22 +13,25 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.entity
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.Entity
+import androidx.room.TypeConverters
+import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.entity.Emoji
 
-@Dao
-interface AccountDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(account: AccountEntity): Long
-
-    @Delete
-    fun delete(account: AccountEntity)
-
-    @Query("SELECT * FROM AccountEntity ORDER BY id ASC")
-    fun loadAll(): List<AccountEntity>
-}
+@Entity(
+    primaryKeys = ["serverId", "tuskyAccountId"]
+)
+@TypeConverters(Converters::class)
+data class TimelineAccountEntity(
+    val serverId: String,
+    val tuskyAccountId: Long,
+    val localUsername: String,
+    val username: String,
+    val displayName: String,
+    val url: String,
+    val avatar: String,
+    val emojis: List<Emoji>,
+    val bot: Boolean
+)
