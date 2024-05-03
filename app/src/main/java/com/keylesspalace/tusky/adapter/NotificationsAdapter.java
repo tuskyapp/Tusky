@@ -517,7 +517,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<RecyclerView.View
         Drawable getIconWithColor(Context context, @DrawableRes int drawable, @ColorRes int color) {
             Drawable icon = ContextCompat.getDrawable(context, drawable);
             if (icon != null) {
-                icon.setColorFilter(context.getColor(color), PorterDuff.Mode.SRC_ATOP);
+                icon.setTint(context.getColor(color));
             }
             return icon;
         }

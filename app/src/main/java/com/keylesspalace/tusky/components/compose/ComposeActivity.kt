@@ -23,8 +23,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.icu.text.BreakIterator
 import android.net.Uri
 import android.os.Build
@@ -829,7 +827,7 @@ class ComposeActivity :
                     )
                 }
             }
-            binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeHideMediaButton.drawable.setTint(color)
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
@@ -855,7 +853,7 @@ class ComposeActivity :
             } else {
                 getColor(R.color.tusky_blue)
             }
-            binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeScheduleButton.drawable.setTint(color)
         }
     }
 
@@ -1186,7 +1184,7 @@ class ComposeActivity :
             }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
-        binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+        binding.addPollTextActionTextView.compoundDrawablesRelative[0].setTint(textColor)
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
@@ -1277,7 +1275,7 @@ class ComposeActivity :
                 android.R.attr.textColorTertiary
             )
         }
-        binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+        binding.composeContentWarningButton.drawable.setTint(color)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
