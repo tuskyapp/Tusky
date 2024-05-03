@@ -22,19 +22,27 @@ sealed class NotificationViewData {
 
     abstract val id: String
 
+    abstract fun asStatusOrNull(): StatusViewData.Concrete?
+    abstract fun asPlaceholderOrNull(): Placeholder?
+
     data class Concrete(
         override val id: String,
         val type: Notification.Type,
         val account: TimelineAccount,
         val statusViewData: StatusViewData.Concrete?,
         val report: Report?
-    ) : NotificationViewData()
+    ) : NotificationViewData() {
+        override fun asStatusOrNull() = statusViewData
+
+        override fun asPlaceholderOrNull() = null
+    }
 
     data class Placeholder(
         override val id: String,
         val isLoading: Boolean
-    ) : NotificationViewData()
+    ) : NotificationViewData() {
+        override fun asStatusOrNull() = null
 
-    fun asStatusOrNull() = (this as? Concrete)?.statusViewData
-    fun asPlaceholderOrNull() = (this as? Placeholder)
+        override fun asPlaceholderOrNull() = this
+    }
 }
