@@ -47,11 +47,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.view.GravityCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -198,13 +196,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     private val onBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
-            when {
-                binding.mainDrawerLayout.isOpen -> {
-                    binding.mainDrawerLayout.close()
-                }
-                binding.viewPager.currentItem != 0 -> {
-                    binding.viewPager.currentItem = 0
-                }
+            if (binding.viewPager.currentItem != 0) {
+                binding.viewPager.currentItem = 0
             }
         }
     }
@@ -482,12 +475,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        // For some reason the navigation drawer is opened when the activity is recreated
-        if (binding.mainDrawerLayout.isOpen) {
-            binding.mainDrawerLayout.closeDrawer(GravityCompat.START, false)
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        // Allow software back press to be properly dispatched to drawer layout
+        val handled = when (event.action) {
+            KeyEvent.ACTION_DOWN -> binding.mainDrawerLayout.onKeyDown(event.keyCode, event)
+            KeyEvent.ACTION_UP -> binding.mainDrawerLayout.onKeyUp(event.keyCode, event)
+            else -> false
         }
+        return handled || super.dispatchKeyEvent(event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -627,19 +622,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             )
             setSavedInstance(savedInstanceState)
         }
-        binding.mainDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
-
-            override fun onDrawerOpened(drawerView: View) {
-                onBackPressedCallback.isEnabled = true
-            }
-
-            override fun onDrawerClosed(drawerView: View) {
-                onBackPressedCallback.isEnabled = binding.tabLayout.selectedTabPosition > 0
-            }
-
-            override fun onDrawerStateChanged(newState: Int) { }
-        })
     }
 
     private fun refreshMainDrawerItems(
@@ -900,7 +882,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
         onTabSelectedListener = object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                onBackPressedCallback.isEnabled = tab.position > 0 || binding.mainDrawerLayout.isOpen
+                onBackPressedCallback.isEnabled = tab.position > 0
 
                 binding.mainToolbar.title = tab.contentDescription
 
