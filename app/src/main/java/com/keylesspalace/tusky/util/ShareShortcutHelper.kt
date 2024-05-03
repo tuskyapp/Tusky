@@ -28,8 +28,8 @@ import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.di.ApplicationScope
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope

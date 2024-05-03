@@ -126,7 +126,7 @@ data class ConversationStatusEntity(
                 visibility = Status.Visibility.DIRECT,
                 attachments = attachments,
                 mentions = mentions,
-                tags = tags,
+                tags = tags.orEmpty(),
                 application = null,
                 pinned = false,
                 muted = muted,

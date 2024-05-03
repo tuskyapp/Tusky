@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.util
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import java.util.Locale
 
 private const val TAG: String = "LocaleUtils"

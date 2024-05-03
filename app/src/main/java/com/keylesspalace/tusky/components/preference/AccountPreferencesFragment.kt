@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
-import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
+import com.keylesspalace.tusky.components.systemnotifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account

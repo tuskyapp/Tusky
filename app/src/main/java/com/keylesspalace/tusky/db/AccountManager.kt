@@ -18,6 +18,8 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.util.Log
 import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.db.dao.AccountDao
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
