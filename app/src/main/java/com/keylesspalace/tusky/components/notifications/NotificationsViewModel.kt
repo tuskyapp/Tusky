@@ -52,11 +52,9 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import javax.inject.Inject
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -115,7 +113,7 @@ class NotificationsViewModel @Inject constructor(
                 }
             }
     }
-            .flowOn(Dispatchers.Default)
+        .flowOn(Dispatchers.Default)
 
     init {
         viewModelScope.launch {
