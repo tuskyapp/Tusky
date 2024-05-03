@@ -15,7 +15,7 @@
 
 @file:JvmName("PushNotificationHelper")
 
-package com.keylesspalace.tusky.components.notifications
+package com.keylesspalace.tusky.components.systemnotifications
 
 import android.app.NotificationManager
 import android.content.Context
@@ -29,8 +29,8 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.login.LoginActivity
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.CryptoUtil

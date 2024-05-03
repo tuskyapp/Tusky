@@ -32,8 +32,8 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
-import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.parseAsMastodonHtml

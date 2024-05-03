@@ -20,7 +20,6 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
-import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
@@ -29,17 +28,13 @@ import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.entity.DeletedStatus
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Single
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import java.util.Locale
 import javax.inject.Inject
-import retrofit2.Response
 
 /**
  * Created by charlag on 3/24/18.
@@ -66,10 +61,6 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun reblogOld(statusId: String, reblog: Boolean): Single<Status> {
-        return Single { reblog(statusId, reblog) }
-    }
-
     suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
         return if (favourite) {
             mastodonApi.favouriteStatus(statusId)
@@ -80,10 +71,6 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    fun favouriteOld(statusId: String, favourite: Boolean): Single<Status> {
-        return Single { favourite(statusId, favourite) }
-    }
-
     suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
         return if (bookmark) {
             mastodonApi.bookmarkStatus(statusId)
@@ -92,10 +79,6 @@ class TimelineCases @Inject constructor(
         }.onSuccess { status ->
             eventHub.dispatch(StatusChangedEvent(status))
         }
-    }
-
-    fun bookmarkOld(statusId: String, bookmark: Boolean): Single<Status> {
-        return Single { bookmark(statusId, bookmark) }
     }
 
     suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
@@ -158,31 +141,6 @@ class TimelineCases @Inject constructor(
         return mastodonApi.voteInPoll(pollId, choices).onSuccess { poll ->
             eventHub.dispatch(PollVoteEvent(statusId, poll))
         }
-    }
-
-    fun voteInPollOld(statusId: String, pollId: String, choices: List<Int>): Single<Poll> {
-        return Single { voteInPoll(statusId, pollId, choices) }
-    }
-
-    fun acceptFollowRequestOld(accountId: String): Single<Relationship> {
-        return Single { mastodonApi.authorizeFollowRequest(accountId) }
-    }
-
-    fun rejectFollowRequestOld(accountId: String): Single<Relationship> {
-        return Single { mastodonApi.rejectFollowRequest(accountId) }
-    }
-
-    fun notificationsOld(
-        maxId: String?,
-        sinceId: String?,
-        limit: Int?,
-        excludes: Set<Notification.Type>?
-    ): Single<Response<List<Notification>>> {
-        return Single { runCatching { mastodonApi.notifications(maxId, sinceId, limit, excludes) } }
-    }
-
-    fun clearNotificationsOld(): Single<Unit> {
-        return Single { mastodonApi.clearNotifications() }
     }
 
     suspend fun translate(

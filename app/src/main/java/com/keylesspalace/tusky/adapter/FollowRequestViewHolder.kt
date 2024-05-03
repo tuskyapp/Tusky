@@ -21,10 +21,12 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.notifications.NotificationsViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
@@ -33,12 +35,28 @@ import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class FollowRequestViewHolder(
     private val binding: ItemFollowRequestBinding,
+    private val accountListener: AccountActionListener,
     private val linkListener: LinkListener,
     private val showHeader: Boolean
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
+
+    override fun bind(
+        viewData: NotificationViewData.Concrete,
+        payloads: List<*>,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
+        setupWithAccount(
+            viewData.account,
+            statusDisplayOptions.animateAvatars,
+            statusDisplayOptions.animateEmojis,
+            statusDisplayOptions.showBotOverlay
+        )
+        setupActionListener(accountListener, viewData.account.id)
+    }
 
     fun setupWithAccount(
         account: TimelineAccount,

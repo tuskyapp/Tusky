@@ -104,21 +104,6 @@ sealed class StatusViewData {
             get() = if (status.reblog != null) status else null
 
         /** Helper for Java */
-        fun copyWithStatus(status: Status): Concrete {
-            return copy(status = status)
-        }
-
-        /** Helper for Java */
-        fun copyWithExpanded(isExpanded: Boolean): Concrete {
-            return copy(isExpanded = isExpanded)
-        }
-
-        /** Helper for Java */
-        fun copyWithShowingContent(isShowingContent: Boolean): Concrete {
-            return copy(isShowingContent = isShowingContent)
-        }
-
-        /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
             return copy(isCollapsed = isCollapsed)
         }

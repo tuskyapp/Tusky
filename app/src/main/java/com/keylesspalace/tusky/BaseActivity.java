@@ -39,7 +39,7 @@ import com.google.android.material.color.MaterialColors;
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
-import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.components.notifications;
+package com.keylesspalace.tusky.components.systemnotifications;
 
 import static com.keylesspalace.tusky.BuildConfig.APPLICATION_ID;
 import static com.keylesspalace.tusky.util.StatusParsingHelper.parseAsMastodonHtml;
@@ -55,7 +55,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.keylesspalace.tusky.MainActivity;
 import com.keylesspalace.tusky.R;
 import com.keylesspalace.tusky.components.compose.ComposeActivity;
-import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
 import com.keylesspalace.tusky.entity.Notification;
 import com.keylesspalace.tusky.entity.Poll;

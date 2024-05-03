@@ -62,13 +62,13 @@ object PrefKeys {
     const val READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"
     const val HIDE_TOP_TOOLBAR = "hideTopToolbar"
+    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"
     const val SHOW_BOT_OVERLAY = "showBotOverlay"
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
-    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
@@ -111,9 +111,4 @@ object PrefKeys {
 
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
-
-    /** Keys that are no longer used (e.g., the preference has been removed */
-    object Deprecated {
-        const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
-    }
 }

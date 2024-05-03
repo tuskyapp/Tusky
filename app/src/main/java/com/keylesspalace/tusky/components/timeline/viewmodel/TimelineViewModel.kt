@@ -24,24 +24,17 @@ import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.appstore.MuteConversationEvent
-import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.appstore.StatusChangedEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -162,15 +155,9 @@ abstract class TimelineViewModel(
 
     abstract fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete)
 
-    abstract fun removeAllByAccountId(accountId: String)
-
-    abstract fun removeAllByInstance(instance: String)
-
     abstract fun removeStatusWithId(id: String)
 
     abstract fun loadMore(placeholderId: String)
-
-    abstract fun handleStatusChangedEvent(status: Status)
 
     abstract fun fullReload()
 
@@ -240,37 +227,7 @@ abstract class TimelineViewModel(
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is StatusChangedEvent -> handleStatusChangedEvent(event.status)
             is MuteConversationEvent -> fullReload()
-            is UnfollowEvent -> {
-                if (kind == Kind.HOME) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is BlockEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is MuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is DomainMuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val instance = event.instance
-                    removeAllByInstance(instance)
-                }
-            }
-            is StatusDeletedEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    removeStatusWithId(event.statusId)
-                }
-            }
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
             }
