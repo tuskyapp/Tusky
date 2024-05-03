@@ -104,6 +104,7 @@ import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
@@ -310,9 +311,7 @@ class ComposeActivity :
         savedInstanceState?.let {
             photoUploadUri = it.getParcelableCompat(PHOTO_UPLOAD_URI_KEY)
 
-            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
-                setStatusVisibility(this)
-            }
+            setStatusVisibility(it.getSerializableCompat(VISIBILITY_KEY)!!)
 
             it.getBoolean(CONTENT_WARNING_VISIBLE_KEY).apply {
                 viewModel.contentWarningChanged(this)

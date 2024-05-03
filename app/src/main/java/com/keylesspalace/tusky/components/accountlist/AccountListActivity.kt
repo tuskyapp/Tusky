@@ -22,6 +22,7 @@ import androidx.fragment.app.commit
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
@@ -46,7 +47,7 @@ class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
         val binding = ActivityAccountListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val type = intent.getSerializableExtra(EXTRA_TYPE) as Type
+        val type = intent.getSerializableExtraCompat<Type>(EXTRA_TYPE)!!
         val id: String? = intent.getStringExtra(EXTRA_ID)
 
         setSupportActionBar(binding.includedToolbar.toolbar)

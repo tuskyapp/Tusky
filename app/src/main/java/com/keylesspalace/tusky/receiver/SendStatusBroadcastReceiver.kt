@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.service.StatusToSend
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.android.AndroidInjection
 import javax.inject.Inject
@@ -54,9 +55,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME
             )
             val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
-            val visibility = intent.getSerializableExtra(
-                NotificationHelper.KEY_VISIBILITY
-            ) as Status.Visibility
+            val visibility =
+                intent.getSerializableExtraCompat<Status.Visibility>(NotificationHelper.KEY_VISIBILITY)!!
             val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER).orEmpty()
             val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS).orEmpty()
 
