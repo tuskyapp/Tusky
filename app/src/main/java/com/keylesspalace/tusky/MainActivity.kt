@@ -212,11 +212,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         val activeAccount = accountManager.activeAccount
-            ?: return // will be redirected to LoginActivity by BaseActivity
+        if (activeAccount == null) {
+            splashScreen.setKeepOnScreenCondition { true }
+            // will be redirected to LoginActivity by BaseActivity
+            return
+        }
 
         if (supportsOverridingActivityTransitions() && explodeAnimationWasRequested()) {
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.activity_open_exit)
