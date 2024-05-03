@@ -18,11 +18,11 @@
         android:layout_gravity="end"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:src="@drawable/ic_drag_indicator_24dp"
-        tools:ignore="ContentDescription"
+        app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/textView"/>
+        app:srcCompat="@drawable/ic_drag_indicator_24dp"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -52,9 +52,9 @@
         android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_delete"
-        android:src="@drawable/ic_clear_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_clear_24dp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
