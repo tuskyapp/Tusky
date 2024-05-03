@@ -1,6 +1,6 @@
 [versions]
 agp = "8.3.2"
-androidx-activity = "1.8.2"
+androidx-activity = "1.9.0"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.8.0"
 androidx-cardview = "1.0.0"
@@ -62,7 +62,7 @@ ktlint = "org.jlleitschuh.gradle.ktlint:12.1.0"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
