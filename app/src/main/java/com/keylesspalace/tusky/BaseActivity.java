@@ -92,6 +92,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
+        } else {
+            setTheme(R.style.TuskyTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */

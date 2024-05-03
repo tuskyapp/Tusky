@@ -33,7 +33,6 @@
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>
-        <item name="postSplashScreenTheme">@style/TuskyTheme</item>
     </style>
 
     <style name="TuskyTheme" parent="TuskyBaseTheme" />
