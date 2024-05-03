@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -54,7 +55,8 @@ class TimelinePagingAdapter(
             }
             VIEW_TYPE_PLACEHOLDER -> {
                 PlaceholderViewHolder(
-                    inflater.inflate(R.layout.item_status_placeholder, viewGroup, false)
+                    ItemStatusPlaceholderBinding.inflate(inflater, viewGroup, false),
+                    statusListener
                 )
             }
             else -> {
@@ -83,7 +85,7 @@ class TimelinePagingAdapter(
         val status = getItem(position)
         if (status is StatusViewData.Placeholder) {
             val holder = viewHolder as PlaceholderViewHolder
-            holder.setup(statusListener, status.isLoading)
+            holder.setup(status.isLoading)
         } else if (status is StatusViewData.Concrete) {
             val holder = viewHolder as StatusViewHolder
             holder.setupWithStatus(

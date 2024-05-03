@@ -23,7 +23,7 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import javax.inject.Inject

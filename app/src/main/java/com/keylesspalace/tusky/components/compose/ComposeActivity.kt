@@ -87,8 +87,8 @@ import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.DraftAttachment
+import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment

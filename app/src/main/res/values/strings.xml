@@ -686,7 +686,7 @@
 
     <string name="pref_title_enable_swipe_for_tabs">Enable swipe gesture to switch between tabs</string>
     <string name="pref_title_show_stat_inline">Show post statistics in timeline</string>
-
+    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
 
     <string name="create_poll_title">Poll</string>
     <string name="label_duration">Duration</string>
@@ -718,7 +718,6 @@
     <string name="warning_scheduling_interval">Mastodon has a minimum scheduling interval of 5 minutes.</string>
     <string name="pref_title_show_self_username">Show username in toolbars</string>
     <string name="pref_title_show_cards_in_timelines">Show link previews in timelines</string>
-    <string name="pref_title_show_notifications_filter">Show Notifications filter</string>
     <string name="pref_title_confirm_reblogs">Show confirmation before boosting</string>
     <string name="pref_title_confirm_favourites">Show confirmation before favoriting</string>
     <string name="pref_title_hide_top_toolbar">Hide the title of the top toolbar</string>
@@ -770,6 +769,7 @@
 
     <string name="report_category_violation">Rule violation</string>
     <string name="report_category_spam">Spam</string>
+    <string name="report_category_legal">Legal</string>
     <string name="report_category_other">Other</string>
 
     <string name="action_unfollow_hashtag_format">Unfollow #%1$s?</string>
@@ -847,8 +847,11 @@
     <string name="dialog_delete_filter_text">Delete filter \'%1$s\'?"</string>
     <string name="dialog_delete_filter_positive_action">Delete</string>
     <string name="dialog_save_profile_changes_message">Do you want to save your profile changes?</string>
+
     <string name="list_reply_policy_none">No one</string>
     <string name="list_reply_policy_list">Members of the list</string>
     <string name="list_reply_policy_followed">Any followed user</string>
     <string name="list_reply_policy_label">Show replies to</string>
+
+    <string name="unknown_notification_type">Unknown notification type</string>
 </resources>

@@ -26,7 +26,14 @@ import androidx.paging.filter
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.DomainMuteEvent
+import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
@@ -96,6 +103,48 @@ class NetworkTimelineViewModel @Inject constructor(
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
 
+    init {
+        viewModelScope.launch {
+            eventHub.events
+                .collect { event -> handleEvent(event) }
+        }
+    }
+
+    private fun handleEvent(event: Event) {
+        when (event) {
+            is StatusChangedEvent -> handleStatusChangedEvent(event.status)
+            is UnfollowEvent -> {
+                if (kind == Kind.HOME) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is BlockEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is MuteEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is DomainMuteEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val instance = event.instance
+                    removeAllByInstance(instance)
+                }
+            }
+            is StatusDeletedEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    removeStatusWithId(event.statusId)
+                }
+            }
+        }
+    }
+
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         status.copy(
             status = status.status.copy(poll = newPoll)
@@ -120,7 +169,7 @@ class NetworkTimelineViewModel @Inject constructor(
         ).update()
     }
 
-    override fun removeAllByAccountId(accountId: String) {
+    private fun removeAllByAccountId(accountId: String) {
         statusData.removeAll { vd ->
             val status = vd.asStatusOrNull()?.status ?: return@removeAll false
             status.account.id == accountId || status.actionableStatus.account.id == accountId
@@ -128,7 +177,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun removeAllByInstance(instance: String) {
+    private fun removeAllByInstance(instance: String) {
         statusData.removeAll { vd ->
             val status = vd.asStatusOrNull()?.status ?: return@removeAll false
             getDomain(status.account.url) == instance
@@ -241,7 +290,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun handleStatusChangedEvent(status: Status) {
+    private fun handleStatusChangedEvent(status: Status) {
         updateStatusById(status.id) { oldViewData ->
             status.toViewData(
                 isShowingContent = oldViewData.isShowingContent,

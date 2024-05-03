@@ -26,11 +26,11 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.squareup.moshi.Moshi
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -38,17 +38,18 @@ class CachedTimelineRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val moshi: Moshi
-) : RemoteMediator<Int, TimelineStatusWithAccount>() {
+) : RemoteMediator<Int, HomeTimelineData>() {
 
     private var initialRefresh = false
 
     private val timelineDao = db.timelineDao()
+    private val statusDao = db.timelineStatusDao()
+    private val accountDao = db.timelineAccountDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, TimelineStatusWithAccount>
+        state: PagingState<Int, HomeTimelineData>
     ): MediatorResult {
         if (!activeAccount.isLoggedIn()) {
             return MediatorResult.Success(endOfPaginationReached = true)
@@ -111,7 +112,7 @@ class CachedTimelineRemoteMediator(
                     /* This overrides the last of the newly loaded statuses with a placeholder
                        to guarantee the placeholder has an id that exists on the server as not all
                        servers handle client generated ids as expected */
-                    timelineDao.insertStatus(
+                    timelineDao.insertHomeTimelineItem(
                         Placeholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
                     )
                 }
@@ -134,7 +135,7 @@ class CachedTimelineRemoteMediator(
      */
     private suspend fun replaceStatusRange(
         statuses: List<Status>,
-        state: PagingState<Int, TimelineStatusWithAccount>
+        state: PagingState<Int, HomeTimelineData>
     ): Int {
         val overlappedStatuses = if (statuses.isNotEmpty()) {
             timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
@@ -143,9 +144,9 @@ class CachedTimelineRemoteMediator(
         }
 
         for (status in statuses) {
-            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, moshi))
-            status.reblog?.account?.toEntity(activeAccount.id, moshi)?.let { rebloggedAccount ->
-                timelineDao.insertAccount(rebloggedAccount)
+            accountDao.insert(status.account.toEntity(activeAccount.id))
+            status.reblog?.account?.toEntity(activeAccount.id)?.let { rebloggedAccount ->
+                accountDao.insert(rebloggedAccount)
             }
 
             // check if we already have one of the newly loaded statuses cached locally
@@ -153,29 +154,33 @@ class CachedTimelineRemoteMediator(
             var oldStatus: TimelineStatusEntity? = null
             for (page in state.pages) {
                 oldStatus = page.data.find { s ->
-                    s.status.serverId == status.id
+                    s.status?.serverId == status.actionableId
                 }?.status
                 if (oldStatus != null) break
             }
 
-            // The "expanded" property for Placeholders determines whether or not they are
-            // in the "loading" state, and should not be affected by the account's
-            // "alwaysOpenSpoiler" preference
-            val expanded = if (oldStatus?.isPlaceholder == true) {
-                oldStatus.expanded
-            } else {
-                oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
-            }
+            val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-            timelineDao.insertStatus(
-                status.toEntity(
-                    timelineUserId = activeAccount.id,
-                    moshi = moshi,
+            statusDao.insert(
+                status.actionableStatus.toEntity(
+                    tuskyAccountId = activeAccount.id,
                     expanded = expanded,
                     contentShowing = contentShowing,
                     contentCollapsed = contentCollapsed
+                )
+            )
+            timelineDao.insertHomeTimelineItem(
+                HomeTimelineEntity(
+                    tuskyAccountId = activeAccount.id,
+                    id = status.id,
+                    statusId = status.actionableId,
+                    reblogAccountId = if (status.reblog != null) {
+                        status.account.id
+                    } else {
+                        null
+                    }
                 )
             )
         }

@@ -13,11 +13,12 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.Emoji
 
 @Entity
