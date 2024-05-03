@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Сталася помилка.</string>
-    <string name="post_username_format">\@%s</string>
+    <string name="post_username_format">\@%1$s</string>
     <string name="title_licenses">Ліцензії</string>
     <string name="title_edit_profile">Редагувати профіль</string>
     <string name="title_follow_requests">Запити на стеження</string>
@@ -44,7 +44,7 @@
     <string name="hint_compose">Що відбувається\?</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
-    <string name="action_open_as">Відкрити як %s</string>
+    <string name="action_open_as">Відкрити як %1$s</string>
     <string name="action_copy_link">Копіювати посилання</string>
     <string name="download_image">Завантаження %1$s</string>
     <string name="title_links_dialog">Посилання</string>
@@ -61,7 +61,7 @@
     <string name="action_edit_own_profile">Змінити</string>
     <string name="action_save">Зберегти</string>
     <string name="action_mention">Згадати</string>
-    <string name="action_mute_domain">Приховати %s</string>
+    <string name="action_mute_domain">Приховати %1$s</string>
     <string name="action_mute">Приховати</string>
     <string name="action_share">Поділитися</string>
     <string name="action_photo_take">Сфотографувати</string>
@@ -92,9 +92,9 @@
     <string name="action_reply">Відповісти</string>
     <string name="action_quick_reply">Швидка відповідь</string>
     <string name="report_comment_hint">Додаткові коментарі\?</string>
-    <string name="report_username_format">Поскаржитися на @%s</string>
-    <string name="notification_follow_request_format">%s надсилає запит на підписку</string>
-    <string name="notification_follow_format">%s підписується на вас</string>
+    <string name="report_username_format">Поскаржитися на @%1$s</string>
+    <string name="notification_follow_request_format">%1$s надсилає запит на підписку</string>
+    <string name="notification_follow_format">%1$s підписується на вас</string>
     <string name="footer_empty">Тут нічого немає. Потягніть вниз, щоб оновити!</string>
     <string name="message_empty">Нічого немає.</string>
     <string name="post_content_warning_show_less">Згорнути</string>
@@ -115,7 +115,7 @@
     <string name="title_blocks">Заблоковані користувачі</string>
     <string name="notification_favourite_name">Вподобане</string>
     <string name="notification_follow_request_name">Запити на стеження</string>
-    <string name="action_unmute_desc">Не приховувати %s</string>
+    <string name="action_unmute_desc">Не приховувати %1$s</string>
     <string name="action_unmute">Не приховувати</string>
     <string name="action_view_domain_mutes">Приховані домени</string>
     <string name="action_view_mutes">Приховувані користувачі</string>
@@ -126,12 +126,12 @@
     <string name="action_more">Розгорнути</string>
     <string name="action_unreblog">Скасувати поширення</string>
     <string name="action_reblog">Поширити</string>
-    <string name="notification_favourite_format">%s вподобує ваш допис</string>
-    <string name="notification_reblog_format">%s поширює ваш допис</string>
+    <string name="notification_favourite_format">%1$s вподобує ваш допис</string>
+    <string name="notification_reblog_format">%1$s поширює ваш допис</string>
     <string name="post_content_show_less">Згорнути</string>
     <string name="post_content_show_more">Розгорнути</string>
     <string name="post_sensitive_media_title">Делікатний вміст</string>
-    <string name="post_boosted_format">%s поширює</string>
+    <string name="post_boosted_format">%1$s поширює</string>
     <string name="title_domain_mutes">Приховані домени</string>
     <string name="title_mutes">Приховувані користувачі</string>
     <string name="title_posts">Дописи</string>
@@ -146,7 +146,7 @@
     <string name="action_open_reblogged_by">Показати поширення</string>
     <string name="pref_title_show_boosts">Показати поширення</string>
     <string name="pref_title_post_tabs">Головна стрічка</string>
-    <string name="action_unmute_domain">Не приховувати %s</string>
+    <string name="action_unmute_domain">Не приховувати %1$s</string>
     <string name="action_toggle_visibility">Видимість дописів</string>
     <string name="wellbeing_mode_notice">Деякі відомості, які можуть вплинути на ваше психічний стан, буде приховано. Це включає:
 \n
@@ -166,7 +166,7 @@
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
-    <string name="notification_subscription_format">%s щойно опубліковано</string>
+    <string name="notification_subscription_format">%1$s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
     <string name="action_open_drawer">Відкрити меню</string>
     <string name="caption_blobmoji">Емодзі Blob з Android 4.4–7.1</string>
@@ -175,20 +175,20 @@
     <string name="download_fonts">Спочатку потрібно буде завантажити ці набори емодзі</string>
     <string name="system_default">Типовий системний</string>
     <string name="emoji_style">Стиль емодзі</string>
-    <string name="error_no_custom_emojis">Ваш сервер %s не має власних емодзі</string>
+    <string name="error_no_custom_emojis">Ваш сервер %1$s не має власних емодзі</string>
     <string name="compose_save_draft">Зберегти чернетку\?</string>
     <string name="lock_account_label_description">Вимагає затвердження підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="one">Опис матеріалів для людей з вадами зору (обмеження %d символ)</item>
-        <item quantity="few">Опис матеріалів для людей з вадами зору (обмеження %d символи)</item>
-        <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
-        <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %d символів)</item>
+        <item quantity="one">Опис матеріалів для людей з вадами зору (обмеження %1$d символ)</item>
+        <item quantity="few">Опис матеріалів для людей з вадами зору (обмеження %1$d символи)</item>
+        <item quantity="many">Опис матеріалів для людей з вадами зору (обмеження %1$d символів)</item>
+        <item quantity="other">Опис матеріалів для людей з вадами зору (обмеження %1$d символів)</item>
     </plurals>
     <string name="action_unsubscribe_account">Відписатися</string>
     <string name="action_subscribe_account">Підписатися</string>
     <string name="account_note_saved">Збережено!</string>
-    <string name="poll_new_choice_hint">Вибір %d</string>
+    <string name="poll_new_choice_hint">Вибір %1$d</string>
     <string name="poll_allow_multiple_choices">Кілька виборів</string>
     <string name="add_poll_choice">Додати вибір</string>
     <string name="duration_7_days">7 днів</string>
@@ -204,55 +204,55 @@
     <string name="title_accounts">Облікові записи</string>
     <string name="failed_report">Не вдалося звітувати</string>
     <string name="hint_additional_info">Додаткові коментарі</string>
-    <string name="report_sent_success">Звіт @%s надіслано</string>
+    <string name="report_sent_success">Звіт @%1$s надіслано</string>
     <string name="button_done">Готово</string>
     <string name="button_back">Назад</string>
     <string name="button_continue">Продовжити</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">Залишилася %d секунда</item>
-        <item quantity="few">Залишилося %d секунди</item>
-        <item quantity="many">Залишилося %d секунд</item>
-        <item quantity="other">Залишилося %d секунд</item>
+        <item quantity="one">Залишилася %1$d секунда</item>
+        <item quantity="few">Залишилося %1$d секунди</item>
+        <item quantity="many">Залишилося %1$d секунд</item>
+        <item quantity="other">Залишилося %1$d секунд</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">Залишилася %d хвилина</item>
-        <item quantity="few">Залишилося %d хвилини</item>
-        <item quantity="many">Залишилося %d хвилин</item>
-        <item quantity="other">Залишилося %d хвилин</item>
+        <item quantity="one">Залишилася %1$d хвилина</item>
+        <item quantity="few">Залишилося %1$d хвилини</item>
+        <item quantity="many">Залишилося %1$d хвилин</item>
+        <item quantity="other">Залишилося %1$d хвилин</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">Залишилася %d година</item>
-        <item quantity="few">Залишилося %d години</item>
-        <item quantity="many">Залишилося %d годин</item>
-        <item quantity="other">Залишилося %d годин</item>
+        <item quantity="one">Залишилася %1$d година</item>
+        <item quantity="few">Залишилося %1$d години</item>
+        <item quantity="many">Залишилося %1$d годин</item>
+        <item quantity="other">Залишилося %1$d годин</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">Залишився %d день</item>
-        <item quantity="few">Залишилося %d дні</item>
-        <item quantity="many">Залишилося %d днів</item>
-        <item quantity="other">Залишилося %d днів</item>
+        <item quantity="one">Залишився %1$d день</item>
+        <item quantity="few">Залишилося %1$d дні</item>
+        <item quantity="many">Залишилося %1$d днів</item>
+        <item quantity="other">Залишилося %1$d днів</item>
     </plurals>
     <string name="poll_ended_created">Створене вами опитування завершилося</string>
     <string name="poll_ended_voted">Опитування, в якому ви проголосували</string>
     <string name="poll_vote">Голосувати</string>
     <string name="poll_info_closed">закрито</string>
-    <string name="poll_info_time_absolute">завершується о %s</string>
+    <string name="poll_info_time_absolute">завершується о %1$s</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s особа</item>
-        <item quantity="few">%s людини</item>
-        <item quantity="many">%s людей</item>
-        <item quantity="other">%s людей</item>
+        <item quantity="one">%1$s особа</item>
+        <item quantity="few">%1$s людини</item>
+        <item quantity="many">%1$s людей</item>
+        <item quantity="other">%1$s людей</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s голос</item>
-        <item quantity="few">%s голоси</item>
-        <item quantity="many">%s голосів</item>
-        <item quantity="other">%s голосів</item>
+        <item quantity="one">%1$s голос</item>
+        <item quantity="few">%1$s голоси</item>
+        <item quantity="many">%1$s голосів</item>
+        <item quantity="other">%1$s голосів</item>
     </plurals>
     <string name="poll_info_format"> <!-- 15 голосів • 1 година залишилась --> %1$s • %2$s</string>
     <string name="description_post_media_no_description_placeholder">Без опису</string>
-    <string name="description_post_cw">Попередження про вміст: %s</string>
-    <string name="description_post_media">Медіа: %s</string>
+    <string name="description_post_cw">Попередження про вміст: %1$s</string>
+    <string name="description_post_media">Медіа: %1$s</string>
     <string name="title_reblogged_by">Поширює</string>
     <string name="profile_metadata_content_label">Вміст</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -293,20 +293,20 @@
     <string name="pref_title_thread_filter_keywords">Розмови</string>
     <string name="pref_title_public_filter_keywords">Загальнодоступні стрічки</string>
     <string name="load_more_placeholder_text">завантажити ще</string>
-    <string name="replying_to">Відповідь для @%s</string>
+    <string name="replying_to">Відповідь для @%1$s</string>
     <string name="pref_title_alway_open_spoiler">Завжди розгортати допис, з попередженнями про вміст</string>
     <string name="follows_you">Підписники</string>
     <string name="pref_title_alway_show_sensitive_media">Завжди показувати делікатний вміст</string>
-    <string name="abbreviated_seconds_ago">%dс</string>
-    <string name="abbreviated_minutes_ago">%dхв</string>
-    <string name="abbreviated_hours_ago">%dгод</string>
-    <string name="abbreviated_days_ago">%dдн</string>
-    <string name="abbreviated_years_ago">%dр.</string>
-    <string name="abbreviated_in_seconds">за %dс</string>
-    <string name="abbreviated_in_minutes">за %dхв</string>
-    <string name="abbreviated_in_hours">за %dгод</string>
-    <string name="abbreviated_in_days">за %dдн</string>
-    <string name="abbreviated_in_years">за %dр.</string>
+    <string name="abbreviated_seconds_ago">%1$dс</string>
+    <string name="abbreviated_minutes_ago">%1$dхв</string>
+    <string name="abbreviated_hours_ago">%1$dгод</string>
+    <string name="abbreviated_days_ago">%1$dдн</string>
+    <string name="abbreviated_years_ago">%1$dр.</string>
+    <string name="abbreviated_in_seconds">за %1$dс</string>
+    <string name="abbreviated_in_minutes">за %1$dхв</string>
+    <string name="abbreviated_in_hours">за %1$dгод</string>
+    <string name="abbreviated_in_days">за %1$dдн</string>
+    <string name="abbreviated_in_years">за %1$dр.</string>
     <string name="state_follow_requested">Запит на підписку надіслано</string>
     <string name="post_media_attachments">Вкладення</string>
     <string name="post_media_audio">Звуки</string>
@@ -320,13 +320,13 @@
     <string name="about_project_site">Вебсайт проєкту: https://tusky.app</string>
     <string name="about_tusky_license">Tusky — вільне та відкрите програмне забезпечення. Ліцензовано загальною громадською ліцензією GNU версії 3, ви можете переглянути ліцензію тут: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Створено Tusky</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="description_account_locked">Заблокований обліковий запис</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d нова взаємодія</item>
-        <item quantity="few">%d нові взаємодії</item>
-        <item quantity="many">%d нових взаємодій</item>
-        <item quantity="other">%d нових взаємодій</item>
+        <item quantity="one">%1$d нова взаємодія</item>
+        <item quantity="few">%1$d нові взаємодії</item>
+        <item quantity="many">%1$d нових взаємодій</item>
+        <item quantity="other">%1$d нових взаємодій</item>
     </plurals>
     <string name="conversation_more_recipients">%1$s, %2$s та ще %3$d</string>
     <string name="conversation_2_recipients">%1$s та %2$s</string>
@@ -334,7 +334,7 @@
     <string name="notification_summary_small">%1$s та %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, та %3$s</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s та %4$d інших</string>
-    <string name="notification_mention_format">%s згадує вас</string>
+    <string name="notification_mention_format">%1$s згадує вас</string>
     <string name="notification_subscription_description">Сповіщати про нові дописи осіб, на яких ви підписалися</string>
     <string name="notification_subscription_name">Нові дописи</string>
     <string name="notification_poll_description">Сповіщати про завершення опитувань</string>
@@ -405,10 +405,10 @@
     <string name="visibility_unlisted">Приховано: Не показувати у загальних стрічках</string>
     <string name="visibility_public">Публічно: Опублікувати у загальних стрічках</string>
     <string name="dialog_mute_hide_notifications">Сховати сповіщення</string>
-    <string name="dialog_mute_warning">Приховати @%s\?</string>
-    <string name="dialog_block_warning">Заблокувати @%s\?</string>
+    <string name="dialog_mute_warning">Приховати @%1$s\?</string>
+    <string name="dialog_block_warning">Заблокувати @%1$s\?</string>
     <string name="mute_domain_warning_dialog_ok">Сховати весь домен</string>
-    <string name="mute_domain_warning">Ви впевнені, що хочете заблокувати все з %s\? Ви не побачите вміст із цього домену в жодних загальнодоступних стрічках або у своїх сповіщеннях. Ваших підписників з цього домену буде видалено.</string>
+    <string name="mute_domain_warning">Ви впевнені, що хочете заблокувати все з %1$s\? Ви не побачите вміст із цього домену в жодних загальнодоступних стрічках або у своїх сповіщеннях. Ваших підписників з цього домену буде видалено.</string>
     <string name="dialog_redraft_post_warning">Видалити й переписати цей допис\?</string>
     <string name="dialog_delete_post_warning">Видалити цей допис\?</string>
     <string name="dialog_unfollow_warning">Не стежити за цим обліковим записом\?</string>
@@ -429,7 +429,7 @@
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
     <string name="hint_display_name">Показуване ім\'я</string>
-    <string name="confirmation_domain_unmuted">%s показано</string>
+    <string name="confirmation_domain_unmuted">%1$s показано</string>
     <string name="confirmation_unmuted">Приховування користувача скасовано</string>
     <string name="confirmation_unblocked">Користувача розблоковано</string>
     <string name="send_media_to">Поділитися медіа з…</string>
@@ -437,7 +437,7 @@
     <string name="send_post_link_to">Поділитися URL-адресою допису з…</string>
     <string name="downloading_media">Завантаження медіа</string>
     <string name="download_media">Завантажити медіа</string>
-    <string name="action_open_media_n">Відкрити медіа #%d</string>
+    <string name="action_open_media_n">Відкрити медіа #%1$d</string>
     <string name="hashtags">Хештеги</string>
     <string name="action_hashtags">Хештеги</string>
     <string name="title_hashtags_dialog">Хештеги</string>
@@ -449,7 +449,7 @@
     <string name="draft_deleted">Чернетку видалено</string>
     <string name="drafts_failed_loading_reply">Не вдалося завантажити дані відповіді</string>
     <string name="drafts_post_failed_to_send">Не вдалося надіслати цей допис!</string>
-    <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %s\?</string>
+    <string name="dialog_delete_list_warning">Ви дійсно хочете видалити список %1$s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Ви не можете завантажити більше ніж %1$d медіавкладення.</item>
         <item quantity="few">Ви не можете завантажити більше ніж %1$d медіавкладення.</item>
@@ -469,14 +469,14 @@
     <string name="no_announcements">Оголошень немає.</string>
     <string name="no_scheduled_posts">Немає запланованих дописів.</string>
     <string name="no_drafts">У вас немає чернеток.</string>
-    <string name="post_lookup_error_format">Помилка пошуку допису %s</string>
+    <string name="post_lookup_error_format">Помилка пошуку допису %1$s</string>
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати анонімізовану копію звіту й туди\?</string>
     <string name="report_description_1">Скаргу буде надіслано вашому модератору сервера. Ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис знизу:</string>
     <string name="failed_fetch_posts">Не вдалося отримати дописи</string>
-    <string name="report_remote_instance">Переслати до %s</string>
-    <string name="compose_preview_image_description">Дії для зображення %s</string>
+    <string name="report_remote_instance">Переслати до %1$s</string>
+    <string name="compose_preview_image_description">Дії для зображення %1$s</string>
     <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
     <string name="compose_shortcut_long_label">Створити допис</string>
     <string name="filter_apply">Застосувати</string>
@@ -492,10 +492,10 @@
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Поширено</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> поширення</item>
-        <item quantity="few"><b>%s</b> поширення</item>
-        <item quantity="many"><b>%s</b> поширень</item>
-        <item quantity="other"><b>%s</b> поширень</item>
+        <item quantity="one"><b>%1$s</b> поширення</item>
+        <item quantity="few"><b>%1$s</b> поширення</item>
+        <item quantity="many"><b>%1$s</b> поширень</item>
+        <item quantity="other"><b>%1$s</b> поширень</item>
     </plurals>
     <string name="pin_action">Прикріпити</string>
     <string name="unpin_action">Відкріпити</string>
@@ -524,11 +524,11 @@
     <string name="duration_180_days">180 днів</string>
     <string name="duration_365_days">365 днів</string>
     <string name="tusky_compose_post_quicksetting_label">Створити допис</string>
-    <string name="notification_sign_up_format">%s реєструється</string>
+    <string name="notification_sign_up_format">%1$s реєструється</string>
     <string name="pref_title_notification_filter_sign_ups">хтось реєструється</string>
     <string name="notification_sign_up_name">Реєстрації</string>
     <string name="notification_sign_up_description">Сповіщення про нових користувачів</string>
-    <string name="notification_update_format">%s редагує свій допис</string>
+    <string name="notification_update_format">%1$s редагує свій допис</string>
     <string name="pref_title_notification_filter_updates">допис, з яким у мене була взаємодія, відредаговано</string>
     <string name="notification_update_description">Сповіщення, коли редагується повідомлення, з яким ви взаємодіяли</string>
     <string name="notification_update_name">Редакції допису</string>
@@ -546,10 +546,10 @@
     <string name="status_count_one_plus">1+</string>
     <string name="error_image_edit_failed">Неможливо редагувати зображення.</string>
     <string name="error_loading_account_details">Не вдалося завантажити подробиці облікового запису</string>
-    <string name="error_following_hashtag_format">Помилка підписки на #%s</string>
-    <string name="error_multimedia_size_limit">Розмір відео та аудіофайлів не може перевищувати %s Мб.</string>
-    <string name="error_unfollowing_hashtag_format">Помилка скасування підписки на #%s</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_following_hashtag_format">Помилка підписки на #%1$s</string>
+    <string name="error_multimedia_size_limit">Розмір відео та аудіофайлів не може перевищувати %1$s Мб.</string>
+    <string name="error_unfollowing_hashtag_format">Помилка скасування підписки на #%1$s</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="description_post_language">Мова допису</string>
     <string name="duration_no_change">(Не змінено)</string>
     <string name="action_set_focus">Налаштувати точку фокусування</string>
@@ -559,22 +559,22 @@
     <string name="pref_show_self_username_never">Ніколи</string>
     <string name="pref_title_show_self_username">Показувати ім\'я користувача на панелях інструментів</string>
     <string name="delete_scheduled_post_warning">Видалити цей запланований допис\?</string>
-    <string name="instance_rule_info">Увійшовши, ви погоджуєтесь з правилами %s.</string>
-    <string name="instance_rule_title">Правила %s</string>
+    <string name="instance_rule_info">Увійшовши, ви погоджуєтесь з правилами %1$s.</string>
+    <string name="instance_rule_title">Правила %1$s</string>
     <string name="failed_to_pin">Не вдалося прикріпити</string>
     <string name="failed_to_unpin">Не вдалося відкріпити</string>
     <string name="compose_save_draft_loses_media">Зберегти чернетку\? (Вкладення будуть завантажені знову, коли ви відновите чернетку.)</string>
     <string name="action_add_reaction">додати реакцію</string>
-    <string name="notification_report_format">Нова скарга %s</string>
+    <string name="notification_report_format">Нова скарга %1$s</string>
     <string name="report_category_violation">Порушення правил</string>
     <string name="action_add_or_remove_from_list">Додати або вилучити зі списку</string>
     <string name="failed_to_add_to_list">Не вдалося додати обліковий запис до списку</string>
     <string name="failed_to_remove_from_list">Не вдалося вилучити обліковий запис зі списку</string>
-    <string name="action_unfollow_hashtag_format">Не слідкувати за #%s\?</string>
+    <string name="action_unfollow_hashtag_format">Не слідкувати за #%1$s\?</string>
     <string name="status_created_at_now">зараз</string>
-    <string name="notification_header_report_format">%s скаржиться %s</string>
-    <string name="notification_summary_report_format">%s · %d прикріплених дописів</string>
-    <string name="confirmation_hashtag_unfollowed">#%s не відстежується</string>
+    <string name="notification_header_report_format">%1$s скаржиться %2$s</string>
+    <string name="notification_summary_report_format">%1$s · %2$d прикріплених дописів</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s не відстежується</string>
     <string name="pref_title_notification_filter_reports">з\'явилася нова скарга</string>
     <string name="notification_report_name">Скарги</string>
     <string name="notification_report_description">Сповіщення про звіти про модерацію</string>
@@ -584,13 +584,13 @@
     <string name="error_following_hashtags_unsupported">Цей сервер не підтримує слідкування за хештегами.</string>
     <string name="title_followed_hashtags">Відстежувані хештеги</string>
     <string name="pref_default_post_language">Типова мова дописів</string>
-    <string name="language_display_name_format">%s (%s)</string>
-    <string name="post_edited">Змінено %s</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
+    <string name="post_edited">Змінено %1$s</string>
     <string name="description_post_edited">Змінено</string>
-    <string name="error_muting_hashtag_format">Помилка приховування #%s</string>
-    <string name="error_unmuting_hashtag_format">Помилка увімкнення сповіщень #%s</string>
+    <string name="error_muting_hashtag_format">Помилка приховування #%1$s</string>
+    <string name="error_unmuting_hashtag_format">Помилка увімкнення сповіщень #%1$s</string>
     <string name="hint_media_description_missing">Медіа повинні мати опис.</string>
-    <string name="pref_title_http_proxy_port_message">Порт повинен бути між %d і %d</string>
+    <string name="pref_title_http_proxy_port_message">Порт повинен бути між %1$d і %2$d</string>
     <string name="error_status_source_load">Не вдалося завантажити джерело стану з сервера.</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_discard">Відкинути зміни</string>
@@ -634,17 +634,17 @@
     <string name="notification_unknown_name">Невідомо</string>
     <string name="socket_timeout_exception">Надто тривала спроба з\'єднання з вашим сервером</string>
     <string name="ui_error_unknown">невідома причина</string>
-    <string name="ui_error_bookmark">Не вдалося додати допис до закладок: %s</string>
-    <string name="ui_error_clear_notifications">Не вдалося очистити сповіщення: %s</string>
-    <string name="ui_error_favourite">Не вдалося вподобати допис: %s</string>
-    <string name="ui_error_reblog">Не вдалося поширити допис: %s</string>
-    <string name="ui_error_vote">Не вдалося проголосувати: %s</string>
-    <string name="ui_error_accept_follow_request">Не вдалося погодити запит на стеження: %s</string>
-    <string name="ui_error_reject_follow_request">Не вдалося відхилити запит на стеження: %s</string>
+    <string name="ui_error_bookmark">Не вдалося додати допис до закладок: %1$s</string>
+    <string name="ui_error_clear_notifications">Не вдалося очистити сповіщення: %1$s</string>
+    <string name="ui_error_favourite">Не вдалося вподобати допис: %1$s</string>
+    <string name="ui_error_reblog">Не вдалося поширити допис: %1$s</string>
+    <string name="ui_error_vote">Не вдалося проголосувати: %1$s</string>
+    <string name="ui_error_accept_follow_request">Не вдалося погодити запит на стеження: %1$s</string>
+    <string name="ui_error_reject_follow_request">Не вдалося відхилити запит на стеження: %1$s</string>
     <string name="ui_success_accepted_follow_request">Запит на стеження погоджено</string>
     <string name="ui_success_rejected_follow_request">Запит на стеження заблоковано</string>
     <string name="status_filtered_show_anyway">Усе одно показати</string>
-    <string name="status_filter_placeholder_label_format">Відфільтровано: %s</string>
+    <string name="status_filter_placeholder_label_format">Відфільтровано: %1$s</string>
     <string name="pref_title_account_filter_keywords">Профілі</string>
     <string name="label_filter_title">Заголовок</string>
     <string name="filter_action_warn">Попередження</string>
@@ -655,10 +655,10 @@
     <string name="label_filter_context">Фільтрувати контексти</string>
     <string name="label_filter_keywords">Ключові слова або фрази для фільтрування</string>
     <string name="action_add">Додати</string>
-    <string name="filter_keyword_display_format">%s (ціле слово)</string>
+    <string name="filter_keyword_display_format">%1$s (ціле слово)</string>
     <string name="filter_keyword_addition_title">Додати ключове слово</string>
     <string name="filter_edit_keyword_title">Змінити ключове слово</string>
-    <string name="filter_description_format">%s: %s</string>
+    <string name="filter_description_format">%1$s: %2$s</string>
     <string name="hint_filter_title">Мій фільтр</string>
     <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
     <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
@@ -676,14 +676,14 @@
     <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому вони не можуть бути вам показані.
 \n
 \nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
-    <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %s</string>
+    <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %1$s</string>
     <string name="about_device_info_title">Ваш пристрій</string>
-    <string name="about_device_info">%s %s
-\nВерсія Android: %s
-\nВерсія SDK: %d</string>
+    <string name="about_device_info">%1$s %2$s
+\nВерсія Android: %3$s
+\nВерсія SDK: %4$d</string>
     <string name="about_account_info_title">Ваш обліковий запис</string>
-    <string name="about_account_info">\@%s@%s
-\nВерсія: %s</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nВерсія: %3$s</string>
     <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
@@ -692,7 +692,7 @@
 \nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів.
 \n
 \nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. </string>
-    <string name="error_media_playback">Не вдалося відтворити: %s</string>
+    <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
     <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
     <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
@@ -701,11 +701,11 @@
 \nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте.
 \n
 \nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
-    <string name="muting_hashtag_success_format">Ігнорувати хештег #%s як попередження</string>
-    <string name="unmuting_hashtag_success_format">Перестати ігнорувати #%s</string>
+    <string name="muting_hashtag_success_format">Ігнорувати хештег #%1$s як попередження</string>
+    <string name="unmuting_hashtag_success_format">Перестати ігнорувати #%1$s</string>
     <string name="action_view_filter">Переглянути фільтр</string>
-    <string name="following_hashtag_success_format">Хештег #%s відстежується</string>
-    <string name="unfollowing_hashtag_success_format">Хештег #%s більше не відстежується</string>
+    <string name="following_hashtag_success_format">Хештег #%1$s відстежується</string>
+    <string name="unfollowing_hashtag_success_format">Хештег #%1$s більше не відстежується</string>
     <string name="error_blocking_domain">Не вдається ігнорувати %1$s: %2$s</string>
     <string name="error_unblocking_domain">Не вдалося перестати ігнорувати %1$s: %2$s</string>
     <string name="label_image">Зображення</string>
@@ -725,5 +725,5 @@
     <string name="action_show_original">Показати оригінал</string>
     <string name="label_translating">Перекладається…</string>
     <string name="label_translated">Перекладено з %1$s на %2$s</string>
-    <string name="ui_error_translate">Неможливо перекласти: %s</string>
+    <string name="ui_error_translate">Неможливо перекласти: %1$s</string>
 </resources>

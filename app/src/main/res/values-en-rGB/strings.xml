@@ -14,7 +14,7 @@
     <string name="action_view_favourites">Favourites</string>
     <string name="action_unfavourite">Remove favourite</string>
     <string name="action_favourite">Favourite</string>
-    <string name="notification_favourite_format">%s favourited your post</string>
+    <string name="notification_favourite_format">%1$s favourited your post</string>
     <string name="title_favourites">Favourites</string>
     <string name="error_authorization_denied">Authorisation was denied. If you\'re sure that you supplied the correct credentials, try Login in Browser from the menu.</string>
     <string name="error_authorization_unknown">An unidentified authorisation error occurred.</string>
