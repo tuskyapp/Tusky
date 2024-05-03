@@ -33,11 +33,13 @@ fun ComponentActivity.overrideActivityTransitionCompat(
         if (overrideType == ActivityConstants.OVERRIDE_TRANSITION_OPEN) {
             overridePendingTransition(enterAnim, exitAnim)
         } else {
-            lifecycle.addObserver(LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_PAUSE && isFinishing) {
-                    overridePendingTransition(enterAnim, exitAnim)
+            lifecycle.addObserver(
+                LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_PAUSE && isFinishing) {
+                        overridePendingTransition(enterAnim, exitAnim)
+                    }
                 }
-            })
+            )
         }
     }
 }
