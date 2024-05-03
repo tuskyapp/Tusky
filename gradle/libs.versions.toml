@@ -1,13 +1,13 @@
 [versions]
-agp = "8.3.2"
-androidx-activity = "1.8.2"
+agp = "8.4.0"
+androidx-activity = "1.9.0"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.8.0"
 androidx-cardview = "1.0.0"
 androidx-constraintlayout = "2.1.4"
-androidx-core = "1.12.0"
+androidx-core = "1.13.1"
 androidx-exifinterface = "1.3.7"
-androidx-fragment = "1.6.2"
+androidx-fragment = "1.7.0"
 androidx-junit = "1.1.5"
 androidx-lifecycle = "2.7.0"
 androidx-media3 = "1.3.1"
@@ -34,7 +34,7 @@ glide = "4.16.0"
 glide-animation-plugin = "2.23.0"
 kotlin = "1.9.23"
 image-cropper = "4.3.2"
-material = "1.11.0"
+material = "1.12.0"
 material-drawer = "8.4.5"
 material-typeface = "4.0.0.2-kotlin"
 mockito-inline = "5.2.0"
@@ -62,7 +62,7 @@ ktlint = "org.jlleitschuh.gradle.ktlint:12.1.0"
 
 [libraries]
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }

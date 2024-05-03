@@ -13,12 +13,15 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.db
+package com.keylesspalace.tusky.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Upsert
+import com.keylesspalace.tusky.db.entity.EmojisEntity
+import com.keylesspalace.tusky.db.entity.InstanceEntity
+import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
 
 @Dao
 interface InstanceDao {

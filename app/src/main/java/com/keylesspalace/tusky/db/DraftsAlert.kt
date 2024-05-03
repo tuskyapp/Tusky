@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
+import com.keylesspalace.tusky.db.dao.DraftDao
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.launch

@@ -126,7 +126,7 @@ data class ConversationStatusEntity(
                 visibility = Status.Visibility.DIRECT,
                 attachments = attachments,
                 mentions = mentions,
-                tags = tags,
+                tags = tags.orEmpty(),
                 application = null,
                 pinned = false,
                 muted = muted,
@@ -148,7 +148,7 @@ fun TimelineAccount.toEntity() = ConversationAccountEntity(
     username = username,
     displayName = name,
     avatar = avatar,
-    emojis = emojis.orEmpty()
+    emojis = emojis
 )
 
 fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) =

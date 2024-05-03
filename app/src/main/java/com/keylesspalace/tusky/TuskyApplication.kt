@@ -22,7 +22,7 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.di.AppInjector
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.NEW_INSTALL_SCHEMA_VERSION
@@ -125,12 +125,6 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
             editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
             editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
-        }
-
-        if (oldVersion < 2023072401) {
-            // The notifications filter / clear options are shown on a menu, not a separate bar,
-            // the preference to display them is not needed.
-            editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
         }
 
         if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {

@@ -69,7 +69,7 @@
 \n https://tusky.app</string>
     <string name="about_tusky_license">टस्की स्वतंत्र और ओपन-सोर्स सॉफ्टवेयर है। यह GNU जनरल पब्लिक लाइसेंस संस्करण 3 के तहत लाइसेंस प्राप्त है। आप लाइसेंस यहां देख सकते हैं: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">टस्की द्वारा संचालित</string>
-    <string name="about_tusky_version">टस्की %s</string>
+    <string name="about_tusky_version">टस्की %1$s</string>
     <string name="description_account_locked">बंद खाता</string>
     <string name="notification_summary_small">%1$s तथा %2$s</string>
     <string name="notification_summary_medium">%1$s, %2$s, तथा %3$s</string>
@@ -115,7 +115,7 @@
     <string name="visibility_private">केवल फ़ॉलोअर के लिए : केवल फ़ॉलोअर के लिए पोस्ट करें</string>
     <string name="visibility_unlisted">असूचीबद्ध: सार्वजनिक टाइमलाइन में न दिखाएं</string>
     <string name="visibility_public">सार्वजनिक: सार्वजनिक टाइमलाइन पर पोस्ट करें</string>
-    <string name="dialog_mute_warning">म्यूट @%s\?</string>
+    <string name="dialog_mute_warning">म्यूट @%1$s\?</string>
     <string name="mute_domain_warning_dialog_ok">संपूर्ण डोमेन छिपाएं</string>
     <string name="dialog_download_image">डाउनलोड</string>
     <string name="dialog_message_uploading_media">अपलोड हो रहा है…</string>
@@ -134,7 +134,7 @@
     <string name="download_media">मीडिया डाउनलोड करें</string>
     <string name="title_links_dialog">लिंक</string>
     <string name="action_copy_link">लिंक कॉपी करें</string>
-    <string name="action_open_media_n">मीडिया खोलें #%d</string>
+    <string name="action_open_media_n">मीडिया खोलें #%1$d</string>
     <string name="title_mentions_dialog">ज़िक्र</string>
     <string name="title_hashtags_dialog">हैशटैग</string>
     <string name="action_open_faved_by">पसंदीदा दिखाएँ</string>
@@ -155,10 +155,10 @@
     <string name="action_hide_media">मीडिया छिपाओ</string>
     <string name="action_mention">ज़िक्र</string>
     <string name="action_unmute_conversation">बातचीत को अनम्यूट करें</string>
-    <string name="action_unmute_domain">अनम्यूट %s</string>
+    <string name="action_unmute_domain">अनम्यूट %1$s</string>
     <string name="action_unmute">अनम्यूट</string>
     <string name="action_mute">म्यूट</string>
-    <string name="action_mute_domain">म्यूट %s</string>
+    <string name="action_mute_domain">म्यूट %1$s</string>
     <string name="action_mute_conversation">बातचीत को म्यूट करें</string>
     <string name="action_share">शेयर</string>
     <string name="action_photo_take">फोटो खींचिए</string>
@@ -170,9 +170,9 @@
     <string name="action_reblog">बढ़ावा दें</string>
     <string name="action_quick_reply">तुरंत जवाब</string>
     <string name="report_comment_hint">अतिरिक्त टिप्पणियां\?</string>
-    <string name="report_username_format">रिपोर्ट @%s</string>
-    <string name="notification_favourite_format">%s ने आपके टूट को पसंद किया</string>
-    <string name="notification_reblog_format">%s ने आपके टूट को बढावा दिया</string>
+    <string name="report_username_format">रिपोर्ट @%1$s</string>
+    <string name="notification_favourite_format">%1$s ने आपके टूट को पसंद किया</string>
+    <string name="notification_reblog_format">%1$s ने आपके टूट को बढावा दिया</string>
     <string name="footer_empty">यहाँ कुछ नहीं। ताज़ा करने के लिए नीचे खींचो!</string>
     <string name="message_empty">यहाँ कुछ नहीं।</string>
     <string name="post_content_warning_show_less">कम दिखाएं</string>
@@ -180,7 +180,7 @@
     <string name="post_sensitive_media_directions">देखने के लिए क्लिक करें</string>
     <string name="post_media_hidden_title">मीडिया छिपा हुआ</string>
     <string name="post_sensitive_media_title">संवेदनशील विषय वस्तु</string>
-    <string name="post_username_format">\@%s</string>
+    <string name="post_username_format">\@%1$s</string>
     <string name="title_licenses">लाइसेंस</string>
     <string name="title_view_thread">टूट</string>
     <string name="title_scheduled_posts">अनुसूचित टूट</string>
@@ -193,7 +193,7 @@
     <string name="title_public_local">स्थानीय</string>
     <string name="title_notifications">सूचनाएं</string>
     <string name="add_poll_choice">विकल्प जोड़ें</string>
-    <string name="poll_new_choice_hint">विकल्प %d</string>
+    <string name="poll_new_choice_hint">विकल्प %1$d</string>
     <string name="poll_allow_multiple_choices">कई विकल्प</string>
     <string name="duration_7_days">7 दिन</string>
     <string name="duration_3_days">3 दिन</string>
@@ -203,23 +203,23 @@
     <string name="duration_30_min">30 मिनिट</string>
     <string name="duration_5_min">5 मिनट</string>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d घंटा शेष</item>
-        <item quantity="other">%d घंटे शेष</item>
+        <item quantity="one">%1$d घंटा शेष</item>
+        <item quantity="other">%1$d घंटे शेष</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d दिन शेष</item>
-        <item quantity="other">%d दिन शेष</item>
+        <item quantity="one">%1$d दिन शेष</item>
+        <item quantity="other">%1$d दिन शेष</item>
     </plurals>
     <string name="poll_ended_created">आपके द्वारा बनाया गया एक जनमत समाप्त हो गया है</string>
     <string name="poll_ended_voted">आपके द्वारा मतदान किया गया जनमत समाप्त हो गया है</string>
-    <string name="poll_info_time_absolute">%s समाप्त होगा</string>
+    <string name="poll_info_time_absolute">%1$s समाप्त होगा</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s व्यक्ति</item>
-        <item quantity="other">%s लोग</item>
+        <item quantity="one">%1$s व्यक्ति</item>
+        <item quantity="other">%1$s लोग</item>
     </plurals>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s वोट</item>
-        <item quantity="other">%s वोट</item>
+        <item quantity="one">%1$s वोट</item>
+        <item quantity="other">%1$s वोट</item>
     </plurals>
     <string name="hashtags">हैशटैग</string>
     <string name="poll_info_format"> <!-- 15 वोट • 1 घंटा बाकी --> %1$s • %2$s</string>
@@ -227,7 +227,7 @@
     <string name="description_post_bookmarked">बुकमार्क किया हुआ</string>
     <string name="hint_list_name">सूची का नाम</string>
     <string name="description_post_media_no_description_placeholder">कोई विवरण नहीं</string>
-    <string name="description_post_media">मीडिया: %s</string>
+    <string name="description_post_media">मीडिया: %1$s</string>
     <string name="profile_metadata_add">जानकारी जोड़ें</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -252,16 +252,16 @@
     <string name="pref_title_show_cards_in_timelines">टाइमलाइन में लिंक प्रीव्यू दिखाएं</string>
     <string name="warning_scheduling_interval">मास्टोडन का न्यूनतम शेड्यूलिंग अंतराल 5 मिनट है।</string>
     <string name="no_drafts">आपके पास कोई ड्राफ्ट नहीं है।</string>
-    <string name="post_lookup_error_format">%s पोस्ट खोजने में त्रुटि</string>
+    <string name="post_lookup_error_format">%1$s पोस्ट खोजने में त्रुटि</string>
     <string name="pref_title_enable_swipe_for_tabs">टैब के बीच स्विच करने के लिए स्वाइप जेस्चर को सक्षम करें</string>
     <string name="failed_search">खोज करने में विफल</string>
     <string name="report_description_remote_instance">खाता किसी अन्य सर्वर से है। रिपोर्ट की अनाम प्रति वहां भी भेजें\?</string>
     <string name="report_description_1">रिपोर्ट आपके सर्वर मॉडरेटर को भेजी जाएगी। आप इस बारे में स्पष्टीकरण दे सकते हैं कि आप इस खाते को रिपोर्ट क्यों कर रहे हैं:</string>
     <string name="failed_report">रिपोर्ट करने में विफल</string>
-    <string name="report_remote_instance">%s को आगे भेजें</string>
+    <string name="report_remote_instance">%1$s को आगे भेजें</string>
     <string name="hint_additional_info">अतिरिक्त टिप्पणियां</string>
-    <string name="report_sent_success">\@%s सफलतापूर्वक रिपोर्ट किए गए</string>
-    <string name="compose_preview_image_description">तस्वीरों के लिए क्रिया %s</string>
+    <string name="report_sent_success">\@%1$s सफलतापूर्वक रिपोर्ट किए गए</string>
+    <string name="compose_preview_image_description">तस्वीरों के लिए क्रिया %1$s</string>
     <string name="notification_clear_text">क्या आप अपनी सभी सूचनाओं को स्थायी रूप से साफ़ करना चाहते हैं\?</string>
     <string name="compose_shortcut_long_label">टूट लिखें</string>
     <string name="filter_apply">लागू करें</string>
@@ -272,13 +272,13 @@
     <string name="description_visibility_direct">प्रत्यक्ष</string>
     <string name="description_visibility_unlisted">असूचीबद्ध</string>
     <string name="description_visibility_public">सार्वजनिक</string>
-    <string name="description_post_cw">विषय वस्तु चेतावनी: %s</string>
+    <string name="description_post_cw">विषय वस्तु चेतावनी: %1$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s तथा %3$d अन्य लोग</string>
     <string name="conversation_2_recipients">%1$s तथा %2$s</string>
     <string name="conversation_1_recipients">%1$s</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> ने बढ़ावा दिया</item>
-        <item quantity="other"><b>%s</b> ने बढ़ावा दिया</item>
+        <item quantity="one"><b>%1$s</b> ने बढ़ावा दिया</item>
+        <item quantity="other"><b>%1$s</b> ने बढ़ावा दिया</item>
     </plurals>
     <string name="pin_action">पिन</string>
     <string name="unpin_action">अनपिन</string>
@@ -303,7 +303,7 @@
     <string name="action_remove">हटा दें</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="other">दृष्टिहीन लोगों के लिए वर्णन करें
-\n(%d वर्ण सीमा)</item>
+\n(%1$d वर्ण सीमा)</item>
     </plurals>
     <string name="compose_active_account_description">%1$s खाते के साथ पोस्ट कर रहे</string>
     <string name="action_remove_from_list">सूची से खाता निकालें</string>
@@ -320,7 +320,7 @@
     <string name="filter_dialog_whole_word_description">जब संकेत शब्द या वाक्यांश केवल अल्फ़ान्यूमेरिक होता है, तो यह केवल तभी लागू होगा जब यह पूरे शब्द से मेल खाता होगा</string>
     <string name="filter_dialog_update_button">अपडेट करें</string>
     <string name="pref_title_thread_filter_keywords">संवाद</string>
-    <string name="replying_to">\@%s को जवाब दे रहे है</string>
+    <string name="replying_to">\@%1$s को जवाब दे रहे है</string>
     <string name="title_media">मीडिया</string>
     <string name="pref_title_alway_show_sensitive_media">संवेदनशील विषय वस्तु</string>
     <string name="follows_you">आपको फॉलो करते है</string>
@@ -330,7 +330,7 @@
     <string name="post_media_images">तस्वीरें</string>
     <string name="post_share_link">टूट का लिंक साझा करें</string>
     <string name="post_share_content">टूट की विषय वस्तु साझा करें</string>
-    <string name="notification_mention_format">%s ने आपका जिक्र किया</string>
+    <string name="notification_mention_format">%1$s ने आपका जिक्र किया</string>
     <string name="notification_poll_description">जनमत खत्म होने के बारे में सूचनाएं</string>
     <string name="notification_favourite_description">सूचनाएं जब आपके टूट पसंद किये जाये</string>
     <string name="notification_follow_request_description">फ़ॉलो अनुरोध के बारे में सूचनाएं</string>
@@ -350,7 +350,7 @@
     <string name="pref_title_notification_filter_favourites">मेरे पोस्ट पसंद किए गए</string>
     <string name="pref_title_notification_alerts">सूचनाएं</string>
     <string name="dialog_mute_hide_notifications">सूचनाएं छिपाएं</string>
-    <string name="dialog_block_warning">ब्लॉक @%s\?</string>
+    <string name="dialog_block_warning">ब्लॉक @%1$s\?</string>
     <string name="dialog_title_finishing_media_upload">मीडिया अपलोड समाप्त हो रहा</string>
     <string name="confirmation_unmuted">उपयोगकर्ता अनम्यूट किए गए</string>
     <string name="confirmation_unblocked">उपयोगकर्ता अनब्लॉक किए गए</string>
@@ -358,10 +358,10 @@
     <string name="send_post_content_to">टूट को साझा करें …</string>
     <string name="send_post_link_to">टूट यूआरएल को साझा करें …</string>
     <string name="action_share_as">साझा करें …</string>
-    <string name="action_open_as">%s के रूप में खोलें</string>
+    <string name="action_open_as">%1$s के रूप में खोलें</string>
     <string name="download_image">%1$s डाउनलोड हो रहा है</string>
     <string name="action_links">लिंक</string>
-    <string name="action_unmute_desc">अनम्यूट %s</string>
+    <string name="action_unmute_desc">अनम्यूट %1$s</string>
     <string name="action_view_domain_mutes">छिपे हुए डोमेन</string>
     <string name="action_view_blocks">रोके गए उपयोगकर्ता</string>
     <string name="action_view_mutes">म्यूट किए गए उपयोगकर्ता</string>
@@ -380,8 +380,8 @@
     <string name="dialog_unfollow_warning">इस खाते को अनफ़ॉलो करें\?</string>
     <string name="dialog_message_cancel_follow_request">फ़ॉलो अनुरोध को रद्द करें\?</string>
     <string name="action_view_follow_requests">फ़ॉलो अनुरोध</string>
-    <string name="notification_follow_request_format">%s ने आपको फ़ॉलो करने का अनुरोध किया</string>
-    <string name="notification_follow_format">%s ने आपको फ़ॉलो किया</string>
+    <string name="notification_follow_request_format">%1$s ने आपको फ़ॉलो करने का अनुरोध किया</string>
+    <string name="notification_follow_format">%1$s ने आपको फ़ॉलो किया</string>
     <string name="pref_title_show_boosts">बूस्ट दिखाएं</string>
     <string name="action_open_reblogged_by">बूस्ट दिखाएं</string>
     <plurals name="favs">
@@ -389,12 +389,12 @@
         <item quantity="other"><b>%1$s</b> ने पसंद किया</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d सेकेंड शेष</item>
-        <item quantity="other">%d सेकेंड शेष</item>
+        <item quantity="one">%1$d सेकेंड शेष</item>
+        <item quantity="other">%1$d सेकेंड शेष</item>
     </plurals>
     <string name="error_compose_character_limit">पोस्ट बहुत लंबा है!</string>
     <string name="error_failed_app_registration">उस सर्वर से प्रमाणित करने में विफल।</string>
-    <string name="error_multimedia_size_limit">वीडियो और ऑडियो फ़ाइलों का आकार %s एमबी से अधिक नहीं हो सकता है।</string>
+    <string name="error_multimedia_size_limit">वीडियो और ऑडियो फ़ाइलों का आकार %1$s एमबी से अधिक नहीं हो सकता है।</string>
     <string name="error_image_edit_failed">फोटो संपादित नहीं किया जा सका।</string>
     <string name="error_media_upload_image_or_video">फोटो और वीडियो दोनों को एक ही पोस्ट से अटैच नहीं किया जा सकता है।</string>
     <string name="error_loading_account_details">खाता विवरण लोड करने में विफल रहा</string>

@@ -21,7 +21,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceFragmentCompat
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -34,7 +36,7 @@ import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
-import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
+import com.keylesspalace.tusky.components.systemnotifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
@@ -58,9 +60,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
 import javax.inject.Inject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     @Inject
@@ -293,29 +293,21 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     ) {
         // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
 
-        mastodonApi.accountUpdateSource(visibility, sensitive, language)
-            .enqueue(object : Callback<Account> {
-                override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                    val account = response.body()
-                    if (response.isSuccessful && account != null) {
-                        accountManager.activeAccount?.let {
-                            it.defaultPostPrivacy = account.source?.privacy
-                                ?: Status.Visibility.PUBLIC
-                            it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                            it.defaultPostLanguage = language.orEmpty()
-                            accountManager.saveAccount(it)
-                        }
-                    } else {
-                        Log.e("AccountPreferences", "failed updating settings on server")
-                        showErrorSnackbar(visibility, sensitive)
+        viewLifecycleOwner.lifecycleScope.launch {
+            mastodonApi.accountUpdateSource(visibility, sensitive, language)
+                .fold({ account: Account ->
+                    accountManager.activeAccount?.let {
+                        it.defaultPostPrivacy = account.source?.privacy
+                            ?: Status.Visibility.PUBLIC
+                        it.defaultMediaSensitivity = account.source?.sensitive ?: false
+                        it.defaultPostLanguage = language.orEmpty()
+                        accountManager.saveAccount(it)
                     }
-                }
-
-                override fun onFailure(call: Call<Account>, t: Throwable) {
+                }, { t ->
                     Log.e("AccountPreferences", "failed updating settings on server", t)
                     showErrorSnackbar(visibility, sensitive)
-                }
-            })
+                })
+        }
     }
 
     private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
