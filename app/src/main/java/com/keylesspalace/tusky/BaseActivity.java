@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
-import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
 import java.util.ArrayList;
@@ -203,9 +202,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     protected void redirectIfNotLoggedIn() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = LoginActivity.getIntent(this, LoginActivity.MODE_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
+            startActivity(intent);
             finish();
         }
     }
