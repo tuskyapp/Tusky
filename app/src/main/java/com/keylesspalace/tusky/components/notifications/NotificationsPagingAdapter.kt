@@ -44,7 +44,7 @@ interface NotificationActionListener {
 interface NotificationsViewHolder {
     fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     )
 }
@@ -133,7 +133,7 @@ class NotificationsPagingAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        bindViewHolder(viewHolder, position, null)
+        bindViewHolder(viewHolder, position, emptyList())
     }
 
     override fun onBindViewHolder(
@@ -144,7 +144,7 @@ class NotificationsPagingAdapter(
         bindViewHolder(viewHolder, position, payloads)
     }
 
-    private fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>?) {
+    private fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
         getItem(position)?.let { notification ->
             when (notification) {
                 is NotificationViewData.Concrete ->

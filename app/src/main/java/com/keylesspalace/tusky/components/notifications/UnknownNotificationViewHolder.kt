@@ -28,7 +28,7 @@ internal class UnknownNotificationViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         // nothing to do

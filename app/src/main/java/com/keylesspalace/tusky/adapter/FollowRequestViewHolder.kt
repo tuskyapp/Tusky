@@ -46,7 +46,7 @@ class FollowRequestViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         setupWithAccount(

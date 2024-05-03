@@ -33,7 +33,7 @@ class FollowViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         val context = itemView.context

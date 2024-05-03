@@ -32,7 +32,7 @@ internal class StatusViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         val statusViewData = viewData.statusViewData
@@ -40,14 +40,14 @@ internal class StatusViewHolder(
             /* in some very rare cases servers sends null status even though they should not */
             showStatusContent(false)
         } else {
-            if (payloads.isNullOrEmpty()) {
+            if (payloads.isEmpty()) {
                 showStatusContent(true)
             }
             setupWithStatus(
                 statusViewData,
                 statusActionListener,
                 statusDisplayOptions,
-                payloads?.firstOrNull()
+                payloads.firstOrNull()
             )
         }
         if (viewData.type == Notification.Type.POLL) {

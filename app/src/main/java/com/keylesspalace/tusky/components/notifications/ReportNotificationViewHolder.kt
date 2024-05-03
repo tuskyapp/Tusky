@@ -35,7 +35,7 @@ class ReportNotificationViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         val report = viewData.report!!

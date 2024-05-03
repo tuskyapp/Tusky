@@ -70,11 +70,11 @@ internal class StatusNotificationViewHolder(
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
-        payloads: List<*>?,
+        payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
         val statusViewData = viewData.statusViewData
-        if (payloads.isNullOrEmpty()) {
+        if (payloads.isEmpty()) {
             /* in some very rare cases servers sends null status even though they should not */
             if (statusViewData == null) {
                 showNotificationContent(false)
