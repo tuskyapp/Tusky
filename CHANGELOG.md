@@ -42,6 +42,7 @@
 ### Significant bug fixes
 
 - The setting to hide the notification filter bar that was accidentally removed is back. [PR#4225](https://github.com/tuskyapp/Tusky/pull/4225)
+- The profile picture in the bottom navigation bar now has the correct content description. [PR#4400](https://github.com/tuskyapp/Tusky/pull/4400)
 
 ## v24.1
 
