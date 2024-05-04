@@ -6,6 +6,12 @@
 
 ### Significant bug fixes
 
+## v25.1
+
+### Significant bug fixes
+
+- Fixed two crashes at startup introduced in 25.0 [PR#4415](https://github.com/tuskyapp/Tusky/pull/4415) [PR#4417](https://github.com/tuskyapp/Tusky/pull/4417)
+
 ## v25.0
 
 ### New features and other improvements
