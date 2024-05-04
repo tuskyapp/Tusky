@@ -21,11 +21,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.util.Log
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.Person
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountEntity
@@ -49,14 +53,20 @@ class ShareShortcutHelper @Inject constructor(
 
             val maxNumberOfShortcuts = ShortcutManagerCompat.getMaxShortcutCountPerActivity(context)
 
-            val shortcuts = accountManager.accounts.take(maxNumberOfShortcuts).map { account ->
+            val shortcuts = accountManager.accounts.take(maxNumberOfShortcuts).mapNotNull { account ->
 
-                val bmp = Glide.with(context)
-                    .asBitmap()
-                    .load(account.profilePictureUrl)
-                    .placeholder(R.drawable.avatar_default)
-                    .error(R.drawable.avatar_default)
-                    .submitAsync(innerSize, innerSize)
+                val bmp = try {
+                    Glide.with(context)
+                        .asBitmap()
+                        .load(account.profilePictureUrl)
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_default)
+                        .submitAsync(innerSize, innerSize)
+                } catch (e: GlideException) {
+                    // https://github.com/bumptech/glide/issues/4672 :/
+                    Log.w(TAG, "failed to load avatar ${account.profilePictureUrl}", e)
+                    AppCompatResources.getDrawable(context, R.drawable.avatar_default)?.toBitmap(innerSize, innerSize) ?: return@mapNotNull null
+                }
 
                 // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
                 val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
@@ -100,5 +110,9 @@ class ShareShortcutHelper @Inject constructor(
 
     fun removeShortcut(account: AccountEntity) {
         ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(account.id.toString()))
+    }
+
+    companion object {
+        private const val TAG = "ShareShortcutHelper"
     }
 }
