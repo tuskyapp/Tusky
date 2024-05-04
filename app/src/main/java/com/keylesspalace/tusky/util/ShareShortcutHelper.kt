@@ -89,12 +89,11 @@ class ShareShortcutHelper @Inject constructor(
                     .setCategories(setOf("com.keylesspalace.tusky.Share"))
                     .setShortLabel(account.displayName)
                     .setPerson(person)
-                    .setLongLived(true)
                     .setIcon(icon)
                     .build()
             }
 
-            ShortcutManagerCompat.addDynamicShortcuts(context, shortcuts)
+            ShortcutManagerCompat.setDynamicShortcuts(context, shortcuts)
         }
     }
 
