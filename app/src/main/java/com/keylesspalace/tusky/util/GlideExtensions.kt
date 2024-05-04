@@ -8,7 +8,6 @@ import com.bumptech.glide.request.target.Target
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
-import okio.IOException
 
 /**
  * Allows waiting for a Glide request to complete without blocking a background thread.
@@ -26,7 +25,7 @@ suspend fun <R> RequestBuilder<R>.submitAsync(
                     target: Target<R>,
                     isFirstResource: Boolean
                 ): Boolean {
-                    continuation.resumeWithException(e ?: IOException("Image loading failed"))
+                    continuation.resumeWithException(e ?: GlideException("Image loading failed"))
                     return false
                 }
 
