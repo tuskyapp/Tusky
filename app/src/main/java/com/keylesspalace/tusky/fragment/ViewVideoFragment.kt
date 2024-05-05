@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -130,7 +131,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
+        val attachment = arguments?.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
             ?: throw IllegalArgumentException("attachment has to be set")
 
         val url = attachment.url
@@ -377,7 +378,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (!userVisibleHint) {
+        if (view == null) {
             return
         }
 

@@ -25,7 +25,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -34,6 +33,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 
@@ -82,7 +82,7 @@ class CaptionDialog : DialogFragment() {
 
         isCancelable = true
 
-        val previewUri = BundleCompat.getParcelable(requireArguments(), PREVIEW_URI_ARG, Uri::class.java) ?: error("Preview Uri is null")
+        val previewUri = arguments?.getParcelableCompat<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
 
         // Load the image and manually set it into the ImageView because it doesn't have a fixed size.
         Glide.with(this)

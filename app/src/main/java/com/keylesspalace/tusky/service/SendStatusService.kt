@@ -31,7 +31,6 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.IntentCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -52,6 +51,7 @@ import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.unsafeLazy
 import dagger.android.AndroidInjection
 import java.util.concurrent.ConcurrentHashMap
@@ -102,7 +102,7 @@ class SendStatusService : Service(), Injectable {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (intent.hasExtra(KEY_STATUS)) {
-            val statusToSend: StatusToSend = IntentCompat.getParcelableExtra(intent, KEY_STATUS, StatusToSend::class.java)
+            val statusToSend: StatusToSend = intent.getParcelableExtraCompat(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -247,11 +247,11 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
-                mediaAttributes = media.map { media ->
+                mediaAttributes = media.map { mediaItem ->
                     MediaAttribute(
-                        id = media.id!!,
-                        description = media.description,
-                        focus = media.focus?.toMastodonApiString(),
+                        id = mediaItem.id!!,
+                        description = mediaItem.description,
+                        focus = mediaItem.focus?.toMastodonApiString(),
                         thumbnail = null
                     )
                 }
