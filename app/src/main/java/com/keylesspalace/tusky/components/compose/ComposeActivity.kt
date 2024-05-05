@@ -22,8 +22,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.icu.text.BreakIterator
 import android.net.Uri
 import android.os.Build
@@ -50,9 +48,7 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
-import androidx.core.content.IntentCompat
 import androidx.core.content.res.use
-import androidx.core.os.BundleCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -98,6 +94,10 @@ import com.keylesspalace.tusky.util.PickMediaFiles
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
+import com.keylesspalace.tusky.util.getParcelableCompat
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
@@ -284,11 +284,7 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(
-            intent,
-            COMPOSE_OPTIONS_EXTRA,
-            ComposeOptions::class.java
-        )
+        val composeOptions: ComposeOptions? = intent.getParcelableExtraCompat(COMPOSE_OPTIONS_EXTRA)
         viewModel.setup(composeOptions)
 
         setupButtons()
@@ -322,11 +318,9 @@ class ComposeActivity :
 
         /* Finally, overwrite state with data from saved instance state. */
         savedInstanceState?.let {
-            photoUploadUri = BundleCompat.getParcelable(it, PHOTO_UPLOAD_URI_KEY, Uri::class.java)
+            photoUploadUri = it.getParcelableCompat(PHOTO_UPLOAD_URI_KEY)
 
-            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
-                setStatusVisibility(this)
-            }
+            setStatusVisibility(it.getSerializableCompat(VISIBILITY_KEY)!!)
 
             it.getBoolean(CONTENT_WARNING_VISIBLE_KEY).apply {
                 viewModel.contentWarningChanged(this)
@@ -351,22 +345,15 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            IntentCompat.getParcelableExtra(
-                                intent,
-                                Intent.EXTRA_STREAM,
-                                Uri::class.java
-                            )?.let { uri ->
+                            intent.getParcelableExtraCompat<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            IntentCompat.getParcelableArrayListExtra(
-                                intent,
-                                Intent.EXTRA_STREAM,
-                                Uri::class.java
-                            )?.forEach { uri ->
-                                pickMedia(uri)
-                            }
+                            intent.getParcelableArrayListExtraCompat<Uri>(Intent.EXTRA_STREAM)
+                                ?.forEach { uri ->
+                                    pickMedia(uri)
+                                }
                         }
                     }
                 }
@@ -851,7 +838,7 @@ class ComposeActivity :
                     )
                 }
             }
-            binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeHideMediaButton.drawable.setTint(color)
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
@@ -877,7 +864,7 @@ class ComposeActivity :
             } else {
                 getColor(R.color.tusky_blue)
             }
-            binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeScheduleButton.drawable.setTint(color)
         }
     }
 
@@ -1179,7 +1166,7 @@ class ComposeActivity :
             }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
-        binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+        binding.addPollTextActionTextView.compoundDrawablesRelative[0].setTint(textColor)
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
@@ -1270,7 +1257,7 @@ class ComposeActivity :
                 android.R.attr.textColorTertiary
             )
         }
-        binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+        binding.composeContentWarningButton.drawable.setTint(color)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

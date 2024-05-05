@@ -18,7 +18,6 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.InputFilter
@@ -175,7 +174,7 @@ internal class StatusNotificationViewHolder(
         @ColorRes color: Int
     ): Drawable? {
         val icon = ContextCompat.getDrawable(context, drawable)
-        icon?.setColorFilter(context.getColor(color), PorterDuff.Mode.SRC_ATOP)
+        icon?.setTint(context.getColor(color))
         return icon
     }
 

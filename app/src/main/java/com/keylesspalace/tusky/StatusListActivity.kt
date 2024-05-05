@@ -216,8 +216,8 @@ class StatusListActivity : BottomSheetActivity() {
                                 }
                                 updateTagMuteState(mutedFilterV1 != null)
                             },
-                            { throwable ->
-                                Log.e(TAG, "Error getting filters: $throwable")
+                            { throwable2 ->
+                                Log.e(TAG, "Error getting filters: $throwable2")
                             }
                         )
                     } else {
@@ -289,13 +289,13 @@ class StatusListActivity : BottomSheetActivity() {
                                 eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
                                 filterCreateSuccess = true
                             },
-                            { throwable ->
+                            { throwable2 ->
                                 Snackbar.make(
                                     binding.root,
                                     getString(R.string.error_muting_hashtag_format, tag),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
-                                Log.e(TAG, "Failed to mute #$tag", throwable)
+                                Log.e(TAG, "Failed to mute #$tag", throwable2)
                             }
                         )
                     } else {

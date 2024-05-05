@@ -317,7 +317,7 @@
     <string name="action_open_reblogger">Megtolás szerkesztő megnyitása</string>
     <string name="action_open_reblogged_by">Megtolások megjelenítése</string>
     <string name="confirmation_domain_unmuted">%1$s elrejtése feloldva</string>
-    <string name="mute_domain_warning">Biztos, hogy az egész %s domaint le akarod tiltani\? Egyetlen nyilvános idővonalon sem fogsz látni semmilyen tartalmat vagy értesítést innen. Az ebből a domainből származó követőidet el fogjuk távolítani.</string>
+    <string name="mute_domain_warning">Biztos, hogy az egész %s domaint le akarod tiltani? Egyetlen nyilvános idővonalon sem fogsz látni semmilyen tartalmat vagy értesítést innen. Az ebből a domainből származó követőidet el fogjuk távolítani.</string>
     <string name="mute_domain_warning_dialog_ok">Teljes domain elrejtése</string>
     <string name="pref_title_app_theme">Alkalmazástéma</string>
     <string name="pref_title_bot_overlay">Botok jelölőjének megjelenítése</string>

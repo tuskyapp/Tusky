@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -83,7 +84,7 @@ class AccountListFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = requireArguments().getSerializable(ARG_TYPE) as Type
+        type = requireArguments().getSerializableCompat(ARG_TYPE)!!
         id = requireArguments().getString(ARG_ID)
     }
 
@@ -244,12 +245,12 @@ class AccountListFragment :
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
+    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(accountId)
+                api.authorizeFollowRequest(id)
             } else {
-                api.rejectFollowRequest(accountId)
+                api.rejectFollowRequest(id)
             }.fold(
                 onSuccess = {
                     onRespondToFollowRequestSuccess(position)
@@ -260,7 +261,7 @@ class AccountListFragment :
                     } else {
                         "reject"
                     }
-                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                    Log.e(TAG, "Failed to $verb account id $id.", throwable)
                 }
             )
         }

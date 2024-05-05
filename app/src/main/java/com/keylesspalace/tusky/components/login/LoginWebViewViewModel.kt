@@ -51,11 +51,11 @@ class LoginWebViewViewModel @Inject constructor(
                                 { instance ->
                                     _instanceRules.value = instance.rules.map { rule -> rule.text }
                                 },
-                                { throwable ->
+                                { throwable2 ->
                                     Log.w(
                                         "LoginWebViewViewModel",
                                         "failed to load instance info",
-                                        throwable
+                                        throwable2
                                     )
                                 }
                             )

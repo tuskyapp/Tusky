@@ -108,7 +108,6 @@ class PreferencesActivity :
             pref.fragment!!
         )
         fragment.arguments = args
-        fragment.setTargetFragment(caller, 0)
         supportFragmentManager.commit {
             setCustomAnimations(
                 R.anim.activity_open_enter,
