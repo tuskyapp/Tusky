@@ -68,9 +68,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @NonNull
     public AccountManager accountManager;
 
-    // For testing purposes only
+    /**
+     * Allows overriding the default ViewModelProvider.Factory for testing purposes.
+     */
     @Nullable
-    public ViewModelProvider.Factory viewModelProviderFactory;
+    public ViewModelProvider.Factory viewModelProviderFactory = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
