@@ -17,9 +17,10 @@ package com.keylesspalace.tusky.service
 
 import android.content.Context
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ServiceClient @Inject constructor(private val context: Context) {
+class ServiceClient @Inject constructor(@ApplicationContext private val context: Context) {
     fun sendToot(tootToSend: StatusToSend) {
         val intent = SendStatusService.sendStatusIntent(context, tootToSend)
         ContextCompat.startForegroundService(context, intent)

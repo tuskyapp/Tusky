@@ -23,14 +23,10 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityTrendingBinding
 import com.keylesspalace.tusky.util.viewBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-class TrendingActivity : BaseActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class TrendingActivity : BaseActivity() {
 
     private val binding: ActivityTrendingBinding by viewBinding(ActivityTrendingBinding::inflate)
 
@@ -53,8 +49,6 @@ class TrendingActivity : BaseActivity(), HasAndroidInjector {
             }
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         fun getIntent(context: Context) = Intent(context, TrendingActivity::class.java)

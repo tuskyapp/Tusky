@@ -59,26 +59,21 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.submitAsync
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
+@AndroidEntryPoint
 class ViewMediaActivity :
     BaseActivity(),
-    HasAndroidInjector,
     ViewImageFragment.PhotoActionsListener,
     ViewVideoFragment.VideoActionsListener {
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
@@ -364,8 +359,6 @@ class ViewMediaActivity :
             }
         }
     }
-
-    override fun androidInjector() = androidInjector
 
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"

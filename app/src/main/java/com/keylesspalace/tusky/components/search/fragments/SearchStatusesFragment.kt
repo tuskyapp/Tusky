@@ -65,11 +65,13 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
     @Inject
     lateinit var accountManager: AccountManager

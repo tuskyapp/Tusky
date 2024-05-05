@@ -52,8 +52,6 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -72,6 +70,7 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -79,6 +78,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class NotificationsFragment :
     SFragment(),
     SwipeRefreshLayout.OnRefreshListener,
@@ -86,11 +86,7 @@ class NotificationsFragment :
     NotificationActionListener,
     AccountActionListener,
     MenuProvider,
-    ReselectableFragment,
-    Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    ReselectableFragment {
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -100,7 +96,7 @@ class NotificationsFragment :
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
 
-    private val viewModel: NotificationsViewModel by viewModels { viewModelFactory }
+    private val viewModel: NotificationsViewModel by viewModels()
 
     private lateinit var adapter: NotificationsPagingAdapter
 

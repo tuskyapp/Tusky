@@ -17,15 +17,16 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class AboutActivity : BottomSheetActivity(), Injectable {
+@AndroidEntryPoint
+class AboutActivity : BottomSheetActivity() {
     @Inject
     lateinit var instanceInfoRepository: InstanceInfoRepository
 

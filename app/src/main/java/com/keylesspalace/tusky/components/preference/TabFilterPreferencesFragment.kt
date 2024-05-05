@@ -22,15 +22,16 @@ import android.view.ViewGroup
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class TabFilterPreferencesFragment : PreferenceFragmentCompat(), Injectable {
+@AndroidEntryPoint
+class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore

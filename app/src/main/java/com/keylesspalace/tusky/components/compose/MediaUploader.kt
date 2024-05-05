@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -94,7 +95,7 @@ class UploadServerError(val errorMessage: String) : Exception()
 
 @Singleton
 class MediaUploader @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val mediaUploadApi: MediaUploadApi
 ) {
 

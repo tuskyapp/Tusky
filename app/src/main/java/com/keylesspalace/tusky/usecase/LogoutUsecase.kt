@@ -8,10 +8,11 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ShareShortcutHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class LogoutUsecase @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val api: MastodonApi,
     private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager,

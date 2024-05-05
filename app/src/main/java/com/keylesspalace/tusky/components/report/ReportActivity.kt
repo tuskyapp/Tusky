@@ -24,22 +24,14 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.databinding.ActivityReportBinding
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.viewBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
+@AndroidEntryPoint
+class ReportActivity : BottomSheetActivity() {
 
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ReportViewModel by viewModels { viewModelFactory }
+    private val viewModel: ReportViewModel by viewModels()
 
     private val binding by viewBinding(ActivityReportBinding::inflate)
 
@@ -149,6 +141,4 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
                 putExtra(STATUS_ID, statusId)
             }
     }
-
-    override fun androidInjector() = androidInjector
 }

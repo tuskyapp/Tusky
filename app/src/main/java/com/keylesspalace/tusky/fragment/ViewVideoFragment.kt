@@ -50,17 +50,18 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.math.abs
 
+@AndroidEntryPoint
 @OptIn(UnstableApi::class)
-class ViewVideoFragment : ViewMediaFragment(), Injectable {
+class ViewVideoFragment : ViewMediaFragment() {
     interface VideoActionsListener {
         fun onDismiss()
     }

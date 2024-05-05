@@ -39,29 +39,25 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, ItemInteractionListener, ListSelectionFragment.ListSelectionListener {
+@AndroidEntryPoint
+class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelectionFragment.ListSelectionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
 
     @Inject
     lateinit var eventHub: EventHub
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityTabPreferenceBinding::inflate)
 
@@ -367,8 +363,6 @@ class TabPreferenceActivity : BaseActivity(), Injectable, HasAndroidInjector, It
             }
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         private const val MIN_TAB_COUNT = 2

@@ -34,8 +34,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
 import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -44,21 +42,18 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TrendingTagsFragment :
     Fragment(R.layout.fragment_trending_tags),
     OnRefreshListener,
-    Injectable,
     ReselectableFragment,
     RefreshableFragment {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: TrendingTagsViewModel by viewModels { viewModelFactory }
+    private val viewModel: TrendingTagsViewModel by viewModels()
 
     private val binding by viewBinding(FragmentTrendingTagsBinding::bind)
 
