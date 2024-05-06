@@ -47,7 +47,7 @@ class FilterModel @Inject constructor() {
             }
         }
 
-        val matchingKind = status.filtered.filter { result ->
+        val matchingKind = status.filtered.orEmpty().filter { result ->
             result.filter.kinds.contains(kind)
         }
 

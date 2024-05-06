@@ -57,7 +57,7 @@ data class Status(
     /** ISO 639 language code for this status. */
     val language: String? = null,
     /** If the current token has an authorized user: The filter and keywords that matched this status. */
-    val filtered: List<FilterResult> = emptyList()
+    val filtered: List<FilterResult>? = null
 ) {
 
     val actionableId: String
