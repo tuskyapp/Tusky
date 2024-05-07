@@ -9,6 +9,19 @@ plugins {
 
 allprojects {
     apply plugin: libs.plugins.ktlint.get().pluginId
+
+    plugins.withType(JavaBasePlugin).configureEach {
+        java {
+            toolchain.languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    // Required for Hilt to use the toolchain
+    tasks.withType(JavaCompile).configureEach {
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
 }
 
 tasks.register('clean') {
