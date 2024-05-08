@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
-import java.lang.ref.WeakReference
 import java.net.URI
 import java.net.URISyntaxException
 
@@ -128,7 +127,7 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
 
         val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
         // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
-        val linkDrawableSpan = EmojiSpan(WeakReference(view))
+        val linkDrawableSpan = EmojiSpan(view)
         linkDrawableSpan.imageDrawable = linkDrawable
 
         val placeholderIndex = replacementText.indexOf("🔗")
