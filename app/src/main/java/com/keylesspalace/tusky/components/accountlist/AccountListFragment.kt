@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -330,6 +331,9 @@ class AccountListFragment :
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
             } catch (exception: Exception) {
+                if (exception is CancellationException) {
+                    throw  exception
+                }
                 onFetchAccountsFailure(exception)
             }
         }
