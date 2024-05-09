@@ -124,13 +124,13 @@
     <string name="label_header">Başlık</string>
     <string name="link_whats_an_instance">Sunucu nedir\?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
-    <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir örneğin adresi veya etki alanı buraya girilebilirsiniz. örneğin: mastodon.social, mastodon.online, vb. <a href="https://instances.social">daha fazlası!</a>
-\n
-\nHenüz hesabınız yoksa, katılmak istediğiniz sunucunun adını girebilir ve orada bir hesap oluşturabilirsiniz.
-\n
-\nSunucu, hesabınızın barındırıldığı tek yerdir, ancak aynı sitedeymişsiniz gibi diğer sunuculardaki kişilerle kolayca iletişim kurabilir ve onları takip edebilirsiniz.
-\n
-\n Daha fazla bilgiyi <a href="https://joinmastodon.org">joinmastodon.org</a> adresinde bulabilirsiniz. </string>
+    <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir adresi veya etki alanını buraya girilebilirsiniz. örneğin: https://mastodon.social, https://mastodon.online, https://qoto.org vb. <a href="https://instances.social">daha fazlası!</a> 
+\n 
+\nHenüz hesabınız yoksa, katılmak istediğiniz sunucunun adını girebilir ve orada bir hesap oluşturabilirsiniz. 
+\n 
+\nSunucu, hesabınızın barındırıldığı tek yerdir, ancak aynı sitedeymişsiniz gibi diğer sunuculardaki kişilerle kolayca iletişim kurabilir ve onları takip edebilirsiniz. 
+\n 
+\n Daha fazla bilgiyi <a href="https://joinmastodon.org">joinmastodon.org</a> adresinde bulabilirsiniz. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Medya yüklemesi tamamlanıyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
@@ -355,7 +355,7 @@
     <string name="compose_shortcut_short_label">Oluştur</string>
     <string name="notification_clear_text">Tüm bildirimleri kalıcı olarak silmek istediğinizden emin misiniz\?</string>
     <string name="compose_preview_image_description">%1$s görüntüsü için eylemler</string>
-    <string name="poll_info_format"> <!-- 15 oy • 1 saat kaldı --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 oy • 1 saat kaldı --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s oy</item>
         <item quantity="other">%1$s oylar</item>
@@ -711,4 +711,6 @@
     <string name="ui_error_translate">Çeviri yapılamadı: %1$s</string>
     <string name="action_translate">Çevir</string>
     <string name="label_translating">Çeviri…</string>
+    <string name="report_category_legal">Yasal</string>
+    <string name="unknown_notification_type">Bilinmeyen bildirim türü</string>
 </resources>
