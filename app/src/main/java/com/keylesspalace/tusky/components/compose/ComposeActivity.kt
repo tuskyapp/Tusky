@@ -1061,7 +1061,7 @@ class ComposeActivity :
         binding.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
         val textColor = if (remainingLength < 0) {
-            getColor(R.color.tusky_red)
+            getColor(R.color.warning_color)
         } else {
             MaterialColors.getColor(
                 binding.composeCharactersLeftView,

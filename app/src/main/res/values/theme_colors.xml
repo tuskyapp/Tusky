@@ -22,6 +22,8 @@
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange_light</color>
 
+    <color name="warning_color">@color/tusky_red</color>
+
     <color name="headerBackgroundFilter">@color/header_background_filter_light</color>
 
     <bool name="lightNavigationBar">true</bool>
