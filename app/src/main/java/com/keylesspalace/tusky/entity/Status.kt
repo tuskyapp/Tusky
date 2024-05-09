@@ -56,7 +56,8 @@ data class Status(
     val card: Card? = null,
     /** ISO 639 language code for this status. */
     val language: String? = null,
-    /** If the current token has an authorized user: The filter and keywords that matched this status. */
+    /** If the current token has an authorized user: The filter and keywords that matched this status.
+     *  Iceshrimp and maybe other implementations explicitly send filtered=null so we can't default to empty list. */
     val filtered: List<FilterResult>? = null
 ) {
 
