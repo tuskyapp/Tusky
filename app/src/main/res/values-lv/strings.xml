@@ -236,7 +236,7 @@
     <string name="draft_deleted">Melnraksts dzēsts</string>
     <string name="saving_draft">Saglabā melnrakstu…</string>
     <string name="post_sensitive_media_directions">Klikšķini, lai apskatītu</string>
-    <string name="error_network">Radās tīkla kļūda! Lūdzu, pārbaudiet savienojumu un mēģiniet vēlreiz!</string>
+    <string name="error_network">Radās tīkla kļūda. Lūdzu, pārbaudiet savienojumu un mēģiniet vēlreiz.</string>
     <string name="about_tusky_license">Tusky ir bezmaksas un atvērtā pirmkoda programmatūra. Tā ir licencēta saskaņā ar GNU vispārējās publiskās licences 3. versiju. Licenci var apskatīt šeit: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="report_description_1">Ziņojums tiks nosūtīts jūsu servera moderatoram. Zemāk var sniegt skaidrojumu, kāpēc ziņojat par šo kontu:</string>
     <string name="filter_dialog_whole_word_description">Ja atslēgvārds vai frāze ir tikai burtciparu, to pielietos tikai tad, ja tas atbildīs visam vārdam</string>
@@ -598,4 +598,6 @@
     <string name="filter_description_warn">Paslēpt ar brīdinājumu</string>
     <string name="filter_edit_keyword_title">Labot atslēgvārdu</string>
     <string name="filter_keyword_addition_title">Pievienot atslēgvārdu</string>
+    <string name="dialog_delete_filter_positive_action">Dzēst</string>
+    <string name="list_reply_policy_label">Rāda atbildes uz</string>
 </resources>
