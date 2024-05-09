@@ -332,7 +332,7 @@ class AccountListFragment :
                 onFetchAccountsSuccess(accountList, linkHeader)
             } catch (exception: Exception) {
                 if (exception is CancellationException) {
-                    throw  exception
+                    throw exception
                 }
                 onFetchAccountsFailure(exception)
             }
