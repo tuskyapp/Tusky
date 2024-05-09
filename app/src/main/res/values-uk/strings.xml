@@ -249,7 +249,7 @@
         <item quantity="many">%1$s голосів</item>
         <item quantity="other">%1$s голосів</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 голосів • 1 година залишилась --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 голосів • 1 година залишилась --> \u0020%1$s • %2$s</string>
     <string name="description_post_media_no_description_placeholder">Без опису</string>
     <string name="description_post_cw">Попередження про вміст: %1$s</string>
     <string name="description_post_media">Медіа: %1$s</string>
@@ -416,13 +416,13 @@
     <string name="dialog_download_image">Завантаження</string>
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
-    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a>
-\n
-\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис.
-\n
-\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті.
-\n
-\nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> 
+\n 
+\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис. 
+\n 
+\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті. 
+\n 
+\nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>. до них облікові записи. \u0020</string>
     <string name="link_whats_an_instance">Що таке сервер\?</string>
     <string name="hint_domain">Котрий сервер\?</string>
     <string name="label_header">Заголовок</string>
@@ -687,20 +687,20 @@
     <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
-    <string name="help_empty_conversations">Тут знаходяться ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM).
-\n
-\nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів.
-\n
-\nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. </string>
+    <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM). 
+\n 
+\nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів. 
+\n 
+\nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. \u0020</string>
     <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
     <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
     <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
-    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи.
-\n
-\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте.
-\n
-\nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. </string>
+    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. 
+\n 
+\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте. 
+\n 
+\nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="muting_hashtag_success_format">Ігнорувати хештег #%1$s як попередження</string>
     <string name="unmuting_hashtag_success_format">Перестати ігнорувати #%1$s</string>
     <string name="action_view_filter">Переглянути фільтр</string>
@@ -726,4 +726,6 @@
     <string name="label_translating">Перекладається…</string>
     <string name="label_translated">Перекладено з %1$s на %2$s</string>
     <string name="ui_error_translate">Неможливо перекласти: %1$s</string>
+    <string name="report_category_legal">Правові суперечності</string>
+    <string name="unknown_notification_type">Невідомий тип сповіщення</string>
 </resources>
