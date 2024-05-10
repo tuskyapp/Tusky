@@ -24,7 +24,7 @@ androidx-work = "2.9.0"
 androidx-room = "2.6.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
-coroutines = "1.8.0"
+coroutines = "1.8.1"
 diffx = "1.1.1"
 emoji2 = "1.4.0"
 espresso = "3.5.1"
@@ -33,7 +33,7 @@ glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
 hilt = "2.51.1"
-kotlin = "1.9.23"
+kotlin = "1.9.24"
 image-cropper = "4.3.2"
 material = "1.12.0"
 material-drawer = "8.4.5"
@@ -55,7 +55,7 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:1.9.23-1.0.20"
+google-ksp = "com.google.devtools.ksp:1.9.24-1.0.20"
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
