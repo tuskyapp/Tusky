@@ -53,19 +53,26 @@ import androidx.media3.extractor.text.webvtt.WebvttParser
 import androidx.media3.extractor.wav.WavExtractor
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 
 @Module
+@InstallIn(SingletonComponent::class)
 @OptIn(UnstableApi::class)
 object PlayerModule {
     @Provides
-    fun provideAudioSink(context: Context): AudioSink {
+    fun provideAudioSink(@ApplicationContext context: Context): AudioSink {
         return DefaultAudioSink.Builder(context)
             .build()
     }
 
     @Provides
-    fun provideRenderersFactory(context: Context, audioSink: AudioSink): RenderersFactory {
+    fun provideRenderersFactory(
+        @ApplicationContext context: Context,
+        audioSink: AudioSink
+    ): RenderersFactory {
         return RenderersFactory { eventHandler,
                                   videoRendererEventListener,
                                   audioRendererEventListener,
@@ -154,7 +161,10 @@ object PlayerModule {
     }
 
     @Provides
-    fun provideDataSourceFactory(context: Context, okHttpClient: OkHttpClient): DataSource.Factory {
+    fun provideDataSourceFactory(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient
+    ): DataSource.Factory {
         return DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient))
     }
 
@@ -169,7 +179,7 @@ object PlayerModule {
 
     @Provides
     fun provideExoPlayer(
-        context: Context,
+        @ApplicationContext context: Context,
         renderersFactory: RenderersFactory,
         mediaSourceFactory: MediaSource.Factory
     ): ExoPlayer {

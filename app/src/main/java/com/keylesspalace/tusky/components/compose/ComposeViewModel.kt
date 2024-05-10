@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -56,6 +57,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@HiltViewModel
 class ComposeViewModel @Inject constructor(
     private val api: MastodonApi,
     private val accountManager: AccountManager,

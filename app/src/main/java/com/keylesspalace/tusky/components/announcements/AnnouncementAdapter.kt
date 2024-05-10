@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.visible
-import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -111,7 +110,7 @@ class AnnouncementAdapter(
                         // we set the EmojiSpan on a space, because otherwise the Chip won't have the right size
                         // https://github.com/tuskyapp/Tusky/issues/2308
                         val spanBuilder = SpannableStringBuilder("  ${reaction.count}")
-                        val span = EmojiSpan(WeakReference(this))
+                        val span = EmojiSpan(this)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             span.contentDescription = reaction.name
                         }

@@ -21,11 +21,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity(), Injectable {
+@AndroidEntryPoint
+class SplashActivity : AppCompatActivity() {
 
     @Inject
     lateinit var accountManager: AccountManager

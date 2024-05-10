@@ -23,12 +23,14 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class DraftsViewModel @Inject constructor(
     val database: AppDatabase,
     val accountManager: AccountManager,

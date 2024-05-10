@@ -32,25 +32,23 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
-import com.keylesspalace.tusky.db.DraftEntity
 import com.keylesspalace.tusky.db.DraftsAlert
-import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DraftsActivity : BaseActivity(), DraftActionListener {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var draftsAlert: DraftsAlert
 
-    private val viewModel: DraftsViewModel by viewModels { viewModelFactory }
+    private val viewModel: DraftsViewModel by viewModels()
 
     private lateinit var binding: ActivityDraftsBinding
     private lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>

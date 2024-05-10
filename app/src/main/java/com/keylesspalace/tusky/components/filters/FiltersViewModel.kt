@@ -10,12 +10,14 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class FiltersViewModel @Inject constructor(
     private val api: MastodonApi,
     private val eventHub: EventHub

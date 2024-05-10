@@ -23,7 +23,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
@@ -38,9 +37,9 @@ import android.view.View
 import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.IntentCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -54,31 +53,27 @@ import com.keylesspalace.tusky.fragment.ViewImageFragment
 import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.submitAsync
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
+@AndroidEntryPoint
 class ViewMediaActivity :
     BaseActivity(),
-    HasAndroidInjector,
     ViewImageFragment.PhotoActionsListener,
     ViewVideoFragment.VideoActionsListener {
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
@@ -91,6 +86,19 @@ class ViewMediaActivity :
     private var attachments: ArrayList<AttachmentViewData>? = null
     private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
     private var imageUrl: String? = null
+
+    private val requestDownloadMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                downloadMedia()
+            } else {
+                showErrorDialog(
+                    binding.toolbar,
+                    R.string.error_media_download_permission,
+                    R.string.action_retry
+                ) { requestDownloadMedia() }
+            }
+        }
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
@@ -105,11 +113,7 @@ class ViewMediaActivity :
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = IntentCompat.getParcelableArrayListExtra(
-            intent,
-            EXTRA_ATTACHMENTS,
-            AttachmentViewData::class.java
-        )
+        attachments = intent.getParcelableArrayListExtraCompat(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
@@ -235,22 +239,7 @@ class ViewMediaActivity :
 
     private fun requestDownloadMedia() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ) { _, grantResults ->
-                if (
-                    grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    downloadMedia()
-                } else {
-                    showErrorDialog(
-                        binding.toolbar,
-                        R.string.error_media_download_permission,
-                        R.string.action_retry
-                    ) { requestDownloadMedia() }
-                }
-            }
+            requestDownloadMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
             downloadMedia()
         }
@@ -366,8 +355,6 @@ class ViewMediaActivity :
             }
         }
     }
-
-    override fun androidInjector() = androidInjector
 
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"

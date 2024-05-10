@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemDraftBinding
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show

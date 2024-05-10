@@ -82,7 +82,7 @@
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="action_view_blocks">Blockierte Profile</string>
-    <string name="action_view_follow_requests">Folgeanfrage</string>
+    <string name="action_view_follow_requests">Folgeanfragen</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_add_media">Mediendateien hinzufügen</string>

@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.interfaces
 
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.entity.AccountEntity
 
 interface AccountSelectionListener {
     fun onAccountSelected(account: AccountEntity)

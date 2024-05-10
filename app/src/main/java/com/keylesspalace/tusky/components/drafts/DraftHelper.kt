@@ -23,12 +23,13 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftAttachment
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftAttachment
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.copyToFile
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -43,7 +44,7 @@ import okio.buffer
 import okio.sink
 
 class DraftHelper @Inject constructor(
-    val context: Context,
+    @ApplicationContext val context: Context,
     private val okHttpClient: OkHttpClient,
     db: AppDatabase
 ) {

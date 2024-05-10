@@ -35,30 +35,26 @@ import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentListsListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ListSelectionFragment : DialogFragment(), Injectable {
+@AndroidEntryPoint
+class ListSelectionFragment : DialogFragment() {
 
     interface ListSelectionListener {
         fun onListSelected(list: MastoList)
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ListsForAccountViewModel by viewModels { viewModelFactory }
+    private val viewModel: ListsForAccountViewModel by viewModels()
 
     private var _binding: FragmentListsListBinding? = null
 

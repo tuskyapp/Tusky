@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
+@AndroidEntryPoint
 class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

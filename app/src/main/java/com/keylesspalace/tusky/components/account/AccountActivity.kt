@@ -71,9 +71,8 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.databinding.ActivityAccountBinding
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.DraftsAlert
-import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
@@ -101,8 +100,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -111,18 +109,13 @@ import javax.inject.Inject
 import kotlin.math.abs
 import kotlinx.coroutines.launch
 
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, HasAndroidInjector, LinkListener {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+@AndroidEntryPoint
+class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, LinkListener {
 
     @Inject
     lateinit var draftsAlert: DraftsAlert
 
-    private val viewModel: AccountViewModel by viewModels { viewModelFactory }
+    private val viewModel: AccountViewModel by viewModels()
 
     private val binding: ActivityAccountBinding by viewBinding(ActivityAccountBinding::inflate)
 
@@ -1142,8 +1135,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         badge.updatePadding(top = 0, bottom = 0)
         return badge
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
 

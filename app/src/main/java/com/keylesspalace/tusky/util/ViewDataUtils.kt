@@ -36,10 +36,8 @@ package com.keylesspalace.tusky.util
 
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
-import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
@@ -58,21 +56,6 @@ fun Status.toViewData(
         isExpanded = isExpanded,
         isDetailed = isDetailed,
         translation = translation,
-    )
-}
-
-@JvmName("notificationToViewData")
-fun Notification.toViewData(
-    isShowingContent: Boolean,
-    isExpanded: Boolean,
-    isCollapsed: Boolean
-): NotificationViewData.Concrete {
-    return NotificationViewData.Concrete(
-        this.type,
-        this.id,
-        this.account,
-        this.status?.toViewData(isShowingContent, isExpanded, isCollapsed),
-        this.report
     )
 }
 

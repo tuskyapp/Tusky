@@ -24,17 +24,19 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.service.StatusToSend
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 private const val TAG = "SendStatusBR"
 
+@AndroidEntryPoint
 class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
     @Inject
@@ -42,8 +44,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
     @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
-        AndroidInjection.inject(this, context)
-
         if (intent.action == NotificationHelper.REPLY_ACTION) {
             val serverNotificationId = intent.getStringExtra(NotificationHelper.KEY_SERVER_NOTIFICATION_ID)
             val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)
@@ -54,9 +54,8 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 NotificationHelper.KEY_SENDER_ACCOUNT_FULL_NAME
             )
             val citedStatusId = intent.getStringExtra(NotificationHelper.KEY_CITED_STATUS_ID)
-            val visibility = intent.getSerializableExtra(
-                NotificationHelper.KEY_VISIBILITY
-            ) as Status.Visibility
+            val visibility =
+                intent.getSerializableExtraCompat<Status.Visibility>(NotificationHelper.KEY_VISIBILITY)!!
             val spoiler = intent.getStringExtra(NotificationHelper.KEY_SPOILER).orEmpty()
             val mentions = intent.getStringArrayExtra(NotificationHelper.KEY_MENTIONS).orEmpty()
 

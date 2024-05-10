@@ -35,7 +35,9 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.toViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +47,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class ReportViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub

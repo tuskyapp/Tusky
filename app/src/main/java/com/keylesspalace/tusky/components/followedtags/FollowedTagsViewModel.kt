@@ -10,15 +10,16 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.components.search.SearchType
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.network.MastodonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.runBlocking
 
+@HiltViewModel
 class FollowedTagsViewModel @Inject constructor(
     private val api: MastodonApi
-) : ViewModel(), Injectable {
+) : ViewModel() {
     val tags: MutableList<HashTag> = mutableListOf()
     var nextKey: String? = null
     var currentSource: FollowedTagsPagingSource? = null

@@ -45,8 +45,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -63,6 +61,7 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -70,20 +69,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ConversationsFragment :
     SFragment(),
     StatusActionListener,
-    Injectable,
     ReselectableFragment,
     MenuProvider {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
+    private val viewModel: ConversationsViewModel by viewModels()
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 

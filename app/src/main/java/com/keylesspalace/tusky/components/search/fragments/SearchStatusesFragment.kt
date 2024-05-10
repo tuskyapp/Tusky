@@ -21,16 +21,18 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
@@ -41,15 +43,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
@@ -64,11 +65,13 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
     @Inject
     lateinit var accountManager: AccountManager
@@ -78,6 +81,34 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private val searchAdapter
         get() = super.adapter as SearchStatusesAdapter
+
+    private var pendingMediaDownloads: List<String>? = null
+
+    private val downloadAllMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pendingMediaDownloads?.let { downloadAllMedia(it) }
+            } else {
+                Toast.makeText(
+                    context,
+                    R.string.error_media_download_permission,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            pendingMediaDownloads = null
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pendingMediaDownloads = savedInstanceState?.getStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        pendingMediaDownloads?.let {
+            outState.putStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY, ArrayList(it))
+        }
+    }
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
         val preferences = PreferenceManager.getDefaultSharedPreferences(
@@ -234,10 +265,6 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         searchAdapter.peek(position)?.let {
             viewModel.untranslate(it)
         }
-    }
-
-    companion object {
-        fun newInstance() = SearchStatusesFragment()
     }
 
     private fun reply(status: StatusViewData.Concrete) {
@@ -499,37 +526,31 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         )
     }
 
-    private fun downloadAllMedia(status: Status) {
+    private fun downloadAllMedia(mediaUrls: List<String>) {
         Toast.makeText(context, R.string.downloading_media, Toast.LENGTH_SHORT).show()
-        for ((_, url) in status.attachments) {
-            val uri = Uri.parse(url)
-            val filename = uri.lastPathSegment
+        val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
-            val downloadManager = requireActivity().getSystemService(
-                Context.DOWNLOAD_SERVICE
-            ) as DownloadManager
+        for (url in mediaUrls) {
+            val uri = Uri.parse(url)
             val request = DownloadManager.Request(uri)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+            request.setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                uri.lastPathSegment
+            )
             downloadManager.enqueue(request)
         }
     }
 
     private fun requestDownloadAllMedia(status: Status) {
+        if (status.attachments.isEmpty()) {
+            return
+        }
+        val mediaUrls = status.attachments.map { it.url }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            (activity as BaseActivity).requestPermissions(permissions) { _, grantResults ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadAllMedia(status)
-                } else {
-                    Toast.makeText(
-                        context,
-                        R.string.error_media_download_permission,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            pendingMediaDownloads = mediaUrls
+            downloadAllMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
-            downloadAllMedia(status)
+            downloadAllMedia(mediaUrls)
         }
     }
 
@@ -627,5 +648,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
             )
         }
+    }
+
+    companion object {
+        private const val PENDING_MEDIA_DOWNLOADS_STATE_KEY = "pending_media_downloads"
+
+        fun newInstance() = SearchStatusesFragment()
     }
 }

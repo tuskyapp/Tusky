@@ -100,6 +100,7 @@ abstract class ViewMediaFragment : Fragment() {
 
     override fun onDestroyView() {
         toolbarVisibilityDisposable?.invoke()
+        toolbarVisibilityDisposable = null
         super.onDestroyView()
     }
 }

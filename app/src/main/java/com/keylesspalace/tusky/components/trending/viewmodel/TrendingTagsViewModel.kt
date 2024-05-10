@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.start
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.async
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class TrendingTagsViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub

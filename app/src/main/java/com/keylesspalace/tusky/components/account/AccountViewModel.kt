@@ -19,6 +19,7 @@ import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.getDomain
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class AccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
