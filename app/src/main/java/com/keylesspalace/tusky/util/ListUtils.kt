@@ -17,31 +17,36 @@
 
 package com.keylesspalace.tusky.util
 
-import java.util.ArrayList
-import java.util.LinkedHashSet
+/**
+ * Copies non-duplicates elements to destination, preserving original order.
+ */
+fun <T, C : MutableCollection<in T>> Iterable<T>.removeDuplicatesTo(destination: C): C {
+    return filterTo(destination, HashSet<T>()::add)
+}
 
 /**
- * @return a new ArrayList containing the elements without duplicates in the same order
+ * Copies non-duplicates elements to a new list, preserving original order.
  */
-fun <T> removeDuplicates(list: List<T>): ArrayList<T> {
-    val set = LinkedHashSet(list)
-    return ArrayList(set)
+fun <T> Iterable<T>.removeDuplicates(): List<T> {
+    return removeDuplicatesTo(ArrayList())
 }
 
 inline fun <T> List<T>.withoutFirstWhich(predicate: (T) -> Boolean): List<T> {
-    val newList = toMutableList()
-    val index = newList.indexOfFirst(predicate)
-    if (index != -1) {
-        newList.removeAt(index)
+    val index = indexOfFirst(predicate)
+    if (index == -1) {
+        return this
     }
+    val newList = toMutableList()
+    newList.removeAt(index)
     return newList
 }
 
 inline fun <T> List<T>.replacedFirstWhich(replacement: T, predicate: (T) -> Boolean): List<T> {
-    val newList = toMutableList()
-    val index = newList.indexOfFirst(predicate)
-    if (index != -1) {
-        newList[index] = replacement
+    val index = indexOfFirst(predicate)
+    if (index == -1) {
+        return this
     }
+    val newList = toMutableList()
+    newList[index] = replacement
     return newList
 }
