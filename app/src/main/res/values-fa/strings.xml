@@ -114,13 +114,13 @@
     <string name="label_header">سرایند</string>
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال وصل شدن…</string>
-    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، مثل mastodon.social, icosahedron.website, social.tchncs.de, و <a href="https://instances.social">بیش‌تر!</a>.
-\n
-\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه مورد نظر را وارد کرده و در آن حسابی بسازید.
-\n
-\n نمونه، جاییست که حسابتان رویش میزبانی می‌شود، ولی به راحتی می‌توانید با دیگر افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
-\n
-\nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. </string>
+    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، چون mastodon.social, icosahedron.website, social.tchncs.de و <a href="https://instances.social">بیش‌تر!</a>.
+\n 
+\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه‌ای که می‌خواهید به آن بپیوندید را وارد کرده و در آن‌جا حسابی بسازید.
+\n 
+\n نمونه جاییست که حسابتان رویش میزبانی می‌شود. به راحتی می‌توانید با افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
+\n 
+\nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. \u0020</string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
     <string name="dialog_download_image">بارگیری</string>
@@ -153,7 +153,7 @@
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
     <string name="pref_title_hide_follow_button">نهفتن دکمهٔ ایجاد، هنگام پیمایش</string>
     <string name="pref_title_post_filter">پالایش خط زمانی</string>
-    <string name="pref_title_post_tabs">زبانه‌ها</string>
+    <string name="pref_title_post_tabs">خط زمانی خانه</string>
     <string name="pref_title_show_boosts">نمایش تقویت‌ها</string>
     <string name="pref_title_show_replies">نمایش پاسخ‌ها</string>
     <string name="pref_title_show_media_preview">بارگیری پیش‌نمایش رسانه</string>
@@ -218,7 +218,7 @@
     <string name="follows_you">پیگیرتان است</string>
     <string name="pref_title_alway_show_sensitive_media">نمایش همیشگی محتوای حساس</string>
     <string name="title_media">رسانه</string>
-    <string name="replying_to">در حال پاسخ به @%1$s</string>
+    <string name="replying_to">پاسخ دادن به @%1$s</string>
     <string name="load_more_placeholder_text">بار کردن بیش‌تر</string>
     <string name="add_account_name">افزودن حساب</string>
     <string name="add_account_description">افزودن حساب ماستودون جدید</string>
@@ -412,7 +412,7 @@
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %1$s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پی‌گیرانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>
-    <string name="poll_info_format"> .<!-- ۱۵ رأی • ۱ ساعت مانده --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020.<!-- ۱۵ رأی • ۱ ساعت مانده --> \u0020%1$s • %2$s</string>
     <string name="report_description_1">گزارش به ناظرهای کارسازتان ارسال خواهد شد. در زیر می‌توانید توضیحی در باب چرایی گزارش این حساب بنویسید:</string>
     <string name="report_description_remote_instance">این حساب از کارسازی دیگر است. رونوشتی ناشناس از گزارش، به آن‌جا نیز ارسال شود؟</string>
     <string name="post_lookup_error_format">خطا در یافتن فرستهٔ %1$s</string>
@@ -667,8 +667,8 @@
     <string name="about_device_info">%1$s %2$s
 \nنگارش اندروید: %3$s
 \nنگارش SDK‏: %4$d</string>
-    <string name="about_account_info">‎@%s@%s
-\nنگارش: %s</string>
+    <string name="about_account_info">‪@%1$s@%2$s
+\nنگارش: %3$s</string>
     <string name="about_copy">رونوشت از اطّلاعات افزاره و نگارش</string>
     <string name="about_copied">اطّلاعات افزاره و نگارش رونوشت شد</string>
     <string name="list_exclusive_label">نهفتن از خط زمانی خانگی</string>
@@ -681,16 +681,16 @@
     <string name="unmuting_hashtag_success_format">ناخموش کردن برچسب #%1$s</string>
     <string name="following_hashtag_success_format">اکنون برچسب #%1$s دنبال می‌شود</string>
     <string name="unfollowing_hashtag_success_format">دیگر برچسب #%1$s دنبال نمی‌شود</string>
-    <string name="help_empty_conversations"><b>پیام‌های خصوصی</b>تان که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جا قرار دارند.
+    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جایند.
 \n
-\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربران در متن ایجاد می‌شود.
+\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربرانی در متن ایجاد می‌شود.
 \n
-\nبرای مثال می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. </string>
-    <string name="help_empty_lists">این <b>نمایهٔ سیاهه</b>‌تان است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید.
+\nبرای نمونه می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. \u0020</string>
+    <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید.
 \n
 \n به خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید.
 \n
-\n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. </string>
+\n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. \u0020</string>
     <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
     <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
     <string name="label_image">تصویر</string>
@@ -702,4 +702,15 @@
     <string name="list_reply_policy_label">نمایش پاسخ‌ها به</string>
     <string name="pref_title_show_self_boosts">نمایش خودتقویت‌ها</string>
     <string name="pref_title_show_self_boosts_description">کسی فرستهٔ خودش را تقویت می‌کند</string>
+    <string name="reply_sending">فرستادن…</string>
+    <string name="reply_sending_long">پاسختان دارد فرستاده می‌شود.</string>
+    <string name="action_translate">ترجمه</string>
+    <string name="action_show_original">نمایش اصلی</string>
+    <string name="report_category_legal">حقوقی</string>
+    <string name="unknown_notification_type">گونهٔ آگاهی ناشناخته</string>
+    <string name="label_translating">ترجمه کردن…</string>
+    <string name="label_translated">ترجمه شده از %1$s با %2$s</string>
+    <string name="ui_error_translate">نتوانست ترجمه کند: %1$s</string>
+    <string name="pref_title_per_timeline_preferences">ترجیحات بر مبنای خط زمانی</string>
+    <string name="pref_title_show_notifications_filter">نمایش پالایهٔ آگاهی‌ها</string>
 </resources>
