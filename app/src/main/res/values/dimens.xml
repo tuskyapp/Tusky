@@ -75,4 +75,6 @@
 
     <dimen name="account_swiperefresh_distance">64dp</dimen>
 
+    <dimen name="fallback_emoji_size">16sp</dimen>
+
 </resources>

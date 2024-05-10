@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.adapter
 
 import android.graphics.Typeface
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
 import androidx.recyclerview.widget.RecyclerView
@@ -49,7 +49,7 @@ class FollowRequestViewHolder(
         val wrappedName = account.name.unicodeWrap()
         val emojifiedName: CharSequence = wrappedName.emojify(
             account.emojis,
-            itemView,
+            binding.displayNameTextView,
             animateEmojis
         )
         binding.displayNameTextView.text = emojifiedName
@@ -58,9 +58,9 @@ class FollowRequestViewHolder(
                 R.string.notification_follow_request_format,
                 wrappedName
             )
-            binding.notificationTextView.text = SpannableStringBuilder(wholeMessage).apply {
+            binding.notificationTextView.text = SpannableString(wholeMessage).apply {
                 setSpan(StyleSpan(Typeface.BOLD), 0, wrappedName.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }.emojify(account.emojis, itemView, animateEmojis)
+            }.emojify(account.emojis, binding.notificationTextView, animateEmojis)
         }
         binding.notificationTextView.visible(showHeader)
         val formattedUsername = itemView.context.getString(

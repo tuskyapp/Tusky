@@ -39,16 +39,9 @@ class ReportNotificationViewHolder(
         animateAvatar: Boolean,
         animateEmojis: Boolean
     ) {
-        val reporterName = reporter.name.unicodeWrap().emojify(
-            reporter.emojis,
-            itemView,
-            animateEmojis
-        )
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(
-            report.targetAccount.emojis,
-            itemView,
-            animateEmojis
-        )
+        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, binding.notificationTopText, animateEmojis)
+        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, binding.notificationTopText, animateEmojis)
+
         val icon = ContextCompat.getDrawable(itemView.context, R.drawable.ic_flag_24dp)
 
         binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
