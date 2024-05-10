@@ -59,8 +59,6 @@ class ShareShortcutHelper @Inject constructor(
                     Glide.with(context)
                         .asBitmap()
                         .load(account.profilePictureUrl)
-                        .placeholder(R.drawable.avatar_default)
-                        .error(R.drawable.avatar_default)
                         .submitAsync(innerSize, innerSize)
                 } catch (e: GlideException) {
                     // https://github.com/bumptech/glide/issues/4672 :/
