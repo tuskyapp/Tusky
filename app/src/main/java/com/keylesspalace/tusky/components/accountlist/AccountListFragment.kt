@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -330,6 +331,12 @@ class AccountListFragment :
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
             } catch (exception: Exception) {
+                if (exception is CancellationException) {
+                    // Scope is cancelled, probably because the fragment is destroyed.
+                    // We must not touch any views anymore, so rethrow the exception.
+                    // (CancellationException in a cancelled scope is normal and will be ignored)
+                    throw exception
+                }
                 onFetchAccountsFailure(exception)
             }
         }
