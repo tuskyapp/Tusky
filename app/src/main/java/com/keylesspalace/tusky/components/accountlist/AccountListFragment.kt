@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHead
 import com.keylesspalace.tusky.components.accountlist.adapter.MutesAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -56,16 +55,17 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
+@AndroidEntryPoint
 class AccountListFragment :
     Fragment(R.layout.fragment_account_list),
     AccountActionListener,
-    LinkListener,
-    Injectable {
+    LinkListener {
 
     @Inject
     lateinit var api: MastodonApi

@@ -22,8 +22,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchHashtagsAdapter
 import com.keylesspalace.tusky.entity.HashTag
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
+@AndroidEntryPoint
 class SearchHashtagsFragment : SearchFragment<HashTag>() {
 
     override val data: Flow<PagingData<HashTag>>

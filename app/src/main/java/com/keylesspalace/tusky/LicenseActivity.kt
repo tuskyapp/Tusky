@@ -21,6 +21,7 @@ import android.widget.TextView
 import androidx.annotation.RawRes
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ import kotlinx.coroutines.withContext
 import okio.buffer
 import okio.source
 
+@AndroidEntryPoint
 class LicenseActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

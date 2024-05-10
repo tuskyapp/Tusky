@@ -31,11 +31,12 @@ import com.keylesspalace.tusky.service.SendStatusService
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import com.keylesspalace.tusky.util.randomAlphanumericString
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 private const val TAG = "SendStatusBR"
 
+@AndroidEntryPoint
 class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
     @Inject
@@ -43,8 +44,6 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
     @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
-        AndroidInjection.inject(this, context)
-
         if (intent.action == NotificationHelper.REPLY_ACTION) {
             val serverNotificationId = intent.getStringExtra(NotificationHelper.KEY_SERVER_NOTIFICATION_ID)
             val senderId = intent.getLongExtra(NotificationHelper.KEY_SENDER_ACCOUNT_ID, -1)

@@ -37,8 +37,6 @@ import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.databinding.ActivityAnnouncementsBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
@@ -53,20 +51,17 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AnnouncementsActivity :
     BottomSheetActivity(),
     AnnouncementActionListener,
     OnEmojiSelectedListener,
-    MenuProvider,
-    Injectable {
+    MenuProvider {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: AnnouncementsViewModel by viewModels { viewModelFactory }
+    private val viewModel: AnnouncementsViewModel by viewModels()
 
     private val binding by viewBinding(ActivityAnnouncementsBinding::inflate)
 

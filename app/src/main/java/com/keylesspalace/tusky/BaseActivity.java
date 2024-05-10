@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.color.MaterialColors;
@@ -41,7 +42,6 @@ import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
 import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
@@ -55,7 +55,10 @@ import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
 
-public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+/**
+ * All activities inheriting from BaseActivity must be annotated with @AndroidEntryPoint
+ */
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
 
@@ -64,6 +67,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @Inject
     @NonNull
     public AccountManager accountManager;
+
+    /**
+     * Allows overriding the default ViewModelProvider.Factory for testing purposes.
+     */
+    @Nullable
+    public ViewModelProvider.Factory viewModelProviderFactory = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,6 +159,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Context fontScaleContext = newBase.createConfigurationContext(configuration);
 
         super.attachBaseContext(fontScaleContext);
+    }
+
+    @NonNull
+    @Override
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        final ViewModelProvider.Factory factory = viewModelProviderFactory;
+        return (factory != null) ? factory : super.getDefaultViewModelProviderFactory();
     }
 
     protected boolean requiresLogin() {

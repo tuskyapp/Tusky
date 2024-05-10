@@ -15,16 +15,17 @@
 
 package com.keylesspalace.tusky.di
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
-import com.keylesspalace.tusky.TuskyApplication
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -32,22 +33,17 @@ import javax.inject.Singleton
  */
 
 @Module
-class AppModule {
+@InstallIn(SingletonComponent::class)
+object StorageModule {
 
     @Provides
-    fun providesApplication(app: TuskyApplication): Application = app
-
-    @Provides
-    fun providesContext(app: Application): Context = app
-
-    @Provides
-    fun providesSharedPreferences(app: Application): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(app)
+    fun providesSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(appContext)
     }
 
     @Provides
     @Singleton
-    fun providesDatabase(appContext: Context, converters: Converters): AppDatabase {
+    fun providesDatabase(@ApplicationContext appContext: Context, converters: Converters): AppDatabase {
         return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
             .addTypeConverter(converters)
             .allowMainThreadQueries()

@@ -8,12 +8,14 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.R
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class DomainBlocksViewModel @Inject constructor(
     private val repo: DomainBlocksRepository
 ) : ViewModel() {

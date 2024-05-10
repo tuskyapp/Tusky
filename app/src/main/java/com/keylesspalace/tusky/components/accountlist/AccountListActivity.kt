@@ -23,14 +23,10 @@ import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
 import com.keylesspalace.tusky.util.getSerializableExtraCompat
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class AccountListActivity : BottomSheetActivity() {
 
     enum class Type {
         FOLLOWS,
@@ -69,8 +65,6 @@ class AccountListActivity : BottomSheetActivity(), HasAndroidInjector {
             replace(R.id.fragment_container, AccountListFragment.newInstance(type, id))
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         private const val EXTRA_TYPE = "type"

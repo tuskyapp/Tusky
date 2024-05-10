@@ -8,6 +8,7 @@ androidx-constraintlayout = "2.1.4"
 androidx-core = "1.13.1"
 androidx-exifinterface = "1.3.7"
 androidx-fragment = "1.7.0"
+androidx-hilt = "1.2.0"
 androidx-junit = "1.1.5"
 androidx-lifecycle = "2.7.0"
 androidx-media3 = "1.3.1"
@@ -24,7 +25,6 @@ androidx-room = "2.6.1"
 bouncycastle = "1.70"
 conscrypt = "2.5.2"
 coroutines = "1.8.0"
-dagger = "2.51.1"
 diffx = "1.1.1"
 emoji2 = "1.4.0"
 espresso = "3.5.1"
@@ -32,6 +32,7 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
+hilt = "2.51.1"
 kotlin = "1.9.23"
 image-cropper = "4.3.2"
 material = "1.12.0"
@@ -55,8 +56,8 @@ xmlwriter = "1.0.4"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-ksp = "com.google.devtools.ksp:1.9.23-1.0.20"
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ktlint = "org.jlleitschuh.gradle.ktlint:12.1.0"
 
@@ -75,6 +76,8 @@ androidx-emoji2-views-core = { module = "androidx.emoji2:emoji2-views", version.
 androidx-emoji2-view-helper = { module = "androidx.emoji2:emoji2-views-helper", version.ref = "emoji2" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidx-hilt" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
 androidx-media3-datasource-okhttp = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "androidx-media3" }
@@ -94,11 +97,8 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
 conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = "conscrypt" }
-dagger-android-core = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
-dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
-dagger-android-support = { module = "com.google.dagger:dagger-android-support", version.ref = "dagger" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-dagger-core = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
@@ -141,8 +141,6 @@ androidx = ["androidx-core-ktx", "androidx-appcompat", "androidx-fragment-ktx", 
     "androidx-constraintlayout", "androidx-paging-runtime-ktx", "androidx-viewpager2", "androidx-work-runtime-ktx",
     "androidx-core-splashscreen", "androidx-activity", "androidx-media3-exoplayer", "androidx-media3-datasource-okhttp",
     "androidx-media3-ui"]
-dagger = ["dagger-core", "dagger-android-core", "dagger-android-support"]
-dagger-processors = ["dagger-compiler", "dagger-android-processor"]
 filemojicompat = ["filemojicompat-core", "filemojicompat-ui", "filemojicompat-defaults"]
 glide = ["glide-core", "glide-okhttp3-integration", "glide-animation-plugin"]
 material-drawer = ["material-drawer-core", "material-drawer-iconics"]

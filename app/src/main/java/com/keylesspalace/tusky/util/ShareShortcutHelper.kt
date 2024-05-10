@@ -35,13 +35,14 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.di.ApplicationScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ShareShortcutHelper @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val accountManager: AccountManager,
     @ApplicationScope private val externalScope: CoroutineScope
 ) {

@@ -43,7 +43,6 @@ import com.keylesspalace.tusky.components.compose.UploadEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
@@ -53,7 +52,7 @@ import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.unsafeLazy
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -66,7 +65,8 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.HttpException
 
-class SendStatusService : Service(), Injectable {
+@AndroidEntryPoint
+class SendStatusService : Service() {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -91,11 +91,6 @@ class SendStatusService : Service(), Injectable {
 
     private val notificationManager by unsafeLazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
-
-    override fun onCreate() {
-        AndroidInjection.inject(this)
-        super.onCreate()
     }
 
     override fun onBind(intent: Intent): IBinder? = null

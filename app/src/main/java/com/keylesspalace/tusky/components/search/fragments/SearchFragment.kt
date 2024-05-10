@@ -24,8 +24,6 @@ import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.databinding.FragmentSearchBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -43,17 +41,13 @@ import kotlinx.coroutines.launch
 abstract class SearchFragment<T : Any> :
     Fragment(R.layout.fragment_search),
     LinkListener,
-    Injectable,
     SwipeRefreshLayout.OnRefreshListener,
     MenuProvider {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var mastodonApi: MastodonApi
 
-    protected val viewModel: SearchViewModel by activityViewModels { viewModelFactory }
+    protected val viewModel: SearchViewModel by activityViewModels()
 
     protected val binding by viewBinding(FragmentSearchBinding::bind)
 

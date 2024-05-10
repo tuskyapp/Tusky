@@ -75,6 +75,7 @@ class ComposeAutoCompleteAdapter(
                 return filterResults
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 if (results.count > 0) {
                     resultList = results.values as List<AutocompleteResult>

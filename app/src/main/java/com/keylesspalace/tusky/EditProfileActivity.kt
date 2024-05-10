@@ -43,8 +43,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -57,11 +55,12 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class EditProfileActivity : BaseActivity(), Injectable {
+@AndroidEntryPoint
+class EditProfileActivity : BaseActivity() {
 
     companion object {
         const val AVATAR_SIZE = 400
@@ -69,10 +68,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         const val HEADER_HEIGHT = 500
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: EditProfileViewModel by viewModels { viewModelFactory }
+    private val viewModel: EditProfileViewModel by viewModels()
 
     private val binding by viewBinding(ActivityEditProfileBinding::inflate)
 

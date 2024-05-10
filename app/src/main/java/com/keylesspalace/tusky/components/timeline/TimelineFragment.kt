@@ -52,8 +52,6 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewM
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -77,30 +75,29 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TimelineFragment :
     SFragment(),
     OnRefreshListener,
     StatusActionListener,
-    Injectable,
     ReselectableFragment,
     RefreshableFragment,
     MenuProvider {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var eventHub: EventHub
 
     private val viewModel: TimelineViewModel by unsafeLazy {
+        val viewModelProvider = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory, defaultViewModelCreationExtras)
         if (kind == TimelineViewModel.Kind.HOME) {
-            ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
+            viewModelProvider[CachedTimelineViewModel::class.java]
         } else {
-            ViewModelProvider(this, viewModelFactory)[NetworkTimelineViewModel::class.java]
+            viewModelProvider[NetworkTimelineViewModel::class.java]
         }
     }
 

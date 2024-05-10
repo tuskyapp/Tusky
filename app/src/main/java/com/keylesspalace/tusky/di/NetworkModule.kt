@@ -39,6 +39,9 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import java.net.IDN
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -58,6 +61,7 @@ import retrofit2.create
  */
 
 @Module
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     private const val TAG = "NetworkModule"
@@ -89,7 +93,7 @@ object NetworkModule {
     @Singleton
     fun providesHttpClient(
         accountManager: AccountManager,
-        context: Context,
+        @ApplicationContext context: Context,
         preferences: SharedPreferences
     ): OkHttpClient {
         val httpProxyEnabled = preferences.getBoolean(HTTP_PROXY_ENABLED, false)
