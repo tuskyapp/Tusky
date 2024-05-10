@@ -332,6 +332,9 @@ class AccountListFragment :
                 onFetchAccountsSuccess(accountList, linkHeader)
             } catch (exception: Exception) {
                 if (exception is CancellationException) {
+                    // Scope is cancelled, probably because the fragment is destroyed.
+                    // We must not touch any views anymore, so rethrow the exception.
+                    // (CancellationException in a cancelled scope is normal and will be ignored)
                     throw exception
                 }
                 onFetchAccountsFailure(exception)
