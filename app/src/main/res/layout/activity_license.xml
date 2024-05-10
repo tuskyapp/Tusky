@@ -121,7 +121,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://google.github.io/dagger/"
+                license:link="https://dagger.dev/"
                 license:name="Dagger 2" />
 
             <com.keylesspalace.tusky.view.LicenseCard

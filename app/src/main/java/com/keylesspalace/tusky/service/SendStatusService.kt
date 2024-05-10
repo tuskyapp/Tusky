@@ -31,7 +31,6 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.IntentCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -44,7 +43,6 @@ import com.keylesspalace.tusky.components.compose.UploadEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
@@ -52,8 +50,9 @@ import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.unsafeLazy
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -66,7 +65,8 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import retrofit2.HttpException
 
-class SendStatusService : Service(), Injectable {
+@AndroidEntryPoint
+class SendStatusService : Service() {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -93,16 +93,11 @@ class SendStatusService : Service(), Injectable {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    override fun onCreate() {
-        AndroidInjection.inject(this)
-        super.onCreate()
-    }
-
     override fun onBind(intent: Intent): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (intent.hasExtra(KEY_STATUS)) {
-            val statusToSend: StatusToSend = IntentCompat.getParcelableExtra(intent, KEY_STATUS, StatusToSend::class.java)
+            val statusToSend: StatusToSend = intent.getParcelableExtraCompat(KEY_STATUS)
                 ?: throw IllegalStateException("SendStatusService started without $KEY_STATUS extra")
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -247,11 +242,11 @@ class SendStatusService : Service(), Injectable {
                 scheduledAt = statusToSend.scheduledAt,
                 poll = statusToSend.poll,
                 language = statusToSend.language,
-                mediaAttributes = media.map { media ->
+                mediaAttributes = media.map { mediaItem ->
                     MediaAttribute(
-                        id = media.id!!,
-                        description = media.description,
-                        focus = media.focus?.toMastodonApiString(),
+                        id = mediaItem.id!!,
+                        description = mediaItem.description,
+                        focus = mediaItem.focus?.toMastodonApiString(),
                         thumbnail = null
                     )
                 }

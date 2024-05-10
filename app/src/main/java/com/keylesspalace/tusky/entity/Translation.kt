@@ -21,7 +21,7 @@ data class Translation(
     val spoilerText: String? = null,
     val poll: TranslatedPoll? = null,
     @Json(name = "media_attachments")
-    val mediaAttachments: List<MediaTranslation>,
+    val mediaAttachments: List<MediaTranslation> = emptyList(),
     @Json(name = "detected_source_language")
     val detectedSourceLanguage: String,
     val provider: String,

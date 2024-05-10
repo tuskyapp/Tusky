@@ -24,6 +24,7 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.runCatching
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -48,6 +49,7 @@ data class ActionError(
     }
 }
 
+@HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
 class ListsForAccountViewModel @Inject constructor(
     private val mastodonApi: MastodonApi

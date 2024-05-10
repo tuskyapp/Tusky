@@ -14,6 +14,7 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.min
 import kotlin.time.Duration.Companion.milliseconds
@@ -48,7 +49,7 @@ data class Links(val next: String?, val prev: String?) {
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val eventHub: EventHub
 ) {
     suspend fun fetchAndShow() {

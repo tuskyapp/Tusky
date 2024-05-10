@@ -21,11 +21,13 @@ import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class LoginWebViewViewModel @Inject constructor(
     private val api: MastodonApi
 ) : ViewModel() {
@@ -49,11 +51,11 @@ class LoginWebViewViewModel @Inject constructor(
                                 { instance ->
                                     _instanceRules.value = instance.rules.map { rule -> rule.text }
                                 },
-                                { throwable ->
+                                { throwable2 ->
                                     Log.w(
                                         "LoginWebViewViewModel",
                                         "failed to load instance info",
-                                        throwable
+                                        throwable2
                                     )
                                 }
                             )

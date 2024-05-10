@@ -24,8 +24,10 @@ import androidx.paging.cachedIn
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class AccountMediaViewModel @Inject constructor(
     accountManager: AccountManager,
     api: MastodonApi

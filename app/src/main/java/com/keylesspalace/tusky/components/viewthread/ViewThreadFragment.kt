@@ -42,8 +42,6 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -58,23 +56,20 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ViewThreadFragment :
     SFragment(),
     OnRefreshListener,
     StatusActionListener,
-    MenuProvider,
-    Injectable {
+    MenuProvider {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ViewThreadViewModel by viewModels { viewModelFactory }
+    private val viewModel: ViewThreadViewModel by viewModels()
 
     private val binding by viewBinding(FragmentViewThreadBinding::bind)
 

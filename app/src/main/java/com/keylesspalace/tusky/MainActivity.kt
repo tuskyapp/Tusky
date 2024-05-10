@@ -45,7 +45,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.IntentCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
@@ -104,15 +103,17 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
+import com.keylesspalace.tusky.util.ActivityConstants
 import com.keylesspalace.tusky.util.ShareShortcutHelper
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
@@ -142,17 +143,17 @@ import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.addItemsAtPosition
 import com.mikepenz.materialdrawer.util.updateBadge
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.migration.OptionalInject
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInjector, MenuProvider {
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+@OptionalInject
+@AndroidEntryPoint
+class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -222,8 +223,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
             return
         }
 
-        if (supportsOverridingActivityTransitions() && explodeAnimationWasRequested()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.explode, R.anim.activity_open_exit)
+        if (explodeAnimationWasRequested()) {
+            overrideActivityTransitionCompat(
+                ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                R.anim.explode,
+                R.anim.activity_open_exit
+            )
         }
 
         var showNotificationTab = false
@@ -537,11 +542,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     private fun forwardToComposeActivity(intent: Intent) {
-        val composeOptions = IntentCompat.getParcelableExtra(
-            intent,
-            COMPOSE_OPTIONS,
-            ComposeActivity.ComposeOptions::class.java
-        )
+        val composeOptions =
+            intent.getParcelableExtraCompat<ComposeActivity.ComposeOptions>(COMPOSE_OPTIONS)
 
         val composeIntent = if (composeOptions != null) {
             ComposeActivity.startIntent(this, composeOptions)
@@ -997,10 +999,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
         }
         startActivity(intent)
         finish()
-        if (!supportsOverridingActivityTransitions()) {
-            @Suppress("DEPRECATION")
-            overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
-        }
     }
 
     private fun logout() {
@@ -1222,8 +1220,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, HasAndroidInje
     }
 
     override fun getActionButton() = binding.composeButton
-
-    override fun androidInjector() = androidInjector
 
     companion object {
         const val OPEN_WITH_EXPLODE_ANIMATION = "explode"

@@ -135,6 +135,7 @@ class SpanUtilsTest {
             spans.add(BoundedSpan(what, start, end))
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun <T : Any> getSpans(start: Int, end: Int, type: Class<T>): Array<T> {
             return spans.filter { it.start >= start && it.end <= end && type.isInstance(it.span) }
                 .map { it.span }

@@ -21,17 +21,19 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
@@ -50,7 +52,6 @@ import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.report.ReportActivity.Companion.getIntent
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Translation
@@ -72,7 +73,7 @@ import kotlinx.coroutines.launch
  * adapters. I feel like the profile pages and thread viewer, which I haven't made yet, will also
  * overlap functionality. So, I'm momentarily leaving it and hopefully working on those will clear
  * up what needs to be where. */
-abstract class SFragment : Fragment(), Injectable {
+abstract class SFragment : Fragment() {
     protected abstract fun removeItem(position: Int)
     protected abstract fun onReblog(reblog: Boolean, position: Int)
 
@@ -93,6 +94,22 @@ abstract class SFragment : Fragment(), Injectable {
     @Inject
     lateinit var instanceInfoRepository: InstanceInfoRepository
 
+    private var pendingMediaDownloads: List<String>? = null
+
+    private val downloadAllMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pendingMediaDownloads?.let { downloadAllMedia(it) }
+            } else {
+                Toast.makeText(
+                    context,
+                    R.string.error_media_download_permission,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            pendingMediaDownloads = null
+        }
+
     override fun startActivity(intent: Intent) {
         requireActivity().startActivityWithSlideInAnimation(intent)
     }
@@ -103,6 +120,18 @@ abstract class SFragment : Fragment(), Injectable {
             context
         } else {
             throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pendingMediaDownloads = savedInstanceState?.getStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        pendingMediaDownloads?.let {
+            outState.putStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY, ArrayList(it))
         }
     }
 
@@ -522,13 +551,11 @@ abstract class SFragment : Fragment(), Injectable {
         }
     }
 
-    private fun downloadAllMedia(status: Status) {
+    private fun downloadAllMedia(mediaUrls: List<String>) {
         Toast.makeText(context, R.string.downloading_media, Toast.LENGTH_SHORT).show()
-        val downloadManager = requireActivity().getSystemService(
-            Context.DOWNLOAD_SERVICE
-        ) as DownloadManager
+        val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
-        for ((_, url) in status.attachments) {
+        for (url in mediaUrls) {
             val uri = Uri.parse(url)
             downloadManager.enqueue(
                 DownloadManager.Request(uri).apply {
@@ -542,26 +569,22 @@ abstract class SFragment : Fragment(), Injectable {
     }
 
     private fun requestDownloadAllMedia(status: Status) {
+        if (status.attachments.isEmpty()) {
+            return
+        }
+        val mediaUrls = status.attachments.map { it.url }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            (activity as BaseActivity).requestPermissions(permissions) { _, grantResults ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadAllMedia(status)
-                } else {
-                    Toast.makeText(
-                        context,
-                        R.string.error_media_download_permission,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            pendingMediaDownloads = mediaUrls
+            downloadAllMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
-            downloadAllMedia(status)
+            downloadAllMedia(mediaUrls)
         }
     }
 
     companion object {
         private const val TAG = "SFragment"
+        private const val PENDING_MEDIA_DOWNLOADS_STATE_KEY = "pending_media_downloads"
+
         private fun accountIsInMentions(
             account: AccountEntity?,
             mentions: List<Status.Mention>

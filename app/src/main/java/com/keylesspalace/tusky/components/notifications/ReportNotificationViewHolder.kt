@@ -41,8 +41,8 @@ class ReportNotificationViewHolder(
         val report = viewData.report!!
         val reporter = viewData.account
 
-        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, itemView, statusDisplayOptions.animateEmojis)
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, itemView, statusDisplayOptions.animateEmojis)
+        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, binding.notificationTopText, statusDisplayOptions.animateEmojis)
+        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, binding.notificationTopText, statusDisplayOptions.animateEmojis)
 
         binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, System.currentTimeMillis()), report.statusIds?.size ?: 0)

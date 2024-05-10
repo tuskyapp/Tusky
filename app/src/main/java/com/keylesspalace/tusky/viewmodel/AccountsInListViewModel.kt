@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.util.Either.Companion.map
 import com.keylesspalace.tusky.util.Either.Left
 import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.withoutFirstWhich
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,6 +38,7 @@ data class State(
     val searchResult: List<TimelineAccount>?
 )
 
+@HiltViewModel
 class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
     val state: Flow<State> get() = _state

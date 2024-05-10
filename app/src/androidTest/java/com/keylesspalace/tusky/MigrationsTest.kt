@@ -1,7 +1,6 @@
 package com.keylesspalace.tusky
 
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.db.AppDatabase
@@ -19,8 +18,7 @@ class MigrationsTest {
     @Rule
     var helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        AppDatabase::class.java.canonicalName!!,
-        FrameworkSQLiteOpenHelperFactory()
+        AppDatabase::class.java
     )
 
     @Test

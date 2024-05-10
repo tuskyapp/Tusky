@@ -37,15 +37,12 @@ import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class StatusListActivity : BottomSheetActivity() {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -219,8 +216,8 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                                 }
                                 updateTagMuteState(mutedFilterV1 != null)
                             },
-                            { throwable ->
-                                Log.e(TAG, "Error getting filters: $throwable")
+                            { throwable2 ->
+                                Log.e(TAG, "Error getting filters: $throwable2")
                             }
                         )
                     } else {
@@ -292,13 +289,13 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                                 eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
                                 filterCreateSuccess = true
                             },
-                            { throwable ->
+                            { throwable2 ->
                                 Snackbar.make(
                                     binding.root,
                                     getString(R.string.error_muting_hashtag_format, tag),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
-                                Log.e(TAG, "Failed to mute #$tag", throwable)
+                                Log.e(TAG, "Failed to mute #$tag", throwable2)
                             }
                         )
                     } else {
@@ -398,8 +395,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         return true
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
 

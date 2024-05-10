@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.copyToFile
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -43,7 +44,7 @@ import okio.buffer
 import okio.sink
 
 class DraftHelper @Inject constructor(
-    val context: Context,
+    @ApplicationContext val context: Context,
     private val okHttpClient: OkHttpClient,
     db: AppDatabase
 ) {

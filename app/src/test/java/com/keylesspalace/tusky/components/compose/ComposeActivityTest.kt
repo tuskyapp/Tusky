@@ -20,6 +20,8 @@ package com.keylesspalace.tusky.components.compose
 import android.content.Intent
 import android.os.Looper.getMainLooper
 import android.widget.EditText
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.R
@@ -31,7 +33,6 @@ import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.EmojisEntity
 import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
 import com.keylesspalace.tusky.di.NetworkModule
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Instance
 import com.keylesspalace.tusky.entity.InstanceConfiguration
 import com.keylesspalace.tusky.entity.InstanceV1
@@ -53,7 +54,6 @@ import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
@@ -156,12 +156,12 @@ class ComposeActivityTest {
             putExtra(ComposeActivity.COMPOSE_OPTIONS_EXTRA, composeOptions)
         }
 
-        val viewModelFactoryMock: ViewModelFactory = mock {
-            on { create(eq(ComposeViewModel::class.java), any()) } doReturn viewModel
+        val testViewModelFactory = viewModelFactory {
+            initializer { viewModel }
         }
 
         activity.accountManager = accountManagerMock
-        activity.viewModelFactory = viewModelFactoryMock
+        activity.viewModelProviderFactory = testViewModelFactory
 
         controller.create().start()
         shadowOf(getMainLooper()).idle()
