@@ -73,7 +73,11 @@ class ReportViewModel @Inject constructor(
     val statusesFlow = accountIdFlow.flatMapLatest { accountId ->
         Pager(
             initialKey = statusId,
-            config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20,
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = { StatusesPagingSource(accountId, mastodonApi) }
         ).flow
     }

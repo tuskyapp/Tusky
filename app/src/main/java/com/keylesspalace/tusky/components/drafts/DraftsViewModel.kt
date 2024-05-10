@@ -37,7 +37,10 @@ class DraftsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val drafts = Pager(
-        config = PagingConfig(pageSize = 20),
+        config = PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = {
             database.draftDao().draftsPagingSource(
                 accountManager.activeAccount?.id!!

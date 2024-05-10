@@ -85,7 +85,10 @@ class NetworkTimelineViewModel @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
+        config = PagingConfig(
+            pageSize = LOAD_AT_ONCE,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = {
             NetworkTimelinePagingSource(
                 viewModel = this
