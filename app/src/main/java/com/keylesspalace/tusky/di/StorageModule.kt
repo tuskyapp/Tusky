@@ -37,6 +37,7 @@ import javax.inject.Singleton
 object StorageModule {
 
     @Provides
+    @Singleton
     fun providesSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(appContext)
     }

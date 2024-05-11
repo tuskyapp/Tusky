@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.login
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -54,8 +53,6 @@ class LoginActivity : BaseActivity() {
     lateinit var mastodonApi: MastodonApi
 
     private val binding by viewBinding(ActivityLoginBinding::inflate)
-
-    private lateinit var preferences: SharedPreferences
 
     private val oauthRedirectUri: String
         get() {
@@ -98,11 +95,6 @@ class LoginActivity : BaseActivity() {
                 .placeholder(null)
                 .into(binding.loginLogo)
         }
-
-        preferences = getSharedPreferences(
-            getString(R.string.preferences_file_key),
-            Context.MODE_PRIVATE
-        )
 
         binding.loginButton.setOnClickListener { onLoginClick(true) }
 

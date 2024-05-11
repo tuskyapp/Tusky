@@ -56,7 +56,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.canhub.cropper.CropImage
@@ -104,7 +103,6 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
@@ -145,8 +143,6 @@ class ComposeActivity :
     private lateinit var activeAccount: AccountEntity
 
     private var photoUploadUri: Uri? = null
-
-    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
@@ -290,7 +286,7 @@ class ComposeActivity :
         setupButtons()
         subscribeToUpdates(mediaAdapter)
 
-        if (accountManager.shouldDisplaySelfUsername(this)) {
+        if (accountManager.shouldDisplaySelfUsername()) {
             binding.composeUsernameView.text = getString(
                 R.string.compose_active_account_description,
                 activeAccount.fullName

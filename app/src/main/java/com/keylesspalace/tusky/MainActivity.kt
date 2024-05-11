@@ -50,7 +50,6 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
@@ -111,7 +110,6 @@ import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -181,8 +179,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private var onTabSelectedListener: OnTabSelectedListener? = null
 
     private var unreadAnnouncementsCount = 0
-
-    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
@@ -1182,7 +1178,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         header.clear()
         header.profiles = profiles
         header.setActiveProfile(accountManager.activeAccount!!.id)
-        binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername(this)) {
+        binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername()) {
             accountManager.activeAccount!!.fullName
         } else {
             null

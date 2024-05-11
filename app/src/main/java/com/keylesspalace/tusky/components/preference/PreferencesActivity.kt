@@ -26,7 +26,6 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -123,16 +122,12 @@ class PreferencesActivity :
 
     override fun onResume() {
         super.onResume()
-        PreferenceManager.getDefaultSharedPreferences(
-            this
-        ).registerOnSharedPreferenceChangeListener(this)
+        preferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        PreferenceManager.getDefaultSharedPreferences(
-            this
-        ).unregisterOnSharedPreferenceChangeListener(this)
+        preferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

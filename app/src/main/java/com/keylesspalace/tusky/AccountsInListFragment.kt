@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -44,12 +44,16 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
 @AndroidEntryPoint
 class AccountsInListFragment : DialogFragment() {
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private val viewModel: AccountsInListViewModel by viewModels()
     private val binding by viewBinding(FragmentAccountsInListBinding::bind)
@@ -60,9 +64,6 @@ class AccountsInListFragment : DialogFragment() {
     private val searchAdapter = SearchAdapter()
 
     private val radius by unsafeLazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val pm by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
-    private val animateAvatar by unsafeLazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
-    private val animateEmojis by unsafeLazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,6 +207,8 @@ class AccountsInListFragment : DialogFragment() {
             position: Int
         ) {
             val account = getItem(position)
+            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
             loadAvatar(account.avatar, holder.binding.avatar, radius, animateAvatar)
@@ -256,6 +259,9 @@ class AccountsInListFragment : DialogFragment() {
             position: Int
         ) {
             val (account, inAList) = getItem(position)
+
+            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username

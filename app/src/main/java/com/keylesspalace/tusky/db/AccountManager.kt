@@ -15,9 +15,8 @@
 
 package com.keylesspalace.tusky.db
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.db.dao.AccountDao
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
@@ -35,7 +34,10 @@ import javax.inject.Singleton
 private const val TAG = "AccountManager"
 
 @Singleton
-class AccountManager @Inject constructor(db: AppDatabase) {
+class AccountManager @Inject constructor(
+    db: AppDatabase,
+    private val preferences: SharedPreferences
+) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
@@ -236,9 +238,8 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     /**
      * @return true if the name of the currently-selected account should be displayed in UIs
      */
-    fun shouldDisplaySelfUsername(context: Context): Boolean {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val showUsernamePreference = sharedPreferences.getString(
+    fun shouldDisplaySelfUsername(): Boolean {
+        val showUsernamePreference = preferences.getString(
             PrefKeys.SHOW_SELF_USERNAME,
             "disambiguate"
         )

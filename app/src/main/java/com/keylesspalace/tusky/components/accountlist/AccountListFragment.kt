@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.components.accountlist
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,6 +73,9 @@ class AccountListFragment :
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val binding by viewBinding(FragmentAccountListBinding::bind)
 
     private lateinit var type: Type
@@ -101,10 +104,9 @@ class AccountListFragment :
         binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
-        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
-        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        val showBotOverlay = pm.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
+        val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
 
         val activeAccount = accountManager.activeAccount!!
 
