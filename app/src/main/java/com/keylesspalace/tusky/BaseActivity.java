@@ -127,7 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        // injected preferences not yet available in this point of the lifecycle
+        // injected preferences not yet available at this point of the lifecycle
         SharedPreferences preferences = ((TuskyApplication)newBase.getApplicationContext()).sharedPreferences;
 
         // Scale text in the UI from PrefKeys.UI_TEXT_SCALE_RATIO
