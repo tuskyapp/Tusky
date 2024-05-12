@@ -19,7 +19,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,8 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.color.MaterialColors;
@@ -44,24 +42,23 @@ import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
 import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.di.Injectable;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
-import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.ActivityConstants;
 import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
-import static com.keylesspalace.tusky.util.ActivityExtensions.supportsOverridingActivityTransitions;
 
-public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+/**
+ * All activities inheriting from BaseActivity must be annotated with @AndroidEntryPoint
+ */
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
 
@@ -71,16 +68,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @NonNull
     public AccountManager accountManager;
 
-    private static final int REQUESTER_NONE = Integer.MAX_VALUE;
-    private HashMap<Integer, PermissionRequester> requesters;
+    /**
+     * Allows overriding the default ViewModelProvider.Factory for testing purposes.
+     */
+    @Nullable
+    public ViewModelProvider.Factory viewModelProviderFactory = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        if (activityTransitionWasRequested()) {
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                    R.anim.activity_open_enter,
+                    R.anim.activity_open_exit
+            );
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_CLOSE,
+                    R.anim.activity_close_enter,
+                    R.anim.activity_close_exit
+            );
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -92,6 +102,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
+        } else {
+            setTheme(R.style.TuskyTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */
@@ -107,8 +119,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
         }
-
-        requesters = new HashMap<>();
     }
 
     private boolean activityTransitionWasRequested() {
@@ -153,6 +163,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         super.attachBaseContext(fontScaleContext);
     }
 
+    @NonNull
+    @Override
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        final ViewModelProvider.Factory factory = viewModelProviderFactory;
+        return (factory != null) ? factory : super.getDefaultViewModelProviderFactory();
+    }
+
     protected boolean requiresLogin() {
         return true;
     }
@@ -189,21 +206,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        // if this activity was opened with slide-in, close it with slide out
-        if (!supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
-        }
-    }
-
     protected void redirectIfNotLoggedIn() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = LoginActivity.getIntent(this, LoginActivity.MODE_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
+            startActivity(intent);
             finish();
         }
     }
@@ -272,37 +280,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requesters.containsKey(requestCode)) {
-            PermissionRequester requester = requesters.remove(requestCode);
-            requester.onRequestPermissionsResult(permissions, grantResults);
-        }
-    }
-
-    public void requestPermissions(@NonNull String[] permissions, @NonNull PermissionRequester requester) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for(String permission: permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.isEmpty()) {
-            int[] permissionsAlreadyGranted = new int[permissions.length];
-            requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
-            return;
-        }
-
-        int newKey = requester == null ? REQUESTER_NONE : requesters.size();
-        if (newKey != REQUESTER_NONE) {
-            requesters.put(newKey, requester);
-        }
-        String[] permissionsCopy = new String[permissionsToRequest.size()];
-        permissionsToRequest.toArray(permissionsCopy);
-        ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
-
     }
 }

@@ -21,14 +21,15 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.switchPreference
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class NotificationPreferencesFragment : PreferenceFragmentCompat(), Injectable {
+@AndroidEntryPoint
+class NotificationPreferencesFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var accountManager: AccountManager

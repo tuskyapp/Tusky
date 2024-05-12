@@ -6,6 +6,22 @@
 
 ### Significant bug fixes
 
+## v25.2
+
+### Significant bug fixes
+
+- Fixes a bug that could sometimes crash Tusky when rotating the screen while viewing an account list [PR#4430](https://github.com/tuskyapp/Tusky/pull/4430)
+- Fixes a bug that could crash Tusky at startup under certain conditions [PR#4431](https://github.com/tuskyapp/Tusky/pull/4431)
+- Fixes a bug that caused Tusky to crash when custom emojis with too large dimensions were loaded [PR#4429](https://github.com/tuskyapp/Tusky/pull/4429)
+- Makes Tusky work again with Iceshrimp by working around a quirk in their API implementation [PR#4426](https://github.com/tuskyapp/Tusky/pull/4426)
+- Fixes a bug that made translations not work on some servers [PR#4422](https://github.com/tuskyapp/Tusky/pull/4422)
+
+## v25.1
+
+### Significant bug fixes
+
+- Fixed two crashes at startup introduced in 25.0 [PR#4415](https://github.com/tuskyapp/Tusky/pull/4415) [PR#4417](https://github.com/tuskyapp/Tusky/pull/4417)
+
 ## v25.0
 
 ### New features and other improvements

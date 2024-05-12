@@ -37,8 +37,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
@@ -53,22 +51,15 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_OTHER
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.INITIAL
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADED
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 // TODO use the ListSelectionFragment (and/or its adapter or binding) here; but keep the LoadingState from here (?)
 
-class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
+@AndroidEntryPoint
+class ListsActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    private val viewModel: ListsViewModel by viewModels { viewModelFactory }
+    private val viewModel: ListsViewModel by viewModels()
 
     private val binding by viewBinding(ActivityListsBinding::inflate)
 
@@ -286,8 +277,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             viewModel.updateList(listId, name, exclusive, replyPolicy)
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         fun newIntent(context: Context) = Intent(context, ListsActivity::class.java)

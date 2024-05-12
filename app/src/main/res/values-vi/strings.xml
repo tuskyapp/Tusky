@@ -354,7 +354,7 @@
     <plurals name="poll_info_votes">
         <item quantity="other">%1$s người bình chọn</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 người bình chọn • còn 1 giờ --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 bình chọn • còn 1 giờ --> \u0020%1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %1$s</string>
     <string name="compose_shortcut_short_label">Soạn</string>
     <string name="compose_shortcut_long_label">Soạn tút</string>
@@ -694,4 +694,6 @@
     <string name="label_translating">Đang dịch…</string>
     <string name="label_translated">Dịch %1$s bằng %2$s</string>
     <string name="ui_error_translate">Không thể dịch: %1$s</string>
+    <string name="unknown_notification_type">Kiểu thông báo chưa rõ</string>
+    <string name="report_category_legal">Pháp luật</string>
 </resources>

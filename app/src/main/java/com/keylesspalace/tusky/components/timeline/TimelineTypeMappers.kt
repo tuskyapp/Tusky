@@ -107,7 +107,7 @@ fun Status.toEntity(
     card = actionableStatus.card,
     repliesCount = actionableStatus.repliesCount,
     language = actionableStatus.language,
-    filtered = actionableStatus.filtered
+    filtered = actionableStatus.filtered.orEmpty()
 )
 
 fun TimelineStatusEntity.toStatus(

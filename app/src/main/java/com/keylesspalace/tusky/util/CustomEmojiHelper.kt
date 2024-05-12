@@ -24,10 +24,12 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.style.ReplacementSpan
 import android.view.View
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
 import java.lang.ref.WeakReference
 import java.util.regex.Pattern
@@ -51,7 +53,7 @@ fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): Cha
             .matcher(this)
 
         while (matcher.find()) {
-            val span = EmojiSpan(WeakReference(view))
+            val span = EmojiSpan(view)
 
             builder.setSpan(span, matcher.start(), matcher.end(), 0)
             Glide.with(view)
@@ -69,7 +71,19 @@ fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): Cha
     return builder
 }
 
-class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() {
+class EmojiSpan(view: View) : ReplacementSpan() {
+
+    private val viewWeakReference = WeakReference(view)
+
+    private val emojiSize: Int = if (view is TextView) {
+        view.paint.textSize
+    } else {
+        // sometimes it is not possible to determine the TextView the emoji will be shown in,
+        // e.g. because it is passed to a library, so we fallback to a size that should be large
+        // enough in most cases
+        view.context.resources.getDimension(R.dimen.fallback_emoji_size)
+    }.times(1.2).toInt()
+
     var imageDrawable: Drawable? = null
 
     override fun getSize(
@@ -89,7 +103,7 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
             fm.bottom = metrics.bottom
         }
 
-        return (paint.textSize * 1.2).toInt()
+        return emojiSize
     }
 
     override fun draw(
@@ -134,7 +148,7 @@ class EmojiSpan(val viewWeakReference: WeakReference<View>) : ReplacementSpan() 
     }
 
     fun getTarget(animate: Boolean): Target<Drawable> {
-        return object : CustomTarget<Drawable>() {
+        return object : CustomTarget<Drawable>(emojiSize, emojiSize) {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                 viewWeakReference.get()?.let { view ->
                     if (animate && resource is Animatable) {

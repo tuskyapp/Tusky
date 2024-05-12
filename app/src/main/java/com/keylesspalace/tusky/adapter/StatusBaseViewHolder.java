@@ -201,7 +201,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         TouchDelegateHelper.expandTouchSizeToFillRow((ViewGroup) itemView, CollectionsKt.listOfNotNull(replyButton, reblogButton, favouriteButton, bookmarkButton, moreButton));
     }
 
-    protected void setDisplayName(@NonNull String name, @Nullable List<Emoji> customEmojis, @NonNull StatusDisplayOptions statusDisplayOptions) {
+    protected void setDisplayName(@NonNull String name, @NonNull List<Emoji> customEmojis, @NonNull StatusDisplayOptions statusDisplayOptions) {
         CharSequence emojifiedName = CustomEmojiHelper.emojify(
             name, customEmojis, displayName, statusDisplayOptions.animateEmojis()
         );
@@ -792,7 +792,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
 
-                if (attachments.size() == 0) {
+                if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
@@ -879,7 +879,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         }
 
-        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilter.getTitle()));
+        final String matchedFilterTitle;
+        if (matchedFilter == null) {
+            matchedFilterTitle = "";
+        } else {
+            matchedFilterTitle = matchedFilter.getTitle();
+        }
+
+        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilterTitle));
         filteredPlaceholderShowButton.setOnClickListener(view -> listener.clearWarningAction(getBindingAdapterPosition()));
     }
 
@@ -1156,7 +1163,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         final Card card = actionable.getCard();
 
         if (cardViewMode != CardViewMode.NONE &&
-            actionable.getAttachments().size() == 0 &&
+            actionable.getAttachments().isEmpty() &&
             actionable.getPoll() == null &&
             card != null &&
             !TextUtils.isEmpty(card.getUrl()) &&

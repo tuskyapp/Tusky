@@ -20,21 +20,23 @@ package com.keylesspalace.tusky.worker
 import android.app.Notification
 import android.content.Context
 import android.util.Log
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
-import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
 /** Prune the database cache of old statuses. */
-class PruneCacheWorker(
-    appContext: Context,
-    workerParams: WorkerParameters,
+@HiltWorker
+class PruneCacheWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
     private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager
 ) : CoroutineWorker(appContext, workerParams) {
@@ -61,14 +63,5 @@ class PruneCacheWorker(
         private const val MAX_HOMETIMELINE_ITEMS_IN_CACHE = 1000
         private const val MAX_NOTIFICATIONS_IN_CACHE = 1000
         const val PERIODIC_WORK_TAG = "PruneCacheWorker_periodic"
-    }
-
-    class Factory @Inject constructor(
-        private val databaseCleaner: DatabaseCleaner,
-        private val accountManager: AccountManager
-    ) : ChildWorkerFactory {
-        override fun createWorker(appContext: Context, params: WorkerParameters): ListenableWorker {
-            return PruneCacheWorker(appContext, params, databaseCleaner, accountManager)
-        }
     }
 }

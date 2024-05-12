@@ -16,6 +16,7 @@ import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import java.util.Date
 import kotlinx.coroutines.test.TestScope
 import org.junit.After
@@ -87,7 +88,7 @@ class MainActivityTest {
 
         assertNotNull(nextActivity)
         assertEquals(ComponentName(context, AccountListActivity::class.java.name), nextActivity.component)
-        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtra("type"))
+        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtraCompat("type"))
     }
 
     private fun showNotification(type: Notification.Type): Intent {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="colorPrimary">@color/tusky_blue</color>
+    <color name="colorSecondary">@color/tusky_blue</color>
     <color name="colorSurface">@color/tusky_grey_30</color>
     <color name="colorPrimaryDark">@color/tusky_grey_25</color>
 
@@ -21,6 +22,8 @@
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange</color>
 
+    <color name="warning_color">@color/tusky_red_lighter</color>
+
     <color name="headerBackgroundFilter">@color/header_background_filter_dark</color>
 
     <bool name="lightNavigationBar">false</bool>
@@ -31,6 +34,6 @@
     <color name="toolbar_icon_background">#CC444B5D</color>
 
     <!-- colors used to show inserted/deleted text -->
-    <color name="view_edits_background_insert">#00731B</color>
-    <color name="view_edits_background_delete">#DF0000</color>
+    <color name="view_edits_background_insert">@color/tusky_green</color>
+    <color name="view_edits_background_delete">@color/tusky_red</color>
 </resources>

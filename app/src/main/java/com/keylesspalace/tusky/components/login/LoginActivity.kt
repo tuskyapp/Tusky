@@ -34,21 +34,21 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
-import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 
 /** Main login page, the first thing that users see. Has prompt for instance and login button. */
-class LoginActivity : BaseActivity(), Injectable {
+@AndroidEntryPoint
+class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -317,10 +317,6 @@ class LoginActivity : BaseActivity(), Injectable {
             intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
             finishAffinity()
-            if (!supportsOverridingActivityTransitions()) {
-                @Suppress("DEPRECATION")
-                overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
-            }
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =

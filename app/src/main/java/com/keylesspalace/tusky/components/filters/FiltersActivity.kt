@@ -8,22 +8,20 @@ import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FiltersActivity : BaseActivity(), FiltersListener {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
     private val binding by viewBinding(ActivityFiltersBinding::inflate)
-    private val viewModel: FiltersViewModel by viewModels { viewModelFactory }
+    private val viewModel: FiltersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

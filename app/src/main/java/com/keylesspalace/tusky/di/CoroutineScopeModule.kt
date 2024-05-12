@@ -19,6 +19,8 @@ package com.keylesspalace.tusky.di
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +40,8 @@ import kotlinx.coroutines.SupervisorJob
 annotation class ApplicationScope
 
 @Module
-class CoroutineScopeModule {
+@InstallIn(SingletonComponent::class)
+object CoroutineScopeModule {
     @ApplicationScope
     @Provides
     @Singleton

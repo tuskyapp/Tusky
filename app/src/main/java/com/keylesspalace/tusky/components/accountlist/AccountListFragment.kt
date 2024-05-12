@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHead
 import com.keylesspalace.tusky.components.accountlist.adapter.MutesAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -50,20 +49,23 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
+@AndroidEntryPoint
 class AccountListFragment :
     Fragment(R.layout.fragment_account_list),
     AccountActionListener,
-    LinkListener,
-    Injectable {
+    LinkListener {
 
     @Inject
     lateinit var api: MastodonApi
@@ -83,7 +85,7 @@ class AccountListFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = requireArguments().getSerializable(ARG_TYPE) as Type
+        type = requireArguments().getSerializableCompat(ARG_TYPE)!!
         id = requireArguments().getString(ARG_ID)
     }
 
@@ -244,12 +246,12 @@ class AccountListFragment :
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
+    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(accountId)
+                api.authorizeFollowRequest(id)
             } else {
-                api.rejectFollowRequest(accountId)
+                api.rejectFollowRequest(id)
             }.fold(
                 onSuccess = {
                     onRespondToFollowRequestSuccess(position)
@@ -260,7 +262,7 @@ class AccountListFragment :
                     } else {
                         "reject"
                     }
-                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                    Log.e(TAG, "Failed to $verb account id $id.", throwable)
                 }
             )
         }
@@ -329,6 +331,12 @@ class AccountListFragment :
                 val linkHeader = response.headers()["Link"]
                 onFetchAccountsSuccess(accountList, linkHeader)
             } catch (exception: Exception) {
+                if (exception is CancellationException) {
+                    // Scope is cancelled, probably because the fragment is destroyed.
+                    // We must not touch any views anymore, so rethrow the exception.
+                    // (CancellationException in a cancelled scope is normal and will be ignored)
+                    throw exception
+                }
                 onFetchAccountsFailure(exception)
             }
         }

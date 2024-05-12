@@ -35,8 +35,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -45,23 +43,21 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ScheduledStatusActivity :
     BaseActivity(),
     ScheduledStatusActionListener,
-    MenuProvider,
-    Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    MenuProvider {
 
     @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: ScheduledStatusViewModel by viewModels { viewModelFactory }
+    private val viewModel: ScheduledStatusViewModel by viewModels()
 
     private val binding by viewBinding(ActivityScheduledStatusBinding::inflate)
 
