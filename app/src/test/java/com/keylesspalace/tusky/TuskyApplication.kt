@@ -16,11 +16,15 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.content.SharedPreferences
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
+import org.mockito.kotlin.mock
 
 // override TuskyApplication for Robolectric tests, only initialize the necessary stuff
 class TuskyApplication : Application() {
+
+    fun getPreferences(): SharedPreferences = mock {}
 
     override fun onCreate() {
         super.onCreate()
