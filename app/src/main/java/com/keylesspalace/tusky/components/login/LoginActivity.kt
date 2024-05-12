@@ -71,6 +71,10 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    private var domain: String = ""
+    private var clientId: String = ""
+    private var clientSecret: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -82,6 +86,12 @@ class LoginActivity : BaseActivity() {
         ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
+        }
+
+        if (savedInstanceState != null) {
+            domain = savedInstanceState.getString(DOMAIN, "")
+            clientId = savedInstanceState.getString(CLIENT_ID, "")
+            clientSecret = savedInstanceState.getString(CLIENT_SECRET, "")
         }
 
         if (isAccountMigration()) {
@@ -127,16 +137,18 @@ class LoginActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    /**
-     * Obtain the oauth client credentials for this app. This is only necessary the first time the
-     * app is run on a given server instance. So, after the first authentication, they are
-     * saved in SharedPreferences and every subsequent run they are simply fetched from there.
-     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(DOMAIN, domain)
+        outState.putString(CLIENT_ID, clientId)
+        outState.putString(CLIENT_SECRET, clientSecret)
+    }
+
     private fun onLoginClick(openInWebView: Boolean) {
         binding.loginButton.isEnabled = false
         binding.domainTextInputLayout.error = null
 
-        val domain = canonicalizeDomain(binding.domainEditText.text.toString())
+        domain = canonicalizeDomain(binding.domainEditText.text.toString())
 
         try {
             HttpUrl.Builder().host(domain).scheme("https").build()
@@ -162,16 +174,9 @@ class LoginActivity : BaseActivity() {
                 getString(R.string.tusky_website)
             ).fold(
                 { credentials ->
-                    // Before we open browser page we save the data.
-                    // Even if we don't open other apps user may go to password manager or somewhere else
-                    // and we will need to pick up the process where we left off.
-                    // Alternatively we could pass it all as part of the intent and receive it back
-                    // but it is a bit of a workaround.
-                    preferences.edit()
-                        .putString(DOMAIN, domain)
-                        .putString(CLIENT_ID, credentials.clientId)
-                        .putString(CLIENT_SECRET, credentials.clientSecret)
-                        .apply()
+                    // Save credentials. These will be put into the savedInstanceState so they get restored after activity recreation.
+                    clientId = credentials.clientId
+                    clientSecret = credentials.clientSecret
 
                     redirectUserToAuthorizeAndLogin(domain, credentials.clientId, openInWebView)
                 },
@@ -259,11 +264,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private suspend fun fetchOauthToken(code: String) {
-        /* restore variables from SharedPreferences */
-        val domain = preferences.getNonNullString(DOMAIN, "")
-        val clientId = preferences.getNonNullString(CLIENT_ID, "")
-        val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
-
         setLoading(true)
 
         mastodonApi.fetchOAuthToken(
