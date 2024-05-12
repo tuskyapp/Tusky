@@ -42,8 +42,9 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
@@ -321,22 +322,26 @@ class ViewVideoFragment : ViewMediaFragment() {
         // Audio-only files might have a preview image. If they do, set it as the artwork
         if (isAudio) {
             mediaAttachment.previewUrl?.let { url ->
-                Glide.with(this).load(url).into(object : CustomTarget<Drawable>() {
-                    @SuppressLint("SyntheticAccessor")
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        view ?: return
-                        binding.videoView.defaultArtwork = resource
-                    }
+                Glide.with(this)
+                    .load(url)
+                    .into(
+                        object : CustomViewTarget<PlayerView, Drawable>(binding.videoView) {
+                            override fun onLoadFailed(errorDrawable: Drawable?) {
+                                // Don't do anything
+                            }
 
-                    @SuppressLint("SyntheticAccessor")
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        view ?: return
-                        binding.videoView.defaultArtwork = null
-                    }
-                })
+                            override fun onResourceCleared(placeholder: Drawable?) {
+                                binding.videoView.defaultArtwork = null
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                binding.videoView.defaultArtwork = null
+                            }
+                        }.clearOnDetach()
+                    )
             }
         }
     }

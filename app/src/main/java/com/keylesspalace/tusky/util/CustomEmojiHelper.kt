@@ -25,13 +25,13 @@ import android.text.SpannableStringBuilder
 import android.text.style.ReplacementSpan
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.doOnDetach
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Emoji
-import java.lang.ref.WeakReference
 import java.util.regex.Pattern
 
 /**
@@ -65,15 +65,13 @@ fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): Cha
                         staticUrl
                     }
                 )
-                .into(span.getTarget(animate))
+                .into(span.getTarget(view, animate))
         }
     }
     return builder
 }
 
 class EmojiSpan(view: View) : ReplacementSpan() {
-
-    private val viewWeakReference = WeakReference(view)
 
     private val emojiSize: Int = if (view is TextView) {
         view.paint.textSize
@@ -147,34 +145,58 @@ class EmojiSpan(view: View) : ReplacementSpan() {
         }
     }
 
-    fun getTarget(animate: Boolean): Target<Drawable> {
+    fun getTarget(view: View, animate: Boolean): Target<Drawable> {
         return object : CustomTarget<Drawable>(emojiSize, emojiSize) {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                viewWeakReference.get()?.let { view ->
-                    if (animate && resource is Animatable) {
-                        val callback = resource.callback
-
-                        resource.callback = object : Drawable.Callback {
-                            override fun unscheduleDrawable(p0: Drawable, p1: Runnable) {
-                                callback?.unscheduleDrawable(p0, p1)
-                            }
-                            override fun scheduleDrawable(p0: Drawable, p1: Runnable, p2: Long) {
-                                callback?.scheduleDrawable(p0, p1, p2)
-                            }
-                            override fun invalidateDrawable(p0: Drawable) {
-                                callback?.invalidateDrawable(p0)
-                                view.invalidate()
-                            }
-                        }
-                        resource.start()
-                    }
-
-                    imageDrawable = resource
-                    view.invalidate()
-                }
+            override fun onStart() {
+                (imageDrawable as? Animatable)?.start()
             }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
+            override fun onStop() {
+                (imageDrawable as? Animatable)?.stop()
+            }
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                // Nothing to do
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                if (animate && resource is Animatable) {
+                    resource.callback = object : Drawable.Callback {
+                        override fun invalidateDrawable(who: Drawable) {
+                            view.invalidate()
+                        }
+
+                        override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
+                            view.postDelayed(what, `when`)
+                        }
+
+                        override fun unscheduleDrawable(who: Drawable, what: Runnable) {
+                            view.removeCallbacks(what)
+                        }
+                    }
+                    resource.start()
+                }
+
+                imageDrawable = resource
+                view.invalidate()
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {
+                imageDrawable?.let { currentDrawable ->
+                    if (currentDrawable is Animatable) {
+                        currentDrawable.stop()
+                        currentDrawable.callback = null
+                    }
+                }
+                imageDrawable = null
+                view.invalidate()
+            }
+        }.also { target ->
+            // Cancel the request and clear the target when the View is detached.
+            // This will also stop ongoing animations, if any.
+            view.doOnDetach {
+                target.request?.clear()
+            }
         }
     }
 }

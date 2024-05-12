@@ -17,7 +17,7 @@ package com.keylesspalace.tusky.components.announcements
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -109,7 +109,7 @@ class AnnouncementAdapter(
                     } else {
                         // we set the EmojiSpan on a space, because otherwise the Chip won't have the right size
                         // https://github.com/tuskyapp/Tusky/issues/2308
-                        val spanBuilder = SpannableStringBuilder("  ${reaction.count}")
+                        val spanBuilder = SpannableString("  ${reaction.count}")
                         val span = EmojiSpan(this)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             span.contentDescription = reaction.name
@@ -124,7 +124,7 @@ class AnnouncementAdapter(
                                     reaction.staticUrl
                                 }
                             )
-                            .into(span.getTarget(animateEmojis))
+                            .into(span.getTarget(this, animateEmojis))
                         this.text = spanBuilder
                     }
 
