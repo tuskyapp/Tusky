@@ -18,14 +18,14 @@
 package com.keylesspalace.tusky.util
 
 /**
- * Copies non-duplicates elements to destination, preserving original order.
+ * Copies elements to destination, removing duplicates and preserving original order.
  */
 fun <T, C : MutableCollection<in T>> Iterable<T>.removeDuplicatesTo(destination: C): C {
     return filterTo(destination, HashSet<T>()::add)
 }
 
 /**
- * Copies non-duplicates elements to a new list, preserving original order.
+ * Copies elements to a new list, removing duplicates and preserving original order.
  */
 fun <T> Iterable<T>.removeDuplicates(): List<T> {
     return removeDuplicatesTo(ArrayList())
