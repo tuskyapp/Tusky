@@ -691,7 +691,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 when (followState) {
                     FollowState.NOT_FOLLOWING -> {
                         if (confirmFollows) {
-                            showFollowWarningDialog();
+                            showFollowWarningDialog()
                         } else {
                             viewModel.changeFollowState()
                         }
