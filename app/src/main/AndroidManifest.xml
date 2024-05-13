@@ -22,22 +22,6 @@
         android:enableOnBackInvokedCallback="true">
 
         <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/share_shortcuts" />
-
-        </activity>
-        <activity
             android:name=".components.login.LoginActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
@@ -56,8 +40,14 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -101,6 +91,9 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
 
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/share_shortcuts" />
             <meta-data
                 android:name="android.service.chooser.chooser_target_service"
                 android:value="androidx.sharetarget.ChooserTargetServiceCompat" />

@@ -13,8 +13,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  * Allows waiting for a Glide request to complete without blocking a background thread.
  */
 suspend fun <R> RequestBuilder<R>.submitAsync(
-    width: Int = Int.MIN_VALUE,
-    height: Int = Int.MIN_VALUE
+    width: Int = Target.SIZE_ORIGINAL,
+    height: Int = Target.SIZE_ORIGINAL
 ): R {
     return suspendCancellableCoroutine { continuation ->
         val target = addListener(
@@ -36,7 +36,9 @@ suspend fun <R> RequestBuilder<R>.submitAsync(
                     dataSource: DataSource,
                     isFirstResource: Boolean
                 ): Boolean {
-                    continuation.resume(resource)
+                    if (target?.request?.isComplete == true) {
+                        continuation.resume(resource)
+                    }
                     return false
                 }
             }

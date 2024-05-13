@@ -46,6 +46,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
@@ -199,10 +200,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         val activeAccount = accountManager.activeAccount
-            ?: return // will be redirected to LoginActivity by BaseActivity
+        if (activeAccount == null) {
+            splashScreen.setKeepOnScreenCondition { true }
+            // will be redirected to LoginActivity by BaseActivity
+            return
+        }
 
         if (explodeAnimationWasRequested()) {
             overrideActivityTransitionCompat(

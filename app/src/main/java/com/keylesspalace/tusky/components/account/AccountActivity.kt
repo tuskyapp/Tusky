@@ -669,6 +669,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountFloatingActionButton.setOnClickListener { mention() }
 
             binding.accountFollowButton.setOnClickListener {
+                val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+                val confirmFollows = preferences.getBoolean(PrefKeys.CONFIRM_FOLLOWS, false)
                 if (viewModel.isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
                     startActivity(intent)
@@ -682,7 +684,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
                 when (followState) {
                     FollowState.NOT_FOLLOWING -> {
-                        viewModel.changeFollowState()
+                        if (confirmFollows) {
+                            showFollowWarningDialog()
+                        } else {
+                            viewModel.changeFollowState()
+                        }
                     }
                     FollowState.REQUESTED -> {
                         showFollowRequestPendingDialog()
@@ -896,6 +902,14 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     private fun showUnfollowWarningDialog() {
         AlertDialog.Builder(this)
             .setMessage(R.string.dialog_unfollow_warning)
+            .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
+    }
+
+    private fun showFollowWarningDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.dialog_follow_warning)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
             .setNegativeButton(android.R.string.cancel, null)
             .show()

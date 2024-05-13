@@ -107,6 +107,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
+        } else {
+            setTheme(R.style.TuskyTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */
@@ -213,9 +215,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void redirectIfNotLoggedIn() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = LoginActivity.getIntent(this, LoginActivity.MODE_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
+            startActivity(intent);
             finish();
         }
     }

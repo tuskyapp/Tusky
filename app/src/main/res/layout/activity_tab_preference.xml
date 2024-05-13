@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/action_add_tab"
-        android:src="@drawable/ic_plus_24dp" />
+        app:srcCompat="@drawable/ic_plus_24dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/sheet"
