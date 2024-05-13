@@ -242,6 +242,13 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 }
 
                 switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.CONFIRM_FOLLOWS
+                    setTitle(R.string.pref_title_confirm_follows)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
