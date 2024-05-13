@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,10 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -535,7 +536,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             final Attachment.Type type = attachment.getType();
             if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
-                imageView.setForeground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.play_indicator_overlay));
+                imageView.setForegroundGravity(Gravity.CENTER);
+                imageView.setForeground(AppCompatResources.getDrawable(itemView.getContext(), R.drawable.ic_play_indicator));
             } else {
                 imageView.setForeground(null);
             }
@@ -611,7 +613,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 // Set the icon next to the label.
                 int drawableId = getLabelIcon(attachments.get(0).getType());
-                mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
+                mediaLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableId, 0, 0, 0);
 
                 setAttachmentClickListener(mediaLabel, listener, i, mediaDescriptions[i], false);
             } else {
