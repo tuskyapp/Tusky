@@ -25,7 +25,6 @@ import android.text.style.ReplacementSpan
 import android.view.View
 import android.widget.TextView
 import androidx.core.text.toSpannable
-import androidx.core.view.doOnDetach
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
@@ -41,11 +40,15 @@ import com.keylesspalace.tusky.entity.Emoji
  * @return the text with the shortcodes replaced by EmojiSpans
 */
 fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): CharSequence {
+    view.clearEmojiTargets()
+
     if (emojis.isEmpty()) {
         return this
     }
 
     val spannable = toSpannable()
+    val requestManager = Glide.with(view)
+    val targets = mutableListOf<Target<Drawable>>()
 
     emojis.forEach { (shortcode, url, staticUrl) ->
         val pattern = ":$shortcode:"
@@ -56,7 +59,8 @@ fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): Cha
             val span = EmojiSpan(view)
 
             spannable.setSpan(span, start, end, 0)
-            Glide.with(view)
+            val target = span.createGlideTarget(view, animate)
+            requestManager
                 .asDrawable()
                 .load(
                     if (animate) {
@@ -65,12 +69,32 @@ fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): Cha
                         staticUrl
                     }
                 )
-                .into(span.getTarget(view, animate))
+                .into(target)
+            targets.add(target)
 
             start = indexOf(pattern, end)
         }
     }
+
+    view.setEmojiTargets(targets)
+
     return spannable
+}
+
+@Suppress("UNCHECKED_CAST")
+fun View.clearEmojiTargets() {
+    getTag(R.id.custom_emoji_targets_tag)?.let { tag ->
+        val targets = tag as List<Target<Drawable>>
+        if (targets.isNotEmpty()) {
+            val requestManager = Glide.with(this)
+            targets.forEach { requestManager.clear(it) }
+        }
+        setTag(R.id.custom_emoji_targets_tag, null)
+    }
+}
+
+fun View.setEmojiTargets(targets: List<Target<Drawable>>) {
+    setTag(R.id.custom_emoji_targets_tag, targets)
 }
 
 class EmojiSpan(view: View) : ReplacementSpan() {
@@ -147,7 +171,7 @@ class EmojiSpan(view: View) : ReplacementSpan() {
         }
     }
 
-    fun getTarget(view: View, animate: Boolean): Target<Drawable> {
+    fun createGlideTarget(view: View, animate: Boolean): Target<Drawable> {
         return object : CustomTarget<Drawable>(emojiSize, emojiSize) {
             override fun onStart() {
                 (imageDrawable as? Animatable)?.start()
@@ -192,12 +216,6 @@ class EmojiSpan(view: View) : ReplacementSpan() {
                 }
                 imageDrawable = null
                 view.invalidate()
-            }
-        }.also { target ->
-            // Cancel the request and clear the target when the View is detached.
-            // This will also stop ongoing animations, if any.
-            view.doOnDetach {
-                target.request?.clear()
             }
         }
     }
