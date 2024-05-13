@@ -669,7 +669,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountFloatingActionButton.setOnClickListener { mention() }
 
             binding.accountFollowButton.setOnClickListener {
-                val preferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val confirmFollows = preferences.getBoolean(PrefKeys.CONFIRM_FOLLOWS, false)
                 if (viewModel.isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
