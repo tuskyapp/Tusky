@@ -40,45 +40,60 @@ import com.keylesspalace.tusky.entity.Emoji
  * @return the text with the shortcodes replaced by EmojiSpans
 */
 fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): CharSequence {
-    view.clearEmojiTargets()
-
-    if (emojis.isEmpty()) {
-        return this
+    return view.updateEmojiTargets {
+        emojify(emojis, animate)
     }
+}
 
-    val spannable = toSpannable()
-    val requestManager = Glide.with(view)
-    val targets = mutableListOf<Target<Drawable>>()
+class EmojiTargetScope<T : View>(val view: T) {
+    private val _targets = mutableListOf<Target<Drawable>>()
+    val targets: List<Target<Drawable>>
+        get() = _targets
 
-    emojis.forEach { (shortcode, url, staticUrl) ->
-        val pattern = ":$shortcode:"
-        var start = indexOf(pattern)
-
-        while (start != -1) {
-            val end = start + pattern.length
-            val span = EmojiSpan(view)
-
-            spannable.setSpan(span, start, end, 0)
-            val target = span.createGlideTarget(view, animate)
-            requestManager
-                .asDrawable()
-                .load(
-                    if (animate) {
-                        url
-                    } else {
-                        staticUrl
-                    }
-                )
-                .into(target)
-            targets.add(target)
-
-            start = indexOf(pattern, end)
+    fun CharSequence.emojify(emojis: List<Emoji>, animate: Boolean): CharSequence {
+        if (emojis.isEmpty()) {
+            return this
         }
+
+        val spannable = toSpannable()
+        val requestManager = Glide.with(view)
+
+        emojis.forEach { (shortcode, url, staticUrl) ->
+            val pattern = ":$shortcode:"
+            var start = indexOf(pattern)
+
+            while (start != -1) {
+                val end = start + pattern.length
+                val span = EmojiSpan(view)
+
+                spannable.setSpan(span, start, end, 0)
+                val target = span.createGlideTarget(view, animate)
+                requestManager
+                    .asDrawable()
+                    .load(
+                        if (animate) {
+                            url
+                        } else {
+                            staticUrl
+                        }
+                    )
+                    .into(target)
+                _targets.add(target)
+
+                start = indexOf(pattern, end)
+            }
+        }
+
+        return spannable
     }
+}
 
-    view.setEmojiTargets(targets)
-
-    return spannable
+inline fun <T: View, R> T.updateEmojiTargets(body: EmojiTargetScope<T>.() -> R): R {
+    clearEmojiTargets()
+    val scope = EmojiTargetScope(this)
+    val result = body(scope)
+    setEmojiTargets(scope.targets)
+    return result
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -94,7 +109,7 @@ fun View.clearEmojiTargets() {
 }
 
 fun View.setEmojiTargets(targets: List<Target<Drawable>>) {
-    setTag(R.id.custom_emoji_targets_tag, targets)
+    setTag(R.id.custom_emoji_targets_tag, targets.takeIf { it.isNotEmpty() })
 }
 
 class EmojiSpan(view: View) : ReplacementSpan() {
