@@ -241,7 +241,7 @@
     <string name="mute_domain_warning">Сигурни ли сте, че искате да блокирате всички от %1$s? Няма да виждате съдържание от този домейн в нито една публична емисия или във вашите известия. Последователите ви от този домейн ще бъдат премахнати.</string>
     <string name="dialog_redraft_post_warning">Да се изтрие и преработи ли тази публикация?</string>
     <string name="dialog_delete_post_warning">Да се изтрие ли тази публикация?</string>
-    <string name="dialog_unfollow_warning">Отследване на този акаунт\?</string>
+    <string name="dialog_unfollow_warning">Отследване на този акаунт?</string>
     <string name="dialog_message_cancel_follow_request">Да се отмени ли заявката за последване?</string>
     <string name="dialog_download_image">Изтегляне</string>
     <string name="dialog_message_uploading_media">Качване…</string>
@@ -342,7 +342,7 @@
     <string name="action_block">Блокиране</string>
     <string name="action_unfollow">Отследване</string>
     <string name="action_follow">Последване</string>
-    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от %1$s\? Това ще изтрие всички локални данни на акаунта, включително чернови и предпочитания.</string>
+    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от %1$s? Това ще изтрие всички локални данни на акаунта, включително чернови и предпочитания.</string>
     <string name="action_logout">Излизане</string>
     <string name="action_login">Вписване с Tusky</string>
     <string name="action_compose">Композиране</string>
@@ -578,8 +578,8 @@
     <string name="action_edit_image">Редакция на изображение</string>
     <string name="notification_update_description">Известия, когато публикации с които сте взаимодействали, са редактирани</string>
     <string name="load_newest_notifications">Зареждане на най-новите известия</string>
-    <string name="compose_delete_draft">Изтриване на чернова\?</string>
-    <string name="action_unfollow_hashtag_format">Отследване на #%1$s\?</string>
+    <string name="compose_delete_draft">Изтриване на чернова?</string>
+    <string name="action_unfollow_hashtag_format">Отследване на #%1$s?</string>
     <string name="mute_notifications_switch">Заглушаване на известията</string>
     <string name="action_translate">Превеждане</string>
     <string name="label_translated">Преведено от %1$s чрез %2$s</string>
