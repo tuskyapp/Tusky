@@ -50,7 +50,7 @@
         <item quantity="one">%1$s глас</item>
         <item quantity="other">%1$s гласа</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 гласа • остава 1 час --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <string name="compose_preview_image_description">Действия за изображение %1$s</string>
     <string name="notification_clear_text">Сигурни ли сте, че искате да изчистите окончателно всичките си известия\?</string>
     <string name="compose_shortcut_short_label">Композиране</string>
@@ -244,13 +244,13 @@
     <string name="visibility_public">Публично: Публикуване в публични емисии</string>
     <string name="dialog_mute_hide_notifications">Скриване на известия</string>
     <string name="dialog_mute_warning">Заглушаване на @%1$s\?</string>
-    <string name="dialog_block_warning">Блокиране на @%1$s\?</string>
+    <string name="dialog_block_warning">Блокиране на @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Скриване на целия домейн</string>
     <string name="mute_domain_warning">Сигурни ли сте, че искате да блокирате всички от %1$s\? Няма да виждате съдържание от този домейн в нито една публична емисия или във вашите известия. Последователите ви от този домейн ще бъдат премахнати.</string>
-    <string name="dialog_redraft_post_warning">Изтриване и преработване на тази публикация\?</string>
-    <string name="dialog_delete_post_warning">Изтриване на тази публикация\?</string>
+    <string name="dialog_redraft_post_warning">Да се изтрие и преработи ли тази публикация?</string>
+    <string name="dialog_delete_post_warning">Да се изтрие ли тази публикация?</string>
     <string name="dialog_unfollow_warning">Отследване на този акаунт\?</string>
-    <string name="dialog_message_cancel_follow_request">Отмяна на заявката за последване\?</string>
+    <string name="dialog_message_cancel_follow_request">Да се отмени ли заявката за последване?</string>
     <string name="dialog_download_image">Изтегляне</string>
     <string name="dialog_message_uploading_media">Качване…</string>
     <string name="dialog_title_finishing_media_upload">Завършване на мултимедийно качване</string>
@@ -510,7 +510,7 @@
     <string name="action_delete_conversation">Изтриване на разговор</string>
     <string name="post_media_image">Изображение</string>
     <string name="duration_60_days">60 дни</string>
-    <string name="dialog_delete_conversation_warning">Изтриване на този разговор\?</string>
+    <string name="dialog_delete_conversation_warning">Да се изтрие ли този разговор?</string>
     <string name="pref_show_self_username_always">Винаги</string>
     <string name="pref_default_post_language">Език на публикуване по подразбиране</string>
     <string name="pref_show_self_username_never">Никога</string>
@@ -549,7 +549,7 @@
     <string name="pref_reading_order_oldest_first">Първо най-старите</string>
     <string name="pref_title_confirm_favourites">Питане за потвърждение преди слагане в любими</string>
     <string name="dialog_delete_filter_positive_action">Изтриване</string>
-    <string name="dialog_delete_filter_text">Изтриване на филтър \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Да се изтрие ли филтър \'%1$s\'?</string>
     <string name="no_lists">Нямате списъци.</string>
     <string name="pref_title_notification_filter_reports">има ново докладване</string>
     <string name="error_following_hashtag_format">Грешка при последване на #%1$s</string>
@@ -592,4 +592,7 @@
     <string name="compose_delete_draft">Изтриване на чернова\?</string>
     <string name="action_unfollow_hashtag_format">Отследване на #%1$s\?</string>
     <string name="mute_notifications_switch">Заглушаване на известията</string>
+    <string name="action_translate">Превеждане</string>
+    <string name="label_translated">Преведено от %1$s чрез %2$s</string>
+    <string name="report_category_spam">Спам</string>
 </resources>
