@@ -8,3 +8,4 @@ build
 .externalNativeBuild
 app/release
 app-release.apk
+.kotlin
