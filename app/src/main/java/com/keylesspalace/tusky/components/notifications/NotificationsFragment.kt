@@ -397,7 +397,7 @@ class NotificationsFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter.peek(position)?.asStatusOrNull()?.status ?: return
+        val status = adapter.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(attachmentIndex, AttachmentViewData.list(status), view)
     }
 
