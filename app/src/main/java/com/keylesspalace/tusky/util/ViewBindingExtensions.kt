@@ -20,7 +20,7 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     bindingInflater(layoutInflater)
 }
 
-private class ViewLifecycleLazy<out T : Any>(
+private class ViewLifecycleLazy<T : Any>(
     private val fragment: Fragment,
     private val initializer: (View) -> T
 ) : Lazy<T>, LifecycleEventObserver {
