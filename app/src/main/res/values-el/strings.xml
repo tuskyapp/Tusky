@@ -171,4 +171,6 @@
     <string name="error_no_web_browser_found">Δεν βρέθηκε πρόγραμμα περιήγησης στο διαδίκτυο για χρήση.</string>
     <string name="error_media_download_permission">Απαιτείται άδεια για την αποθήκευση πολυμέσων.</string>
     <string name="error_image_edit_failed">Η εικόνα δεν μπορεί να επεξεργαστεί.</string>
+    <string name="unknown_notification_type">Άγνωστος τύπος ειδοποιήσης</string>
+    <string name="list_reply_policy_list">Μέλη της λίστας</string>
 </resources>
