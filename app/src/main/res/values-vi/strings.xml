@@ -696,4 +696,6 @@
     <string name="ui_error_translate">Không thể dịch: %1$s</string>
     <string name="unknown_notification_type">Kiểu thông báo chưa rõ</string>
     <string name="report_category_legal">Pháp luật</string>
+    <string name="dialog_follow_warning">Theo dõi người này?</string>
+    <string name="pref_title_confirm_follows">Hỏi trước khi theo dõi</string>
 </resources>

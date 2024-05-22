@@ -136,13 +136,13 @@
     <string name="label_header">Intestazione</string>
     <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
     <string name="login_connection">Connessione…</string>
-    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a>
-\n
-\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
-\n
-\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito.
-\n
-\nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a> 
+\n 
+\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account. 
+\n 
+\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
+\n 
+\nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
     <string name="dialog_download_image">Scarica</string>
@@ -693,21 +693,21 @@
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %1$s</string>
     <string name="label_image">Immagine</string>
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
-    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM).
-\n
-\nI messaggi privati sono creati impostando la visibilità [iconics gmd_public] di un post su [iconics gmd_mail] <i>Privato</i> e menzionando uno o più utenti nel testo.
-\n
-\nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità. </string>
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). 
+\n 
+\nI messaggi privati sono creati impostando la visibilità [iconics gmd_public] di un post su [iconics gmd_mail] <i>Privato</i> e menzionando uno o più utenti nel testo. 
+\n 
+\nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità. \u0020</string>
     <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%1$s</string>
     <string name="unmuting_hashtag_success_format">Riattivazione dell\'hashtag #%1$s</string>
     <string name="action_view_filter">Vedi filtro</string>
     <string name="following_hashtag_success_format">Ora segui l\'hashtag #%1$s</string>
     <string name="muting_hashtag_success_format">Hashtag #%1$s silenziato come avvertimento</string>
-    <string name="help_empty_lists">Questa è la <b>vista delle tue liste</b>. Puoi definire un numero di liste private a cui aggiungere account.
-\n
-\nRICORDA che puoi aggiungere alle liste solo account che già segui.
-\n
-\nQueste liste possono essere utilizzate come scheda dalle Impostazioni account [iconics gmd_account_circle] [iconics gmd_navigate_next] Schede </string>
+    <string name="help_empty_lists">Questa è la <b>vista delle tue liste</b>. Puoi definire un numero di liste private a cui aggiungere account. 
+\n 
+\nRICORDA che puoi aggiungere alle liste solo account che già segui. 
+\n 
+\nQueste liste possono essere utilizzate come scheda dalle Impostazioni account [iconics gmd_account_circle] [iconics gmd_navigate_next] Schede \u0020</string>
     <string name="title_public_trending_statuses">Post di tendenza</string>
     <string name="error_blocking_domain">Silenziamento di %1$s fallito: %2$s</string>
     <string name="error_unblocking_domain">Riattivazione di %1$s fallito: %2$s</string>
@@ -726,4 +726,8 @@
     <string name="ui_error_translate">Impossibile tradurre: %1$s</string>
     <string name="pref_title_per_timeline_preferences">Preferenze per timeline</string>
     <string name="pref_title_show_notifications_filter">Mostra filtro notifiche</string>
+    <string name="dialog_follow_warning">Seguire questo account?</string>
+    <string name="report_category_legal">Legale</string>
+    <string name="pref_title_confirm_follows">Mostra conferma prima di seguire</string>
+    <string name="unknown_notification_type">Tipo di notifica sconosciuto</string>
 </resources>
