@@ -39,7 +39,11 @@ class DomainBlocksRepository @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val domainPager = Pager(
-        config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE),
+        config = PagingConfig(
+            pageSize = PAGE_SIZE,
+            initialLoadSize = PAGE_SIZE,
+            enablePlaceholders = false
+        ),
         remoteMediator = DomainBlocksRemoteMediator(api, this),
         pagingSourceFactory = factory
     ).flow

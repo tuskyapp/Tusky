@@ -89,8 +89,7 @@ class NotificationsPagingAdapter(
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }
-            is NotificationViewData.Placeholder -> VIEW_TYPE_PLACEHOLDER
-            null -> throw IllegalStateException("no item at position $position")
+            else -> VIEW_TYPE_PLACEHOLDER
         }
     }
 

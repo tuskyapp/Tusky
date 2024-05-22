@@ -88,19 +88,31 @@ class SearchViewModel @Inject constructor(
         }
 
     val statusesFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = statusesPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val accountsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = accountsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val hashtagsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE,
+            enablePlaceholders = false
+        ),
         pagingSourceFactory = hashtagsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)

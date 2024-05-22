@@ -78,15 +78,15 @@ class NotificationsViewModel @Inject constructor(
 
     private val refreshTrigger = MutableStateFlow(0L)
 
-    private val _filters = MutableStateFlow(
+    private val _excludes = MutableStateFlow(
         accountManager.activeAccount?.let { account -> deserialize(account.notificationsFilter) } ?: emptySet()
     )
-    val filters: StateFlow<Set<Notification.Type>> = _filters.asStateFlow()
+    val excludes: StateFlow<Set<Notification.Type>> = _excludes.asStateFlow()
 
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
-    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, filters.value)
+    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, excludes.value)
 
     private var readingOrder: ReadingOrder =
         ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
@@ -94,7 +94,10 @@ class NotificationsViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
     val notifications = refreshTrigger.flatMapLatest {
         Pager(
-            config = PagingConfig(pageSize = LOAD_AT_ONCE),
+            config = PagingConfig(
+                pageSize = LOAD_AT_ONCE,
+                enablePlaceholders = false
+            ),
             remoteMediator = remoteMediator,
             pagingSourceFactory = {
                 val activeAccount = accountManager.activeAccount
@@ -128,16 +131,16 @@ class NotificationsViewModel @Inject constructor(
     }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
-        if (newFilters != _filters.value) {
+        if (newFilters != _excludes.value) {
             val account = accountManager.activeAccount
             if (account != null) {
                 viewModelScope.launch {
                     account.notificationsFilter = serialize(newFilters)
                     accountManager.saveAccount(account)
                     remoteMediator.excludes = newFilters
-                    // clear the cache to trigger a reload
                     db.notificationsDao().cleanupNotifications(account.id, 0)
-                    _filters.value = newFilters
+                    refreshTrigger.value++
+                    _excludes.value = newFilters
                 }
             }
         }
@@ -297,14 +300,16 @@ class NotificationsViewModel @Inject constructor(
                         ReadingOrder.OLDEST_FIRST -> api.notifications(
                             maxId = idAbovePlaceholder,
                             minId = idBelowPlaceholder,
-                            limit = TimelineViewModel.LOAD_AT_ONCE
+                            limit = TimelineViewModel.LOAD_AT_ONCE,
+                            excludes = excludes.value
                         )
                         // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
                         // maxId, and no smaller than minId.
                         ReadingOrder.NEWEST_FIRST -> api.notifications(
                             maxId = idAbovePlaceholder,
                             sinceId = idBelowPlaceholder,
-                            limit = TimelineViewModel.LOAD_AT_ONCE
+                            limit = TimelineViewModel.LOAD_AT_ONCE,
+                            excludes = excludes.value
                         )
                     }
                 }
