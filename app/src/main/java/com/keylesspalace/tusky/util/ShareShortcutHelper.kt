@@ -27,7 +27,6 @@ import androidx.core.app.Person
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.keylesspalace.tusky.MainActivity
@@ -56,27 +55,24 @@ class ShareShortcutHelper @Inject constructor(
 
             val shortcuts = accountManager.accounts.take(maxNumberOfShortcuts).mapNotNull { account ->
 
-                val bmp = try {
+                val drawable = try {
                     Glide.with(context)
-                        .asBitmap()
+                        .asDrawable()
                         .load(account.profilePictureUrl)
                         .submitAsync(innerSize, innerSize)
                 } catch (e: GlideException) {
                     // https://github.com/bumptech/glide/issues/4672 :/
                     Log.w(TAG, "failed to load avatar ${account.profilePictureUrl}", e)
-                    AppCompatResources.getDrawable(context, R.drawable.avatar_default)?.toBitmap(innerSize, innerSize) ?: return@mapNotNull null
+                    AppCompatResources.getDrawable(context, R.drawable.avatar_default) ?: return@mapNotNull null
                 }
 
                 // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
                 val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
 
                 val canvas = Canvas(outBmp)
-                canvas.drawBitmap(
-                    bmp,
-                    (outerSize - innerSize).toFloat() / 2f,
-                    (outerSize - innerSize).toFloat() / 2f,
-                    null
-                )
+                val borderSize = (outerSize - innerSize) / 2
+                drawable.setBounds(borderSize, borderSize, borderSize + innerSize, borderSize + innerSize)
+                drawable.draw(canvas)
 
                 val icon = IconCompat.createWithAdaptiveBitmap(outBmp)
 

@@ -27,7 +27,7 @@ import android.text.style.StyleSpan
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
@@ -173,7 +173,7 @@ internal class StatusNotificationViewHolder(
         @DrawableRes drawable: Int,
         @ColorRes color: Int
     ): Drawable? {
-        val icon = ContextCompat.getDrawable(context, drawable)
+        val icon = AppCompatResources.getDrawable(context, drawable)
         icon?.setTint(context.getColor(color))
         return icon
     }
@@ -247,7 +247,7 @@ internal class StatusNotificationViewHolder(
                 format = context.getString(R.string.notification_favourite_format)
             }
         }
-        binding.notificationTopText.setCompoundDrawablesWithIntrinsicBounds(
+        binding.notificationTopText.setCompoundDrawablesRelativeWithIntrinsicBounds(
             icon,
             null,
             null,

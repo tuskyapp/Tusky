@@ -204,15 +204,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        // Newer Android versions don't need to install the compat Splash Screen
+        // and it can cause theming bugs.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            installSplashScreen()
+        }
         super.onCreate(savedInstanceState)
 
-        val activeAccount = accountManager.activeAccount
-        if (activeAccount == null) {
-            splashScreen.setKeepOnScreenCondition { true }
-            // will be redirected to LoginActivity by BaseActivity
-            return
-        }
+        // will be redirected to LoginActivity by BaseActivity
+        val activeAccount = accountManager.activeAccount ?: return
 
         if (explodeAnimationWasRequested()) {
             overrideActivityTransitionCompat(
