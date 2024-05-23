@@ -100,10 +100,8 @@ inline fun <T: View, R> T.updateEmojiTargets(body: EmojiTargetScope<T>.() -> R):
 fun View.clearEmojiTargets() {
     getTag(R.id.custom_emoji_targets_tag)?.let { tag ->
         val targets = tag as List<Target<Drawable>>
-        if (targets.isNotEmpty()) {
-            val requestManager = Glide.with(this)
-            targets.forEach { requestManager.clear(it) }
-        }
+        val requestManager = Glide.with(this)
+        targets.forEach { requestManager.clear(it) }
         setTag(R.id.custom_emoji_targets_tag, null)
     }
 }
