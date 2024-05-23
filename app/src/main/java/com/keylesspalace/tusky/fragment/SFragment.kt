@@ -249,11 +249,12 @@ abstract class SFragment : Fragment() {
             )
         }
 
-        // translation not there for your own posts
+        // translation not there for your own posts, posts already in your language or non-public posts
         menu.findItem(R.id.status_translate)?.let { translateItem ->
             translateItem.isVisible = onMoreTranslate != null &&
                 !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&
-                instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
+                instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true &&
+                (status.visibility == Status.Visibility.PUBLIC || status.visibility == Status.Visibility.UNLISTED)
             translateItem.setTitle(if (translation != null) R.string.action_show_original else R.string.action_translate)
         }
 
