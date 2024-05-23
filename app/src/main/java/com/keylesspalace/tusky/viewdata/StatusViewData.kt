@@ -86,8 +86,8 @@ sealed class StatusViewData {
          *
          * @return Whether the post is collapsible or never collapsed.
          */
-        val isCollapsible: Boolean = shouldTrimStatus(this.content)
-            && (translation == null || shouldTrimStatus(actionable.content.parseAsMastodonHtml()))
+        val isCollapsible: Boolean = shouldTrimStatus(this.content) &&
+            (translation == null || shouldTrimStatus(actionable.content.parseAsMastodonHtml()))
 
         val actionable: Status
             get() = status.actionableStatus
