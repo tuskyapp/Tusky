@@ -71,8 +71,8 @@ data class Attachment(
     @JsonClass(generateAdapter = true)
     @Parcelize
     data class Focus(
-        val x: Float,
-        val y: Float
+        val x: Float?,
+        val y: Float?
     ) : Parcelable {
         fun toMastodonApiString(): String = "$x,$y"
     }
