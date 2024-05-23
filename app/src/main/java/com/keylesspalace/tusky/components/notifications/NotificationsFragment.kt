@@ -468,7 +468,7 @@ class NotificationsFragment :
         menuBinding.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE)
 
         Notification.Type.visibleTypes.forEachIndexed { index, type ->
-            menuBinding.listView.setItemChecked(index, !viewModel.filters.value.contains(type))
+            menuBinding.listView.setItemChecked(index, !viewModel.excludes.value.contains(type))
         }
 
         window.setContentView(menuBinding.root)
