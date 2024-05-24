@@ -331,14 +331,14 @@ class ViewVideoFragment : ViewMediaFragment() {
                             }
 
                             override fun onResourceCleared(placeholder: Drawable?) {
-                                binding.videoView.defaultArtwork = null
+                                view.defaultArtwork = null
                             }
 
                             override fun onResourceReady(
                                 resource: Drawable,
                                 transition: Transition<in Drawable>?
                             ) {
-                                binding.videoView.defaultArtwork = resource
+                                view.defaultArtwork = resource
                             }
                         }.clearOnDetach()
                     )
