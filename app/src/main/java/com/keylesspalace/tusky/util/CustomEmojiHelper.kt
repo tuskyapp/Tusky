@@ -35,7 +35,7 @@ import com.keylesspalace.tusky.entity.Emoji
 /**
  * replaces emoji shortcodes in a text with EmojiSpans
  * @receiver the text containing custom emojis
- * @param emojis a list of the custom emojis (nullable for backward compatibility with old mastodon instances)
+ * @param emojis a list of the custom emojis
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
 */
