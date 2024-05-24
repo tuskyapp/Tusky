@@ -338,7 +338,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                                 resource: Drawable,
                                 transition: Transition<in Drawable>?
                             ) {
-                                binding.videoView.defaultArtwork = null
+                                binding.videoView.defaultArtwork = resource
                             }
                         }.clearOnDetach()
                     )
