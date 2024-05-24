@@ -88,7 +88,7 @@ class EmojiTargetScope<T : View>(val view: T) {
     }
 }
 
-inline fun <T: View, R> T.updateEmojiTargets(body: EmojiTargetScope<T>.() -> R): R {
+inline fun <T : View, R> T.updateEmojiTargets(body: EmojiTargetScope<T>.() -> R): R {
     clearEmojiTargets()
     val scope = EmojiTargetScope(this)
     val result = body(scope)
