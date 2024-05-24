@@ -473,7 +473,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     if (statusViewData.translation != null) {
                         viewModel.untranslate(statusViewData)
                     } else {
-                        lifecycleScope.launch {
+                        viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.translate(statusViewData)
                                 .onFailure {
                                     Snackbar.make(
@@ -574,11 +574,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
-        activity?.let {
-            AlertDialog.Builder(it)
+        context?.let { context ->
+            AlertDialog.Builder(context)
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.deleteStatusAsync(id).await().fold(
                             { deletedStatus ->
                                 removeItem(position)
@@ -590,7 +590,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                 }
 
                                 val intent = ComposeActivity.startIntent(
-                                    requireContext(),
+                                    context,
                                     ComposeOptions(
                                         content = redraftStatus.text.orEmpty(),
                                         inReplyToId = redraftStatus.inReplyToId,
@@ -622,7 +622,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun editStatus(id: String, position: Int, status: Status) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mastodonApi.statusSource(id).fold(
                 { source ->
                     val composeOptions = ComposeOptions(

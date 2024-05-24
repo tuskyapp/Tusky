@@ -132,7 +132,7 @@ class ConversationsFragment :
             binding.progressBar.hide()
 
             if (loadState.isAnyLoading()) {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     eventHub.dispatch(
                         ConversationsLoadingEvent(
                             accountManager.activeAccount?.accountId ?: ""
@@ -219,7 +219,7 @@ class ConversationsFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
                     onPreferenceChanged(event.preferenceKey)

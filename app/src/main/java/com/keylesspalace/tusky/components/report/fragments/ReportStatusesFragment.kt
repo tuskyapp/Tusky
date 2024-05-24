@@ -173,7 +173,7 @@ class ReportStatusesFragment :
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statusesFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }

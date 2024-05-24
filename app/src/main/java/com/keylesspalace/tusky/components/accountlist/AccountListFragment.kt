@@ -379,7 +379,7 @@ class AccountListFragment :
     }
 
     private fun fetchRelationships(ids: List<String>) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             api.relationships(ids)
                 .fold(::onFetchRelationshipsSuccess) { throwable ->
                     Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)

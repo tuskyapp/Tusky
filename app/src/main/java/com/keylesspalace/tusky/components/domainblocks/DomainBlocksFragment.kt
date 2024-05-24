@@ -43,7 +43,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks) {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.domainPager.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }

@@ -349,7 +349,7 @@ class NotificationsFragment :
 
     private fun onTranslate(position: Int) {
         val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
                     Snackbar.make(

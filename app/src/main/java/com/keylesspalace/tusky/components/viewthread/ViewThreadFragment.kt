@@ -343,7 +343,7 @@ class ViewThreadFragment :
 
     private fun onTranslate(position: Int) {
         val status = adapter.currentList[position]
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
                     Snackbar.make(

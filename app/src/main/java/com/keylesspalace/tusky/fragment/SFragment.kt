@@ -356,7 +356,7 @@ abstract class SFragment : Fragment() {
                 }
 
                 R.id.pin -> {
-                    lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         timelineCases.pin(status.id, !status.pinned)
                             .onFailure { e: Throwable ->
                                 val message = e.message
@@ -388,9 +388,9 @@ abstract class SFragment : Fragment() {
         showMuteAccountDialog(
             this.requireActivity(),
             accountUsername
-        ) { notifications: Boolean?, duration: Int? ->
+        ) { notifications: Boolean, duration: Int? ->
             lifecycleScope.launch {
-                timelineCases.mute(accountId, notifications == true, duration)
+                timelineCases.mute(accountId, notifications, duration)
             }
         }
     }
@@ -444,11 +444,11 @@ abstract class SFragment : Fragment() {
         AlertDialog.Builder(requireActivity())
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     val result = timelineCases.delete(id).exceptionOrNull()
                     if (result != null) {
                         Log.w("SFragment", "error deleting status", result)
-                        Toast.makeText(context, R.string.error_generic, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
                     }
                     // XXX: Removes the item even if there was an error. This is probably not
                     // correct (see similar code in showConfirmEditDialog() which only
@@ -463,13 +463,12 @@ abstract class SFragment : Fragment() {
     }
 
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
-        if (activity == null) {
-            return
-        }
-        AlertDialog.Builder(requireActivity())
+        val context = context ?: return
+
+        AlertDialog.Builder(context)
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     timelineCases.delete(id).fold(
                         { deletedStatus ->
                             removeItem(position)
@@ -490,7 +489,7 @@ abstract class SFragment : Fragment() {
                                 poll = sourceStatus.poll?.toNewPoll(sourceStatus.createdAt),
                                 kind = ComposeActivity.ComposeKind.NEW
                             )
-                            startActivity(startIntent(requireContext(), composeOptions))
+                            startActivity(startIntent(context, composeOptions))
                         },
                         { error: Throwable? ->
                             Log.w("SFragment", "error deleting status", error)
@@ -505,7 +504,7 @@ abstract class SFragment : Fragment() {
     }
 
     private fun editStatus(id: String, status: Status) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             mastodonApi.statusSource(id).fold(
                 { source ->
                     val composeOptions = ComposeOptions(
