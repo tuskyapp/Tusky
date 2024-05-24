@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.report.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,7 +29,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -71,6 +71,9 @@ class ReportStatusesFragment :
 
     @Inject
     lateinit var accountManager: AccountManager
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private val viewModel: ReportViewModel by activityViewModels()
 
@@ -145,7 +148,6 @@ class ReportStatusesFragment :
     }
 
     private fun initStatusesView() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = false,
             mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,

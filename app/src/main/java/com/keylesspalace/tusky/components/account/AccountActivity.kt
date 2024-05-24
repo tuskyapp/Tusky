@@ -48,7 +48,6 @@ import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
@@ -92,7 +91,6 @@ import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.setClickableText
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
@@ -120,8 +118,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     private val binding: ActivityAccountBinding by viewBinding(ActivityAccountBinding::inflate)
 
     private lateinit var accountFieldAdapter: AccountFieldAdapter
-
-    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     private var followState: FollowState = FollowState.NOT_FOLLOWING
     private var blocking: Boolean = false
@@ -173,10 +169,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         // Obtain information to fill out the profile.
         viewModel.setAccountInfo(intent.getStringExtra(KEY_ACCOUNT_ID)!!)
 
-        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-        animateAvatar = sharedPrefs.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-        animateEmojis = sharedPrefs.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        hideFab = sharedPrefs.getBoolean(PrefKeys.FAB_HIDE, false)
+        animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
 
         handleWindowInsets()
         setupToolbar()
@@ -241,7 +236,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         }
 
         // If wellbeing mode is enabled, follow stats and posts count should be hidden
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
         if (wellbeingEnabled) {
@@ -675,7 +669,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountFloatingActionButton.setOnClickListener { mention() }
 
             binding.accountFollowButton.setOnClickListener {
-                val preferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val confirmFollows = preferences.getBoolean(PrefKeys.CONFIRM_FOLLOWS, false)
                 if (viewModel.isSelf) {
                     val intent = Intent(this@AccountActivity, EditProfileActivity::class.java)
@@ -721,7 +714,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         showingReblogs = relation.showingReblogs
 
         // If wellbeing mode is enabled, "follows you" text should not be visible
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_PROFILE, false)
 
         binding.accountFollowsYouTextView.visible(relation.followedBy && !wellbeingEnabled)

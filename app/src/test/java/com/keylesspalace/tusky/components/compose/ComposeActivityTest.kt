@@ -163,6 +163,14 @@ class ComposeActivityTest {
         activity.accountManager = accountManagerMock
         activity.viewModelProviderFactory = testViewModelFactory
 
+        activity.preferences = mock(defaultAnswer = {
+            when (it.method.returnType) {
+                String::class.java -> "test"
+                Boolean::class.java -> false
+                else -> null
+            }
+        })
+
         controller.create().start()
         shadowOf(getMainLooper()).idle()
     }

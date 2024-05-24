@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.viewthread
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +31,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -57,6 +57,7 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
@@ -68,6 +69,9 @@ class ViewThreadFragment :
     OnRefreshListener,
     StatusActionListener,
     MenuProvider {
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private val viewModel: ViewThreadViewModel by viewModels()
 
@@ -92,7 +96,6 @@ class ViewThreadFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thisThreadsStatusId = requireArguments().getString(ID_EXTRA)!!
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),

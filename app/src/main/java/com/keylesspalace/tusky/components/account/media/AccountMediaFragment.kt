@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.account.media
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,7 +29,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -64,6 +64,9 @@ class AccountMediaFragment :
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private val viewModel: AccountMediaViewModel by viewModels()
@@ -78,7 +81,6 @@ class AccountMediaFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
         adapter = AccountMediaGridAdapter(

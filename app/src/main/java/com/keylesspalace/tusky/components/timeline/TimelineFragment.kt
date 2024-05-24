@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -91,6 +91,9 @@ class TimelineFragment :
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private val viewModel: TimelineViewModel by unsafeLazy {
         val viewModelProvider = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory, defaultViewModelCreationExtras)
@@ -170,7 +173,6 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
         val statusDisplayOptions = StatusDisplayOptions(
@@ -282,7 +284,6 @@ class TimelineFragment :
         }
 
         if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
             binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
@@ -317,7 +318,7 @@ class TimelineFragment :
             }
         }
 
-        updateRelativeTimePeriodically {
+        updateRelativeTimePeriodically(preferences) {
             adapter.notifyItemRangeChanged(
                 0,
                 adapter.itemCount,
@@ -568,10 +569,9 @@ class TimelineFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
             PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
             }
 
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
@@ -585,7 +585,7 @@ class TimelineFragment :
 
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, null)
+                    preferences.getString(PrefKeys.READING_ORDER, null)
                 )
             }
         }

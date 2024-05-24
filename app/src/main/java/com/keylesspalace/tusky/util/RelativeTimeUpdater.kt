@@ -2,11 +2,11 @@
 
 package com.keylesspalace.tusky.util
 
+import android.content.SharedPreferences
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.settings.PrefKeys
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.delay
@@ -19,8 +19,7 @@ private val UPDATE_INTERVAL = 1.minutes
  * if setting absoluteTimeView is false.
  * Start updates when the Fragment becomes visible and stop when it is hidden.
  */
-fun Fragment.updateRelativeTimePeriodically(callback: Runnable) {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+fun Fragment.updateRelativeTimePeriodically(preferences: SharedPreferences, callback: Runnable) {
     val lifecycle = viewLifecycleOwner.lifecycle
     lifecycle.coroutineScope.launch {
         // This child coroutine will launch each time the Fragment moves to the STARTED state

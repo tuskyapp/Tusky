@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.announcements
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -27,7 +26,6 @@ import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.color.MaterialColors
@@ -100,7 +98,6 @@ class AnnouncementsActivity :
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding.announcementsList.addItemDecoration(divider)
 
-        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val wellbeingEnabled = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false)
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 

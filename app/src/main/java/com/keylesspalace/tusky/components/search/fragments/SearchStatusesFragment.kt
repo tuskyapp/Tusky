@@ -21,6 +21,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,7 +38,6 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
@@ -76,6 +76,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
 
@@ -111,9 +114,6 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(
-            binding.searchRecyclerView.context
-        )
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = viewModel.mediaPreviewEnabled,

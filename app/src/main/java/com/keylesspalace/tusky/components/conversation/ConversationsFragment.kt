@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.conversation
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -30,7 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,6 +79,9 @@ class ConversationsFragment :
     @Inject
     lateinit var eventHub: EventHub
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val viewModel: ConversationsViewModel by viewModels()
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
@@ -97,8 +100,6 @@ class ConversationsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
 
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
@@ -407,10 +408,9 @@ class ConversationsFragment :
     }
 
     private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         when (key) {
             PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
+                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
             }
 
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {

@@ -52,7 +52,7 @@ class TuskyApplication : Application(), Configuration.Provider {
     lateinit var localeManager: LocaleManager
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: SharedPreferences
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -70,7 +70,7 @@ class TuskyApplication : Application(), Configuration.Provider {
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
         // Migrate shared preference keys and defaults from version to version.
-        val oldVersion = sharedPreferences.getInt(
+        val oldVersion = preferences.getInt(
             PrefKeys.SCHEMA_VERSION,
             NEW_INSTALL_SCHEMA_VERSION
         )
@@ -84,7 +84,7 @@ class TuskyApplication : Application(), Configuration.Provider {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = sharedPreferences.getString(APP_THEME, AppTheme.DEFAULT.value)
+        val theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.value)
         setAppNightMode(theme)
 
         localeManager.setLocale()
@@ -109,7 +109,7 @@ class TuskyApplication : Application(), Configuration.Provider {
 
     private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
-        val editor = sharedPreferences.edit()
+        val editor = preferences.edit()
 
         if (oldVersion < 2023022701) {
             // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
@@ -123,7 +123,7 @@ class TuskyApplication : Application(), Configuration.Provider {
             // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
             // didn't have an explicit preference set use the previous default, so the
             // theme does not unexpectedly change.
-            if (!sharedPreferences.contains(APP_THEME)) {
+            if (!preferences.contains(APP_THEME)) {
                 editor.putString(APP_THEME, AppTheme.NIGHT.value)
             }
         }

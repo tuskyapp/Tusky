@@ -21,7 +21,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.preference.PreferenceDataStore
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.PrefKeys
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -33,10 +32,11 @@ class LocaleManager @Inject constructor(
     @ApplicationContext val context: Context
 ) : PreferenceDataStore() {
 
-    private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     fun setLocale() {
-        val language = prefs.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
+        val language = preferences.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (language != HANDLED_BY_SYSTEM) {
@@ -44,7 +44,7 @@ class LocaleManager @Inject constructor(
                 // hand over the old setting to the system and save a dummy value in Shared Preferences
                 applyLanguageToApp(language)
 
-                prefs.edit()
+                preferences.edit()
                     .putString(PrefKeys.LANGUAGE, HANDLED_BY_SYSTEM)
                     .apply()
             }
@@ -58,7 +58,7 @@ class LocaleManager @Inject constructor(
         // if we are on Android < 13 we have to save the selected language so we can apply it at appstart
         // on Android 13+ the system handles it for us
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            prefs.edit()
+            preferences.edit()
                 .putString(PrefKeys.LANGUAGE, value)
                 .apply()
         }
@@ -84,7 +84,7 @@ class LocaleManager @Inject constructor(
                     }
             }
         } else {
-            prefs.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
+            preferences.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
         }
     }
 

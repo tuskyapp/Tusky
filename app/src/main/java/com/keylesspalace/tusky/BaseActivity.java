@@ -42,6 +42,7 @@ import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
 import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
+import com.keylesspalace.tusky.di.PreferencesEntryPoint;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
@@ -55,6 +56,8 @@ import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
 
+import dagger.hilt.EntryPoints;
+
 /**
  * All activities inheriting from BaseActivity must be annotated with @AndroidEntryPoint
  */
@@ -67,6 +70,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Inject
     @NonNull
     public AccountManager accountManager;
+
+    @Inject
+    @NonNull
+    public SharedPreferences preferences;
 
     /**
      * Allows overriding the default ViewModelProvider.Factory for testing purposes.
@@ -92,8 +99,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                     R.anim.activity_close_exit
             );
         }
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -127,7 +132,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        // injected preferences not yet available at this point of the lifecycle
+        SharedPreferences preferences = EntryPoints.get(newBase.getApplicationContext(), PreferencesEntryPoint.class).preferences();
 
         // Scale text in the UI from PrefKeys.UI_TEXT_SCALE_RATIO
         float uiScaleRatio = preferences.getFloat(PrefKeys.UI_TEXT_SCALE_RATIO, 100F);
@@ -247,7 +253,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!showActiveAccount && activeAccount != null) {
             accounts.remove(activeAccount);
         }
-        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this);
+        AccountSelectionAdapter adapter = new AccountSelectionAdapter(
+            this,
+            preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        );
         adapter.addAll(accounts);
 
         new AlertDialog.Builder(this)

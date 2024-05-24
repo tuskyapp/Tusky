@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.viewthread.edits
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -27,7 +28,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -52,6 +52,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -60,6 +61,9 @@ class ViewEditsFragment :
     LinkListener,
     OnRefreshListener,
     MenuProvider {
+
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     private val viewModel: ViewEditsViewModel by viewModels()
 
@@ -81,7 +85,6 @@ class ViewEditsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         statusId = requireArguments().getString(STATUS_ID_EXTRA)!!
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)

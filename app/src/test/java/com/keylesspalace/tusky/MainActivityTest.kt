@@ -140,6 +140,13 @@ class MainActivityTest {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
         }
+        activity.preferences = mock(defaultAnswer = {
+            when (it.method.returnType) {
+                String::class.java -> "test"
+                Boolean::class.java -> false
+                else -> null
+            }
+        })
         controller.create().start()
         return activity
     }
