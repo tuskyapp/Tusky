@@ -56,13 +56,6 @@ class ListSelectionFragment : DialogFragment() {
 
     private val viewModel: ListsForAccountViewModel by viewModels()
 
-    private var _binding: FragmentListsListBinding? = null
-
-    // This property is only valid between onCreateDialog and onDestroyView
-    private val binding get() = _binding!!
-
-    private val adapter = Adapter()
-
     private var selectListener: ListSelectionListener? = null
     private var accountId: String? = null
 
@@ -80,7 +73,8 @@ class ListSelectionFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = requireContext()
 
-        _binding = FragmentListsListBinding.inflate(layoutInflater)
+        val binding = FragmentListsListBinding.inflate(layoutInflater)
+        val adapter = Adapter()
         binding.listsView.adapter = adapter
 
         val dialogBuilder = AlertDialog.Builder(context)
@@ -120,7 +114,7 @@ class ListSelectionFragment : DialogFragment() {
                 binding.listsView.hide()
                 binding.messageView.apply {
                     show()
-                    setup(error) { load() }
+                    setup(error) { load(binding) }
                 }
             }
         }
@@ -155,7 +149,7 @@ class ListSelectionFragment : DialogFragment() {
         }
 
         lifecycleScope.launch {
-            load()
+            load(binding)
         }
 
         return dialog
@@ -173,12 +167,7 @@ class ListSelectionFragment : DialogFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun load() {
+    private fun load(binding: FragmentListsListBinding) {
         binding.progressBar.show()
         binding.listsView.hide()
         binding.messageView.hide()

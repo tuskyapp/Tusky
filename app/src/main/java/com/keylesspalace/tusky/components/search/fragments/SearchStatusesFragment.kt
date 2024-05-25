@@ -82,9 +82,6 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
 
-    private val searchAdapter
-        get() = super.adapter as SearchStatusesAdapter
-
     private var pendingMediaDownloads: List<String>? = null
 
     private val downloadAllMediaPermissionLauncher =
@@ -129,6 +126,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
+        val adapter = SearchStatusesAdapter(statusDisplayOptions, this)
 
         binding.searchRecyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.searchRecyclerView, this) { pos ->
@@ -148,41 +146,41 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         )
         binding.searchRecyclerView.layoutManager =
             LinearLayoutManager(binding.searchRecyclerView.context)
-        return SearchStatusesAdapter(statusDisplayOptions, this)
+        return adapter
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
         }
     }
 
     override fun onReply(position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             reply(status)
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.favorite(status, favourite)
         }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.bookmark(status, bookmark)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             more(it, view, position)
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        searchAdapter.peek(position)?.status?.actionableStatus?.let { actionable ->
+        adapter?.peek(position)?.status?.actionableStatus?.let { actionable ->
             when (actionable.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(actionable)
@@ -213,20 +211,20 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onViewThread(position: Int) {
-        searchAdapter.peek(position)?.status?.let { status ->
+        adapter?.peek(position)?.status?.let { status ->
             val actionableStatus = status.actionableStatus
             bottomSheetActivity?.viewThread(actionableStatus.id, actionableStatus.url)
         }
     }
 
     override fun onOpenReblog(position: Int) {
-        searchAdapter.peek(position)?.status?.let { status ->
+        adapter?.peek(position)?.status?.let { status ->
             bottomSheetActivity?.viewAccount(status.account.id)
         }
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.expandedChange(it, expanded)
         }
     }
@@ -236,13 +234,13 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
     }
@@ -250,19 +248,19 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     override fun clearWarningAction(position: Int) {}
 
     private fun removeItem(position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.removeItem(it)
         }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.reblog(status, reblog)
         }
     }
 
     override fun onUntranslate(position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.untranslate(it)
         }
     }
@@ -418,7 +416,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_mute_conversation -> {
-                    searchAdapter.peek(position)?.let { foundStatus ->
+                    adapter?.peek(position)?.let { foundStatus ->
                         viewModel.muteConversation(foundStatus, !status.muted)
                     }
                     return@setOnMenuItemClickListener true
@@ -460,7 +458,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_edit -> {
-                    editStatus(id, position, status)
+                    editStatus(id, status)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -621,7 +619,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    private fun editStatus(id: String, position: Int, status: Status) {
+    private fun editStatus(id: String, status: Status) {
         viewLifecycleOwner.lifecycleScope.launch {
             mastodonApi.statusSource(id).fold(
                 { source ->

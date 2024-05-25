@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -35,7 +34,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.getParcelableCompat
@@ -57,8 +55,8 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private val binding by viewBinding(FragmentViewImageBinding::bind)
 
-    private lateinit var photoActionsListener: PhotoActionsListener
-    private lateinit var toolbar: View
+    private val photoActionsListener: PhotoActionsListener
+        get() = requireContext() as PhotoActionsListener
     private var transition: CompletableDeferred<Unit>? = null
     private var shouldStartTransition = false
 
@@ -66,11 +64,6 @@ class ViewImageFragment : ViewMediaFragment() {
     // immediately on another thread. Atomic is an overkill for such thing.
     @Volatile
     private var startedTransition = false
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        photoActionsListener = context as PhotoActionsListener
-    }
 
     override fun setupMediaView(
         url: String,
@@ -91,7 +84,6 @@ class ViewImageFragment : ViewMediaFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        toolbar = (requireActivity() as ViewMediaActivity).toolbar
         this.transition = CompletableDeferred()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }

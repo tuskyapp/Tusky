@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
 @AndroidEntryPoint
-class AccountsInListFragment : DialogFragment() {
+class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list) {
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -60,8 +60,6 @@ class AccountsInListFragment : DialogFragment() {
 
     private lateinit var listId: String
     private lateinit var listName: String
-    private val adapter = Adapter()
-    private val searchAdapter = SearchAdapter()
 
     private val radius by unsafeLazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
 
@@ -86,15 +84,10 @@ class AccountsInListFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_accounts_in_list, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = Adapter()
+        val searchAdapter = SearchAdapter()
+
         binding.accountsRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.accountsRecycler.adapter = adapter
 
@@ -110,7 +103,7 @@ class AccountsInListFragment : DialogFragment() {
                     is Either.Left -> handleError(state.accounts.value)
                 }
 
-                setupSearchView(state)
+                setupSearchView(searchAdapter, state)
             }
         }
 
@@ -131,7 +124,7 @@ class AccountsInListFragment : DialogFragment() {
         })
     }
 
-    private fun setupSearchView(state: State) {
+    private fun setupSearchView(searchAdapter: SearchAdapter, state: State) {
         if (state.searchResult == null) {
             searchAdapter.submitList(listOf())
             binding.accountsSearchRecycler.hide()

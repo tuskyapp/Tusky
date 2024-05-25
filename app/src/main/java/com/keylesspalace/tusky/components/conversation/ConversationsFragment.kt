@@ -17,12 +17,10 @@ package com.keylesspalace.tusky.components.conversation
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.MenuProvider
@@ -71,7 +69,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ConversationsFragment :
-    SFragment(),
+    SFragment(R.layout.fragment_timeline),
     StatusActionListener,
     ReselectableFragment,
     MenuProvider {
@@ -86,17 +84,9 @@ class ConversationsFragment :
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private lateinit var adapter: ConversationAdapter
+    private var adapter: ConversationAdapter? = null
 
     private var hideFab = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_timeline, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -117,9 +107,10 @@ class ConversationsFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        adapter = ConversationAdapter(statusDisplayOptions, this)
+        val adapter = ConversationAdapter(statusDisplayOptions, this)
+        this.adapter = adapter
 
-        setupRecyclerView()
+        setupRecyclerView(adapter)
 
         initSwipeToRefresh()
 
@@ -222,10 +213,16 @@ class ConversationsFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
-                    onPreferenceChanged(event.preferenceKey)
+                    onPreferenceChanged(adapter, event.preferenceKey)
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -250,7 +247,7 @@ class ConversationsFragment :
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(adapter: ConversationAdapter) {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -265,7 +262,7 @@ class ConversationsFragment :
     }
 
     private fun refreshContent() {
-        adapter.refresh()
+        adapter?.refresh()
     }
 
     private fun initSwipeToRefresh() {
@@ -278,13 +275,13 @@ class ConversationsFragment :
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.favourite(favourite, conversation)
         }
     }
 
     override fun onBookmark(favourite: Boolean, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.bookmark(favourite, conversation)
         }
     }
@@ -292,7 +289,7 @@ class ConversationsFragment :
     override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)? = null
 
     override fun onMore(view: View, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
 
             val popup = PopupMenu(requireContext(), view)
             popup.inflate(R.menu.conversation_more)
@@ -316,7 +313,7 @@ class ConversationsFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewMedia(
                 attachmentIndex,
                 AttachmentViewData.list(conversation.lastStatus.status),
@@ -326,7 +323,7 @@ class ConversationsFragment :
     }
 
     override fun onViewThread(position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewThread(conversation.lastStatus.id, conversation.lastStatus.status.url)
         }
     }
@@ -336,13 +333,13 @@ class ConversationsFragment :
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.expandHiddenStatus(expanded, conversation)
         }
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.showContent(isShowing, conversation)
         }
     }
@@ -352,7 +349,7 @@ class ConversationsFragment :
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.collapseLongStatus(isCollapsed, conversation)
         }
     }
@@ -372,13 +369,13 @@ class ConversationsFragment :
     }
 
     override fun onReply(position: Int) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             reply(conversation.lastStatus.status)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        adapter.peek(position)?.let { conversation ->
+        adapter?.peek(position)?.let { conversation ->
             viewModel.voteInPoll(choices, conversation)
         }
     }
@@ -387,7 +384,7 @@ class ConversationsFragment :
     }
 
     override fun onReselect() {
-        if (isAdded) {
+        if (view != null) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }
@@ -407,7 +404,7 @@ class ConversationsFragment :
             .show()
     }
 
-    private fun onPreferenceChanged(key: String) {
+    private fun onPreferenceChanged(adapter: ConversationAdapter, key: String) {
         when (key) {
             PrefKeys.FAB_HIDE -> {
                 hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)

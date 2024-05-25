@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -53,6 +52,7 @@ import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,19 +72,24 @@ class ViewVideoFragment : ViewMediaFragment() {
 
     private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
-    private lateinit var videoActionsListener: VideoActionsListener
-    private lateinit var toolbar: View
+    private val videoActionsListener: VideoActionsListener
+        get() = requireContext() as VideoActionsListener
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
     }
-    private lateinit var mediaActivity: ViewMediaActivity
-    private lateinit var mediaPlayerListener: Player.Listener
-    private var isAudio = false
+    private val mediaActivity: ViewMediaActivity
+        get() = requireActivity() as ViewMediaActivity
+    private var mediaPlayerListener: Player.Listener? = null
+    private val isAudio
+        get() = mediaAttachment.type == Attachment.Type.AUDIO
 
-    private lateinit var mediaAttachment: Attachment
+    private val mediaAttachment: Attachment by unsafeLazy {
+        arguments?.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
+    }
 
     private var player: ExoPlayer? = null
 
@@ -100,20 +105,12 @@ class ViewVideoFragment : ViewMediaFragment() {
     /** Prevent the next play start from queueing a toolbar hide. */
     private var suppressNextHideToolbar = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        videoActionsListener = context as VideoActionsListener
-    }
-
     @SuppressLint("PrivateResource", "MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mediaActivity = activity as ViewMediaActivity
-        toolbar = mediaActivity.toolbar
         val rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
 
         // Move the controls to the bottom of the screen, with enough bottom margin to clear the seekbar
@@ -132,11 +129,6 @@ class ViewVideoFragment : ViewMediaFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
-            ?: throw IllegalArgumentException("attachment has to be set")
-
-        val url = attachment.url
-        isAudio = attachment.type == Attachment.Type.AUDIO
 
         /**
          * Handle single taps, flings, and dragging
@@ -272,15 +264,19 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
 
-        mediaAttachment = attachment
+        val attachment = mediaAttachment
+        finalizeViewSetup(attachment.url, attachment.previewUrl, attachment.description)
+    }
 
-        finalizeViewSetup(url, attachment.previewUrl, attachment.description)
+    override fun onDestroyView() {
+        mediaPlayerListener = null
+        super.onDestroyView()
     }
 
     override fun onStart() {
         super.onStart()
 
-        initializePlayer()
+        initializePlayer(requireNotNull(mediaPlayerListener))
         binding.videoView.onResume()
     }
 
@@ -298,7 +294,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         outState.putLong(SEEK_POSITION, savedSeekPosition)
     }
 
-    private fun initializePlayer() {
+    private fun initializePlayer(mediaPlayerListener: Player.Listener) {
         player = playerProvider.get().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()

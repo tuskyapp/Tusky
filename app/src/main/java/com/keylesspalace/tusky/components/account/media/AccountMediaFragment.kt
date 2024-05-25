@@ -71,7 +71,7 @@ class AccountMediaFragment :
 
     private val viewModel: AccountMediaViewModel by viewModels()
 
-    private lateinit var adapter: AccountMediaGridAdapter
+    private var adapter: AccountMediaGridAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,11 +83,12 @@ class AccountMediaFragment :
 
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
-        adapter = AccountMediaGridAdapter(
+        val adapter = AccountMediaGridAdapter(
             useBlurhash = useBlurhash,
             context = view.context,
             onAttachmentClickListener = ::onAttachmentClick
         )
+        this.adapter = adapter
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
         val imageSpacing = view.context.resources.getDimensionPixelSize(
@@ -143,6 +144,12 @@ class AccountMediaFragment :
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -206,7 +213,7 @@ class AccountMediaFragment :
     }
 
     override fun refreshContent() {
-        adapter.refresh()
+        adapter?.refresh()
     }
 
     companion object {
