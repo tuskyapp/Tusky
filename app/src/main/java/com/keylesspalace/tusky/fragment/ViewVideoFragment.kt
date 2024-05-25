@@ -32,6 +32,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -82,7 +84,6 @@ class ViewVideoFragment : ViewMediaFragment() {
     }
     private val mediaActivity: ViewMediaActivity
         get() = requireActivity() as ViewMediaActivity
-    private var mediaPlayerListener: Player.Listener? = null
     private val isAudio
         get() = mediaAttachment.type == Attachment.Type.AUDIO
 
@@ -202,7 +203,7 @@ class ViewVideoFragment : ViewMediaFragment() {
             }
         }
 
-        mediaPlayerListener = object : Player.Listener {
+        val mediaPlayerListener = object : Player.Listener {
             @SuppressLint("ClickableViewAccessibility", "SyntheticAccessor")
             @OptIn(UnstableApi::class)
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -266,27 +267,21 @@ class ViewVideoFragment : ViewMediaFragment() {
 
         val attachment = mediaAttachment
         finalizeViewSetup(attachment.url, attachment.previewUrl, attachment.description)
-    }
 
-    override fun onDestroyView() {
-        mediaPlayerListener = null
-        super.onDestroyView()
-    }
+        // Lifecycle callbacks
+        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                initializePlayer(mediaPlayerListener)
+                binding.videoView.onResume()
+            }
 
-    override fun onStart() {
-        super.onStart()
-
-        initializePlayer(requireNotNull(mediaPlayerListener))
-        binding.videoView.onResume()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        // This might be multi-window, so pause everything now.
-        binding.videoView.onPause()
-        releasePlayer()
-        handler.removeCallbacks(hideToolbar)
+            override fun onStop(owner: LifecycleOwner) {
+                // This might be multi-window, so pause everything now.
+                binding.videoView.onPause()
+                releasePlayer()
+                handler.removeCallbacks(hideToolbar)
+            }
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
