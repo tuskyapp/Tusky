@@ -20,7 +20,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityManager
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -222,8 +222,7 @@ class TrendingTagsFragment :
 
     override fun onResume() {
         super.onResume()
-        val a11yManager =
-            ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
+        val a11yManager = requireContext().getSystemService<AccessibilityManager>()
 
         val wasEnabled = talkBackWasEnabled
         talkBackWasEnabled = a11yManager?.isEnabled == true

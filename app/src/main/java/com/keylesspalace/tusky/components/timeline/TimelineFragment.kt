@@ -23,7 +23,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.accessibility.AccessibilityManager
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -639,8 +639,7 @@ class TimelineFragment :
 
     override fun onResume() {
         super.onResume()
-        val a11yManager =
-            ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
+        val a11yManager = requireContext().getSystemService<AccessibilityManager>()
 
         val wasEnabled = talkBackWasEnabled
         talkBackWasEnabled = a11yManager?.isEnabled == true
