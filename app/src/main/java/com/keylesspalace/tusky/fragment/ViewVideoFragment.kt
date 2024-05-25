@@ -75,7 +75,7 @@ class ViewVideoFragment : ViewMediaFragment() {
     private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
     private val videoActionsListener: VideoActionsListener
-        get() = requireContext() as VideoActionsListener
+        get() = requireActivity() as VideoActionsListener
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
         // Hoist toolbar hiding to activity so it can track state across different fragments

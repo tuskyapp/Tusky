@@ -56,7 +56,7 @@ class ViewImageFragment : ViewMediaFragment() {
     private val binding by viewBinding(FragmentViewImageBinding::bind)
 
     private val photoActionsListener: PhotoActionsListener
-        get() = requireContext() as PhotoActionsListener
+        get() = requireActivity() as PhotoActionsListener
     private var transition: CompletableDeferred<Unit>? = null
     private var shouldStartTransition = false
 
