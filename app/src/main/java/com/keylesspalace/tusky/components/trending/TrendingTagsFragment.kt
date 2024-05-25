@@ -70,6 +70,7 @@ class TrendingTagsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = TrendingTagsAdapter(::onViewTag)
+        this.adapter = adapter
         setupSwipeRefreshLayout()
         setupRecyclerView(adapter)
 
@@ -94,9 +95,13 @@ class TrendingTagsFragment :
             }
         }
 
-        if (activity is ActionButtonActivity) {
-            (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
-        }
+        (requireActivity() as? ActionButtonActivity)?.actionButton?.visibility = View.GONE
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
     private fun setupSwipeRefreshLayout() {

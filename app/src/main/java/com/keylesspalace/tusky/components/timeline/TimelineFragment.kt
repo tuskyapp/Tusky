@@ -208,6 +208,8 @@ class TimelineFragment :
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val adapter = createAdapter()
+        this.adapter = adapter
+
         setupSwipeRefreshLayout()
         setupRecyclerView(adapter)
 
