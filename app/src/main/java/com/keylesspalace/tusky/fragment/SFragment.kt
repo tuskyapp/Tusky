@@ -81,7 +81,9 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
     /** `null` if translation is not supported on this screen */
     protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
 
-    private lateinit var bottomSheetActivity: BottomSheetActivity
+    private val bottomSheetActivity: BottomSheetActivity
+        get() = (requireActivity() as? BottomSheetActivity)
+            ?: throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -113,15 +115,6 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
 
     override fun startActivity(intent: Intent) {
         requireActivity().startActivityWithSlideInAnimation(intent)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        bottomSheetActivity = if (context is BottomSheetActivity) {
-            context
-        } else {
-            throw IllegalStateException("Fragment must be attached to a BottomSheetActivity!")
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
