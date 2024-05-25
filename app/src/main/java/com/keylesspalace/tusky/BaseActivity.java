@@ -34,7 +34,6 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.snackbar.Snackbar;
@@ -107,7 +106,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
-        } else {
+        } else if (this instanceof MainActivity) {
+            // Replace the SplashTheme of MainActivity
             setTheme(R.style.TuskyTheme);
         }
 
