@@ -182,17 +182,17 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        searchAdapter.peek(position)?.status?.actionableStatus?.let { actionable ->
-            when (actionable.attachments[attachmentIndex].type) {
+        searchAdapter.peek(position)?.let { status ->
+            when (status.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable)
+                    val attachments = AttachmentViewData.list(status)
                     val intent = ViewMediaActivity.newIntent(
                         context,
                         attachments,
                         attachmentIndex
                     )
                     if (view != null) {
-                        val url = actionable.attachments[attachmentIndex].url
+                        val url = status.attachments[attachmentIndex].url
                         ViewCompat.setTransitionName(view, url)
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             requireActivity(),
@@ -206,7 +206,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 Attachment.Type.UNKNOWN -> {
-                    context?.openLink(actionable.attachments[attachmentIndex].url)
+                    context?.openLink(status.attachments[attachmentIndex].url)
                 }
             }
         }
