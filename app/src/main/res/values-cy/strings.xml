@@ -710,7 +710,7 @@
     <string name="about_device_info">%1$s %2$s
 \nFersiwn Android: %3$s
 \nFersiwn SDK: %4$d</string>
-    <string name="about_account_info_title">Dy gyfrif</string>
+    <string name="about_account_info_title">Eich cyfrif</string>
     <string name="about_account_info">\@%1$s@%2$s
 \nFersiwn: %3$s</string>
     <string name="about_copy">Copïo fersiwn a gwybodaeth dyfais</string>
