@@ -10,6 +10,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.launchAndRepeatOnLifecycle
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
@@ -42,16 +43,17 @@ class FiltersActivity : BaseActivity(), FiltersListener {
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         setTitle(R.string.pref_title_timeline_filters)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        loadFilters()
         observeViewModel()
     }
 
+    override fun onStart() {
+        super.onStart()
+        loadFilters()
+    }
+
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        launchAndRepeatOnLifecycle {
             viewModel.state.collect { state ->
                 binding.progressBar.visible(
                     state.loadingState == FiltersViewModel.LoadingState.LOADING

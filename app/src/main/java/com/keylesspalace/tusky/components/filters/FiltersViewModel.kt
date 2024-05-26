@@ -15,6 +15,8 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -37,7 +39,11 @@ class FiltersViewModel @Inject constructor(
     val state: StateFlow<State> = _state.asStateFlow()
 
     fun load() {
-        this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.LOADING)
+        if (_state.value.loadingState == LoadingState.LOADING) {
+            // Prevent parallel loading
+            return
+        }
+        this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.LOADING) }
 
         viewModelScope.launch {
             api.getFilters().fold(
@@ -52,60 +58,61 @@ class FiltersViewModel @Inject constructor(
                             },
                             { _ ->
                                 // TODO log errors (also below)
-                                this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.ERROR_OTHER)
+                                this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.ERROR_OTHER) }
                             }
                         )
-                        this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.ERROR_OTHER)
+                        this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.ERROR_OTHER) }
                     } else {
-                        this@FiltersViewModel._state.value = _state.value.copy(loadingState = LoadingState.ERROR_NETWORK)
+                        this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.ERROR_NETWORK) }
                     }
                 }
             )
         }
     }
 
-    fun deleteFilter(filter: Filter, parent: View) {
-        viewModelScope.launch {
-            api.deleteFilter(filter.id).fold(
-                {
-                    this@FiltersViewModel._state.value = State(
-                        this@FiltersViewModel._state.value.filters.filter {
-                            it.id != filter.id
-                        },
+    suspend fun deleteFilter(filter: Filter, parent: View) {
+        // First wait for a pending loading operation to complete
+        _state.first { it.loadingState > LoadingState.LOADING }
+
+        api.deleteFilter(filter.id).fold(
+            {
+                this@FiltersViewModel._state.update { currentState ->
+                    State(
+                        currentState.filters.filter { it.id != filter.id },
                         LoadingState.LOADED
                     )
-                    for (context in filter.context) {
-                        eventHub.dispatch(PreferenceChangedEvent(context))
-                    }
-                },
-                { throwable ->
-                    if (throwable.isHttpNotFound()) {
-                        api.deleteFilterV1(filter.id).fold(
-                            {
-                                this@FiltersViewModel._state.value = State(
-                                    this@FiltersViewModel._state.value.filters.filter {
-                                        it.id != filter.id
-                                    },
+                }
+                for (context in filter.context) {
+                    eventHub.dispatch(PreferenceChangedEvent(context))
+                }
+            },
+            { throwable ->
+                if (throwable.isHttpNotFound()) {
+                    api.deleteFilterV1(filter.id).fold(
+                        {
+                            this@FiltersViewModel._state.update { currentState ->
+                                State(
+                                    currentState.filters.filter { it.id != filter.id },
                                     LoadingState.LOADED
                                 )
-                            },
-                            {
-                                Snackbar.make(
-                                    parent,
-                                    "Error deleting filter '${filter.title}'",
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
                             }
-                        )
-                    } else {
-                        Snackbar.make(
-                            parent,
-                            "Error deleting filter '${filter.title}'",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
+                        },
+                        {
+                            Snackbar.make(
+                                parent,
+                                "Error deleting filter '${filter.title}'",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                } else {
+                    Snackbar.make(
+                        parent,
+                        "Error deleting filter '${filter.title}'",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
-            )
-        }
+            }
+        )
     }
 }
