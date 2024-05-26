@@ -109,7 +109,7 @@
     <string name="action_hashtags">Hashtag</string>
     <string name="action_open_reblogger">Vai all\'autore della condivisione</string>
     <string name="action_open_reblogged_by">Mostra ricondivisioni</string>
-    <string name="action_open_faved_by">Mostra preferiti</string>
+    <string name="action_open_faved_by">Mostra apprezzati</string>
     <string name="title_hashtags_dialog">Hashtag</string>
     <string name="title_mentions_dialog">Menzioni</string>
     <string name="title_links_dialog">Collegamenti</string>
@@ -323,9 +323,9 @@
     <string name="unpin_action">Non fissare in cima</string>
     <string name="pin_action">Fissa</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Preferito</item>
-        <item quantity="many"><b>%1$s</b> Preferiti</item>
-        <item quantity="other"><b>%1$s</b> Preferiti</item>
+        <item quantity="one"><b>%1$s</b> apprezzamento</item>
+        <item quantity="many"><b>%1$s</b> apprezzamenti</item>
+        <item quantity="other"><b>%1$s</b> apprezzamenti</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%1$s</b> ricondivisione</item>
@@ -445,7 +445,7 @@
     <string name="action_access_scheduled_posts">Post programmati</string>
     <string name="action_schedule_post">Programma un post</string>
     <string name="action_reset_schedule">Ripristina</string>
-    <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 voti • 1 ora mancante --> \u0020%1$s • %2$s</string>
     <string name="no_drafts">Non hai bozze.</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s persona</item>
@@ -509,9 +509,9 @@
     <string name="action_delete_conversation">Elimina conversazione</string>
     <string name="wellbeing_mode_notice">Alcune informazioni che potrebbero influenzare il tuo benessere mentale saranno nascoste. Questo include:
 \n
-\n - Notifiche riguardo a Preferiti/Ricondivisioni/Following
-\n - Conteggio dei Preferiti/Ricondivisioni nei post
-\n - Statistiche riguardo a Preferiti/Post nei profili
+\n - Notifiche riguardo a Apprezzamenti/Ricondivisioni/Following
+\n - Conteggio degli apprezzamenti/Ricondivisioni nei post
+\n - Statistiche riguardo a Apprezzamenti/Post nei profili
 \n
 \n Le notifiche push non saranno influenzate, ma puoi modificare le tue impostazioni delle notifiche manualmente.</string>
     <string name="action_unbookmark">Rimuovi segnalibro</string>
