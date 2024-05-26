@@ -194,7 +194,7 @@ class CachedTimelineViewModel @Inject constructor(
                     loadMoreFailed(placeholderId, HttpException(response))
                     return@launch
                 }
-                
+
                 db.withTransaction {
                     timelineDao.deleteHomeTimelineItem(activeAccount.id, placeholderId)
 
