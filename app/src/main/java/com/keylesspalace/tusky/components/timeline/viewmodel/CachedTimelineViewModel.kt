@@ -86,8 +86,7 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(
-            pageSize = LOAD_AT_ONCE,
-            enablePlaceholders = false
+            pageSize = LOAD_AT_ONCE
         ),
         remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db),
         pagingSourceFactory = {
@@ -195,7 +194,7 @@ class CachedTimelineViewModel @Inject constructor(
                     loadMoreFailed(placeholderId, HttpException(response))
                     return@launch
                 }
-
+                
                 db.withTransaction {
                     timelineDao.deleteHomeTimelineItem(activeAccount.id, placeholderId)
 

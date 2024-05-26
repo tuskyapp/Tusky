@@ -45,8 +45,7 @@ class AccountMediaViewModel @Inject constructor(
     val media = Pager(
         config = PagingConfig(
             pageSize = LOAD_AT_ONCE,
-            prefetchDistance = LOAD_AT_ONCE * 2,
-            enablePlaceholders = false
+            prefetchDistance = LOAD_AT_ONCE * 2
         ),
         pagingSourceFactory = {
             AccountMediaPagingSource(

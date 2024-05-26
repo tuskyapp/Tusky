@@ -40,8 +40,7 @@ class ScheduledStatusViewModel @Inject constructor(
     val data = Pager(
         config = PagingConfig(
             pageSize = 20,
-            initialLoadSize = 20,
-            enablePlaceholders = false
+            initialLoadSize = 20
         ),
         pagingSourceFactory = pagingSourceFactory
     ).flow

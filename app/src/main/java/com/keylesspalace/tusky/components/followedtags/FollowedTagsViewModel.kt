@@ -27,8 +27,7 @@ class FollowedTagsViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     val pager = Pager(
         config = PagingConfig(
-            pageSize = 100,
-            enablePlaceholders = false
+            pageSize = 100
         ),
         remoteMediator = FollowedTagsRemoteMediator(api, this),
         pagingSourceFactory = {
