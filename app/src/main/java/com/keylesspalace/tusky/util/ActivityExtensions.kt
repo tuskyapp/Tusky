@@ -12,10 +12,13 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.keylesspalace.tusky.BaseActivity
 
 fun Activity.startActivityWithSlideInAnimation(intent: Intent) {
+    startActivity(intent.withSlideInAnimation())
+}
+
+fun Intent.withSlideInAnimation(): Intent {
     // the new transition api needs to be called by the activity that is the result of the transition,
     // so we pass a flag that BaseActivity will respect.
-    intent.putExtra(BaseActivity.OPEN_WITH_SLIDE_IN, true)
-    startActivity(intent)
+    return putExtra(BaseActivity.OPEN_WITH_SLIDE_IN, true)
 }
 
 /**
