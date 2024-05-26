@@ -28,7 +28,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
     private val editFilterLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             // refresh the filters upon returning from EditFilterActivity
-            loadFilters()
+            reloadFilters()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +46,11 @@ class FiltersActivity : BaseActivity(), FiltersListener {
             launchEditFilterActivity()
         }
 
-        binding.swipeRefreshLayout.setOnRefreshListener { loadFilters() }
+        binding.swipeRefreshLayout.setOnRefreshListener { reloadFilters() }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         setTitle(R.string.pref_title_timeline_filters)
 
-        loadFilters()
         observeViewModel()
     }
 
@@ -73,7 +72,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             R.drawable.errorphant_offline,
                             R.string.error_network
                         ) {
-                            loadFilters()
+                            reloadFilters()
                         }
                         binding.messageView.show()
                     }
@@ -82,7 +81,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                             R.drawable.errorphant_error,
                             R.string.error_generic
                         ) {
-                            loadFilters()
+                            reloadFilters()
                         }
                         binding.messageView.show()
                     }
@@ -104,8 +103,8 @@ class FiltersActivity : BaseActivity(), FiltersListener {
         }
     }
 
-    private fun loadFilters() {
-        viewModel.load()
+    private fun reloadFilters() {
+        viewModel.reload()
     }
 
     private fun launchEditFilterActivity(filter: Filter? = null) {

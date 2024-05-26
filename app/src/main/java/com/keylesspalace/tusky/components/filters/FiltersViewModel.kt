@@ -15,6 +15,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,14 +39,18 @@ class FiltersViewModel @Inject constructor(
     private val _state = MutableStateFlow(State(emptyList(), LoadingState.INITIAL))
     val state: StateFlow<State> = _state.asStateFlow()
 
-    fun load() {
-        if (_state.value.loadingState == LoadingState.LOADING) {
-            // Prevent parallel loading
-            return
-        }
-        this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.LOADING) }
+    private val loadTrigger = MutableStateFlow(0)
 
+    init {
         viewModelScope.launch {
+            observeLoad()
+        }
+    }
+
+    private suspend fun observeLoad() {
+        loadTrigger.collectLatest {
+            this@FiltersViewModel._state.update { it.copy(loadingState = LoadingState.LOADING) }
+
             api.getFilters().fold(
                 { filters ->
                     this@FiltersViewModel._state.value = State(filters, LoadingState.LOADED)
@@ -68,6 +73,10 @@ class FiltersViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    fun reload() {
+        loadTrigger.update { it + 1 }
     }
 
     suspend fun deleteFilter(filter: Filter, parent: View) {
