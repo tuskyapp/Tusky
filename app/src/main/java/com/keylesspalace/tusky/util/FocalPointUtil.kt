@@ -72,9 +72,9 @@ object FocalPointUtil {
         var top = 0f
         var left = 0f
         if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
-            top = focalOffset(viewHeight, imageHeight, scale, focalYToCoordinate(focus.y))
+            top = focalOffset(viewHeight, imageHeight, scale, focalYToCoordinate(focus.y ?: 0f))
         } else { // horizontal crop
-            left = focalOffset(viewWidth, imageWidth, scale, focalXToCoordinate(focus.x))
+            left = focalOffset(viewWidth, imageWidth, scale, focalXToCoordinate(focus.x ?: 0f))
         }
 
         mat.postTranslate(left, top)
