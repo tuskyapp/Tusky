@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
 import dagger.hilt.android.AndroidEntryPoint
@@ -209,8 +210,10 @@ class AccountsInListFragment : DialogFragment() {
             val account = getItem(position)
             val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
             val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            val showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, false)
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
+            holder.binding.avatarBadge.visible(showBotOverlay && account.bot)
             loadAvatar(account.avatar, holder.binding.avatar, radius, animateAvatar)
         }
     }
