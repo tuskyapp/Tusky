@@ -27,7 +27,17 @@ class FollowedTagsAdapter(
         position: Int
     ) {
         viewModel.tags[position].let { tag ->
-            holder.itemView.findViewById<TextView>(R.id.followed_tag).text = tag.name
+            holder.itemView.findViewById<TextView>(R.id.followed_tag).apply {
+                text = tag.name
+                setOnClickListener {
+                    actionListener.view(tag.name)
+                }
+                setOnLongClickListener {
+                    actionListener.copyTagName(tag.name)
+                    true
+                }
+            }
+
             holder.itemView.findViewById<ImageButton>(
                 R.id.followed_tag_unfollow
             ).setOnClickListener {

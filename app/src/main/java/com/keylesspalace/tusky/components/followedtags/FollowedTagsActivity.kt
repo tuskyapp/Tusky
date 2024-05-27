@@ -1,11 +1,14 @@
 package com.keylesspalace.tusky.components.followedtags
 
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -19,6 +22,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
@@ -178,6 +182,15 @@ class FollowedTagsActivity :
 
     override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         return viewModel.searchAutocompleteSuggestions(token)
+    }
+
+    override fun view(tagName: String) {
+        startActivity(StatusListActivity.newHashtagIntent(this, tagName))
+    }
+
+    override fun copyTagName(tagName: String) {
+        getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText(null, "#$tagName"))
+        Toast.makeText(this, getString(R.string.confirmation_hashtag_copied, tagName), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

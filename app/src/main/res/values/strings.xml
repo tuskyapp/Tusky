@@ -228,6 +228,7 @@
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%1$s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s unfollowed</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' copied</string>
 
     <string name="reply_sending">Sending…</string>
     <string name="reply_sending_long">Your reply is being sent.</string>
