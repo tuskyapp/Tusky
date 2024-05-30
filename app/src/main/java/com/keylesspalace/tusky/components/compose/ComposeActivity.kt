@@ -468,9 +468,9 @@ class ComposeActivity :
         binding.composeEditField.setSelection(binding.composeEditField.length())
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
-        highlightSpans(binding.composeEditField.text, mentionColour)
+        binding.composeEditField.text.highlightSpans(mentionColour)
         binding.composeEditField.doAfterTextChanged { editable ->
-            highlightSpans(editable!!, mentionColour)
+            editable!!.highlightSpans(mentionColour)
             updateVisibleCharactersLeft()
             viewModel.updateContent(editable.toString())
         }

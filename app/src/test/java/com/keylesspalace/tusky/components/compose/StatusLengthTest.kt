@@ -17,7 +17,7 @@
 
 package com.keylesspalace.tusky.components.compose
 
-import com.keylesspalace.tusky.SpanUtilsTest
+import com.keylesspalace.tusky.FakeSpannable
 import com.keylesspalace.tusky.util.highlightSpans
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -56,8 +56,8 @@ class StatusLengthTest(
 
     @Test
     fun statusLength_matchesExpectations() {
-        val spannedText = SpanUtilsTest.FakeSpannable(text)
-        highlightSpans(spannedText, 0)
+        val spannedText = FakeSpannable(text)
+        spannedText.highlightSpans(0)
 
         assertEquals(
             expectedLength,
@@ -67,10 +67,10 @@ class StatusLengthTest(
 
     @Test
     fun statusLength_withCwText_matchesExpectations() {
-        val spannedText = SpanUtilsTest.FakeSpannable(text)
-        highlightSpans(spannedText, 0)
+        val spannedText = FakeSpannable(text)
+        spannedText.highlightSpans(0)
 
-        val cwText = SpanUtilsTest.FakeSpannable(
+        val cwText = FakeSpannable(
             "a @example@example.org #hashtagmention and http://example.org URL"
         )
         assertEquals(
