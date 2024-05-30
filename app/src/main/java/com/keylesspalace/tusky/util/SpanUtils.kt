@@ -33,7 +33,7 @@ private val MENTION_PATTERN = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSE
 private val VALID_URL_PATTERN = Regex.VALID_URL_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE)
 
 private val spanClasses = listOf(ForegroundColorSpan::class.java, URLSpan::class.java)
-private val defaultfinders = listOf(
+val defaultFinders = listOf(
     PatternFinder("http://", FoundMatchType.HTTP_URL, VALID_URL_PATTERN),
     PatternFinder("https://", FoundMatchType.HTTPS_URL, VALID_URL_PATTERN),
     PatternFinder("#", FoundMatchType.TAG, TAG_PATTERN),
@@ -57,7 +57,7 @@ class PatternFinder(
  * Takes text containing mentions and hashtags and urls and makes them the given colour.
  * @param finders The finders to use. This is here so they can be overridden from unit tests.
  */
-fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = defaultfinders) {
+fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = defaultFinders) {
     // Strip all existing colour spans.
     for (spanClass in spanClasses) {
         clearSpans(spanClass)
@@ -76,8 +76,10 @@ fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = default
                 val matcher = finder.pattern.matcher(this.substring(currentIndex + offset))
 
                 if (matcher.find()) {
-                    // the regular expression found a match
+                    // the regular expression found a match - what we are looking for is always in group 1 of the regular expression.
                     val start = matcher.start(1) + currentIndex + offset
+
+                    println("found match at $start ${matcher.group(1)}")
 
                     if (start != currentIndex) {
                         // The match is not at the expected position.

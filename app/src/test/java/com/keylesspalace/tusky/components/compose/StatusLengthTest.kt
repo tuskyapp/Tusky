@@ -18,6 +18,7 @@
 package com.keylesspalace.tusky.components.compose
 
 import com.keylesspalace.tusky.FakeSpannable
+import com.keylesspalace.tusky.finders
 import com.keylesspalace.tusky.util.highlightSpans
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -43,13 +44,15 @@ class StatusLengthTest(
                 // "@user@server" should be treated as "@user"
                 arrayOf("123 @example@example.org", 12),
                 // URLs under 23 chars are treated as 23 chars
-                arrayOf("123 http://example.url", 27),
+                arrayOf("123 http://example.org", 27),
                 // URLs over 23 chars are treated as 23 chars
                 arrayOf("123 http://urlthatislongerthan23characters.example.org", 27),
                 // Short hashtags are treated as is
                 arrayOf("123 #basictag", 13),
                 // Long hashtags are *also* treated as is (not treated as 23, like URLs)
-                arrayOf("123 #atagthatislongerthan23characters", 37)
+                arrayOf("123 #atagthatislongerthan23characters", 37),
+                // urls can have balanced parenthesis, otherwise they are ignored https://github.com/tuskyapp/Tusky/issues/4425
+                arrayOf("(https://en.wikipedia.org/wiki/Beethoven_(horse))", 25)
             )
         }
     }
@@ -57,7 +60,7 @@ class StatusLengthTest(
     @Test
     fun statusLength_matchesExpectations() {
         val spannedText = FakeSpannable(text)
-        spannedText.highlightSpans(0)
+        spannedText.highlightSpans(0, finders)
 
         assertEquals(
             expectedLength,
@@ -68,7 +71,7 @@ class StatusLengthTest(
     @Test
     fun statusLength_withCwText_matchesExpectations() {
         val spannedText = FakeSpannable(text)
-        spannedText.highlightSpans(0)
+        spannedText.highlightSpans(0, finders)
 
         val cwText = FakeSpannable(
             "a @example@example.org #hashtagmention and http://example.org URL"

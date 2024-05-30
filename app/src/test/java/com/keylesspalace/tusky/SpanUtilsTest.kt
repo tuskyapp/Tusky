@@ -13,25 +13,25 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
+/** The [Pattern.UNICODE_CHARACTER_CLASS] flag is not supported on Android, on Android it is just always on.
+ * Since thesse tests run on a regular Jvm, we need a to set this flag or they would behave differently.
+ * */
+private val urlPattern = Regex.VALID_URL_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
+private val tagPattern = TAG_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
+private val mentionPattern = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
+
+val finders = listOf(
+    PatternFinder("http://", FoundMatchType.HTTP_URL, urlPattern),
+    PatternFinder("https://", FoundMatchType.HTTPS_URL, urlPattern),
+    PatternFinder("#", FoundMatchType.TAG, tagPattern),
+    PatternFinder("@", FoundMatchType.MENTION, mentionPattern)
+)
+
 @RunWith(Parameterized::class)
 class SpanUtilsTest(
     private val stringToHighlight: String,
     private val highlights: List<Pair<Int, Int>>
 ) {
-
-    /** The [Pattern.UNICODE_CHARACTER_CLASS] flag is not supported on Android, on Android it is just always on.
-     * Since thesse tests run on a regular Jvm, we need a to set this flag or they would behave differently.
-     * */
-    private val urlPattern = Regex.VALID_URL_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
-    private val tagPattern = TAG_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
-    private val mentionPattern = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
-
-    private val finders = listOf(
-        PatternFinder("http://", FoundMatchType.HTTP_URL, urlPattern),
-        PatternFinder("https://", FoundMatchType.HTTPS_URL, urlPattern),
-        PatternFinder("#", FoundMatchType.TAG, tagPattern),
-        PatternFinder("@", FoundMatchType.MENTION, mentionPattern)
-    )
 
     companion object {
         @Parameterized.Parameters(name = "{0}")
