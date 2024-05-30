@@ -383,10 +383,10 @@ class ViewThreadFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val viewData = adapter?.currentList?.getOrNull(position) ?: return
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         super.viewMedia(
             attachmentIndex,
-            list(viewData.status, alwaysShowSensitiveMedia),
+            list(status, alwaysShowSensitiveMedia),
             view
         )
     }

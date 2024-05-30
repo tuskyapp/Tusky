@@ -18,9 +18,10 @@ package com.keylesspalace.tusky.components.report.adapter
 import android.view.View
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.viewdata.StatusViewData
 
 interface AdapterHandler : LinkListener {
-    fun showMedia(v: View?, status: Status?, idx: Int)
+    fun showMedia(v: View?, status: StatusViewData.Concrete, idx: Int)
     fun setStatusChecked(status: Status, isChecked: Boolean)
     fun isStatusChecked(id: String): Boolean
 }

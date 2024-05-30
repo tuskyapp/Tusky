@@ -536,7 +536,7 @@ class TimelineFragment :
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(
             attachmentIndex,
-            AttachmentViewData.list(status.actionable),
+            AttachmentViewData.list(status),
             view
         )
     }

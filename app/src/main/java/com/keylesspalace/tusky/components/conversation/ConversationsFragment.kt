@@ -316,7 +316,7 @@ class ConversationsFragment :
         adapter?.peek(position)?.let { conversation ->
             viewMedia(
                 attachmentIndex,
-                AttachmentViewData.list(conversation.lastStatus.status),
+                AttachmentViewData.list(conversation.lastStatus),
                 view
             )
         }

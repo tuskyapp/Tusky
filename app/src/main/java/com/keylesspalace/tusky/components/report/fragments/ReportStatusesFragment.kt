@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -83,27 +84,25 @@ class ReportStatusesFragment :
 
     private var snackbarErrorRetry: Snackbar? = null
 
-    override fun showMedia(v: View?, status: Status?, idx: Int) {
-        status?.actionableStatus?.let { actionable ->
-            when (actionable.attachments[idx].type) {
-                Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable)
-                    val intent = ViewMediaActivity.newIntent(context, attachments, idx)
-                    if (v != null) {
-                        val url = actionable.attachments[idx].url
-                        ViewCompat.setTransitionName(v, url)
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            requireActivity(),
-                            v,
-                            url
-                        )
-                        startActivity(intent, options.toBundle())
-                    } else {
-                        startActivity(intent)
-                    }
+    override fun showMedia(v: View?, status: StatusViewData.Concrete, idx: Int) {
+        when (status.attachments[idx].type) {
+            Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
+                val attachments = AttachmentViewData.list(status)
+                val intent = ViewMediaActivity.newIntent(context, attachments, idx)
+                if (v != null) {
+                    val url = status.attachments[idx].url
+                    ViewCompat.setTransitionName(v, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        v,
+                        url
+                    )
+                    startActivity(intent, options.toBundle())
+                } else {
+                    startActivity(intent)
                 }
-                Attachment.Type.UNKNOWN -> {
-                }
+            }
+            Attachment.Type.UNKNOWN -> {
             }
         }
     }
