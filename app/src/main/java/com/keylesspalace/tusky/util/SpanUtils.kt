@@ -8,7 +8,6 @@ import android.text.style.CharacterStyle
 import android.text.style.DynamicDrawableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
-import android.text.style.URLSpan
 import com.keylesspalace.tusky.util.twittertext.Regex
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -32,10 +31,9 @@ private val MENTION_PATTERN = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSE
 
 private val VALID_URL_PATTERN = Regex.VALID_URL_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE)
 
-private val spanClasses = listOf(ForegroundColorSpan::class.java, URLSpan::class.java)
+// url must come first, it may contain the other patterns
 val defaultFinders = listOf(
-    PatternFinder("http://", FoundMatchType.HTTP_URL, VALID_URL_PATTERN),
-    PatternFinder("https://", FoundMatchType.HTTPS_URL, VALID_URL_PATTERN),
+    PatternFinder("http", FoundMatchType.HTTP_URL, VALID_URL_PATTERN),
     PatternFinder("#", FoundMatchType.TAG, TAG_PATTERN),
     PatternFinder("@", FoundMatchType.MENTION, MENTION_PATTERN)
 )
@@ -58,56 +56,32 @@ class PatternFinder(
  * @param finders The finders to use. This is here so they can be overridden from unit tests.
  */
 fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = defaultFinders) {
-    // Strip all existing colour spans.
-    for (spanClass in spanClasses) {
-        clearSpans(spanClass)
+    // Strip all existing spans
+    for (span in getSpans(0, length, Any::class.java)) {
+        removeSpan(span)
     }
 
-    var currentIndex = 0
-    while (currentIndex < this.length) {
-        var skippedAhead = false
-        for (finder in finders) {
-            // First check if we can find the searchString at the current location.
-            // This is to avoid running the expensive regular expressions all the time.
-            if (this.startsWith(finder.searchString, startIndex = currentIndex)) {
-                // To take advantage of the negative lookbehind included in the regular expressions, we start the check one character earlier, if possible
-                val offset = if (currentIndex > 0) -1 else 0
+    for (finder in finders) {
+        // before running the regular expression, check if there is even a chance of it finding something
+        if (this.contains(finder.searchString)) {
+            val matcher = finder.pattern.matcher(this)
 
-                val matcher = finder.pattern.matcher(this.substring(currentIndex + offset))
+            while (matcher.find()) {
+                // we found a match
+                val start = matcher.start(1)
 
-                if (matcher.find()) {
-                    // the regular expression found a match - what we are looking for is always in group 1 of the regular expression.
-                    val start = matcher.start(1) + currentIndex + offset
+                val end = matcher.end(1)
 
-                    println("found match at $start ${matcher.group(1)}")
-
-                    if (start != currentIndex) {
-                        // The match is not at the expected position.
-                        // It can't be consumed because there might be another match in between the expected and the found location.
-                        // But we can skip ahead the length of our searchString.
-                        currentIndex += finder.searchString.length
-                        skippedAhead = true
-                        break
-                    }
-
-                    // the match is at the expected position, we can set the highlight
-                    val end = matcher.end(1) + currentIndex + offset
-
+                // only add a span if there is no other one yet (e.g. the #anchor part of an url might match as hashtag, but must be ignored)
+                if (this.getSpans(start, end, Any::class.java).isEmpty()) {
                     this.setSpan(
                         getSpan(finder.type, this, colour, start, end),
                         start,
                         end,
                         Spanned.SPAN_INCLUSIVE_EXCLUSIVE
                     )
-                    // skip head to the end of the highlight
-                    currentIndex = end
-                    skippedAhead = true
-                    break
                 }
             }
-        }
-        if (!skippedAhead) {
-            currentIndex++
         }
     }
 }

@@ -21,8 +21,7 @@ private val tagPattern = TAG_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE o
 private val mentionPattern = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CHARACTER_CLASS)
 
 val finders = listOf(
-    PatternFinder("http://", FoundMatchType.HTTP_URL, urlPattern),
-    PatternFinder("https://", FoundMatchType.HTTPS_URL, urlPattern),
+    PatternFinder("http", FoundMatchType.HTTPS_URL, urlPattern),
     PatternFinder("#", FoundMatchType.TAG, tagPattern),
     PatternFinder("@", FoundMatchType.MENTION, mentionPattern)
 )
@@ -126,10 +125,12 @@ class SpanUtilsTest(
 
         assertEquals(highlights.size, inputSpannable.spans.size)
 
-        inputSpannable.spans.forEachIndexed { index, span ->
-            assertEquals(highlights[index].first, span.start)
-            assertEquals(highlights[index].second, span.end)
-        }
+        inputSpannable.spans
+            .sortedBy { span -> span.start }
+            .forEachIndexed { index, span ->
+                assertEquals(highlights[index].first, span.start)
+                assertEquals(highlights[index].second, span.end)
+            }
     }
 }
 
