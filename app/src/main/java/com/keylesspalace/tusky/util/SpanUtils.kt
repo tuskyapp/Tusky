@@ -8,6 +8,7 @@ import android.text.style.CharacterStyle
 import android.text.style.DynamicDrawableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
+import android.text.style.URLSpan
 import com.keylesspalace.tusky.util.twittertext.Regex
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
@@ -30,6 +31,8 @@ internal const val MENTION_PATTERN_STRING = "(?<![=/\\w])(@($USERNAME_PATTERN_ST
 private val MENTION_PATTERN = MENTION_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE)
 
 private val VALID_URL_PATTERN = Regex.VALID_URL_PATTERN_STRING.toPattern(Pattern.CASE_INSENSITIVE)
+
+private val spanClasses = listOf(ForegroundColorSpan::class.java, URLSpan::class.java)
 
 // url must come first, it may contain the other patterns
 val defaultFinders = listOf(
@@ -56,9 +59,9 @@ class PatternFinder(
  * @param finders The finders to use. This is here so they can be overridden from unit tests.
  */
 fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = defaultFinders) {
-    // Strip all existing spans
-    for (span in getSpans(0, length, Any::class.java)) {
-        removeSpan(span)
+    // Strip all existing colour spans.
+    for (spanClass in spanClasses) {
+        clearSpans(spanClass)
     }
 
     for (finder in finders) {
@@ -73,7 +76,7 @@ fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = default
                 val end = matcher.end(1)
 
                 // only add a span if there is no other one yet (e.g. the #anchor part of an url might match as hashtag, but must be ignored)
-                if (this.getSpans(start, end, Any::class.java).isEmpty()) {
+                if (this.getSpans(start, end, URLSpan::class.java).isEmpty()) {
                     this.setSpan(
                         getSpan(finder.type, this, colour, start, end),
                         start,
@@ -83,6 +86,12 @@ fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = default
                 }
             }
         }
+    }
+}
+
+private fun <T> Spannable.clearSpans(spanClass: Class<T>) {
+    for (span in getSpans(0, length, spanClass)) {
+        removeSpan(span)
     }
 }
 
@@ -106,12 +115,6 @@ fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): S
     }
 
     return builder
-}
-
-private fun <T> Spannable.clearSpans(spanClass: Class<T>) {
-    for (span in getSpans(0, length, spanClass)) {
-        removeSpan(span)
-    }
 }
 
 private fun getSpan(
