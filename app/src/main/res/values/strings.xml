@@ -222,6 +222,7 @@
     <string name="send_account_username_to">Share account username to…</string>
     <string name="send_media_to">Share media to…</string>
     <string name="account_username_copied">Username copied</string>
+    <string name="url_copied">Url copied</string>
 
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>

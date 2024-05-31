@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.components.account
 
 import android.animation.ArgbEvaluator
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -82,6 +80,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDomain
 import com.keylesspalace.tusky.util.hide
@@ -484,15 +483,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         for (view in listOf(binding.accountUsernameTextView, binding.accountDisplayNameTextView)) {
             view.setOnLongClickListener {
                 loadedAccount?.let { loadedAccount ->
-                    val fullUsername = getFullUsername(loadedAccount)
-                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null, fullUsername))
-                    Snackbar.make(
-                        binding.root,
+                    copyToClipboard(
+                        getFullUsername(loadedAccount),
                         getString(R.string.account_username_copied),
-                        Snackbar.LENGTH_SHORT
                     )
-                        .show()
                 }
                 true
             }

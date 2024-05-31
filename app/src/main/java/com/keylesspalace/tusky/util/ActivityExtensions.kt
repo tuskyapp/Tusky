@@ -3,8 +3,12 @@
 package com.keylesspalace.tusky.util
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.annotation.AnimRes
 import androidx.lifecycle.Lifecycle
@@ -41,6 +45,14 @@ fun ComponentActivity.overrideActivityTransitionCompat(
                 }
             )
         }
+    }
+}
+
+fun Activity.copyToClipboard(text: CharSequence, popupText: CharSequence, clipboardLabel: CharSequence = "") {
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    clipboard.setPrimaryClip(ClipData.newPlainText(clipboardLabel, text))
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+        Toast.makeText(this, popupText, Toast.LENGTH_SHORT).show()
     }
 }
 

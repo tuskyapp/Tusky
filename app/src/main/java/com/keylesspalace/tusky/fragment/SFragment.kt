@@ -16,8 +16,6 @@ package com.keylesspalace.tusky.fragment
 
 import android.Manifest
 import android.app.DownloadManager
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -58,6 +56,7 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -296,13 +295,7 @@ abstract class SFragment : Fragment() {
                 }
 
                 R.id.status_copy_link -> {
-                    (
-                        requireActivity().getSystemService(
-                            Context.CLIPBOARD_SERVICE
-                        ) as ClipboardManager
-                        ).apply {
-                        setPrimaryClip(ClipData.newPlainText(null, statusUrl))
-                    }
+                    statusUrl?.let { requireActivity().copyToClipboard(it, getString(R.string.url_copied)) }
                     return@setOnMenuItemClickListener true
                 }
 

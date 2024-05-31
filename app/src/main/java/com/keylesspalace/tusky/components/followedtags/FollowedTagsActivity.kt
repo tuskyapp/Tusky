@@ -1,14 +1,11 @@
 package com.keylesspalace.tusky.components.followedtags
 
 import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -28,6 +25,7 @@ import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -189,8 +187,10 @@ class FollowedTagsActivity :
     }
 
     override fun copyTagName(tagName: String) {
-        getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText(null, "#$tagName"))
-        Toast.makeText(this, getString(R.string.confirmation_hashtag_copied, tagName), Toast.LENGTH_SHORT).show()
+        copyToClipboard(
+            "#$tagName",
+            getString(R.string.confirmation_hashtag_copied, tagName),
+        )
     }
 
     companion object {
