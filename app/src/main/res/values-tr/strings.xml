@@ -471,7 +471,7 @@
     <string name="error_could_not_load_login_page">Giriş ekranı yüklenemedi.</string>
     <string name="error_muting_hashtag_format">Sessize alma hatası #%1$s</string>
     <string name="action_unfollow_hashtag_format">Takibi bırak #%1$s\?</string>
-    <string name="pref_title_wellbeing_mode">Soyaliyilik</string>
+    <string name="pref_title_wellbeing_mode">Nicelikselrefah</string>
     <string name="account_note_saved">Kaydedildi!</string>
     <string name="report_category_spam">İstenmeyen</string>
     <string name="report_category_other">Diğer</string>
