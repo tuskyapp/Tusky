@@ -222,12 +222,14 @@
     <string name="send_account_username_to">Share account username to…</string>
     <string name="send_media_to">Share media to…</string>
     <string name="account_username_copied">Username copied</string>
+    <string name="url_copied">Url copied</string>
 
     <string name="confirmation_reported">Sent!</string>
     <string name="confirmation_unblocked">User unblocked</string>
     <string name="confirmation_unmuted">User unmuted</string>
     <string name="confirmation_domain_unmuted">%1$s unhidden</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s unfollowed</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' copied</string>
 
     <string name="reply_sending">Sending…</string>
     <string name="reply_sending_long">Your reply is being sent.</string>

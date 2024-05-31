@@ -19,11 +19,13 @@ import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -178,6 +180,17 @@ class FollowedTagsActivity :
 
     override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
         return viewModel.searchAutocompleteSuggestions(token)
+    }
+
+    override fun viewTag(tagName: String) {
+        startActivity(StatusListActivity.newHashtagIntent(this, tagName))
+    }
+
+    override fun copyTagName(tagName: String) {
+        copyToClipboard(
+            "#$tagName",
+            getString(R.string.confirmation_hashtag_copied, tagName),
+        )
     }
 
     companion object {

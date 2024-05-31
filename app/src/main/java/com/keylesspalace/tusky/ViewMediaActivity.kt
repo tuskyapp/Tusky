@@ -19,8 +19,6 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.DownloadManager
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -53,6 +51,7 @@ import com.keylesspalace.tusky.fragment.ViewImageFragment
 import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -253,9 +252,10 @@ class ViewMediaActivity :
     }
 
     private fun copyLink() {
-        val url = imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
+        copyToClipboard(
+            imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url,
+            getString(R.string.url_copied),
+        )
     }
 
     private fun shareMedia() {

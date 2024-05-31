@@ -17,9 +17,6 @@ package com.keylesspalace.tusky.components.search.fragments
 
 import android.Manifest
 import android.app.DownloadManager
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -60,6 +57,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
@@ -398,10 +396,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_copy_link -> {
-                    val clipboard = requireActivity().getSystemService(
-                        Context.CLIPBOARD_SERVICE
-                    ) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
+                    statusUrl?.let { requireActivity().copyToClipboard(it, getString(R.string.url_copied)) }
                     return@setOnMenuItemClickListener true
                 }
 
