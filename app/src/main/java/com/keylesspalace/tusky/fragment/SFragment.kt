@@ -16,7 +16,6 @@ package com.keylesspalace.tusky.fragment
 
 import android.Manifest
 import android.app.DownloadManager
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
