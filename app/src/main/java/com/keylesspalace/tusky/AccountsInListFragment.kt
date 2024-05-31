@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
@@ -103,12 +102,12 @@ class AccountsInListFragment : DialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
+                adapter.submitList(state.accounts.getOrDefault(emptyList()))
 
-                when (state.accounts) {
-                    is Either.Right -> binding.messageView.hide()
-                    is Either.Left -> handleError(state.accounts.value)
-                }
+                state.accounts.fold(
+                    onSuccess = { binding.messageView.hide() },
+                    onFailure = { handleError(it) }
+                )
 
                 setupSearchView(state)
             }
@@ -137,7 +136,7 @@ class AccountsInListFragment : DialogFragment() {
             binding.accountsSearchRecycler.hide()
             binding.accountsRecycler.show()
         } else {
-            val listAccounts = state.accounts.asRightOrNull() ?: listOf()
+            val listAccounts = state.accounts.getOrDefault(emptyList())
             val newList = state.searchResult.map { acc ->
                 acc to listAccounts.contains(acc)
             }

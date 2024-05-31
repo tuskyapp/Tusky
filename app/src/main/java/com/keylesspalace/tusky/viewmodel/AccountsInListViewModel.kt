@@ -19,22 +19,22 @@ package com.keylesspalace.tusky.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.getOrDefault
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Either
-import com.keylesspalace.tusky.util.Either.Companion.map
-import com.keylesspalace.tusky.util.Either.Left
-import com.keylesspalace.tusky.util.Either.Right
 import com.keylesspalace.tusky.util.withoutFirstWhich
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class State(
-    val accounts: Either<Throwable, List<TimelineAccount>>,
+    val accounts: Result<List<TimelineAccount>>,
     val searchResult: List<TimelineAccount>?
 )
 
@@ -42,20 +42,19 @@ data class State(
 class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
 
     val state: Flow<State> get() = _state
-    private val _state = MutableStateFlow(State(Right(listOf()), null))
+    private val _state = MutableStateFlow(
+        State(
+            accounts = Result.success(emptyList()),
+            searchResult = null
+        )
+    )
 
     fun load(listId: String) {
         val state = _state.value
-        if (state.accounts.isLeft() || state.accounts.asRight().isEmpty()) {
+        if (state.accounts.isFailure || state.accounts.getOrThrow().isEmpty()) {
             viewModelScope.launch {
-                api.getAccountsInList(listId, 0).fold(
-                    { accounts ->
-                        updateState { copy(accounts = Right(accounts)) }
-                    },
-                    { e ->
-                        updateState { copy(accounts = Left(e)) }
-                    }
-                )
+                val accounts = api.getAccountsInList(listId, 0)
+                _state.update { it.copy(accounts = accounts.toResult()) }
             }
         }
     }
@@ -64,14 +63,14 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
         viewModelScope.launch {
             api.addAccountToList(listId, listOf(account.id))
                 .fold(
-                    {
-                        updateState {
-                            copy(accounts = accounts.map { it + account })
+                    onSuccess = {
+                        _state.update { state ->
+                            state.copy(accounts = state.accounts.map { it + account })
                         }
                     },
-                    {
+                    onFailure = {
                         Log.i(
-                            javaClass.simpleName,
+                            AccountsInListViewModel::class.java.simpleName,
                             "Failed to add account to list: ${account.username}"
                         )
                     }
@@ -83,18 +82,18 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
         viewModelScope.launch {
             api.deleteAccountFromList(listId, listOf(accountId))
                 .fold(
-                    {
-                        updateState {
-                            copy(
-                                accounts = accounts.map { accounts ->
+                    onSuccess = {
+                        _state.update { state ->
+                            state.copy(
+                                accounts = state.accounts.map { accounts ->
                                     accounts.withoutFirstWhich { it.id == accountId }
                                 }
                             )
                         }
                     },
-                    {
+                    onFailure = {
                         Log.i(
-                            javaClass.simpleName,
+                            AccountsInListViewModel::class.java.simpleName,
                             "Failed to remove account from list: $accountId"
                         )
                     }
@@ -102,25 +101,29 @@ class AccountsInListViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
+    private val currentQuery = MutableStateFlow("")
+
     fun search(query: String) {
-        when {
-            query.isEmpty() -> updateState { copy(searchResult = null) }
-            query.isBlank() -> updateState { copy(searchResult = listOf()) }
-            else -> viewModelScope.launch {
-                api.searchAccounts(query, null, 10, true)
-                    .fold(
-                        { result ->
-                            updateState { copy(searchResult = result) }
-                        },
-                        {
-                            updateState { copy(searchResult = listOf()) }
-                        }
-                    )
+        currentQuery.value = query
+    }
+
+    init {
+        viewModelScope.launch {
+            // Use collectLatest to automatically cancel the previous search
+            currentQuery.collectLatest { query ->
+                val searchResult = when {
+                    query.isEmpty() -> null
+                    query.isBlank() -> emptyList()
+                    else -> api.searchAccounts(query, null, 10, true)
+                        .getOrDefault(emptyList())
+                }
+                _state.update { it.copy(searchResult = searchResult) }
             }
         }
     }
 
-    private inline fun updateState(fn: State.() -> State) {
-        _state.value = fn(_state.value)
-    }
+    private fun <T> NetworkResult<T>.toResult(): Result<T> = fold(
+        onSuccess = { Result.success(it) },
+        onFailure = { Result.failure(it) }
+    )
 }

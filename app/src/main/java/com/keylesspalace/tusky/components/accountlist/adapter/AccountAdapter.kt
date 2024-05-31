@@ -21,7 +21,7 @@ import com.keylesspalace.tusky.databinding.ItemFooterBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.removeDuplicates
+import com.keylesspalace.tusky.util.removeDuplicatesTo
 
 /** Generic adapter with bottom loading indicator. */
 abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
@@ -74,7 +74,7 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructo
     }
 
     fun update(newAccounts: List<TimelineAccount>) {
-        accountList = removeDuplicates(newAccounts)
+        accountList = newAccounts.removeDuplicatesTo(ArrayList())
         notifyDataSetChanged()
     }
 
