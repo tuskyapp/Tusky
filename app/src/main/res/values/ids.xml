@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="pin" type="id" />
+    <item name="custom_emoji_targets_tag" type="id" />
 </resources>

@@ -16,15 +16,16 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.content.Context
+import android.text.TextUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
-import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.unicodeWrap
+import com.keylesspalace.tusky.util.updateEmojiTargets
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 class ReportNotificationViewHolder(
@@ -41,10 +42,16 @@ class ReportNotificationViewHolder(
         val report = viewData.report!!
         val reporter = viewData.account
 
-        val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, binding.notificationTopText, statusDisplayOptions.animateEmojis)
-        val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, binding.notificationTopText, statusDisplayOptions.animateEmojis)
+        binding.notificationTopText.updateEmojiTargets {
+            val reporterName = reporter.name.unicodeWrap().emojify(reporter.emojis, statusDisplayOptions.animateEmojis)
+            val reporteeName = report.targetAccount.name.unicodeWrap().emojify(report.targetAccount.emojis, statusDisplayOptions.animateEmojis)
 
-        binding.notificationTopText.text = itemView.context.getString(R.string.notification_header_report_format, reporterName, reporteeName)
+            // Context.getString() returns a String and doesn't support Spannable.
+            // Convert the placeholders to the format used by TextUtils.expandTemplate which does.
+            val topText =
+                view.context.getString(R.string.notification_header_report_format, "^1", "^2")
+            view.text = TextUtils.expandTemplate(topText, reporterName, reporteeName)
+        }
         binding.notificationSummary.text = itemView.context.getString(R.string.notification_summary_report_format, getRelativeTimeSpanString(itemView.context, report.createdAt.time, System.currentTimeMillis()), report.statusIds?.size ?: 0)
         binding.notificationCategory.text = getTranslatedCategory(itemView.context, report.category)
 
