@@ -56,15 +56,22 @@ abstract class SearchFragment<T : Any> :
     abstract fun createAdapter(): PagingDataAdapter<T, *>
 
     abstract val data: Flow<PagingData<T>>
-    protected lateinit var adapter: PagingDataAdapter<T, *>
+    protected var adapter: PagingDataAdapter<T, *>? = null
 
     private var currentQuery: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initAdapter()
+        val adapter = initAdapter()
         setupSwipeRefreshLayout()
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        subscribeObservables()
+        subscribeObservables(adapter)
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        snackbarErrorRetry = null
+        super.onDestroyView()
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -72,7 +79,7 @@ abstract class SearchFragment<T : Any> :
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
-    private fun subscribeObservables() {
+    private fun subscribeObservables(adapter: PagingDataAdapter<T, *>) {
         viewLifecycleOwner.lifecycleScope.launch {
             data.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
@@ -82,7 +89,7 @@ abstract class SearchFragment<T : Any> :
         adapter.addLoadStateListener { loadState ->
 
             if (loadState.refresh is LoadState.Error) {
-                showError()
+                showError(adapter)
             }
 
             val isNewSearch = currentQuery != viewModel.currentQuery
@@ -128,22 +135,26 @@ abstract class SearchFragment<T : Any> :
         }
     }
 
-    private fun initAdapter() {
+    private fun initAdapter(): PagingDataAdapter<T, *> {
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(binding.searchRecyclerView.context)
-        adapter = createAdapter()
+        val adapter = createAdapter()
+        this.adapter = adapter
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.setHasFixedSize(true)
         (binding.searchRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        return adapter
     }
 
-    private fun showError() {
+    private fun showError(adapter: PagingDataAdapter<T, *>) {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
-            snackbarErrorRetry?.setAction(R.string.action_retry) {
-                snackbarErrorRetry = null
-                adapter.retry()
-            }
-            snackbarErrorRetry?.show()
+            snackbarErrorRetry =
+                Snackbar.make(binding.root, R.string.failed_search, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_retry) {
+                        snackbarErrorRetry = null
+                        adapter.retry()
+                    }.also {
+                        it.show()
+                    }
         }
     }
 
@@ -167,6 +178,8 @@ abstract class SearchFragment<T : Any> :
         get() = (activity as? BottomSheetActivity)
 
     override fun onRefresh() {
-        adapter.refresh()
+        snackbarErrorRetry?.dismiss()
+        snackbarErrorRetry = null
+        adapter?.refresh()
     }
 }

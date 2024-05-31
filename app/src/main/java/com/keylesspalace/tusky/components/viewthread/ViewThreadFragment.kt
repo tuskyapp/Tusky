@@ -18,12 +18,10 @@ package com.keylesspalace.tusky.components.viewthread
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.CheckResult
 import androidx.core.view.MenuProvider
@@ -65,7 +63,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ViewThreadFragment :
-    SFragment(),
+    SFragment(R.layout.fragment_view_thread),
     OnRefreshListener,
     StatusActionListener,
     MenuProvider {
@@ -77,7 +75,7 @@ class ViewThreadFragment :
 
     private val binding by viewBinding(FragmentViewThreadBinding::bind)
 
-    private lateinit var adapter: ThreadAdapter
+    private var adapter: ThreadAdapter? = null
     private lateinit var thisThreadsStatusId: String
 
     private var alwaysShowSensitiveMedia = false
@@ -96,7 +94,9 @@ class ViewThreadFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thisThreadsStatusId = requireArguments().getString(ID_EXTRA)!!
+    }
 
+    private fun createAdapter(): ThreadAdapter {
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -116,19 +116,14 @@ class ViewThreadFragment :
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
-        adapter = ThreadAdapter(statusDisplayOptions, this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_view_thread, container, false)
+        return ThreadAdapter(statusDisplayOptions, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        val adapter = createAdapter()
+        this.adapter = adapter
 
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
@@ -256,6 +251,12 @@ class ViewThreadFragment :
         viewModel.loadThread(thisThreadsStatusId)
     }
 
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
+    }
+
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_view_thread, menu)
         val actionReveal = menu.findItem(R.id.action_reveal)
@@ -322,11 +323,12 @@ class ViewThreadFragment :
     }
 
     override fun onReply(position: Int) {
-        super.reply(adapter.currentList[position].status)
+        val viewData = adapter?.currentList?.getOrNull(position) ?: return
+        super.reply(viewData.status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.reblog(reblog, status)
     }
 
@@ -342,8 +344,8 @@ class ViewThreadFragment :
         }
 
     private fun onTranslate(position: Int) {
-        val status = adapter.currentList[position]
-        lifecycleScope.launch {
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
                     Snackbar.make(
@@ -356,22 +358,22 @@ class ViewThreadFragment :
     }
 
     override fun onUntranslate(position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.untranslate(status)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.favorite(favourite, status)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.bookmark(bookmark, status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val viewData = adapter.currentList[position]
+        val viewData = adapter?.currentList?.getOrNull(position) ?: return
         super.more(
             viewData.status,
             view,
@@ -381,7 +383,7 @@ class ViewThreadFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         super.viewMedia(
             attachmentIndex,
             list(status, alwaysShowSensitiveMedia),
@@ -390,7 +392,7 @@ class ViewThreadFragment :
     }
 
     override fun onViewThread(position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         if (thisThreadsStatusId == status.id) {
             // If already viewing this thread, don't reopen it.
             return
@@ -415,11 +417,13 @@ class ViewThreadFragment :
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        viewModel.changeExpanded(expanded, adapter.currentList[position])
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        viewModel.changeContentShowing(isShowing, adapter.currentList[position])
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onLoadMore(position: Int) {
@@ -427,19 +431,20 @@ class ViewThreadFragment :
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = adapter.currentList[position].id
-        val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, status.id)
         requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = adapter.currentList[position].id
-        val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, status.id)
         requireActivity().startActivityWithSlideInAnimation(intent)
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        viewModel.changeContentCollapsed(isCollapsed, adapter.currentList[position])
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
     override fun onViewTag(tag: String) {
@@ -451,7 +456,7 @@ class ViewThreadFragment :
     }
 
     public override fun removeItem(position: Int) {
-        adapter.currentList.getOrNull(position)?.let { status ->
+        adapter?.currentList?.getOrNull(position)?.let { status ->
             if (status.isDetailed) {
                 // the main status we are viewing is being removed, finish the activity
                 activity?.finish()
@@ -462,12 +467,12 @@ class ViewThreadFragment :
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.voteInPoll(choices, status)
     }
 
     override fun onShowEdits(position: Int) {
-        val status = adapter.currentList[position]
+        val status = adapter?.currentList?.getOrNull(position) ?: return
         val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)
 
         parentFragmentManager.commit {
@@ -483,7 +488,8 @@ class ViewThreadFragment :
     }
 
     override fun clearWarningAction(position: Int) {
-        viewModel.clearWarning(adapter.currentList[position])
+        val status = adapter?.currentList?.getOrNull(position) ?: return
+        viewModel.clearWarning(status)
     }
 
     companion object {

@@ -80,7 +80,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NotificationsFragment :
-    SFragment(),
+    SFragment(R.layout.fragment_timeline_notifications),
     SwipeRefreshLayout.OnRefreshListener,
     StatusActionListener,
     NotificationActionListener,
@@ -98,7 +98,7 @@ class NotificationsFragment :
 
     private val viewModel: NotificationsViewModel by viewModels()
 
-    private lateinit var adapter: NotificationsPagingAdapter
+    private var adapter: NotificationsPagingAdapter? = null
 
     private var hideFab: Boolean = false
     private var showNotificationsFilterBar: Boolean = true
@@ -107,14 +107,6 @@ class NotificationsFragment :
     /** see [com.keylesspalace.tusky.components.timeline.TimelineFragment] for explanation of the load more mechanism */
     private var loadMorePosition: Int? = null
     private var statusIdBelowLoadMore: String? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_timeline_notifications, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -151,13 +143,14 @@ class NotificationsFragment :
 
         // Setup the RecyclerView.
         binding.recyclerView.setHasFixedSize(true)
-        adapter = NotificationsPagingAdapter(
+        val adapter = NotificationsPagingAdapter(
             accountId = accountManager.activeAccount!!.accountId,
             statusListener = this,
             notificationActionListener = this,
             accountActionListener = this,
             statusDisplayOptions = statusDisplayOptions
         )
+        this.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
@@ -247,7 +240,7 @@ class NotificationsFragment :
                     }
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
-                    updateReadingPositionForOldestFirst()
+                    updateReadingPositionForOldestFirst(adapter)
                 }
             }
         })
@@ -261,7 +254,7 @@ class NotificationsFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
-                    onPreferenceChanged(event.preferenceKey)
+                    onPreferenceChanged(adapter, event.preferenceKey)
                 }
             }
         }
@@ -285,15 +278,21 @@ class NotificationsFragment :
         }
     }
 
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
+    }
+
     override fun onReselect() {
-        if (isAdded) {
+        if (view != null) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }
     }
 
     override fun onRefresh() {
-        adapter.refresh()
+        adapter?.refresh()
     }
 
     override fun onViewAccount(id: String) {
@@ -309,7 +308,7 @@ class NotificationsFragment :
     }
 
     override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
-        val notification = adapter.peek(position) ?: return
+        val notification = adapter?.peek(position) ?: return
         viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
     }
 
@@ -324,17 +323,17 @@ class NotificationsFragment :
     }
 
     override fun onReply(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.reply(status.status)
     }
 
     override fun removeItem(position: Int) {
-        val notification = adapter.peek(position) ?: return
+        val notification = adapter?.peek(position) ?: return
         viewModel.remove(notification.id)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.reblog(reblog, status)
     }
 
@@ -348,8 +347,8 @@ class NotificationsFragment :
         }
 
     private fun onTranslate(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        lifecycleScope.launch {
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
                     Snackbar.make(
@@ -362,32 +361,32 @@ class NotificationsFragment :
     }
 
     override fun onUntranslate(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.untranslate(status)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.favorite(favourite, status)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.bookmark(bookmark, status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.voteInPoll(choices, status)
     }
 
     override fun clearWarningAction(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.clearWarning(status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.more(
             status.status,
             view,
@@ -397,32 +396,33 @@ class NotificationsFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(attachmentIndex, AttachmentViewData.list(status), view)
     }
 
     override fun onViewThread(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull()?.status ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull()?.status ?: return
         super.viewThread(status.id, status.url)
     }
 
     override fun onOpenReblog(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.openReblog(status.status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onLoadMore(position: Int) {
-        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        val adapter = this.adapter
+        val placeholder = adapter?.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
         statusIdBelowLoadMore =
             if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
@@ -430,7 +430,7 @@ class NotificationsFragment :
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
@@ -478,7 +478,7 @@ class NotificationsFragment :
         window.showAsDropDown(binding.buttonFilter)
     }
 
-    private fun onPreferenceChanged(key: String) {
+    private fun onPreferenceChanged(adapter: NotificationsPagingAdapter, key: String) {
         when (key) {
             PrefKeys.FAB_HIDE -> {
                 hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
@@ -493,7 +493,7 @@ class NotificationsFragment :
             }
 
             PrefKeys.SHOW_NOTIFICATIONS_FILTER -> {
-                if (isAdded) {
+                if (view != null) {
                     showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)
                     updateFilterBarVisibility()
                 }
@@ -522,7 +522,7 @@ class NotificationsFragment :
         }
     }
 
-    private fun updateReadingPositionForOldestFirst() {
+    private fun updateReadingPositionForOldestFirst(adapter: NotificationsPagingAdapter) {
         var position = loadMorePosition ?: return
         val notificationIdBelowLoadMore = statusIdBelowLoadMore ?: return
 

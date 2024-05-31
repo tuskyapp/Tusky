@@ -80,7 +80,7 @@ class ReportStatusesFragment :
 
     private val binding by viewBinding(FragmentReportStatusesBinding::bind)
 
-    private lateinit var adapter: StatusesAdapter
+    private var adapter: StatusesAdapter? = null
 
     private var snackbarErrorRetry: Snackbar? = null
 
@@ -114,6 +114,13 @@ class ReportStatusesFragment :
         setupSwipeRefreshLayout()
     }
 
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        snackbarErrorRetry = null
+        super.onDestroyView()
+    }
+
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_report_statuses, menu)
         menu.findItem(R.id.action_refresh)?.apply {
@@ -137,7 +144,8 @@ class ReportStatusesFragment :
 
     override fun onRefresh() {
         snackbarErrorRetry?.dismiss()
-        adapter.refresh()
+        snackbarErrorRetry = null
+        adapter?.refresh()
     }
 
     private fun setupSwipeRefreshLayout() {
@@ -163,7 +171,8 @@ class ReportStatusesFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
+        val adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
+        this.adapter = adapter
 
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -172,7 +181,7 @@ class ReportStatusesFragment :
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statusesFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
@@ -183,7 +192,7 @@ class ReportStatusesFragment :
                 loadState.append is LoadState.Error ||
                 loadState.prepend is LoadState.Error
             ) {
-                showError()
+                showError(adapter)
             }
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
@@ -198,13 +207,15 @@ class ReportStatusesFragment :
         }
     }
 
-    private fun showError() {
+    private fun showError(adapter: StatusesAdapter) {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_posts, Snackbar.LENGTH_INDEFINITE)
-            snackbarErrorRetry?.setAction(R.string.action_retry) {
-                adapter.retry()
-            }
-            snackbarErrorRetry?.show()
+            snackbarErrorRetry =
+                Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_posts, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_retry) {
+                        adapter.retry()
+                    }.also {
+                        it.show()
+                    }
         }
     }
 
