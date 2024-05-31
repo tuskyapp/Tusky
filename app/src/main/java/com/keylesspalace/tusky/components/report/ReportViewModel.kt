@@ -79,8 +79,7 @@ class ReportViewModel @Inject constructor(
             initialKey = statusId,
             config = PagingConfig(
                 pageSize = 20,
-                initialLoadSize = 20,
-                enablePlaceholders = false
+                initialLoadSize = 20
             ),
             pagingSourceFactory = { StatusesPagingSource(accountId, mastodonApi) }
         ).flow

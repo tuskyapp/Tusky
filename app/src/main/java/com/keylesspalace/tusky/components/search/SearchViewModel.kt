@@ -90,8 +90,7 @@ class SearchViewModel @Inject constructor(
     val statusesFlow = Pager(
         config = PagingConfig(
             pageSize = DEFAULT_LOAD_SIZE,
-            initialLoadSize = DEFAULT_LOAD_SIZE,
-            enablePlaceholders = false
+            initialLoadSize = DEFAULT_LOAD_SIZE
         ),
         pagingSourceFactory = statusesPagingSourceFactory
     ).flow
@@ -100,8 +99,7 @@ class SearchViewModel @Inject constructor(
     val accountsFlow = Pager(
         config = PagingConfig(
             pageSize = DEFAULT_LOAD_SIZE,
-            initialLoadSize = DEFAULT_LOAD_SIZE,
-            enablePlaceholders = false
+            initialLoadSize = DEFAULT_LOAD_SIZE
         ),
         pagingSourceFactory = accountsPagingSourceFactory
     ).flow
@@ -110,8 +108,7 @@ class SearchViewModel @Inject constructor(
     val hashtagsFlow = Pager(
         config = PagingConfig(
             pageSize = DEFAULT_LOAD_SIZE,
-            initialLoadSize = DEFAULT_LOAD_SIZE,
-            enablePlaceholders = false
+            initialLoadSize = DEFAULT_LOAD_SIZE
         ),
         pagingSourceFactory = hashtagsPagingSourceFactory
     ).flow
