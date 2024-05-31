@@ -184,7 +184,7 @@ class FollowedTagsActivity :
         return viewModel.searchAutocompleteSuggestions(token)
     }
 
-    override fun view(tagName: String) {
+    override fun viewTag(tagName: String) {
         startActivity(StatusListActivity.newHashtagIntent(this, tagName))
     }
 

@@ -30,7 +30,7 @@ class FollowedTagsAdapter(
             holder.itemView.findViewById<TextView>(R.id.followed_tag).apply {
                 text = tag.name
                 setOnClickListener {
-                    actionListener.view(tag.name)
+                    actionListener.viewTag(tag.name)
                 }
                 setOnLongClickListener {
                     actionListener.copyTagName(tag.name)
