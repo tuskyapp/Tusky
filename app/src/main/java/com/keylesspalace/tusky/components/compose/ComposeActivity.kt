@@ -90,6 +90,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
+import com.keylesspalace.tusky.util.defaultFinders
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
@@ -143,6 +144,9 @@ class ComposeActivity :
     private lateinit var activeAccount: AccountEntity
 
     private var photoUploadUri: Uri? = null
+
+    @VisibleForTesting
+    var highlightFinders = defaultFinders
 
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
@@ -468,9 +472,9 @@ class ComposeActivity :
         binding.composeEditField.setSelection(binding.composeEditField.length())
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
-        highlightSpans(binding.composeEditField.text, mentionColour)
+        binding.composeEditField.text.highlightSpans(mentionColour, highlightFinders)
         binding.composeEditField.doAfterTextChanged { editable ->
-            highlightSpans(editable!!, mentionColour)
+            editable!!.highlightSpans(mentionColour, highlightFinders)
             updateVisibleCharactersLeft()
             viewModel.updateContent(editable.toString())
         }
