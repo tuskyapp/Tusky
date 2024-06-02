@@ -85,19 +85,6 @@ class FollowedTagsActivity :
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
         (binding.followedTagsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-        val hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        if (hideFab) {
-            binding.followedTagsView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (dy > 0 && binding.fab.isShown) {
-                        binding.fab.hide()
-                    } else if (dy < 0 && !binding.fab.isShown) {
-                        binding.fab.show()
-                    }
-                }
-            })
-        }
     }
 
     private fun setupAdapter(): FollowedTagsAdapter {

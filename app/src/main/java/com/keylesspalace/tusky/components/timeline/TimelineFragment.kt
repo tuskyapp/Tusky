@@ -109,7 +109,6 @@ class TimelineFragment :
     private var adapter: TimelinePagingAdapter? = null
 
     private var isSwipeToRefreshEnabled = true
-    private var hideFab = false
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -277,26 +276,6 @@ class TimelineFragment :
             viewModel.statuses.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
-        }
-
-        if (actionButtonPresent()) {
-            hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                    val composeButton = (activity as ActionButtonActivity).actionButton
-                    if (composeButton != null) {
-                        if (hideFab) {
-                            if (dy > 0 && composeButton.isShown) {
-                                composeButton.hide() // hides the button if we're scrolling down
-                            } else if (dy < 0 && !composeButton.isShown) {
-                                composeButton.show() // shows it if we are scrolling up
-                            }
-                        } else if (!composeButton.isShown) {
-                            composeButton.show()
-                        }
-                    }
-                }
-            })
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -573,10 +552,6 @@ class TimelineFragment :
 
     private fun onPreferenceChanged(adapter: TimelinePagingAdapter, key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled

@@ -100,7 +100,6 @@ class NotificationsFragment :
 
     private var adapter: NotificationsPagingAdapter? = null
 
-    private var hideFab: Boolean = false
     private var showNotificationsFilterBar: Boolean = true
     private var readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST
 
@@ -180,25 +179,7 @@ class NotificationsFragment :
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
 
-        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
-
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                val composeButton = (activity as ActionButtonActivity).actionButton
-                if (composeButton != null) {
-                    if (hideFab) {
-                        if (dy > 0 && composeButton.isShown) {
-                            composeButton.hide() // hides the button if we're scrolling down
-                        } else if (dy < 0 && !composeButton.isShown) {
-                            composeButton.show() // shows it if we are scrolling up
-                        }
-                    } else if (!composeButton.isShown) {
-                        composeButton.show()
-                    }
-                }
-            }
-        })
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -481,10 +462,6 @@ class NotificationsFragment :
 
     private fun onPreferenceChanged(adapter: NotificationsPagingAdapter, key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled

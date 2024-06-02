@@ -86,8 +86,6 @@ class ConversationsFragment :
 
     private var adapter: ConversationAdapter? = null
 
-    private var hideFab = false
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
@@ -168,24 +166,6 @@ class ConversationsFragment :
                         if (getView() != null) {
                             binding.recyclerView.scrollBy(0, Utils.dpToPx(requireContext(), -30))
                         }
-                    }
-                }
-            }
-        })
-
-        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                val composeButton = (activity as ActionButtonActivity).actionButton
-                if (composeButton != null) {
-                    if (hideFab) {
-                        if (dy > 0 && composeButton.isShown) {
-                            composeButton.hide() // hides the button if we're scrolling down
-                        } else if (dy < 0 && !composeButton.isShown) {
-                            composeButton.show() // shows it if we are scrolling up
-                        }
-                    } else if (!composeButton.isShown) {
-                        composeButton.show()
                     }
                 }
             }
@@ -407,10 +387,6 @@ class ConversationsFragment :
 
     private fun onPreferenceChanged(adapter: ConversationAdapter, key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
