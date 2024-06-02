@@ -525,6 +525,7 @@ class ComposeViewModel @Inject constructor(
         scheduledTootId = composeOptions?.scheduledTootId
         originalStatusId = composeOptions?.statusId
         startingText = composeOptions?.content
+        currentContent = composeOptions?.content
         postLanguage = composeOptions?.language
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
