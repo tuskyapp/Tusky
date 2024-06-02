@@ -25,6 +25,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.getSystemService
 import androidx.core.view.MenuProvider
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -389,6 +390,14 @@ class TimelineFragment :
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
+
+        val recyclerViewBottomPadding = if ((activity as? ActionButtonActivity?)?.actionButton != null) {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
+        } else {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
+        }
+
+        binding.recyclerView.updatePadding(bottom = recyclerViewBottomPadding)
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false

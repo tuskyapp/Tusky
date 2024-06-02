@@ -14,10 +14,11 @@
         android:id="@+id/followedTagsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_followed_hashtag"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/recyclerview_bottom_padding_actionbutton"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        tools:itemCount="5"
+        tools:listitem="@layout/item_followed_hashtag" />
 
     <com.keylesspalace.tusky.view.BackgroundMessageView
         android:id="@+id/followedTagsMessageView"
@@ -25,8 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/followedTagsProgressBar"
@@ -34,8 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

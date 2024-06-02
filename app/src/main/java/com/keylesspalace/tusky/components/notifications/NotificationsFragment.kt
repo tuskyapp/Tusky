@@ -55,7 +55,6 @@ import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys

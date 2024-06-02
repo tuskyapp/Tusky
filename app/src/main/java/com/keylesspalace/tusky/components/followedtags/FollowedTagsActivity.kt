@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
@@ -24,7 +23,6 @@ import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show

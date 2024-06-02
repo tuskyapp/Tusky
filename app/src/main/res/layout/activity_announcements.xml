@@ -28,7 +28,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/announcementsList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton" />
 
             <com.keylesspalace.tusky.view.BackgroundMessageView
                 android:id="@+id/errorMessageView"
