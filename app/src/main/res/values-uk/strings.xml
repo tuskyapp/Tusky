@@ -41,7 +41,7 @@
     <string name="search_no_results">Немає результатів</string>
     <string name="hint_search">Пошук…</string>
     <string name="hint_note">Про себе</string>
-    <string name="hint_compose">Що відбувається\?</string>
+    <string name="hint_compose">Що відбувається?</string>
     <string name="confirmation_reported">Надіслано!</string>
     <string name="action_share_as">Поділитися як …</string>
     <string name="action_open_as">Відкрити як %1$s</string>
@@ -84,14 +84,14 @@
     <string name="action_block">Заблокувати</string>
     <string name="action_unfollow">Не стежити</string>
     <string name="action_follow">Підписатися</string>
-    <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s\? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
+    <string name="action_logout_confirm">Ви впевнені, що хочете вийти %1$s? Це призведе до видалення всіх локальних даних облікового запису, включно з чернетками та вподобаннями.</string>
     <string name="action_compose">Написати</string>
     <string name="action_unfavourite">Прибрати з обраного</string>
     <string name="action_bookmark">Додати в закладки</string>
     <string name="action_favourite">Вподобати</string>
     <string name="action_reply">Відповісти</string>
     <string name="action_quick_reply">Швидка відповідь</string>
-    <string name="report_comment_hint">Додаткові коментарі\?</string>
+    <string name="report_comment_hint">Додаткові коментарі?</string>
     <string name="report_username_format">Поскаржитися на @%1$s</string>
     <string name="notification_follow_request_format">%1$s надсилає запит на підписку</string>
     <string name="notification_follow_format">%1$s підписується на вас</string>
@@ -175,7 +175,7 @@
     <string name="system_default">Типовий системний</string>
     <string name="emoji_style">Стиль емодзі</string>
     <string name="error_no_custom_emojis">Ваш сервер %1$s не має власних емодзі</string>
-    <string name="compose_save_draft">Зберегти чернетку\?</string>
+    <string name="compose_save_draft">Зберегти чернетку?</string>
     <string name="lock_account_label_description">Доведеться затверджувати підписників власноруч</string>
     <string name="action_set_caption">Додати підпис</string>
     <plurals name="hint_describe_for_visually_impaired">
@@ -401,22 +401,22 @@
     <string name="dialog_block_warning">Заблокувати @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Сховати весь домен</string>
     <string name="mute_domain_warning">Ви впевнені, що хочете заблокувати все з %1$s? Ви не побачите матеріали з цього домену в загальнодоступних стрічках або у своїх сповіщеннях. Ваших підписників з цього домену буде вилучено.</string>
-    <string name="dialog_redraft_post_warning">Видалити й переписати цей допис\?</string>
-    <string name="dialog_delete_post_warning">Видалити цей допис\?</string>
-    <string name="dialog_unfollow_warning">Не стежити за цим обліковим записом\?</string>
-    <string name="dialog_message_cancel_follow_request">Відкликати запит на підписку\?</string>
+    <string name="dialog_redraft_post_warning">Видалити й переписати цей допис?</string>
+    <string name="dialog_delete_post_warning">Видалити цей допис?</string>
+    <string name="dialog_unfollow_warning">Не стежити за цим обліковим записом?</string>
+    <string name="dialog_message_cancel_follow_request">Відкликати запит на підписку?</string>
     <string name="dialog_download_image">Завантаження</string>
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
-    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">інші!</a>
-\n
-\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис.
-\n
-\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті.
-\n
+    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">інші!</a> 
+\n 
+\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис. 
+\n 
+\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті. 
+\n 
 \nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
-    <string name="link_whats_an_instance">Що таке сервер\?</string>
-    <string name="hint_domain">Котрий сервер\?</string>
+    <string name="link_whats_an_instance">Що таке сервер?</string>
+    <string name="hint_domain">Котрий сервер?</string>
     <string name="label_header">Заголовок</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Відповісти…</string>
@@ -469,7 +469,7 @@
     <string name="failed_fetch_posts">Не вдалося отримати дописи</string>
     <string name="report_remote_instance">Переслати до %1$s</string>
     <string name="compose_preview_image_description">Дії для зображення %1$s</string>
-    <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення\?</string>
+    <string name="notification_clear_text">Ви впевнені, що хочете остаточно очистити всі сповіщення?</string>
     <string name="compose_shortcut_long_label">Створити допис</string>
     <string name="filter_apply">Застосувати</string>
     <string name="notifications_apply_filter">Фільтр</string>
@@ -505,7 +505,7 @@
     <string name="caption_notoemoji">Поточний набір емодзі Google</string>
     <string name="caption_twemoji">Стандартний набір емодзі Mastodon</string>
     <string name="follow_requests_info">Попри те, що ваш обліковий запис не заблоковано, співробітники %1$s вважають, що ви, можливо, захочете розглянути запити на підписку від цих облікових записів власноруч.</string>
-    <string name="dialog_delete_conversation_warning">Видалити цю бесіду\?</string>
+    <string name="dialog_delete_conversation_warning">Видалити цю бесіду?</string>
     <string name="action_delete_conversation">Видалити бесіду</string>
     <string name="action_unbookmark">Вилучити закладку</string>
     <string name="pref_title_confirm_favourites">Запитувати підтвердження перед додаванням до вподобаних</string>
@@ -544,12 +544,12 @@
     <string name="pref_show_self_username_disambiguate">Коли ви ввійшли у кілька облікових записів</string>
     <string name="pref_show_self_username_never">Ніколи</string>
     <string name="pref_title_show_self_username">Показувати ім\'я користувача на панелях інструментів</string>
-    <string name="delete_scheduled_post_warning">Видалити цей запланований допис\?</string>
+    <string name="delete_scheduled_post_warning">Видалити цей запланований допис?</string>
     <string name="instance_rule_info">Увійшовши, ви погоджуєтесь з правилами %1$s.</string>
     <string name="instance_rule_title">Правила %1$s</string>
     <string name="failed_to_pin">Не вдалося прикріпити</string>
     <string name="failed_to_unpin">Не вдалося відкріпити</string>
-    <string name="compose_save_draft_loses_media">Зберегти чернетку\? (Вкладення будуть завантажені знову, коли ви відновите чернетку.)</string>
+    <string name="compose_save_draft_loses_media">Зберегти чернетку? (Вкладення будуть завантажені знову, коли ви відновите чернетку.)</string>
     <string name="action_add_reaction">додати реакцію</string>
     <string name="notification_report_format">Нова скарга %1$s</string>
     <string name="report_category_violation">Порушення правил</string>
@@ -653,8 +653,8 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="hint_filter_title">Мій фільтр</string>
     <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
-    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
-\n
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите. 
+\n 
 \nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера {{group}}. Або ви можете шукати їх за іменами {{search}}; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
     <string name="post_media_image">Зображення</string>
     <string name="select_list_manage">Керувати списками</string>
@@ -664,9 +664,9 @@
     <string name="notification_notification_worker">Отримання сповіщень…</string>
     <string name="notification_prune_cache">Обслуговування кешу…</string>
     <string name="load_newest_notifications">Завантажити найновіші сповіщення</string>
-    <string name="compose_delete_draft">Видалити чернетку\?</string>
-    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому їх неможливо показати вам.
-\n
+    <string name="compose_delete_draft">Видалити чернетку?</string>
+    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому їх неможливо показати вам. 
+\n 
 \nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
     <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %1$s</string>
     <string name="about_device_info_title">Ваш пристрій</string>
@@ -685,13 +685,13 @@
 \n
 \nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість.</string>
     <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
-    <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
-    <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
-    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи.
-\n
-\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, за якими слідкуєте.
-\n
+    <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі?</string>
+    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. 
+\n 
+\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, за якими слідкуєте. 
+\n 
 \nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="muting_hashtag_success_format">Сховати гештег #%1$s як попередження</string>
     <string name="unmuting_hashtag_success_format">Показувати гештег #%1$s</string>
