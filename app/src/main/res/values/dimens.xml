@@ -77,4 +77,8 @@
 
     <dimen name="fallback_emoji_size">16sp</dimen>
 
+    <!-- 56dp + 16dp padding on top and bottom -->
+    <dimen name="recyclerview_bottom_padding_actionbutton">88dp</dimen>
+    <dimen name="recyclerview_bottom_padding_no_actionbutton">32dp</dimen>
+
 </resources>

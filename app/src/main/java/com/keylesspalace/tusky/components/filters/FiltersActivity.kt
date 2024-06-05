@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
@@ -50,6 +51,10 @@ class FiltersActivity : BaseActivity(), FiltersListener {
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         setTitle(R.string.pref_title_timeline_filters)
+
+        binding.filtersList.addItemDecoration(
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        )
 
         observeViewModel()
     }

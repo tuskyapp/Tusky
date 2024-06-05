@@ -129,8 +129,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     private var animateAvatar: Boolean = false
     private var animateEmojis: Boolean = false
 
-    // fields for scroll animation
-    private var hideFab: Boolean = false
+    // for scroll animation
     private var oldOffset: Int = 0
 
     @ColorInt
@@ -170,7 +169,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
         animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
 
         handleWindowInsets()
         setupToolbar()
@@ -362,15 +360,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     supportActionBar?.setDisplayShowTitleEnabled(true)
                 } else {
                     supportActionBar?.setDisplayShowTitleEnabled(false)
-                }
-
-                if (hideFab && !blocking) {
-                    if (verticalOffset > oldOffset) {
-                        binding.accountFloatingActionButton.show()
-                    }
-                    if (verticalOffset < oldOffset) {
-                        binding.accountFloatingActionButton.hide()
-                    }
                 }
 
                 val scaledAvatarSize = (avatarSize + verticalOffset) / avatarSize

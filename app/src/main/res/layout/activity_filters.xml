@@ -12,9 +12,9 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -24,6 +24,8 @@
                 android:id="@+id/filtersList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <com.keylesspalace.tusky.view.BackgroundMessageView
