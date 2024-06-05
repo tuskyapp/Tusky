@@ -180,7 +180,6 @@
     <string name="app_theme_system">跟隨系統</string>
     <string name="pref_title_browser_settings">瀏覽器</string>
     <string name="pref_title_custom_tabs">使用 Chrome Custom Tabs</string>
-    <string name="pref_title_hide_follow_button">瀏覽時自動隱藏發嘟按鈕</string>
     <string name="pref_title_language">語言</string>
     <string name="pref_title_post_filter">時間軸過濾</string>
     <string name="pref_title_post_tabs">標籤頁</string>

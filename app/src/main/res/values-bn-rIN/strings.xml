@@ -180,7 +180,6 @@
     <string name="app_theme_system">সিস্টেম ডিজাইন ব্যবহার করুন</string>
     <string name="pref_title_browser_settings">ব্রাউজার</string>
     <string name="pref_title_custom_tabs">ক্রোম কাস্টম ট্যাব ব্যবহার করুন</string>
-    <string name="pref_title_hide_follow_button">স্ক্রোল করার সময় রচনা বোতাম লুকান</string>
     <string name="pref_title_language">ভাষা</string>
     <string name="pref_title_bot_overlay">বট জন্য সূচক প্রদর্শন করুন</string>
     <string name="pref_title_animate_gif_avatars">GIF অবতার অ্যানিমেশন করুন</string>

@@ -172,7 +172,6 @@
     <string name="pref_title_timeline_filters">Filtere</string>
     <string name="pref_title_browser_settings">Nettleser</string>
     <string name="pref_title_custom_tabs">Bruk Chrome-tilpassede faner</string>
-    <string name="pref_title_hide_follow_button">Skjul skriv-knappen ved scrolling</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Tidslinjefiltrering</string>
     <string name="pref_title_post_tabs">Faner</string>

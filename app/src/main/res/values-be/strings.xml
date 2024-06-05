@@ -134,7 +134,6 @@
     <string name="pref_title_browser_settings">Браўзер</string>
     <string name="pref_title_custom_tabs">Выкарыстоўваць укладкі браўзера Chrome</string>
     <string name="pref_title_animate_gif_avatars">Анімаваць GIF-аватаркі</string>
-    <string name="pref_title_hide_follow_button">Хаваць кнопку стварэння допісу падчас прагортвання</string>
     <string name="pref_title_language">Мова</string>
     <string name="pref_title_bot_overlay">Паказваць індыкатар для ботаў</string>
     <string name="pref_title_gradient_for_media">Паказваць каляровыя градыенты замест скрытых медыя</string>

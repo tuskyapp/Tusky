@@ -166,7 +166,6 @@
     <string name="app_theme_auto">Automatikus naplementekor</string>
     <string name="pref_title_browser_settings">Böngésző</string>
     <string name="pref_title_custom_tabs">Hivatkozások megnyitása az alkalmazáson belül</string>
-    <string name="pref_title_hide_follow_button">Szerkesztés gomb elrejtése görgetés közben</string>
     <string name="pref_title_post_filter">Idővonal szűrése</string>
     <string name="pref_title_post_tabs">Saját idővonal</string>
     <string name="pref_title_show_boosts">Megtolások megjelenítése</string>

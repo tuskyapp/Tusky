@@ -173,7 +173,6 @@
     <string name="app_theme_system">استخدم مظهر النظام</string>
     <string name="pref_title_browser_settings">المتصفح</string>
     <string name="pref_title_custom_tabs">إخفاء زر المتابعة أثناء تمرير الصفحة</string>
-    <string name="pref_title_hide_follow_button">إخفاء زر التحرير عند التمرير</string>
     <string name="pref_title_language">اللغة</string>
     <string name="pref_title_post_filter">تصفية الخيوط</string>
     <string name="pref_title_post_tabs">الخيط الرئيس</string>

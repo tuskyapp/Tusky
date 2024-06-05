@@ -205,7 +205,6 @@
     <string name="pref_title_animate_gif_avatars">Ảnh đại diện GIF</string>
     <string name="pref_title_bot_overlay">Icon cho tài khoản Bot</string>
     <string name="pref_title_language">Ngôn ngữ</string>
-    <string name="pref_title_hide_follow_button">Ẩn nút soạn tút</string>
     <string name="pref_title_custom_tabs">Mở luôn trong app</string>
     <string name="pref_title_browser_settings">Trình duyệt</string>
     <string name="app_theme_system">Mặc định của thiết bị</string>

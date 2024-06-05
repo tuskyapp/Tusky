@@ -151,7 +151,6 @@
     <string name="app_theme_auto">خودکار در غروب</string>
     <string name="pref_title_browser_settings">مرورگر</string>
     <string name="pref_title_custom_tabs">استفاده از زبانه‌های سفارشی کروم</string>
-    <string name="pref_title_hide_follow_button">نهفتن دکمهٔ ایجاد، هنگام پیمایش</string>
     <string name="pref_title_post_filter">پالایش خط زمانی</string>
     <string name="pref_title_post_tabs">خط زمانی خانه</string>
     <string name="pref_title_show_boosts">نمایش تقویت‌ها</string>

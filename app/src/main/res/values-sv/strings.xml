@@ -176,7 +176,6 @@
     <string name="app_theme_system">Använd system-tema</string>
     <string name="pref_title_browser_settings">Webbläsare</string>
     <string name="pref_title_custom_tabs">Använd Chrome-anpassade flikar</string>
-    <string name="pref_title_hide_follow_button">Dölj skriv-knappen vid skrollning</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Filtrering av tidslinje</string>
     <string name="pref_title_post_tabs">Hem tidslinje</string>

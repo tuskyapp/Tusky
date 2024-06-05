@@ -370,7 +370,6 @@
     <string name="pref_title_animate_gif_avatars">Beothaich avataran GIF</string>
     <string name="pref_title_bot_overlay">Seall taisbeanair do bhotaichean</string>
     <string name="pref_title_language">Cànan</string>
-    <string name="pref_title_hide_follow_button">Falaich am putan sgrìobhaidh fhad ’s a bhios mi ri sgroladh</string>
     <string name="pref_title_custom_tabs">Cleachd tabaichean Chrome gnàthaichte</string>
     <string name="pref_title_browser_settings">Brabhsair</string>
     <string name="app_theme_system">Cleachd co-dhealbhachd an t-siostaim</string>

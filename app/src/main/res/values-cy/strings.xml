@@ -150,7 +150,6 @@
     <string name="app_theme_auto">Awtomatig wrth iddi nosi</string>
     <string name="pref_title_browser_settings">Porwr</string>
     <string name="pref_title_custom_tabs">Defnyddio Tabiau Cyfaddas Chrome</string>
-    <string name="pref_title_hide_follow_button">Cuddio\'r botwm creu wrth sgrolio </string>
     <string name="pref_title_post_filter">Hidlo ffrydiau</string>
     <string name="pref_title_post_tabs">Ffrwd gartref</string>
     <string name="pref_title_show_boosts">Dangos hybiau</string>

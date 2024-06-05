@@ -198,7 +198,6 @@
     <string name="app_theme_system">Nota kerfishönnun</string>
     <string name="pref_title_browser_settings">Vafri</string>
     <string name="pref_title_custom_tabs">Nota sérsniðna flipa Chrome</string>
-    <string name="pref_title_hide_follow_button">Fela \'Semja skilaboð\" hnapp sjálfvirkt við skrun</string>
     <string name="pref_title_language">Tungumál</string>
     <string name="pref_title_bot_overlay">Birta merki á róbótum</string>
     <string name="pref_title_animate_gif_avatars">Sýna hreyfingar GIF-auðkennismynda</string>

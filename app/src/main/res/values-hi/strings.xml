@@ -95,7 +95,6 @@
     <string name="pref_title_gradient_for_media">छिपे हुए मीडिया के लिए रंगीन ग्रेडिएंट दिखाएं</string>
     <string name="pref_title_bot_overlay">बॉट्स के लिए संकेतक दिखाएं</string>
     <string name="pref_title_language">भाषा</string>
-    <string name="pref_title_hide_follow_button">स्क्रॉल करते समय कंपोज बटन को छिपाएं</string>
     <string name="pref_title_custom_tabs">क्रोम कस्टम टैब का उपयोग करें</string>
     <string name="pref_title_browser_settings">ब्राउज़र</string>
     <string name="app_theme_system">सिस्टम डिज़ाइन का उपयोग करें</string>

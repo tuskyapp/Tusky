@@ -161,7 +161,6 @@
     <string name="app_theme_auto">Gün batımında otomatik</string>
     <string name="pref_title_browser_settings">Tarayıcı</string>
     <string name="pref_title_custom_tabs">Chrome Özel Sekmelerini Kullan</string>
-    <string name="pref_title_hide_follow_button">Kaydırırken gönderi oluşturma düğmesi gizlensin</string>
     <string name="pref_title_post_filter">Ağ akışı süzgeçleme</string>
     <string name="pref_title_post_tabs">Anasayfa zaman akışı</string>
     <string name="pref_title_show_boosts">Yeniden paylaşımları göster</string>
