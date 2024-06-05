@@ -698,4 +698,6 @@
     <string name="report_category_legal">Pháp luật</string>
     <string name="dialog_follow_warning">Theo dõi người này?</string>
     <string name="pref_title_confirm_follows">Hỏi trước khi theo dõi</string>
+    <string name="url_copied">Đã sao chép liên kết</string>
+    <string name="confirmation_hashtag_copied">Đã sao chép \'#%1$s\'</string>
 </resources>

@@ -56,7 +56,6 @@ object PrefKeys {
 
     const val SCHEMA_VERSION: String = "schema_version"
     const val APP_THEME = "appTheme"
-    const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
     const val READING_ORDER = "readingOrder"
@@ -112,4 +111,8 @@ object PrefKeys {
 
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
+
+    object Deprecated {
+        const val FAB_HIDE = "fabHide"
+    }
 }

@@ -172,13 +172,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
                 switchPreference {
                     setDefaultValue(false)
-                    key = PrefKeys.FAB_HIDE
-                    setTitle(R.string.pref_title_hide_follow_button)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(false)
                     key = PrefKeys.ABSOLUTE_TIME_VIEW
                     setTitle(R.string.pref_title_absolute_time)
                     isSingleLineTitle = false

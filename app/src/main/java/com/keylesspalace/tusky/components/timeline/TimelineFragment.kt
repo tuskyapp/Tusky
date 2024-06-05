@@ -25,6 +25,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.getSystemService
 import androidx.core.view.MenuProvider
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -109,7 +110,6 @@ class TimelineFragment :
     private var adapter: TimelinePagingAdapter? = null
 
     private var isSwipeToRefreshEnabled = true
-    private var hideFab = false
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -279,26 +279,6 @@ class TimelineFragment :
             }
         }
 
-        if (actionButtonPresent()) {
-            hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                    val composeButton = (activity as ActionButtonActivity).actionButton
-                    if (composeButton != null) {
-                        if (hideFab) {
-                            if (dy > 0 && composeButton.isShown) {
-                                composeButton.hide() // hides the button if we're scrolling down
-                            } else if (dy < 0 && !composeButton.isShown) {
-                                composeButton.show() // shows it if we are scrolling up
-                            }
-                        } else if (!composeButton.isShown) {
-                            composeButton.show()
-                        }
-                    }
-                }
-            })
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->
                 when (event) {
@@ -410,6 +390,14 @@ class TimelineFragment :
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
+
+        val recyclerViewBottomPadding = if ((activity as? ActionButtonActivity?)?.actionButton != null) {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
+        } else {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
+        }
+
+        binding.recyclerView.updatePadding(bottom = recyclerViewBottomPadding)
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -573,10 +561,6 @@ class TimelineFragment :
 
     private fun onPreferenceChanged(adapter: TimelinePagingAdapter, key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled

@@ -730,4 +730,6 @@
     <string name="report_category_legal">Legale</string>
     <string name="pref_title_confirm_follows">Mostra conferma prima di seguire</string>
     <string name="unknown_notification_type">Tipo di notifica sconosciuto</string>
+    <string name="url_copied">URL copiato</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' copiato</string>
 </resources>

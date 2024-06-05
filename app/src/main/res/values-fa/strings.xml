@@ -715,4 +715,6 @@
     <string name="pref_title_show_notifications_filter">نمایش پالایهٔ آگاهی‌ها</string>
     <string name="dialog_follow_warning">پیگیری این حساب؟</string>
     <string name="pref_title_confirm_follows">نمایش تأیید پیش از پیگیری</string>
+    <string name="url_copied">نشانی رونوشت شد</string>
+    <string name="confirmation_hashtag_copied">«%1$s» رونوشت شد</string>
 </resources>
