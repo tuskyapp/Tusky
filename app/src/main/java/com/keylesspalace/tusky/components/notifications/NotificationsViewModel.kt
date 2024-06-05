@@ -127,6 +127,7 @@ class NotificationsViewModel @Inject constructor(
                 }
             }
         }
+        filterModel.kind = Filter.Kind.NOTIFICATIONS
     }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
