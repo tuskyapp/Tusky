@@ -715,4 +715,6 @@
     <string name="unknown_notification_type">Bilinmeyen bildirim türü</string>
     <string name="dialog_follow_warning">Bu hesabı mı takip ediyorsun?</string>
     <string name="pref_title_confirm_follows">Takip etmeden önce onayı göster</string>
+    <string name="url_copied">Url kopyalandı</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' kopyalandı</string>
 </resources>
