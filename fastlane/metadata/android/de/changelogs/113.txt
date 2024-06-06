@@ -1,0 +1,13 @@
+Tusky 23.0
+
+Neue Funktionen:
+- Skalierung des Oberflächentextes
+
+Behoben:
+- Kontoinformationen werden korrekt gespeichert
+- »Herunterziehen«-Benachrichtigungen für Android-Geräte mit Version <= 11
+- Android-Fehler, bei dem ein Textfeld das Kopieren/Einfügen „vergessen“ konnte
+- Absturz behoben, wenn der Server keinen Beitragsbearbeitungsverlauf hat
+- »Löschen«-Schaltfläche beim Bearbeiten eines Filters hinzugefügt
+- Nicht-quadratische Emojis werden korrekt dargestellt
+- und mehr
