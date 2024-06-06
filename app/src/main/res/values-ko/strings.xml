@@ -185,7 +185,6 @@
     <string name="app_theme_system">시스템 기본값</string>
     <string name="pref_title_browser_settings">웹 브라우저</string>
     <string name="pref_title_custom_tabs">Chrome 커스텀 탭 사용</string>
-    <string name="pref_title_hide_follow_button">스크롤 중에 글쓰기 버튼 감추기</string>
     <string name="pref_title_language">언어/Language</string>
     <string name="pref_title_bot_overlay">봇 식별자 추가</string>
     <string name="pref_title_animate_gif_avatars">GIF 아바타 애니메이션 보이기</string>

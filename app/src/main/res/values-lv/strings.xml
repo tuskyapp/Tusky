@@ -354,7 +354,6 @@
     <string name="downloading_media">Lejupielādē multividi</string>
     <string name="hint_media_description_missing">Multividei ir jābūt aprakstam.</string>
     <string name="dialog_title_finishing_media_upload">Pabeidz multivides augšupielādi</string>
-    <string name="pref_title_hide_follow_button">Ritinot paslēpt jauna ieraksta pogu</string>
     <string name="pref_default_media_sensitivity">Vienmēr atzīmēt multividi kā sensitīvu</string>
     <string name="error_no_custom_emojis">Instancē %1$s nav neviena pielāgota emocijzīmje</string>
     <string name="download_fonts">Vispirms jālejupielādē šie emocijzīmju komplekti</string>

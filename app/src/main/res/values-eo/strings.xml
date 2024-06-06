@@ -177,7 +177,6 @@
     <string name="app_theme_system">Uzi sisteman etoson</string>
     <string name="pref_title_browser_settings">Retumilo</string>
     <string name="pref_title_custom_tabs">Uzi la integritan retumilon</string>
-    <string name="pref_title_hide_follow_button">Kaŝi butonon de verko dum rulumado</string>
     <string name="pref_title_language">Lingvo</string>
     <string name="pref_title_post_filter">Filtrado de tempolinioj</string>
     <string name="pref_title_post_tabs">Langetoj</string>

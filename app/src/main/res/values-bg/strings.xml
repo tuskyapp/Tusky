@@ -213,7 +213,6 @@
     <string name="pref_title_animate_gif_avatars">Анимиране на GIF аватари</string>
     <string name="pref_title_bot_overlay">Показване на индикатор за ботове</string>
     <string name="pref_title_language">Език</string>
-    <string name="pref_title_hide_follow_button">Скриване на бутона за композиране, при превъртане</string>
     <string name="pref_title_custom_tabs">Използване на персонализирани раздели чрез Chrome</string>
     <string name="pref_title_browser_settings">Браузър</string>
     <string name="app_theme_system">Използване на системния дизайн</string>

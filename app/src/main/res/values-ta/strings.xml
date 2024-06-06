@@ -139,7 +139,6 @@
     <string name="app_theme_auto">தானியங்கி</string>
     <string name="pref_title_browser_settings">உலாவி</string>
     <string name="pref_title_custom_tabs">Chrome தனிப்பயன் கீற்றை பயன்படுத்து</string>
-    <string name="pref_title_hide_follow_button">உருளலின் போது எழுது பொத்தானை மறை</string>
     <string name="pref_title_post_filter">காலவரிசை வடிகட்டல்</string>
     <string name="pref_title_post_tabs">கீற்றுகள்</string>
     <string name="pref_title_show_boosts">மேலேற்றத்தை காண்பி</string>

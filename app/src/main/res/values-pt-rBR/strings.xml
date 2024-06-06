@@ -163,7 +163,6 @@
     <string name="app_theme_system">Usar o tema do sistema</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Usar abas do Chrome</string>
-    <string name="pref_title_hide_follow_button">Ocultar compositor ao rolar a tela</string>
     <string name="pref_title_post_filter">Filtro da linha do tempo</string>
     <string name="pref_title_post_tabs">Abas</string>
     <string name="pref_title_show_boosts">Mostrar boosts</string>

@@ -162,7 +162,6 @@
     <string name="pref_title_animate_gif_avatars">وێنۆجکەی ئەنیمەی GIF</string>
     <string name="pref_title_bot_overlay">نیشاندەر نیشاندەر بۆ بۆتەکان نیشان بدە</string>
     <string name="pref_title_language">زمان</string>
-    <string name="pref_title_hide_follow_button">دوگمەی ئاوازدانان بشارەوە لەکاتی خشاندن</string>
     <string name="pref_title_custom_tabs">بەکارهێنانی خشتەبەندەکانی دڵخواز</string>
     <string name="pref_title_browser_settings">وێبگەڕ</string>
     <string name="app_theme_system">دیزاینی سیستەم بەکاربهێنە</string>

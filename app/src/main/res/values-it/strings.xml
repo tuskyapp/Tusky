@@ -175,7 +175,6 @@
     <string name="app_theme_system">Usa tema di sistema</string>
     <string name="pref_title_browser_settings">Browser</string>
     <string name="pref_title_custom_tabs">Usa Custom Tabs di Chrome</string>
-    <string name="pref_title_hide_follow_button">Nascondi il pulsante Componi mentre scorri</string>
     <string name="pref_title_language">Lingua</string>
     <string name="pref_title_post_filter">Filtraggio della timeline</string>
     <string name="pref_title_post_tabs">Timeline principale</string>

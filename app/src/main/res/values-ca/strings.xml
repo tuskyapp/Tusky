@@ -128,7 +128,6 @@
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Pestanyes personalitzades del Chrome</string>
-    <string name="pref_title_hide_follow_button">Amaga el botó de redacció en desplaçament</string>
     <string name="pref_title_post_filter">Filtre de la cronologia</string>
     <string name="pref_title_post_tabs">Pestanyes</string>
     <string name="pref_title_show_boosts">Mostra els impulsos</string>

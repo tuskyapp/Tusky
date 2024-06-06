@@ -152,7 +152,6 @@
     <string name="app_theme_auto">Automatikoa</string>
     <string name="pref_title_browser_settings">Nabigatzailea</string>
     <string name="pref_title_custom_tabs">Chromeko fitxak erabili</string>
-    <string name="pref_title_hide_follow_button">Tut berria idazteko botoia ezkutatu beherantz joan einean</string>
     <string name="pref_title_post_filter">Denbora-lerroaren iragaztea</string>
     <string name="pref_title_post_tabs">Fitxak</string>
     <string name="pref_title_show_boosts">Bultzadak erakutsi</string>

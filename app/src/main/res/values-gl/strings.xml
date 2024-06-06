@@ -361,7 +361,6 @@
     <string name="pref_title_animate_gif_avatars">Animar avatares GIF</string>
     <string name="pref_title_bot_overlay">Mostra marca para bots</string>
     <string name="pref_title_language">Idioma</string>
-    <string name="pref_title_hide_follow_button">Agochar o botón redactar ao desprazar</string>
     <string name="pref_title_custom_tabs">Usar pestanas personalizadas de Chrome</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="app_theme_system">Usar deseño do sistema</string>

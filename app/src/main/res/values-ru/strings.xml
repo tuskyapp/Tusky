@@ -179,7 +179,6 @@
     <string name="app_theme_system">Как в системе</string>
     <string name="pref_title_browser_settings">Браузер</string>
     <string name="pref_title_custom_tabs">Использовать пользовательские вкладки Chrome</string>
-    <string name="pref_title_hide_follow_button">Скрыть кнопку создания при прокрутке</string>
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_post_filter">Фильтрование ленты</string>
     <string name="pref_title_post_tabs">Bкладки</string>

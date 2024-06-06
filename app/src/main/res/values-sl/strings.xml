@@ -171,7 +171,6 @@
     <string name="pref_title_timeline_filters">Filtri</string>
     <string name="pref_title_browser_settings">Brskalnik</string>
     <string name="pref_title_custom_tabs">Uporabi Chromove zavihke po meri</string>
-    <string name="pref_title_hide_follow_button">Med pomikanjem skrij gumb za sestavljanje</string>
     <string name="pref_title_language">Jezik</string>
     <string name="pref_title_post_filter">Filtriranje časovnice</string>
     <string name="pref_title_post_tabs">Zavihki</string>

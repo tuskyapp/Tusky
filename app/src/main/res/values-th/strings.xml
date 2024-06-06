@@ -224,7 +224,6 @@
     <string name="pref_title_animate_gif_avatars">อวตาร GIF เคลื่อนไหวได้</string>
     <string name="pref_title_bot_overlay">แสดงสัญลักษณ์ว่าเป็นบอต</string>
     <string name="pref_title_language">ภาษา</string>
-    <string name="pref_title_hide_follow_button">ซ่อนปุ่มเขียนเมื่อกำลังเลื่อนจอ</string>
     <string name="pref_title_custom_tabs">ใช้ Chrome Custom Tabs</string>
     <string name="pref_title_browser_settings">เบราว์เซอร์</string>
     <string name="app_theme_system">ใช้ตามแบบระบบ</string>

@@ -31,7 +31,6 @@
     <string name="error_media_download_permission">Teastaíonn cead chun na meáin a stóráil.</string>
     <string name="error_media_upload_permission">Teastaíonn cead chun na meáin a léamh.</string>
     <string name="error_media_upload_opening">Ní fhéadfaí an comhad sin a oscailt.</string>
-    <string name="pref_title_hide_follow_button">Folaigh an cnaipe cum agus tú ag scrollaigh</string>
     <string name="pref_title_custom_tabs">Úsáid Chrome Custom Tabs</string>
     <string name="pref_title_browser_settings">Brabhsálaí</string>
     <string name="app_theme_system">Úsáid Dearadh Córais</string>

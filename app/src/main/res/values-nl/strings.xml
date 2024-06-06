@@ -174,7 +174,6 @@
     <string name="app_theme_system">Systeemthema gebruiken</string>
     <string name="pref_title_browser_settings">Webbrowser</string>
     <string name="pref_title_custom_tabs">Aangepaste tabbladen gebruiken</string>
-    <string name="pref_title_hide_follow_button">Verberg zwevende knop om een bericht te schrijven tijdens het scrollen</string>
     <string name="pref_title_language">Taal</string>
     <string name="pref_title_post_filter">Filteren</string>
     <string name="pref_title_post_tabs">Tijdlijnen</string>

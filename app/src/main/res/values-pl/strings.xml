@@ -146,7 +146,6 @@
     <string name="app_theme_auto">Zmieniaj automatycznie po zachodzie słońca</string>
     <string name="pref_title_browser_settings">Przeglądarka</string>
     <string name="pref_title_custom_tabs">Używaj niestandardowych kart Chrome</string>
-    <string name="pref_title_hide_follow_button">Ukryj przycisk nowego wpisu podczas przewijania</string>
     <string name="pref_title_post_filter">Filtrowanie osi czasu</string>
     <string name="pref_title_post_tabs">Karty</string>
     <string name="pref_title_show_boosts">Pokaż podbicia</string>

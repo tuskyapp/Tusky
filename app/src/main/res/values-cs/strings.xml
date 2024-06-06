@@ -179,7 +179,6 @@
     <string name="app_theme_system">Použít systémový design</string>
     <string name="pref_title_browser_settings">Prohlížeč</string>
     <string name="pref_title_custom_tabs">Používat Vlastní karty Chrome</string>
-    <string name="pref_title_hide_follow_button">Skrýt tlačítko pro psaní při rolování</string>
     <string name="pref_title_language">Jazyk</string>
     <string name="pref_title_post_filter">Filtrování časových os</string>
     <string name="pref_title_post_tabs">Panely</string>
