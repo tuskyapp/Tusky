@@ -276,7 +276,7 @@ class EditFilterActivity : BaseActivity() {
             } else {
                 Snackbar.make(
                     binding.root,
-                    "Error saving filter '${viewModel.title.value}'",
+                    getString(R.string.error_deleting_filter, viewModel.title.value),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
@@ -299,7 +299,7 @@ class EditFilterActivity : BaseActivity() {
                                 {
                                     Snackbar.make(
                                         binding.root,
-                                        "Error deleting filter '${filter.title}'",
+                                        getString(R.string.error_deleting_filter, filter.title),
                                         Snackbar.LENGTH_SHORT
                                     ).show()
                                 }
@@ -307,7 +307,7 @@ class EditFilterActivity : BaseActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                "Error deleting filter '${filter.title}'",
+                                getString(R.string.error_deleting_filter, filter.title),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }

@@ -49,6 +49,7 @@
     <string name="error_unblocking_domain">Failed to unmute %1$s: %2$s</string>
     <string name="error_status_source_load">Failed to load the status source from the server.</string>
     <string name="error_deleting_filter">Error deleting filter \'%1$s\'</string>
+    <string name="error_saving_filter">Error saving filter \'%1$s\'</string>
 
     <string name="title_login">Login</string>
     <string name="title_home">Home</string>
