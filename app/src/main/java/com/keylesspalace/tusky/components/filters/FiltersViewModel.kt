@@ -8,7 +8,7 @@ import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
@@ -95,9 +95,7 @@ class FiltersViewModel @Inject constructor(
                         LoadingState.LOADED
                     )
                 }
-                for (context in filter.context) {
-                    eventHub.dispatch(PreferenceChangedEvent(context))
-                }
+                eventHub.dispatch(FilterUpdatedEvent(filter.context))
             },
             { throwable ->
                 if (throwable.isHttpNotFound()) {

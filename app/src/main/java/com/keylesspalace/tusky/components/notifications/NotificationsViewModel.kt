@@ -31,6 +31,7 @@ import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.Placeholder
@@ -124,6 +125,9 @@ class NotificationsViewModel @Inject constructor(
             eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {
                     onPreferenceChanged(event.preferenceKey)
+                }
+                if (event is FilterUpdatedEvent && event.filterContext.contains(Filter.Kind.NOTIFICATIONS.kind)) {
+                    refreshTrigger.value += 1
                 }
             }
         }
