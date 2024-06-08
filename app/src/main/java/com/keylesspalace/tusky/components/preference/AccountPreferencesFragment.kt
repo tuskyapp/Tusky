@@ -180,6 +180,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.post_privacy_names)
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
+                    isSingleLineTitle = false
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString
@@ -200,6 +201,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         setEntries(R.array.post_privacy_names)
                         setEntryValues(R.array.post_privacy_values)
                         key = PrefKeys.DEFAULT_REPLY_PRIVACY
+                        isSingleLineTitle = false
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
                         value = visibility.serverString
@@ -229,6 +231,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         ).toTypedArray()
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
+                    isSingleLineTitle = false
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
