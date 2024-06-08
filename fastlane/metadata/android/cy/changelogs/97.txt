@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Eicon Ap Newydd gan Dzuk https://dzuk.zone/
+- Gallwch nawr ddilyn hashnodau. Cliciwch ar hashnod ac yna ar yr eicon yn y bar offer.
+- Cefnogaeth i Android 13
+- cwymplen newydd yn y golwg cyfansoddi i osod iaith post
+- Mae'r tab cyfryngau mewn proffiliau bellach yn parchu cyfryngau sensitif ac yn llwytho'n llyfnach.
+- Mae bellach yn bosibl gosod pwynt ffocws delwedd cyn ei hanfon y post
+- Opsiwn newydd i ddangos eich enw defnyddiwr llawn yn y bar offer

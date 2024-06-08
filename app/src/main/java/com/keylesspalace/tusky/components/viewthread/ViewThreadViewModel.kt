@@ -18,52 +18,67 @@ package com.keylesspalace.tusky.components.viewthread
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
+import at.connyduck.calladapter.networkresult.getOrThrow
+import at.connyduck.calladapter.networkresult.map
+import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.BookmarkEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.FavoriteEvent
-import com.keylesspalace.tusky.appstore.PinEvent
-import com.keylesspalace.tusky.appstore.ReblogEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
+import com.squareup.moshi.Moshi
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rx3.asFlow
-import kotlinx.coroutines.rx3.await
-import javax.inject.Inject
 
+@HiltViewModel
 class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
     private val filterModel: FilterModel,
     private val timelineCases: TimelineCases,
     eventHub: EventHub,
-    accountManager: AccountManager
+    private val accountManager: AccountManager,
+    private val db: AppDatabase,
+    private val moshi: Moshi
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<ThreadUiState> = MutableStateFlow(ThreadUiState.Loading)
-    val uiState: Flow<ThreadUiState>
-        get() = _uiState
+    private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
+    val uiState: Flow<ThreadUiState> = _uiState.asStateFlow()
 
-    private val _errors = MutableSharedFlow<Throwable>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val errors: Flow<Throwable>
-        get() = _errors
+    private val _errors = MutableSharedFlow<Throwable>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errors: SharedFlow<Throwable> = _errors.asSharedFlow()
 
     var isInitialLoad: Boolean = true
 
@@ -77,13 +92,9 @@ class ViewThreadViewModel @Inject constructor(
 
         viewModelScope.launch {
             eventHub.events
-                .asFlow()
                 .collect { event ->
                     when (event) {
-                        is FavoriteEvent -> handleFavEvent(event)
-                        is ReblogEvent -> handleReblogEvent(event)
-                        is BookmarkEvent -> handleBookmarkEvent(event)
-                        is PinEvent -> handlePinEvent(event)
+                        is StatusChangedEvent -> handleStatusChangedEvent(event.status)
                         is BlockEvent -> removeAllByAccountId(event.accountId)
                         is StatusComposedEvent -> handleStatusComposedEvent(event)
                         is StatusDeletedEvent -> handleStatusDeletedEvent(event)
@@ -95,36 +106,72 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun loadThread(id: String) {
+        _uiState.value = ThreadUiState.Loading
+
         viewModelScope.launch {
+            Log.d(TAG, "Finding status with: $id")
             val contextCall = async { api.statusContext(id) }
-            val statusCall = async { api.statusAsync(id) }
+            val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
 
-            val contextResult = contextCall.await()
-            val statusResult = statusCall.await()
-
-            val status = statusResult.getOrElse { exception ->
-                _uiState.value = ThreadUiState.Error(exception)
-                return@launch
+            var detailedStatus = if (statusAndAccount != null) {
+                Log.d(TAG, "Loaded status from local timeline")
+                StatusViewData.Concrete(
+                    status = statusAndAccount.first.toStatus(statusAndAccount.second),
+                    isExpanded = statusAndAccount.first.expanded,
+                    isShowingContent = statusAndAccount.first.contentShowing,
+                    isCollapsed = statusAndAccount.first.contentCollapsed,
+                    isDetailed = true,
+                    translation = null
+                )
+            } else {
+                Log.d(TAG, "Loaded status from network")
+                val result = api.status(id).getOrElse { exception ->
+                    _uiState.value = ThreadUiState.Error(exception)
+                    return@launch
+                }
+                result.toViewData(isDetailed = true)
             }
 
-            contextResult.fold({ statusContext ->
+            _uiState.value = ThreadUiState.LoadingThread(
+                statusViewDatum = detailedStatus,
+                revealButton = detailedStatus.getRevealButtonState()
+            )
 
-                val ancestors = statusContext.ancestors.map { status -> status.toViewData() }.filter()
-                val detailedStatus = status.toViewData(true)
-                val descendants = statusContext.descendants.map { status -> status.toViewData() }.filter()
+            // If the detailedStatus was loaded from the database it might be out-of-date
+            // compared to the remote one. Now the user has a working UI do a background fetch
+            // for the status. Ignore errors, the user still has a functioning UI if the fetch
+            // failed. Update the database when the fetch was successful.
+            if (statusAndAccount != null) {
+                api.status(id).onSuccess { result ->
+                    db.timelineStatusDao().update(
+                        tuskyAccountId = accountManager.activeAccount!!.id,
+                        status = result,
+                        moshi = moshi
+                    )
+                    detailedStatus = result.toViewData(isDetailed = true)
+                }
+            }
+
+            val contextResult = contextCall.await()
+
+            contextResult.fold({ statusContext ->
+                val ancestors =
+                    statusContext.ancestors.map { status -> status.toViewData() }.filter()
+                val descendants =
+                    statusContext.descendants.map { status -> status.toViewData() }.filter()
                 val statuses = ancestors + detailedStatus + descendants
 
                 _uiState.value = ThreadUiState.Success(
-                    statuses = statuses,
-                    revealButton = statuses.getRevealButtonState(),
-                    refreshing = false
+                    statusViewData = statuses,
+                    detailedStatusPosition = ancestors.size,
+                    revealButton = statuses.getRevealButtonState()
                 )
             }, { throwable ->
                 _errors.emit(throwable)
                 _uiState.value = ThreadUiState.Success(
-                    statuses = listOf(status.toViewData(true)),
-                    revealButton = RevealButtonState.NO_BUTTON,
-                    refreshing = false
+                    statusViewData = listOf(detailedStatus),
+                    detailedStatusPosition = 0,
+                    revealButton = RevealButtonState.NO_BUTTON
                 )
             })
         }
@@ -136,21 +183,24 @@ class ViewThreadViewModel @Inject constructor(
     }
 
     fun refresh(id: String) {
-        updateSuccess { uiState ->
-            uiState.copy(refreshing = true)
-        }
+        _uiState.value = ThreadUiState.Refreshing
         loadThread(id)
     }
 
     fun detailedStatus(): StatusViewData.Concrete? {
-        return (_uiState.value as ThreadUiState.Success?)?.statuses?.find { status ->
-            status.isDetailed
+        return when (val uiState = _uiState.value) {
+            is ThreadUiState.Success -> uiState.statusViewData.find { status ->
+                status.isDetailed
+            }
+
+            is ThreadUiState.LoadingThread -> uiState.statusViewDatum
+            else -> null
         }
     }
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).await()
+            timelineCases.reblog(status.actionableId, reblog).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)
@@ -160,7 +210,7 @@ class ViewThreadViewModel @Inject constructor(
 
     fun favorite(favorite: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.favourite(status.actionableId, favorite).await()
+            timelineCases.favourite(status.actionableId, favorite).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
@@ -170,45 +220,46 @@ class ViewThreadViewModel @Inject constructor(
 
     fun bookmark(bookmark: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
         try {
-            timelineCases.bookmark(status.actionableId, bookmark).await()
+            timelineCases.bookmark(status.actionableId, bookmark).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
-                Log.d(TAG, "Failed to favourite status " + status.actionableId, t)
+                Log.d(TAG, "Failed to bookmark status " + status.actionableId, t)
             }
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        val poll = status.status.actionableStatus.poll ?: run {
-            Log.w(TAG, "No poll on status ${status.id}")
-            return@launch
-        }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
+        viewModelScope.launch {
+            val poll = status.status.actionableStatus.poll ?: run {
+                Log.w(TAG, "No poll on status ${status.id}")
+                return@launch
+            }
 
-        val votedPoll = poll.votedCopy(choices)
-        updateStatus(status.id) { status ->
-            status.copy(poll = votedPoll)
-        }
+            val votedPoll = poll.votedCopy(choices)
+            updateStatus(status.id) { status ->
+                status.copy(poll = votedPoll)
+            }
 
-        try {
-            timelineCases.voteInPoll(status.actionableId, poll.id, choices).await()
-        } catch (t: Exception) {
-            ifExpected(t) {
-                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+            try {
+                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+            } catch (t: Exception) {
+                ifExpected(t) {
+                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
+                }
             }
         }
-    }
 
     fun removeStatus(statusToRemove: StatusViewData.Concrete) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filterNot { status -> status == statusToRemove }
+                statusViewData = uiState.statusViewData.filterNot { status -> status == statusToRemove }
             )
         }
     }
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         updateSuccess { uiState ->
-            val statuses = uiState.statuses.map { viewData ->
+            val statuses = uiState.statusViewData.map { viewData ->
                 if (viewData.id == status.id) {
                     viewData.copy(isExpanded = expanded)
                 } else {
@@ -216,7 +267,7 @@ class ViewThreadViewModel @Inject constructor(
                 }
             }
             uiState.copy(
-                statuses = statuses,
+                statusViewData = statuses,
                 revealButton = statuses.getRevealButtonState()
             )
         }
@@ -234,35 +285,46 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun handleFavEvent(event: FavoriteEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(favourited = event.favourite)
+    suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(translation = TranslationViewData.Loading)
+        }
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = TranslationViewData.Loaded(translation))
+                }
+            }
+            .onFailure {
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = null)
+                }
+            }
+    }
+
+    fun untranslate(status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(translation = null)
         }
     }
 
-    private fun handleReblogEvent(event: ReblogEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(reblogged = event.reblog)
-        }
-    }
-
-    private fun handleBookmarkEvent(event: BookmarkEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(bookmarked = event.bookmark)
-        }
-    }
-
-    private fun handlePinEvent(event: PinEvent) {
-        updateStatus(event.statusId) { status ->
-            status.copy(pinned = event.pinned)
+    private fun handleStatusChangedEvent(status: Status) {
+        updateStatusViewData(status.id) { viewData ->
+            status.toViewData(
+                isShowingContent = viewData.isShowingContent,
+                isExpanded = viewData.isExpanded,
+                isCollapsed = viewData.isCollapsed,
+                isDetailed = viewData.isDetailed,
+                translation = viewData.translation,
+            )
         }
     }
 
     private fun removeAllByAccountId(accountId: String) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filter { viewData ->
-                    viewData.status.account.id == accountId
+                statusViewData = uiState.statusViewData.filter { viewData ->
+                    viewData.status.account.id != accountId
                 }
             )
         }
@@ -271,15 +333,16 @@ class ViewThreadViewModel @Inject constructor(
     private fun handleStatusComposedEvent(event: StatusComposedEvent) {
         val eventStatus = event.status
         updateSuccess { uiState ->
-            val statuses = uiState.statuses
+            val statuses = uiState.statusViewData
             val detailedIndex = statuses.indexOfFirst { status -> status.isDetailed }
-            val repliedIndex = statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
+            val repliedIndex =
+                statuses.indexOfFirst { status -> eventStatus.inReplyToId == status.id }
             if (detailedIndex != -1 && repliedIndex >= detailedIndex) {
                 // there is a new reply to the detailed status or below -> display it
                 val newStatuses = statuses.subList(0, repliedIndex + 1) +
                     eventStatus.toViewData() +
                     statuses.subList(repliedIndex + 1, statuses.size)
-                uiState.copy(statuses = newStatuses)
+                uiState.copy(statusViewData = newStatuses)
             } else {
                 uiState
             }
@@ -289,7 +352,7 @@ class ViewThreadViewModel @Inject constructor(
     private fun handleStatusDeletedEvent(event: StatusDeletedEvent) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.filter { status ->
+                statusViewData = uiState.statusViewData.filter { status ->
                     status.id != event.statusId
                 }
             )
@@ -300,32 +363,29 @@ class ViewThreadViewModel @Inject constructor(
         updateSuccess { uiState ->
             when (uiState.revealButton) {
                 RevealButtonState.HIDE -> uiState.copy(
-                    statuses = uiState.statuses.map { viewData ->
+                    statusViewData = uiState.statusViewData.map { viewData ->
                         viewData.copy(isExpanded = false)
                     },
                     revealButton = RevealButtonState.REVEAL
                 )
+
                 RevealButtonState.REVEAL -> uiState.copy(
-                    statuses = uiState.statuses.map { viewData ->
+                    statusViewData = uiState.statusViewData.map { viewData ->
                         viewData.copy(isExpanded = true)
                     },
                     revealButton = RevealButtonState.HIDE
                 )
+
                 else -> uiState
             }
         }
     }
 
-    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
-        val hasWarnings = any { viewData ->
-            viewData.status.spoilerText.isNotEmpty()
-        }
+    private fun StatusViewData.Concrete.getRevealButtonState(): RevealButtonState {
+        val hasWarnings = status.spoilerText.isNotEmpty()
 
         return if (hasWarnings) {
-            val allExpanded = none { viewData ->
-                !viewData.isExpanded
-            }
-            if (allExpanded) {
+            if (isExpanded) {
                 RevealButtonState.HIDE
             } else {
                 RevealButtonState.REVEAL
@@ -335,42 +395,88 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Get the reveal button state based on the state of all the statuses in the list.
+     *
+     * - If any status sets it to REVEAL, use REVEAL
+     * - If no status sets it to REVEAL, but at least one uses HIDE, use HIDE
+     * - Otherwise use NO_BUTTON
+     */
+    private fun List<StatusViewData.Concrete>.getRevealButtonState(): RevealButtonState {
+        var seenHide = false
+
+        forEach {
+            when (val state = it.getRevealButtonState()) {
+                RevealButtonState.NO_BUTTON -> return@forEach
+                RevealButtonState.REVEAL -> return state
+                RevealButtonState.HIDE -> seenHide = true
+            }
+        }
+
+        if (seenHide) {
+            return RevealButtonState.HIDE
+        }
+
+        return RevealButtonState.NO_BUTTON
+    }
+
     private fun loadFilters() {
         viewModelScope.launch {
-            val filters = try {
-                api.getFilters().await()
-            } catch (t: Exception) {
-                Log.w(TAG, "Failed to fetch filters", t)
-                return@launch
-            }
-            filterModel.initWithFilters(
-                filters.filter { filter ->
-                    filter.context.contains(Filter.THREAD)
+            api.getFilters().fold(
+                {
+                    filterModel.kind = Filter.Kind.THREAD
+                    updateStatuses()
+                },
+                { throwable ->
+                    if (throwable.isHttpNotFound()) {
+                        val filters = api.getFiltersV1().getOrElse {
+                            Log.w(TAG, "Failed to fetch filters", it)
+                            return@launch
+                        }
+
+                        filterModel.initWithFilters(
+                            filters.filter { filter -> filter.context.contains(FilterV1.THREAD) }
+                        )
+                        updateStatuses()
+                    } else {
+                        Log.e(TAG, "Error getting filters", throwable)
+                    }
                 }
             )
+        }
+    }
 
-            updateSuccess { uiState ->
-                val statuses = uiState.statuses.filter()
-                uiState.copy(
-                    statuses = statuses,
-                    revealButton = statuses.getRevealButtonState()
-                )
-            }
+    private fun updateStatuses() {
+        updateSuccess { uiState ->
+            val statuses = uiState.statusViewData.filter()
+            uiState.copy(
+                statusViewData = statuses,
+                revealButton = statuses.getRevealButtonState()
+            )
         }
     }
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
         return filter { status ->
-            status.isDetailed || !filterModel.shouldFilterStatus(status.status)
+            if (status.isDetailed) {
+                true
+            } else {
+                status.filterAction = filterModel.shouldFilterStatus(status.status)
+                status.filterAction != Filter.Action.HIDE
+            }
         }
     }
 
-    private fun Status.toViewData(detailed: Boolean = false): StatusViewData.Concrete {
+    private fun Status.toViewData(isDetailed: Boolean = false): StatusViewData.Concrete {
+        val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find {
+            it.id == this.id
+        }
         return toViewData(
-            isShowingContent = alwaysShowSensitiveMedia || !actionableStatus.sensitive,
-            isExpanded = alwaysOpenSpoiler,
-            isCollapsed = !detailed,
-            isDetailed = detailed
+            isShowingContent = oldStatus?.isShowingContent
+                ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
+            isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
+            isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
+            isDetailed = oldStatus?.isDetailed ?: isDetailed
         )
     }
 
@@ -384,10 +490,13 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    private fun updateStatusViewData(statusId: String, updater: (StatusViewData.Concrete) -> StatusViewData.Concrete) {
+    private fun updateStatusViewData(
+        statusId: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
         updateSuccess { uiState ->
             uiState.copy(
-                statuses = uiState.statuses.map { viewData ->
+                statusViewData = uiState.statusViewData.map { viewData ->
                     if (viewData.id == statusId) {
                         updater(viewData)
                     } else {
@@ -406,21 +515,43 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
+    fun clearWarning(viewData: StatusViewData.Concrete) {
+        updateStatus(viewData.id) { status ->
+            status.copy(filtered = emptyList())
+        }
+    }
+
     companion object {
         private const val TAG = "ViewThreadViewModel"
     }
 }
 
 sealed interface ThreadUiState {
-    object Loading : ThreadUiState
-    class Error(val throwable: Throwable) : ThreadUiState
-    data class Success(
-        val statuses: List<StatusViewData.Concrete>,
-        val revealButton: RevealButtonState,
-        val refreshing: Boolean
+    /** The initial load of the detailed status for this thread */
+    data object Loading : ThreadUiState
+
+    /** Loading the detailed status has completed, now loading ancestors/descendants */
+    data class LoadingThread(
+        val statusViewDatum: StatusViewData.Concrete?,
+        val revealButton: RevealButtonState
     ) : ThreadUiState
+
+    /** An error occurred at any point */
+    class Error(val throwable: Throwable) : ThreadUiState
+
+    /** Successfully loaded the full thread */
+    data class Success(
+        val statusViewData: List<StatusViewData.Concrete>,
+        val revealButton: RevealButtonState,
+        val detailedStatusPosition: Int
+    ) : ThreadUiState
+
+    /** Refreshing the thread with a swipe */
+    data object Refreshing : ThreadUiState
 }
 
 enum class RevealButtonState {
-    NO_BUTTON, REVEAL, HIDE
+    NO_BUTTON,
+    REVEAL,
+    HIDE
 }

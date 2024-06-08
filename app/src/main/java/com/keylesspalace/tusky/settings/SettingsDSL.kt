@@ -1,10 +1,11 @@
 package com.keylesspalace.tusky.settings
 
 import android.content.Context
+import android.widget.Button
 import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.annotation.StringRes
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
-import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -12,6 +13,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
+import com.keylesspalace.tusky.view.SliderPreference
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 
 class PreferenceParent(
@@ -33,9 +35,21 @@ inline fun PreferenceParent.listPreference(builder: ListPreference.() -> Unit): 
     return pref
 }
 
-inline fun <A> PreferenceParent.emojiPreference(activity: A, builder: EmojiPickerPreference.() -> Unit): EmojiPickerPreference
+inline fun <A> PreferenceParent.emojiPreference(
+    activity: A,
+    builder: EmojiPickerPreference.() -> Unit
+): EmojiPickerPreference
     where A : Context, A : ActivityResultRegistryOwner, A : LifecycleOwner {
     val pref = EmojiPickerPreference.get(activity)
+    builder(pref)
+    addPref(pref)
+    return pref
+}
+
+inline fun PreferenceParent.sliderPreference(
+    builder: SliderPreference.() -> Unit
+): SliderPreference {
+    val pref = SliderPreference(context)
     builder(pref)
     addPref(pref)
     return pref
@@ -50,31 +64,37 @@ inline fun PreferenceParent.switchPreference(
     return pref
 }
 
-inline fun PreferenceParent.editTextPreference(
+inline fun PreferenceParent.validatedEditTextPreference(
+    errorMessage: String?,
+    crossinline isValid: (a: String) -> Boolean,
     builder: EditTextPreference.() -> Unit
 ): EditTextPreference {
     val pref = EditTextPreference(context)
-    builder(pref)
-    addPref(pref)
-    return pref
-}
-
-inline fun PreferenceParent.checkBoxPreference(
-    builder: CheckBoxPreference.() -> Unit
-): CheckBoxPreference {
-    val pref = CheckBoxPreference(context)
+    pref.setOnBindEditTextListener { editText ->
+        editText.doAfterTextChanged { editable ->
+            requireNotNull(editable)
+            val btn = editText.rootView.findViewById<Button>(android.R.id.button1)
+            if (isValid(editable.toString())) {
+                editText.error = null
+                btn.isEnabled = true
+            } else {
+                editText.error = errorMessage
+                btn.isEnabled = false
+            }
+        }
+    }
     builder(pref)
     addPref(pref)
     return pref
 }
 
 inline fun PreferenceParent.preferenceCategory(
-    @StringRes title: Int,
+    @StringRes title: Int? = null,
     builder: PreferenceParent.(PreferenceCategory) -> Unit
 ) {
     val category = PreferenceCategory(context)
     addPref(category)
-    category.setTitle(title)
+    title?.run(category::setTitle)
     val newParent = PreferenceParent(context) { category.addPreference(it) }
     builder(newParent, category)
 }

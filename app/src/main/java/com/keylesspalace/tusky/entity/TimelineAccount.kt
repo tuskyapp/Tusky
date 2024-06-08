@@ -15,25 +15,32 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Same as [Account], but only with the attributes required in timelines.
  * Prefer this class over [Account] because it uses way less memory & deserializes faster from json.
  */
+@JsonClass(generateAdapter = true)
 data class TimelineAccount(
     val id: String,
-    @SerializedName("username") val localUsername: String,
-    @SerializedName("acct") val username: String,
-    @SerializedName("display_name") val displayName: String?, // should never be null per Api definition, but some servers break the contract
+    @Json(name = "username") val localUsername: String,
+    @Json(name = "acct") val username: String,
+    // should never be null per Api definition, but some servers break the contract
+    @Json(name = "display_name") val displayName: String? = null,
     val url: String,
     val avatar: String,
+    val note: String,
     val bot: Boolean = false,
-    val emojis: List<Emoji>? = emptyList(), // nullable for backward compatibility
+    // optional for backward compatibility
+    val emojis: List<Emoji> = emptyList()
 ) {
 
     val name: String
         get() = if (displayName.isNullOrEmpty()) {
             localUsername
-        } else displayName
+        } else {
+            displayName
+        }
 }

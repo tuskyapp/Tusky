@@ -3,7 +3,9 @@
 /local.properties
 /.idea
 .DS_Store
-/build
+build
 /captures
 .externalNativeBuild
 app/release
+app-release.apk
+.kotlin

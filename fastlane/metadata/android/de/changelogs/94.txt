@@ -1,6 +1,6 @@
 Tusky 19.0
 
-- Push-Benachrichtigungen via Unified Push. Um Unified Push zu verwenden musst du dich neu einloggen.
+- Push-Benachrichtigungen via Unified Push. Um Unified Push zu verwenden, musst du dich erneut anmelden.
 - Die Anzahl an Antworten unter einem Beitrag wird jetzt in der Timeline angezeigt.
 - Bilder können jetzt vor dem Veröffentlichen zugeschnitten werden.
 - Das Erstellungsdatum eines Profils wird jetzt angezeigt.

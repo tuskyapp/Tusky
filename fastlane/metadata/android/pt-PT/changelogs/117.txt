@@ -1,0 +1,7 @@
+Tusky 24.1
+
+- O ecrã vai permanecer ligado enquanto um vídeo é reproduzido.
+- Vazamento de memória corrigido. Isto deve melhorar a estabilidade e a performance.
+- Os emojis são corretamente contabilizados como um caracter quando se escreve uma publicação.
+- Corrigida uma falha que fazia a aplicação fechar inesperadamente quando texto era selecionado nalguns dispositivos.
+- Os ícones nos textos de ajuda das timelines vazias agora estarão sempre alinhados corretamente.

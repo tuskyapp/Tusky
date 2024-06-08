@@ -1,77 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/muted_user_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="24dp"
-        android:contentDescription="@string/action_view_profile" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/action_view_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/avatar_default" />
+
+    <ImageView
+        android:id="@+id/muted_user_bot_badge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
+        app:layout_constraintEnd_toEndOf="@id/muted_user_avatar"
+        app:srcCompat="@drawable/bot_badge" />
+
+    <TextView
+        android:id="@+id/muted_user_display_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/muted_user_username"
+        app:layout_constraintEnd_toStartOf="@id/muted_user_unmute"
+        app:layout_constraintStart_toEndOf="@id/muted_user_avatar"
+        app:layout_constraintTop_toTopOf="@id/muted_user_avatar"
+        tools:text="Display name" />
+
+    <TextView
+        android:id="@+id/muted_user_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
+        app:layout_constraintEnd_toEndOf="@id/muted_user_display_name"
+        app:layout_constraintStart_toStartOf="@id/muted_user_display_name"
+        app:layout_constraintTop_toBottomOf="@id/muted_user_display_name"
+        tools:text="\@username" />
 
     <ImageButton
         android:id="@+id/muted_user_unmute"
         style="@style/TuskyImageButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_toStartOf="@id/muted_user_mute_notifications"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="12dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_unmute_24dp" />
+        app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_clear_24dp"
+        tools:ignore="ContentDescription" />
 
-    <ImageButton
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/muted_user_mute_notifications"
-        style="@style/TuskyImageButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="4dp"
-        app:srcCompat="@drawable/ic_notifications_24dp" />
-
-    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toEndOf="@id/muted_user_avatar"
-        android:layout_toStartOf="@id/muted_user_unmute"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/mute_notifications_switch"
+        android:textColor="?android:textColorTertiary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/muted_user_display_name"
+        app:layout_constraintTop_toBottomOf="@id/muted_user_username"
+        app:switchPadding="4dp" />
 
-        <TextView
-            android:id="@+id/muted_user_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="?attr/status_text_large"
-            android:textStyle="normal|bold"
-            tools:text="Display name" />
-
-        <TextView
-            android:id="@+id/muted_user_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="?attr/status_text_medium"
-            tools:text="\@username" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,15 +20,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.network.MastodonApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import com.keylesspalace.tusky.util.isHttpNotFound
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
+@HiltViewModel
 class LoginWebViewViewModel @Inject constructor(
     private val api: MastodonApi
 ) : ViewModel() {
 
-    val instanceRules: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+    private val _instanceRules = MutableStateFlow(emptyList<String>())
+    val instanceRules = _instanceRules.asStateFlow()
 
     private var domain: String? = null
 
@@ -36,11 +41,33 @@ class LoginWebViewViewModel @Inject constructor(
         if (this.domain == null) {
             this.domain = domain
             viewModelScope.launch {
-                api.getInstance(domain).fold({ instance ->
-                    instanceRules.value = instance.rules?.map { rule -> rule.text }.orEmpty()
-                }, { throwable ->
-                    Log.w("LoginWebViewViewModel", "failed to load instance info", throwable)
-                })
+                api.getInstance(domain).fold(
+                    { instance ->
+                        _instanceRules.value = instance.rules.map { rule -> rule.text }
+                    },
+                    { throwable ->
+                        if (throwable.isHttpNotFound()) {
+                            api.getInstanceV1(domain).fold(
+                                { instance ->
+                                    _instanceRules.value = instance.rules.map { rule -> rule.text }
+                                },
+                                { throwable2 ->
+                                    Log.w(
+                                        "LoginWebViewViewModel",
+                                        "failed to load instance info",
+                                        throwable2
+                                    )
+                                }
+                            )
+                        } else {
+                            Log.w(
+                                "LoginWebViewViewModel",
+                                "failed to load instance info",
+                                throwable
+                            )
+                        }
+                    }
+                )
             }
         }
     }

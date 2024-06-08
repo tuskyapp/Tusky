@@ -15,13 +15,13 @@
 
 package com.keylesspalace.tusky.components.report
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
+import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
@@ -33,37 +33,41 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
-import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.toViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class ReportViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
-) : RxAwareViewModel() {
+) : ViewModel() {
 
-    private val navigationMutable = MutableLiveData<Screen?>()
-    val navigation: LiveData<Screen?> = navigationMutable
+    private val navigationMutable = MutableStateFlow(null as Screen?)
+    val navigation: StateFlow<Screen?> = navigationMutable.asStateFlow()
 
-    private val muteStateMutable = MutableLiveData<Resource<Boolean>>()
-    val muteState: LiveData<Resource<Boolean>> = muteStateMutable
+    private val muteStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    val muteState: StateFlow<Resource<Boolean>?> = muteStateMutable.asStateFlow()
 
-    private val blockStateMutable = MutableLiveData<Resource<Boolean>>()
-    val blockState: LiveData<Resource<Boolean>> = blockStateMutable
+    private val blockStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    val blockState: StateFlow<Resource<Boolean>?> = blockStateMutable.asStateFlow()
 
-    private val reportingStateMutable = MutableLiveData<Resource<Boolean>>()
-    var reportingState: LiveData<Resource<Boolean>> = reportingStateMutable
+    private val reportingStateMutable = MutableStateFlow(null as Resource<Boolean>?)
+    var reportingState: StateFlow<Resource<Boolean>?> = reportingStateMutable.asStateFlow()
 
-    private val checkUrlMutable = MutableLiveData<String?>()
-    val checkUrl: LiveData<String?> = checkUrlMutable
+    private val checkUrlMutable = MutableStateFlow(null as String?)
+    val checkUrl: StateFlow<String?> = checkUrlMutable.asStateFlow()
 
     private val accountIdFlow = MutableSharedFlow<String>(
         replay = 1,
@@ -73,7 +77,10 @@ class ReportViewModel @Inject constructor(
     val statusesFlow = accountIdFlow.flatMapLatest { accountId ->
         Pager(
             initialKey = statusId,
-            config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20
+            ),
             pagingSourceFactory = { StatusesPagingSource(accountId, mastodonApi) }
         ).flow
     }
@@ -128,10 +135,8 @@ class ReportViewModel @Inject constructor(
         val ids = listOf(accountId)
         muteStateMutable.value = Loading()
         blockStateMutable.value = Loading()
-        mastodonApi.relationships(ids)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+        viewModelScope.launch {
+            mastodonApi.relationships(ids).fold(
                 { data ->
                     updateRelationship(data.getOrNull(0))
                 },
@@ -139,7 +144,7 @@ class ReportViewModel @Inject constructor(
                     updateRelationship(null)
                 }
             )
-            .autoDispose()
+        }
     }
 
     private fun updateRelationship(relationship: Relationship?) {
@@ -154,14 +159,12 @@ class ReportViewModel @Inject constructor(
 
     fun toggleMute() {
         val alreadyMuted = muteStateMutable.value?.data == true
-        if (alreadyMuted) {
-            mastodonApi.unmuteAccount(accountId)
-        } else {
-            mastodonApi.muteAccount(accountId)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
+        viewModelScope.launch {
+            if (alreadyMuted) {
+                mastodonApi.unmuteAccount(accountId)
+            } else {
+                mastodonApi.muteAccount(accountId)
+            }.fold(
                 { relationship ->
                     val muting = relationship.muting
                     muteStateMutable.value = Success(muting)
@@ -169,54 +172,50 @@ class ReportViewModel @Inject constructor(
                         eventHub.dispatch(MuteEvent(accountId))
                     }
                 },
-                { error ->
-                    muteStateMutable.value = Error(false, error.message)
+                { t ->
+                    muteStateMutable.value = Error(false, t.message)
                 }
-            ).autoDispose()
+            )
+        }
 
         muteStateMutable.value = Loading()
     }
 
     fun toggleBlock() {
         val alreadyBlocked = blockStateMutable.value?.data == true
-        if (alreadyBlocked) {
-            mastodonApi.unblockAccount(accountId)
-        } else {
-            mastodonApi.blockAccount(accountId)
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { relationship ->
-                    val blocking = relationship.blocking
-                    blockStateMutable.value = Success(blocking)
-                    if (blocking) {
-                        eventHub.dispatch(BlockEvent(accountId))
-                    }
-                },
-                { error ->
-                    blockStateMutable.value = Error(false, error.message)
+        viewModelScope.launch {
+            if (alreadyBlocked) {
+                mastodonApi.unblockAccount(accountId)
+            } else {
+                mastodonApi.blockAccount(accountId)
+            }.fold({ relationship ->
+                val blocking = relationship.blocking
+                blockStateMutable.value = Success(blocking)
+                if (blocking) {
+                    eventHub.dispatch(BlockEvent(accountId))
                 }
-            )
-            .autoDispose()
-
+            }, { t ->
+                blockStateMutable.value = Error(false, t.message)
+            })
+        }
         blockStateMutable.value = Loading()
     }
 
     fun doReport() {
         reportingStateMutable.value = Loading()
-        mastodonApi.reportObservable(accountId, selectedIds.toList(), reportNote, if (isRemoteAccount) isRemoteNotify else null)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    reportingStateMutable.value = Success(true)
-                },
-                { error ->
-                    reportingStateMutable.value = Error(cause = error)
-                }
+        viewModelScope.launch {
+            mastodonApi.report(
+                accountId,
+                selectedIds.toList(),
+                reportNote,
+                if (isRemoteAccount) isRemoteNotify else null
             )
-            .autoDispose()
+                .fold({
+                    reportingStateMutable.value = Success(true)
+                }, { error ->
+                    reportingStateMutable.value = Error(cause = error)
+                })
+        }
     }
 
     fun checkClickedUrl(url: String?) {

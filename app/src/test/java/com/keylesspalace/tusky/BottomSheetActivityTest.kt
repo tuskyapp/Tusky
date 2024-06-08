@@ -16,29 +16,31 @@
 package com.keylesspalace.tusky
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import io.reactivex.rxjava3.schedulers.TestScheduler
+import java.util.Date
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.Mockito.eq
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import java.util.Date
-import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class BottomSheetActivityTest {
 
     @get:Rule
@@ -48,19 +50,20 @@ class BottomSheetActivityTest {
     private lateinit var apiMock: MastodonApi
     private val accountQuery = "http://mastodon.foo.bar/@User"
     private val statusQuery = "http://mastodon.foo.bar/@User/345678"
+    private val nonexistentStatusQuery = "http://mastodon.foo.bar/@User/345678000"
     private val nonMastodonQuery = "http://medium.com/@correspondent/345678"
-    private val emptyCallback = Single.just(SearchResult(emptyList(), emptyList(), emptyList()))
-    private val testScheduler = TestScheduler()
+    private val emptyResult = NetworkResult.success(SearchResult(emptyList(), emptyList(), emptyList()))
 
     private val account = TimelineAccount(
         id = "1",
         localUsername = "admin",
         username = "admin",
         displayName = "Ad Min",
-        url = "http://mastodon.foo.bar",
+        note = "This is their bio",
+        url = "http://mastodon.foo.bar/@User",
         avatar = ""
     )
-    private val accountSingle = Single.just(SearchResult(listOf(account), emptyList(), emptyList()))
+    private val accountResult = NetworkResult.success(SearchResult(listOf(account), emptyList(), emptyList()))
 
     private val status = Status(
         id = "1",
@@ -71,6 +74,7 @@ class BottomSheetActivityTest {
         reblog = null,
         content = "omgwat",
         createdAt = Date(),
+        editedAt = null,
         emojis = emptyList(),
         reblogsCount = 0,
         favouritesCount = 0,
@@ -90,86 +94,20 @@ class BottomSheetActivityTest {
         poll = null,
         card = null,
         language = null,
+        filtered = emptyList()
     )
-    private val statusSingle = Single.just(SearchResult(emptyList(), listOf(status), emptyList()))
+    private val statusResult = NetworkResult.success(SearchResult(emptyList(), listOf(status), emptyList()))
 
     @Before
     fun setup() {
-
-        RxJavaPlugins.setIoSchedulerHandler { testScheduler }
-        RxAndroidPlugins.setMainThreadSchedulerHandler { testScheduler }
-
         apiMock = mock {
-            on { searchObservable(eq(accountQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountSingle
-            on { searchObservable(eq(statusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn statusSingle
-            on { searchObservable(eq(nonMastodonQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn emptyCallback
+            onBlocking { search(eq(accountQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountResult
+            onBlocking { search(eq(statusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn statusResult
+            onBlocking { search(eq(nonexistentStatusQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn accountResult
+            onBlocking { search(eq(nonMastodonQuery), eq(null), anyBoolean(), eq(null), eq(null), eq(null)) } doReturn emptyResult
         }
 
         activity = FakeBottomSheetActivity(apiMock)
-    }
-
-    @RunWith(Parameterized::class)
-    class UrlMatchingTests(private val url: String, private val expectedResult: Boolean) {
-        companion object {
-            @Parameterized.Parameters(name = "match_{0}")
-            @JvmStatic
-            fun data(): Iterable<Any> {
-                return listOf(
-                    arrayOf("https://mastodon.foo.bar/@User", true),
-                    arrayOf("http://mastodon.foo.bar/@abc123", true),
-                    arrayOf("https://mastodon.foo.bar/@user/345667890345678", true),
-                    arrayOf("https://mastodon.foo.bar/@user/3", true),
-                    arrayOf("https://pleroma.foo.bar/users/meh3223", true),
-                    arrayOf("https://pleroma.foo.bar/users/meh3223_bruh", true),
-                    arrayOf("https://pleroma.foo.bar/users/2345", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9345678", true),
-                    arrayOf("https://pleroma.foo.bar/notice/wat", true),
-                    arrayOf("https://pleroma.foo.bar/notice/9qTHT2ANWUdXzENqC0", true),
-                    arrayOf("https://pleroma.foo.bar/objects/abcdef-123-abcd-9876543", true),
-                    arrayOf("https://misskey.foo.bar/notes/mew", true),
-                    arrayOf("https://misskey.foo.bar/notes/1421564653", true),
-                    arrayOf("https://misskey.foo.bar/notes/qwer615985ddf", true),
-                    arrayOf("https://friendica.foo.bar/profile/user", true),
-                    arrayOf("https://friendica.foo.bar/profile/uSeR", true),
-                    arrayOf("https://friendica.foo.bar/profile/user_user", true),
-                    arrayOf("https://friendica.foo.bar/profile/123", true),
-                    arrayOf("https://friendica.foo.bar/display/abcdef-123-abcd-9876543", true),
-                    arrayOf("https://google.com/", false),
-                    arrayOf("https://mastodon.foo.bar/@User?foo=bar", false),
-                    arrayOf("https://mastodon.foo.bar/@User#foo", false),
-                    arrayOf("http://mastodon.foo.bar/@", false),
-                    arrayOf("http://mastodon.foo.bar/@/345678", false),
-                    arrayOf("https://mastodon.foo.bar/@user/345667890345678/", false),
-                    arrayOf("https://mastodon.foo.bar/@user/3abce", false),
-                    arrayOf("https://pleroma.foo.bar/users/", false),
-                    arrayOf("https://pleroma.foo.bar/users/meow/", false),
-                    arrayOf("https://pleroma.foo.bar/users/@meow", false),
-                    arrayOf("https://pleroma.foo.bar/user/2345", false),
-                    arrayOf("https://pleroma.foo.bar/notices/123456", false),
-                    arrayOf("https://pleroma.foo.bar/notice/@neverhappen/", false),
-                    arrayOf("https://pleroma.foo.bar/object/abcdef-123-abcd-9876543", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd-9876543/", false),
-                    arrayOf("https://pleroma.foo.bar/objects/xabcdef-123-abcd_9876543", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd-9876543", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd-9876543/", false),
-                    arrayOf("https://friendica.foo.bar/display/xabcdef-123-abcd_9876543", false),
-                    arrayOf("https://friendica.foo.bar/profile/@mew", false),
-                    arrayOf("https://friendica.foo.bar/profile/@mew/", false),
-                    arrayOf("https://misskey.foo.bar/notes/@nyan", false),
-                    arrayOf("https://misskey.foo.bar/notes/NYAN123", false),
-                    arrayOf("https://misskey.foo.bar/notes/meow123/", false),
-                    arrayOf("https://pixelfed.social/p/connyduck/391263492998670833", true),
-                    arrayOf("https://pixelfed.social/connyduck", true)
-                )
-            }
-        }
-
-        @Test
-        fun test() {
-            assertEquals(expectedResult, looksLikeMastodonUrl(url))
-        }
     }
 
     @Test
@@ -219,78 +157,134 @@ class BottomSheetActivityTest {
     }
 
     @Test
-    fun search_inIdealConditions_returnsRequestedResults_forAccount() {
-        activity.viewUrl(accountQuery)
-        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        assertEquals(account.id, activity.accountId)
-    }
-
-    @Test
-    fun search_inIdealConditions_returnsRequestedResults_forStatus() {
-        activity.viewUrl(statusQuery)
-        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        assertEquals(status.id, activity.statusId)
-    }
-
-    @Test
-    fun search_inIdealConditions_returnsRequestedResults_forNonMastodonURL() {
-        activity.viewUrl(nonMastodonQuery)
-        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-        assertEquals(nonMastodonQuery, activity.link)
-    }
-
-    @Test
-    fun search_withNoResults_appliesRequestedFallbackBehavior() {
-        for (fallbackBehavior in listOf(PostLookupFallbackBehavior.OPEN_IN_BROWSER, PostLookupFallbackBehavior.DISPLAY_ERROR)) {
-            activity.viewUrl(nonMastodonQuery, fallbackBehavior)
-            testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
-            assertEquals(nonMastodonQuery, activity.link)
-            assertEquals(fallbackBehavior, activity.fallbackBehavior)
+    fun search_inIdealConditions_returnsRequestedResults_forAccount() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(accountQuery)
+            testScheduler.advanceTimeBy(100.milliseconds)
+            assertEquals(account.id, activity.accountId)
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
     @Test
-    fun search_withCancellation_doesNotLoadUrl_forAccount() {
-        activity.viewUrl(accountQuery)
-        assertTrue(activity.isSearching())
-        activity.cancelActiveSearch()
-        assertFalse(activity.isSearching())
-        assertEquals(null, activity.accountId)
+    fun search_inIdealConditions_returnsRequestedResults_forStatus() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(statusQuery)
+            testScheduler.advanceTimeBy(100.milliseconds)
+            assertEquals(status.id, activity.statusId)
+        } finally {
+            Dispatchers.resetMain()
+        }
     }
 
     @Test
-    fun search_withCancellation_doesNotLoadUrl_forStatus() {
-        activity.viewUrl(accountQuery)
-        activity.cancelActiveSearch()
-        assertEquals(null, activity.accountId)
+    fun search_inIdealConditions_returnsRequestedResults_forNonMastodonURL() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(nonMastodonQuery)
+            testScheduler.advanceTimeBy(100.milliseconds)
+            assertEquals(nonMastodonQuery, activity.link)
+        } finally {
+            Dispatchers.resetMain()
+        }
     }
 
     @Test
-    fun search_withCancellation_doesNotLoadUrl_forNonMastodonURL() {
-        activity.viewUrl(nonMastodonQuery)
-        activity.cancelActiveSearch()
-        assertEquals(null, activity.searchUrl)
+    fun search_withNoResults_appliesRequestedFallbackBehavior() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            for (fallbackBehavior in listOf(
+                PostLookupFallbackBehavior.OPEN_IN_BROWSER,
+                PostLookupFallbackBehavior.DISPLAY_ERROR
+            )) {
+                activity.viewUrl(nonMastodonQuery, fallbackBehavior)
+                testScheduler.advanceTimeBy(100.milliseconds)
+                assertEquals(nonMastodonQuery, activity.link)
+                assertEquals(fallbackBehavior, activity.fallbackBehavior)
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
     }
 
     @Test
-    fun search_withPreviousCancellation_completes() {
-        // begin/cancel account search
-        activity.viewUrl(accountQuery)
-        activity.cancelActiveSearch()
+    fun search_doesNotRespectUnrelatedResult() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(nonexistentStatusQuery)
+            testScheduler.advanceTimeBy(100.milliseconds)
+            assertEquals(nonexistentStatusQuery, activity.link)
+            assertEquals(null, activity.accountId)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 
-        // begin status search
-        activity.viewUrl(statusQuery)
+    @Test
+    fun search_withCancellation_doesNotLoadUrl_forAccount() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(accountQuery)
+            assertTrue(activity.isSearching())
+            activity.cancelActiveSearch()
+            assertFalse(activity.isSearching())
+            assertEquals(null, activity.accountId)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 
-        // ensure that search is still ongoing
-        assertTrue(activity.isSearching())
+    @Test
+    fun search_withCancellation_doesNotLoadUrl_forStatus() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(accountQuery)
+            activity.cancelActiveSearch()
+            assertEquals(null, activity.accountId)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 
-        // return searchResults
-        testScheduler.advanceTimeBy(100, TimeUnit.MILLISECONDS)
+    @Test
+    fun search_withCancellation_doesNotLoadUrl_forNonMastodonURL() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            activity.viewUrl(nonMastodonQuery)
+            activity.cancelActiveSearch()
+            assertEquals(null, activity.searchUrl)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 
-        // ensure that the result of the status search was recorded
-        // and the account search wasn't
-        assertEquals(status.id, activity.statusId)
-        assertEquals(null, activity.accountId)
+    @Test
+    fun search_withPreviousCancellation_completes() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            // begin/cancel account search
+            activity.viewUrl(accountQuery)
+            activity.cancelActiveSearch()
+
+            // begin status search
+            activity.viewUrl(statusQuery)
+
+            // ensure that search is still ongoing
+            assertTrue(activity.isSearching())
+
+            // return searchResults
+            testScheduler.advanceTimeBy(100.milliseconds)
+
+            // ensure that the result of the status search was recorded
+            // and the account search wasn't
+            assertEquals(status.id, activity.statusId)
+            assertEquals(null, activity.accountId)
+        } finally {
+            Dispatchers.resetMain()
+        }
     }
 
     class FakeBottomSheetActivity(api: MastodonApi) : BottomSheetActivity() {
@@ -302,7 +296,6 @@ class BottomSheetActivityTest {
 
         init {
             mastodonApi = api
-            @Suppress("UNCHECKED_CAST")
             bottomSheet = mock()
         }
 

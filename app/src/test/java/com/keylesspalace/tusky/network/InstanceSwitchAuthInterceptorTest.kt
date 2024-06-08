@@ -1,7 +1,7 @@
 package com.keylesspalace.tusky.network
 
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse
@@ -30,7 +30,6 @@ class InstanceSwitchAuthInterceptorTest {
 
     @Test
     fun `should make regular request when requested`() {
-
         mockWebServer.enqueue(MockResponse())
 
         val accountManager: AccountManager = mock {

@@ -16,8 +16,6 @@
 package com.keylesspalace.tusky.components.announcements
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
@@ -31,40 +29,47 @@ import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.Success
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
+@HiltViewModel
 class AnnouncementsViewModel @Inject constructor(
     private val instanceInfoRepo: InstanceInfoRepository,
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub
 ) : ViewModel() {
 
-    private val announcementsMutable = MutableLiveData<Resource<List<Announcement>>>()
-    val announcements: LiveData<Resource<List<Announcement>>> = announcementsMutable
+    private val _announcements = MutableStateFlow(null as Resource<List<Announcement>>?)
+    val announcements: StateFlow<Resource<List<Announcement>>?> = _announcements.asStateFlow()
 
-    private val emojisMutable = MutableLiveData<List<Emoji>>()
-    val emojis: LiveData<List<Emoji>> = emojisMutable
+    private val _emoji = MutableStateFlow(emptyList<Emoji>())
+    val emoji: StateFlow<List<Emoji>> = _emoji.asStateFlow()
 
     init {
         viewModelScope.launch {
-            emojisMutable.postValue(instanceInfoRepo.getEmojis())
+            _emoji.value = instanceInfoRepo.getEmojis()
         }
     }
 
     fun load() {
         viewModelScope.launch {
-            announcementsMutable.postValue(Loading())
+            _announcements.value = Loading()
             mastodonApi.listAnnouncements()
                 .fold(
                     {
-                        announcementsMutable.postValue(Success(it))
+                        _announcements.value = Success(it)
                         it.filter { announcement -> !announcement.read }
                             .forEach { announcement ->
                                 mastodonApi.dismissAnnouncement(announcement.id)
                                     .fold(
                                         {
-                                            eventHub.dispatch(AnnouncementReadEvent(announcement.id))
+                                            eventHub.dispatch(
+                                                AnnouncementReadEvent(announcement.id)
+                                            )
                                         },
                                         { throwable ->
                                             Log.d(
@@ -77,7 +82,7 @@ class AnnouncementsViewModel @Inject constructor(
                             }
                     },
                     {
-                        announcementsMutable.postValue(Error(cause = it))
+                        _announcements.value = Error(cause = it)
                     }
                 )
         }
@@ -88,9 +93,9 @@ class AnnouncementsViewModel @Inject constructor(
             mastodonApi.addAnnouncementReaction(announcementId, name)
                 .fold(
                     {
-                        announcementsMutable.postValue(
+                        _announcements.value =
                             Success(
-                                announcements.value!!.data!!.map { announcement ->
+                                announcements.value?.data?.map { announcement ->
                                     if (announcement.id == announcementId) {
                                         announcement.copy(
                                             reactions = if (announcement.reactions.find { reaction -> reaction.name == name } != null) {
@@ -107,8 +112,7 @@ class AnnouncementsViewModel @Inject constructor(
                                             } else {
                                                 listOf(
                                                     *announcement.reactions.toTypedArray(),
-                                                    emojis.value!!.find { emoji -> emoji.shortcode == name }
-                                                    !!.run {
+                                                    emoji.value.find { emoji -> emoji.shortcode == name }!!.run {
                                                         Announcement.Reaction(
                                                             name,
                                                             1,
@@ -125,7 +129,6 @@ class AnnouncementsViewModel @Inject constructor(
                                     }
                                 }
                             )
-                        )
                     },
                     {
                         Log.w(TAG, "Failed to add reaction to the announcement.", it)
@@ -139,7 +142,7 @@ class AnnouncementsViewModel @Inject constructor(
             mastodonApi.removeAnnouncementReaction(announcementId, name)
                 .fold(
                     {
-                        announcementsMutable.postValue(
+                        _announcements.value =
                             Success(
                                 announcements.value!!.data!!.map { announcement ->
                                     if (announcement.id == announcementId) {
@@ -164,7 +167,6 @@ class AnnouncementsViewModel @Inject constructor(
                                     }
                                 }
                             )
-                        )
                     },
                     {
                         Log.w(TAG, "Failed to remove reaction from the announcement.", it)

@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Zaman akışı yükleme mantığı, daha hızlı, daha az hatalı ve bakımı daha kolay olması için tamamen yeniden yazılmıştır.
+- Tusky artık özel emojileri APNG ve Animasyonlu WebP formatında oynatılabilir.
+- Birçok hata düzeltmesi
+- Android 11 desteği
+- Yeni çeviriler: Scottish Gaelic, Galician, Ukrainian
+- İyileştirilmiş çeviriler

@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
 @Entity(primaryKeys = ["id", "accountId"])
@@ -50,6 +51,7 @@ data class ConversationEntity(
     }
 }
 
+@JsonClass(generateAdapter = true)
 data class ConversationAccountEntity(
     val id: String,
     val localUsername: String,
@@ -64,9 +66,10 @@ data class ConversationAccountEntity(
             localUsername = localUsername,
             username = username,
             displayName = displayName,
+            note = "",
             url = "",
             avatar = avatar,
-            emojis = emojis,
+            emojis = emojis
         )
     }
 }
@@ -80,6 +83,7 @@ data class ConversationStatusEntity(
     val account: ConversationAccountEntity,
     val content: String,
     val createdAt: Date,
+    val editedAt: Date?,
     val emojis: List<Emoji>,
     val favouritesCount: Int,
     val repliesCount: Int,
@@ -87,7 +91,7 @@ data class ConversationStatusEntity(
     val bookmarked: Boolean,
     val sensitive: Boolean,
     val spoilerText: String,
-    val attachments: ArrayList<Attachment>,
+    val attachments: List<Attachment>,
     val mentions: List<Status.Mention>,
     val tags: List<HashTag>?,
     val showingHiddenContent: Boolean,
@@ -95,7 +99,7 @@ data class ConversationStatusEntity(
     val collapsed: Boolean,
     val muted: Boolean,
     val poll: Poll?,
-    val language: String?,
+    val language: String?
 ) {
 
     fun toViewData(): StatusViewData.Concrete {
@@ -109,6 +113,7 @@ data class ConversationStatusEntity(
                 content = content,
                 reblog = null,
                 createdAt = createdAt,
+                editedAt = editedAt,
                 emojis = emojis,
                 reblogsCount = 0,
                 favouritesCount = favouritesCount,
@@ -121,13 +126,14 @@ data class ConversationStatusEntity(
                 visibility = Status.Visibility.DIRECT,
                 attachments = attachments,
                 mentions = mentions,
-                tags = tags,
+                tags = tags.orEmpty(),
                 application = null,
                 pinned = false,
                 muted = muted,
                 poll = poll,
                 card = null,
                 language = language,
+                filtered = emptyList()
             ),
             isExpanded = expanded,
             isShowingContent = showingHiddenContent,
@@ -136,17 +142,16 @@ data class ConversationStatusEntity(
     }
 }
 
-fun TimelineAccount.toEntity() =
-    ConversationAccountEntity(
-        id = id,
-        localUsername = localUsername,
-        username = username,
-        displayName = name,
-        avatar = avatar,
-        emojis = emojis ?: emptyList()
-    )
+fun TimelineAccount.toEntity() = ConversationAccountEntity(
+    id = id,
+    localUsername = localUsername,
+    username = username,
+    displayName = name,
+    avatar = avatar,
+    emojis = emojis
+)
 
-fun Status.toEntity() =
+fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) =
     ConversationStatusEntity(
         id = id,
         url = url,
@@ -155,6 +160,7 @@ fun Status.toEntity() =
         account = account.toEntity(),
         content = content,
         createdAt = createdAt,
+        editedAt = editedAt,
         emojis = emojis,
         favouritesCount = favouritesCount,
         repliesCount = repliesCount,
@@ -165,20 +171,29 @@ fun Status.toEntity() =
         attachments = attachments,
         mentions = mentions,
         tags = tags,
-        showingHiddenContent = false,
-        expanded = false,
-        collapsed = true,
-        muted = muted ?: false,
+        showingHiddenContent = contentShowing,
+        expanded = expanded,
+        collapsed = contentCollapsed,
+        muted = muted,
         poll = poll,
-        language = language,
+        language = language
     )
 
-fun Conversation.toEntity(accountId: Long, order: Int) =
-    ConversationEntity(
-        accountId = accountId,
-        id = id,
-        order = order,
-        accounts = accounts.map { it.toEntity() },
-        unread = unread,
-        lastStatus = lastStatus!!.toEntity()
+fun Conversation.toEntity(
+    accountId: Long,
+    order: Int,
+    expanded: Boolean,
+    contentShowing: Boolean,
+    contentCollapsed: Boolean
+) = ConversationEntity(
+    accountId = accountId,
+    id = id,
+    order = order,
+    accounts = accounts.map { it.toEntity() },
+    unread = unread,
+    lastStatus = lastStatus!!.toEntity(
+        expanded = expanded,
+        contentShowing = contentShowing,
+        contentCollapsed = contentCollapsed
     )
+)

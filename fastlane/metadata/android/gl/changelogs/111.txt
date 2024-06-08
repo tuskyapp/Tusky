@@ -1,0 +1,17 @@
+Tusky 23.0 beta 1
+
+Novas características:
+
+- Nova preferencia para escalar o texto da IU
+
+Correccións:
+
+- Garda a información da conta correctamente
+- notificacións "pull" en dispositivos con versións de Android <= 11
+- Soluciona un erro de Android onde os campos de texto poden "esquecer" que poden copiar/pegar
+- A visualización de "diferencias" no historial de edicións non se estenderá fóra do bordo da pantalla
+- Non falla se o teu servidor non ten historial de edición posterior
+- Engade un botón "Eliminar" ao editar un filtro
+- Mostrar emoji non cadrados correctamente
+
+(trad. automática)

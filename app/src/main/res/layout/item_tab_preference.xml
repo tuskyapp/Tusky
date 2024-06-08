@@ -6,9 +6,10 @@
     android:layout_height="wrap_content"
     android:background="?android:colorBackground"
     android:orientation="horizontal"
-    android:paddingStart="16dp"
     android:paddingTop="8dp"
-    android:paddingEnd="16dp">
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
     <ImageView
         android:id="@+id/imageView"
@@ -17,9 +18,11 @@
         android:layout_gravity="end"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:src="@drawable/ic_drag_indicator_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_drag_indicator_24dp"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView"
@@ -30,8 +33,7 @@
         android:drawablePadding="12dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="?attr/status_text_large"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         app:drawableTint="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toTopOf="@id/chipGroup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,9 +52,9 @@
         android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_delete"
-        android:src="@drawable/ic_clear_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_clear_24dp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"

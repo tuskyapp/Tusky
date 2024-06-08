@@ -27,11 +27,10 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.time.Duration.Companion.hours
 
 /**
  * Helper methods for obtaining and resizing media files
@@ -68,16 +67,18 @@ fun getMediaSize(contentResolver: ContentResolver, uri: Uri?): Long {
 }
 
 @Throws(FileNotFoundException::class)
-fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Long {
-    val input = contentResolver.openInputStream(uri)
+fun getImageSquarePixels(contentResolver: ContentResolver, uri: Uri): Int {
+    val input = contentResolver.openInputStream(uri) ?: throw FileNotFoundException("Unavailable ContentProvider")
 
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
-    BitmapFactory.decodeStream(input, null, options)
+    try {
+        BitmapFactory.decodeStream(input, null, options)
+    } finally {
+        input.closeQuietly()
+    }
 
-    input.closeQuietly()
-
-    return (options.outWidth * options.outHeight).toLong()
+    return options.outWidth * options.outHeight
 }
 
 fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
@@ -87,7 +88,6 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
     var inSampleSize = 1
 
     if (height > reqHeight || width > reqWidth) {
-
         val halfHeight = height / 2
         val halfWidth = width / 2
 
@@ -130,8 +130,13 @@ fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
 
     return try {
         val result = Bitmap.createBitmap(
-            bitmap, 0, 0, bitmap.width,
-            bitmap.height, matrix, true
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
         )
         if (!bitmap.sameAs(result)) {
             bitmap.recycle()
@@ -143,27 +148,23 @@ fun reorientBitmap(bitmap: Bitmap?, orientation: Int): Bitmap? {
 }
 
 fun getImageOrientation(uri: Uri, contentResolver: ContentResolver): Int {
-    val inputStream: InputStream?
     try {
-        inputStream = contentResolver.openInputStream(uri)
-    } catch (e: FileNotFoundException) {
-        Log.w(TAG, e)
-        return ExifInterface.ORIENTATION_UNDEFINED
-    }
-    if (inputStream == null) {
-        return ExifInterface.ORIENTATION_UNDEFINED
-    }
-    val exifInterface: ExifInterface
-    try {
-        exifInterface = ExifInterface(inputStream)
+        val inputStream = contentResolver.openInputStream(uri)
+            ?: return ExifInterface.ORIENTATION_UNDEFINED
+
+        try {
+            val exifInterface = ExifInterface(inputStream)
+            return exifInterface.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        } finally {
+            inputStream.closeQuietly()
+        }
     } catch (e: IOException) {
         Log.w(TAG, e)
-        inputStream.closeQuietly()
         return ExifInterface.ORIENTATION_UNDEFINED
     }
-    val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-    inputStream.closeQuietly()
-    return orientation
 }
 
 fun deleteStaleCachedMedia(mediaDirectory: File?) {
@@ -172,12 +173,10 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
         return
     }
 
-    val twentyfourHoursAgo = Calendar.getInstance()
-    twentyfourHoursAgo.add(Calendar.HOUR, -24)
-    val unixTime = twentyfourHoursAgo.timeInMillis
+    val unixTime = System.currentTimeMillis() - 24.hours.inWholeMilliseconds
 
     val files = mediaDirectory.listFiles { file -> unixTime > file.lastModified() && file.name.contains(MEDIA_TEMP_PREFIX) }
-    if (files == null || files.isEmpty()) {
+    if (files.isNullOrEmpty()) {
         // Nothing to do
         return
     }
@@ -192,5 +191,8 @@ fun deleteStaleCachedMedia(mediaDirectory: File?) {
 }
 
 fun getTemporaryMediaFilename(extension: String): String {
-    return "${MEDIA_TEMP_PREFIX}_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())}.$extension"
+    return "${MEDIA_TEMP_PREFIX}_${SimpleDateFormat(
+        "yyyyMMdd_HHmmss",
+        Locale.US
+    ).format(Date())}.$extension"
 }

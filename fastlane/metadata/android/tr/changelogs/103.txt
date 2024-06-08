@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Dahil olan özellikler:
+
+- Trend etiketleri görüntüleyin
+- Görüntü açıklamalarını ve odak noktasını düzenleme
+- Erişilebilirlik için "Yenile" menüsü
+- Mastodon v4 süzgeçlerini destekleyin
+- Bir gönderi düzenlendiğinde ayrıntılı farkları gösterme
+- Gönderi istatistiklerini zaman çizelgesinde gösterme seçeneği
+
+Düzeltmeler dahil:
+
+- Ses çalma sırasında oynatıcı kontrollerini gösterme
+- Doğru gönderi uzunluğu hesaplaması
+- Görsel başlıklarını her zaman yayınlayın
+
+ve çok daha fazlası

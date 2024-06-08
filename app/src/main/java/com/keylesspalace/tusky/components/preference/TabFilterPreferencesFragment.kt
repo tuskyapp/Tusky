@@ -16,34 +16,70 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.settings.checkBoxPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.switchPreference
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
+
+    @Inject
+    lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Give view a background color so transitions show up correctly
+        return super.onCreateView(inflater, container, savedInstanceState).also { view ->
+            view.setBackgroundColor(MaterialColors.getColor(view, android.R.attr.colorBackground))
+        }
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
             preferenceCategory(R.string.title_home) { category ->
                 category.isIconSpaceReserved = false
 
-                checkBoxPreference {
+                switchPreference {
                     setTitle(R.string.pref_title_show_boosts)
                     key = PrefKeys.TAB_FILTER_HOME_BOOSTS
-                    setDefaultValue(true)
+                    preferenceDataStore = accountPreferenceDataStore
                     isIconSpaceReserved = false
                 }
 
-                checkBoxPreference {
+                switchPreference {
                     setTitle(R.string.pref_title_show_replies)
                     key = PrefKeys.TAB_FILTER_HOME_REPLIES
-                    setDefaultValue(true)
+                    preferenceDataStore = accountPreferenceDataStore
                     isIconSpaceReserved = false
                 }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_show_self_boosts)
+                    setSummary(R.string.pref_title_show_self_boosts_description)
+                    key = PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS
+                    preferenceDataStore = accountPreferenceDataStore
+                    isIconSpaceReserved = false
+                }.apply { dependency = PrefKeys.TAB_FILTER_HOME_BOOSTS }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setTitle(R.string.pref_title_post_tabs)
     }
 
     companion object {

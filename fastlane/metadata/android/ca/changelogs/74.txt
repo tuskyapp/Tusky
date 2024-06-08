@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Interfície principal millorada: ara podeu moure les pestanyes a la part inferior
+- Quan silencieu un usuari, ara també podeu decidir si silencieu les seves notificacions
+- Ara podeu seguir tants hashtags com vulgueu en una sola pestanya d'hashtag
+- S'ha millorat la manera com es mostren les descripcions dels mitjans perquè funcioni fins i tot per a descripcions molt llargues
+    
+Registre de canvis complet: https://github.com/tuskyapp/Tusky/releases

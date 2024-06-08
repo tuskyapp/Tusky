@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">Une erreur s’est produite.</string>
-    <string name="error_network">Une erreur réseau s’est produite ! Veuillez vérifier votre connexion puis réessayez !</string>
+    <string name="error_network">Une erreur réseau s’est produite. Veuillez vérifier votre connexion puis réessayez.</string>
     <string name="error_empty">Ce champ ne peut pas être vide.</string>
     <string name="error_invalid_domain">Le domaine saisi est invalide</string>
-    <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance.</string>
+    <string name="error_failed_app_registration">Échec d’authentification auprès de l’instance. Si cela continue à se produire, essayez Se connecter avec le navigateur depuis le menu.</string>
     <string name="error_no_web_browser_found">Impossible de trouver un navigateur web à utiliser.</string>
-    <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite.</string>
-    <string name="error_authorization_denied">Authentification refusée.</string>
-    <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification.</string>
+    <string name="error_authorization_unknown">Une erreur d’autorisation inconnue s’est produite. Si cela continue à se produire, essayez Se connecter avec le navigateur depuis le menu.</string>
+    <string name="error_authorization_denied">Authentification refusée. Si vous êtes sur·e d\'avoir entré les bons identifiants, essayez Se connecter avec le navigateur depuis le menu.</string>
+    <string name="error_retrieving_oauth_token">Impossible de récupérer le jeton d’authentification. Si cela continue à se produire, essayez Se connecter avec le navigateur depuis le menu.</string>
     <string name="error_compose_character_limit">Votre message est trop long !</string>
     <string name="error_media_upload_type">Ce type de fichier ne peut pas être téléversé.</string>
     <string name="error_media_upload_opening">Le fichier ne peut pas être ouvert.</string>
@@ -36,8 +36,8 @@
     <string name="title_edit_profile">Modifier votre profil</string>
     <string name="title_drafts">Brouillons</string>
     <string name="title_licenses">Licences</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s a partagé</string>
+    <string name="post_username_format">\@%1$s</string>
+    <string name="post_boosted_format">%1$s a partagé</string>
     <string name="post_sensitive_media_title">Contenu sensible</string>
     <string name="post_media_hidden_title">Média caché</string>
     <string name="post_sensitive_media_directions">Appuyer pour voir</string>
@@ -47,10 +47,10 @@
     <string name="post_content_show_less">Replier</string>
     <string name="message_empty">Rien ici.</string>
     <string name="footer_empty">Il n’y a aucun pouet ici pour l’instant. Glissez vers le bas pour actualiser !</string>
-    <string name="notification_reblog_format">%s a partagé votre message</string>
-    <string name="notification_favourite_format">%s a ajouté votre message à ses favoris</string>
-    <string name="notification_follow_format">%s vous suit</string>
-    <string name="report_username_format">Signaler @%s</string>
+    <string name="notification_reblog_format">%1$s a partagé votre message</string>
+    <string name="notification_favourite_format">%1$s a ajouté votre message à ses favoris</string>
+    <string name="notification_follow_format">%1$s vous suit</string>
+    <string name="report_username_format">Signaler @%1$s</string>
     <string name="report_comment_hint">Commentaires additionnels \?</string>
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
@@ -60,7 +60,7 @@
     <string name="action_unfavourite">Supprimer le favori</string>
     <string name="action_more">Plus</string>
     <string name="action_compose">Écrire</string>
-    <string name="action_login">Se connecter à Mastodon</string>
+    <string name="action_login">Se connecter avec Tusky</string>
     <string name="action_logout">Déconnexion</string>
     <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
     <string name="action_follow">Suivre</string>
@@ -113,10 +113,10 @@
     <string name="title_hashtags_dialog">Hashtags</string>
     <string name="title_mentions_dialog">Mentions</string>
     <string name="title_links_dialog">Liens</string>
-    <string name="action_open_media_n">Ouvrir le média #%d</string>
+    <string name="action_open_media_n">Ouvrir le média #%1$d</string>
     <string name="download_image">Téléchargement de %1$s</string>
     <string name="action_copy_link">Copier le lien</string>
-    <string name="action_open_as">Ouvrir comme %s</string>
+    <string name="action_open_as">Ouvrir comme %1$s</string>
     <string name="action_share_as">Partager comme …</string>
     <string name="download_media">Télécharger le média</string>
     <string name="downloading_media">Téléchargement du média</string>
@@ -126,8 +126,6 @@
     <string name="confirmation_reported">Envoyé !</string>
     <string name="confirmation_unblocked">Le compte est débloqué</string>
     <string name="confirmation_unmuted">Le compte n’est plus masqué</string>
-    <string name="post_sent">Envoyé !</string>
-    <string name="post_sent_long">Réponse envoyée avec succès.</string>
     <string name="hint_domain">Quelle instance ?</string>
     <string name="hint_compose">Quoi de neuf ?</string>
     <string name="hint_content_warning">Contenu sensible</string>
@@ -184,7 +182,7 @@
     <string name="pref_title_hide_follow_button">Masquer le bouton de composition lors du défilement</string>
     <string name="pref_title_language">Langue</string>
     <string name="pref_title_post_filter">Filtrage des fils</string>
-    <string name="pref_title_post_tabs">Onglets</string>
+    <string name="pref_title_post_tabs">Fil principal</string>
     <string name="pref_title_show_boosts">Afficher les partages</string>
     <string name="pref_title_show_replies">Afficher les réponses</string>
     <string name="pref_title_show_media_preview">Montrer les miniatures des médias</string>
@@ -214,17 +212,18 @@
     <string name="notification_boost_description">Notifications quand vos messages sont partagés</string>
     <string name="notification_favourite_name">Favoris</string>
     <string name="notification_favourite_description">Notifications quand vos messages sont mis en favoris</string>
-    <string name="notification_mention_format">%s vous a mentionné</string>
+    <string name="notification_mention_format">%1$s vous a mentionné</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s et %4$d autres</string>
     <string name="notification_summary_medium">%1$s, %2$s et %3$s</string>
     <string name="notification_summary_small">%1$s et %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d nouvelle interaction</item>
-        <item quantity="other">%d nouvelles interactions</item>
+        <item quantity="one">%1$d nouvelle interaction</item>
+        <item quantity="many">%1$d nouvelles interactions</item>
+        <item quantity="other">%1$d nouvelles interactions</item>
     </plurals>
     <string name="description_account_locked">Compte verrouillé</string>
     <string name="about_title_activity">À propos</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="about_tusky_license">Tusky est une application libre et open source.
         Elle est publiée sous licence publique générale GNU version 3.
         Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
@@ -247,25 +246,25 @@
     <string name="post_media_video">Vidéo</string>
     <string name="state_follow_requested">Demande d’abonnement effectuée</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">dans %da</string>
-    <string name="abbreviated_in_days">dans %dj</string>
-    <string name="abbreviated_in_hours">dans %dh</string>
-    <string name="abbreviated_in_minutes">dans %dm</string>
-    <string name="abbreviated_in_seconds">dans %ds</string>
-    <string name="abbreviated_years_ago">%d a</string>
-    <string name="abbreviated_days_ago">%dj</string>
-    <string name="abbreviated_hours_ago">%d h</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_years">dans %1$da</string>
+    <string name="abbreviated_in_days">dans %1$dj</string>
+    <string name="abbreviated_in_hours">dans %1$dh</string>
+    <string name="abbreviated_in_minutes">dans %1$dm</string>
+    <string name="abbreviated_in_seconds">dans %1$ds</string>
+    <string name="abbreviated_years_ago">%1$d a</string>
+    <string name="abbreviated_days_ago">%1$dj</string>
+    <string name="abbreviated_hours_ago">%1$d h</string>
+    <string name="abbreviated_minutes_ago">%1$dm</string>
+    <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Vous suit</string>
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
     <string name="title_media">Média</string>
-    <string name="replying_to">Réponse à @%s</string>
+    <string name="replying_to">Réponse à @%1$s</string>
     <string name="load_more_placeholder_text">en charger plus</string>
     <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
-    <string name="filter_addition_dialog_title">Ajouter un filtre</string>
-    <string name="filter_edit_dialog_title">Modifier un filtre</string>
+    <string name="filter_addition_title">Ajouter un filtre</string>
+    <string name="filter_edit_title">Modifier un filtre</string>
     <string name="filter_dialog_remove_button">Supprimer</string>
     <string name="filter_dialog_update_button">Mettre à jour</string>
     <string name="filter_add_description">Phrase à filtrer</string>
@@ -279,15 +278,14 @@
     <string name="action_create_list">Créer une liste</string>
     <string name="action_rename_list">Renommer la liste</string>
     <string name="action_delete_list">Supprimer la liste</string>
-    <string name="action_edit_list">Modifier la liste</string>
     <string name="hint_search_people_list">Chercher des personnes que vous suivez</string>
     <string name="action_add_to_list">Ajouter un compte à la liste</string>
     <string name="action_remove_from_list">Supprimer un compte de la liste</string>
     <string name="compose_active_account_description">Publier en tant que %1$s</string>
-    <string name="error_failed_set_caption">Impossible de définir la légende</string>
     <plurals name="hint_describe_for_visually_impaired">
-        <item quantity="other">Décrire pour les malvoyants
-\n(%d caractères maximum)</item>
+        <item quantity="one">Décrire pour les malvoyants (%1$d caractère maximum)</item>
+        <item quantity="many"/>
+        <item quantity="other">Décrire pour les malvoyants (%1$d caractères maximum)</item>
     </plurals>
     <string name="action_set_caption">Mettre une légende</string>
     <string name="action_remove">Supprimer le média</string>
@@ -300,7 +298,7 @@
     <string name="send_post_notification_cancel_title">Envoi annulé</string>
     <string name="send_post_notification_saved_content">Une copie du message a été sauvegardée dans vos brouillons</string>
     <string name="action_compose_shortcut">Écrire</string>
-    <string name="error_no_custom_emojis">Votre instance %s n’a pas d’émojis personnalisés</string>
+    <string name="error_no_custom_emojis">Votre instance %1$s n’a pas d’émojis personnalisés</string>
     <string name="emoji_style">Style d’émojis</string>
     <string name="system_default">Par défaut du système</string>
     <string name="download_fonts">Vous devez commencer par télécharger ces jeux d’émojis</string>
@@ -337,32 +335,26 @@
         <item quantity="other"><b>%1$s</b> Favoris</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> Partage</item>
-        <item quantity="many"><b>%s</b> de partages</item>
-        <item quantity="other"><b>%s</b> Partages</item>
+        <item quantity="one"><b>%1$s</b> Partage</item>
+        <item quantity="many"><b>%1$s</b> de partages</item>
+        <item quantity="other"><b>%1$s</b> Partages</item>
     </plurals>
     <string name="title_reblogged_by">Partagé par</string>
     <string name="title_favourited_by">Mis en favoris par</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
-    <plurals name="max_tab_number_reached">
-        <item quantity="one">maximum de %1$d onglet atteint</item>
-        <item quantity="other">maximum de %1$d onglets atteint</item>
-    </plurals>
-    <string name="description_post_media">Média : %s</string>
-    <string name="description_post_cw">        Avertissement : %s
+    <string name="description_post_media">Média : %1$s</string>
+    <string name="description_post_cw">        Avertissement : %1$s
     </string>
     <string name="description_post_media_no_description_placeholder">Aucune description</string>
     <string name="description_post_reblogged">Partagé</string>
     <string name="description_post_favourited">Mis en favoris</string>
-    <string name="description_visibility_public">        Public
-    </string>
+    <string name="description_visibility_public">Public</string>
     <string name="description_visibility_unlisted">Non listé</string>
     <string name="description_visibility_private">        Abonné·e·s
     </string>
-    <string name="description_visibility_direct">        Direct
-    </string>
+    <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="edit_hashtag_hint">Hashtag sans #</string>
     <string name="notifications_clear">Nettoyer</string>
@@ -374,7 +366,7 @@
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce message \?</string>
-    <string name="poll_info_time_absolute">Termina à %s</string>
+    <string name="poll_info_time_absolute">Termina à %1$s</string>
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
     <string name="notification_poll_name">Sondages</string>
@@ -382,44 +374,47 @@
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d jour restant</item>
-        <item quantity="other">%d jours restants</item>
+        <item quantity="one">%1$d jour restant</item>
+        <item quantity="many">%1$d jours restants</item>
+        <item quantity="other">%1$d jours restants</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d heure restante</item>
-        <item quantity="other">%d heures restantes</item>
+        <item quantity="one">%1$d heure restante</item>
+        <item quantity="many">%1$d heures restantes</item>
+        <item quantity="other">%1$d heures restantes</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minute restante</item>
-        <item quantity="other">%d minutes restantes</item>
+        <item quantity="one">%1$d minute restante</item>
+        <item quantity="many">%1$d minutes restantes</item>
+        <item quantity="other">%1$d minutes restantes</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d seconde restante</item>
-        <item quantity="other">%d secondes restantes</item>
+        <item quantity="one">%1$d seconde restante</item>
+        <item quantity="many">%1$d secondes restantes</item>
+        <item quantity="other">%1$d secondes restantes</item>
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
-    <string name="compose_preview_image_description">Actions pour l’image %s</string>
+    <string name="compose_preview_image_description">Actions pour l’image %1$s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
     <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
     <string name="action_view_domain_mutes">Domaines cachés</string>
-    <string name="action_mute_domain">Masquer %s</string>
-    <string name="confirmation_domain_unmuted">%s n’est plus masqué·e</string>
+    <string name="action_mute_domain">Masquer %1$s</string>
+    <string name="confirmation_domain_unmuted">%1$s n’est plus masqué·e</string>
     <string name="mute_domain_warning_dialog_ok">Masquer le domaine entier</string>
     <string name="caption_notoemoji">L’ensemble d’émojis actuel de Google</string>
     <string name="button_continue">Continuer</string>
     <string name="button_back">Retour</string>
-    <string name="report_sent_success">\@%s signalé avec succès</string>
+    <string name="report_sent_success">\@%1$s signalé avec succès</string>
     <string name="hint_additional_info">Commentaires additionnels</string>
-    <string name="report_remote_instance">Transférer à %s</string>
+    <string name="report_remote_instance">Transférer à %1$s</string>
     <string name="failed_report">Échec du signalement</string>
     <string name="failed_fetch_posts">Échec de récupération des messages</string>
     <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
-    <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
+    <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %1$s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
     <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
-    <string name="pref_title_show_notifications_filter">Montrer le filtre des notifications</string>
     <string name="filter_dialog_whole_word">Mot entier</string>
     <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliqué·e seulement s’il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
@@ -436,14 +431,14 @@
     <string name="duration_7_days">7 jours</string>
     <string name="add_poll_choice">Ajouter un choix</string>
     <string name="poll_allow_multiple_choices">Choix multiples</string>
-    <string name="poll_new_choice_hint">Choix %d</string>
-    <string name="edit_poll">Éditer</string>
+    <string name="poll_new_choice_hint">Choix %1$d</string>
+    <string name="edit_poll">Modifier</string>
     <string name="title_scheduled_posts">Pouets planifiés</string>
-    <string name="action_edit">Éditer</string>
+    <string name="action_edit">Modifier</string>
     <string name="action_access_scheduled_posts">Messages programmés</string>
     <string name="action_schedule_post">Planifier le message</string>
     <string name="action_reset_schedule">Réinitialiser</string>
-    <string name="post_lookup_error_format">Erreur lors de la recherche du post %s</string>
+    <string name="post_lookup_error_format">Erreur lors de la recherche du post %1$s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
     <string name="title_bookmarks">Signets</string>
     <string name="action_bookmark">Marquer comme signet</string>
@@ -455,13 +450,13 @@
     <string name="no_scheduled_posts">Vous n’avez aucun message planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
-    <string name="dialog_block_warning">Bloquer @%s \?</string>
+    <string name="dialog_block_warning">Bloquer @%1$s \?</string>
     <string name="pref_title_confirm_reblogs">Demander confirmation avant de partager</string>
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
-    <string name="notification_follow_request_format">%s vous a envoyé une demande d’abonnement</string>
+    <string name="notification_follow_request_format">%1$s vous a envoyé une demande d’abonnement</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
     <string name="pref_title_notification_filter_follow_requests">on demande à me suivre</string>
-    <string name="dialog_mute_warning">Mettre en sourdine @%s \?</string>
+    <string name="dialog_mute_warning">Mettre en sourdine @%1$s \?</string>
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Masquer la conversation</string>
     <string name="pref_title_enable_swipe_for_tabs">Activer le glissement pour changer d’onglet</string>
@@ -471,19 +466,19 @@
     <string name="pref_main_nav_position_option_bottom">Bas</string>
     <string name="pref_main_nav_position_option_top">Haut</string>
     <string name="pref_main_nav_position">Position de navigation principale</string>
-    <string name="action_unmute_domain">Ne plus masquer %s</string>
+    <string name="action_unmute_domain">Ne plus masquer %1$s</string>
     <string name="dialog_mute_hide_notifications">Cacher les notifications</string>
-    <string name="action_mute_notifications_desc">Masquer les notifications de %s</string>
-    <string name="action_unmute_notifications_desc">Ne plus masquer les notifications de %s</string>
-    <string name="action_unmute_desc">Ne plus masquer %s</string>
+    <string name="action_unmute_desc">Ne plus masquer %1$s</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s personne</item>
-        <item quantity="other">%s personnes</item>
+        <item quantity="one">%1$s personne</item>
+        <item quantity="many">%1$s personnes</item>
+        <item quantity="other">%1$s personnes</item>
     </plurals>
     <string name="pref_title_hide_top_toolbar">Cacher le titre de la barre d’outils supérieure</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s voix</item>
-        <item quantity="other">%s voix</item>
+        <item quantity="one">%1$s voix</item>
+        <item quantity="many">%1$s voix</item>
+        <item quantity="other">%1$s voix</item>
     </plurals>
     <string name="account_note_saved">Sauvegardé !</string>
     <string name="account_note_hint">Votre note privée sur ce compte</string>
@@ -497,11 +492,12 @@
 \n
 \n Les notifications « push » ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
     <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau message</string>
-    <string name="notification_subscription_format">%s vient de publier</string>
+    <string name="notification_subscription_format">%1$s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
     <string name="notification_subscription_name">Nouveaux messages</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Vous ne pouvez pas téléverser plus d’ %1$d pièce jointe.</item>
+        <item quantity="many">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
         <item quantity="other">Vous ne pouvez pas téléverser plus de %1$d pièces jointes.</item>
     </plurals>
     <string name="pref_title_wellbeing_mode">Bien-être</string>
@@ -509,9 +505,9 @@
     <string name="limit_notifications">Limiter les notifications du fil</string>
     <string name="wellbeing_hide_stats_profile">Cacher les statistiques quantitatives sur les profils</string>
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
-    <string name="action_unbookmark">Supprimer le marque-page</string>
+    <string name="action_unbookmark">Supprimer le signet</string>
     <string name="post_media_attachments">Pièces jointes</string>
-    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %s \?</string>
+    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %1$s \?</string>
     <string name="action_subscribe_account">S’abonner</string>
     <string name="dialog_delete_conversation_warning">Supprimer cette conversation \?</string>
     <string name="pref_title_animate_custom_emojis">Animer les émojis personnalisés</string>
@@ -533,11 +529,11 @@
     <string name="duration_14_days">14 jours</string>
     <string name="duration_180_days">180 jours</string>
     <string name="tusky_compose_post_quicksetting_label">Rédiger un message</string>
-    <string name="notification_sign_up_format">%s a créé un compte</string>
+    <string name="notification_sign_up_format">%1$s a créé un compte</string>
     <string name="notification_sign_up_name">Nouveaux comptes</string>
     <string name="notification_sign_up_description">Notifications quand quelqu’un crée un nouveau compte</string>
     <string name="pref_title_notification_filter_sign_ups">un nouveau compte a été créé</string>
-    <string name="notification_update_format">%s a modifié son message</string>
+    <string name="notification_update_format">%1$s a modifié son message</string>
     <string name="pref_title_notification_filter_updates">un message avec lequel j’ai interagi est modifié</string>
     <string name="notification_update_name">Messages modifiés</string>
     <string name="notification_update_description">Notifications quand un message avec lequel vous avez interagi est modifié</string>
@@ -555,10 +551,142 @@
     <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
     <string name="error_image_edit_failed">L\'image n’a pas pu être retouchée.</string>
     <string name="delete_scheduled_post_warning">Supprimer ce message planifié \?</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="pref_show_self_username_always">Toujours</string>
     <string name="pref_show_self_username_never">Jamais</string>
     <string name="description_post_language">Langue du message</string>
     <string name="duration_no_change">(Aucune modification)</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="action_add_reaction">ajouter une réaction</string>
+    <string name="instance_rule_title">%1$s règles</string>
+    <string name="a11y_label_loading_thread">Chargement du fil</string>
+    <string name="error_following_hashtags_unsupported">Cette instance ne prend pas en charge le suivi des hashtags.</string>
+    <string name="error_muting_hashtag_format">Une erreur est survenue en masquant #%1$s</string>
+    <string name="error_unmuting_hashtag_format">Une erreur est survenue en arrêtant de masquer #%1$s</string>
+    <string name="error_following_hashtag_format">Une erreur est survenue en suivant #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Une erreur est survenue en arrêtant de suivre #%1$s</string>
+    <string name="action_add_or_remove_from_list">Ajouter à ou retirer de la liste</string>
+    <string name="failed_to_remove_from_list">Le compte n\'a pas pu être retiré de la liste</string>
+    <string name="failed_to_add_to_list">Le compte n\'a pas pu être ajouté à la liste</string>
+    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="dialog_follow_hashtag_title">Suivre un hashtag</string>
+    <string name="hint_media_description_missing">Le contenu média devrait être décrit.</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;invalide&gt;</string>
+    <string name="pref_summary_http_proxy_disabled">Désactivé</string>
+    <string name="pref_summary_http_proxy_missing">&lt;non spécifié&gt;</string>
+    <string name="title_edits">Modifications</string>
+    <string name="pref_default_post_language">Langue de publication par défaut</string>
+    <string name="error_multimedia_size_limit">Les fichiers vidéo et audio ne peuvent pas dépasser %1$s Mo.</string>
+    <string name="pref_title_http_proxy_port_message">Le port doit être entre %1$d et %2$d</string>
+    <string name="action_set_focus">Définir le point focal</string>
+    <string name="post_media_image">Image</string>
+    <string name="pref_show_self_username_disambiguate">Quand plusieurs comptes sont connectés</string>
+    <string name="action_post_failed">Le téléversement a échoué</string>
+    <string name="action_post_failed_show_drafts">Afficher les brouillons</string>
+    <string name="action_post_failed_do_nothing">Ignorer</string>
+    <string name="post_media_alt">ALT</string>
+    <string name="notification_report_format">Nouveau signalement sur %1$s</string>
+    <string name="notification_header_report_format">%1$s a signalé %2$s</string>
+    <string name="notification_summary_report_format">%1$s · %2$d posts joints</string>
+    <string name="notification_report_name">Signalements</string>
+    <string name="set_focus_description">Appuyez ou faites glissez le cercle pour déplacer le point focal, qui sera toujours visible sur les vignettes.</string>
+    <string name="notification_unknown_name">Inconnu</string>
+    <string name="action_browser_login">Se connecter avec le navigateur</string>
+    <string name="send_account_link_to">Partager le lien du compte avec…</string>
+    <string name="account_username_copied">Nom de compte copié</string>
+    <string name="action_discard">Abandonner les modifications</string>
+    <string name="action_continue_edit">Continuer à modifier</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s n\'est plus suivi</string>
+    <string name="post_edited">Modifié le %1$s</string>
+    <string name="notification_report_description">Notifications à propos des signalements</string>
+    <string name="action_share_account_link">Partager le lien du compte</string>
+    <string name="action_share_account_username">Partager le nom du compte</string>
+    <string name="title_followed_hashtags">Hashtags suivis</string>
+    <string name="pref_title_notification_filter_reports">il y a un nouveau signalement</string>
+    <string name="pref_title_account_filter_keywords">Profils</string>
+    <string name="status_filtered_show_anyway">Montrer quand même</string>
+    <string name="status_filter_placeholder_label_format">Caché : %1$s</string>
+    <string name="title_public_trending_hashtags">Hashtags tendance</string>
+    <string name="send_account_username_to">Partager le nom du compte avec…</string>
+    <string name="status_created_at_now">maintenant</string>
+    <string name="error_loading_account_details">Les détails du compte n\'ont pas pu être chargés</string>
+    <string name="instance_rule_info">En vous connectant vous acceptez de vous tenir aux règles de %1$s.</string>
+    <string name="pref_title_reading_order">Ordre de lecture</string>
+    <string name="pref_reading_order_oldest_first">Les plus vieux en premier</string>
+    <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
+    <string name="action_unfollow_hashtag_format">Arrêter de suivre #%1$s \?</string>
+    <string name="failed_to_pin">Échec de l\'épinglage</string>
+    <string name="status_edit_info">Modification : %1$s</string>
+    <string name="status_created_info">Création : %1$s</string>
+    <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
+    <string name="no_lists">Vous n\'avez aucune liste.</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
+    <string name="report_category_spam">Spam</string>
+    <string name="report_category_other">Autre</string>
+    <string name="total_accounts">comptes</string>
+    <string name="action_post_failed_detail">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
+\n
+\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</string>
+    <string name="action_post_failed_detail_plural">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
+\n
+\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</string>
+    <string name="action_refresh">Actualiser</string>
+    <string name="failed_to_unpin">Échec du détachement</string>
+    <string name="pref_title_show_self_username">Montrer le nom d\'utilisateur dans la barre d\'outils</string>
+    <string name="socket_timeout_exception">La connexion à votre serveur a pris trop longtemps</string>
+    <string name="ui_error_bookmark">Échec de l\'ajout aux signets : %1$s</string>
+    <string name="ui_error_vote">Échec du vote : %1$s</string>
+    <string name="ui_error_reblog">Échec lors du partage de la publication : %1$s</string>
+    <string name="ui_error_accept_follow_request">N\'a pas pu accepter la demande d\'abonnement : %1$s</string>
+    <string name="ui_error_reject_follow_request">N\'a pas pu rejeter la demande d\'abonnement : %1$s</string>
+    <string name="ui_success_accepted_follow_request">Demande d\'abonnement acceptée</string>
+    <string name="ui_success_rejected_follow_request">Demande d\'abonnement rejetée</string>
+    <string name="description_login">Fonctionne dans la plupart des cas. Aucune autre application n\'aura accès à vos données.</string>
+    <string name="description_browser_login">Peut permettre des méthodes d\'authentification supplémentaires, mais un navigateur compatible est nécessaire.</string>
+    <string name="mute_notifications_switch">Masquer les notifications</string>
+    <string name="compose_unsaved_changes">Il y a des modifications non enregistrées.</string>
+    <string name="description_post_edited">Modifié</string>
+    <string name="select_list_manage">Gérer les listes</string>
+    <string name="report_category_violation">Règle enfreinte</string>
+    <string name="error_status_source_load">Le texte d\'origine du statut n\'a pas pu être chargé.</string>
+    <string name="ui_error_unknown">raison inconnue</string>
+    <string name="ui_error_clear_notifications">Échec du nettoyage des notifications : %1$s</string>
+    <string name="ui_error_favourite">Échec de la mise en favori : %1$s</string>
+    <string name="label_filter_title">Nom</string>
+    <string name="hint_filter_title">Mon filtre</string>
+    <string name="pref_title_show_stat_inline">Montrer les statistiques des statuts dans les fils</string>
+    <string name="accessibility_talking_about_tag">%1$d personnes parlent du hashtag %2$s</string>
+    <string name="total_usage">utilisations</string>
+    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez.
+\n
+\nPour trouver des comptes vous pouvez soit les découvrir dans l\'un des autres fils, par exemple le fil local de votre instance [iconics gmd_group] ; soit les chercher par leur nom [iconics gmd_search], par exemple cherchez « Tusky » pour trouver notre compte Mastodon.</string>
+    <string name="action_add">Ajouter</string>
+    <string name="label_filter_keywords">Mots-clés ou phrases à filtrer</string>
+    <string name="filter_description_warn">Cacher derrière un avertissement</string>
+    <string name="filter_description_hide">Cacher complètement</string>
+    <string name="label_filter_action">Effet du filtre</string>
+    <string name="filter_action_warn">Avertissement</string>
+    <string name="filter_action_hide">Cacher</string>
+    <string name="label_filter_context">Contextes filtrés</string>
+    <string name="filter_keyword_display_format">%1$s (mot entier)</string>
+    <string name="filter_keyword_addition_title">Ajouter un mot-clé</string>
+    <string name="filter_edit_keyword_title">Modifier mot-clé</string>
+    <string name="filter_description_format">%1$s : %2$s</string>
+    <string name="pref_ui_text_size">Taille de police de l\'interface</string>
+    <string name="pref_title_show_self_boosts">Afficher les auto-partages</string>
+    <string name="pref_title_show_self_boosts_description">Quelqu\'un partageant son propre message</string>
+    <string name="label_image">Image</string>
+    <string name="dialog_delete_filter_positive_action">Supprimer</string>
+    <string name="notification_prune_cache">Maintenance du cache …</string>
+    <string name="about_device_info">%1$s %2$s
+\nVersion Android : %3$s
+\nVersion SDK : %4$d</string>
+    <string name="about_device_info_title">Votre appareil</string>
+    <string name="about_account_info_title">Votre compte</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nVersion : %3$s</string>
+    <string name="about_copy">Copier les informations de la version et de l’appareil</string>
+    <string name="title_public_trending_statuses">Publications en tendance</string>
+    <string name="list_reply_policy_list">Membres de la liste</string>
+    <string name="list_reply_policy_label">Afficher les réponses à</string>
+    <string name="about_copied">Les informations de la version et de l’appareil ont été copiés</string>
 </resources>

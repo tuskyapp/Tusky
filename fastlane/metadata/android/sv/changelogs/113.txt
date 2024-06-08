@@ -1,0 +1,15 @@
+Tusky 23.0
+
+Nya funktioner:
+
+- Ny inställning för att skala UI-text
+
+Fixar:
+
+- Sparar kontoinformation korrekt
+- "pull"-meddelanden på enheter som kör Android-versioner <= 11
+- Android-bugg där textfält kan "glömma" att de kan kopiera/klistra in
+- Att visa ändringar i redigeringshistoriken kommer inte att sträcka sig utanför skärmkanten
+- Krascha inte om din server inte har någon inläggsredigeringshistorik
+- Visa icke-fyrkantiga emojis korrekt
+- Potentiell krasch vid redigering av profilfält

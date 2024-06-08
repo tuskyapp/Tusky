@@ -72,9 +72,9 @@ object FocalPointUtil {
         var top = 0f
         var left = 0f
         if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
-            top = focalOffset(viewHeight, imageHeight, scale, focalYToCoordinate(focus.y))
+            top = focalOffset(viewHeight, imageHeight, scale, focalYToCoordinate(focus.y ?: 0f))
         } else { // horizontal crop
-            left = focalOffset(viewWidth, imageWidth, scale, focalXToCoordinate(focus.x))
+            left = focalOffset(viewWidth, imageWidth, scale, focalXToCoordinate(focus.x ?: 0f))
         }
 
         mat.postTranslate(left, top)
@@ -144,12 +144,7 @@ object FocalPointUtil {
      * the image. So it won't put the very edge of the image in center, because that would
      * leave part of the view empty.
      */
-    fun focalOffset(
-        view: Float,
-        image: Float,
-        scale: Float,
-        focal: Float
-    ): Float {
+    fun focalOffset(view: Float, image: Float, scale: Float, focal: Float): Float {
         // The fraction of the image that will be in view:
         val inView = view / (scale * image)
         var offset = 0f

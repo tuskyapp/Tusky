@@ -1,0 +1,15 @@
+Tusky 23.0 beta 1
+
+Új funkciók:
+
+- Új beállítás UI-szöveg nagyítására
+
+Javítások:
+
+- Fiókinfók helyes mentése
+- "leküldési" értesítések Android 11-nél régebbi eszközön
+- Androidos hibajavítás, ahol a szövegmezők "elfelejtik", hogy tudnak szöveget másolni
+- A "különbségek" mutatása a szerkesztési történetben nem túl nagy
+- Összeomlás elkerülése, ha a kiszolgáló nem ismeri a bejegyzés történetét
+- "Törlés" gomb hozzáadása, amikor szűrőt szerkesztünk
+- Nem kocka emojik helyes megjelenítése

@@ -101,8 +101,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://github.com/google/gson"
-                license:name="Gson" />
+                license:link="https://github.com/square/moshi"
+                license:name="Moshi" />
 
             <com.keylesspalace.tusky.view.LicenseCard
                 android:layout_width="match_parent"
@@ -121,28 +121,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 license:license="@string/license_apache_2"
-                license:link="https://google.github.io/dagger/"
+                license:link="https://dagger.dev/"
                 license:name="Dagger 2" />
-
-            <com.keylesspalace.tusky.view.LicenseCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                license:license="@string/license_apache_2"
-                license:link="https://github.com/ReactiveX/RxJava"
-                license:name="RxJava" />
-
-            <com.keylesspalace.tusky.view.LicenseCard
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                license:license="@string/license_apache_2"
-                license:link="https://github.com/uber/AutoDispose"
-                license:name="AutoDispose" />
 
             <com.keylesspalace.tusky.view.LicenseCard
                 android:layout_width="match_parent"

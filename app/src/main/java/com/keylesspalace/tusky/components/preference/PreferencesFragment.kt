@@ -20,7 +20,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -29,31 +28,59 @@ import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preference
 import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.getNonNullString
+import com.keylesspalace.tusky.util.makeIcon
 import com.keylesspalace.tusky.util.serialize
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizePx
+import dagger.hilt.android.AndroidEntryPoint
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
 
-class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
+@AndroidEntryPoint
+class PreferencesFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var accountManager: AccountManager
 
-    private val iconSize by lazy { resources.getDimensionPixelSize(R.dimen.preference_icon_size) }
-    private var httpProxyPref: Preference? = null
+    @Inject
+    lateinit var localeManager: LocaleManager
+
+    private val iconSize by unsafeLazy {
+        resources.getDimensionPixelSize(
+            R.dimen.preference_icon_size
+        )
+    }
+
+    enum class ReadingOrder {
+        /** User scrolls up, reading statuses oldest to newest */
+        OLDEST_FIRST,
+
+        /** User scrolls down, reading statuses newest to oldest. Default behaviour. */
+        NEWEST_FIRST;
+
+        companion object {
+            fun from(s: String?): ReadingOrder {
+                s ?: return NEWEST_FIRST
+
+                return try {
+                    valueOf(s.uppercase())
+                } catch (_: Throwable) {
+                    NEWEST_FIRST
+                }
+            }
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         makePreferenceScreen {
             preferenceCategory(R.string.pref_title_appearance_settings) {
                 listPreference {
-                    setDefaultValue(AppTheme.NIGHT.value)
+                    setDefaultValue(AppTheme.DEFAULT.value)
                     setEntries(R.array.app_theme_names)
                     entryValues = AppTheme.stringValues()
                     key = PrefKeys.APP_THEME
@@ -71,10 +98,24 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setDefaultValue("default")
                     setEntries(R.array.language_entries)
                     setEntryValues(R.array.language_values)
-                    key = PrefKeys.LANGUAGE
+                    key = PrefKeys.LANGUAGE + "_" // deliberately not the actual key, the real handling happens in LocaleManager
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_language)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
+                    preferenceDataStore = localeManager
+                }
+
+                sliderPreference {
+                    key = PrefKeys.UI_TEXT_SCALE_RATIO
+                    setDefaultValue(100F)
+                    valueTo = 150F
+                    valueFrom = 50F
+                    stepSize = 5F
+                    setTitle(R.string.pref_ui_text_size)
+                    format = "%.0f%%"
+                    decrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_out)
+                    incrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_in)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
                 listPreference {
@@ -85,6 +126,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_post_text_size)
                     icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                }
+
+                listPreference {
+                    setDefaultValue(ReadingOrder.NEWEST_FIRST.name)
+                    setEntries(R.array.reading_order_names)
+                    setEntryValues(R.array.reading_order_values)
+                    key = PrefKeys.READING_ORDER
+                    setSummaryProvider { entry }
+                    setTitle(R.string.pref_title_reading_order)
+                    icon = makeIcon(GoogleMaterial.Icon.gmd_sort)
                 }
 
                 listPreference {
@@ -113,9 +164,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
-                    setDefaultValue(false)
-                    key = PrefKeys.FAB_HIDE
-                    setTitle(R.string.pref_title_hide_follow_button)
+                    setDefaultValue(true)
+                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
+                    setTitle(R.string.pref_title_show_notifications_filter)
                     isSingleLineTitle = false
                 }
 
@@ -164,13 +215,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
 
                 switchPreference {
                     setDefaultValue(true)
-                    key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
-                    setTitle(R.string.pref_title_show_notifications_filter)
-                    isSingleLineTitle = false
-                }
-
-                switchPreference {
-                    setDefaultValue(true)
                     key = PrefKeys.CONFIRM_REBLOGS
                     setTitle(R.string.pref_title_confirm_reblogs)
                     isSingleLineTitle = false
@@ -184,9 +228,23 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
 
                 switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.CONFIRM_FOLLOWS
+                    setTitle(R.string.pref_title_confirm_follows)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
+                    isSingleLineTitle = false
+                }
+
+                switchPreference {
+                    setDefaultValue(false)
+                    key = PrefKeys.SHOW_STATS_INLINE
+                    setTitle(R.string.pref_title_show_stat_inline)
                     isSingleLineTitle = false
                 }
             }
@@ -200,20 +258,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                 }
             }
 
-            preferenceCategory(R.string.pref_title_timeline_filters) {
-                preference {
-                    setTitle(R.string.pref_title_post_tabs)
-                    setOnPreferenceClickListener {
-                        activity?.let { activity ->
-                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.TAB_FILTER_PREFERENCES)
-                            activity.startActivity(intent)
-                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                        }
-                        true
-                    }
-                }
-            }
-
             preferenceCategory(R.string.pref_title_wellbeing_mode) {
                 switchPreference {
                     title = getString(R.string.limit_notifications)
@@ -221,7 +265,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilter = deserialize(account.notificationsFilter).toMutableSet()
+                            val notificationFilter = deserialize(
+                                account.notificationsFilter
+                            ).toMutableSet()
 
                             if (value == true) {
                                 notificationFilter.add(Notification.Type.FAVOURITE)
@@ -254,53 +300,22 @@ class PreferencesFragment : PreferenceFragmentCompat(), Injectable {
             }
 
             preferenceCategory(R.string.pref_title_proxy_settings) {
-                httpProxyPref = preference {
+                preference {
                     setTitle(R.string.pref_title_http_proxy_settings)
-                    setOnPreferenceClickListener {
-                        activity?.let { activity ->
-                            val intent = PreferencesActivity.newIntent(activity, PreferencesActivity.PROXY_PREFERENCES)
-                            activity.startActivity(intent)
-                            activity.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-                        }
-                        true
-                    }
+                    fragment = ProxyPreferencesFragment::class.qualifiedName
+                    summaryProvider = ProxyPreferencesFragment.SummaryProvider
                 }
             }
         }
     }
 
     private fun makeIcon(icon: GoogleMaterial.Icon): IconicsDrawable {
-        val context = requireContext()
-        return IconicsDrawable(context, icon).apply {
-            sizePx = iconSize
-            colorInt = ThemeUtils.getColor(context, R.attr.iconColor)
-        }
+        return makeIcon(requireContext(), icon, iconSize)
     }
 
     override fun onResume() {
         super.onResume()
-        updateHttpProxySummary()
-    }
-
-    private fun updateHttpProxySummary() {
-        preferenceManager.sharedPreferences?.let { sharedPreferences ->
-            val httpProxyEnabled = sharedPreferences.getBoolean(PrefKeys.HTTP_PROXY_ENABLED, false)
-            val httpServer = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_SERVER, "")
-
-            try {
-                val httpPort = sharedPreferences.getNonNullString(PrefKeys.HTTP_PROXY_PORT, "-1")
-                    .toInt()
-
-                if (httpProxyEnabled && httpServer.isNotBlank() && httpPort > 0 && httpPort < 65535) {
-                    httpProxyPref?.summary = "$httpServer:$httpPort"
-                    return
-                }
-            } catch (e: NumberFormatException) {
-                // user has entered wrong port, fall back to empty summary
-            }
-
-            httpProxyPref?.summary = ""
-        }
+        requireActivity().setTitle(R.string.action_view_preferences)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

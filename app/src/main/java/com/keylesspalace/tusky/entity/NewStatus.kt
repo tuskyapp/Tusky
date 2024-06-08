@@ -16,24 +16,39 @@
 package com.keylesspalace.tusky.entity
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
+@JsonClass(generateAdapter = true)
 data class NewStatus(
     val status: String,
-    @SerializedName("spoiler_text") val warningText: String,
-    @SerializedName("in_reply_to_id") val inReplyToId: String?,
+    @Json(name = "spoiler_text") val warningText: String,
+    @Json(name = "in_reply_to_id") val inReplyToId: String? = null,
     val visibility: String,
     val sensitive: Boolean,
-    @SerializedName("media_ids") val mediaIds: List<String>?,
-    @SerializedName("scheduled_at") val scheduledAt: String?,
-    val poll: NewPoll?,
-    val language: String?,
+    @Json(name = "media_ids") val mediaIds: List<String> = emptyList(),
+    @Json(name = "media_attributes") val mediaAttributes: List<MediaAttribute> = emptyList(),
+    @Json(name = "scheduled_at") val scheduledAt: String? = null,
+    val poll: NewPoll? = null,
+    val language: String? = null
 )
 
+@JsonClass(generateAdapter = true)
 @Parcelize
 data class NewPoll(
     val options: List<String>,
-    @SerializedName("expires_in") val expiresIn: Int,
+    @Json(name = "expires_in") val expiresIn: Int,
     val multiple: Boolean
+) : Parcelable
+
+// It would be nice if we could reuse MediaToSend,
+// but the server requires a different format for focus
+@JsonClass(generateAdapter = true)
+@Parcelize
+data class MediaAttribute(
+    val id: String,
+    val description: String? = null,
+    val focus: String? = null,
+    val thumbnail: String? = null
 ) : Parcelable

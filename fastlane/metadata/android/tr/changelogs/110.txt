@@ -1,0 +1,20 @@
+Tusky 22.0
+
+Yeni özellikler:
+
+- Trend hashtag'leri görüntüleyin
+- Yeni hashtag'leri takip edin
+- Dil seçerken daha iyi sıralama
+- Bir gönderinin sürümleri arasındaki farkı gösterme
+- Mastodon v4 filtrelerini destekleyin
+- Gönderi istatistiklerini zaman çizelgesinde gösterme seçeneği
+- Ve daha fazlası...
+
+Düzeltmeler:
+
+- Seçilen sekmeyi ve konumu hatırla
+- Okunana kadar bildirimleri saklayın
+- Profillerde karışık RTL ve LTR metinlerini doğru şekilde görüntüleme
+- Doğru gönderi uzunluğu hesaplaması
+- Görsel başlıklarını her zaman yayınlayın
+- Ve daha fazlası...

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.util
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.InputFilter
 import android.text.TextUtils
@@ -24,6 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
@@ -51,7 +53,6 @@ class StatusViewHelper(private val itemView: View) {
         showingContent: Boolean,
         mediaPreviewHeight: Int
     ) {
-
         val context = itemView.context
         val mediaPreviews = arrayOf<MediaPreviewImageView>(
             itemView.findViewById(R.id.status_media_preview_0),
@@ -67,7 +68,9 @@ class StatusViewHelper(private val itemView: View) {
             itemView.findViewById(R.id.status_media_overlay_3)
         )
 
-        val sensitiveMediaWarning = itemView.findViewById<TextView>(R.id.status_sensitive_media_warning)
+        val sensitiveMediaWarning = itemView.findViewById<TextView>(
+            R.id.status_sensitive_media_warning
+        )
         val sensitiveMediaShow = itemView.findViewById<View>(R.id.status_sensitive_media_button)
         val mediaLabel = itemView.findViewById<TextView>(R.id.status_media_label)
         if (statusDisplayOptions.mediaPreviewEnabled) {
@@ -85,7 +88,10 @@ class StatusViewHelper(private val itemView: View) {
             return
         }
 
-        val mediaPreviewUnloaded = ColorDrawable(ThemeUtils.getColor(context, R.attr.colorBackgroundAccent))
+        val mediaPreviewUnloaded =
+            ColorDrawable(
+                MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK)
+            )
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 
@@ -108,9 +114,11 @@ class StatusViewHelper(private val itemView: View) {
                     .centerInside()
                     .into(mediaPreviews[i])
             } else {
-                val placeholder = if (attachment.blurhash != null)
+                val placeholder = if (attachment.blurhash != null) {
                     decodeBlurHash(context, attachment.blurhash)
-                else mediaPreviewUnloaded
+                } else {
+                    mediaPreviewUnloaded
+                }
                 val meta = attachment.meta
                 val focus = meta?.focus
                 if (showingContent) {
@@ -183,8 +191,12 @@ class StatusViewHelper(private val itemView: View) {
                 v.visibility = View.GONE
                 sensitiveMediaWarning.visibility = View.VISIBLE
                 setMediasPreview(
-                    statusDisplayOptions, attachments, sensitive, previewListener,
-                    false, mediaPreviewHeight
+                    statusDisplayOptions,
+                    attachments,
+                    sensitive,
+                    previewListener,
+                    false,
+                    mediaPreviewHeight
                 )
             }
             sensitiveMediaWarning.setOnClickListener { v ->
@@ -192,8 +204,12 @@ class StatusViewHelper(private val itemView: View) {
                 v.visibility = View.GONE
                 sensitiveMediaShow.visibility = View.VISIBLE
                 setMediasPreview(
-                    statusDisplayOptions, attachments, sensitive, previewListener,
-                    true, mediaPreviewHeight
+                    statusDisplayOptions,
+                    attachments,
+                    sensitive,
+                    previewListener,
+                    true,
+                    mediaPreviewHeight
                 )
             }
         }
@@ -227,7 +243,7 @@ class StatusViewHelper(private val itemView: View) {
 
         // Set the icon next to the label.
         val drawableId = getLabelIcon(attachments[0].type)
-        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
+        mediaLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableId, 0, 0, 0)
 
         mediaLabel.setOnClickListener { listener.onViewMedia(null, 0) }
     }
@@ -235,7 +251,9 @@ class StatusViewHelper(private val itemView: View) {
     private fun getLabelTypeText(context: Context, type: Attachment.Type): String {
         return when (type) {
             Attachment.Type.IMAGE -> context.getString(R.string.post_media_images)
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(R.string.post_media_video)
+            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(
+                R.string.post_media_video
+            )
             Attachment.Type.AUDIO -> context.getString(R.string.post_media_audio)
             else -> context.getString(R.string.post_media_attachments)
         }
@@ -251,7 +269,11 @@ class StatusViewHelper(private val itemView: View) {
         }
     }
 
-    fun setupPollReadonly(poll: PollViewData?, emojis: List<Emoji>, statusDisplayOptions: StatusDisplayOptions) {
+    fun setupPollReadonly(
+        poll: PollViewData?,
+        emojis: List<Emoji>,
+        statusDisplayOptions: StatusDisplayOptions
+    ) {
         val pollResults = listOf<TextView>(
             itemView.findViewById(R.id.status_poll_option_result_0),
             itemView.findViewById(R.id.status_poll_option_result_1),
@@ -276,7 +298,12 @@ class StatusViewHelper(private val itemView: View) {
         }
     }
 
-    private fun getPollInfoText(timestamp: Long, poll: PollViewData, pollDescription: TextView, useAbsoluteTime: Boolean): CharSequence {
+    private fun getPollInfoText(
+        timestamp: Long,
+        poll: PollViewData,
+        pollDescription: TextView,
+        useAbsoluteTime: Boolean
+    ): CharSequence {
         val context = pollDescription.context
 
         val votesText = if (poll.votersCount == null) {
@@ -290,23 +317,38 @@ class StatusViewHelper(private val itemView: View) {
             context.getString(R.string.poll_info_closed)
         } else {
             if (useAbsoluteTime) {
-                context.getString(R.string.poll_info_time_absolute, absoluteTimeFormatter.format(poll.expiresAt, false))
+                context.getString(
+                    R.string.poll_info_time_absolute,
+                    absoluteTimeFormatter.format(poll.expiresAt, false)
+                )
             } else {
-                TimestampUtils.formatPollDuration(context, poll.expiresAt!!.time, timestamp)
+                formatPollDuration(context, poll.expiresAt!!.time, timestamp)
             }
         }
 
         return context.getString(R.string.poll_info_format, votesText, pollDurationInfo)
     }
 
-    private fun setupPollResult(poll: PollViewData, emojis: List<Emoji>, pollResults: List<TextView>, animateEmojis: Boolean) {
+    private fun setupPollResult(
+        poll: PollViewData,
+        emojis: List<Emoji>,
+        pollResults: List<TextView>,
+        animateEmojis: Boolean
+    ) {
         val options = poll.options
 
         for (i in 0 until Status.MAX_POLL_OPTIONS) {
             if (i < options.size) {
-                val percent = calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
+                val percent =
+                    calculatePercent(options[i].votesCount, poll.votersCount, poll.votesCount)
 
-                val pollOptionText = buildDescription(options[i].title, percent, options[i].voted, pollResults[i].context)
+                val pollOptionText =
+                    buildDescription(
+                        options[i].title,
+                        percent,
+                        options[i].voted,
+                        pollResults[i].context
+                    )
                 pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE
 

@@ -38,7 +38,7 @@ class ListStatusAccessibilityDelegate(
 
     private val context: Context get() = recyclerView.context
 
-    private val itemDelegate = object : RecyclerViewAccessibilityDelegate.ItemDelegate(this) {
+    private val itemDelegate = object : ItemDelegate(this) {
         override fun onInitializeAccessibilityNodeInfo(
             host: View,
             info: AccessibilityNodeInfoCompat
@@ -48,14 +48,14 @@ class ListStatusAccessibilityDelegate(
             val pos = recyclerView.getChildAdapterPosition(host)
             val status = statusProvider.getStatus(pos) ?: return
             if (status is StatusViewData.Concrete) {
-                if (status.spoilerText.isNotEmpty()) {
+                if (status.status.spoilerText.isNotEmpty()) {
                     info.addAction(if (status.isExpanded) collapseCwAction else expandCwAction)
                 }
 
                 info.addAction(replyAction)
 
                 val actionable = status.actionable
-                if (actionable.rebloggingAllowed()) {
+                if (actionable.isRebloggingAllowed) {
                     info.addAction(if (actionable.reblogged) unreblogAction else reblogAction)
                 }
                 info.addAction(if (actionable.favourited) unfavouriteAction else favouriteAction)
@@ -94,11 +94,7 @@ class ListStatusAccessibilityDelegate(
             }
         }
 
-        override fun performAccessibilityAction(
-            host: View,
-            action: Int,
-            args: Bundle?
-        ): Boolean {
+        override fun performAccessibilityAction(host: View, action: Int, args: Bundle?): Boolean {
             val pos = recyclerView.getChildAdapterPosition(host)
             when (action) {
                 R.id.action_reply -> {
@@ -114,7 +110,11 @@ class ListStatusAccessibilityDelegate(
                 R.id.action_open_profile -> {
                     interrupt()
                     statusActionListener.onViewAccount(
-                        (statusProvider.getStatus(pos) as StatusViewData.Concrete).actionable.account.id
+                        (
+                            statusProvider.getStatus(
+                                pos
+                            ) as StatusViewData.Concrete
+                            ).actionable.account.id
                     )
                 }
                 R.id.action_open_media_1 -> {
@@ -196,7 +196,8 @@ class ListStatusAccessibilityDelegate(
                 .setAdapter(
                     ArrayAdapter<CharSequence>(
                         host.context,
-                        android.R.layout.simple_list_item_1, stringMentions
+                        android.R.layout.simple_list_item_1,
+                        stringMentions
                     )
                 ) { _, which ->
                     statusActionListener.onViewAccount(mentions[which].id)
@@ -213,7 +214,8 @@ class ListStatusAccessibilityDelegate(
                 .setAdapter(
                     ArrayAdapter(
                         host.context,
-                        android.R.layout.simple_list_item_1, tags
+                        android.R.layout.simple_list_item_1,
+                        tags
                     )
                 ) { _, which ->
                     statusActionListener.onViewTag(tags[which].toString())

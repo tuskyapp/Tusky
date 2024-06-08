@@ -41,9 +41,8 @@ fun downsizeImage(
     contentResolver: ContentResolver,
     tempFile: File
 ): Boolean {
-
     val decodeBoundsInputStream = try {
-        contentResolver.openInputStream(uri)
+        contentResolver.openInputStream(uri) ?: return false
     } catch (e: FileNotFoundException) {
         return false
     }
@@ -55,10 +54,10 @@ fun downsizeImage(
     // Get EXIF data, for orientation info.
     val orientation = getImageOrientation(uri, contentResolver)
     /* Unfortunately, there isn't a determined worst case compression ratio for image
-             * formats. So, the only way to tell if they're too big is to compress them and
-             * test, and keep trying at smaller sizes. The initial estimate should be good for
-             * many cases, so it should only iterate once, but the loop is used to be absolutely
-             * sure it gets downsized to below the limit. */
+     * formats. So, the only way to tell if they're too big is to compress them and
+     * test, and keep trying at smaller sizes. The initial estimate should be good for
+     * many cases, so it should only iterate once, but the loop is used to be absolutely
+     * sure it gets downsized to below the limit. */
     var scaledImageSize = 1024
     do {
         val outputStream = try {
@@ -67,7 +66,7 @@ fun downsizeImage(
             return false
         }
         val decodeBitmapInputStream = try {
-            contentResolver.openInputStream(uri)
+            contentResolver.openInputStream(uri) ?: return false
         } catch (e: FileNotFoundException) {
             return false
         }

@@ -38,7 +38,9 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
     private var emojis: List<Emoji> = emptyList()
     private var resultClickListener: View.OnClickListener? = null
     private var animateEmojis = false
+    private var enabled = true
 
+    @JvmOverloads
     fun setup(
         options: List<PollOptionViewData>,
         voteCount: Int,
@@ -46,7 +48,8 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         emojis: List<Emoji>,
         mode: Int,
         resultClickListener: View.OnClickListener?,
-        animateEmojis: Boolean
+        animateEmojis: Boolean,
+        enabled: Boolean = true
     ) {
         this.pollOptions = options
         this.voteCount = voteCount
@@ -55,6 +58,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         this.mode = mode
         this.resultClickListener = resultClickListener
         this.animateEmojis = animateEmojis
+        this.enabled = enabled
         notifyDataSetChanged()
     }
 
@@ -63,7 +67,10 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
             .map { pollOptions.indexOf(it) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemPollBinding> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemPollBinding> {
         val binding = ItemPollBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BindingHolder(binding)
     }
@@ -71,7 +78,6 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
     override fun getItemCount() = pollOptions.size
 
     override fun onBindViewHolder(holder: BindingHolder<ItemPollBinding>, position: Int) {
-
         val option = pollOptions[position]
 
         val resultTextView = holder.binding.statusPollOptionResult
@@ -81,6 +87,9 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         resultTextView.visible(mode == RESULT)
         radioButton.visible(mode == SINGLE)
         checkBox.visible(mode == MULTIPLE)
+
+        radioButton.isEnabled = enabled
+        checkBox.isEnabled = enabled
 
         when (mode) {
             RESULT -> {

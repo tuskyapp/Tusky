@@ -19,24 +19,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.AccountViewHolder
+import com.keylesspalace.tusky.databinding.ItemAccountBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.LinkListener
 
-class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean) :
+class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean, private val showBotOverlay: Boolean) :
     PagingDataAdapter<TimelineAccount, AccountViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_account, parent, false)
-        return AccountViewHolder(view)
+        val binding = ItemAccountBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AccountViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         getItem(position)?.let { item ->
             holder.apply {
-                setupWithAccount(item, animateAvatars, animateEmojis)
+                setupWithAccount(item, animateAvatars, animateEmojis, showBotOverlay)
                 setupLinkListener(linkListener)
             }
         }
@@ -45,11 +48,15 @@ class SearchAccountsAdapter(private val linkListener: LinkListener, private val 
     companion object {
 
         val ACCOUNT_COMPARATOR = object : DiffUtil.ItemCallback<TimelineAccount>() {
-            override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean = oldItem == newItem
 
-            override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean =
-                oldItem.id == newItem.id
+            override fun areItemsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean = oldItem.id == newItem.id
         }
     }
 }

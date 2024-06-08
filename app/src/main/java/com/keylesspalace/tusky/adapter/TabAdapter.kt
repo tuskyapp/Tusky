@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -30,8 +29,8 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.ItemTabPreferenceSmallBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.ThemeUtils
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
 
 interface ItemInteractionListener {
@@ -57,7 +56,11 @@ class TabAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ViewBinding> {
         val binding = if (small) {
-            ItemTabPreferenceSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTabPreferenceSmallBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         } else {
             ItemTabPreferenceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         }
@@ -101,7 +104,7 @@ class TabAdapter(
                 listener.onTabRemoved(holder.bindingAdapterPosition)
             }
             binding.removeButton.isEnabled = removeButtonEnabled
-            ThemeUtils.setDrawableTint(
+            setDrawableTint(
                 holder.itemView.context,
                 binding.removeButton.drawable,
                 (if (removeButtonEnabled) android.R.attr.textColorTertiary else R.attr.textColorDisabled)
@@ -119,17 +122,18 @@ class TabAdapter(
 
                     val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                         ?: Chip(context).apply {
+                            setCloseIconResource(R.drawable.ic_cancel_24dp)
+                            isCheckable = false
                             binding.chipGroup.addView(this, binding.chipGroup.size - 1)
-                            chipIconTint = ColorStateList.valueOf(ThemeUtils.getColor(context, android.R.attr.textColorPrimary))
                         }
 
                     chip.text = arg
 
                     if (tab.arguments.size <= 1) {
-                        chip.chipIcon = null
+                        chip.isCloseIconVisible = false
                         chip.setOnClickListener(null)
                     } else {
-                        chip.setChipIconResource(R.drawable.ic_cancel_24dp)
+                        chip.isCloseIconVisible = true
                         chip.setOnClickListener {
                             listener.onChipClicked(tab, holder.bindingAdapterPosition, i)
                         }

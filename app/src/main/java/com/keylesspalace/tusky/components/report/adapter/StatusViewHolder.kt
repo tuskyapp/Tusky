@@ -31,8 +31,8 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusViewHelper
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.COLLAPSE_INPUT_FILTER
 import com.keylesspalace.tusky.util.StatusViewHelper.Companion.NO_INPUT_FILTER
-import com.keylesspalace.tusky.util.TimestampUtils
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.setClickableMentions
 import com.keylesspalace.tusky.util.setClickableText
@@ -50,14 +50,16 @@ class StatusViewHolder(
     private val getStatusForPosition: (Int) -> StatusViewData.Concrete?
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(R.dimen.status_media_preview_height)
+    private val mediaViewHeight = itemView.context.resources.getDimensionPixelSize(
+        R.dimen.status_media_preview_height
+    )
     private val statusViewHelper = StatusViewHelper(itemView)
     private val absoluteTimeFormatter = AbsoluteTimeFormatter()
 
     private val previewListener = object : StatusViewHelper.MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
             viewdata()?.let { viewdata ->
-                adapterHandler.showMedia(v, viewdata.status, idx)
+                adapterHandler.showMedia(v, viewdata, idx)
             }
         }
 
@@ -85,28 +87,48 @@ class StatusViewHolder(
         val sensitive = viewData.status.sensitive
 
         statusViewHelper.setMediasPreview(
-            statusDisplayOptions, viewData.status.attachments,
-            sensitive, previewListener, viewState.isMediaShow(viewData.id, viewData.status.sensitive),
+            statusDisplayOptions,
+            viewData.status.attachments,
+            sensitive,
+            previewListener,
+            viewState.isMediaShow(viewData.id, viewData.status.sensitive),
             mediaViewHeight
         )
 
-        statusViewHelper.setupPollReadonly(viewData.status.poll.toViewData(), viewData.status.emojis, statusDisplayOptions)
+        statusViewHelper.setupPollReadonly(
+            viewData.status.poll.toViewData(),
+            viewData.status.emojis,
+            statusDisplayOptions
+        )
         setCreatedAt(viewData.status.createdAt)
     }
 
     private fun updateTextView() {
         viewdata()?.let { viewdata ->
             setupCollapsedState(
-                shouldTrimStatus(viewdata.content), viewState.isCollapsed(viewdata.id, true),
-                viewState.isContentShow(viewdata.id, viewdata.status.sensitive), viewdata.spoilerText
+                shouldTrimStatus(viewdata.content),
+                viewState.isCollapsed(viewdata.id, true),
+                viewState.isContentShow(viewdata.id, viewdata.status.sensitive),
+                viewdata.status.spoilerText
             )
 
-            if (viewdata.spoilerText.isBlank()) {
-                setTextVisible(true, viewdata.content, viewdata.status.mentions, viewdata.status.tags, viewdata.status.emojis, adapterHandler)
+            if (viewdata.status.spoilerText.isBlank()) {
+                setTextVisible(
+                    true,
+                    viewdata.content,
+                    viewdata.status.mentions,
+                    viewdata.status.tags,
+                    viewdata.status.emojis,
+                    adapterHandler
+                )
                 binding.statusContentWarningButton.hide()
                 binding.statusContentWarningDescription.hide()
             } else {
-                val emojiSpoiler = viewdata.spoilerText.emojify(viewdata.status.emojis, binding.statusContentWarningDescription, statusDisplayOptions.animateEmojis)
+                val emojiSpoiler = viewdata.status.spoilerText.emojify(
+                    viewdata.status.emojis,
+                    binding.statusContentWarningDescription,
+                    statusDisplayOptions.animateEmojis
+                )
                 binding.statusContentWarningDescription.text = emojiSpoiler
                 binding.statusContentWarningDescription.show()
                 binding.statusContentWarningButton.show()
@@ -116,11 +138,25 @@ class StatusViewHolder(
                         val contentShown = viewState.isContentShow(viewdata.id, true)
                         binding.statusContentWarningDescription.invalidate()
                         viewState.setContentShow(viewdata.id, !contentShown)
-                        setTextVisible(!contentShown, viewdata.content, viewdata.status.mentions, viewdata.status.tags, viewdata.status.emojis, adapterHandler)
+                        setTextVisible(
+                            !contentShown,
+                            viewdata.content,
+                            viewdata.status.mentions,
+                            viewdata.status.tags,
+                            viewdata.status.emojis,
+                            adapterHandler
+                        )
                         setContentWarningButtonText(!contentShown)
                     }
                 }
-                setTextVisible(viewState.isContentShow(viewdata.id, true), viewdata.content, viewdata.status.mentions, viewdata.status.tags, viewdata.status.emojis, adapterHandler)
+                setTextVisible(
+                    viewState.isContentShow(viewdata.id, true),
+                    viewdata.content,
+                    viewdata.status.mentions,
+                    viewdata.status.tags,
+                    viewdata.status.emojis,
+                    adapterHandler
+                )
             }
         }
     }
@@ -142,7 +178,11 @@ class StatusViewHolder(
         listener: LinkListener
     ) {
         if (expanded) {
-            val emojifiedText = content.emojify(emojis, binding.statusContent, statusDisplayOptions.animateEmojis)
+            val emojifiedText = content.emojify(
+                emojis,
+                binding.statusContent,
+                statusDisplayOptions.animateEmojis
+            )
             setClickableText(binding.statusContent, emojifiedText, mentions, tags, listener)
         } else {
             setClickableMentions(binding.statusContent, mentions, listener)
@@ -161,7 +201,7 @@ class StatusViewHolder(
             binding.timestampInfo.text = if (createdAt != null) {
                 val then = createdAt.time
                 val now = System.currentTimeMillis()
-                TimestampUtils.getRelativeTimeSpanString(binding.timestampInfo.context, then, now)
+                getRelativeTimeSpanString(binding.timestampInfo.context, then, now)
             } else {
                 // unknown minutes~
                 "?m"
@@ -169,7 +209,12 @@ class StatusViewHolder(
         }
     }
 
-    private fun setupCollapsedState(collapsible: Boolean, collapsed: Boolean, expanded: Boolean, spoilerText: String) {
+    private fun setupCollapsedState(
+        collapsible: Boolean,
+        collapsed: Boolean,
+        expanded: Boolean,
+        spoilerText: String
+    ) {
         /* input filter for TextViews have to be set before text */
         if (collapsible && (expanded || TextUtils.isEmpty(spoilerText))) {
             binding.buttonToggleContent.setOnClickListener {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:gravity="center_vertical"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    >
+
+    <TextView
+        android:id="@+id/followed_tag"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        tools:text="hashtag" />
+
+    <ImageButton
+        android:id="@+id/followed_tag_unfollow"
+        style="@style/TuskyImageButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_unfollow"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_person_remove_24dp"
+        />
+
+</LinearLayout>

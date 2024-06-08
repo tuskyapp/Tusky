@@ -1,0 +1,18 @@
+Tusky 22.0 beta 1
+
+Nodweddion sydd yn ychwanegu:
+
+- Gweld hashnodau tueddol
+- Golygu disgrifiad delweddau a phwynt ffocws
+- Dewislen "Adnewyddu" er mwyn hygyrchedd
+- Cefnogi hidlydd Mastodon v4
+- Dangos gwahaniaethau manwl pryd mae neges yn cael ei golwg
+- Opsiwn i ddangos ystadegau neges yn y ffrwd
+
+Cywiriadau sydd yn ychwanegu:
+
+- Dangos rheolau'r chwaraewr wrth chwarae sain
+- Cyfrifo hyd y neges yn gywir
+- Cyhoeddi disgrifiad delweddau pob tro
+
+A llawer mwy

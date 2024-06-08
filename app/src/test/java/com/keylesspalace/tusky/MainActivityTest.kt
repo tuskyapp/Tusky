@@ -10,11 +10,16 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.work.testing.WorkManagerTestInitHelper
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.components.accountlist.AccountListActivity
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
+import java.util.Date
+import kotlinx.coroutines.test.TestScope
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -26,7 +31,6 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.android.util.concurrent.BackgroundExecutor.runInBackground
 import org.robolectric.annotation.Config
-import java.util.Date
 
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
@@ -42,7 +46,7 @@ class MainActivityTest {
         note = "",
         url = "",
         avatar = "",
-        header = "",
+        header = ""
     )
     private val accountEntity = AccountEntity(
         id = 1,
@@ -56,6 +60,11 @@ class MainActivityTest {
     @Before
     fun setup() {
         WorkManagerTestInitHelper.initializeTestWorkManager(context)
+    }
+
+    @After
+    fun teardown() {
+        WorkManagerTestInitHelper.closeWorkDatabase()
     }
 
     @Test
@@ -79,7 +88,7 @@ class MainActivityTest {
 
         assertNotNull(nextActivity)
         assertEquals(ComponentName(context, AccountListActivity::class.java.name), nextActivity.component)
-        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtra("type"))
+        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtraCompat("type"))
     }
 
     private fun showNotification(type: Notification.Type): Intent {
@@ -89,8 +98,9 @@ class MainActivityTest {
         NotificationHelper.createNotificationChannelsForAccount(accountEntity, context)
 
         runInBackground {
-            NotificationHelper.make(
+            val notification = NotificationHelper.make(
                 context,
+                notificationManager,
                 Notification(
                     type = type,
                     id = "id",
@@ -99,14 +109,17 @@ class MainActivityTest {
                         localUsername = "connyduck",
                         username = "connyduck@mastodon.example",
                         displayName = "Conny Duck",
+                        note = "This is their bio",
                         url = "https://mastodon.example/@ConnyDuck",
                         avatar = "https://mastodon.example/system/accounts/avatars/000/150/486/original/ab27d7ddd18a10ea.jpg"
                     ),
-                    status = null
+                    status = null,
+                    report = null
                 ),
                 accountEntity,
                 true
             )
+            notificationManager.notify("id", 1, notification)
         }
 
         val notification = shadowNotificationManager.allNotifications.first()
@@ -120,10 +133,20 @@ class MainActivityTest {
         activity.accountManager = mock {
             on { activeAccount } doReturn accountEntity
         }
+        activity.draftsAlert = mock {}
+        activity.shareShortcutHelper = mock {}
+        activity.externalScope = TestScope()
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
         }
+        activity.preferences = mock(defaultAnswer = {
+            when (it.method.returnType) {
+                String::class.java -> "test"
+                Boolean::class.java -> false
+                else -> null
+            }
+        })
         controller.create().start()
         return activity
     }

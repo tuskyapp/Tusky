@@ -4,26 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.keylesspalace.tusky.FiltersActivity">
+    tools:context="com.keylesspalace.tusky.components.filters.FiltersActivity">
 
     <include
         android:id="@+id/includedToolbar"
         layout="@layout/toolbar_basic" />
 
-    <ListView
-        android:id="@+id/filtersView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_marginTop="?attr/actionBarSize">
 
-    <com.keylesspalace.tusky.view.BackgroundMessageView
-        android:id="@+id/filterMessageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/filtersList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <com.keylesspalace.tusky.view.BackgroundMessageView
+                android:id="@+id/messageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/filterProgressBar"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
@@ -33,10 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:contentDescription="@string/filter_addition_dialog_title"
-        android:src="@drawable/ic_plus_24dp"
-        app:layout_anchor="@id/filtersView"
-        app:layout_anchorGravity="bottom|end" />
-
+        android:contentDescription="@string/filter_addition_title"
+        app:layout_anchor="@id/filtersList"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_plus_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

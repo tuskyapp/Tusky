@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/actionbar_elevation">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/title_view_thread"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:navigationContentDescription="@string/abc_action_bar_up_description"
-            app:menu="@menu/view_thread_toolbar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="640dp"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal|top"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/colorBackground"
-            android:scrollbars="vertical" />
+            android:orientation="vertical">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?android:attr/colorBackground"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/threadProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/a11y_label_loading_thread"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <com.keylesspalace.tusky.view.BackgroundMessageView
+                android:id="@+id/statusView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/initialProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <com.keylesspalace.tusky.view.BackgroundMessageView
-        android:id="@+id/statusView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:contentDescription="@string/a11y_label_loading_thread"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

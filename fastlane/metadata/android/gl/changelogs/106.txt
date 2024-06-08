@@ -1,0 +1,5 @@
+Tusky 22.0 beta 4
+
+Arranxo:
+
+- das notificacións repetidas se hai varias contas

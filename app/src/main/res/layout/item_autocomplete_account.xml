@@ -26,9 +26,9 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:contentDescription="@string/profile_badge_bot_text"
-        android:src="@drawable/bot_badge"
         app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toEndOf="@id/avatar" />
+        app:layout_constraintEnd_toEndOf="@id/avatar"
+        app:srcCompat="@drawable/bot_badge" />
 
     <TextView
         android:id="@+id/displayName"

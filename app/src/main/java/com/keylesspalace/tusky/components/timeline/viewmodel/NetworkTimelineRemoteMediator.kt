@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -32,11 +33,18 @@ class NetworkTimelineRemoteMediator(
     private val viewModel: NetworkTimelineViewModel
 ) : RemoteMediator<String, StatusViewData>() {
 
+    private val statusIds = mutableSetOf<String>()
+
+    init {
+        if (viewModel.kind == TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) {
+            statusIds.addAll(viewModel.statusData.map { it.id })
+        }
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<String, StatusViewData>
     ): MediatorResult {
-
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
@@ -68,7 +76,7 @@ class NetworkTimelineRemoteMediator(
                     s.asStatusOrNull()?.id == status.id
                 }?.asStatusOrNull()
 
-                val contentShowing = oldStatus?.isShowingContent ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
+                val contentShowing = oldStatus?.isShowingContent ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
                 val contentCollapsed = oldStatus?.isCollapsed ?: true
 
@@ -80,13 +88,16 @@ class NetworkTimelineRemoteMediator(
             }
 
             if (loadType == LoadType.REFRESH && viewModel.statusData.isNotEmpty()) {
-
                 val insertPlaceholder = if (statuses.isNotEmpty()) {
                     !viewModel.statusData.removeAll { statusViewData ->
                         statuses.any { status -> status.id == statusViewData.asStatusOrNull()?.id }
                     }
                 } else {
                     false
+                }
+
+                if (viewModel.kind == TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) {
+                    statusIds.addAll(data.map { it.id })
                 }
 
                 viewModel.statusData.addAll(0, data)
@@ -97,19 +108,35 @@ class NetworkTimelineRemoteMediator(
             } else {
                 val linkHeader = statusResponse.headers()["Link"]
                 val links = HttpHeaderLink.parse(linkHeader)
-                val nextId = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
+                val next = HttpHeaderLink.findByRelationType(links, "next")
 
-                viewModel.nextKey = nextId
+                var filteredData = data
+                if (viewModel.kind == TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES) {
+                    // Trending statuses use offset for paging, not IDs. If a new status has been added to the remote
+                    // feed after we performed the initial fetch, then the feed will have moved, but our offset won't.
+                    // As a result, we'd get repeat statuses. This addresses that.
+                    filteredData = data.filter { !statusIds.contains(it.id) }
+                    statusIds.addAll(filteredData.map { it.id })
 
-                viewModel.statusData.addAll(data)
+                    viewModel.nextKey = next?.uri?.getQueryParameter("offset")
+                } else {
+                    viewModel.nextKey = next?.uri?.getQueryParameter("max_id")
+                }
+
+                viewModel.statusData.addAll(filteredData)
             }
 
             viewModel.currentSource?.invalidate()
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
             return ifExpected(e) {
+                Log.w(TAG, "Failed to load timeline", e)
                 MediatorResult.Error(e)
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "NetworkTimelineRM"
     }
 }

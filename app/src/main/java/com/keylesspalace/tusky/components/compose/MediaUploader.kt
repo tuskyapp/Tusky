@@ -17,56 +17,73 @@ package com.keylesspalace.tusky.components.compose
 
 import android.content.ContentResolver
 import android.content.Context
+import android.media.MediaMetadataRetriever
+import android.media.MediaMetadataRetriever.METADATA_KEY_MIMETYPE
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.network.MediaUploadApi
-import com.keylesspalace.tusky.network.ProgressRequestBody
+import com.keylesspalace.tusky.network.asRequestBody
 import com.keylesspalace.tusky.util.MEDIA_SIZE_UNKNOWN
 import com.keylesspalace.tusky.util.getImageSquarePixels
 import com.keylesspalace.tusky.util.getMediaSize
 import com.keylesspalace.tusky.util.getServerErrorMessage
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
+import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.shareIn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.util.Date
-import javax.inject.Inject
+import okio.buffer
+import okio.sink
+import okio.source
+import retrofit2.HttpException
 
-sealed class UploadEvent {
-    data class ProgressEvent(val percentage: Int) : UploadEvent()
-    data class FinishedEvent(val mediaId: String) : UploadEvent()
+sealed interface FinalUploadEvent
+
+sealed interface UploadEvent {
+    data class ProgressEvent(val percentage: Int) : UploadEvent
+    data class FinishedEvent(
+        val mediaId: String,
+        val processed: Boolean
+    ) : UploadEvent, FinalUploadEvent
+    data class ErrorEvent(val error: Throwable) : UploadEvent, FinalUploadEvent
 }
+
+data class UploadData(
+    val flow: Flow<UploadEvent>,
+    val scope: CoroutineScope
+)
 
 fun createNewImageFile(context: Context, suffix: String = ".jpg"): File {
     // Create an image file name
     val randomId = randomAlphanumericString(12)
     val imageFileName = "Tusky_${randomId}_"
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    return File.createTempFile(
-        imageFileName, /* prefix */
-        suffix, /* suffix */
-        storageDir /* directory */
-    )
+    return File.createTempFile(imageFileName, suffix, storageDir)
 }
 
 data class PreparedMedia(val type: QueuedMedia.Type, val uri: Uri, val size: Long)
@@ -76,14 +93,38 @@ class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
 class UploadServerError(val errorMessage: String) : Exception()
 
+@Singleton
 class MediaUploader @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val mediaUploadApi: MediaUploadApi
 ) {
 
+    private val uploads = mutableMapOf<Int, UploadData>()
+
+    private var mostRecentId: Int = 0
+
+    fun getNewLocalMediaId(): Int {
+        return mostRecentId++
+    }
+
+    suspend fun getMediaUploadState(localId: Int): FinalUploadEvent {
+        return uploads[localId]?.flow
+            ?.filterIsInstance<FinalUploadEvent>()
+            ?.first()
+            ?: UploadEvent.ErrorEvent(IllegalStateException("media upload with id $localId not found"))
+    }
+
+    /**
+     * Uploads media.
+     * @param media the media to upload
+     * @param instanceInfo info about the current media to make sure the media gets resized correctly
+     * @return A Flow emitting upload events.
+     * The Flow is hot, in order to cancel upload or clear resources call [cancelUploadScope].
+     */
     @OptIn(ExperimentalCoroutinesApi::class)
     fun uploadMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Flow<UploadEvent> {
-        return flow {
+        val uploadScope = CoroutineScope(Dispatchers.IO)
+        val uploadFlow = flow {
             if (shouldResizeMedia(media, instanceInfo)) {
                 emit(downsize(media, instanceInfo))
             } else {
@@ -91,7 +132,23 @@ class MediaUploader @Inject constructor(
             }
         }
             .flatMapLatest { upload(it) }
-            .flowOn(Dispatchers.IO)
+            .catch { exception ->
+                emit(UploadEvent.ErrorEvent(exception))
+            }
+            .shareIn(uploadScope, SharingStarted.Lazily, 1)
+
+        uploads[media.localId] = UploadData(uploadFlow, uploadScope)
+        return uploadFlow
+    }
+
+    /**
+     * Cancels the CoroutineScope of a media upload.
+     * Call this when to abort the upload or to clean up resources after upload info is no longer needed
+     */
+    fun cancelUploadScope(vararg localMediaIds: Int) {
+        localMediaIds.forEach { localId ->
+            uploads.remove(localId)?.scope?.cancel()
+        }
     }
 
     fun prepareMedia(inUri: Uri, instanceInfo: InstanceInfo): PreparedMedia {
@@ -102,27 +159,26 @@ class MediaUploader @Inject constructor(
         try {
             when (inUri.scheme) {
                 ContentResolver.SCHEME_CONTENT -> {
-
                     mimeType = contentResolver.getType(uri)
 
                     val suffix = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType ?: "tmp")
 
-                    contentResolver.openInputStream(inUri).use { input ->
+                    contentResolver.openInputStream(inUri)?.source().use { input ->
                         if (input == null) {
                             Log.w(TAG, "Media input is null")
                             uri = inUri
                             return@use
                         }
                         val file = File.createTempFile("randomTemp1", suffix, context.cacheDir)
-                        FileOutputStream(file.absoluteFile).use { out ->
-                            input.copyTo(out)
-                            uri = FileProvider.getUriForFile(
-                                context,
-                                BuildConfig.APPLICATION_ID + ".fileprovider",
-                                file
-                            )
-                            mediaSize = getMediaSize(contentResolver, uri)
+                        file.absoluteFile.sink().buffer().use { out ->
+                            out.writeAll(input)
                         }
+                        uri = FileProvider.getUriForFile(
+                            context,
+                            BuildConfig.APPLICATION_ID + ".fileprovider",
+                            file
+                        )
+                        mediaSize = getMediaSize(contentResolver, uri)
                     }
                 }
                 ContentResolver.SCHEME_FILE -> {
@@ -135,17 +191,18 @@ class MediaUploader @Inject constructor(
                     val suffix = inputFile.name.substringAfterLast('.', "tmp")
                     mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(suffix)
                     val file = File.createTempFile("randomTemp1", ".$suffix", context.cacheDir)
-                    val input = FileInputStream(inputFile)
 
-                    FileOutputStream(file.absoluteFile).use { out ->
-                        input.copyTo(out)
-                        uri = FileProvider.getUriForFile(
-                            context,
-                            BuildConfig.APPLICATION_ID + ".fileprovider",
-                            file
-                        )
-                        mediaSize = getMediaSize(contentResolver, uri)
+                    inputFile.source().use { input ->
+                        file.absoluteFile.sink().buffer().use { out ->
+                            out.writeAll(input)
+                        }
                     }
+                    uri = FileProvider.getUriForFile(
+                        context,
+                        BuildConfig.APPLICATION_ID + ".fileprovider",
+                        file
+                    )
+                    mediaSize = getMediaSize(contentResolver, uri)
                 }
                 else -> {
                     Log.w(TAG, "Unknown uri scheme $uri")
@@ -193,23 +250,35 @@ class MediaUploader @Inject constructor(
     private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
+
+            // Android's MIME type suggestions from file extensions is broken for at least
+            // .m4a files. See https://github.com/tuskyapp/Tusky/issues/3189 for details.
+            // Sniff the content of the file to determine the actual type.
+            if (mimeType != null && (
+                    mimeType.startsWith("audio/", ignoreCase = true) ||
+                        mimeType.startsWith("video/", ignoreCase = true)
+                    )
+            ) {
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(context, media.uri)
+                mimeType = retriever.extractMetadata(METADATA_KEY_MIMETYPE)
+            }
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = "%s_%s_%s.%s".format(
+            val filename = "%s_%d_%s.%s".format(
                 context.getString(R.string.app_name),
-                Date().time.toString(),
+                System.currentTimeMillis(),
                 randomAlphanumericString(10),
                 fileExtension
             )
 
-            val stream = contentResolver.openInputStream(media.uri)
-
             if (mimeType == null) mimeType = "multipart/form-data"
 
             var lastProgress = -1
-            val fileBody = ProgressRequestBody(
-                stream!!, media.mediaSize,
-                mimeType.toMediaTypeOrNull()!!
+            val fileBody = media.uri.asRequestBody(
+                contentResolver,
+                requireNotNull(mimeType.toMediaTypeOrNull()) { "Invalid Content Type" },
+                media.mediaSize
             ) { percentage ->
                 if (percentage != lastProgress) {
                     trySend(UploadEvent.ProgressEvent(percentage))
@@ -231,16 +300,20 @@ class MediaUploader @Inject constructor(
                 null
             }
 
-            mediaUploadApi.uploadMedia(body, description, focus).fold({ result ->
-                send(UploadEvent.FinishedEvent(result.id))
-            }, { throwable ->
-                val errorMessage = throwable.getServerErrorMessage()
+            val uploadResponse = mediaUploadApi.uploadMedia(body, description, focus)
+            val responseBody = uploadResponse.body()
+            if (uploadResponse.isSuccessful && responseBody != null) {
+                send(UploadEvent.FinishedEvent(responseBody.id, uploadResponse.code() == 200))
+            } else {
+                val error = HttpException(uploadResponse)
+                val errorMessage = error.getServerErrorMessage()
                 if (errorMessage == null) {
-                    throw throwable
+                    throw error
                 } else {
                     throw UploadServerError(errorMessage)
                 }
-            })
+            }
+
             awaitClose()
         }
     }

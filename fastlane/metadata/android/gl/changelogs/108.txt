@@ -1,0 +1,5 @@
+Tusky 22.0 beta 6
+
+Arranxos:
+
+- gardar con maior frecuencia a posición de lectura na pestana de Notificacións

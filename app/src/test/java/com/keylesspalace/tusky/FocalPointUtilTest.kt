@@ -29,14 +29,17 @@ class FocalPointUtilTest {
     fun positiveFocalXToCoordinateTest() {
         assertEquals(FocalPointUtil.focalXToCoordinate(0.4f), 0.7f, eps)
     }
+
     @Test
     fun negativeFocalXToCoordinateTest() {
         assertEquals(FocalPointUtil.focalXToCoordinate(-0.8f), 0.1f, eps)
     }
+
     @Test
     fun positiveFocalYToCoordinateTest() {
         assertEquals(FocalPointUtil.focalYToCoordinate(-0.2f), 0.6f, eps)
     }
+
     @Test
     fun negativeFocalYToCoordinateTest() {
         assertEquals(FocalPointUtil.focalYToCoordinate(0.0f), 0.5f, eps)
@@ -47,25 +50,33 @@ class FocalPointUtilTest {
     fun isVerticalCropTest() {
         assertTrue(
             FocalPointUtil.isVerticalCrop(
-                2f, 1f,
-                1f, 2f
+                2f,
+                1f,
+                1f,
+                2f
             )
         )
     }
+
     @Test
     fun isHorizontalCropTest() {
         assertFalse(
             FocalPointUtil.isVerticalCrop(
-                1f, 2f,
-                2f, 1f
+                1f,
+                2f,
+                2f,
+                1f
             )
         )
     }
+
     @Test
     fun isPerfectFitTest() { // Doesn't matter what it returns, just check it doesn't crash
         FocalPointUtil.isVerticalCrop(
-            3f, 1f,
-            6f, 2f
+            3f,
+            1f,
+            6f,
+            2f
         )
     }
 
@@ -74,60 +85,83 @@ class FocalPointUtilTest {
     fun perfectFitScaleDownTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                2f, 5f,
-                5f, 12.5f
+                2f,
+                5f,
+                5f,
+                12.5f
             ),
-            0.4f, eps
+            0.4f,
+            eps
         )
     }
+
     @Test
     fun perfectFitScaleUpTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                2f, 5f,
-                1f, 2.5f
+                2f,
+                5f,
+                1f,
+                2.5f
             ),
-            2f, eps
+            2f,
+            eps
         )
     }
+
     @Test
     fun verticalCropScaleUpTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                2f, 1f,
-                1f, 2f
+                2f,
+                1f,
+                1f,
+                2f
             ),
-            2f, eps
+            2f,
+            eps
         )
     }
+
     @Test
     fun verticalCropScaleDownTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                4f, 3f,
-                8f, 24f
+                4f,
+                3f,
+                8f,
+                24f
             ),
-            0.5f, eps
+            0.5f,
+            eps
         )
     }
+
     @Test
     fun horizontalCropScaleUpTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                1f, 2f,
-                2f, 1f
+                1f,
+                2f,
+                2f,
+                1f
             ),
-            2f, eps
+            2f,
+            eps
         )
     }
+
     @Test
     fun horizontalCropScaleDownTest() {
         assertEquals(
             FocalPointUtil.calculateScaling(
-                3f, 4f,
-                24f, 8f
+                3f,
+                4f,
+                24f,
+                8f
             ),
-            0.5f, eps
+            0.5f,
+            eps
         )
     }
 
@@ -136,21 +170,26 @@ class FocalPointUtilTest {
     fun toLowFocalOffsetTest() {
         assertEquals(
             FocalPointUtil.focalOffset(2f, 8f, 1f, 0.05f),
-            0f, eps
+            0f,
+            eps
         )
     }
+
     @Test
     fun toHighFocalOffsetTest() {
         assertEquals(
             FocalPointUtil.focalOffset(2f, 4f, 2f, 0.95f),
-            -6f, eps
+            -6f,
+            eps
         )
     }
+
     @Test
     fun possibleFocalOffsetTest() {
         assertEquals(
             FocalPointUtil.focalOffset(2f, 4f, 2f, 0.7f),
-            -4.6f, eps
+            -4.6f,
+            eps
         )
     }
 }

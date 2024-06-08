@@ -1,5 +1,8 @@
 package com.keylesspalace.tusky.util
 
+import android.content.Context
+import com.keylesspalace.tusky.R
+import java.io.IOException
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -24,3 +27,18 @@ fun Throwable.getServerErrorMessage(): String? {
     }
     return null
 }
+
+/** @return A drawable resource to accompany the error message for this throwable */
+fun Throwable.getDrawableRes(): Int = when (this) {
+    is IOException -> R.drawable.errorphant_offline
+    is HttpException -> R.drawable.errorphant_offline
+    else -> R.drawable.errorphant_error
+}
+
+/** @return A string error message for this throwable */
+fun Throwable.getErrorString(context: Context): String = getServerErrorMessage() ?: when (this) {
+    is IOException -> context.getString(R.string.error_network)
+    else -> context.getString(R.string.error_generic)
+}
+
+fun Throwable.isHttpNotFound(): Boolean = (this as? HttpException)?.code() == 404

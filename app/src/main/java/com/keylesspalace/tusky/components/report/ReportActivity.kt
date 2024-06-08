@@ -19,25 +19,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.adapter.ReportPagerAdapter
 import com.keylesspalace.tusky.databinding.ActivityReportBinding
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.viewBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
+@AndroidEntryPoint
+class ReportActivity : BottomSheetActivity() {
 
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ReportViewModel by viewModels { viewModelFactory }
+    private val viewModel: ReportViewModel by viewModels()
 
     private val binding by viewBinding(ActivityReportBinding::inflate)
 
@@ -46,7 +40,9 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
         val accountId = intent?.getStringExtra(ACCOUNT_ID)
         val accountUserName = intent?.getStringExtra(ACCOUNT_USERNAME)
         if (accountId.isNullOrBlank() || accountUserName.isNullOrBlank()) {
-            throw IllegalStateException("accountId ($accountId) or accountUserName ($accountUserName) is null")
+            throw IllegalStateException(
+                "accountId ($accountId) or accountUserName ($accountUserName) is null"
+            )
         }
 
         viewModel.init(accountId, accountUserName, intent?.getStringExtra(STATUS_ID))
@@ -71,12 +67,18 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
 
     private fun initViewPager() {
         binding.wizard.isUserInputEnabled = false
+
+        // Odd workaround for text field losing focus on first focus
+        //   (unfixed old bug: https://github.com/material-components/material-components-android/issues/500)
+        binding.wizard.offscreenPageLimit = 1
+
         binding.wizard.adapter = ReportPagerAdapter(this)
     }
 
     private fun subscribeObservables() {
-        viewModel.navigation.observe(this) { screen ->
-            if (screen != null) {
+        lifecycleScope.launch {
+            viewModel.navigation.collect { screen ->
+                if (screen == null) return@collect
                 viewModel.navigated()
                 when (screen) {
                     Screen.Statuses -> showStatusesPage()
@@ -88,10 +90,12 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
             }
         }
 
-        viewModel.checkUrl.observe(this) {
-            if (!it.isNullOrBlank()) {
-                viewModel.urlChecked()
-                viewUrl(it)
+        lifecycleScope.launch {
+            viewModel.checkUrl.collect {
+                if (!it.isNullOrBlank()) {
+                    viewModel.urlChecked()
+                    viewUrl(it)
+                }
             }
         }
     }
@@ -125,14 +129,16 @@ class ReportActivity : BottomSheetActivity(), HasAndroidInjector {
         private const val STATUS_ID = "status_id"
 
         @JvmStatic
-        fun getIntent(context: Context, accountId: String, userName: String, statusId: String? = null) =
-            Intent(context, ReportActivity::class.java)
-                .apply {
-                    putExtra(ACCOUNT_ID, accountId)
-                    putExtra(ACCOUNT_USERNAME, userName)
-                    putExtra(STATUS_ID, statusId)
-                }
+        fun getIntent(
+            context: Context,
+            accountId: String,
+            userName: String,
+            statusId: String? = null
+        ) = Intent(context, ReportActivity::class.java)
+            .apply {
+                putExtra(ACCOUNT_ID, accountId)
+                putExtra(ACCOUNT_USERNAME, userName)
+                putExtra(STATUS_ID, statusId)
+            }
     }
-
-    override fun androidInjector() = androidInjector
 }

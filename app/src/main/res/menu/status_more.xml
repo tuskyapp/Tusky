@@ -16,6 +16,9 @@
         android:id="@+id/status_copy_link"
         android:title="@string/action_copy_link" />
     <item
+        android:id="@+id/status_translate"
+        android:title="@string/action_translate" />
+    <item
         android:id="@+id/status_open_as"
         android:title="@string/action_open_as" />
     <item
@@ -24,13 +27,16 @@
     <item
         android:id="@+id/status_mute_conversation"
         android:title="@string/action_mute_conversation" />
-    <item
-        android:id="@+id/status_mute"
-        android:title="@string/action_mute" />
-    <item
-        android:id="@+id/status_block"
-        android:title="@string/action_block" />
-    <item
-        android:id="@+id/status_report"
-        android:title="@string/action_report" />
+
+    <group>
+        <item
+            android:id="@+id/status_mute"
+            android:title="@string/action_mute" />
+        <item
+            android:id="@+id/status_block"
+            android:title="@string/action_block" />
+        <item
+            android:id="@+id/status_report"
+            android:title="@string/action_report" />
+    </group>
 </menu>

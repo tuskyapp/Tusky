@@ -19,14 +19,12 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.DownloadManager
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.transition.Transition
@@ -34,40 +32,47 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
-import autodispose2.autoDispose
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.FutureTarget
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.databinding.ActivityViewMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.fragment.ViewImageFragment
+import com.keylesspalace.tusky.fragment.ViewVideoFragment
 import com.keylesspalace.tusky.pager.ImagePagerAdapter
 import com.keylesspalace.tusky.pager.SingleImagePagerAdapter
+import com.keylesspalace.tusky.util.copyToClipboard
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.getTemporaryMediaFilename
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.submitAsync
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 
 typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
-class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener {
+@AndroidEntryPoint
+class ViewMediaActivity :
+    BaseActivity(),
+    ViewImageFragment.PhotoActionsListener,
+    ViewVideoFragment.VideoActionsListener {
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
@@ -80,6 +85,19 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private var attachments: ArrayList<AttachmentViewData>? = null
     private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
     private var imageUrl: String? = null
+
+    private val requestDownloadMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                downloadMedia()
+            } else {
+                showErrorDialog(
+                    binding.toolbar,
+                    R.string.error_media_download_permission,
+                    R.string.action_retry
+                ) { requestDownloadMedia() }
+            }
+        }
 
     fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
         this.toolbarVisibilityListeners.add(listener)
@@ -94,7 +112,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         supportPostponeEnterTransition()
 
         // Gather the parameters.
-        attachments = intent.getParcelableArrayListExtra(EXTRA_ATTACHMENTS)
+        attachments = intent.getParcelableArrayListExtraCompat(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
         // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
@@ -116,6 +134,7 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.toolbar.title = getPageTitle(position)
+                adjustScreenWakefulness()
             }
         })
 
@@ -147,6 +166,8 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
                 window.sharedElementEnterTransition.removeListener(this)
             }
         })
+
+        adjustScreenWakefulness()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -203,7 +224,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private fun downloadMedia() {
         val url = imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url
         val filename = Uri.parse(url).lastPathSegment
-        Toast.makeText(applicationContext, resources.getString(R.string.download_image, filename), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            applicationContext,
+            resources.getString(R.string.download_image, filename),
+            Toast.LENGTH_SHORT
+        ).show()
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
@@ -212,24 +237,25 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     }
 
     private fun requestDownloadMedia() {
-        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)) { _, grantResults ->
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadMedia()
-            } else {
-                showErrorDialog(binding.toolbar, R.string.error_media_download_permission, R.string.action_retry) { requestDownloadMedia() }
-            }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            requestDownloadMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else {
+            downloadMedia()
         }
     }
 
     private fun onOpenStatus() {
         val attach = attachments!![binding.viewPager.currentItem]
-        startActivityWithSlideInAnimation(ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl))
+        startActivityWithSlideInAnimation(
+            ViewThreadActivity.startIntent(this, attach.statusId, attach.statusUrl)
+        )
     }
 
     private fun copyLink() {
-        val url = imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText(null, url))
+        copyToClipboard(
+            imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url,
+            getString(R.string.url_copied),
+        )
     }
 
     private fun shareMedia() {
@@ -256,7 +282,9 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
     private fun shareFile(file: File, mimeType: String?) {
         ShareCompat.IntentBuilder(this)
             .setType(mimeType)
-            .addStream(FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file))
+            .addStream(
+                FileProvider.getUriForFile(applicationContext, "$APPLICATION_ID.fileprovider", file)
+            )
             .setChooserTitle(R.string.send_media_to)
             .startChooser()
     }
@@ -267,45 +295,37 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         isCreating = true
         binding.progressBarShare.visibility = View.VISIBLE
         invalidateOptionsMenu()
-        val file = File(directory, getTemporaryMediaFilename("png"))
-        val futureTask: FutureTarget<Bitmap> =
-            Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submit()
-        Single.fromCallable {
-            val bitmap = futureTask.get()
-            try {
-                val stream = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                stream.close()
-                return@fromCallable true
-            } catch (fnfe: FileNotFoundException) {
-                Log.e(TAG, "Error writing temporary media.")
-            } catch (ioe: IOException) {
-                Log.e(TAG, "Error writing temporary media.")
-            }
-            return@fromCallable false
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnDispose {
-                futureTask.cancel(true)
-            }
-            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                { result ->
-                    Log.d(TAG, "Download image result: $result")
-                    isCreating = false
-                    invalidateOptionsMenu()
-                    binding.progressBarShare.visibility = View.GONE
-                    if (result)
-                        shareFile(file, "image/png")
-                },
-                { error ->
-                    isCreating = false
-                    invalidateOptionsMenu()
-                    binding.progressBarShare.visibility = View.GONE
-                    Log.e(TAG, "Failed to download image", error)
+
+        lifecycleScope.launch {
+            val file = File(directory, getTemporaryMediaFilename("png"))
+            val result = try {
+                val bitmap =
+                    Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submitAsync()
+                try {
+                    FileOutputStream(file).use { stream ->
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                    }
+                    true
+                } catch (ioe: IOException) {
+                    // FileNotFoundException is covered by IOException
+                    Log.e(TAG, "Error writing temporary media.")
+                    false
+                }.also { result -> Log.d(TAG, "Download image result: $result") }
+            } catch (error: Throwable) {
+                if (error is CancellationException) {
+                    throw error
                 }
-            )
+                Log.e(TAG, "Failed to download image", error)
+                false
+            }
+
+            isCreating = false
+            invalidateOptionsMenu()
+            binding.progressBarShare.visibility = View.GONE
+            if (result) {
+                shareFile(file, "image/png")
+            }
+        }
     }
 
     private fun shareMediaFile(directory: File, url: String) {
@@ -325,6 +345,17 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         shareFile(file, mimeType)
     }
 
+    // Prevent this activity from dimming or sleeping the screen if, and only if, it is playing video or audio
+    private fun adjustScreenWakefulness() {
+        attachments?.run {
+            if (get(binding.viewPager.currentItem).attachment.type == Attachment.Type.IMAGE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            } else {
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+        }
+    }
+
     companion object {
         private const val EXTRA_ATTACHMENTS = "attachments"
         private const val EXTRA_ATTACHMENT_INDEX = "index"
@@ -332,7 +363,11 @@ class ViewMediaActivity : BaseActivity(), ViewImageFragment.PhotoActionsListener
         private const val TAG = "ViewMediaActivity"
 
         @JvmStatic
-        fun newIntent(context: Context?, attachments: List<AttachmentViewData>, index: Int): Intent {
+        fun newIntent(
+            context: Context?,
+            attachments: List<AttachmentViewData>,
+            index: Int
+        ): Intent {
             val intent = Intent(context, ViewMediaActivity::class.java)
             intent.putParcelableArrayListExtra(EXTRA_ATTACHMENTS, ArrayList(attachments))
             intent.putExtra(EXTRA_ATTACHMENT_INDEX, index)

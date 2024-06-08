@@ -13,21 +13,18 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package com.keylesspalace.tusky.components.timeline
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.keylesspalace.tusky.db.TimelineAccountEntity
-import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
-import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Card
-import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.HashTag
-import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import java.util.Date
 
 data class Placeholder(
@@ -35,142 +32,138 @@ data class Placeholder(
     val loading: Boolean
 )
 
-private val attachmentArrayListType = object : TypeToken<ArrayList<Attachment>>() {}.type
-private val emojisListType = object : TypeToken<List<Emoji>>() {}.type
-private val mentionListType = object : TypeToken<List<Status.Mention>>() {}.type
-private val tagListType = object : TypeToken<List<HashTag>>() {}.type
-
-fun TimelineAccount.toEntity(accountId: Long, gson: Gson): TimelineAccountEntity {
+fun TimelineAccount.toEntity(tuskyAccountId: Long): TimelineAccountEntity {
     return TimelineAccountEntity(
         serverId = id,
-        timelineUserId = accountId,
+        tuskyAccountId = tuskyAccountId,
         localUsername = localUsername,
         username = username,
         displayName = name,
         url = url,
         avatar = avatar,
-        emojis = gson.toJson(emojis),
+        emojis = emojis,
         bot = bot
     )
 }
 
-fun TimelineAccountEntity.toAccount(gson: Gson): TimelineAccount {
+fun TimelineAccountEntity.toAccount(): TimelineAccount {
     return TimelineAccount(
         id = serverId,
         localUsername = localUsername,
         username = username,
         displayName = displayName,
+        note = "",
         url = url,
         avatar = avatar,
         bot = bot,
-        emojis = gson.fromJson(emojis, emojisListType)
+        emojis = emojis
     )
 }
 
-fun Placeholder.toEntity(timelineUserId: Long): TimelineStatusEntity {
-    return TimelineStatusEntity(
-        serverId = this.id,
-        url = null,
-        timelineUserId = timelineUserId,
-        authorServerId = null,
-        inReplyToId = null,
-        inReplyToAccountId = null,
-        content = null,
-        createdAt = 0L,
-        emojis = null,
-        reblogsCount = 0,
-        favouritesCount = 0,
-        reblogged = false,
-        favourited = false,
-        bookmarked = false,
-        sensitive = false,
-        spoilerText = "",
-        visibility = Status.Visibility.UNKNOWN,
-        attachments = null,
-        mentions = null,
-        tags = null,
-        application = null,
-        reblogServerId = null,
+fun Placeholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity {
+    return HomeTimelineEntity(
+        id = this.id,
+        tuskyAccountId = tuskyAccountId,
+        statusId = null,
         reblogAccountId = null,
-        poll = null,
-        muted = false,
-        expanded = loading,
-        contentCollapsed = false,
-        contentShowing = false,
-        pinned = false,
-        card = null,
-        repliesCount = 0,
-        language = null,
+        loading = this.loading
     )
 }
 
 fun Status.toEntity(
-    timelineUserId: Long,
-    gson: Gson,
+    tuskyAccountId: Long,
     expanded: Boolean,
     contentShowing: Boolean,
     contentCollapsed: Boolean
-): TimelineStatusEntity {
-    return TimelineStatusEntity(
-        serverId = this.id,
-        url = actionableStatus.url,
-        timelineUserId = timelineUserId,
-        authorServerId = actionableStatus.account.id,
-        inReplyToId = actionableStatus.inReplyToId,
-        inReplyToAccountId = actionableStatus.inReplyToAccountId,
-        content = actionableStatus.content,
-        createdAt = actionableStatus.createdAt.time,
-        emojis = actionableStatus.emojis.let(gson::toJson),
-        reblogsCount = actionableStatus.reblogsCount,
-        favouritesCount = actionableStatus.favouritesCount,
-        reblogged = actionableStatus.reblogged,
-        favourited = actionableStatus.favourited,
-        bookmarked = actionableStatus.bookmarked,
-        sensitive = actionableStatus.sensitive,
-        spoilerText = actionableStatus.spoilerText,
-        visibility = actionableStatus.visibility,
-        attachments = actionableStatus.attachments.let(gson::toJson),
-        mentions = actionableStatus.mentions.let(gson::toJson),
-        tags = actionableStatus.tags.let(gson::toJson),
-        application = actionableStatus.application.let(gson::toJson),
-        reblogServerId = reblog?.id,
-        reblogAccountId = reblog?.let { this.account.id },
-        poll = actionableStatus.poll.let(gson::toJson),
-        muted = actionableStatus.muted,
-        expanded = expanded,
-        contentShowing = contentShowing,
-        contentCollapsed = contentCollapsed,
-        pinned = actionableStatus.pinned == true,
-        card = actionableStatus.card?.let(gson::toJson),
-        repliesCount = actionableStatus.repliesCount,
-        language = actionableStatus.language,
-    )
-}
+) = TimelineStatusEntity(
+    serverId = id,
+    url = actionableStatus.url,
+    tuskyAccountId = tuskyAccountId,
+    authorServerId = actionableStatus.account.id,
+    inReplyToId = actionableStatus.inReplyToId,
+    inReplyToAccountId = actionableStatus.inReplyToAccountId,
+    content = actionableStatus.content,
+    createdAt = actionableStatus.createdAt.time,
+    editedAt = actionableStatus.editedAt?.time,
+    emojis = actionableStatus.emojis,
+    reblogsCount = actionableStatus.reblogsCount,
+    favouritesCount = actionableStatus.favouritesCount,
+    reblogged = actionableStatus.reblogged,
+    favourited = actionableStatus.favourited,
+    bookmarked = actionableStatus.bookmarked,
+    sensitive = actionableStatus.sensitive,
+    spoilerText = actionableStatus.spoilerText,
+    visibility = actionableStatus.visibility,
+    attachments = actionableStatus.attachments,
+    mentions = actionableStatus.mentions,
+    tags = actionableStatus.tags,
+    application = actionableStatus.application,
+    poll = actionableStatus.poll,
+    muted = actionableStatus.muted,
+    expanded = expanded,
+    contentShowing = contentShowing,
+    contentCollapsed = contentCollapsed,
+    pinned = actionableStatus.pinned,
+    card = actionableStatus.card,
+    repliesCount = actionableStatus.repliesCount,
+    language = actionableStatus.language,
+    filtered = actionableStatus.filtered.orEmpty()
+)
 
-fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
-    if (this.status.authorServerId == null) {
-        return StatusViewData.Placeholder(this.status.serverId, this.status.expanded)
+fun TimelineStatusEntity.toStatus(
+    account: TimelineAccountEntity
+) = Status(
+    id = serverId,
+    url = url,
+    account = account.toAccount(),
+    inReplyToId = inReplyToId,
+    inReplyToAccountId = inReplyToAccountId,
+    reblog = null,
+    content = content,
+    createdAt = Date(createdAt),
+    editedAt = editedAt?.let { Date(it) },
+    emojis = emojis,
+    reblogsCount = reblogsCount,
+    favouritesCount = favouritesCount,
+    reblogged = reblogged,
+    favourited = favourited,
+    bookmarked = bookmarked,
+    sensitive = sensitive,
+    spoilerText = spoilerText,
+    visibility = visibility,
+    attachments = attachments,
+    mentions = mentions,
+    tags = tags,
+    application = application,
+    pinned = false,
+    muted = muted,
+    poll = poll,
+    card = card,
+    repliesCount = repliesCount,
+    language = language,
+    filtered = filtered,
+)
+
+fun HomeTimelineData.toViewData(isDetailed: Boolean = false, translation: TranslationViewData? = null): StatusViewData {
+    if (this.account == null || this.status == null) {
+        return StatusViewData.Placeholder(this.id, loading)
     }
 
-    val attachments: ArrayList<Attachment> = gson.fromJson(status.attachments, attachmentArrayListType) ?: arrayListOf()
-    val mentions: List<Status.Mention> = gson.fromJson(status.mentions, mentionListType) ?: emptyList()
-    val tags: List<HashTag>? = gson.fromJson(status.tags, tagListType)
-    val application = gson.fromJson(status.application, Status.Application::class.java)
-    val emojis: List<Emoji> = gson.fromJson(status.emojis, emojisListType) ?: emptyList()
-    val poll: Poll? = gson.fromJson(status.poll, Poll::class.java)
-    val card: Card? = gson.fromJson(status.card, Card::class.java)
-
-    val reblog = status.reblogServerId?.let { id ->
+    val originalStatus = status.toStatus(account)
+    val status = if (reblogAccount != null) {
         Status(
             id = id,
-            url = status.url,
-            account = account.toAccount(gson),
+            // no url for reblogs
+            url = null,
+            account = reblogAccount.toAccount(),
             inReplyToId = status.inReplyToId,
             inReplyToAccountId = status.inReplyToAccountId,
-            reblog = null,
-            content = status.content.orEmpty(),
+            reblog = originalStatus,
+            content = status.content,
+            // lie but whatever?
             createdAt = Date(status.createdAt),
-            emojis = emojis,
+            editedAt = null,
+            emojis = emptyList(),
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
             reblogged = status.reblogged,
@@ -179,83 +172,28 @@ fun TimelineStatusWithAccount.toViewData(gson: Gson): StatusViewData {
             sensitive = status.sensitive,
             spoilerText = status.spoilerText,
             visibility = status.visibility,
-            attachments = attachments,
-            mentions = mentions,
-            tags = tags,
-            application = application,
-            pinned = false,
-            muted = status.muted,
-            poll = poll,
-            card = card,
-            repliesCount = status.repliesCount,
-            language = status.language,
-        )
-    }
-    val status = if (reblog != null) {
-        Status(
-            id = status.serverId,
-            url = null, // no url for reblogs
-            account = this.reblogAccount!!.toAccount(gson),
-            inReplyToId = null,
-            inReplyToAccountId = null,
-            reblog = reblog,
-            content = "",
-            createdAt = Date(status.createdAt), // lie but whatever?
-            emojis = listOf(),
-            reblogsCount = 0,
-            favouritesCount = 0,
-            reblogged = false,
-            favourited = false,
-            bookmarked = false,
-            sensitive = false,
-            spoilerText = "",
-            visibility = status.visibility,
-            attachments = ArrayList(),
-            mentions = listOf(),
-            tags = listOf(),
+            attachments = emptyList(),
+            mentions = emptyList(),
+            tags = emptyList(),
             application = null,
-            pinned = status.pinned,
+            pinned = false,
             muted = status.muted,
             poll = null,
             card = null,
             repliesCount = status.repliesCount,
             language = status.language,
+            filtered = status.filtered,
         )
     } else {
-        Status(
-            id = status.serverId,
-            url = status.url,
-            account = account.toAccount(gson),
-            inReplyToId = status.inReplyToId,
-            inReplyToAccountId = status.inReplyToAccountId,
-            reblog = null,
-            content = status.content.orEmpty(),
-            createdAt = Date(status.createdAt),
-            emojis = emojis,
-            reblogsCount = status.reblogsCount,
-            favouritesCount = status.favouritesCount,
-            reblogged = status.reblogged,
-            favourited = status.favourited,
-            bookmarked = status.bookmarked,
-            sensitive = status.sensitive,
-            spoilerText = status.spoilerText,
-            visibility = status.visibility,
-            attachments = attachments,
-            mentions = mentions,
-            tags = tags,
-            application = application,
-            pinned = status.pinned,
-            muted = status.muted,
-            poll = poll,
-            card = card,
-            repliesCount = status.repliesCount,
-            language = status.language,
-        )
+        originalStatus
     }
+
     return StatusViewData.Concrete(
         status = status,
         isExpanded = this.status.expanded,
         isShowingContent = this.status.contentShowing,
-        isCollapsed = this.status.contentCollapsed
+        isCollapsed = this.status.contentCollapsed,
+        isDetailed = isDetailed,
+        translation = translation,
     )
 }

@@ -15,53 +15,71 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
+@JsonClass(generateAdapter = true)
 data class Account(
     val id: String,
-    @SerializedName("username") val localUsername: String,
-    @SerializedName("acct") val username: String,
-    @SerializedName("display_name") val displayName: String?, // should never be null per Api definition, but some servers break the contract
-    @SerializedName("created_at") val createdAt: Date,
+    @Json(name = "username") val localUsername: String,
+    @Json(name = "acct") val username: String,
+    // should never be null per Api definition, but some servers break the contract
+    @Json(name = "display_name") val displayName: String? = null,
+    @Json(name = "created_at") val createdAt: Date,
     val note: String,
     val url: String,
     val avatar: String,
     val header: String,
     val locked: Boolean = false,
-    @SerializedName("followers_count") val followersCount: Int = 0,
-    @SerializedName("following_count") val followingCount: Int = 0,
-    @SerializedName("statuses_count") val statusesCount: Int = 0,
+    @Json(name = "followers_count") val followersCount: Int = 0,
+    @Json(name = "following_count") val followingCount: Int = 0,
+    @Json(name = "statuses_count") val statusesCount: Int = 0,
     val source: AccountSource? = null,
     val bot: Boolean = false,
-    val emojis: List<Emoji>? = emptyList(), // nullable for backward compatibility
-    val fields: List<Field>? = emptyList(), // nullable for backward compatibility
-    val moved: Account? = null
-
+    // default value for backward compatibility
+    val emojis: List<Emoji> = emptyList(),
+    // default value for backward compatibility
+    val fields: List<Field> = emptyList(),
+    val moved: Account? = null,
+    val roles: List<Role> = emptyList()
 ) {
 
     val name: String
         get() = if (displayName.isNullOrEmpty()) {
             localUsername
-        } else displayName
+        } else {
+            displayName
+        }
 
-    fun isRemote(): Boolean = this.username != this.localUsername
+    val isRemote: Boolean
+        get() = this.username != this.localUsername
 }
 
+@JsonClass(generateAdapter = true)
 data class AccountSource(
-    val privacy: Status.Visibility?,
-    val sensitive: Boolean?,
-    val note: String?,
-    val fields: List<StringField>?
+    val privacy: Status.Visibility = Status.Visibility.PUBLIC,
+    val sensitive: Boolean? = null,
+    val note: String? = null,
+    val fields: List<StringField> = emptyList(),
+    val language: String? = null
 )
 
+@JsonClass(generateAdapter = true)
 data class Field(
     val name: String,
     val value: String,
-    @SerializedName("verified_at") val verifiedAt: Date?
+    @Json(name = "verified_at") val verifiedAt: Date? = null
 )
 
+@JsonClass(generateAdapter = true)
 data class StringField(
     val name: String,
     val value: String
+)
+
+@JsonClass(generateAdapter = true)
+data class Role(
+    val name: String,
+    val color: String
 )

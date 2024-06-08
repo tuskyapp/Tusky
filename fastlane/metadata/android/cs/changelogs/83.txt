@@ -1,0 +1,3 @@
+Tusky v15.1
+
+Toto vydání opravuje pád při popisování obrázků

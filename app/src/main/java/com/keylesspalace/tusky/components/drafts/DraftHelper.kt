@@ -23,28 +23,29 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftAttachment
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftAttachment
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.util.copyToFile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.buffer
-import okio.sink
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okio.buffer
+import okio.sink
 
 class DraftHelper @Inject constructor(
-    val context: Context,
-    val okHttpClient: OkHttpClient,
+    @ApplicationContext val context: Context,
+    private val okHttpClient: OkHttpClient,
     db: AppDatabase
 ) {
 
@@ -63,8 +64,10 @@ class DraftHelper @Inject constructor(
         mediaFocus: List<Attachment.Focus?>,
         poll: NewPoll?,
         failedToSend: Boolean,
+        failedToSendAlert: Boolean,
         scheduledAt: String?,
         language: String?,
+        statusId: String?
     ) = withContext(Dispatchers.IO) {
         val externalFilesDir = context.getExternalFilesDir("Tusky")
 
@@ -99,16 +102,17 @@ class DraftHelper @Inject constructor(
             }
         }
 
-        val attachments: MutableList<DraftAttachment> = mutableListOf()
-        for (i in mediaUris.indices) {
-            attachments.add(
-                DraftAttachment(
-                    uriString = uris[i].toString(),
-                    description = mediaDescriptions[i],
-                    focus = mediaFocus[i],
-                    type = types[i]
+        val attachments: List<DraftAttachment> = buildList(mediaUris.size) {
+            for (i in mediaUris.indices) {
+                add(
+                    DraftAttachment(
+                        uriString = uris[i].toString(),
+                        description = mediaDescriptions[i],
+                        focus = mediaFocus[i],
+                        type = types[i]
+                    )
                 )
-            )
+            }
         }
 
         val draft = DraftEntity(
@@ -122,8 +126,10 @@ class DraftHelper @Inject constructor(
             attachments = attachments,
             poll = poll,
             failedToSend = failedToSend,
+            failedToSendNew = failedToSendAlert,
             scheduledAt = scheduledAt,
             language = language,
+            statusId = statusId
         )
 
         draftDao.insertOrReplace(draft)
@@ -136,7 +142,7 @@ class DraftHelper @Inject constructor(
         }
     }
 
-    suspend fun deleteDraftAndAttachments(draft: DraftEntity) {
+    private suspend fun deleteDraftAndAttachments(draft: DraftEntity) {
         deleteAttachments(draft)
         draftDao.delete(draft.id)
     }
@@ -182,10 +188,8 @@ class DraftHelper @Inject constructor(
 
                 val response = okHttpClient.newCall(request).execute()
 
-                val sink = file.sink().buffer()
-
-                response.body?.source()?.use { input ->
-                    sink.use { output ->
+                file.sink().buffer().use { output ->
+                    response.body?.source()?.use { input ->
                         output.writeAll(input)
                     }
                 }
@@ -196,6 +200,10 @@ class DraftHelper @Inject constructor(
         } else {
             this.copyToFile(contentResolver, file)
         }
-        return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
+        return FileProvider.getUriForFile(
+            context,
+            BuildConfig.APPLICATION_ID + ".fileprovider",
+            file
+        )
     }
 }

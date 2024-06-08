@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.network
 
 import android.util.Log
 import com.keylesspalace.tusky.db.AccountManager
+import java.io.IOException
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -24,7 +25,6 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import java.io.IOException
 
 class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) : Interceptor {
 
@@ -34,7 +34,6 @@ class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) 
 
         // only switch domains if the request comes from retrofit
         return if (originalRequest.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
-
             val builder: Request.Builder = originalRequest.newBuilder()
             val instanceHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
 
@@ -58,7 +57,10 @@ class InstanceSwitchAuthInterceptor(private val accountManager: AccountManager) 
             val newRequest: Request = builder.build()
 
             if (MastodonApi.PLACEHOLDER_DOMAIN == newRequest.url.host) {
-                Log.w("ISAInterceptor", "no user logged in or no domain header specified - can't make request to " + newRequest.url)
+                Log.w(
+                    "ISAInterceptor",
+                    "no user logged in or no domain header specified - can't make request to " + newRequest.url
+                )
                 return Response.Builder()
                     .code(400)
                     .message("Bad Request")

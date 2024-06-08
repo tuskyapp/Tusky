@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2023 Tusky Contributors
+  ~
+  ~ This file is a part of Tusky.
+  ~
+  ~ This program is free software; you can redistribute it and/or modify it under the terms of the
+  ~ GNU General Public License as published by the Free Software Foundation; either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+  ~ Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Tusky; if not,
+  ~ see <http://www.gnu.org/licenses>.
+  -->
+
+<lint>
+    <!-- Missing translations are OK -->
+    <issue id="MissingTranslation" severity="ignore" />
+
+    <!-- Duplicate strings are OK. This can happen when e.g., "favourite" appears as both
+         a noun and a verb -->
+    <issue id="DuplicateStrings" severity="ignore" />
+
+    <!-- Resource IDs used in viewbinding are incorrectly reported as unused,
+         https://issuetracker.google.com/issues/204797401.
+
+         Disable these for the time being. -->
+    <issue id="UnusedIds" severity="ignore" />
+    <issue id="UnusedResources" severity="ignore" />
+
+    <!-- Logs are stripped in release builds. -->
+    <issue id="LogConditional" severity="ignore" />
+
+    <!-- Newer dependencies are handled by Renovate, and don't need a warning -->
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="NewerVersionAvailable" severity="ignore" />
+
+    <!-- Typographical punctuation is not something we care about at the moment -->
+    <issue id="TypographyQuotes" severity="ignore" />
+    <issue id="TypographyDashes" severity="ignore" />
+    <issue id="TypographyEllipsis" severity="ignore" />
+
+    <!-- Translations come from external parties -->
+    <issue id="MissingQuantity" severity="ignore" />
+    <issue id="ImpliedQuantity" severity="ignore" />
+    <!-- Most alleged typos are in translations -->
+    <issue id="Typos" severity="ignore" />
+
+    <!-- Basically all of our vectors are external -->
+    <issue id="VectorPath" severity="ignore" />
+    <issue id="Overdraw" severity="ignore" />
+
+    <!-- Irrelevant api version warnings -->
+    <issue id="OldTargetApi" severity="ignore" />
+    <issue id="UnusedAttribute" severity="ignore" />
+
+    <!-- We do not *want* all the text in the app to be selectable -->
+    <issue id="SelectableText" severity="ignore" />
+
+    <!-- This is heavily used by the viewbinding helper -->
+    <issue id="SyntheticAccessor" severity="ignore" />
+
+    <!-- Things we would actually question in a code review -->
+    <issue id="MissingPermission" severity="error" />
+    <issue id="InvalidPackage" severity="error" />
+    <issue id="UseCompatLoadingForDrawables" severity="error" />
+    <issue id="UseCompatTextViewDrawableXml" severity="error" />
+    <issue id="Recycle" severity="error" />
+    <issue id="KeyboardInaccessibleWidget" severity="error" />
+
+    <!-- Mark all other lint issues as warnings -->
+    <issue id="all" severity="warning" />
+</lint>

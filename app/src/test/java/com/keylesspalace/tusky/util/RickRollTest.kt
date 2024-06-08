@@ -14,6 +14,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 class RickRollTest {
     private lateinit var activity: Activity
+
     @Before
     fun setupActivity() {
         val controller = Robolectric.buildActivity(Activity::class.java)
@@ -23,12 +24,12 @@ class RickRollTest {
     @Test
     fun testShouldRickRoll() {
         listOf("gab.Com", "social.gab.ai", "whatever.GAB.com").forEach {
-            rollableDomain ->
+                rollableDomain ->
             assertTrue(shouldRickRoll(activity, rollableDomain))
         }
 
         listOf("chaos.social", "notgab.com").forEach {
-            notRollableDomain ->
+                notRollableDomain ->
             assertFalse(shouldRickRoll(activity, notRollableDomain))
         }
     }

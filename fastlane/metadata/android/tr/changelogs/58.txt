@@ -1,10 +1,13 @@
 Tusky v6.0
 
-- Zaman çizelgesi filtreleri hesap tercihlerine taşındı ve sunucuyla eşitlendi
-- Artık ana arayüzde sekme olarak özel hashtag'e sahip olabilirsiniz
+- Zaman akışı filtreleri Hesap Tercihlerine taşındı ve sunucuyla eşitlendi
+- Artık ana arayüzde özel etiketler sekmesi ne sahip olabilirsiniz
 - Listeler artık düzenlenebilir
-- Güvenlik: TLS 1.0 ve TLS 1.1 desteği kaldırıldı
-- Oluşturma görünümü artık yazmaya başladığınızda özel ifadeler önerecektir
+- Güvenlik: TLS 1.0 ve TLS 1.1 desteği kaldırıldı ve Android 6+'da TLS 1.3 desteği eklendi
+- Oluşturma görünümü artık yazmaya başladığınızda özel emojiler önerecektir
 - Yeni tema ayarı "sistem temasını izle"
-- Geliştirilmiş zaman çizelgesi erişilebilirliği
+- Geliştirilmiş zaman akışı erişilebilirliği
 - Tusky artık bilinmeyen bildirimleri görmezden gelecek ve artık çökmeyecek
+- Yeni ayar: Şimdi sistem dilinden faklı bir dile ayarlayabilirsiniz
+- Yeni çeviriler: Çek ve Esperanto
+- Diğer bir çok geliştirme ve düzeltme

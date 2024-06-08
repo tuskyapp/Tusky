@@ -4,6 +4,6 @@
     <size
         android:width="8dp"
         android:height="1dp" />
-    <solid android:color="?attr/colorBackgroundAccent" />
+    <solid android:color="?android:textColorTertiary" />
     <corners android:radius="1dp" />
 </shape>

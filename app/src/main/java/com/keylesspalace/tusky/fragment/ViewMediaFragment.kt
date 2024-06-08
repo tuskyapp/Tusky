@@ -42,11 +42,15 @@ abstract class ViewMediaFragment : Fragment() {
 
         @JvmStatic
         protected val ARG_ATTACHMENT = "attach"
+
         @JvmStatic
         protected val ARG_SINGLE_IMAGE_URL = "singleImageUrl"
 
         @JvmStatic
-        fun newInstance(attachment: Attachment, shouldStartPostponedTransition: Boolean): ViewMediaFragment {
+        fun newInstance(
+            attachment: Attachment,
+            shouldStartPostponedTransition: Boolean
+        ): ViewMediaFragment {
             val arguments = Bundle(2)
             arguments.putParcelable(ARG_ATTACHMENT, attachment)
             arguments.putBoolean(ARG_START_POSTPONED_TRANSITION, shouldStartPostponedTransition)
@@ -81,7 +85,12 @@ abstract class ViewMediaFragment : Fragment() {
 
         showingDescription = !TextUtils.isEmpty(description)
         isDescriptionVisible = showingDescription
-        setupMediaView(url, previewUrl, description, showingDescription && mediaActivity.isToolbarVisible)
+        setupMediaView(
+            url,
+            previewUrl,
+            description,
+            showingDescription && mediaActivity.isToolbarVisible
+        )
 
         toolbarVisibilityDisposable = (activity as ViewMediaActivity)
             .addToolbarVisibilityListener { isVisible ->
@@ -91,6 +100,7 @@ abstract class ViewMediaFragment : Fragment() {
 
     override fun onDestroyView() {
         toolbarVisibilityDisposable?.invoke()
+        toolbarVisibilityDisposable = null
         super.onDestroyView()
     }
 }

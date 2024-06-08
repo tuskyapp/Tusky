@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Dzuk'tan yeni Uygulama simgesi https://dzuk.zone/
+- Artık etiketleri takip edebilirsiniz. Bir etiket'e ve ardından araç çubuğundaki simgeye tıklayın.
+- Android 13 Desteği 
+- bir gönderinin dilini ayarlamak için oluşturma görünümünde yeni açılır menü
+- Profiller'deki medya sekmesi artık hassas medyaya uyumlu ve daha yumuşak yükleniyor.
+- Göndermeden önce bir görüntünün odak noktasını ayarlamak artık mümkün
+- Araç çubuğunda tam kullanıcı adınızı göstermek için yeni seçenek

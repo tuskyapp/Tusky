@@ -1,12 +1,35 @@
 package com.keylesspalace.tusky.util
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
 import java.time.Instant
-import java.util.Date
-import java.util.TimeZone
+import java.util.*
+import org.junit.AfterClass
+import org.junit.Assert.assertEquals
+import org.junit.BeforeClass
+import org.junit.Test
 
 class AbsoluteTimeFormatterTest {
+    companion object {
+        /** Default locale before this test started */
+        private lateinit var locale: Locale
+
+        /**
+         * Ensure the Locale is ENGLISH so that tests against literal strings like
+         * "Apr" later, even if the test host's locale is e.g. FRENCH which would
+         * normally report "avr.".
+         */
+        @BeforeClass
+        @JvmStatic
+        fun beforeClass() {
+            locale = Locale.getDefault()
+            Locale.setDefault(Locale.ENGLISH)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            Locale.setDefault(locale)
+        }
+    }
 
     private val formatter = AbsoluteTimeFormatter(TimeZone.getTimeZone("UTC"))
     private val now = Date.from(Instant.parse("2022-04-11T00:00:00.00Z"))
@@ -27,11 +50,11 @@ class AbsoluteTimeFormatterTest {
     @Test
     fun `same year formatting`() {
         val nextDay = Date.from(Instant.parse("2022-04-12T00:10:00.00Z"))
-        assertEquals("04-12 00:10", formatter.format(nextDay, true, now))
-        assertEquals("04-12 00:10", formatter.format(nextDay, false, now))
+        assertEquals("12 Apr, 00:10", formatter.format(nextDay, true, now))
+        assertEquals("12 Apr, 00:10", formatter.format(nextDay, false, now))
         val endOfYear = Date.from(Instant.parse("2022-12-31T23:59:00.00Z"))
-        assertEquals("12-31 23:59", formatter.format(endOfYear, true, now))
-        assertEquals("12-31 23:59", formatter.format(endOfYear, false, now))
+        assertEquals("31 Dec, 23:59", formatter.format(endOfYear, true, now))
+        assertEquals("31 Dec, 23:59", formatter.format(endOfYear, false, now))
     }
 
     @Test

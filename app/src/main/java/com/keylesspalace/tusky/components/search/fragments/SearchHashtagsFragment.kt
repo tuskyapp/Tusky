@@ -15,16 +15,31 @@
 
 package com.keylesspalace.tusky.components.search.fragments
 
+import android.os.Bundle
+import android.view.View
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchHashtagsAdapter
 import com.keylesspalace.tusky.entity.HashTag
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 
+@AndroidEntryPoint
 class SearchHashtagsFragment : SearchFragment<HashTag>() {
 
     override val data: Flow<PagingData<HashTag>>
         get() = viewModel.hashtagsFlow
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.searchRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                binding.searchRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
 
     override fun createAdapter(): PagingDataAdapter<HashTag, *> = SearchHashtagsAdapter(this)
 

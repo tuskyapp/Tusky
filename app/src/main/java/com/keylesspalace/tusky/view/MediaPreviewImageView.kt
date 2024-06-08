@@ -96,11 +96,22 @@ open class MediaPreviewImageView
         }
     }
 
-    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+    override fun onLoadFailed(
+        e: GlideException?,
+        model: Any?,
+        target: Target<Drawable>,
+        isFirstResource: Boolean
+    ): Boolean {
         return false
     }
 
-    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+    override fun onResourceReady(
+        resource: Drawable,
+        model: Any,
+        target: Target<Drawable>?,
+        dataSource: DataSource,
+        isFirstResource: Boolean
+    ): Boolean {
         recalculateMatrix(width, height, resource)
         return false
     }
@@ -119,9 +130,12 @@ open class MediaPreviewImageView
         if (drawable != null && focus != null && focalMatrix != null) {
             scaleType = ScaleType.MATRIX
             FocalPointUtil.updateFocalPointMatrix(
-                width.toFloat(), height.toFloat(),
-                drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat(),
-                focus as Attachment.Focus, focalMatrix as Matrix
+                width.toFloat(),
+                height.toFloat(),
+                drawable.intrinsicWidth.toFloat(),
+                drawable.intrinsicHeight.toFloat(),
+                focus as Attachment.Focus,
+                focalMatrix as Matrix
             )
             imageMatrix = focalMatrix
         }

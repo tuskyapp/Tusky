@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,48 +26,42 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.Either
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
-import kotlinx.coroutines.launch
-import java.io.IOException
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
-class AccountsInListFragment : DialogFragment(), Injectable {
+@AndroidEntryPoint
+class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list) {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var preferences: SharedPreferences
 
-    private val viewModel: AccountsInListViewModel by viewModels { viewModelFactory }
+    private val viewModel: AccountsInListViewModel by viewModels()
     private val binding by viewBinding(FragmentAccountsInListBinding::bind)
 
     private lateinit var listId: String
     private lateinit var listName: String
-    private val adapter = Adapter()
-    private val searchAdapter = SearchAdapter()
 
-    private val radius by lazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
-    private val pm by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
-    private val animateAvatar by lazy { pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
-    private val animateEmojis by lazy { pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
+    private val radius by unsafeLazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,15 +77,17 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         super.onStart()
         dialog?.apply {
             // Stretch dialog to the window
-            window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+            window?.setLayout(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_accounts_in_list, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = Adapter()
+        val searchAdapter = SearchAdapter()
+
         binding.accountsRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.accountsRecycler.adapter = adapter
 
@@ -99,21 +96,21 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                adapter.submitList(state.accounts.asRightOrNull() ?: listOf())
+                adapter.submitList(state.accounts.getOrDefault(emptyList()))
 
-                when (state.accounts) {
-                    is Either.Right -> binding.messageView.hide()
-                    is Either.Left -> handleError(state.accounts.value)
-                }
+                state.accounts.fold(
+                    onSuccess = { binding.messageView.hide() },
+                    onFailure = { handleError(it) }
+                )
 
-                setupSearchView(state)
+                setupSearchView(searchAdapter, state)
             }
         }
 
         binding.searchView.isSubmitButtonEnabled = true
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.search(query ?: "")
+                viewModel.search(query.orEmpty())
                 return true
             }
 
@@ -127,13 +124,13 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         })
     }
 
-    private fun setupSearchView(state: State) {
+    private fun setupSearchView(searchAdapter: SearchAdapter, state: State) {
         if (state.searchResult == null) {
             searchAdapter.submitList(listOf())
             binding.accountsSearchRecycler.hide()
             binding.accountsRecycler.show()
         } else {
-            val listAccounts = state.accounts.asRightOrNull() ?: listOf()
+            val listAccounts = state.accounts.getOrDefault(emptyList())
             val newList = state.searchResult.map { acc ->
                 acc to listAccounts.contains(acc)
             }
@@ -145,20 +142,9 @@ class AccountsInListFragment : DialogFragment(), Injectable {
 
     private fun handleError(error: Throwable) {
         binding.messageView.show()
-        val retryAction = { _: View ->
+        binding.messageView.setup(error) { _: View ->
             binding.messageView.hide()
             viewModel.load(listId)
-        }
-        if (error is IOException) {
-            binding.messageView.setup(
-                R.drawable.elephant_offline,
-                R.string.error_network, retryAction
-            )
-        } else {
-            binding.messageView.setup(
-                R.drawable.elephant_error,
-                R.string.error_generic, retryAction
-            )
         }
     }
 
@@ -175,15 +161,27 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean {
+        override fun areContentsTheSame(
+            oldItem: TimelineAccount,
+            newItem: TimelineAccount
+        ): Boolean {
             return oldItem == newItem
         }
     }
 
-    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(AccountDiffer) {
+    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(
+        AccountDiffer
+    ) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): BindingHolder<ItemFollowRequestBinding> {
+            val binding = ItemFollowRequestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             val holder = BindingHolder(binding)
 
             binding.notificationTextView.hide()
@@ -197,10 +195,17 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return holder
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemFollowRequestBinding>, position: Int) {
+        override fun onBindViewHolder(
+            holder: BindingHolder<ItemFollowRequestBinding>,
+            position: Int
+        ) {
             val account = getItem(position)
+            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            val showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, false)
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
+            holder.binding.avatarBadge.visible(showBotOverlay && account.bot)
             loadAvatar(account.avatar, holder.binding.avatar, radius, animateAvatar)
         }
     }
@@ -215,10 +220,19 @@ class AccountsInListFragment : DialogFragment(), Injectable {
         }
     }
 
-    inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(SearchDiffer) {
+    inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(
+        SearchDiffer
+    ) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemFollowRequestBinding> {
-            val binding = ItemFollowRequestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): BindingHolder<ItemFollowRequestBinding> {
+            val binding = ItemFollowRequestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             val holder = BindingHolder(binding)
 
             binding.notificationTextView.hide()
@@ -235,8 +249,14 @@ class AccountsInListFragment : DialogFragment(), Injectable {
             return holder
         }
 
-        override fun onBindViewHolder(holder: BindingHolder<ItemFollowRequestBinding>, position: Int) {
+        override fun onBindViewHolder(
+            holder: BindingHolder<ItemFollowRequestBinding>,
+            position: Int
+        ) {
             val (account, inAList) = getItem(position)
+
+            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username

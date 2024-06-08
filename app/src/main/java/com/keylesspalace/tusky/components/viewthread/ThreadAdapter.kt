@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusDetailedViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -33,16 +34,18 @@ class ThreadAdapter(
 ) : ListAdapter<StatusViewData.Concrete, StatusBaseViewHolder>(ThreadDifferCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusBaseViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_STATUS -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_status, parent, false)
-                StatusViewHolder(view)
+                StatusViewHolder(inflater.inflate(R.layout.item_status, parent, false))
+            }
+            VIEW_TYPE_STATUS_FILTERED -> {
+                StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, parent, false))
             }
             VIEW_TYPE_STATUS_DETAILED -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_status_detailed, parent, false)
-                StatusDetailedViewHolder(view)
+                StatusDetailedViewHolder(
+                    inflater.inflate(R.layout.item_status_detailed, parent, false)
+                )
             }
             else -> error("Unknown item type: $viewType")
         }
@@ -54,16 +57,21 @@ class ThreadAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getItem(position).isDetailed) {
+        val viewData = getItem(position)
+        return if (viewData.isDetailed) {
             VIEW_TYPE_STATUS_DETAILED
+        } else if (viewData.filterAction == Filter.Action.WARN) {
+            VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS
         }
     }
 
     companion object {
+        private const val TAG = "ThreadAdapter"
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_DETAILED = 1
+        private const val VIEW_TYPE_STATUS_FILTERED = 2
 
         val ThreadDifferCallback = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
             override fun areItemsTheSame(
@@ -87,8 +95,10 @@ class ThreadAdapter(
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
                     listOf(StatusBaseViewHolder.Key.KEY_CREATED)
-                } else // If items are different - update the whole view holder
+                } else {
+                    // If items are different - update the whole view holder
                     null
+                }
             }
         }
     }

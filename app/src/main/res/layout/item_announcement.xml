@@ -20,9 +20,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        app:layout_constraintBottom_toTopOf="@id/announcementDate">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/addReactionChip"
@@ -30,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="false"
+            android:contentDescription="@string/action_add_reaction"
             app:chipEndPadding="4dp"
             app:chipIcon="@drawable/ic_plus_24dp"
             app:chipSurfaceColor="@color/tusky_blue"
@@ -37,5 +39,17 @@
             app:textStartPadding="0dp" />
 
     </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/announcementDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="8dp"
+        android:lineSpacingMultiplier="1.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

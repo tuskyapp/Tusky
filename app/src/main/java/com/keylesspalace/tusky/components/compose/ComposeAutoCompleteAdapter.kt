@@ -75,6 +75,7 @@ class ComposeAutoCompleteAdapter(
                 return filterResults
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults) {
                 if (results.count > 0) {
                     resultList = results.values as List<AutocompleteResult>
@@ -108,7 +109,9 @@ class ComposeAutoCompleteAdapter(
                 val account = accountResult.account
                 binding.username.text = context.getString(R.string.post_username_format, account.username)
                 binding.displayName.text = account.name.emojify(account.emojis, binding.displayName, animateEmojis)
-                val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
+                val avatarRadius = context.resources.getDimensionPixelSize(
+                    R.dimen.avatar_radius_42dp
+                )
                 loadAvatar(
                     account.avatar,
                     binding.avatar,
@@ -143,12 +146,12 @@ class ComposeAutoCompleteAdapter(
         }
     }
 
-    sealed class AutocompleteResult {
-        class AccountResult(val account: TimelineAccount) : AutocompleteResult()
+    sealed interface AutocompleteResult {
+        class AccountResult(val account: TimelineAccount) : AutocompleteResult
 
-        class HashtagResult(val hashtag: String) : AutocompleteResult()
+        class HashtagResult(val hashtag: String) : AutocompleteResult
 
-        class EmojiResult(val emoji: Emoji) : AutocompleteResult()
+        class EmojiResult(val emoji: Emoji) : AutocompleteResult
     }
 
     interface AutocompletionProvider {

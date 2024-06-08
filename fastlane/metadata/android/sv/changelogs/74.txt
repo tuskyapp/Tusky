@@ -1,8 +1,8 @@
-Tusky v12.0
-
-- Improved main interface - you can now move the tabs to the bottom
-- When muting a user, you can now also decide whether to mute their notifications
-- You can now follow as many hashtags as you want in one single hashtag tab
-- Improved the way media descriptions are displayed so it works even for super long descriptions
-    
-Full changelog: https://github.com/tuskyapp/Tusky/releases
+Tusky v12.0 
+ 
+- Förbättrat gränssnitt - nu kan du flytta flikarna till botten 
+- Nu kan du när du tystar en användare också bestämma om du vill tysta deras aviseringar 
+- Nu kan du följa så många hashtaggar du vill i en enda hashtagg-flik 
+- Sättet mediebeskrivningar visas på har förbättrats så de fungerar även för superlånga beskrivningar 
+     
+Hela ändringsloggen: https://github.com/tuskyapp/Tusky/releases

@@ -48,7 +48,6 @@ class TootButton
 
     fun setStatusVisibility(visibility: Status.Visibility) {
         if (!smallStyle) {
-
             icon = when (visibility) {
                 Status.Visibility.PUBLIC -> {
                     setText(R.string.action_send_public)
@@ -61,7 +60,10 @@ class TootButton
                 Status.Visibility.PRIVATE,
                 Status.Visibility.DIRECT -> {
                     setText(R.string.action_send)
-                    IconicsDrawable(context, GoogleMaterial.Icon.gmd_lock).apply { sizeDp = 18; colorInt = Color.WHITE }
+                    IconicsDrawable(context, GoogleMaterial.Icon.gmd_lock).apply {
+                        sizeDp = 18
+                        colorInt = Color.WHITE
+                    }
                 }
                 else -> {
                     null

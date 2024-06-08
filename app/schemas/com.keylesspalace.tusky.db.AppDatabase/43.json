@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 43,
-    "identityHash": "2ae409eb591f1bb938367efec60f6038",
+    "identityHash": "bf68abe55bb58765da7f9d6f7ef618e2",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -92,7 +92,7 @@
       },
       {
         "tableName": "AccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `clientId` TEXT, `clientSecret` TEXT, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsFollowRequested` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationsPolls` INTEGER NOT NULL, `notificationsSubscriptions` INTEGER NOT NULL, `notificationsSignUps` INTEGER NOT NULL, `notificationsUpdates` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultReplyPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `alwaysOpenSpoiler` INTEGER NOT NULL, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL, `oauthScopes` TEXT NOT NULL, `unifiedPushUrl` TEXT NOT NULL, `pushPubKey` TEXT NOT NULL, `pushPrivKey` TEXT NOT NULL, `pushAuth` TEXT NOT NULL, `pushServerKey` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `clientId` TEXT, `clientSecret` TEXT, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsFollowRequested` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationsPolls` INTEGER NOT NULL, `notificationsSubscriptions` INTEGER NOT NULL, `notificationsSignUps` INTEGER NOT NULL, `notificationsUpdates` INTEGER NOT NULL, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `defaultPostLanguage` TEXT NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `alwaysOpenSpoiler` INTEGER NOT NULL, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `activeNotifications` TEXT NOT NULL, `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL, `oauthScopes` TEXT NOT NULL, `unifiedPushUrl` TEXT NOT NULL, `pushPubKey` TEXT NOT NULL, `pushPrivKey` TEXT NOT NULL, `pushAuth` TEXT NOT NULL, `pushServerKey` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -239,15 +239,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "defaultReplyPrivacy",
-            "columnName": "defaultReplyPrivacy",
+            "fieldPath": "defaultMediaSensitivity",
+            "columnName": "defaultMediaSensitivity",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "defaultMediaSensitivity",
-            "columnName": "defaultMediaSensitivity",
-            "affinity": "INTEGER",
+            "fieldPath": "defaultPostLanguage",
+            "columnName": "defaultPostLanguage",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -953,7 +953,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ae409eb591f1bb938367efec60f6038')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bf68abe55bb58765da7f9d6f7ef618e2')"
     ]
   }
 }

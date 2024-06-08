@@ -27,14 +27,16 @@ class FocusIndicatorView
 
     fun setImageSize(width: Int, height: Int) {
         this.imageSize = Point(width, height)
-        if (focus != null)
+        if (focus != null) {
             invalidate()
+        }
     }
 
     fun setFocus(focus: Attachment.Focus) {
         this.focus = focus
-        if (imageSize != null)
+        if (imageSize != null) {
             invalidate()
+        }
     }
 
     // Assumes setFocus called first
@@ -46,8 +48,9 @@ class FocusIndicatorView
     // so base it on the view width/height whenever the first access occurs.
     private fun getCircleRadius(): Float {
         val circleRadius = this.circleRadius
-        if (circleRadius != null)
+        if (circleRadius != null) {
             return circleRadius
+        }
         val newCircleRadius = min(this.width, this.height).toFloat() / 4.0f
         this.circleRadius = newCircleRadius
         return newCircleRadius
@@ -65,14 +68,15 @@ class FocusIndicatorView
         return offset.toFloat() + ((value + 1.0f) / 2.0f) * innerLimit.toFloat() // From range -1..1
     }
 
-    @SuppressLint("ClickableViewAccessibility") // Android Studio wants us to implement PerformClick for accessibility, but that unfortunately cannot be made meaningful for this widget.
+    @SuppressLint(
+        "ClickableViewAccessibility"
+    ) // Android Studio wants us to implement PerformClick for accessibility, but that unfortunately cannot be made meaningful for this widget.
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.actionMasked == MotionEvent.ACTION_CANCEL)
+        if (event.actionMasked == MotionEvent.ACTION_CANCEL) {
             return false
+        }
 
-        val imageSize = this.imageSize
-        if (imageSize == null)
-            return false
+        val imageSize = this.imageSize ?: return false
 
         // Convert touch xy to point inside image
         focus = Attachment.Focus(axisToFocus(event.x, imageSize.x, this.width), -axisToFocus(event.y, imageSize.y, this.height))
@@ -103,14 +107,20 @@ class FocusIndicatorView
         val imageSize = this.imageSize
         val focus = this.focus
 
-        if (imageSize != null && focus != null) {
+        if (imageSize != null && focus?.x != null && focus.y != null) {
             val x = axisFromFocus(focus.x, imageSize.x, this.width)
             val y = axisFromFocus(-focus.y, imageSize.y, this.height)
             val circleRadius = getCircleRadius()
 
             curtainPath.reset() // Draw a flood fill with a hole cut out of it
             curtainPath.fillType = Path.FillType.WINDING
-            curtainPath.addRect(0.0f, 0.0f, this.width.toFloat(), this.height.toFloat(), Path.Direction.CW)
+            curtainPath.addRect(
+                0.0f,
+                0.0f,
+                this.width.toFloat(),
+                this.height.toFloat(),
+                Path.Direction.CW
+            )
             curtainPath.addCircle(x, y, circleRadius, Path.Direction.CCW)
             canvas.drawPath(curtainPath, curtainPaint)
 

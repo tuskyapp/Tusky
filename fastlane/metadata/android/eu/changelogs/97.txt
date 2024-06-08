@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Aplikaziorako ikono berria Dzuk-en eskutik https://dzuk.zone
+- Orain traolak jarrai ditzakezu. Traolan klik egin eta ondoren, tresna-barrako ikonoa.
+- Android 13rekin bateragarria
+- Bidalketa bat egiterakoan, erabilitako hizkuntza aukera dezakezu
+- Profiletako edukien fitxak orain eduki hunkigarria errespetatzen du eta arinago kargatzen da.
+- Orain, irudiaren foku-puntua bidali aurretik zehazteko aukera duzu
+- Tresna-barran aukera berri bat zure erabiltzaile-izen osoa erakusteko

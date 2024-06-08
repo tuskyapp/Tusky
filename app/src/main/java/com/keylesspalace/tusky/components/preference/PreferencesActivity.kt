@@ -23,30 +23,33 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.databinding.ActivityPreferencesBinding
+import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.getNonNullString
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import com.keylesspalace.tusky.util.setAppNightMode
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PreferencesActivity :
     BaseActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener,
-    HasAndroidInjector {
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     @Inject
     lateinit var eventHub: EventHub
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private val restartActivitiesOnBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
@@ -72,30 +75,15 @@ class PreferencesActivity :
             setDisplayShowHomeEnabled(true)
         }
 
-        val fragmentTag = "preference_fragment_$EXTRA_PREFERENCE_TYPE"
+        val preferenceType = intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)
+
+        val fragmentTag = "preference_fragment_$preferenceType"
 
         val fragment: Fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-            ?: when (intent.getIntExtra(EXTRA_PREFERENCE_TYPE, 0)) {
-                GENERAL_PREFERENCES -> {
-                    setTitle(R.string.action_view_preferences)
-                    PreferencesFragment.newInstance()
-                }
-                ACCOUNT_PREFERENCES -> {
-                    setTitle(R.string.action_view_account_preferences)
-                    AccountPreferencesFragment.newInstance()
-                }
-                NOTIFICATION_PREFERENCES -> {
-                    setTitle(R.string.pref_title_edit_notification_settings)
-                    NotificationPreferencesFragment.newInstance()
-                }
-                TAB_FILTER_PREFERENCES -> {
-                    setTitle(R.string.pref_title_post_tabs)
-                    TabFilterPreferencesFragment.newInstance()
-                }
-                PROXY_PREFERENCES -> {
-                    setTitle(R.string.pref_title_http_proxy_settings)
-                    ProxyPreferencesFragment.newInstance()
-                }
+            ?: when (preferenceType) {
+                GENERAL_PREFERENCES -> PreferencesFragment.newInstance()
+                ACCOUNT_PREFERENCES -> AccountPreferencesFragment.newInstance()
+                NOTIFICATION_PREFERENCES -> NotificationPreferencesFragment.newInstance()
                 else -> throw IllegalArgumentException("preferenceType not known")
             }
 
@@ -104,21 +92,42 @@ class PreferencesActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
-        restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+        restartActivitiesOnBackPressedCallback.isEnabled = intent.extras?.getBoolean(
+            EXTRA_RESTART_ON_BACK
+        ) ?: savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+    }
+
+    override fun onPreferenceStartFragment(
+        caller: PreferenceFragmentCompat,
+        pref: Preference
+    ): Boolean {
+        val args = pref.extras
+        val fragment = supportFragmentManager.fragmentFactory.instantiate(
+            classLoader,
+            pref.fragment!!
+        )
+        fragment.arguments = args
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.activity_open_enter,
+                R.anim.activity_open_exit,
+                R.anim.activity_close_enter,
+                R.anim.activity_close_exit
+            )
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+        }
+        return true
     }
 
     override fun onResume() {
         super.onResume()
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
+        preferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    private fun saveInstanceState(outState: Bundle) {
-        outState.putBoolean(EXTRA_RESTART_ON_BACK, restartActivitiesOnBackPressedCallback.isEnabled)
+        preferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -126,49 +135,39 @@ class PreferencesActivity :
         super.onSaveInstanceState(outState)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        sharedPreferences ?: return
+        key ?: return
         when (key) {
-            "appTheme" -> {
-                val theme = sharedPreferences.getNonNullString("appTheme", ThemeUtils.APP_THEME_DEFAULT)
+            APP_THEME -> {
+                val theme = sharedPreferences.getNonNullString(APP_THEME, AppTheme.DEFAULT.value)
                 Log.d("activeTheme", theme)
-                ThemeUtils.setAppNightMode(theme)
+                setAppNightMode(theme)
 
                 restartActivitiesOnBackPressedCallback.isEnabled = true
-                this.restartCurrentActivity()
+                this.recreate()
             }
-            "statusTextSize", "absoluteTimeView", "showBotOverlay", "animateGifAvatars", "useBlurhash",
-            "showSelfUsername", "showCardsInTimelines", "confirmReblogs", "confirmFavourites",
-            "enableSwipeForTabs", "mainNavPosition", PrefKeys.HIDE_TOP_TOOLBAR -> {
+            PrefKeys.UI_TEXT_SCALE_RATIO -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
+                this.recreate()
             }
-            "language" -> {
+            PrefKeys.STATUS_TEXT_SIZE, PrefKeys.ABSOLUTE_TIME_VIEW, PrefKeys.SHOW_BOT_OVERLAY, PrefKeys.ANIMATE_GIF_AVATARS, PrefKeys.USE_BLURHASH,
+            PrefKeys.SHOW_SELF_USERNAME, PrefKeys.SHOW_CARDS_IN_TIMELINES, PrefKeys.CONFIRM_REBLOGS, PrefKeys.CONFIRM_FAVOURITES,
+            PrefKeys.ENABLE_SWIPE_FOR_TABS, PrefKeys.MAIN_NAV_POSITION, PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
-                this.restartCurrentActivity()
             }
         }
-
-        eventHub.dispatch(PreferenceChangedEvent(key))
+        lifecycleScope.launch {
+            eventHub.dispatch(PreferenceChangedEvent(key))
+        }
     }
-
-    private fun restartCurrentActivity() {
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        val savedInstanceState = Bundle()
-        saveInstanceState(savedInstanceState)
-        intent.putExtras(savedInstanceState)
-        startActivityWithSlideInAnimation(intent)
-        finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-    }
-
-    override fun androidInjector() = androidInjector
 
     companion object {
-
+        @Suppress("unused")
+        private const val TAG = "PreferencesActivity"
         const val GENERAL_PREFERENCES = 0
         const val ACCOUNT_PREFERENCES = 1
         const val NOTIFICATION_PREFERENCES = 2
-        const val TAB_FILTER_PREFERENCES = 3
-        const val PROXY_PREFERENCES = 4
         private const val EXTRA_PREFERENCE_TYPE = "EXTRA_PREFERENCE_TYPE"
         private const val EXTRA_RESTART_ON_BACK = "restart"
 

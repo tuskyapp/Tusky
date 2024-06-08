@@ -21,21 +21,15 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/mastodon/m
 
 ### Testing
 
-The nightly build from master is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
+The nightly build containing the newest development code is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
 
 ### Support
 
-Check out our [FAQs](https://github.com/tuskyapp/faq), your question may already be answered.
+Check out our [FAQs](https://github.com/tuskyapp/faq/blob/main/README.md), your question may already be answered.
 If you have any bug reports, feature requests or questions please open an issue or send us a message at [Tusky@mastodon.social](https://mastodon.social/@Tusky)!
 
-For translating Tusky into your language, visit https://weblate.tusky.app/
-
-### Head of development
-
-This app was developed by [Vavassor@mastodon.social](https://mastodon.social/@Vavassor).
-The current maintainer is [ConnyDuck@chaos.social](https://chaos.social/@ConnyDuck).
+### Contributing
+We always welcome new contributors! Please read our [contribution guide](https://github.com/tuskyapp/Tusky/blob/develop/CONTRIBUTING.md) to get started.
 
 ### Development chatroom
-https://riot.im/app/#/room/#Tusky:matrix.org
-
-### 
+https://matrix.to/#/#Tusky:matrix.org

@@ -1,0 +1,10 @@
+Tusky 24.0
+
+- Blockquotes and code blocks in posts now look nicer.
+- The old behavior of the notification tab has been restored.
+- Role badges are now shown on profiles.
+- The video player has been improved. You can now select the playback speed.
+- New theme option to use the black theme when following the system design.
+- A new view to see trending posts is available both in the menu and as custom tab.
+
+And a lot of other improvements and fixes!

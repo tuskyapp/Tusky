@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_drawer_account_header_height"
     android:clickable="true"
+    android:focusable="true"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.AppCompatImageView

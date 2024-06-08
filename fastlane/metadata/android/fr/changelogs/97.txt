@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Nouvelle icône d'application par  https://dzuk.zone/
+- Vous pouvez maintenant suivre des mot croisillon. Cliquer sur un mot croisillon puis sur l’icône dans la barre d'outil. 
+- Support de Android 13
+- Nouveau menu déroulant dans la fenêtre de composition permettant de choisir la langue de la publication. 
+- L'onglet Media dans les profiles respecte maintenant les images sensibles et charge de façon plus fluide. 
+- Ajout de la possibilité de choisir la partie visible d'une image avant de publier. 
+- Nouvelle option pour voir votre nom d'utilisateur complet dans la barre d'outils.

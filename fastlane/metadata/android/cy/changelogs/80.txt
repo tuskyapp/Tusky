@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Cael gwybod pan fydd defnyddiwr a ddilynir yn postio - cliciwch ar eicon y gloch ar eu proffil! (Nodwedd o Mastodon 3.3.0)
+- Mae'r nodwedd ddrafft yn Tusky wedi'i hailgynllunio'n llwyr i fod yn gyflymach, yn haws ei defnyddio ac yn llai ddrwg.
+- Mae modd lles newydd sy'n eich galluogi i gyfyngu ar rai nodweddion Tusky wedi'i ychwanegu.
+- Gall Tusky nawr animeiddio emojis personol.
+Log newid llawn: https://github.com/tuskyapp/Tusky/releases

@@ -1,0 +1,6 @@
+Tusky v18.0
+
+- Unterstützung für neue Benachrichtigungstypen aus Mastodon 3.5
+- Das Bot-Symbol sieht jetzt besser aus und passt sich dem gewählten App-Design an
+- Der Text in den Beitragsdetails kann jetzt ausgewählt werden
+- Viele Fehler behoben, inklusive einem, der Anmeldungen auf Android 6 und älter verhindert hat

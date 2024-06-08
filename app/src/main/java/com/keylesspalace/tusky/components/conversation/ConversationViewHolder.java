@@ -36,7 +36,6 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.ImageLoadingHelper;
 import com.keylesspalace.tusky.util.SmartLengthInputFilter;
 import com.keylesspalace.tusky.util.StatusDisplayOptions;
-import com.keylesspalace.tusky.viewdata.PollViewDataKt;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.List;
@@ -68,11 +67,6 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         this.listener = listener;
     }
 
-    @Override
-    protected int getMediaPreviewHeight(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.status_media_preview_height);
-    }
-
     void setupWithConversation(
             @NonNull ConversationViewData conversation,
             @Nullable Object payloads
@@ -84,11 +78,15 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
         if (payloads == null) {
             TimelineAccount account = status.getAccount();
 
-            setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), statusViewData.getSpoilerText(), listener);
+            setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), status.getSpoilerText(), listener);
 
-            setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
+            String displayName = account.getDisplayName();
+            if (displayName == null) {
+                displayName = "";
+            }
+            setDisplayName(displayName, account.getEmojis(), statusDisplayOptions);
             setUsername(account.getUsername());
-            setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
+            setMetaData(statusViewData, statusDisplayOptions, listener);
             setIsReply(status.getInReplyToId() != null);
             setFavourited(status.getFavourited());
             setBookmarked(status.getBookmarked());
@@ -98,7 +96,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                 setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
                         statusDisplayOptions.useBlurhash());
 
-                if (attachments.size() == 0) {
+                if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
@@ -108,19 +106,14 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             } else {
                 setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
                 // Hide all unused views.
-                mediaPreviews[0].setVisibility(View.GONE);
-                mediaPreviews[1].setVisibility(View.GONE);
-                mediaPreviews[2].setVisibility(View.GONE);
-                mediaPreviews[3].setVisibility(View.GONE);
+                mediaPreview.setVisibility(View.GONE);
                 hideSensitiveMediaWarning();
             }
 
             setupButtons(listener, account.getId(), statusViewData.getContent().toString(),
                     statusDisplayOptions);
 
-            setSpoilerAndContent(statusViewData.isExpanded(), statusViewData.getContent(), status.getSpoilerText(),
-                    status.getMentions(), status.getTags(), status.getEmojis(),
-                    PollViewDataKt.toViewData(status.getPoll()), statusDisplayOptions, listener);
+            setSpoilerAndContent(statusViewData, statusDisplayOptions, listener);
 
             setConversationName(conversation.getAccounts());
 
@@ -129,7 +122,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             if (payloads instanceof List) {
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
-                        setCreatedAt(status.getCreatedAt(), statusDisplayOptions);
+                        setMetaData(statusViewData, statusDisplayOptions, listener);
                     }
                 }
             }
@@ -155,7 +148,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             ImageView avatarView = avatars[i];
             if (i < accounts.size()) {
                 ImageLoadingHelper.loadAvatar(accounts.get(i).getAvatar(), avatarView,
-                        avatarRadius48dp, statusDisplayOptions.animateAvatars());
+                        avatarRadius48dp, statusDisplayOptions.animateAvatars(), null);
                 avatarView.setVisibility(View.VISIBLE);
             } else {
                 avatarView.setVisibility(View.GONE);

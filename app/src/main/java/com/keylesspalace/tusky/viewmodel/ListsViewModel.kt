@@ -23,30 +23,46 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.replacedFirstWhich
 import com.keylesspalace.tusky.util.withoutFirstWhich
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Inject
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
+@HiltViewModel
 internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
     enum class LoadingState {
-        INITIAL, LOADING, LOADED, ERROR_NETWORK, ERROR_OTHER
+        INITIAL,
+        LOADING,
+        LOADED,
+        ERROR_NETWORK,
+        ERROR_OTHER
     }
 
     enum class Event {
-        CREATE_ERROR, DELETE_ERROR, RENAME_ERROR
+        CREATE_ERROR,
+        DELETE_ERROR,
+        UPDATE_ERROR
     }
 
     data class State(val lists: List<MastoList>, val loadingState: LoadingState)
 
-    val state: Flow<State> get() = _state
-    val events: Flow<Event> get() = _events
     private val _state = MutableStateFlow(State(listOf(), LoadingState.INITIAL))
-    private val _events = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val state: StateFlow<State> = _state.asStateFlow()
+
+    private val _events = MutableSharedFlow<Event>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val events: SharedFlow<Event> = _events.asSharedFlow()
 
     fun retryLoading() {
         loadIfNeeded()
@@ -72,8 +88,11 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
                 { err ->
                     updateState {
                         copy(
-                            loadingState = if (err is IOException || err is ConnectException)
-                                LoadingState.ERROR_NETWORK else LoadingState.ERROR_OTHER
+                            loadingState = if (err is IOException || err is ConnectException) {
+                                LoadingState.ERROR_NETWORK
+                            } else {
+                                LoadingState.ERROR_OTHER
+                            }
                         )
                     }
                 }
@@ -81,9 +100,9 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun createNewList(listName: String) {
+    fun createNewList(listName: String, exclusive: Boolean, replyPolicy: String) {
         viewModelScope.launch {
-            api.createList(listName).fold(
+            api.createList(listName, exclusive, replyPolicy).fold(
                 { list ->
                     updateState {
                         copy(lists = lists + list)
@@ -96,16 +115,16 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    fun renameList(listId: String, listName: String) {
+    fun updateList(listId: String, listName: String, exclusive: Boolean, replyPolicy: String) {
         viewModelScope.launch {
-            api.updateList(listId, listName).fold(
+            api.updateList(listId, listName, exclusive, replyPolicy).fold(
                 { list ->
                     updateState {
                         copy(lists = lists.replacedFirstWhich(list) { it.id == listId })
                     }
                 },
                 {
-                    sendEvent(Event.RENAME_ERROR)
+                    sendEvent(Event.UPDATE_ERROR)
                 }
             )
         }
@@ -126,7 +145,7 @@ internal class ListsViewModel @Inject constructor(private val api: MastodonApi) 
         }
     }
 
-    private inline fun updateState(crossinline fn: State.() -> State) {
+    private inline fun updateState(fn: State.() -> State) {
         _state.value = fn(_state.value)
     }
 

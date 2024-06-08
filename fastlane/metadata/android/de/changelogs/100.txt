@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Beiträge können nun bearbeitet werden
+- Neue Einstellungen für die bevorzugte Leserichtung
+- Größere Medienvorschauen und ein neuer Hinweis, dass Medien eine Beschreibung haben
+- Konten können nun direkt von der Profilansicht zu Listen hinzugefügt werden
+und viele weitere Verbesserungen

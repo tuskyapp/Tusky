@@ -20,6 +20,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import retrofit2.HttpException
@@ -27,14 +28,13 @@ import retrofit2.HttpException
 @OptIn(ExperimentalPagingApi::class)
 class AccountMediaRemoteMediator(
     private val api: MastodonApi,
+    private val activeAccount: AccountEntity,
     private val viewModel: AccountMediaViewModel
 ) : RemoteMediator<String, AttachmentViewData>() {
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<String, AttachmentViewData>
     ): MediatorResult {
-
         try {
             val statusResponse = when (loadType) {
                 LoadType.REFRESH -> {
@@ -59,7 +59,15 @@ class AccountMediaRemoteMediator(
             }
 
             val attachments = statuses.flatMap { status ->
-                AttachmentViewData.list(status)
+                status.attachments.map { attachment ->
+                    AttachmentViewData(
+                        attachment = attachment,
+                        statusId = status.id,
+                        statusUrl = status.url.orEmpty(),
+                        sensitive = status.sensitive,
+                        isRevealed = activeAccount.alwaysShowSensitiveMedia || !status.sensitive
+                    )
+                }
             }
 
             if (loadType == LoadType.REFRESH) {

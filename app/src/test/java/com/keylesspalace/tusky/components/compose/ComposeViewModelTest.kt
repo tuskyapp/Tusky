@@ -2,8 +2,8 @@ package com.keylesspalace.tusky.components.compose
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.db.AccountDao
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.db.dao.AccountDao
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi

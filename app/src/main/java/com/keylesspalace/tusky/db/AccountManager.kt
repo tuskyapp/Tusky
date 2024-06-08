@@ -15,9 +15,10 @@
 
 package com.keylesspalace.tusky.db
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.db.dao.AccountDao
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -33,26 +34,31 @@ import javax.inject.Singleton
 private const val TAG = "AccountManager"
 
 @Singleton
-class AccountManager @Inject constructor(private val accountDao: AccountDao) {
+class AccountManager @Inject constructor(
+    db: AppDatabase,
+    private val preferences: SharedPreferences
+) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
+        private set
 
     var accounts: MutableList<AccountEntity> = mutableListOf()
         private set
 
+    private val accountDao: AccountDao = db.accountDao()
+
     init {
         accounts = accountDao.loadAll().toMutableList()
 
-        activeAccount = accounts.find { acc ->
-            acc.isActive
-        }
+        activeAccount = accounts.find { acc -> acc.isActive }
+            ?: accounts.firstOrNull()?.also { acc -> acc.isActive = true }
     }
 
     /**
      * Adds a new account and makes it the active account.
      * @param accessToken the access token for the new account
-     * @param domain the domain of the accounts Mastodon instance
+     * @param domain the domain of the account's Mastodon instance
      * @param clientId the oauth client id used to sign in the account
      * @param clientSecret the oauth client secret used to sign in the account
      * @param oauthScopes the oauth scopes granted to the account
@@ -66,7 +72,6 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
         oauthScopes: String,
         newAccount: Account
     ) {
-
         activeAccount?.let {
             it.isActive = false
             Log.d(TAG, "addAccount: saving account with id " + it.id)
@@ -121,7 +126,6 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
      * @return the new active account, or null if no other account was found
      */
     fun logActiveAccountOut(): AccountEntity? {
-
         return activeAccount?.let { account ->
 
             account.logout()
@@ -153,8 +157,10 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
             it.displayName = account.name
             it.profilePictureUrl = account.avatar
             it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+            it.defaultPostLanguage = account.source?.language.orEmpty()
             it.defaultMediaSensitivity = account.source?.sensitive ?: false
-            it.emojis = account.emojis ?: emptyList()
+            it.emojis = account.emojis
+            it.locked = account.locked
 
             Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
             accountDao.insertOrReplace(it)
@@ -166,6 +172,9 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
      * @param accountId the database id of the new active account
      */
     fun setActiveAccount(accountId: Long) {
+        val newActiveAccount = accounts.find { (id) ->
+            id == accountId
+        } ?: return // invalid accountId passed, do nothing
 
         activeAccount?.let {
             Log.d(TAG, "setActiveAccount: saving account with id " + it.id)
@@ -173,9 +182,7 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
             saveAccount(it)
         }
 
-        activeAccount = accounts.find { (id) ->
-            id == accountId
-        }
+        activeAccount = newActiveAccount
 
         activeAccount?.let {
             it.isActive = true
@@ -231,13 +238,17 @@ class AccountManager @Inject constructor(private val accountDao: AccountDao) {
     /**
      * @return true if the name of the currently-selected account should be displayed in UIs
      */
-    fun shouldDisplaySelfUsername(context: Context): Boolean {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val showUsernamePreference = sharedPreferences.getString(PrefKeys.SHOW_SELF_USERNAME, "disambiguate")
-        if (showUsernamePreference == "always")
+    fun shouldDisplaySelfUsername(): Boolean {
+        val showUsernamePreference = preferences.getString(
+            PrefKeys.SHOW_SELF_USERNAME,
+            "disambiguate"
+        )
+        if (showUsernamePreference == "always") {
             return true
-        if (showUsernamePreference == "never")
+        }
+        if (showUsernamePreference == "never") {
             return false
+        }
 
         return accounts.size > 1 // "disambiguate"
     }

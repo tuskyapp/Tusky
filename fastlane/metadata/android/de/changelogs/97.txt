@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Neues Appsymbol von Dzuk https://dzuk.zone
+- Du kannst Hashtags folgen. Tippe auf einen Hashtag und dann auf das Symbol in der Hauptnavigation
+- Unterstützung für Android 13
+- Neues Auswahlmenü zum Festlegen der Beitragssprache
+- Der Medien-Tab in Profilen respektiert nun Mediendateien mit Inhaltswarnung und lädt schneller
+- Es ist nun möglich, den Fokuspunkt eines Bildes vor der Veröffentlichung festzulegen
+- Der vollständige Profilname kann nun in der Hauptleiste angezeigt werden

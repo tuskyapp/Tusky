@@ -15,19 +15,20 @@
 
 package com.keylesspalace.tusky.components.timeline.viewmodel
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.google.gson.Gson
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.TimelineStatusEntity
-import com.keylesspalace.tusky.db.TimelineStatusWithAccount
+import com.keylesspalace.tusky.db.entity.HomeTimelineData
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
@@ -37,19 +38,19 @@ class CachedTimelineRemoteMediator(
     accountManager: AccountManager,
     private val api: MastodonApi,
     private val db: AppDatabase,
-    private val gson: Gson
-) : RemoteMediator<Int, TimelineStatusWithAccount>() {
+) : RemoteMediator<Int, HomeTimelineData>() {
 
     private var initialRefresh = false
 
     private val timelineDao = db.timelineDao()
+    private val statusDao = db.timelineStatusDao()
+    private val accountDao = db.timelineAccountDao()
     private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, TimelineStatusWithAccount>
+        state: PagingState<Int, HomeTimelineData>
     ): MediatorResult {
-
         if (!activeAccount.isLoggedIn()) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -68,7 +69,8 @@ class CachedTimelineRemoteMediator(
                 topId?.let { cachedTopId ->
                     val statusResponse = api.homeTimeline(
                         maxId = cachedTopId,
-                        sinceId = topPlaceholderId, // so already existing placeholders don't get accidentally overwritten
+                        // so already existing placeholders don't get accidentally overwritten
+                        sinceId = topPlaceholderId,
                         limit = state.config.pageSize
                     )
 
@@ -110,7 +112,7 @@ class CachedTimelineRemoteMediator(
                     /* This overrides the last of the newly loaded statuses with a placeholder
                        to guarantee the placeholder has an id that exists on the server as not all
                        servers handle client generated ids as expected */
-                    timelineDao.insertStatus(
+                    timelineDao.insertHomeTimelineItem(
                         Placeholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
                     )
                 }
@@ -118,6 +120,7 @@ class CachedTimelineRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = statuses.isEmpty())
         } catch (e: Exception) {
             return ifExpected(e) {
+                Log.w(TAG, "Failed to load timeline", e)
                 MediatorResult.Error(e)
             }
         }
@@ -130,7 +133,10 @@ class CachedTimelineRemoteMediator(
      * @param statuses the new statuses
      * @return the number of old statuses that have been cleared from the database
      */
-    private suspend fun replaceStatusRange(statuses: List<Status>, state: PagingState<Int, TimelineStatusWithAccount>): Int {
+    private suspend fun replaceStatusRange(
+        statuses: List<Status>,
+        state: PagingState<Int, HomeTimelineData>
+    ): Int {
         val overlappedStatuses = if (statuses.isNotEmpty()) {
             timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
         } else {
@@ -138,9 +144,9 @@ class CachedTimelineRemoteMediator(
         }
 
         for (status in statuses) {
-            timelineDao.insertAccount(status.account.toEntity(activeAccount.id, gson))
-            status.reblog?.account?.toEntity(activeAccount.id, gson)?.let { rebloggedAccount ->
-                timelineDao.insertAccount(rebloggedAccount)
+            accountDao.insert(status.account.toEntity(activeAccount.id))
+            status.reblog?.account?.toEntity(activeAccount.id)?.let { rebloggedAccount ->
+                accountDao.insert(rebloggedAccount)
             }
 
             // check if we already have one of the newly loaded statuses cached locally
@@ -148,25 +154,40 @@ class CachedTimelineRemoteMediator(
             var oldStatus: TimelineStatusEntity? = null
             for (page in state.pages) {
                 oldStatus = page.data.find { s ->
-                    s.status.serverId == status.id
+                    s.status?.serverId == status.actionableId
                 }?.status
                 if (oldStatus != null) break
             }
 
             val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
-            val contentShowing = oldStatus?.contentShowing ?: activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive
+            val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
             val contentCollapsed = oldStatus?.contentCollapsed ?: true
 
-            timelineDao.insertStatus(
-                status.toEntity(
-                    timelineUserId = activeAccount.id,
-                    gson = gson,
+            statusDao.insert(
+                status.actionableStatus.toEntity(
+                    tuskyAccountId = activeAccount.id,
                     expanded = expanded,
                     contentShowing = contentShowing,
                     contentCollapsed = contentCollapsed
                 )
             )
+            timelineDao.insertHomeTimelineItem(
+                HomeTimelineEntity(
+                    tuskyAccountId = activeAccount.id,
+                    id = status.id,
+                    statusId = status.actionableId,
+                    reblogAccountId = if (status.reblog != null) {
+                        status.account.id
+                    } else {
+                        null
+                    }
+                )
+            )
         }
         return overlappedStatuses
+    }
+
+    companion object {
+        private const val TAG = "CachedTimelineRM"
     }
 }

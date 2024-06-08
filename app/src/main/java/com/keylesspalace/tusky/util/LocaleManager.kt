@@ -17,25 +17,89 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import androidx.preference.PreferenceManager
-import java.util.Locale
+import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+import androidx.preference.PreferenceDataStore
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.settings.PrefKeys
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocaleManager(context: Context) {
+@Singleton
+class LocaleManager @Inject constructor(
+    @ApplicationContext val context: Context
+) : PreferenceDataStore() {
 
-    private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    @Inject
+    lateinit var preferences: SharedPreferences
 
-    fun setLocale(context: Context): Context {
-        val language = prefs.getNonNullString("language", "default")
-        if (language == "default") {
-            return context
+    fun setLocale() {
+        val language = preferences.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (language != HANDLED_BY_SYSTEM) {
+                // app is being opened on Android 13+ for the first time
+                // hand over the old setting to the system and save a dummy value in Shared Preferences
+                applyLanguageToApp(language)
+
+                preferences.edit()
+                    .putString(PrefKeys.LANGUAGE, HANDLED_BY_SYSTEM)
+                    .apply()
+            }
+        } else {
+            // on Android < 13 we have to apply the language at every app start
+            applyLanguageToApp(language)
         }
-        val locale = Locale.forLanguageTag(language)
-        Locale.setDefault(locale)
+    }
 
-        val res = context.resources
-        val config = Configuration(res.configuration)
-        config.setLocale(locale)
-        return context.createConfigurationContext(config)
+    override fun putString(key: String?, value: String?) {
+        // if we are on Android < 13 we have to save the selected language so we can apply it at appstart
+        // on Android 13+ the system handles it for us
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            preferences.edit()
+                .putString(PrefKeys.LANGUAGE, value)
+                .apply()
+        }
+        applyLanguageToApp(value)
+    }
+
+    override fun getString(key: String?, defValue: String?): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val selectedLanguage = AppCompatDelegate.getApplicationLocales()
+
+            if (selectedLanguage.isEmpty) {
+                DEFAULT
+            } else {
+                // Android lets users select all variants of languages we support in the system settings,
+                // so we need to find the closest match
+                // it should not happen that we find no match, but returning null is fine (picker will show default)
+
+                val availableLanguages = context.resources.getStringArray(R.array.language_values)
+
+                return availableLanguages.find { it == selectedLanguage[0]!!.toLanguageTag() }
+                    ?: availableLanguages.find { language ->
+                        language.startsWith(selectedLanguage[0]!!.language)
+                    }
+            }
+        } else {
+            preferences.getNonNullString(PrefKeys.LANGUAGE, DEFAULT)
+        }
+    }
+
+    private fun applyLanguageToApp(language: String?) {
+        val localeList = if (language == DEFAULT) {
+            LocaleListCompat.getEmptyLocaleList()
+        } else {
+            LocaleListCompat.forLanguageTags(language)
+        }
+
+        AppCompatDelegate.setApplicationLocales(localeList)
+    }
+
+    companion object {
+        private const val DEFAULT = "default"
+        private const val HANDLED_BY_SYSTEM = "handled_by_system"
     }
 }

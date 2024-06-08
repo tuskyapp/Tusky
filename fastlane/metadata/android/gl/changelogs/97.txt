@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Nova icona da app por Dzuk https://dzuk.zone/
+- Podes seguir cancelos. Preme no cancelo e depois na icona da barra de ferramentas.
+- Soporte para Android 13
+- Cando escribes unha mensaxe podes seleccionar o idioma da publicación
+- Nos perfís, a lapela multimedia agora respecta o marcado como sensible e carga máis suavemente.
+- É posible establecer o foco nunha zona da imaxe antes de publicala
+- Nova opcións para mostrar o identificador de usuaria completo na barra de ferramentas

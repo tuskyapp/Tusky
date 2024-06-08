@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="72dp"
+    android:background="@color/dividerColorOther">
 
     <Button
-        android:id="@+id/button_load_more"
+        android:id="@+id/loadMoreButton"
         style="@style/TuskyButton.TextButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="@string/load_more_placeholder_text"
-        android:textStyle="bold"
-        android:textSize="?attr/status_text_large" />
+        android:textSize="?attr/status_text_large"
+        android:textStyle="bold" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/loadMoreProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:layout_gravity="center" />
+
 </FrameLayout>

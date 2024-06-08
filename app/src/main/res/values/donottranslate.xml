@@ -8,9 +8,12 @@
 
     <string name="at_symbol" translatable="false">\@</string>
     <string name="hash_symbol" translatable="false">#</string>
-    <string name="title_tag" translatable="false">#%s</string>
+    <string name="title_tag" translatable="false">#%1$s</string>
 
-    <string name="emoji_shortcode_format" translatable="false">:%s:</string>
+    <string name="emoji_shortcode_format" translatable="false">:%1$s:</string>
+    <string name="post_timestamp_with_edited_indicator" translatable="false">%1$s *</string>
+    <string name="metadata_joiner" translatable="false">" • "</string>
+    <string name="date_range" translatable="false">%1$s — %2$s</string>
 
     <string-array name="post_privacy_values">
         <item>public</item>
@@ -24,14 +27,6 @@
         <item>medium</item>
         <item>large</item>
         <item>largest</item>
-    </string-array>
-
-    <string-array name="app_theme_values">
-        <item>night</item>
-        <item>day</item>
-        <item>black</item>
-        <item>auto</item>
-        <item>auto_system</item>
     </string-array>
 
     <string-array name="language_entries">
@@ -63,6 +58,7 @@
         <item>Taqbaylit</item>
         <item>Tiếng Việt</item>
         <item>Türkçe</item>
+        <item>Беларуская</item>
         <item>български</item>
         <item>Русский</item>
         <item>Українська</item>
@@ -73,6 +69,7 @@
         <item>فارسی</item>
         <item>हिंदी</item>
         <item>संस्कृतम्</item>
+        <item>ଓଡ଼ିଆ</item> <!-- or: Odia -->
         <item>தமிழ்</item>
         <item>ภาษาไทย</item>
         <item>한국어</item>
@@ -90,7 +87,7 @@
         <item>cs</item>
         <item>cy</item>
         <item>de</item>
-        <item>en-gb</item>
+        <item>en-GB</item>
         <item>en</item>
         <item>eo</item>
         <item>es</item>
@@ -103,7 +100,7 @@
         <item>it</item>
         <item>hu</item>
         <item>nl</item>
-        <item>nb-no</item>
+        <item>nb-NO</item>
         <item>oc</item>
         <item>pl</item>
         <item>pt-BR</item>
@@ -113,16 +110,18 @@
         <item>kab</item>
         <item>vi</item>
         <item>tr</item>
+        <item>be</item>
         <item>bg</item>
         <item>ru</item>
         <item>uk</item>
         <item>ar</item>
         <item>ckb</item>
-        <item>bn-bd</item>
-        <item>bn-in</item>
+        <item>bn-BD</item>
+        <item>bn-IN</item>
         <item>fa</item>
         <item>hi</item>
         <item>sa</item>
+        <item>or</item>
         <item>ta</item>
         <item>th</item>
         <item>ko</item>
@@ -151,14 +150,20 @@
     </string-array>
 
     <string name="description_status" translatable="false">
-        <!-- Display name, cw?, content?, poll? relative date, reposted by?, reposted?, favorited?, bookmarked?, username, media?; visibility, fav number?, reblog number?-->
-        %1$s; %2$s; %3$s, %14$s %4$s, %5$s; %6$s, %7$s, %8$s, %9$s, %10$s; %11$s, %12$s, %13$s
+        <!--
+         %1$s|display_name %2$s|CW?; %3$s|content?, %15$s|poll?, %4$s|date,
+         %6$s|reposted_by?; %7$s|username, %5$s|edited?, %16$s|translated?, %8$s|reposted?, %9$s|favorited?,
+         %10$s|bookmarked?, %11$s|media?; %12$s|visibility, %13$s|fav_number?,
+         %14$s|reblog_number?
+         -->
+        %1$s; %2$s; %3$s, %15$s, %4$s, %6$s; %7$s, %5$s, %16$s, %8$s, %9$s, %10$s, %11$s; %12$s, %13$s, %14$s
     </string>
 
     <string-array name="rick_roll_domains" translatable="false">
         <item>gab.com</item>
         <item>gab.ai</item>
         <item>spinster.xyz</item>
+        <item>truthsocial.com</item>
     </string-array>
 
     <string name="rick_roll_url">https://www.youtube.com/watch?v=dQw4w9WgXcQ</string>
@@ -241,4 +246,17 @@
         <item>259200</item>
         <item>604800</item>
     </integer-array>
+
+    <string-array name="reading_order_names">
+        <item>@string/pref_reading_order_oldest_first</item>
+        <item>@string/pref_reading_order_newest_first</item>
+    </string-array>
+
+    <string-array name="reading_order_values">
+        <item>OLDEST_FIRST</item>
+        <item>NEWEST_FIRST</item>
+    </string-array>
+
+    <string name="url_domain_notifier" translatable="false">%1$s (🔗 %2$s)</string>
+
 </resources>

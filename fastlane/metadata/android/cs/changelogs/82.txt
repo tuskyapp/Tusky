@@ -1,0 +1,5 @@
+Tusky v15.0
+
+- Žádosti o sledování se vždy zobrazují v hlavní nabídce.
+- Výběr času pro naplánování příspěvku má teď design odpovídající zbytku aplikace.
+Úplný seznam změn: https://github.com/tuskyapp/Tusky/releases

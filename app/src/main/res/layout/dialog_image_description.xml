@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="0dp">
+
+    <com.ortiz.touchview.TouchImageView
+        android:id="@+id/imageDescriptionView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/post_media_image" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TuskyTextInput"
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        app:counterEnabled="false"
+        app:counterTextColor="?android:textColorTertiary"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageDescriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            tools:hint="Description"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine|textAutoCorrect" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding">
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/TuskyButton.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel" />
+
+        <Button
+            android:id="@+id/okButton"
+            style="@style/TuskyButton.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok" />
+    </LinearLayout>
+</LinearLayout>

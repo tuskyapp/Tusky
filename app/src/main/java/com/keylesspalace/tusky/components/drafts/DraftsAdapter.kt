@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemDraftBinding
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -47,8 +47,10 @@ class DraftsAdapter(
     }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemDraftBinding> {
-
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemDraftBinding> {
         val binding = ItemDraftBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         val viewHolder = BindingHolder(binding)
@@ -78,7 +80,9 @@ class DraftsAdapter(
             holder.binding.content.text = draft.content
 
             holder.binding.draftMediaPreview.visible(draft.attachments.isNotEmpty())
-            (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(draft.attachments)
+            (holder.binding.draftMediaPreview.adapter as DraftMediaAdapter).submitList(
+                draft.attachments
+            )
 
             if (draft.poll != null) {
                 holder.binding.draftPoll.show()

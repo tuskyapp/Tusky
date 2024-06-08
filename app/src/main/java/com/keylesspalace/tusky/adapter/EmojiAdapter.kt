@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.keylesspalace.tusky.databinding.ItemEmojiButtonBinding
@@ -26,16 +27,24 @@ import java.util.Locale
 
 class EmojiAdapter(
     emojiList: List<Emoji>,
-    private val onEmojiSelectedListener: OnEmojiSelectedListener
+    private val onEmojiSelectedListener: OnEmojiSelectedListener,
+    private val animate: Boolean
 ) : RecyclerView.Adapter<BindingHolder<ItemEmojiButtonBinding>>() {
 
-    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker == null || emoji.visibleInPicker }
+    private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker }
         .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
 
     override fun getItemCount() = emojiList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEmojiButtonBinding> {
-        val binding = ItemEmojiButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemEmojiButtonBinding> {
+        val binding = ItemEmojiButtonBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
@@ -43,15 +52,23 @@ class EmojiAdapter(
         val emoji = emojiList[position]
         val emojiImageView = holder.binding.root
 
-        Glide.with(emojiImageView)
-            .load(emoji.url)
-            .into(emojiImageView)
+        if (animate) {
+            Glide.with(emojiImageView)
+                .load(emoji.url)
+                .into(emojiImageView)
+        } else {
+            Glide.with(emojiImageView)
+                .asBitmap()
+                .load(emoji.url)
+                .into(emojiImageView)
+        }
 
         emojiImageView.setOnClickListener {
             onEmojiSelectedListener.onEmojiSelected(emoji.shortcode)
         }
 
         emojiImageView.contentDescription = emoji.shortcode
+        TooltipCompat.setTooltipText(emojiImageView, emoji.shortcode)
     }
 }
 

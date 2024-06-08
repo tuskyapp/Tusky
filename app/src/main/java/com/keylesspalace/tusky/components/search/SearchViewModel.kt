@@ -16,37 +16,49 @@
 package com.keylesspalace.tusky.components.search
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.map
+import at.connyduck.calladapter.networkresult.onFailure
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.RxAwareViewModel
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
+import com.keylesspalace.tusky.viewdata.TranslationViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
+@HiltViewModel
 class SearchViewModel @Inject constructor(
     mastodonApi: MastodonApi,
     private val timelineCases: TimelineCases,
-    private val accountManager: AccountManager
-) : RxAwareViewModel() {
+    private val accountManager: AccountManager,
+    private val instanceInfoRepository: InstanceInfoRepository,
+) : ViewModel() {
+
+    init {
+        instanceInfoRepository.precache()
+    }
 
     var currentQuery: String = ""
+    var currentSearchFieldContent: String? = null
 
-    var activeAccount: AccountEntity?
+    val activeAccount: AccountEntity?
         get() = accountManager.activeAccount
-        set(value) {
-            accountManager.activeAccount = value
-        }
 
     val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
     val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
@@ -54,38 +66,50 @@ class SearchViewModel @Inject constructor(
 
     private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
 
-    private val statusesPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
-        it.statuses.map { status ->
-            status.toViewData(
-                isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
-                isExpanded = alwaysOpenSpoiler,
-                isCollapsed = true
-            )
-        }.apply {
-            loadedStatuses.addAll(this)
+    private val statusesPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
+            it.statuses.map { status ->
+                status.toViewData(
+                    isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                    isExpanded = alwaysOpenSpoiler,
+                    isCollapsed = true
+                )
+            }.apply {
+                loadedStatuses.addAll(this)
+            }
         }
-    }
-    private val accountsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
-        it.accounts
-    }
-    private val hashtagsPagingSourceFactory = SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag) {
-        it.hashtags
-    }
+    private val accountsPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Account) {
+            it.accounts
+        }
+    private val hashtagsPagingSourceFactory =
+        SearchPagingSourceFactory(mastodonApi, SearchType.Hashtag) {
+            it.hashtags
+        }
 
     val statusesFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = statusesPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val accountsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = accountsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val hashtagsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = hashtagsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
@@ -98,17 +122,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun removeItem(statusViewData: StatusViewData.Concrete) {
-        timelineCases.delete(statusViewData.id)
-            .subscribe(
-                {
-                    if (loadedStatuses.remove(statusViewData))
-                        statusesPagingSourceFactory.invalidate()
-                },
-                { err ->
-                    Log.d(TAG, "Failed to delete status", err)
+        viewModelScope.launch {
+            if (timelineCases.delete(statusViewData.id).isSuccess) {
+                if (loadedStatuses.remove(statusViewData)) {
+                    statusesPagingSourceFactory.invalidate()
                 }
-            )
-            .autoDispose()
+            }
+        }
     }
 
     fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {
@@ -116,22 +136,18 @@ class SearchViewModel @Inject constructor(
     }
 
     fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        timelineCases.reblog(statusViewData.id, reblog)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { setRebloggedForStatus(statusViewData, reblog) },
-                { t -> Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t) }
-            )
-            .autoDispose()
-    }
-
-    private fun setRebloggedForStatus(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
-        updateStatus(
-            statusViewData.status.copy(
-                reblogged = reblog,
-                reblog = statusViewData.status.reblog?.copy(reblogged = reblog)
-            )
-        )
+        viewModelScope.launch {
+            timelineCases.reblog(statusViewData.id, reblog).fold({
+                updateStatus(
+                    statusViewData.status.copy(
+                        reblogged = reblog,
+                        reblog = statusViewData.status.reblog?.copy(reblogged = reblog)
+                    )
+                )
+            }, { t ->
+                Log.d(TAG, "Failed to reblog status ${statusViewData.id}", t)
+            })
+        }
     }
 
     fun contentHiddenChange(statusViewData: StatusViewData.Concrete, isShowing: Boolean) {
@@ -145,51 +161,79 @@ class SearchViewModel @Inject constructor(
     fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
         val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(statusViewData.status.copy(poll = votedPoll))
-        timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.voteInPoll(statusViewData.id, votedPoll.id, choices)
+                .onFailure { t -> Log.d(TAG, "Failed to vote in poll: ${statusViewData.id}", t) }
+        }
     }
 
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
-        timelineCases.favourite(statusViewData.id, isFavorited)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.favourite(statusViewData.id, isFavorited)
+        }
     }
 
     fun bookmark(statusViewData: StatusViewData.Concrete, isBookmarked: Boolean) {
         updateStatus(statusViewData.status.copy(bookmarked = isBookmarked))
-        timelineCases.bookmark(statusViewData.id, isBookmarked)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.bookmark(statusViewData.id, isBookmarked)
+        }
     }
 
     fun muteAccount(accountId: String, notifications: Boolean, duration: Int?) {
-        timelineCases.mute(accountId, notifications, duration)
+        viewModelScope.launch {
+            timelineCases.mute(accountId, notifications, duration)
+        }
     }
 
     fun pinAccount(status: Status, isPin: Boolean) {
-        timelineCases.pin(status.id, isPin)
+        viewModelScope.launch {
+            timelineCases.pin(status.id, isPin)
+        }
     }
 
     fun blockAccount(accountId: String) {
-        timelineCases.block(accountId)
+        viewModelScope.launch {
+            timelineCases.block(accountId)
+        }
     }
 
-    fun deleteStatus(id: String): Single<DeletedStatus> {
-        return timelineCases.delete(id)
+    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
+        return viewModelScope.async {
+            timelineCases.delete(id)
+        }
     }
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
         updateStatus(statusViewData.status.copy(muted = mute))
-        timelineCases.muteConversation(statusViewData.id, mute)
-            .onErrorReturnItem(statusViewData.status)
-            .subscribe()
-            .autoDispose()
+        viewModelScope.launch {
+            timelineCases.muteConversation(statusViewData.id, mute)
+        }
+    }
+
+    fun supportsTranslation(): Boolean =
+        instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
+
+    suspend fun translate(statusViewData: StatusViewData.Concrete): NetworkResult<Unit> {
+        updateStatusViewData(statusViewData.copy(translation = TranslationViewData.Loading))
+        return timelineCases.translate(statusViewData.actionableId)
+            .map { translation ->
+                updateStatusViewData(
+                    statusViewData.copy(
+                        translation = TranslationViewData.Loaded(
+                            translation
+                        )
+                    )
+                )
+            }
+            .onFailure {
+                updateStatusViewData(statusViewData.copy(translation = null))
+            }
+    }
+
+    fun untranslate(statusViewData: StatusViewData.Concrete) {
+        updateStatusViewData(statusViewData.copy(translation = null))
     }
 
     private fun updateStatusViewData(newStatusViewData: StatusViewData.Concrete) {

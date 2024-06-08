@@ -1,0 +1,7 @@
+Tusky v17.0
+
+- "Otevřít jako..." je nyní k dispozici také v nabídce profilů účtů při použití více účtů.
+- Přihlášení je nyní zpracováváno ve webovém zobrazení v rámci aplikace
+- podpora systému Android 12
+- podpora nového API pro konfiguraci instancí Mastodon
+- a mnoho dalších drobných oprav a vylepšení

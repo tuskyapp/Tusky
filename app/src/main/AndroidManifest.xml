@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.keylesspalace.tusky">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- For notifications -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -18,34 +17,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/TuskyTheme"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="false"
+        android:localeConfig="@xml/locales_config"
+        android:enableOnBackInvokedCallback="true">
 
         <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
+            android:name=".components.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${applicationId}"
+                    android:scheme="@string/oauth_scheme" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".components.login.LoginWebViewActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/share_shortcuts" />
-
-        </activity>
-        <activity
-            android:name=".components.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity android:name=".components.login.LoginWebViewActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
-            android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -90,6 +92,9 @@
             </intent-filter>
 
             <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/share_shortcuts" />
+            <meta-data
                 android:name="android.service.chooser.chooser_target_service"
                 android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
 
@@ -111,7 +116,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
-        <activity android:name=".AccountListActivity" />
+        <activity android:name=".components.accountlist.AccountListActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".TabPreferenceActivity" />
         <activity
@@ -119,7 +124,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".components.search.SearchActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -131,17 +136,19 @@
         </activity>
         <activity android:name=".ListsActivity" />
         <activity android:name=".LicenseActivity" />
-        <activity android:name=".FiltersActivity" />
+        <activity android:name=".components.filters.FiltersActivity" />
+        <activity android:name=".components.trending.TrendingActivity" />
+        <activity android:name=".components.followedtags.FollowedTagsActivity" />
         <activity
             android:name=".components.report.ReportActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".components.instancemute.InstanceListActivity" />
+        <activity android:name=".components.domainblocks.DomainBlocksActivity" />
         <activity android:name=".components.scheduled.ScheduledStatusActivity" />
         <activity android:name=".components.announcements.AnnouncementsActivity" />
         <activity android:name=".components.drafts.DraftsActivity" />
+        <activity android:name="com.keylesspalace.tusky.components.filters.EditFilterActivity"
+            android:windowSoftInputMode="adjustResize" />
 
-        <receiver android:name=".receiver.NotificationClearBroadcastReceiver"
-            android:exported="false" />
         <receiver
             android:name=".receiver.SendStatusBroadcastReceiver"
             android:enabled="true"
@@ -175,14 +182,14 @@
             android:icon="@drawable/ic_quicksettings"
             android:label="@string/tusky_compose_post_quicksetting_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true"
-            tools:targetApi="24">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
         <service android:name=".service.SendStatusService"
+            android:foregroundServiceType="shortService"
             android:exported="false" />
 
         <provider

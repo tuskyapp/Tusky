@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Ny appikon av Dzuk https://dzuk.zone/
+- Du kan nu följa hashtaggar. Tryck på en hashtagg och sen på ikonen i verktygsraden
+- Stöd för Android 13
+- Ny rullgardinsmeny för att ställa in vilket språk inlägget är skrivet på
+- Mediafliken i profilvyn hanterar nu känsligt media och laddar snabbare
+- Det går nu att sätta fokuspunkt för en bild innan den publiceras
+- Nytt alternativ för att visa ditt fullständiga namn i verktygsraden

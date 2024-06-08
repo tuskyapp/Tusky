@@ -1,0 +1,9 @@
+Tusky 19.0
+
+- podpora Unified Push: Pro aktivaci podpory se musíte znovu přihlásit ke svým účtům.
+- Počet odpovědí na příspěvek se nyní zobrazuje v časových osách.
+- Obrázky lze nyní při vytváření příspěvku oříznout.
+- U profilů se nyní zobrazuje datum jejich vytvoření.
+- Při prohlížení seznamu se nyní na panelu nástrojů zobrazuje jeho název.
+- Mnoho opravených chyb
+- Vylepšení překladů

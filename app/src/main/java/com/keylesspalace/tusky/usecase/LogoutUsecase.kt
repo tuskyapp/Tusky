@@ -2,20 +2,22 @@ package com.keylesspalace.tusky.usecase
 
 import android.content.Context
 import com.keylesspalace.tusky.components.drafts.DraftHelper
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.components.notifications.disableUnifiedPushNotificationsForAccount
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.disableUnifiedPushNotificationsForAccount
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.removeShortcut
+import com.keylesspalace.tusky.util.ShareShortcutHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class LogoutUsecase @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val api: MastodonApi,
-    private val db: AppDatabase,
+    private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager,
-    private val draftHelper: DraftHelper
+    private val draftHelper: DraftHelper,
+    private val shareShortcutHelper: ShareShortcutHelper
 ) {
 
     /**
@@ -52,12 +54,11 @@ class LogoutUsecase @Inject constructor(
             val otherAccountAvailable = accountManager.logActiveAccountOut() != null
 
             // clear the database - this could trigger network calls so do it last when all tokens are gone
-            db.timelineDao().removeAll(activeAccount.id)
-            db.conversationDao().deleteForAccount(activeAccount.id)
+            databaseCleaner.cleanupEverything(activeAccount.id)
             draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
 
             // remove shortcut associated with the account
-            removeShortcut(context, activeAccount)
+            shareShortcutHelper.removeShortcut(activeAccount)
 
             return otherAccountAvailable
         }

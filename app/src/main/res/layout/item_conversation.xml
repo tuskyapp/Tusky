@@ -92,7 +92,7 @@
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
         app:layout_constraintTop_toBottomOf="@id/conversation_name"
@@ -106,13 +106,13 @@
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintStart_toEndOf="@id/status_display_name"
         app:layout_constraintTop_toTopOf="@id/status_display_name"
         tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
 
     <TextView
-        android:id="@+id/status_timestamp_info"
+        android:id="@+id/status_meta_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -122,7 +122,7 @@
         app:layout_constraintTop_toTopOf="@id/status_display_name"
         tools:text="13:37" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
         tools:text="@string/post_content_warning_show_more"
         tools:visibility="visible" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

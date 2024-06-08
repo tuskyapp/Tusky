@@ -1,0 +1,8 @@
+Tusky v12.0
+
+- Gwell prif ryngwyneb - gallwch nawr symud y tabiau i'r gwaelod
+- Wrth tewi defnyddiwr, gallwch nawr hefyd benderfynu a ydych am tewi eu hysbysiadau
+- Gallwch nawr ddilyn cymaint o hashnodau ag y dymunwch mewn un tab hashnod unigol
+- Gwella'r ffordd y mae disgrifiadau cyfryngau yn cael eu harddangos fel ei fod yn gweithio hyd yn oed ar gyfer disgrifiadau hir iawn
+    
+Log newid llawn: https://github.com/tuskyapp/Tusky/releases

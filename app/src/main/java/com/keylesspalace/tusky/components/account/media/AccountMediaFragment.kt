@@ -15,23 +15,26 @@
 
 package com.keylesspalace.tusky.components.account.media
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -39,35 +42,36 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
-import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.IOException
-import javax.inject.Inject
 
 /**
- * Created by charlag on 26/10/2017.
- *
  * Fragment with multiple columns of media previews for the specified account.
  */
-
+@AndroidEntryPoint
 class AccountMediaFragment :
     Fragment(R.layout.fragment_timeline),
     RefreshableFragment,
-    Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    MenuProvider {
 
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private val viewModel: AccountMediaViewModel by viewModels { viewModelFactory }
+    private val viewModel: AccountMediaViewModel by viewModels()
 
-    private lateinit var adapter: AccountMediaGridAdapter
+    private var adapter: AccountMediaGridAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,28 +79,32 @@ class AccountMediaFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-
-        val preferences = PreferenceManager.getDefaultSharedPreferences(view.context)
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
 
-        adapter = AccountMediaGridAdapter(
-            alwaysShowSensitiveMedia = alwaysShowSensitiveMedia,
+        val adapter = AccountMediaGridAdapter(
             useBlurhash = useBlurhash,
             context = view.context,
             onAttachmentClickListener = ::onAttachmentClick
         )
+        this.adapter = adapter
 
         val columnCount = view.context.resources.getInteger(R.integer.profile_media_column_count)
-        val imageSpacing = view.context.resources.getDimensionPixelSize(R.dimen.profile_media_spacing)
+        val imageSpacing = view.context.resources.getDimensionPixelSize(
+            R.dimen.profile_media_spacing
+        )
 
-        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(columnCount, imageSpacing, 0))
+        binding.recyclerView.addItemDecoration(
+            GridSpacingItemDecoration(columnCount, imageSpacing, 0)
+        )
 
         binding.recyclerView.layoutManager = GridLayoutManager(view.context, columnCount)
         binding.recyclerView.adapter = adapter
 
         binding.swipeRefreshLayout.isEnabled = false
+        binding.swipeRefreshLayout.setOnRefreshListener { refreshContent() }
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         binding.statusView.visibility = View.GONE
 
@@ -107,22 +115,61 @@ class AccountMediaFragment :
         }
 
         adapter.addLoadStateListener { loadState ->
-            binding.progressBar.visible(loadState.refresh == LoadState.Loading && adapter.itemCount == 0)
+            binding.statusView.hide()
+            binding.progressBar.hide()
 
-            if (loadState.refresh is LoadState.Error) {
-                binding.recyclerView.hide()
-                binding.statusView.show()
-                val errorState = loadState.refresh as LoadState.Error
-                if (errorState.error is IOException) {
-                    binding.statusView.setup(R.drawable.elephant_offline, R.string.error_network) { adapter.retry() }
-                } else {
-                    binding.statusView.setup(R.drawable.elephant_error, R.string.error_generic) { adapter.retry() }
-                }
-                Log.w(TAG, "error loading account media", errorState.error)
-            } else {
-                binding.recyclerView.show()
-                binding.statusView.hide()
+            if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = false
             }
+
+            if (adapter.itemCount == 0) {
+                when (loadState.refresh) {
+                    is LoadState.NotLoading -> {
+                        if (loadState.append is LoadState.NotLoading && loadState.source.refresh is LoadState.NotLoading) {
+                            binding.statusView.show()
+                            binding.statusView.setup(
+                                R.drawable.elephant_friend_empty,
+                                R.string.message_empty,
+                                null
+                            )
+                        }
+                    }
+                    is LoadState.Error -> {
+                        binding.statusView.show()
+                        binding.statusView.setup((loadState.refresh as LoadState.Error).error)
+                    }
+                    is LoadState.Loading -> {
+                        binding.progressBar.show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_account_media, menu)
+        menu.findItem(R.id.action_refresh)?.apply {
+            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshContent()
+                true
+            }
+            else -> false
         }
     }
 
@@ -141,11 +188,19 @@ class AccountMediaFragment :
             Attachment.Type.GIFV,
             Attachment.Type.VIDEO,
             Attachment.Type.AUDIO -> {
-                val intent = ViewMediaActivity.newIntent(context, attachmentsFromSameStatus, currentIndex)
+                val intent = ViewMediaActivity.newIntent(
+                    context,
+                    attachmentsFromSameStatus,
+                    currentIndex
+                )
                 if (activity != null) {
                     val url = selected.attachment.url
                     ViewCompat.setTransitionName(view, url)
-                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        view,
+                        url
+                    )
                     startActivity(intent, options.toBundle())
                 } else {
                     startActivity(intent)
@@ -158,7 +213,7 @@ class AccountMediaFragment :
     }
 
     override fun refreshContent() {
-        adapter.refresh()
+        adapter?.refresh()
     }
 
     companion object {

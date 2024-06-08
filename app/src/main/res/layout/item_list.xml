@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="?dialogPreferredPadding"
+    android:paddingRight="?dialogPreferredPadding"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:background="?attr/selectableItemBackground"
+    tools:ignore="Overdraw">
 
     <TextView
-        android:id="@+id/list_name_textview"
+        android:id="@+id/list_name"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="?selectableItemBackground"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textSize="?attr/status_text_medium"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:drawableStartCompat="@drawable/ic_list"
+        app:drawableTint="?android:attr/textColorSecondary"
         tools:text="Example list" />
 
     <ImageButton
-        android:id="@+id/editListButton"
+        android:id="@+id/more_button"
         style="@style/TuskyImageButton"
-        android:layout_width="36dp"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_more"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:src="@drawable/ic_more_horiz_24dp" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
+
+    <ImageButton
+        android:id="@+id/add_button"
+        style="@style/TuskyImageButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_add_to_list"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_plus_24dp" />
+
+    <ImageButton
+        android:id="@+id/remove_button"
+        style="@style/TuskyImageButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_remove_from_list"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_clear_24dp" />
 </LinearLayout>

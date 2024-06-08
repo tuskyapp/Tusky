@@ -14,28 +14,34 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.adapter
 
-import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.interfaces.StatusActionListener
+import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.visible
 
 /**
- * Placeholder for different timelines.
- * Either displays "load more" button or a progress indicator.
- **/
-class PlaceholderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val loadMoreButton: Button = itemView.findViewById(R.id.button_load_more)
-    private val progressBar: ProgressBar = itemView.findViewById(R.id.progressBar)
+ * Placeholder for missing parts in timelines.
+ *
+ * Displays a "Load more" button to load the gap, or a
+ * circular progress bar if the missing page is being loaded.
+ */
+class PlaceholderViewHolder(
+    private val binding: ItemStatusPlaceholderBinding,
+    listener: StatusActionListener
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setup(listener: StatusActionListener, progress: Boolean) {
-        loadMoreButton.visibility = if (progress) View.GONE else View.VISIBLE
-        progressBar.visibility = if (progress) View.VISIBLE else View.GONE
-        loadMoreButton.isEnabled = true
-        loadMoreButton.setOnClickListener { v: View? ->
-            loadMoreButton.isEnabled = false
+    init {
+        binding.loadMoreButton.setOnClickListener {
+            binding.loadMoreButton.hide()
+            binding.loadMoreProgressBar.show()
             listener.onLoadMore(bindingAdapterPosition)
         }
+    }
+
+    fun setup(loading: Boolean) {
+        binding.loadMoreButton.visible(!loading)
+        binding.loadMoreProgressBar.visible(loading)
     }
 }

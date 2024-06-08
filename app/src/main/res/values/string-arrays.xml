@@ -7,6 +7,7 @@
         <item>@string/app_theme_black</item>
         <item>@string/app_theme_auto</item>
         <item>@string/app_theme_system</item>
+        <item>@string/app_theme_system_black</item>
     </string-array>
 
     <string-array name="post_privacy_names">
@@ -29,4 +30,23 @@
         <item>@string/pref_show_self_username_never</item>
     </string-array>
 
+    <string-array name="filter_contexts">
+        <item>@string/title_home</item>
+        <item>@string/title_notifications</item>
+        <item>@string/pref_title_public_filter_keywords</item>
+        <item>@string/pref_title_thread_filter_keywords</item>
+        <item>@string/pref_title_account_filter_keywords</item>
+    </string-array>
+
+    <string-array name="filter_actions">
+        <item>@string/filter_action_warn</item>
+        <item>@string/filter_action_hide</item>
+    </string-array>
+
+    <!-- Order must be synchronized with MastoList.ReplyPolicy -->
+    <string-array name="list_reply_policies_display">
+        <item>@string/list_reply_policy_none</item>
+        <item>@string/list_reply_policy_list</item>
+        <item>@string/list_reply_policy_followed</item>
+    </string-array>
 </resources>

@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.db.DraftAttachment
+import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 
 class DraftMediaAdapter(
@@ -35,7 +35,10 @@ class DraftMediaAdapter(
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
+        override fun areContentsTheSame(
+            oldItem: DraftAttachment,
+            newItem: DraftAttachment
+        ): Boolean {
             return oldItem == newItem
         }
     }
@@ -51,18 +54,20 @@ class DraftMediaAdapter(
                 holder.imageView.clearFocus()
                 holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
             } else {
-                if (attachment.focus != null)
+                if (attachment.focus != null) {
                     holder.imageView.setFocalPoint(attachment.focus)
-                else
+                } else {
                     holder.imageView.clearFocus()
+                }
                 var glide = Glide.with(holder.itemView.context)
                     .load(attachment.uri)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .dontAnimate()
                     .centerInside()
 
-                if (attachment.focus != null)
+                if (attachment.focus != null) {
                     glide = glide.addListener(holder.imageView)
+                }
 
                 glide.into(holder.imageView)
             }
@@ -73,7 +78,9 @@ class DraftMediaAdapter(
         RecyclerView.ViewHolder(imageView) {
         init {
             val thumbnailViewSize =
-                imageView.context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
+                imageView.context.resources.getDimensionPixelSize(
+                    R.dimen.compose_media_preview_size
+                )
             val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
             val margin = itemView.context.resources
                 .getDimensionPixelSize(R.dimen.compose_media_preview_margin)

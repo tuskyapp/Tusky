@@ -15,22 +15,22 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.Date
 
+@JsonClass(generateAdapter = true)
 data class DeletedStatus(
     val text: String?,
-    @SerializedName("in_reply_to_id") val inReplyToId: String?,
-    @SerializedName("spoiler_text") val spoilerText: String,
+    @Json(name = "in_reply_to_id") val inReplyToId: String? = null,
+    @Json(name = "spoiler_text") val spoilerText: String,
     val visibility: Status.Visibility,
     val sensitive: Boolean,
-    @SerializedName("media_attachments") val attachments: ArrayList<Attachment>?,
-    val poll: Poll?,
-    @SerializedName("created_at") val createdAt: Date,
-    val language: String?,
+    @Json(name = "media_attachments") val attachments: List<Attachment>,
+    val poll: Poll? = null,
+    @Json(name = "created_at") val createdAt: Date,
+    val language: String? = null
 ) {
-    fun isEmpty(): Boolean {
-        return text == null && attachments == null
-    }
+    val isEmpty: Boolean
+        get() = text == null && attachments.isEmpty()
 }

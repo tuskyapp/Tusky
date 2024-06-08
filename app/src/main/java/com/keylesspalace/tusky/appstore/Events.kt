@@ -2,23 +2,29 @@ package com.keylesspalace.tusky.appstore
 
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.Status
 
-data class FavoriteEvent(val statusId: String, val favourite: Boolean) : Dispatchable
-data class ReblogEvent(val statusId: String, val reblog: Boolean) : Dispatchable
-data class BookmarkEvent(val statusId: String, val bookmark: Boolean) : Dispatchable
-data class MuteConversationEvent(val statusId: String, val mute: Boolean) : Dispatchable
-data class UnfollowEvent(val accountId: String) : Dispatchable
-data class BlockEvent(val accountId: String) : Dispatchable
-data class MuteEvent(val accountId: String) : Dispatchable
-data class StatusDeletedEvent(val statusId: String) : Dispatchable
-data class StatusComposedEvent(val status: Status) : Dispatchable
-data class StatusScheduledEvent(val status: Status) : Dispatchable
-data class ProfileEditedEvent(val newProfileData: Account) : Dispatchable
-data class PreferenceChangedEvent(val preferenceKey: String) : Dispatchable
-data class MainTabsChangedEvent(val newTabs: List<TabData>) : Dispatchable
-data class PollVoteEvent(val statusId: String, val poll: Poll) : Dispatchable
-data class DomainMuteEvent(val instance: String) : Dispatchable
-data class AnnouncementReadEvent(val announcementId: String) : Dispatchable
-data class PinEvent(val statusId: String, val pinned: Boolean) : Dispatchable
+data class StatusChangedEvent(val status: Status) : Event
+data class MuteConversationEvent(val statusId: String, val mute: Boolean) : Event
+data class UnfollowEvent(val accountId: String) : Event
+data class BlockEvent(val accountId: String) : Event
+data class MuteEvent(val accountId: String) : Event
+data class StatusDeletedEvent(val statusId: String) : Event
+data class StatusComposedEvent(val status: Status) : Event
+data class StatusScheduledEvent(val scheduledStatus: ScheduledStatus) : Event
+data class ProfileEditedEvent(val newProfileData: Account) : Event
+data class PreferenceChangedEvent(val preferenceKey: String) : Event
+data class MainTabsChangedEvent(val newTabs: List<TabData>) : Event
+data class PollVoteEvent(val statusId: String, val poll: Poll) : Event
+data class DomainMuteEvent(val instance: String) : Event
+data class AnnouncementReadEvent(val announcementId: String) : Event
+data class FilterUpdatedEvent(val filterContext: List<String>) : Event
+data class NewNotificationsEvent(
+    val accountId: String,
+    val notifications: List<Notification>
+) : Event
+data class ConversationsLoadingEvent(val accountId: String) : Event
+data class NotificationsLoadingEvent(val accountId: String) : Event

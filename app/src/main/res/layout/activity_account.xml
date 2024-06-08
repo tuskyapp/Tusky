@@ -34,6 +34,7 @@
                     android:layout_height="180dp"
                     android:layout_alignTop="@+id/account_header_info"
                     android:background="?attr/colorPrimaryDark"
+                    android:contentDescription="@string/label_header"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:layout_constraintStart_toStartOf="parent"
@@ -117,8 +118,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="62dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="?attr/status_text_large"
                         android:textStyle="normal|bold"
@@ -131,8 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:textColor="?android:textColorSecondary"
                         android:textSize="?attr/status_text_medium"
                         app:layout_constraintStart_toStartOf="parent"
@@ -153,40 +150,42 @@
                         app:tint="?android:textColorSecondary"
                         tools:visibility="visible" />
 
-                    <TextView
+                    <com.google.android.material.chip.Chip
                         android:id="@+id/accountFollowsYouTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:background="@drawable/profile_badge_background"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:minHeight="@dimen/profile_badge_min_height"
                         android:text="@string/follows_you"
                         android:textSize="?attr/status_text_small"
                         android:visibility="gone"
+                        app:chipBackgroundColor="#0000"
+                        app:chipMinHeight="@dimen/profile_badge_min_height"
+                        app:chipStrokeColor="?android:attr/textColorTertiary"
+                        app:chipStrokeWidth="@dimen/profile_badge_stroke_width"
+                        app:ensureMinTouchTargetSize="false"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
                         tools:visibility="visible" />
 
-                    <TextView
-                        android:id="@+id/accountBadgeTextView"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/accountBadgeContainer"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="6dp"
-                        android:background="@drawable/profile_badge_background"
-                        android:text="@string/profile_badge_bot_text"
-                        android:textSize="?attr/status_text_small"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toEndOf="@id/accountFollowsYouTextView"
-                        app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
-                        app:layout_goneMarginStart="0dp"
-                        tools:visibility="visible" />
+                        app:chipSpacingVertical="4dp"
+                        app:layout_constraintStart_toEndOf="@id/accountUsernameTextView"
+                        app:layout_constraintTop_toBottomOf="@id/accountFollowsYouTextView"
+                        app:layout_goneMarginStart="0dp" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/labelBarrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="accountFollowsYouTextView,accountBadgeTextView" />
+                        app:constraint_referenced_ids="accountFollowsYouTextView,accountBadgeContainer" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/accountNoteTextInputLayout"
@@ -201,7 +200,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/account_note_hint" />
+                            android:hint="@string/account_note_hint"
+                            android:textDirection="firstStrong" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -215,7 +215,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountNoteTextInputLayout" />
 
-                    <TextView
+                    <com.keylesspalace.tusky.view.ClickableSpanTextView
                         android:id="@+id/accountNoteTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -223,9 +223,11 @@
                         android:lineSpacingMultiplier="1.1"
                         android:paddingTop="2dp"
                         android:textColor="?android:textColorTertiary"
+                        android:textDirection="firstStrong"
                         android:textIsSelectable="true"
                         android:textSize="?attr/status_text_medium"
                         app:layout_constraintTop_toBottomOf="@id/saveNoteInfo"
+                        app:layout_goneMarginTop="8dp"
                         tools:text="This is a test description. Descriptions can be quite looooong." />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -242,12 +244,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        tools:text="April, 1971"
                         android:textColor="@color/textColorSecondary"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/accountRemoveView"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountFieldList"
-                        app:layout_constraintBottom_toTopOf="@id/accountRemoveView"/>
+                        tools:text="April, 1971" />
 
                     <TextView
                         android:id="@+id/accountRemoveView"
@@ -266,8 +268,8 @@
                         android:id="@+id/accountMovedView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:layout_marginTop="4dp"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@id/accountRemoveView"
                         tools:visibility="visible">
 
@@ -277,23 +279,23 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:drawablePadding="6dp"
-                            android:drawableStart="@drawable/ic_briefcase"
                             android:textSize="?attr/status_text_medium"
+                            app:drawableStartCompat="@drawable/ic_briefcase"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Account has moved" />
 
                         <ImageView
-                            android:importantForAccessibility="no"
                             android:id="@+id/accountMovedAvatar"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
                             android:layout_marginEnd="24dp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginBottom="8dp"
+                            android:importantForAccessibility="no"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/accountMovedText"
                             tools:src="@drawable/avatar_default" />
 
@@ -441,8 +443,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorSurface"
                 app:tabGravity="center"
-                app:tabMode="scrollable"
-                app:tabTextAppearance="@style/TuskyTabAppearance" />
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -469,6 +470,7 @@
             android:layout_width="@dimen/account_activity_avatar_size"
             android:layout_height="@dimen/account_activity_avatar_size"
             android:layout_marginStart="16dp"
+            android:contentDescription="@string/label_avatar"
             android:padding="3dp"
             app:layout_anchor="@+id/accountHeaderInfoContainer"
             app:layout_anchorGravity="top"

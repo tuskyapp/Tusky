@@ -20,15 +20,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAutocompleteAccountBinding
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 
-class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(context, R.layout.item_autocomplete_account) {
+class AccountSelectionAdapter(
+    context: Context,
+    private val animateAvatars: Boolean,
+    private val animateEmojis: Boolean
+) : ArrayAdapter<AccountEntity>(
+    context,
+    R.layout.item_autocomplete_account
+) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = if (convertView == null) {
@@ -39,17 +44,13 @@ class AccountSelectionAdapter(context: Context) : ArrayAdapter<AccountEntity>(co
 
         val account = getItem(position)
         if (account != null) {
-            val pm = PreferenceManager.getDefaultSharedPreferences(binding.avatar.context)
-            val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-
             binding.username.text = account.fullName
             binding.displayName.text = account.displayName.emojify(account.emojis, binding.displayName, animateEmojis)
             binding.avatarBadge.visibility = View.GONE // We never want to display the bot badge here
 
             val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_42dp)
-            val animateAvatar = pm.getBoolean("animateGifAvatars", false)
 
-            loadAvatar(account.profilePictureUrl, binding.avatar, avatarRadius, animateAvatar)
+            loadAvatar(account.profilePictureUrl, binding.avatar, avatarRadius, animateAvatars)
         }
 
         return binding.root

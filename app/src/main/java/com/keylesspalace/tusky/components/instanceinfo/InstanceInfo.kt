@@ -28,5 +28,7 @@ data class InstanceInfo(
     val maxMediaAttachments: Int,
     val maxFields: Int,
     val maxFieldNameLength: Int?,
-    val maxFieldValueLength: Int?
+    val maxFieldValueLength: Int?,
+    val version: String?,
+    val translationEnabled: Boolean?,
 )

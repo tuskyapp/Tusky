@@ -38,7 +38,7 @@
     <string name="confirmation_reported">යැවිණි!</string>
     <string name="action_reset_schedule">යළි සකසන්න</string>
     <string name="post_content_warning_show_less">අඩුවෙන් පෙන්වන්න</string>
-    <string name="abbreviated_in_seconds">තත්. %d කින්</string>
+    <string name="abbreviated_in_seconds">තත්. %1$d කින්</string>
     <string name="action_view_mutes">නිහඬ කළ පරිශීලකයින්</string>
     <string name="action_share">බෙදාගන්න</string>
     <string name="account_moved_description">%1$s ගෙන ගොස් ඇත:</string>
@@ -48,29 +48,26 @@
     <string name="hint_display_name">දර්ශන නාමය</string>
     <string name="post_text_size_medium">මධ්‍යම</string>
     <string name="post_media_audio">ශ්‍රව්‍ය</string>
-    <string name="pref_title_show_notifications_filter">දැනුම්දීම් පෙරහන පෙන්වන්න</string>
-    <string name="abbreviated_days_ago">දව. %d</string>
+    <string name="abbreviated_days_ago">දව. %1$d</string>
     <string name="action_logout">නික්මෙන්න</string>
-    <string name="filter_edit_dialog_title">පෙරහන සංස්කරණය</string>
-    <string name="action_mute_notifications_desc">%s වෙතින් දැනුම්දීම් නිහඬ කරන්න</string>
+    <string name="filter_edit_title">පෙරහන සංස්කරණය</string>
     <string name="notification_summary_medium">%1$s, %2$s, සහ %3$s</string>
     <string name="caption_twemoji">මාස්ටඩන් හි සම්මත ඉමෝජි කට්ටලය</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="action_retry">යළි උත්සාහය</string>
     <string name="lock_account_label">ගිණුම අගුළුලන්න</string>
     <string name="post_media_hidden_title">මාධ්‍ය සැඟවී ඇත</string>
-    <string name="post_sent_long">පිළිතුර සාර්ථකව යැවිණි.</string>
     <string name="title_public_federated">ඒකාබද්ධ</string>
     <string name="dialog_message_uploading_media">උඩුගත වෙමින්…</string>
     <string name="add_account_name">ගිණුම එකතු කරන්න</string>
     <string name="label_header">ශීර්ෂය</string>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">පැය %d ක් ඉතිරිය</item>
-        <item quantity="other">පැය %d ක් ඉතිරිය</item>
+        <item quantity="one">පැය %1$d ක් ඉතිරිය</item>
+        <item quantity="other">පැය %1$d ක් ඉතිරිය</item>
     </plurals>
     <string name="action_unfavourite">ප්‍රියතමය ඉවත් කරන්න</string>
     <string name="drafts_failed_loading_reply">පිළිතුරෙහි තොරතුරු පූරණය වීමට අසමත් විය</string>
-    <string name="report_username_format">\@%s වාර්තා කරන්න</string>
+    <string name="report_username_format">\@%1$s වාර්තා කරන්න</string>
     <string name="report_comment_hint">අතිරේක අදහස්\?</string>
     <string name="pref_title_notification_filter_mentions">සඳහන් කළ</string>
     <string name="send_post_link_to">වෙත ටූට් ඒ.ස.නි. බෙදාගන්න…</string>
@@ -82,17 +79,17 @@
     <string name="caption_notoemoji">ගූගල් හි වත්මන් ඉමෝජි කට්ටලය</string>
     <string name="app_theme_auto">ස්වයංක්‍රීව ඉර බැසීමේදී</string>
     <string name="failed_report">වාර්තා කිරීමට අසමත් විය</string>
-    <string name="abbreviated_years_ago">අවු. %d</string>
-    <string name="action_open_as">%s ලෙස විවෘත කරන්න</string>
+    <string name="abbreviated_years_ago">අවු. %1$d</string>
+    <string name="action_open_as">%1$s ලෙස විවෘත කරන්න</string>
     <string name="action_open_faved_by">ප්‍රියතමයන් පෙන්වන්න</string>
-    <string name="abbreviated_in_minutes">වි. %d කින්</string>
+    <string name="abbreviated_in_minutes">වි. %1$d කින්</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">ජන්ද %s</item>
-        <item quantity="other">ජන්ද %s</item>
+        <item quantity="one">ජන්ද %1$s</item>
+        <item quantity="other">ජන්ද %1$s</item>
     </plurals>
     <string name="action_more">තව</string>
     <string name="action_view_bookmarks">පොත්යොමු</string>
-    <string name="notification_mention_format">%s ඔබව සඳහන් කළා</string>
+    <string name="notification_mention_format">%1$s ඔබව සඳහන් කළා</string>
     <string name="compose_active_account_description">%1$s ගිණුම සමඟ පළකරන්න</string>
     <string name="hint_additional_info">අතිරේක අදහස්</string>
     <string name="notification_favourite_name">ප්‍රියතමයන්</string>
@@ -101,7 +98,7 @@
     <string name="hint_search">සොයන්න…</string>
     <string name="pref_title_app_theme">යෙදුමේ තේමාව</string>
     <string name="title_bookmarks">පොත්යොමු</string>
-    <string name="dialog_mute_warning">\@%s නිහඬ\?</string>
+    <string name="dialog_mute_warning">\@%1$s නිහඬ\?</string>
     <string name="compose_shortcut_short_label">රචනා කරන්න</string>
     <string name="poll_ended_voted">ඔබ ජන්දය දුන් මත විමසුව නිම වී ඇත</string>
     <string name="about_title_activity">පිළිබඳව</string>
@@ -125,7 +122,7 @@
     <string name="title_favourites">ප්‍රියතමයන්</string>
     <string name="download_image">%1$s බාගත වෙමින්</string>
     <string name="failed_fetch_posts">තත්ව ගෙන ඒමට අසමත් විය</string>
-    <string name="description_post_media">මාධ්‍ය: %s</string>
+    <string name="description_post_media">මාධ්‍ය: %1$s</string>
     <string name="action_mute_conversation">සංවාදය නිහඬ කරන්න</string>
     <string name="send_post_notification_channel_name">ටූට්ස් යැවෙමින්</string>
     <string name="pref_title_thread_filter_keywords">සංවාද</string>
@@ -134,8 +131,8 @@
     <string name="add_account_description">නව මාස්ටඩන් ගිණුමක් එක්කරන්න</string>
     <string name="dialog_title_finishing_media_upload">මාධ්‍ය උඩුගත වීම අහවර වෙමින්</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">තත්. %d ක් ඉතිරිය</item>
-        <item quantity="other">තත්. %d ක් ඉතිරිය</item>
+        <item quantity="one">තත්. %1$d ක් ඉතිරිය</item>
+        <item quantity="other">තත්. %1$d ක් ඉතිරිය</item>
     </plurals>
     <string name="action_logout_confirm">ඔබට %1$s ගිණුමෙන් නික්මෙන්ට ඇවැසි බව විශ්වාසද\?</string>
     <string name="title_public_local">ස්ථානීය</string>
@@ -143,21 +140,21 @@
     <string name="label_quick_reply">පිළිතුරු…</string>
     <string name="limit_notifications">කාලරේඛා දැනුම්දීම් සීමාකරන්න</string>
     <string name="send_post_notification_error_title">ටූට් යැවීමේ දෝෂයකි</string>
-    <string name="filter_addition_dialog_title">පෙරහන එකතු කරන්න</string>
+    <string name="filter_addition_title">පෙරහන එකතු කරන්න</string>
     <string name="pref_default_media_sensitivity">සැමවිටම මාධ්‍ය සංවේදී ලෙස සලකුණු කරන්න</string>
     <string name="restart_required">යෙදුම යළි ඇරඹීම ඇවැසිය</string>
     <string name="restart">යළි අරඹන්න</string>
     <string name="app_theme_black">කළු</string>
-    <string name="abbreviated_in_years">වර්. %d කින්</string>
+    <string name="abbreviated_in_years">වර්. %1$d කින්</string>
     <string name="restart_emoji">මෙම වෙනස්කම් යෙදීමට ඔබ ටුස්කි නැවත ඇරඹිය යුතුය</string>
     <string name="action_edit">සංස්කරණය</string>
     <string name="button_continue">ඉදිරියට</string>
     <string name="pref_title_post_filter">කාලරේඛාව පෙරීම</string>
     <string name="conversation_more_recipients">%1$s, %2$s සහ තවත් %3$d</string>
     <string name="pref_title_timelines">කාලරේඛා</string>
-    <string name="action_mute_domain">%s නිහඬ කරන්න</string>
+    <string name="action_mute_domain">%1$s නිහඬ කරන්න</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
-    <string name="replying_to">\@%s වෙත පිළිතුරු දෙමින්</string>
+    <string name="replying_to">\@%1$s වෙත පිළිතුරු දෙමින්</string>
     <string name="action_block">අවහිර</string>
     <string name="download_media">මාධ්‍ය බාගන්න</string>
     <string name="action_view_domain_mutes">සැඟවුනු වසම්</string>
@@ -166,19 +163,19 @@
     <string name="action_undo">පෙරසේ</string>
     <string name="post_content_show_more">විහිදන්න</string>
     <string name="action_mute">නිහඬ කරන්න</string>
-    <string name="about_tusky_version">ටුස්කි %s</string>
+    <string name="about_tusky_version">ටුස්කි %1$s</string>
     <string name="about_project_site">වියමන අඩවිය:
 \n https://tusky.app</string>
     <string name="action_accept">පිළිගන්න</string>
-    <string name="abbreviated_in_hours">පැ. %d කින්</string>
+    <string name="abbreviated_in_hours">පැ. %1$d කින්</string>
     <string name="create_poll_title">මතවිමසුම</string>
     <string name="action_remove">ඉවත් කරන්න</string>
     <string name="action_add_media">මාධ්‍ය එකතු කරන්න</string>
-    <string name="abbreviated_in_days">ද. %d කින්</string>
+    <string name="abbreviated_in_days">ද. %1$d කින්</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s සහ වෙනත් %4$d</string>
     <string name="action_open_post">ටූට් විවෘත කරන්න</string>
     <string name="title_domain_mutes">සැඟවුනු වසම්</string>
-    <string name="abbreviated_hours_ago">පැය %d</string>
+    <string name="abbreviated_hours_ago">පැය %1$d</string>
     <string name="pref_failed_to_sync">සැකසුම් සමමුහූර්ත වීමට අසමත් විය</string>
     <string name="pref_title_show_replies">පිළිතුරු පෙන්වන්න</string>
     <string name="action_view_profile">පැතිකඩ</string>
@@ -187,7 +184,7 @@
     <string name="action_search">සොයන්න</string>
     <string name="action_share_as">ලෙස බෙදාගන්න …</string>
     <string name="title_home">මුල</string>
-    <string name="abbreviated_minutes_ago">වි. %d</string>
+    <string name="abbreviated_minutes_ago">වි. %1$d</string>
     <string name="failed_search">සෙවීමට අසමත් විය</string>
     <string name="no_announcements">නිවේදන නැත.</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
@@ -196,7 +193,7 @@
     <string name="no_drafts">ඔබ සතුව කටුපිටපත් නැත.</string>
     <string name="title_view_thread">ටූට්</string>
     <string name="pref_title_timeline_filters">පෙරහන්</string>
-    <string name="report_sent_success">\@%s වෙත සාර්ථකව වාර්තා කෙරිණි</string>
+    <string name="report_sent_success">\@%1$s වෙත සාර්ථකව වාර්තා කෙරිණි</string>
     <string name="download_failed">බාගැනීමට අසමත් විය</string>
     <string name="pref_title_language">භාෂාව</string>
     <string name="account_note_saved">සුරැකිණි!</string>
@@ -204,11 +201,11 @@
     <string name="post_share_content">ටූට්හි අන්තර්ගතය බෙදාගන්න</string>
     <string name="profile_metadata_content_label">අන්තර්ගතය</string>
     <string name="notification_subscription_name">නව ටූට්ස්</string>
-    <string name="action_open_media_n">#%d මාධ්‍ය විවෘත කරන්න</string>
+    <string name="action_open_media_n">#%1$d මාධ්‍ය විවෘත කරන්න</string>
     <string name="action_view_media">මාධ්‍ය</string>
     <plurals name="poll_info_people">
-        <item quantity="one">පුද්ගලයින් %s</item>
-        <item quantity="other">මිනිසුන් %s</item>
+        <item quantity="one">පුද්ගලයින් %1$s</item>
+        <item quantity="other">මිනිසුන් %1$s</item>
     </plurals>
     <string name="send_media_to">වෙත මාධ්‍ය බෙදාගන්න…</string>
     <string name="pref_title_public_filter_keywords">ප්‍රසිද්ධ කාලරේඛා</string>
@@ -217,16 +214,16 @@
     <string name="post_sensitive_media_directions">දැකීමට ඔබන්න</string>
     <string name="poll_info_closed">වසා ඇත</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">දවස් %d ක් ඉතිරිය</item>
-        <item quantity="other">දවස් %d ක් ඉතිරිය</item>
+        <item quantity="one">දවස් %1$d ක් ඉතිරිය</item>
+        <item quantity="other">දවස් %1$d ක් ඉතිරිය</item>
     </plurals>
     <string name="pref_title_notification_alert_sound">ශබ්දය සමඟ දන්වන්න</string>
     <string name="about_powered_by_tusky">ටුස්කි මගින් බලගන්වා ඇත</string>
     <string name="pref_title_alway_show_sensitive_media">සැමවිටම සංවේදී අන්තර්ගත පෙන්වන්න</string>
     <string name="title_announcements">නිවේදන</string>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">විනාඩි %d ක් ඉතිරිය</item>
-        <item quantity="other">විනාඩි %d ක් ඉතිරිය</item>
+        <item quantity="one">විනාඩි %1$d ක් ඉතිරිය</item>
+        <item quantity="other">විනාඩි %1$d ක් ඉතිරිය</item>
     </plurals>
     <string name="action_access_drafts">කටුපිටපත්</string>
     <string name="poll_ended_created">ඔබ සෑදූ මත විමසුම නිම වී ඇත</string>
@@ -242,13 +239,12 @@
     <string name="about_tusky_license">ටුස්කි යනු නොමිලේ සහ විවෘත-මූලාශ්‍ර මෘදුකාංගයකි. එය ජීඑන්යූ පොදු බලපත්‍ර අනුවාදය 3 යටතේ අවසර ලබා ඇත. ඔබට මෙතැනින් බලපත්‍රය දැකීමට හැකිය: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="title_links_dialog">සබැඳි</string>
     <string name="title_media">මාධ්‍ය</string>
-    <string name="dialog_block_warning">\@%s අවහිර\?</string>
+    <string name="dialog_block_warning">\@%1$s අවහිර\?</string>
     <string name="pref_title_notification_alert_light">ආලෝකය සමඟ දන්වන්න</string>
     <string name="account_note_hint">මෙම ගිණුම පිළිබඳව ඔබගේ පෞද්ගලික සටහන</string>
     <string name="action_close">වසන්න</string>
     <string name="title_notifications">දැනුම්දීම්</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_sent">යැවිණි!</string>
+    <string name="post_username_format">\@%1$s</string>
     <string name="action_login">මාස්ටඩන් සමඟ පිවිසෙන්න</string>
     <string name="poll_vote">ජන්දය</string>
     <string name="filter_dialog_whole_word">මුළු වචනය</string>
@@ -267,6 +263,5 @@
     <string name="pref_title_show_cards_in_timelines">කාලරේඛාවෙහි සබැඳි පෙරදසුන් පෙන්වන්න</string>
     <string name="action_links">සබැඳි</string>
     <string name="pref_title_browser_settings">අතිරික්සුව</string>
-    <string name="abbreviated_seconds_ago">තත්. %d</string>
-    <string name="url_domain_notifier">%s (🔗 %s)</string>
+    <string name="abbreviated_seconds_ago">තත්. %1$d</string>
 </resources>

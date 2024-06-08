@@ -39,14 +39,13 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import javax.inject.Inject
 
 /** Contract for starting [LoginWebViewActivity]. */
 class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
@@ -61,7 +60,8 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         return if (resultCode == Activity.RESULT_CANCELED) {
             LoginResult.Cancel
         } else {
-            intent!!.getParcelableExtra(RESULT_EXTRA)!!
+            intent?.getParcelableExtraCompat(RESULT_EXTRA)
+                ?: LoginResult.Err("failed parsing LoginWebViewActivity result")
         }
     }
 
@@ -70,7 +70,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         private const val DATA_EXTRA = "data"
 
         fun parseData(intent: Intent): LoginData {
-            return intent.getParcelableExtra(DATA_EXTRA)!!
+            return intent.getParcelableExtraCompat(DATA_EXTRA)!!
         }
 
         fun makeResultIntent(result: LoginResult): Intent {
@@ -85,28 +85,26 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
 data class LoginData(
     val domain: String,
     val url: Uri,
-    val oauthRedirectUrl: Uri,
+    val oauthRedirectUrl: Uri
 ) : Parcelable
 
-sealed class LoginResult : Parcelable {
+sealed interface LoginResult : Parcelable {
     @Parcelize
-    data class Ok(val code: String) : LoginResult()
+    data class Ok(val code: String) : LoginResult
 
     @Parcelize
-    data class Err(val errorMessage: String) : LoginResult()
+    data class Err(val errorMessage: String) : LoginResult
 
     @Parcelize
-    object Cancel : LoginResult()
+    data object Cancel : LoginResult
 }
 
 /** Activity to do Oauth process using WebView. */
-class LoginWebViewActivity : BaseActivity(), Injectable {
+@AndroidEntryPoint
+class LoginWebViewActivity : BaseActivity() {
     private val binding by viewBinding(ActivityLoginWebviewBinding::inflate)
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: LoginWebViewViewModel by viewModels { viewModelFactory }
+    private val viewModel: LoginWebViewViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -224,14 +222,10 @@ class LoginWebViewActivity : BaseActivity(), Injectable {
         super.onDestroy()
     }
 
-    override fun finish() {
-        super.finishWithoutSlideOutAnimation()
-    }
-
     override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
         setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
-        finishWithoutSlideOutAnimation()
+        finish()
     }
 }

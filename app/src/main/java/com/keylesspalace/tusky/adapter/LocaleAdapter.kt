@@ -21,23 +21,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.keylesspalace.tusky.util.ThemeUtils
+import com.google.android.material.color.MaterialColors
+import com.keylesspalace.tusky.util.getTuskyDisplayName
+import com.keylesspalace.tusky.util.modernLanguageCode
 import java.util.Locale
 
-class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(context, resource, locales) {
+class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(
+    context,
+    resource,
+    locales
+) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return (super.getView(position, convertView, parent) as TextView).apply {
-            setTextColor(ThemeUtils.getColor(context, android.R.attr.textColorTertiary))
+            setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
             typeface = Typeface.DEFAULT_BOLD
-            text = super.getItem(position)?.language?.uppercase()
+            text = super.getItem(position)?.modernLanguageCode?.uppercase()
         }
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return (super.getDropDownView(position, convertView, parent) as TextView).apply {
-            setTextColor(ThemeUtils.getColor(context, android.R.attr.textColorTertiary))
-            val locale = super.getItem(position)
-            text = "${locale?.displayLanguage} (${locale?.getDisplayLanguage(locale)})"
+            setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
+            text = super.getItem(position)?.getTuskyDisplayName(context)
         }
     }
 }

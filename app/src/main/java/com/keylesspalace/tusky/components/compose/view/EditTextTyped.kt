@@ -63,4 +63,16 @@ class EditTextTyped @JvmOverloads constructor(
             editorInfo
         )!!
     }
+
+    /**
+     * Override pasting to ensure that formatted content is always pasted as
+     * plain text.
+     */
+    override fun onTextContextMenuItem(id: Int): Boolean {
+        if (id == android.R.id.paste) {
+            return super.onTextContextMenuItem(android.R.id.pasteAsPlainText)
+        }
+
+        return super.onTextContextMenuItem(id)
+    }
 }

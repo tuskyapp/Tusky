@@ -20,25 +20,33 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.DraftEntity
+import com.keylesspalace.tusky.db.entity.DraftEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
+@HiltViewModel
 class DraftsViewModel @Inject constructor(
     val database: AppDatabase,
     val accountManager: AccountManager,
     val api: MastodonApi,
-    val draftHelper: DraftHelper
+    private val draftHelper: DraftHelper
 ) : ViewModel() {
 
     val drafts = Pager(
-        config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { database.draftDao().draftsPagingSource(accountManager.activeAccount?.id!!) }
+        config = PagingConfig(
+            pageSize = 20
+        ),
+        pagingSourceFactory = {
+            database.draftDao().draftsPagingSource(
+                accountManager.activeAccount?.id!!
+            )
+        }
     ).flow
         .cachedIn(viewModelScope)
 
@@ -60,7 +68,7 @@ class DraftsViewModel @Inject constructor(
         }
     }
 
-    fun getStatus(statusId: String): Single<Status> {
+    suspend fun getStatus(statusId: String): NetworkResult<Status> {
         return api.status(statusId)
     }
 

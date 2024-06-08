@@ -20,18 +20,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.notifications.canEnablePushNotifications
-import com.keylesspalace.tusky.components.notifications.isUnifiedPushNotificationEnabledForAccount
-import com.keylesspalace.tusky.components.notifications.updateUnifiedPushSubscription
+import com.keylesspalace.tusky.components.systemnotifications.canEnablePushNotifications
+import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushNotificationEnabledForAccount
+import com.keylesspalace.tusky.components.systemnotifications.updateUnifiedPushSubscription
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
-import dagger.android.AndroidInjection
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-@DelicateCoroutinesApi
+@AndroidEntryPoint
 class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -39,8 +39,11 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    @ApplicationScope
+    lateinit var externalScope: CoroutineScope
+
     override fun onReceive(context: Context, intent: Intent) {
-        AndroidInjection.inject(this, context)
         if (Build.VERSION.SDK_INT < 28) return
         if (!canEnablePushNotifications(context, accountManager)) return
 
@@ -60,7 +63,14 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         accountManager.getAccountByIdentifier(gid)?.let { account ->
             if (isUnifiedPushNotificationEnabledForAccount(account)) {
                 // Update UnifiedPush notification subscription
-                GlobalScope.launch { updateUnifiedPushSubscription(context, mastodonApi, accountManager, account) }
+                externalScope.launch {
+                    updateUnifiedPushSubscription(
+                        context,
+                        mastodonApi,
+                        accountManager,
+                        account
+                    )
+                }
             }
         }
     }

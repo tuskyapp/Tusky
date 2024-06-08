@@ -19,11 +19,11 @@ import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAddPollOptionBinding
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.onTextChanged
 import com.keylesspalace.tusky.util.visible
 
 class AddPollOptionsAdapter(
@@ -41,12 +41,19 @@ class AddPollOptionsAdapter(
         notifyItemInserted(options.size - 1)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAddPollOptionBinding> {
-        val binding = ItemAddPollOptionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemAddPollOptionBinding> {
+        val binding = ItemAddPollOptionBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         val holder = BindingHolder(binding)
         binding.optionEditText.filters = arrayOf(InputFilter.LengthFilter(maxOptionLength))
 
-        binding.optionEditText.onTextChanged { s, _, _, _ ->
+        binding.optionEditText.doOnTextChanged { s, _, _, _ ->
             val pos = holder.bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 options[pos] = s.toString()
@@ -75,10 +82,6 @@ class AddPollOptionsAdapter(
     }
 
     private fun validateInput(): Boolean {
-        if (options.contains("") || options.distinct().size != options.size) {
-            return false
-        }
-
-        return true
+        return !(options.contains("") || options.distinct().size != options.size)
     }
 }

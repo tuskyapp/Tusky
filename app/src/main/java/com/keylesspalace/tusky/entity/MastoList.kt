@@ -16,11 +16,27 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
 /**
  * Created by charlag on 1/4/18.
  */
-
+@JsonClass(generateAdapter = true)
 data class MastoList(
     val id: String,
-    val title: String
-)
+    val title: String,
+    val exclusive: Boolean? = null,
+    @Json(name = "replies_policy") val repliesPolicy: String? = null
+) {
+    enum class ReplyPolicy(val policy: String) {
+        NONE("none"),
+        LIST("list"),
+        FOLLOWED("followed");
+
+        companion object {
+            fun from(policy: String?): ReplyPolicy =
+                entries.firstOrNull { it.policy == policy } ?: LIST
+        }
+    }
+}

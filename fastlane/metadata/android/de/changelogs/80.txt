@@ -1,7 +1,7 @@
 Tusky v14.0
 
-- Notifikationen wenn ein Nutzer dem du folgst postet - Klicke auf das Glockenicon in deren Profil! (Funktion von Mastodon 3.3.0)
-- Die Entwurfsfunktion in Tusky wurde vollständig neu gestaltet um schneller, nutzerfreundlicher und weniger fehleranfällig zu sein.
-- Ein neue Wohlbefinden-Modus der dir erlaubt bestimmte Funktionen von Tusky zu beschränken wurde hinzugefügt.
-- Tusky kann jetzt animierte GIF-Emojis darstellen.
+- Werde über neue Beiträge benachrichtigt — Klicke auf das Glockensymbol in Profilen! (Funktion von Mastodon 3.3.0)
+- Die Entwurfsfunktion in Tusky wurde vollständig neu gestaltet, um schneller, nutzerfreundlicher und weniger fehleranfällig zu sein.
+- Ein neuer Wohlbefinden-Modus, der dir erlaubt, bestimmte Funktionen von Tusky zu beschränken, wurde hinzugefügt.
+- Tusky kann jetzt animierte Emojis darstellen.
 Alle Änderungen: https://github.com/tuskyapp/Tusky/releases

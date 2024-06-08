@@ -1,0 +1,10 @@
+Tusky v13.0
+
+- cefnogaeth ar gyfer nodiadau proffil (nodwedd o Mastodon 3.2.0)
+- cefnogaeth ar gyfer cyhoeddiadau gweinyddol (nodwedd o Mastodon 3.1.0)
+
+- bydd avatar y cyfrif a ddewiswyd gennych nawr yn cael ei ddangos yn y prif far offer
+- bydd clicio ar yr enw arddangos mewn llinell amser nawr yn agor tudalen proffil y defnyddiwr hwnnw
+
+- llawer o atgyweiriadau i fygiau a mân welliannau
+- gwell cyfieithiadau

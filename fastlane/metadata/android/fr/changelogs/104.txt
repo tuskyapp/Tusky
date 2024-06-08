@@ -1,0 +1,10 @@
+Tusky 22.0 beta 2
+
+Corrections, dont :
+
+- Amélioration de la vitesse de chargement des notifications
+- Restauration de l'affichage 0/1/>1 des réponses
+- Afficher le nom du titre et non pas ses mots-clés sur les publications filtrées
+- Correction du bug où appuyer sur une publication pouvait ouvrir un lien sans rapport
+- Affichage du bouton « Ajout » au bon endroit lorsqu'il n'y a aucun filtre
+- Correction de divers plantages

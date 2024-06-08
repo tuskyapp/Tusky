@@ -1,0 +1,7 @@
+Tusky v14.0
+
+- Takip edilen bir kullanıcı ileti gönderdiğinde bildirim alın - profilindeki zil simgesine tıklayın! (Mastodon 3.3.0 feature)
+- Tusky'deki taslak özelliği, daha hızlı, daha kullanıcı dostu ve daha az hatalı olacak şekilde tamamen yeniden tasarlandı.
+- Belirli Tusky özelliklerini sınırlamanıza izin veren yeni bir refah modu eklendi.
+- Tusky artık özel emojileri oynatabilir.
+Tam değişiklik günlüğü: https://github.com/tuskyapp/Tusky/releases

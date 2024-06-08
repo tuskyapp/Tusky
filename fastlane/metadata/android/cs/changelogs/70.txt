@@ -1,0 +1,8 @@
+Tusky v10.0
+
+- záložky na statusy a seznam záložek.
+- plánování tootů: Čas, který vyberete, musí být alespoň 5 minut v budoucnosti.
+- seznamy na hlavní obrazovce.
+- odesílání zvukových příloh.
+
+A spousta dalších drobných vylepšení a oprav chyb!

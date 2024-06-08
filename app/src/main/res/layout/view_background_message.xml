@@ -1,39 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:gravity="center_horizontal"
-    tools:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/helpText"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="@color/textColorPrimary"
+        android:background="@drawable/help_message_background"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:textAlignment="viewStart"
+        android:textSize="?attr/status_text_medium" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
         android:layout_weight="1"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        tools:src="@drawable/elephant_offline" />
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawablePadding="16dp"
-        android:lineSpacingMultiplier="1.1"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:textAlignment="center"
-        android:textSize="?attr/status_text_medium"
-        tools:text="@string/error_network" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            tools:src="@drawable/errorphant_offline" />
 
-    <Button
-        android:id="@+id/button"
-        style="@style/TuskyButton.Outlined"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:text="@string/action_retry" />
+        <com.keylesspalace.tusky.view.ClickableSpanTextView
+            android:id="@+id/messageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:lineSpacingMultiplier="1.1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/error_network"
+            android:textAlignment="center"
+            android:textSize="?attr/status_text_medium" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/TuskyButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/action_retry" />
+    </LinearLayout>
 </merge>

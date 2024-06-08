@@ -8,22 +8,22 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:focusable="true"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/status_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="@dimen/status_reblogged_bar_padding_top"
-        android:drawableStart="@drawable/ic_reblog_18dp"
+        android:layout_marginEnd="14dp"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:importantForAccessibility="no"
         android:paddingStart="38dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
+        app:drawableStartCompat="@drawable/ic_reblog_18dp"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,9 +33,10 @@
 
     <ImageView
         android:id="@+id/status_avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="14dp"
+        android:layout_width="@dimen/timeline_status_avatar_width"
+        android:layout_height="@dimen/timeline_status_avatar_height"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="@dimen/account_avatar_margin"
         android:contentDescription="@string/action_view_profile"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
@@ -69,7 +70,7 @@
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/status_avatar"
         app:layout_constraintTop_toBottomOf="@id/status_info"
@@ -84,16 +85,17 @@
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintEnd_toStartOf="@id/status_meta_info"
         app:layout_constraintStart_toEndOf="@id/status_display_name"
         app:layout_constraintTop_toTopOf="@id/status_display_name"
         tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
 
     <TextView
-        android:id="@+id/status_timestamp_info"
+        android:id="@+id/status_meta_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="14dp"
         android:importantForAccessibility="no"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
@@ -102,9 +104,40 @@
         tools:text="13:37" />
 
     <TextView
+        android:id="@+id/status_translation_status"
+        style="@style/TextSizeSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:lineSpacingMultiplier="1.1"
+        android:maxLines="4"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_username"
+        tools:text="Translated from Lang by Service"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/status_button_untranslate"
+        style="@style/TuskyButton.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="0dp"
+        android:layout_marginEnd="10dp"
+        android:minHeight="0dp"
+        android:text="@string/action_show_original"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_translation_status"
+        tools:visibility="visible" />
+
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content_warning_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
         android:lineSpacingMultiplier="1.1"
@@ -113,7 +146,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_button_untranslate"
         tools:text="content warning which is very long and it doesn't fit"
         tools:visibility="visible" />
 
@@ -141,11 +174,12 @@
         tools:text="@string/post_content_warning_show_more"
         tools:visibility="visible" />
 
-    <TextView
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
         android:focusable="true"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
@@ -162,6 +196,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
         android:background="@drawable/card_frame"
         android:clipChildren="true"
         android:foreground="?attr/selectableItemBackground"
@@ -251,13 +286,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_media_preview_margin_top"
+        android:layout_marginEnd="14dp"
         android:background="@drawable/media_preview_outline"
         android:importantForAccessibility="noHideDescendants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_card_view"
         tools:visibility="visible">
-        
+
         <include layout="@layout/item_media_preview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -267,6 +303,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
         android:layout_marginBottom="4dp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -296,6 +333,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
@@ -305,34 +343,34 @@
     <ImageButton
         android:id="@+id/status_reply"
         style="@style/TuskyImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-14dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_description"
-        app:srcCompat="@drawable/ic_reply_24dp" />
+        app:srcCompat="@drawable/ic_reply_24dp"
+        tools:ignore="NegativeMargin" />
 
     <TextView
         android:id="@+id/status_replies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
-        app:layout_constraintStart_toEndOf="@id/status_reply"
+        app:layout_constraintStart_toStartOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        android:textAlignment="viewEnd"
-        android:textSize="?attr/status_text_medium" />
+        tools:text="1+" />
 
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_inset"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_reblog"
         android:importantForAccessibility="no"
@@ -346,10 +384,21 @@
         sparkbutton:primaryColor="@color/tusky_blue"
         sparkbutton:secondaryColor="@color/tusky_blue_light" />
 
+    <TextView
+        android:id="@+id/status_insets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintStart_toStartOf="@id/status_inset"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
+        tools:text="1+" />
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_favourite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_favourite"
         android:importantForAccessibility="no"
@@ -363,10 +412,21 @@
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
+    <TextView
+        android:id="@+id/status_favourites_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/status_inset"
+        app:layout_constraintStart_toStartOf="@id/status_favourite"
+        app:layout_constraintTop_toTopOf="@id/status_inset"
+        tools:text="" />
+
     <at.connyduck.sparkbutton.SparkButton
         android:id="@+id/status_bookmark"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
         android:clipToPadding="false"
         android:contentDescription="@string/action_bookmark"
         android:importantForAccessibility="no"
@@ -383,12 +443,11 @@
     <ImageButton
         android:id="@+id/status_more"
         style="@style/TuskyImageButton"
-        android:layout_width="24dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
         android:contentDescription="@string/action_more"
         android:importantForAccessibility="no"
-        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="@id/status_reply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/status_bookmark"

@@ -15,16 +15,18 @@
 
 package com.keylesspalace.tusky.adapter
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemEditFieldBinding
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.fixTextSelection
 
-class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
+class AccountFieldEditAdapter(
+    var onFieldsChanged: () -> Unit = { }
+) : RecyclerView.Adapter<BindingHolder<ItemEditFieldBinding>>() {
 
     private val fieldData = mutableListOf<MutableStringPair>()
     private var maxNameLength: Int? = null
@@ -62,8 +64,15 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
 
     override fun getItemCount() = fieldData.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemEditFieldBinding> {
-        val binding = ItemEditFieldBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemEditFieldBinding> {
+        val binding = ItemEditFieldBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
@@ -81,25 +90,19 @@ class AccountFieldEditAdapter : RecyclerView.Adapter<BindingHolder<ItemEditField
             holder.binding.accountFieldValueTextLayout.counterMaxLength = it
         }
 
-        holder.binding.accountFieldNameText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.bindingAdapterPosition].first = newText.toString()
-            }
+        holder.binding.accountFieldNameText.doAfterTextChanged { newText ->
+            fieldData.getOrNull(holder.bindingAdapterPosition)?.first = newText.toString()
+            onFieldsChanged()
+        }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        holder.binding.accountFieldValueText.doAfterTextChanged { newText ->
+            fieldData.getOrNull(holder.bindingAdapterPosition)?.second = newText.toString()
+            onFieldsChanged()
+        }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
-
-        holder.binding.accountFieldValueText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(newText: Editable) {
-                fieldData[holder.bindingAdapterPosition].second = newText.toString()
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+        // Ensure the textview contents are selectable
+        holder.binding.accountFieldNameText.fixTextSelection()
+        holder.binding.accountFieldValueText.fixTextSelection()
     }
 
     class MutableStringPair(var first: String, var second: String)

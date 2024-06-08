@@ -1,47 +1,76 @@
 package com.keylesspalace.tusky.appstore
 
-import com.google.gson.Gson
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import io.reactivex.rxjava3.disposables.Disposable
+import com.keylesspalace.tusky.entity.Poll
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
+/**
+ * Updates the database cache in response to events.
+ * This is important for the home timeline and notifications to be up to date.
+ */
+@OptIn(ExperimentalStdlibApi::class)
 class CacheUpdater @Inject constructor(
     eventHub: EventHub,
-    private val accountManager: AccountManager,
+    accountManager: AccountManager,
     appDatabase: AppDatabase,
-    gson: Gson
+    moshi: Moshi
 ) {
 
-    private val disposable: Disposable
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private val timelineDao = appDatabase.timelineDao()
+    private val statusDao = appDatabase.timelineStatusDao()
+    private val notificationsDao = appDatabase.notificationsDao()
 
     init {
-        val timelineDao = appDatabase.timelineDao()
+        scope.launch {
+            eventHub.events.collect { event ->
+                val tuskyAccountId = accountManager.activeAccount?.id ?: return@collect
+                when (event) {
+                    is StatusChangedEvent -> statusDao.update(
+                        tuskyAccountId = tuskyAccountId,
+                        status = event.status,
+                        moshi = moshi
+                    )
 
-        disposable = eventHub.events.subscribe { event ->
-            val accountId = accountManager.activeAccount?.id ?: return@subscribe
-            when (event) {
-                is FavoriteEvent ->
-                    timelineDao.setFavourited(accountId, event.statusId, event.favourite)
-                is ReblogEvent ->
-                    timelineDao.setReblogged(accountId, event.statusId, event.reblog)
-                is BookmarkEvent ->
-                    timelineDao.setBookmarked(accountId, event.statusId, event.bookmark)
-                is UnfollowEvent ->
-                    timelineDao.removeAllByUser(accountId, event.accountId)
-                is StatusDeletedEvent ->
-                    timelineDao.delete(accountId, event.statusId)
-                is PollVoteEvent -> {
-                    val pollString = gson.toJson(event.poll)
-                    timelineDao.setVoted(accountId, event.statusId, pollString)
+                    is UnfollowEvent -> timelineDao.removeStatusesAndReblogsByUser(tuskyAccountId, event.accountId)
+
+                    is BlockEvent -> removeAllByUser(tuskyAccountId, event.accountId)
+                    is MuteEvent -> removeAllByUser(tuskyAccountId, event.accountId)
+
+                    is DomainMuteEvent -> {
+                        timelineDao.deleteAllFromInstance(tuskyAccountId, event.instance)
+                        notificationsDao.deleteAllFromInstance(tuskyAccountId, event.instance)
+                    }
+
+                    is StatusDeletedEvent -> {
+                        timelineDao.deleteAllWithStatus(tuskyAccountId, event.statusId)
+                        notificationsDao.deleteAllWithStatus(tuskyAccountId, event.statusId)
+                    }
+
+                    is PollVoteEvent -> {
+                        val pollString = moshi.adapter<Poll>().toJson(event.poll)
+                        statusDao.setVoted(tuskyAccountId, event.statusId, pollString)
+                    }
                 }
-                is PinEvent ->
-                    timelineDao.setPinned(accountId, event.statusId, event.pinned)
             }
         }
     }
 
+    private suspend fun removeAllByUser(tuskyAccountId: Long, accountId: String) {
+        timelineDao.removeAllByUser(tuskyAccountId, accountId)
+        notificationsDao.removeAllByUser(tuskyAccountId, accountId)
+    }
+
     fun stop() {
-        this.disposable.dispose()
+        this.scope.cancel()
     }
 }

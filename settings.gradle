@@ -1,1 +1,44 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex(".*google.*")
+                includeGroupByRegex(".*android.*")
+            }
+        }
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'com.gradle.develocity' version '3.17.4'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+def isCI = providers.environmentVariable("CI").present
+
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
+        publishing.onlyIf { isCI }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google {
+            content {
+                includeGroupByRegex(".*google.*")
+                includeGroupByRegex(".*android.*")
+            }
+        }
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
 include ':app'

@@ -15,22 +15,41 @@
 
 package com.keylesspalace.tusky.components.search.fragments
 
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.view.View
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
-import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
+@AndroidEntryPoint
 class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
-    override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(binding.searchRecyclerView.context)
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.searchRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                binding.searchRecyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
+
+    override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
         return SearchAccountsAdapter(
             this,
             preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+            preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
         )
     }
 

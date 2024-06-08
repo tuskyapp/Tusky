@@ -20,7 +20,9 @@ import androidx.fragment.app.FragmentActivity
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.util.CustomFragmentStateAdapter
 
-class MainPagerAdapter(val tabs: List<TabData>, activity: FragmentActivity) : CustomFragmentStateAdapter(activity) {
+class MainPagerAdapter(var tabs: List<TabData>, activity: FragmentActivity) : CustomFragmentStateAdapter(
+    activity
+) {
 
     override fun createFragment(position: Int): Fragment {
         val tab = tabs[position]

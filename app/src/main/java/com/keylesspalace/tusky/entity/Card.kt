@@ -15,19 +15,21 @@
 
 package com.keylesspalace.tusky.entity
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Card(
     val url: String,
     val title: String,
-    val description: String,
-    @SerializedName("author_name") val authorName: String,
-    val image: String,
+    val description: String = "",
+    @Json(name = "author_name") val authorName: String = "",
+    val image: String? = null,
     val type: String,
-    val width: Int,
-    val height: Int,
-    val blurhash: String?,
-    @SerializedName("embed_url") val embedUrl: String?
+    val width: Int = 0,
+    val height: Int = 0,
+    val blurhash: String? = null,
+    @Json(name = "embed_url") val embedUrl: String? = null
 ) {
 
     override fun hashCode() = url.hashCode()
@@ -36,8 +38,7 @@ data class Card(
         if (other !is Card) {
             return false
         }
-        val account = other as Card?
-        return account?.url == this.url
+        return other.url == this.url
     }
 
     companion object {

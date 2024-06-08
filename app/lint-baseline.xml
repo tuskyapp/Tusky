@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.3.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.3.2)" variant="all" version="8.3.2">
+
+    <issue
+        id="GestureBackNavigation"
+        message="If intercepting back events, this should be handled through the registration of callbacks on the window level; Please see https://developer.android.com/about/versions/13/features/predictive-back-gesture"
+        errorLine1="            if (keyCode == KeyEvent.KEYCODE_BACK) {"
+        errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
+            line="1314"
+            column="28"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
+        errorLine1="            sb.append(language.toUpperCase());"
+        errorLine2="                               ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
+            line="104"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in org.bouncycastle:bcprov-jdk15on; not included in Android: `javax.naming.directory`. Referenced from `org.bouncycastle.jce.provider.CrlCache`.">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.70/4636a0d01f74acaf28082fb62b317f1080118371/bcprov-jdk15on-1.70.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in org.bouncycastle:bcprov-jdk15on; not included in Android: `javax.naming`. Referenced from `org.bouncycastle.jce.provider.X509LDAPCertStoreSpi`.">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.70/4636a0d01f74acaf28082fb62b317f1080118371/bcprov-jdk15on-1.70.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in org.pageseeder.diffx:pso-diffx; not included in Android: `javax.xml.stream.events`. Referenced from `org.pageseeder.diffx.load.XMLEventLoader`.">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in org.pageseeder.diffx:pso-diffx; not included in Android: `javax.xml.stream`. Referenced from `org.pageseeder.diffx.format.StrictXMLDiffOutput`.">
+        <location
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.3.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="39"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_controls_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:padding=&quot;@dimen/exo_styled_controls_padding&quot;"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="41"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@layout/exo_player_control_rewind_button` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_rewind_button&quot; />"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="48"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@layout/exo_player_control_ffwd_button` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_ffwd_button&quot; />"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="54"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_height` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:layout_height=&quot;@dimen/exo_styled_bottom_bar_height&quot;"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="63"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_margin_top` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:layout_marginTop=&quot;@dimen/exo_styled_bottom_bar_margin_top&quot;"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="64"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="66"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="            android:paddingStart=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="72"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="            android:paddingEnd=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="73"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="            android:paddingLeft=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="74"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="            android:paddingRight=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
+        errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="75"
+            column="35"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_progress_layout_height` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:layout_height=&quot;@dimen/exo_styled_progress_layout_height&quot;"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="141"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_progress_margin_bottom` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_progress_margin_bottom&quot;/>"
+        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="143"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@dimen/exo_styled_minimal_controls_margin_bottom` is marked as private in androidx.media3:media3-ui:1.3.1"
+        errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_minimal_controls_margin_bottom&quot;"
+        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="149"
+            column="38"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;posts&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;notification_summary_report_format&quot;>%s · %d posts attached&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="109"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;and&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;pref_title_http_proxy_port_message&quot;>Port should be between %d and %d&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="331"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;others&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;notification_summary_large&quot;>%1$s, %2$s, %3$s and %4$d others&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="389"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;more&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;conversation_more_recipients&quot;>%1$s, %2$s and %3$d more&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="570"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="PluralsCandidate"
+        message="Formatting %d followed by words (&quot;people&quot;): This should probably be a plural rather than a string"
+        errorLine1="    &lt;string name=&quot;accessibility_talking_about_tag&quot;>%1$d people are talking about hashtag %2$s&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="790"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `ber (Berber languages)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `el (Greek)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `fi (Finnish)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `fy (Western Frisian)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `in (Indonesian)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `lv (Latvian)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `ml (Malayalam)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `si (Sinhala)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="UnusedTranslation"
+        message="The language `sk (Slovak)` is present in this project, but not declared in the `localeConfig` resource"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="DataExtractionRules"
+        message="The attribute `android:allowBackup` is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute `android:dataExtractionRules` specifying an `@xml` resource which configures cloud backups and device transfers on Android 12 and higher."
+        errorLine1="        android:allowBackup=&quot;false&quot;"
+        errorLine2="                             ~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="15"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        accountFieldAdapter.notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/account/AccountActivity.kt"
+            line="532"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/AccountAdapter.kt"
+            line="78"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
+            line="45"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/AccountFieldEditAdapter.kt"
+            line="51"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementAdapter.kt"
+            line="157"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/components/accountlist/adapter/MutesAdapter.kt"
+            line="118"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/PollAdapter.kt"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/PollAdapter.kt"
+            line="62"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/PreviewPollOptionsAdapter.kt"
+            line="35"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="        notifyDataSetChanged()"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
+            line="54"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        errorLine1="            notifyDataSetChanged()"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
+            line="161"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SmallSp"
+        message="Avoid using sizes smaller than `11sp`: `8sp`"
+        errorLine1="        android:textSize=&quot;8sp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-land/item_trending_cell.xml"
+            line="42"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SmallSp"
+        message="Avoid using sizes smaller than `11sp`: `8sp`"
+        errorLine1="        android:textSize=&quot;8sp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_trending_cell.xml"
+            line="42"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SmallSp"
+        message="Avoid using sizes smaller than `11sp`: `8sp`"
+        errorLine1="        android:textSize=&quot;8sp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-land/item_trending_cell.xml"
+            line="59"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="SmallSp"
+        message="Avoid using sizes smaller than `11sp`: `8sp`"
+        errorLine1="        android:textSize=&quot;8sp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_trending_cell.xml"
+            line="59"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ReportShortcutUsage"
+        message="Calling this method indicates use of dynamic shortcuts, but there are no calls to methods that track shortcut usage, such as `pushDynamicShortcut` or `reportShortcutUsed`. Calling these methods is recommended, as they track shortcut usage and allow launchers to adjust which shortcuts appear based on activation history. Please see https://developer.android.com/develop/ui/views/launch/shortcuts/managing-shortcuts#track-usage"
+        errorLine1="            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/util/ShareShortcutHelper.kt"
+            line="96"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="Custom view ``ImageView`` has `setOnTouchListener` called on it but does not override `performClick`"
+        errorLine1="            binding.imageView.setOnTouchListener { _, event ->"
+        errorLine2="            ^">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
+            line="95"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        message="`onTouch` lambda should call `View#performClick` when a click is detected"
+        errorLine1="            binding.imageView.setOnTouchListener { _, event ->"
+        errorLine2="                                                 ^">
+        <location
+            file="src/main/java/com/keylesspalace/tusky/adapter/TabAdapter.kt"
+            line="95"
+            column="50"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton android:id=&quot;@id/exo_prev&quot;"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="45"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton android:id=&quot;@id/exo_play_pause&quot;"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="51"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton android:id=&quot;@id/exo_next&quot;"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="56"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_vr&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="96"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_shuffle&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="99"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_repeat_toggle&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="102"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_subtitle&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="105"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_settings&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="108"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_fullscreen&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="111"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="            &lt;ImageButton android:id=&quot;@id/exo_overflow_show&quot;"
+        errorLine2="             ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="114"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="                &lt;ImageButton android:id=&quot;@id/exo_overflow_hide&quot;"
+        errorLine2="                 ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="130"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton android:id=&quot;@id/exo_minimal_fullscreen&quot;"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/exo_player_control_view.xml"
+            line="154"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="                    android:paddingStart=&quot;8dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_edit_profile.xml"
+            line="118"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="                    android:paddingStart=&quot;40dp&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_edit_profile.xml"
+            line="129"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="        android:paddingEnd=&quot;@dimen/status_display_name_padding_end&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_conversation.xml"
+            line="90"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;28dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_follow.xml"
+            line="21"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;28dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_report_notification.xml"
+            line="23"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingEnd` you should probably also define `paddingStart` for right-to-left symmetry"
+        errorLine1="        android:paddingEnd=&quot;@dimen/status_display_name_padding_end&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_status.xml"
+            line="68"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;28dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_status_notification.xml"
+            line="22"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;6dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-land/item_trending_cell.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;6dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_trending_cell.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;6dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout-land/item_trending_cell.xml"
+            line="55"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;6dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_trending_cell.xml"
+            line="55"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;4dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/view_compose_schedule.xml"
+            line="21"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        errorLine1="        android:paddingStart=&quot;4dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/view_compose_schedule.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_list.xml"
+            line="37"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_list.xml"
+            line="48"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
+        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/item_list.xml"
+            line="59"
+            column="9"/>
+    </issue>
+
+</issues>

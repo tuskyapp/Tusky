@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.scheduled
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -37,24 +36,36 @@ class ScheduledStatusAdapter(
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ScheduledStatus,
+            newItem: ScheduledStatus
+        ): Boolean {
             return oldItem == newItem
         }
     }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemScheduledStatusBinding> {
-        val binding = ItemScheduledStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemScheduledStatusBinding> {
+        val binding = ItemScheduledStatusBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: BindingHolder<ItemScheduledStatusBinding>, position: Int) {
+    override fun onBindViewHolder(
+        holder: BindingHolder<ItemScheduledStatusBinding>,
+        position: Int
+    ) {
         getItem(position)?.let { item ->
             holder.binding.edit.isEnabled = true
             holder.binding.delete.isEnabled = true
             holder.binding.text.text = item.params.text
-            holder.binding.edit.setOnClickListener { v: View ->
-                v.isEnabled = false
+            holder.binding.edit.setOnClickListener {
                 listener.edit(item)
             }
             holder.binding.delete.setOnClickListener {

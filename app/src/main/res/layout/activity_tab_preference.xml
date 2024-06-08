@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_plus_24dp" />
+        android:contentDescription="@string/action_add_tab"
+        app:srcCompat="@drawable/ic_plus_24dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/sheet"
@@ -53,19 +53,10 @@
                 android:overScrollMode="never" />
 
             <TextView
-                android:id="@+id/maxTabsInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.1"
-                android:padding="8dp"
-                tools:text="@string/max_tab_number_reached" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="bottom"
                 android:background="?attr/colorPrimary"
-                android:drawableStart="@drawable/ic_plus_24dp"
                 android:drawablePadding="12dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -74,7 +65,8 @@
                 android:paddingEnd="8dp"
                 android:text="@string/action_add_tab"
                 android:textColor="?attr/colorOnPrimary"
-                android:textSize="?attr/status_text_large" />
+                android:textSize="?attr/status_text_large"
+                app:drawableStartCompat="@drawable/ic_plus_24dp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

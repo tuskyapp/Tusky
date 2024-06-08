@@ -1,9 +1,10 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.gson.Gson
+import com.keylesspalace.tusky.di.NetworkModule
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.squareup.moshi.adapter
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -33,11 +34,11 @@ class StatusComparisonTest {
     }
 
     @Test
-    fun `accounts with different notes in json - should be equal because notes are not relevant for timelines`() {
-        assertEquals(createStatus(note = "Test"), createStatus(note = "Test 123456"))
+    fun `accounts with different notes in json - should not be equal`() {
+        assertNotEquals(createStatus(note = "Test"), createStatus(note = "Test 123456"))
     }
 
-    private val gson = Gson()
+    private val moshi = NetworkModule.providesMoshi()
 
     @Test
     fun `two equal status view data - should be equal`() {
@@ -90,6 +91,7 @@ class StatusComparisonTest {
         assertNotEquals(viewdata1, viewdata2)
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun createStatus(
         id: String = "123456",
         content: String = """
@@ -201,6 +203,6 @@ class StatusComparisonTest {
                 "poll": null
             }
         """.trimIndent()
-        return gson.fromJson(statusJson, Status::class.java)
+        return moshi.adapter<Status>().fromJson(statusJson)!!
     }
 }

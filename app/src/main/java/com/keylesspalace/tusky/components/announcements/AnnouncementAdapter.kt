@@ -15,8 +15,10 @@
 
 package com.keylesspalace.tusky.components.announcements
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.SpannableStringBuilder
+import android.text.SpannableString
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -24,18 +26,21 @@ import android.view.ViewGroup
 import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.chip.Chip
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAnnouncementBinding
 import com.keylesspalace.tusky.entity.Announcement
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.EmojiSpan
+import com.keylesspalace.tusky.util.clearEmojiTargets
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.setClickableText
+import com.keylesspalace.tusky.util.setEmojiTargets
 import com.keylesspalace.tusky.util.visible
-import java.lang.ref.WeakReference
 
 interface AnnouncementActionListener : LinkListener {
     fun openReactionPicker(announcementId: String, target: View)
@@ -50,19 +55,35 @@ class AnnouncementAdapter(
     private val animateEmojis: Boolean = false
 ) : RecyclerView.Adapter<BindingHolder<ItemAnnouncementBinding>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemAnnouncementBinding> {
-        val binding = ItemAnnouncementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    private val absoluteTimeFormatter = AbsoluteTimeFormatter()
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingHolder<ItemAnnouncementBinding> {
+        val binding = ItemAnnouncementBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return BindingHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BindingHolder<ItemAnnouncementBinding>, position: Int) {
         val item = items[position]
+
+        holder.binding.announcementDate.text = absoluteTimeFormatter.format(item.publishedAt, false)
 
         val text = holder.binding.text
         val chips = holder.binding.chipGroup
         val addReactionChip = holder.binding.addReactionChip
 
-        val emojifiedText: CharSequence = item.content.parseAsMastodonHtml().emojify(item.emojis, text, animateEmojis)
+        val emojifiedText: CharSequence = item.content.parseAsMastodonHtml().emojify(
+            item.emojis,
+            text,
+            animateEmojis
+        )
 
         setClickableText(text, emojifiedText, item.mentions, item.tags, listener)
 
@@ -77,10 +98,15 @@ class AnnouncementAdapter(
         // hide button if announcement badge limit is already reached
         addReactionChip.visible(item.reactions.size < 8)
 
+        val requestManager = Glide.with(chips)
+
+        chips.clearEmojiTargets()
+        val targets = ArrayList<Target<Drawable>>(item.reactions.size)
+
         item.reactions.forEachIndexed { i, reaction ->
             (
                 chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                    ?: Chip(ContextThemeWrapper(chips.context, R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                    ?: Chip(ContextThemeWrapper(chips.context, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice)).apply {
                         isCheckable = true
                         checkedIcon = null
                         chips.addView(this, i)
@@ -92,17 +118,25 @@ class AnnouncementAdapter(
                     } else {
                         // we set the EmojiSpan on a space, because otherwise the Chip won't have the right size
                         // https://github.com/tuskyapp/Tusky/issues/2308
-                        val spanBuilder = SpannableStringBuilder("  ${reaction.count}")
-                        val span = EmojiSpan(WeakReference(this))
+                        val spannable = SpannableString("  ${reaction.count}")
+                        val span = EmojiSpan(this)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             span.contentDescription = reaction.name
                         }
-                        spanBuilder.setSpan(span, 0, 1, 0)
-                        Glide.with(this)
+                        val target = span.createGlideTarget(this, animateEmojis)
+                        spannable.setSpan(span, 0, 1, 0)
+                        requestManager
                             .asDrawable()
-                            .load(if (animateEmojis) { reaction.url } else { reaction.staticUrl })
-                            .into(span.getTarget(animateEmojis))
-                        this.text = spanBuilder
+                            .load(
+                                if (animateEmojis) {
+                                    reaction.url
+                                } else {
+                                    reaction.staticUrl
+                                }
+                            )
+                            .into(target)
+                        targets.add(target)
+                        this.text = spannable
                     }
 
                     isChecked = reaction.me
@@ -121,9 +155,16 @@ class AnnouncementAdapter(
             chips.removeViewAt(item.reactions.size)
         }
 
+        // Store Glide targets for later cancellation
+        chips.setEmojiTargets(targets)
+
         addReactionChip.setOnClickListener {
             listener.openReactionPicker(item.id, it)
         }
+    }
+
+    override fun onViewRecycled(holder: BindingHolder<ItemAnnouncementBinding>) {
+        holder.binding.chipGroup.clearEmojiTargets()
     }
 
     override fun getItemCount() = items.size

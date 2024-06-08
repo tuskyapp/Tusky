@@ -1,0 +1,9 @@
+Tusky 20.0
+
+- Biểu tượng app mới của Dzuk https://dzuk.zone/
+- Theo dõi hashtag. Nhấn vào một hashtag và sau đó nhấn vào biểu tượng trên thanh công cụ.
+- Hỗ trợ Android 13
+- Chọn ngôn ngữ của tút
+- Tab media trong hồ sơ hiện tôn trọng media nhạy cảm và tải mượt mà hơn.
+- Đặt điểm lấy nét của ảnh trước khi đăng
+- Tùy chọn mới để hiển thị tên người dùng đầy đủ của bạn trên thanh công cụ

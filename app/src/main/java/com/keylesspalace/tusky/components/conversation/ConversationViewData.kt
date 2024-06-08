@@ -29,7 +29,7 @@ data class ConversationViewData(
         accountId: Long,
         favourited: Boolean = lastStatus.status.favourited,
         bookmarked: Boolean = lastStatus.status.bookmarked,
-        muted: Boolean = lastStatus.status.muted ?: false,
+        muted: Boolean = lastStatus.status.muted,
         poll: Poll? = lastStatus.status.poll,
         expanded: Boolean = lastStatus.isExpanded,
         collapsed: Boolean = lastStatus.isCollapsed,
@@ -57,7 +57,7 @@ data class ConversationViewData(
 fun StatusViewData.Concrete.toConversationStatusEntity(
     favourited: Boolean = status.favourited,
     bookmarked: Boolean = status.bookmarked,
-    muted: Boolean = status.muted ?: false,
+    muted: Boolean = status.muted,
     poll: Poll? = status.poll,
     expanded: Boolean = isExpanded,
     collapsed: Boolean = isCollapsed,
@@ -71,6 +71,7 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         account = status.account.toEntity(),
         content = status.content,
         createdAt = status.createdAt,
+        editedAt = status.editedAt,
         emojis = status.emojis,
         favouritesCount = status.favouritesCount,
         repliesCount = status.repliesCount,
@@ -86,6 +87,6 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
         collapsed = collapsed,
         muted = muted,
         poll = poll,
-        language = status.language,
+        language = status.language
     )
 }

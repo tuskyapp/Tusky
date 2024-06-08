@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- Suporte para edição de publicações
+- Nova opção para controlar a direção de leitura preferida
+- Pré-visualização maiores para ficheiros multimédia e uma nova sobreposição para identificar ficheiros multimédia com descrição
+- Já é possível adicionar contas a listas através dos perfils das contas
+e muito mais

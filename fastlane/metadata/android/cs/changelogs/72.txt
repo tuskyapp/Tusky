@@ -1,0 +1,11 @@
+Tusky v11.0
+
+- ipozornění na nové žádosti o sledování, když je váš účet uzamčen
+- nové funkce, které lze zapínat v předvolebách:
+   - swajpování mezi kartami
+   - potvrzení boostu
+   - zobrazení náhledů odkazů v časových osách
+- konverzace lze ztlumit
+- Výsledky ankety se nyní budou počítat na základě počtu hlasujících, a ne na základě celkového počtu hlasů, což usnadňuje přehlednost anket s více možnostmi volby.
+- oprava mnoha chyb, z nichž většina se týká psaní tootů
+- vylepšené překlady

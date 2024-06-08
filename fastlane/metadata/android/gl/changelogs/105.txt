@@ -1,0 +1,12 @@
+Tusky 22.0 beta 3
+
+Correccións que inclúen:
+
+- Arranxouse o fallo ao ver un fío
+- Filtros Mastodon de procesamento de fallos corrixidos
+- Pódense facer clic nas ligazóns da bios das notificacións de solicitude de seguimento/seguimento
+- Actualizacións de notificacións de Android
+   - A notificación de Android para unha notificación de Mastodon só debe mostrarse unha vez
+   - As notificacións de Android agrúpanse por tipo de notificación de Mastodon (seguir, mencionar, aumentar, etc.)
+   - Eliminouse o potencial de notificacións que faltan
+(trad. auto)

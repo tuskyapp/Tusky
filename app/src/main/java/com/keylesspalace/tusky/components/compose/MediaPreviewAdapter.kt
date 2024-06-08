@@ -48,10 +48,14 @@ class MediaPreviewAdapter(
         val addFocusId = 2
         val editImageId = 3
         val removeId = 4
+
         popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
         if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
             popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
-            popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
+            if (item.state != ComposeActivity.QueuedMedia.State.PUBLISHED) {
+                // Already-published items can't be edited
+                popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
+            }
         }
         popup.menu.add(0, removeId, 0, R.string.action_remove)
         popup.setOnMenuItemClickListener { menuItem ->
@@ -86,10 +90,11 @@ class MediaPreviewAdapter(
             val imageView = holder.progressImageView
             val focus = item.focus
 
-            if (focus != null)
+            if (focus != null) {
                 imageView.setFocalPoint(focus)
-            else
+            } else {
                 imageView.removeFocalPoint() // Probably unnecessary since we have no UI for removal once added.
+            }
 
             var glide = Glide.with(holder.itemView.context)
                 .load(item.uri)
@@ -97,8 +102,9 @@ class MediaPreviewAdapter(
                 .dontAnimate()
                 .centerInside()
 
-            if (focus != null)
+            if (focus != null) {
                 glide = glide.addListener(imageView)
+            }
 
             glide.into(imageView)
         }
@@ -107,11 +113,17 @@ class MediaPreviewAdapter(
     private val differ = AsyncListDiffer(
         this,
         object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
-            override fun areItemsTheSame(oldItem: ComposeActivity.QueuedMedia, newItem: ComposeActivity.QueuedMedia): Boolean {
+            override fun areItemsTheSame(
+                oldItem: ComposeActivity.QueuedMedia,
+                newItem: ComposeActivity.QueuedMedia
+            ): Boolean {
                 return oldItem.localId == newItem.localId
             }
 
-            override fun areContentsTheSame(oldItem: ComposeActivity.QueuedMedia, newItem: ComposeActivity.QueuedMedia): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ComposeActivity.QueuedMedia,
+                newItem: ComposeActivity.QueuedMedia
+            ): Boolean {
                 return oldItem == newItem
             }
         }

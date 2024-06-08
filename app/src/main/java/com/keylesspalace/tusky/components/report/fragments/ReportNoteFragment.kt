@@ -20,28 +20,26 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.databinding.FragmentReportNoteBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
-class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
+@AndroidEntryPoint
+class ReportNoteFragment : Fragment(R.layout.fragment_report_note) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: ReportViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentReportNoteBinding::bind)
 
@@ -54,7 +52,7 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
 
     private fun handleChanges() {
         binding.editNote.doAfterTextChanged {
-            viewModel.reportNote = it?.toString() ?: ""
+            viewModel.reportNote = it?.toString().orEmpty()
         }
         binding.checkIsNotifyRemote.setOnCheckedChangeListener { _, isChecked ->
             viewModel.isRemoteNotify = isChecked
@@ -72,17 +70,21 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
             binding.reportDescriptionRemoteInstance.hide()
         }
 
-        if (viewModel.isRemoteAccount)
+        if (viewModel.isRemoteAccount) {
             binding.checkIsNotifyRemote.text = getString(R.string.report_remote_instance, viewModel.remoteServer)
+        }
         binding.checkIsNotifyRemote.isChecked = viewModel.isRemoteNotify
     }
 
     private fun subscribeObservables() {
-        viewModel.reportingState.observe(viewLifecycleOwner) {
-            when (it) {
-                is Success -> viewModel.navigateTo(Screen.Done)
-                is Loading -> showLoading()
-                is Error -> showError(it.cause)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.reportingState.collect {
+                if (it == null) return@collect
+                when (it) {
+                    is Success -> viewModel.navigateTo(Screen.Done)
+                    is Loading -> showLoading()
+                    is Error -> showError(it.cause)
+                }
             }
         }
     }
@@ -94,7 +96,11 @@ class ReportNoteFragment : Fragment(R.layout.fragment_report_note), Injectable {
         binding.buttonBack.isEnabled = true
         binding.progressBar.hide()
 
-        Snackbar.make(binding.buttonBack, if (error is IOException) R.string.error_network else R.string.error_generic, Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            binding.buttonBack,
+            if (error is IOException) R.string.error_network else R.string.error_generic,
+            Snackbar.LENGTH_LONG
+        )
             .setAction(R.string.action_retry) {
                 sendReport()
             }

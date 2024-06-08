@@ -1,0 +1,7 @@
+Tusky v7.0
+
+- Cefnogaeth ar gyfer arddangos polau, pleidleisio a hysbysiadau pleidleisio
+- Botymau newydd i hidlo'r tab hysbysu ac i ddileu pob hysbysiad
+- dileu ac ailddrafftio eich tŵtiau eich hun
+- dangosydd newydd sy'n dangos a yw cyfrif yn bot ar y ddelwedd proffil (gellir ei ddiffodd yn y dewisiadau)
+- Cyfieithiadau newydd: Norwyeg Bokmål a Slofeneg.

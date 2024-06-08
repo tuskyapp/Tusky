@@ -18,46 +18,56 @@ package com.keylesspalace.tusky.components.scheduled
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import autodispose2.androidx.lifecycle.autoDispose
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.keylesspalace.tusky.util.viewBinding
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.mikepenz.iconics.utils.colorInt
+import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+@AndroidEntryPoint
+class ScheduledStatusActivity :
+    BaseActivity(),
+    ScheduledStatusActionListener,
+    MenuProvider {
 
     @Inject
     lateinit var eventHub: EventHub
 
-    private val viewModel: ScheduledStatusViewModel by viewModels { viewModelFactory }
+    private val viewModel: ScheduledStatusViewModel by viewModels()
+
+    private val binding by viewBinding(ActivityScheduledStatusBinding::inflate)
 
     private val adapter = ScheduledStatusAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityScheduledStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        addMenuProvider(this)
 
         setSupportActionBar(binding.includedToolbar.toolbar)
         supportActionBar?.run {
@@ -84,10 +94,10 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Error) {
                 binding.progressBar.hide()
-                binding.errorMessageView.setup(R.drawable.elephant_error, R.string.error_generic) {
-                    refreshStatuses()
-                }
                 binding.errorMessageView.show()
+
+                val errorState = loadState.refresh as LoadState.Error
+                binding.errorMessageView.setup(errorState.error) { refreshStatuses() }
             }
             if (loadState.refresh != LoadState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -95,7 +105,10 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
             if (loadState.refresh is LoadState.NotLoading) {
                 binding.progressBar.hide()
                 if (adapter.itemCount == 0) {
-                    binding.errorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_scheduled_posts)
+                    binding.errorMessageView.setup(
+                        R.drawable.elephant_friend_empty,
+                        R.string.no_scheduled_posts
+                    )
                     binding.errorMessageView.show()
                 } else {
                     binding.errorMessageView.hide()
@@ -103,14 +116,34 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
             }
         }
 
-        eventHub.events
-            .observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(this)
-            .subscribe { event ->
+        lifecycleScope.launch {
+            eventHub.events.collect { event ->
                 if (event is StatusScheduledEvent) {
                     adapter.refresh()
                 }
             }
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.activity_scheduled_status, menu)
+        menu.findItem(R.id.action_search)?.apply {
+            icon = IconicsDrawable(this@ScheduledStatusActivity, GoogleMaterial.Icon.gmd_search).apply {
+                sizeDp = 20
+                colorInt = MaterialColors.getColor(binding.includedToolbar.toolbar, android.R.attr.textColorPrimary)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.action_refresh -> {
+                binding.swipeRefreshLayout.isRefreshing = true
+                refreshStatuses()
+                true
+            }
+            else -> false
+        }
     }
 
     private fun refreshStatuses() {
@@ -128,7 +161,8 @@ class ScheduledStatusActivity : BaseActivity(), ScheduledStatusActionListener, I
                 inReplyToId = item.params.inReplyToId,
                 visibility = item.params.visibility,
                 scheduledAt = item.scheduledAt,
-                sensitive = item.params.sensitive
+                sensitive = item.params.sensitive,
+                kind = ComposeActivity.ComposeKind.EDIT_SCHEDULED
             )
         )
         startActivity(intent)

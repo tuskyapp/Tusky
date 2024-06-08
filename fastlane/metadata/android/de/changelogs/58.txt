@@ -1,11 +1,13 @@
 Tusky v6.0
 
-- Timelinefilter wurden in die Kontoeinstellungen verschoben und werden mit dem Server synchronisiert
-- Hashtags können jetzt als eigene Tabs hinzugefügt werden
-- Listen können jetzt bearbeitet werden
-- Sicherheit: TLS 1.0 und TLS 1.1 entfernt, Unterstützung für TLS 1.3 auf Android 6+ hinzugefügt
-- Automatische Vorschläge von Emojis beim Tippen
-- "Systemthema verwenden" hinzugefügt
+- Timeline-Filter in Kontoeinstellungen verschoben; werden mit dem Server synchronisiert
+- Eigener Tab für Hashtags
+- Listen sind nun bearbeitbar
+- TLS 1.0 und 1.1 entfernt, 1.3 für Android 6+ hinzugefügt
+- Automatische Emoji-Vorschläge beim Tippen
+- „Systemdesign verwenden“ hinzugefügt
 - Verbesserte Barrierefreiheit
-- Eine Sprache kann jetzt in der App gesetzt werden
+- Tusky ignoriert nun unbekannte Benachrichtigungen
+- Neue Einstellung: Individuelle App-Sprache
+- Neue Sprachen: Tschechisch und Esperanto
 - Fehlerkorrekturen

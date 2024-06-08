@@ -22,18 +22,17 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.Lifecycle
-import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
-import autodispose2.autoDispose
+import androidx.lifecycle.lifecycleScope
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.looksLikeMastodonUrl
 import com.keylesspalace.tusky.util.openLink
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import java.net.URI
-import java.net.URISyntaxException
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 /** this is the base class for all activities that open links
  *  links are checked against the api if they are mastodon links so they can be opened in Tusky
@@ -65,42 +64,48 @@ abstract class BottomSheetActivity : BaseActivity() {
         })
     }
 
-    open fun viewUrl(url: String, lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER) {
+    open fun viewUrl(
+        url: String,
+        lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER
+    ) {
         if (!looksLikeMastodonUrl(url)) {
             openLink(url)
             return
         }
 
-        mastodonApi.searchObservable(
-            query = url,
-            resolve = true
-        ).observeOn(AndroidSchedulers.mainThread())
-            .autoDispose(AndroidLifecycleScopeProvider.from(this, Lifecycle.Event.ON_DESTROY))
-            .subscribe(
-                { (accounts, statuses) ->
+        lifecycleScope.launch {
+            mastodonApi.search(
+                query = url,
+                resolve = true
+            ).fold(
+                onSuccess = { (accounts, statuses) ->
                     if (getCancelSearchRequested(url)) {
-                        return@subscribe
+                        return@launch
                     }
 
                     onEndSearch(url)
 
                     if (statuses.isNotEmpty()) {
                         viewThread(statuses[0].id, statuses[0].url)
-                        return@subscribe
-                    } else if (accounts.isNotEmpty()) {
-                        viewAccount(accounts[0].id)
-                        return@subscribe
+                        return@launch
+                    }
+                    accounts.firstOrNull { it.url.equals(url, ignoreCase = true) }?.let { account ->
+                        // Some servers return (unrelated) accounts for url searches (#2804)
+                        // Verify that the account's url matches the query
+                        viewAccount(account.id)
+                        return@launch
                     }
 
                     performUrlFallbackAction(url, lookupFallbackBehavior)
                 },
-                {
+                onFailure = {
                     if (!getCancelSearchRequested(url)) {
                         onEndSearch(url)
                         performUrlFallbackAction(url, lookupFallbackBehavior)
                     }
                 }
             )
+        }
 
         onBeginSearch(url)
     }
@@ -119,10 +124,17 @@ abstract class BottomSheetActivity : BaseActivity() {
         startActivityWithSlideInAnimation(intent)
     }
 
-    protected open fun performUrlFallbackAction(url: String, fallbackBehavior: PostLookupFallbackBehavior) {
+    protected open fun performUrlFallbackAction(
+        url: String,
+        fallbackBehavior: PostLookupFallbackBehavior
+    ) {
         when (fallbackBehavior) {
             PostLookupFallbackBehavior.OPEN_IN_BROWSER -> openLink(url)
-            PostLookupFallbackBehavior.DISPLAY_ERROR -> Toast.makeText(this, getString(R.string.post_lookup_error_format, url), Toast.LENGTH_SHORT).show()
+            PostLookupFallbackBehavior.DISPLAY_ERROR -> Toast.makeText(
+                this,
+                getString(R.string.post_lookup_error_format, url),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -173,46 +185,7 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 }
 
-// https://mastodon.foo.bar/@User
-// https://mastodon.foo.bar/@User/43456787654678
-// https://pleroma.foo.bar/users/User
-// https://pleroma.foo.bar/users/9qTHT2ANWUdXzENqC0
-// https://pleroma.foo.bar/notice/9sBHWIlwwGZi5QGlHc
-// https://pleroma.foo.bar/objects/d4643c42-3ae0-4b73-b8b0-c725f5819207
-// https://friendica.foo.bar/profile/user
-// https://friendica.foo.bar/display/d4643c42-3ae0-4b73-b8b0-c725f5819207
-// https://misskey.foo.bar/notes/83w6r388br (always lowercase)
-// https://pixelfed.social/p/connyduck/391263492998670833
-// https://pixelfed.social/connyduck
-fun looksLikeMastodonUrl(urlString: String): Boolean {
-    val uri: URI
-    try {
-        uri = URI(urlString)
-    } catch (e: URISyntaxException) {
-        return false
-    }
-
-    if (uri.query != null ||
-        uri.fragment != null ||
-        uri.path == null
-    ) {
-        return false
-    }
-
-    val path = uri.path
-    return path.matches("^/@[^/]+$".toRegex()) ||
-        path.matches("^/@[^/]+/\\d+$".toRegex()) ||
-        path.matches("^/users/\\w+$".toRegex()) ||
-        path.matches("^/notice/[a-zA-Z0-9]+$".toRegex()) ||
-        path.matches("^/objects/[-a-f0-9]+$".toRegex()) ||
-        path.matches("^/notes/[a-z0-9]+$".toRegex()) ||
-        path.matches("^/display/[-a-f0-9]+$".toRegex()) ||
-        path.matches("^/profile/\\w+$".toRegex()) ||
-        path.matches("^/p/\\w+/\\d+$".toRegex()) ||
-        path.matches("^/\\w+$".toRegex())
-}
-
 enum class PostLookupFallbackBehavior {
     OPEN_IN_BROWSER,
-    DISPLAY_ERROR,
+    DISPLAY_ERROR
 }

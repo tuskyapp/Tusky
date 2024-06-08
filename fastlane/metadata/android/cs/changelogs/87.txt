@@ -1,0 +1,8 @@
+Tusky v16.0
+
+- Logika načítání časové osy byla kompletně přepsána, aby byla rychlejší, méně chybová a jednodušší na údržbu.
+- Tusky nyní umí animovat vlastní emotikony ve formátu APNG a Animated WebP.
+- mnoho opravených chyb
+- podpora systému Android 11
+- nové překlady: skotská gaelština, galicijština, ukrajinština.
+- vylepšené překlady
