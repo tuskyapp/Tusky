@@ -66,7 +66,7 @@ object StorageModule {
                 AppDatabase.MIGRATION_41_42, AppDatabase.MIGRATION_42_43, AppDatabase.MIGRATION_43_44,
                 AppDatabase.MIGRATION_44_45, AppDatabase.MIGRATION_45_46, AppDatabase.MIGRATION_46_47,
                 AppDatabase.MIGRATION_47_48, AppDatabase.MIGRATION_52_53, AppDatabase.MIGRATION_54_56,
-                AppDatabase.MIGRATION_58_60, AppDatabase.MIGRATION_58_60
+                AppDatabase.MIGRATION_58_60, AppDatabase.MIGRATION_60_62
             )
             .build()
     }
