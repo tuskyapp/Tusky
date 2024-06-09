@@ -21,7 +21,6 @@ import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
-import com.keylesspalace.tusky.db.dao.AccountDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -70,7 +69,4 @@ object StorageModule {
             )
             .build()
     }
-
-    @Provides
-    fun providesAccountDao(db: AppDatabase): AccountDao = db.accountDao()
 }
