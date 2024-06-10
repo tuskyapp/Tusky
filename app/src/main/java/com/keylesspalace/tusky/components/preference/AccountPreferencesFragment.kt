@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
@@ -179,6 +180,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.post_privacy_names)
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
+                    isSingleLineTitle = false
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString
@@ -189,6 +191,31 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         )
                         syncWithServer(visibility = newValue)
                         true
+                    }
+                }
+
+                val activeAccount = accountManager.activeAccount
+                if (activeAccount != null) {
+                    listPreference {
+                        setTitle(R.string.pref_default_reply_privacy)
+                        setEntries(R.array.post_privacy_names)
+                        setEntryValues(R.array.post_privacy_values)
+                        key = PrefKeys.DEFAULT_REPLY_PRIVACY
+                        isSingleLineTitle = false
+                        setSummaryProvider { entry }
+                        val visibility = activeAccount.defaultReplyPrivacy
+                        value = visibility.serverString
+                        setIcon(getIconForVisibility(visibility))
+                        setOnPreferenceChangeListener { _, newValue ->
+                            val newVisibility = Status.Visibility.byString(newValue as String)
+                            setIcon(getIconForVisibility(newVisibility))
+                            activeAccount.defaultReplyPrivacy = newVisibility
+                            accountManager.saveAccount(activeAccount)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                eventHub.dispatch(PreferenceChangedEvent(key))
+                            }
+                            true
+                        }
                     }
                 }
 
@@ -204,6 +231,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         ).toTypedArray()
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
+                    isSingleLineTitle = false
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
