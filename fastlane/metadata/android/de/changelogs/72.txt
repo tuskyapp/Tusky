@@ -1,6 +1,6 @@
 Tusky v11.0
 
-- Benachrichtigungen über neue Folgeanfragen, wenn das Konto privat ist
+- Benachrichtigungen über neue Follower-Anfragen, wenn das Konto privat ist
 - Neue Funktionen, die aktiviert werden können:
    - Wischgeste zum Wechseln zwischen Tabs
    - Bestätigung vor dem Teilen eines Beitrags
