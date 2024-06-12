@@ -72,7 +72,7 @@
                 tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -91,7 +91,7 @@
                 android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
     </LinearLayout>
 
     <ProgressBar

@@ -4,7 +4,7 @@
     android:layout_width="@dimen/timeline_width"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,7 +19,7 @@
             android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
             tools:listitem="@layout/item_account" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/searchProgressBar"

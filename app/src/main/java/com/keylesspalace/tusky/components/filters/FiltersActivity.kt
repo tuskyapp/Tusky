@@ -48,7 +48,6 @@ class FiltersActivity : BaseActivity(), FiltersListener {
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener { reloadFilters() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         setTitle(R.string.pref_title_timeline_filters)
 

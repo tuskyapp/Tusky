@@ -26,6 +26,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.core.content.res.use
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import kotlin.math.max
 
@@ -127,37 +128,29 @@ class GraphView @JvmOverloads constructor(
 
     private fun initFromXML(attr: AttributeSet?) {
         context.obtainStyledAttributes(attr, R.styleable.GraphView).use { a ->
-            primaryLineColor = context.getColor(
-                a.getResourceId(
-                    R.styleable.GraphView_primaryLineColor,
-                    R.color.tusky_blue
-                )
+            primaryLineColor = a.getColor(
+                R.styleable.GraphView_primaryLineColor,
+                MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary)
             )
 
-            secondaryLineColor = context.getColor(
-                a.getResourceId(
-                    R.styleable.GraphView_secondaryLineColor,
-                    R.color.tusky_red
-                )
+            secondaryLineColor = a.getColor(
+                R.styleable.GraphView_secondaryLineColor,
+                context.getColor(R.color.warning_color)
             )
 
-            lineWidth = a.getDimensionPixelSize(
+            lineWidth = a.getDimension(
                 R.styleable.GraphView_lineWidth,
-                R.dimen.graph_line_thickness
-            ).toFloat()
-
-            graphColor = context.getColor(
-                a.getResourceId(
-                    R.styleable.GraphView_graphColor,
-                    R.color.colorBackground
-                )
+                context.resources.getDimension(R.dimen.graph_line_thickness)
             )
 
-            metaColor = context.getColor(
-                a.getResourceId(
-                    R.styleable.GraphView_metaColor,
-                    R.color.dividerColor
-                )
+            graphColor = a.getColor(
+                R.styleable.GraphView_graphColor,
+                context.getColor(R.color.colorBackground)
+            )
+
+            metaColor = a.getColor(
+                R.styleable.GraphView_metaColor,
+                context.getColor(R.color.dividerColor)
             )
 
             proportionalTrending = a.getBoolean(

@@ -109,7 +109,7 @@ class ConversationsFragment :
 
         setupRecyclerView(adapter)
 
-        initSwipeToRefresh()
+        binding.swipeRefreshLayout.setOnRefreshListener { refreshContent() }
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -243,11 +243,6 @@ class ConversationsFragment :
 
     private fun refreshContent() {
         adapter?.refresh()
-    }
-
-    private fun initSwipeToRefresh() {
-        binding.swipeRefreshLayout.setOnRefreshListener { refreshContent() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {

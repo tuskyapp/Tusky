@@ -62,7 +62,7 @@ abstract class SearchFragment<T : Any> :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = initAdapter()
-        setupSwipeRefreshLayout()
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         subscribeObservables(adapter)
     }
@@ -72,11 +72,6 @@ abstract class SearchFragment<T : Any> :
         adapter = null
         snackbarErrorRetry = null
         super.onDestroyView()
-    }
-
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun subscribeObservables(adapter: PagingDataAdapter<T, *>) {
@@ -131,6 +126,7 @@ abstract class SearchFragment<T : Any> :
                 onRefresh()
                 true
             }
+
             else -> false
         }
     }

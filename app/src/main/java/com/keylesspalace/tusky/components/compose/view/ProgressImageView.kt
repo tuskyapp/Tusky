@@ -24,6 +24,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.appcompat.content.res.AppCompatResources
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 
@@ -37,7 +38,7 @@ class ProgressImageView
     private val progressRect = RectF()
     private val biggerRect = RectF()
     private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = context.getColor(R.color.tusky_blue)
+        color = MaterialColors.getColor(this@ProgressImageView, com.google.android.material.R.attr.colorPrimary)
         strokeWidth = Utils.dpToPx(context, 4).toFloat()
         style = Paint.Style.STROKE
     }
@@ -46,13 +47,15 @@ class ProgressImageView
     }
     private val markBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = context.getColor(R.color.tusky_grey_10)
+        color = MaterialColors.getColor(this@ProgressImageView, android.R.attr.colorBackground)
     }
     private val captionDrawable = AppCompatResources.getDrawable(
         context,
         R.drawable.spellcheck
     )!!.apply {
-        setTint(Color.WHITE)
+        setTint(
+            MaterialColors.getColor(this@ProgressImageView, android.R.attr.textColorTertiary)
+        )
     }
     private val circleRadius = Utils.dpToPx(context, 14)
     private val circleMargin = Utils.dpToPx(context, 14)
@@ -68,8 +71,10 @@ class ProgressImageView
     }
 
     fun setChecked(checked: Boolean) {
-        markBgPaint.color =
-            context.getColor(if (checked) R.color.tusky_blue else R.color.tusky_grey_10)
+        val backgroundColor = if (checked) com.google.android.material.R.attr.colorPrimary else android.R.attr.colorBackground
+        val foregroundColor = if (checked) com.google.android.material.R.attr.colorOnPrimary else android.R.attr.textColorTertiary
+        markBgPaint.color = MaterialColors.getColor(this, backgroundColor)
+        captionDrawable.setTint(MaterialColors.getColor(this, foregroundColor))
         invalidate()
     }
 

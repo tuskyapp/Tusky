@@ -373,7 +373,6 @@ class TimelineFragment :
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun setupRecyclerView(adapter: TimelinePagingAdapter) {

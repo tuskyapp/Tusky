@@ -77,7 +77,6 @@ class ScheduledStatusActivity :
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         binding.scheduledTootList.setHasFixedSize(true)
         binding.scheduledTootList.layoutManager = LinearLayoutManager(this)

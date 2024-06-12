@@ -87,6 +87,7 @@
             android:contentDescription="@string/action_compose"
             app:layout_anchor="@id/viewPager"
             app:layout_anchorGravity="bottom|end"
+            app:tint="?attr/colorOnPrimary"
             app:srcCompat="@drawable/ic_create_24dp" />
 
         <include layout="@layout/item_status_bottom_sheet" />

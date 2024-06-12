@@ -43,6 +43,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
@@ -821,24 +822,26 @@ class ComposeActivity :
             binding.descriptionMissingWarningButton.hide()
         } else {
             binding.composeHideMediaButton.show()
-            @ColorInt val color = if (contentWarningShown) {
+            @AttrRes val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                getColor(R.color.transparent_tusky_blue)
+                com.google.android.material.R.attr.colorPrimary
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    getColor(R.color.tusky_blue)
+                    com.google.android.material.R.attr.colorPrimary
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    MaterialColors.getColor(
-                        binding.composeHideMediaButton,
-                        android.R.attr.textColorTertiary
-                    )
+                    android.R.attr.textColorTertiary
                 }
             }
-            binding.composeHideMediaButton.drawable.setTint(color)
+            binding.composeHideMediaButton.drawable.setTint(
+                MaterialColors.getColor(
+                    binding.composeHideMediaButton,
+                    color
+                )
+            )
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
@@ -856,14 +859,15 @@ class ComposeActivity :
             // Can't reschedule a published status
             enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
-            @ColorInt val color = if (binding.composeScheduleView.time == null) {
+            @ColorInt val color =
                 MaterialColors.getColor(
                     binding.composeScheduleButton,
-                    android.R.attr.textColorTertiary
+                    if (binding.composeScheduleView.time == null) {
+                        android.R.attr.textColorTertiary
+                    } else {
+                        com.google.android.material.R.attr.colorPrimary
+                    }
                 )
-            } else {
-                getColor(R.color.tusky_blue)
-            }
             binding.composeScheduleButton.drawable.setTint(color)
         }
     }
@@ -1242,22 +1246,24 @@ class ComposeActivity :
         TransitionManager.beginDelayedTransition(
             binding.composeContentWarningBar.parent as ViewGroup
         )
-        @ColorInt val color = if (show) {
+        @AttrRes val color = if (show) {
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(
                 binding.composeContentWarningField.text.length
             )
             binding.composeContentWarningField.requestFocus()
-            getColor(R.color.tusky_blue)
+            com.google.android.material.R.attr.colorPrimary
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
-            MaterialColors.getColor(
-                binding.composeContentWarningButton,
-                android.R.attr.textColorTertiary
-            )
+            android.R.attr.textColorTertiary
         }
-        binding.composeContentWarningButton.drawable.setTint(color)
+        binding.composeContentWarningButton.drawable.setTint(
+            MaterialColors.getColor(
+                binding.composeHideMediaButton,
+                color
+            )
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

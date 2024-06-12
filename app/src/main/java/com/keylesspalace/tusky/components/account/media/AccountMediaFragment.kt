@@ -104,7 +104,6 @@ class AccountMediaFragment :
 
         binding.swipeRefreshLayout.isEnabled = false
         binding.swipeRefreshLayout.setOnRefreshListener { refreshContent() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         binding.statusView.visibility = View.GONE
 

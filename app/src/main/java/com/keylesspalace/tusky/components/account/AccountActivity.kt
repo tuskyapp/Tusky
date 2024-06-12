@@ -458,7 +458,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
             }
         }
-        binding.swipeToRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun onAccountChanged(account: Account?) {
