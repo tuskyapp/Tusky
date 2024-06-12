@@ -24,13 +24,6 @@ fun <T, C : MutableCollection<in T>> Iterable<T>.removeDuplicatesTo(destination:
     return filterTo(destination, HashSet<T>()::add)
 }
 
-/**
- * Copies elements to a new list, removing duplicates and preserving original order.
- */
-fun <T> Iterable<T>.removeDuplicates(): List<T> {
-    return removeDuplicatesTo(ArrayList())
-}
-
 inline fun <T> List<T>.withoutFirstWhich(predicate: (T) -> Boolean): List<T> {
     val index = indexOfFirst(predicate)
     if (index == -1) {

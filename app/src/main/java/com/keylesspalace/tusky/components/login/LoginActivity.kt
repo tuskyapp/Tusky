@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -199,17 +200,15 @@ class LoginActivity : BaseActivity() {
     ) {
         // To authorize this app and log in it's necessary to redirect to the domain given,
         // login there, and the server will redirect back to the app with its response.
-        val uri = HttpUrl.Builder()
+        val uri = Uri.Builder()
             .scheme("https")
-            .host(domain)
-            .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
-            .addQueryParameter("client_id", clientId)
-            .addQueryParameter("redirect_uri", oauthRedirectUri)
-            .addQueryParameter("response_type", "code")
-            .addQueryParameter("scope", OAUTH_SCOPES)
+            .authority(domain)
+            .path(MastodonApi.ENDPOINT_AUTHORIZE)
+            .appendQueryParameter("client_id", clientId)
+            .appendQueryParameter("redirect_uri", oauthRedirectUri)
+            .appendQueryParameter("response_type", "code")
+            .appendQueryParameter("scope", OAUTH_SCOPES)
             .build()
-            .toString()
-            .toUri()
 
         if (openInWebView) {
             doWebViewAuth.launch(LoginData(domain, uri, oauthRedirectUri.toUri()))
