@@ -2,12 +2,12 @@
 <resources>
     <color name="colorPrimary">@color/tusky_blue_dark</color>
     <color name="colorSecondary">@color/tusky_blue_dark</color>
-    <color name="colorSurface">@color/white</color>
+    <color name="colorSurface">@color/tusky_grey_95</color>
     <color name="colorPrimaryDark">@color/tusky_grey_70</color>
 
     <color name="colorOnPrimary">@color/white</color>
 
-    <color name="colorBackground">@color/tusky_grey_95</color>
+    <color name="colorBackground">@color/white</color>
     <color name="windowBackground">@color/tusky_grey_80</color>
 
     <color name="textColorPrimary">@color/tusky_grey_10</color>
