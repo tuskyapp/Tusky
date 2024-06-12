@@ -26,7 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
@@ -263,8 +263,7 @@ class StatusListActivity : BottomSheetActivity() {
                         // must be requested again; otherwise does not contain the keyword (but server does)
                         mutedFilter = mastodonApi.getFilter(filter.id).getOrNull()
 
-                        // TODO the preference key here ("home") is not meaningful; should probably be another event if any
-                        eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                        eventHub.dispatch(FilterUpdatedEvent(filter.context))
                         filterCreateSuccess = true
                     } else {
                         Snackbar.make(
@@ -286,7 +285,7 @@ class StatusListActivity : BottomSheetActivity() {
                         ).fold(
                             { filter ->
                                 mutedFilterV1 = filter
-                                eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                                eventHub.dispatch(FilterUpdatedEvent(filter.context))
                                 filterCreateSuccess = true
                             },
                             { throwable2 ->
@@ -372,7 +371,7 @@ class StatusListActivity : BottomSheetActivity() {
             result?.fold(
                 {
                     updateTagMuteState(false)
-                    eventHub.dispatch(PreferenceChangedEvent(Filter.Kind.HOME.kind))
+                    eventHub.dispatch(FilterUpdatedEvent(listOf(Filter.Kind.HOME.kind)))
                     mutedFilterV1 = null
                     mutedFilter = null
 
