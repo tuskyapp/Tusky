@@ -32,7 +32,7 @@
     <string name="title_favourites">Favoriten</string>
     <string name="title_mutes">Stummgeschaltete Profile</string>
     <string name="title_blocks">Blockierte Profile</string>
-    <string name="title_follow_requests">Folgeanfragen</string>
+    <string name="title_follow_requests">Follower-Anfragen</string>
     <string name="title_edit_profile">Dein Profil bearbeiten</string>
     <string name="title_drafts">Entwürfe</string>
     <string name="title_licenses">Lizenzen</string>
@@ -82,7 +82,7 @@
     <string name="action_view_favourites">Favoriten</string>
     <string name="action_view_mutes">Stummgeschaltete Profile</string>
     <string name="action_view_blocks">Blockierte Profile</string>
-    <string name="action_view_follow_requests">Folgeanfragen</string>
+    <string name="action_view_follow_requests">Follower-Anfragen</string>
     <string name="action_view_media">Medien</string>
     <string name="action_open_in_web">Im Browser öffnen</string>
     <string name="action_add_media">Mediendateien hinzufügen</string>
@@ -147,7 +147,7 @@
     <string name="dialog_title_finishing_media_upload">Hochladen der Datei wird abgeschlossen</string>
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
     <string name="dialog_download_image">Herunterladen</string>
-    <string name="dialog_message_cancel_follow_request">Folgeanfrage zurückziehen?</string>
+    <string name="dialog_message_cancel_follow_request">Follow-Anfrage zurückziehen?</string>
     <string name="dialog_unfollow_warning">Dieses Profil entfolgen\?</string>
     <string name="dialog_delete_post_warning">Diesen Beitrag löschen?</string>
     <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
@@ -233,7 +233,7 @@
     <string name="post_share_link">Link zum Beitrag teilen</string>
     <string name="post_media_images">Bilder</string>
     <string name="post_media_video">Video</string>
-    <string name="state_follow_requested">Folgeanfrage gesendet</string>
+    <string name="state_follow_requested">Follower-Anfrage gesendet</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
     <string name="follows_you">Folgt dir</string>
     <string name="pref_title_alway_show_sensitive_media">Mediendateien mit Inhaltswarnung immer anzeigen</string>
@@ -343,7 +343,7 @@
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
-    <string name="poll_info_format"> <!-- 15 Stimmen • noch 1 Stunde --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 Stimmen • noch 1 Stunde --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s Stimme</item>
         <item quantity="other">%1$s Stimmen</item>
@@ -424,9 +424,9 @@
     <string name="no_drafts">Du hast keine Entwürfe.</string>
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
-    <string name="notification_follow_request_description">Benachrichtigungen über neue Folgeanfragen</string>
-    <string name="pref_title_notification_filter_follow_requests">neue Folgeanfrage</string>
-    <string name="notification_follow_request_name">Folgeanfragen</string>
+    <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
+    <string name="pref_title_notification_filter_follow_requests">neue Follower-Anfrage</string>
+    <string name="notification_follow_request_name">Follower-Anfragen</string>
     <string name="dialog_mute_warning">\@%1$s stummschalten\?</string>
     <string name="dialog_block_warning">\@%1$s blockieren\?</string>
     <string name="action_unmute_conversation">Stummschaltung der Unterhaltung aufheben</string>
@@ -621,13 +621,13 @@
     <string name="ui_error_reblog">Beitrag konnte nicht geteilt werden: %1$s</string>
     <string name="ui_error_favourite">Beitrag konnte nicht favorisiert werden: %1$s</string>
     <string name="ui_error_vote">Abstimmen bei der Umfrage schlug fehl: %1$s</string>
-    <string name="ui_error_accept_follow_request">Akzeptieren der Folgeanfrage schlug fehl: %1$s</string>
-    <string name="ui_success_accepted_follow_request">Folgeanfrage akzeptiert</string>
-    <string name="ui_success_rejected_follow_request">Folgeanfrage blockiert</string>
+    <string name="ui_error_accept_follow_request">Akzeptieren der Follower-Anfrage schlug fehl: %1$s</string>
+    <string name="ui_success_accepted_follow_request">Follower-Anfrage akzeptiert</string>
+    <string name="ui_success_rejected_follow_request">Follower-Anfrage blockiert</string>
     <string name="notification_unknown_name">Unbekannt</string>
     <string name="ui_error_unknown">Unbekannter Grund</string>
     <string name="ui_error_clear_notifications">Löschen der Benachrichtigungen schlug fehl: %1$s</string>
-    <string name="ui_error_reject_follow_request">Ablehnen der Folgeanfrage schlug fehl: %1$s</string>
+    <string name="ui_error_reject_follow_request">Ablehnen der Follower-Anfrage schlug fehl: %1$s</string>
     <string name="status_filter_placeholder_label_format">Gefiltert: %1$s</string>
     <string name="pref_title_account_filter_keywords">Profile</string>
     <string name="hint_filter_title">Mein Filter</string>
@@ -710,4 +710,10 @@
     <string name="label_translated">Aus %1$s mittels %2$s übersetzt</string>
     <string name="ui_error_translate">Fehler beim Übersetzen: %1$s</string>
     <string name="pref_title_show_notifications_filter">Benachrichtigungsfilter anzeigen</string>
+    <string name="report_category_legal">Rechtliches</string>
+    <string name="url_copied">URL kopiert</string>
+    <string name="confirmation_hashtag_copied">»%1$s« kopiert</string>
+    <string name="pref_title_confirm_follows">Vor dem Folgen bestätigen</string>
+    <string name="unknown_notification_type">Unbekannter Nachrichtentyp</string>
+    <string name="dialog_follow_warning">Diesem Konto folgen?</string>
 </resources>

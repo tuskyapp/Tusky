@@ -1,0 +1,5 @@
+Tusky 23.0 Beta 2
+
+Behoben:
+- möglicher Absturz beim Ändern von Zusatzfeldern im Profil
+- überdimensioniertes Kontextmenü, wenn die Bildbeschreibung bearbeitet wird

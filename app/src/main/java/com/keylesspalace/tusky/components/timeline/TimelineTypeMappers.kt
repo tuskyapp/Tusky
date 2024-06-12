@@ -13,8 +13,6 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-@file:OptIn(ExperimentalStdlibApi::class)
-
 package com.keylesspalace.tusky.components.timeline
 
 import com.keylesspalace.tusky.db.entity.HomeTimelineData

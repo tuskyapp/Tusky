@@ -182,7 +182,8 @@ class ComposeViewModel @Inject constructor(
                 mediaList + mediaItem
             }
         }
-        val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
+        val mediaItem =
+            stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
 
         viewModelScope.launch {
             mediaUploader
@@ -193,6 +194,7 @@ class ComposeViewModel @Inject constructor(
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
+
                         is UploadEvent.FinishedEvent ->
                             item.copy(
                                 id = event.mediaId,
@@ -455,6 +457,7 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
+
             ':' -> {
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
@@ -467,6 +470,7 @@ class ComposeViewModel @Inject constructor(
                     AutocompleteResult.EmojiResult(emoji)
                 }
             }
+
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
                 emptyList()
@@ -480,15 +484,16 @@ class ComposeViewModel @Inject constructor(
         }
 
         composeKind = composeOptions?.kind ?: ComposeKind.NEW
+        inReplyToId = composeOptions?.inReplyToId
 
-        val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
+        val activeAccount = accountManager.activeAccount!!
+        val preferredVisibility =
+            if (inReplyToId != null) activeAccount.defaultReplyPrivacy else activeAccount.defaultPostPrivacy
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
         startingVisibility = Status.Visibility.byNum(
             preferredVisibility.num.coerceAtLeast(replyVisibility.num)
         )
-
-        inReplyToId = composeOptions?.inReplyToId
 
         modifiedInitialState = composeOptions?.modifiedInitialState == true
 

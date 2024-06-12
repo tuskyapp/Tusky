@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
+import com.keylesspalace.tusky.settings.PrefKeys
 import java.net.URI
 import java.net.URISyntaxException
 
@@ -84,7 +85,7 @@ fun setClickableText(
             setClickableText(span, this, mentions, tags, listener)
         }
     }
-    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
 @VisibleForTesting
@@ -170,7 +171,7 @@ fun setClickableText(
 
 @VisibleForTesting
 fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
-    val scrapedName = normalizeToASCII(text.subSequence(1, text.length)).toString()
+    val scrapedName = normalizeToASCII(text.subSequence(1, text.length))
     return when (tags) {
         null -> scrapedName
         else -> tags.firstOrNull { it.name.equals(scrapedName, true) }?.name
@@ -275,7 +276,7 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
             start = end
         }
     }
-    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
 fun createClickableText(text: String, link: String): CharSequence {
@@ -294,7 +295,7 @@ fun Context.openLink(url: String) {
     val uri = url.toUri().normalizeScheme()
     val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(
         this
-    ).getBoolean("customTabs", false)
+    ).getBoolean(PrefKeys.CUSTOM_TABS, false)
 
     if (useCustomTabs) {
         openLinkInCustomTab(uri, this)
@@ -441,6 +442,4 @@ object NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
 
         return super.onTouchEvent(widget, buffer, event)
     }
-
-    fun getInstance() = NoTrailingSpaceLinkMovementMethod
 }
