@@ -114,12 +114,12 @@
     <string name="label_header">سرایند</string>
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال وصل شدن…</string>
-    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، چون mastodon.social, icosahedron.website, social.tchncs.de و <a href="https://instances.social">بیش‌تر!</a>.
-\n 
-\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه‌ای که می‌خواهید به آن بپیوندید را وارد کرده و در آن‌جا حسابی بسازید.
-\n 
-\n نمونه جاییست که حسابتان رویش میزبانی می‌شود. به راحتی می‌توانید با افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
-\n 
+    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، چون mastodon.social, icosahedron.website, social.tchncs.de و <a href="https://instances.social">بیش‌تر!</a>. 
+\n \u0020
+\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه‌ای که می‌خواهید به آن بپیوندید را وارد کرده و در آن‌جا حسابی بسازید. 
+\n \u0020
+\n نمونه جاییست که حسابتان رویش میزبانی می‌شود. به راحتی می‌توانید با افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید. 
+\n \u0020
 \nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. \u0020</string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
@@ -161,9 +161,9 @@
     <string name="pref_title_http_proxy_enable">به کار انداختن پیشکار HTTP</string>
     <string name="pref_title_http_proxy_server">کارساز پیشکار HTTP</string>
     <string name="pref_title_http_proxy_port">درگاه پیشکار HTTP</string>
-    <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته</string>
-    <string name="pref_default_media_sensitivity">علامت‌گذاری همیشگی رسانه به عنوان حساس</string>
-    <string name="pref_publishing">در حال انتشار (همگام با کارساز)</string>
+    <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته (همگام با کارساز)</string>
+    <string name="pref_default_media_sensitivity">علامت‌گذاری همیشگی رسانه به عنوان حساس (همگام با کارساز)</string>
+    <string name="pref_publishing">منتشر کردن</string>
     <string name="pref_failed_to_sync">شکست در هم‌گام‌سازی ترجیحات</string>
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
@@ -568,7 +568,7 @@
     <string name="action_unfollow_hashtag_format">لغو پی‌گیری #%1$s؟</string>
     <string name="status_created_at_now">اکنون</string>
     <string name="hint_media_description_missing">رسانه باید شرحی داشته باشد.</string>
-    <string name="pref_default_post_language">زبان فرستهٔ پیش‌گزیده</string>
+    <string name="pref_default_post_language">زبان فرستهٔ پیش‌گزیده (همگام با کارساز)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="pref_title_http_proxy_port_message">درگاه باید بین %2$d و %1$d باشد</string>
     <string name="description_post_edited">ویراسته</string>
@@ -645,15 +645,15 @@
     <string name="filter_edit_keyword_title">ویرایش کلیدواژه</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_show_stat_inline">نمایش آمار فرسته‌ها در خط زمانی</string>
-    <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد.
-\n
+    <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد. 
+\n 
 \nبرای کاوش حساب‌ها می‌توانید آن‌ها را در دیگر خط‌های زمانی (برای نمونه خط زمانی محلّی نمونه‌تان [iconics gmd_group]) یافته یا با نام (برای نمونه Tusky برای حساب ماستودونمان) بجوییدشان [iconics gmd_search].</string>
     <string name="post_media_image">تصویر</string>
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
     <string name="load_newest_notifications">بار کردن جدیدترین آگاهی‌ها</string>
     <string name="compose_delete_draft">حذف پیش‌نویس؟</string>
-    <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند.
-\n
+    <string name="error_missing_edits">کارسازتان می‌داند که این فرسته ویرایش شده؛ ولی رونوشتی از ویرایش‌ها ندارد. پس نمی‌توانند نشانتان داده شوند. 
+\n 
 \nاین <a href="https://github.com/mastodon/mastodon/issues/25398">نکتهٔ ماستودون</a> را ببینید.</string>
     <string name="pref_ui_text_size">اندازهٔ متن میانای کاربری</string>
     <string name="notification_listenable_worker_name">فعّالیت پس‌زمینه</string>
@@ -680,15 +680,15 @@
     <string name="unmuting_hashtag_success_format">ناخموش کردن برچسب #%1$s</string>
     <string name="following_hashtag_success_format">اکنون برچسب #%1$s دنبال می‌شود</string>
     <string name="unfollowing_hashtag_success_format">دیگر برچسب #%1$s دنبال نمی‌شود</string>
-    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جایند.
-\n
-\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربرانی در متن ایجاد می‌شود.
-\n
+    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جایند. 
+\n 
+\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربرانی در متن ایجاد می‌شود. 
+\n 
 \nبرای نمونه می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. \u0020</string>
-    <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید.
-\n
-\n به خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید.
-\n
+    <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید. 
+\n 
+\n به خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید. 
+\n 
 \n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. \u0020</string>
     <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
     <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
@@ -716,4 +716,5 @@
     <string name="pref_title_confirm_follows">نمایش تأیید پیش از پیگیری</string>
     <string name="url_copied">نشانی رونوشت شد</string>
     <string name="confirmation_hashtag_copied">«%1$s» رونوشت شد</string>
+    <string name="pref_default_reply_privacy">محرمانگی پیش‌گزیدهٔ پاسخ (همگام نشده با کارساز)</string>
 </resources>
