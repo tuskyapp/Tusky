@@ -3,6 +3,14 @@
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>false</verify-signatures>
+      <trusted-artifacts>
+          <!-- all these are work-around for https://youtrack.jetbrains.com/issue/IDEA-258328 -->
+          <trust file=".*-javadoc[.]jar" regex="true"/>
+          <trust file=".*-sources[.]jar" regex="true"/>
+          <trust file="gradle-[0-9.]+-src.zip" regex="true"/>
+          <trust file="groovy-[a-z]*-?[0-9.]+.pom" regex="true"/>
+          <!-- end work-around for https://youtrack.jetbrains.com/issue/IDEA-258328 -->
+      </trusted-artifacts>
    </configuration>
    <components>
       <component group="androidx.activity" name="activity" version="1.9.0">
