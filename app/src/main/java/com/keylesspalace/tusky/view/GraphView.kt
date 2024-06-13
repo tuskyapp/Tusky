@@ -26,6 +26,7 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.core.content.res.use
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import kotlin.math.max
@@ -130,7 +131,7 @@ class GraphView @JvmOverloads constructor(
         context.obtainStyledAttributes(attr, R.styleable.GraphView).use { a ->
             primaryLineColor = a.getColor(
                 R.styleable.GraphView_primaryLineColor,
-                MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary)
+                MaterialColors.getColor(this, materialR.attr.colorPrimary)
             )
 
             secondaryLineColor = a.getColor(

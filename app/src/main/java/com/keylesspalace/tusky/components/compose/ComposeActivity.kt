@@ -62,6 +62,7 @@ import androidx.transition.TransitionManager
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
+import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.color.MaterialColors
@@ -825,12 +826,12 @@ class ComposeActivity :
             @AttrRes val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                com.google.android.material.R.attr.colorPrimary
+                materialR.attr.colorPrimary
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    com.google.android.material.R.attr.colorPrimary
+                    materialR.attr.colorPrimary
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
                     android.R.attr.textColorTertiary
@@ -865,7 +866,7 @@ class ComposeActivity :
                     if (binding.composeScheduleView.time == null) {
                         android.R.attr.textColorTertiary
                     } else {
-                        com.google.android.material.R.attr.colorPrimary
+                        materialR.attr.colorPrimary
                     }
                 )
             binding.composeScheduleButton.drawable.setTint(color)
@@ -1252,7 +1253,7 @@ class ComposeActivity :
                 binding.composeContentWarningField.text.length
             )
             binding.composeContentWarningField.requestFocus()
-            com.google.android.material.R.attr.colorPrimary
+            materialR.attr.colorPrimary
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()

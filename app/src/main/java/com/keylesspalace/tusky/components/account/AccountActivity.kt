@@ -49,6 +49,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
+import com.google.android.material.R as materialR
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
@@ -189,9 +190,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface, Color.BLACK)
+        toolbarColor = MaterialColors.getColor(this, materialR.attr.colorSurface, Color.BLACK)
         statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
-        statusBarColorOpaque = MaterialColors.getColor(this, androidx.appcompat.R.attr.colorPrimaryDark, Color.BLACK)
+        statusBarColorOpaque = MaterialColors.getColor(this, materialR.attr.colorPrimaryDark, Color.BLACK)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
