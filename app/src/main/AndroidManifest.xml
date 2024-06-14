@@ -40,55 +40,61 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
+            android:launchMode="singleTask"
             android:exported="true"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
+
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="video/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="video/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:label="@string/action_compose">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="audio/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data
@@ -97,6 +103,21 @@
             <meta-data
                 android:name="android.service.chooser.chooser_target_service"
                 android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
+
+        </activity>
+        <activity
+            android:name=".components.view.ViewLinkActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:theme="@style/NullTheme">
+
+            <intent-filter android:label="@string/open_link">
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
 
         </activity>
         <activity
