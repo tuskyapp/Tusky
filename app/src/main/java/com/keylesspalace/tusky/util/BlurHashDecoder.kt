@@ -91,7 +91,11 @@ object BlurHashDecoder {
     ): Bitmap {
         val imageArray = IntArray(width * height)
         val cosinesX = createCosines(width, numCompX)
-        val cosinesY = createCosines(height, numCompY)
+        val cosinesY = if (width == height && numCompX == numCompY) {
+            cosinesX
+        } else {
+            createCosines(height, numCompY)
+        }
         for (y in 0 until height) {
             for (x in 0 until width) {
                 var r = 0f
