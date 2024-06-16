@@ -700,4 +700,6 @@
     <string name="url_copied">Đã sao chép liên kết</string>
     <string name="confirmation_hashtag_copied">Đã sao chép \'#%1$s\'</string>
     <string name="pref_default_reply_privacy">Kiểu trả lời mặc định (không đồng bộ máy chủ)</string>
+    <string name="error_deleting_filter">Xóa bộ lọc \'%1$s\' không được</string>
+    <string name="error_saving_filter">Chưa thể lưu bộ lọc \'%1$s\'</string>
 </resources>
