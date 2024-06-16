@@ -21,8 +21,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -35,14 +35,21 @@ class MediaPreviewAdapter(
     private val onAddFocus: (ComposeActivity.QueuedMedia) -> Unit,
     private val onEditImage: (ComposeActivity.QueuedMedia) -> Unit,
     private val onRemove: (ComposeActivity.QueuedMedia) -> Unit
-) : RecyclerView.Adapter<MediaPreviewAdapter.PreviewViewHolder>() {
+) : ListAdapter<ComposeActivity.QueuedMedia, MediaPreviewAdapter.PreviewViewHolder>(
+    object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
+        override fun areItemsTheSame(
+            oldItem: ComposeActivity.QueuedMedia,
+            newItem: ComposeActivity.QueuedMedia
+        ) = oldItem.localId == newItem.localId
 
-    fun submitList(list: List<ComposeActivity.QueuedMedia>) {
-        this.differ.submitList(list)
+        override fun areContentsTheSame(
+            oldItem: ComposeActivity.QueuedMedia,
+            newItem: ComposeActivity.QueuedMedia
+        ) = oldItem == newItem
     }
+) {
 
-    private fun onMediaClick(position: Int, view: View) {
-        val item = differ.currentList[position]
+    private fun onMediaClick(item: ComposeActivity.QueuedMedia, view: View) {
         val popup = PopupMenu(view.context, view)
         val addCaptionId = 1
         val addFocusId = 2
@@ -73,14 +80,12 @@ class MediaPreviewAdapter(
     private val thumbnailViewSize =
         context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
-    override fun getItemCount(): Int = differ.currentList.size
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
         return PreviewViewHolder(ProgressImageView(parent.context))
     }
 
     override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
-        val item = differ.currentList[position]
+        val item = getItem(position)
         holder.progressImageView.setChecked(!item.description.isNullOrEmpty())
         holder.progressImageView.setProgress(item.uploadPercent)
         if (item.type == ComposeActivity.QueuedMedia.Type.AUDIO) {
@@ -107,27 +112,12 @@ class MediaPreviewAdapter(
             }
 
             glide.into(imageView)
+
+            holder.progressImageView.setOnClickListener {
+                onMediaClick(item, holder.progressImageView)
+            }
         }
     }
-
-    private val differ = AsyncListDiffer(
-        this,
-        object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
-            override fun areItemsTheSame(
-                oldItem: ComposeActivity.QueuedMedia,
-                newItem: ComposeActivity.QueuedMedia
-            ): Boolean {
-                return oldItem.localId == newItem.localId
-            }
-
-            override fun areContentsTheSame(
-                oldItem: ComposeActivity.QueuedMedia,
-                newItem: ComposeActivity.QueuedMedia
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-    )
 
     inner class PreviewViewHolder(val progressImageView: ProgressImageView) :
         RecyclerView.ViewHolder(progressImageView) {
@@ -140,9 +130,6 @@ class MediaPreviewAdapter(
             layoutParams.setMargins(margin, 0, margin, marginBottom)
             progressImageView.layoutParams = layoutParams
             progressImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            progressImageView.setOnClickListener {
-                onMediaClick(bindingAdapterPosition, progressImageView)
-            }
         }
     }
 }
