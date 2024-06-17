@@ -235,9 +235,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             );
             contentWarningDescription.setText(emojiSpoiler);
             contentWarningDescription.setVisibility(View.VISIBLE);
-            contentWarningButton.setVisibility(View.VISIBLE);
-            setContentWarningButtonText(expanded);
-            contentWarningButton.setOnClickListener(view -> toggleExpandedState(true, !expanded, status, statusDisplayOptions, listener));
+            boolean hasContent = !TextUtils.isEmpty(status.getContent());
+            if (hasContent) {
+                contentWarningButton.setVisibility(View.VISIBLE);
+                setContentWarningButtonText(expanded);
+                contentWarningButton.setOnClickListener(view -> toggleExpandedState(true, !expanded, status, statusDisplayOptions, listener));
+            } else {
+                contentWarningButton.setVisibility(View.GONE);
+            }
             this.setTextVisible(true, expanded, status, statusDisplayOptions, listener);
         } else {
             contentWarningDescription.setVisibility(View.GONE);
