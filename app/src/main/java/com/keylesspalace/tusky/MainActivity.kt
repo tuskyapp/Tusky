@@ -58,6 +58,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -698,8 +699,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                         startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                     }
                     badgeStyle = BadgeStyle().apply {
-                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorOnPrimary))
-                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary))
+                        textColor = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, materialR.attr.colorOnPrimary))
+                        color = ColorHolder.fromColor(MaterialColors.getColor(binding.mainDrawer, materialR.attr.colorPrimary))
                     }
                 },
                 DividerDrawerItem(),
@@ -856,7 +857,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             if (tabs[position].id == DIRECT) {
                 val badge = tab.orCreateBadge
                 badge.isVisible = accountManager.activeAccount?.hasDirectMessageBadge ?: false
-                badge.backgroundColor = MaterialColors.getColor(binding.mainDrawer, com.google.android.material.R.attr.colorPrimary)
+                badge.backgroundColor = MaterialColors.getColor(binding.mainDrawer, materialR.attr.colorPrimary)
                 directMessageTab = tab
             }
         }.also { it.attach() }

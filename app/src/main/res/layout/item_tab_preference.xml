@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:colorBackground"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:paddingTop="8dp"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall">
+    android:paddingTop="8dp"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
 
     <ImageView
         android:id="@+id/imageView"
@@ -70,8 +70,10 @@
             android:layout_height="wrap_content"
             android:checkable="false"
             android:text="@string/add_hashtag_title"
+            android:textColor="?attr/colorOnPrimary"
             app:chipIcon="@drawable/ic_plus_24dp"
-            app:chipSurfaceColor="@color/tusky_blue" />
+            app:chipIconTint="?attr/colorOnPrimary"
+            app:chipSurfaceColor="?attr/colorPrimary" />
 
     </com.google.android.material.chip.ChipGroup>
 

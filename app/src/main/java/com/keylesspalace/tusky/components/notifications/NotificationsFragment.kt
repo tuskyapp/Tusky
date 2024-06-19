@@ -137,7 +137,6 @@ class NotificationsFragment :
 
         // Setup the SwipeRefreshLayout.
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         // Setup the RecyclerView.
         binding.recyclerView.setHasFixedSize(true)

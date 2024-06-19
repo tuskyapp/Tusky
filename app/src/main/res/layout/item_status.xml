@@ -382,7 +382,7 @@
         sparkbutton:iconSize="28dp"
         sparkbutton:inactiveImage="@drawable/ic_reblog_24dp"
         sparkbutton:primaryColor="@color/tusky_blue"
-        sparkbutton:secondaryColor="@color/tusky_blue_light" />
+        sparkbutton:secondaryColor="@color/tusky_blue_lighter" />
 
     <TextView
         android:id="@+id/status_insets"

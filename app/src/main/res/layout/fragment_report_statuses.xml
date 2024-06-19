@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".components.report.fragments.ReportStatusesFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,7 +19,7 @@
             android:layout_height="match_parent" />
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBarTop"

@@ -84,7 +84,6 @@ class ListsActivity : BaseActivity() {
         )
 
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.retryLoading() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         lifecycleScope.launch {
             viewModel.state.collect(this@ListsActivity::update)

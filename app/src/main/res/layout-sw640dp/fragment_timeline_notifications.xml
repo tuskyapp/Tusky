@@ -70,7 +70,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -96,7 +96,7 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

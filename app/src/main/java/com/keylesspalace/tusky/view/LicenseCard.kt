@@ -20,6 +20,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.res.use
+import com.google.android.material.R as materialR
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -40,7 +41,7 @@ class LicenseCard
         setCardBackgroundColor(
             MaterialColors.getColor(
                 context,
-                com.google.android.material.R.attr.colorSurface,
+                materialR.attr.colorSurface,
                 Color.BLACK
             )
         )

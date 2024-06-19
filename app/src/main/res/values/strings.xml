@@ -196,6 +196,7 @@
     <string name="action_links">Links</string>
     <string name="action_mentions">Mentions</string>
     <string name="action_hashtags">Hashtags</string>
+    <string name="action_follow_hashtag">Follow a new hashtag</string>
     <string name="action_open_reblogger">Open boost author</string>
     <string name="action_open_reblogged_by">Show boosts</string>
     <string name="action_open_faved_by">Show favorites</string>

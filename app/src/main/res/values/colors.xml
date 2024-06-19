@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- the original Tusky Blue, but for better contrast tusky_blue_light and tusky_blue_dark should be used in the ui-->
     <color name="tusky_blue">#2b90d9</color>
-    <color name="tusky_blue_darker">#217aba</color>
-    <color name="tusky_blue_light">#56a7e1</color>
+    <color name="tusky_blue_light">#3c9add</color>
+    <color name="tusky_blue_dark">#217aba</color>
+    <color name="tusky_blue_lighter">#56a7e1</color>
     <color name="tusky_orange">#ca8f04</color>
     <color name="tusky_orange_light">#fab207</color>
     <color name="tusky_green">#00731B</color>
     <color name="tusky_green_light">#25d069</color>
     <color name="tusky_green_lighter">#CCFFD8</color>
     <color name="tusky_red">#DF1553</color>
-    <color name="tusky_red_lighter">#FFC0C0</color>
+    <color name="tusky_red_lighter">#FF7287</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>
@@ -38,7 +40,7 @@
 
     <!-- colors used in the elephant friend drawables -->
     <color name="elephant_friend_border_color">#121419</color>
-    <color name="elephant_friend_accent_color">@color/tusky_blue</color>
+    <color name="elephant_friend_accent_color">?attr/colorPrimary</color>
     <color name="elephant_friend_body_color">#9BAEC8</color>
     <color name="elephant_friend_dark_body_color_1">#8192A6</color>
     <color name="elephant_friend_dark_body_color_2">#7F90A4</color>

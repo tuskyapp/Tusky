@@ -72,7 +72,7 @@ class TrendingTagsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = TrendingTagsAdapter(::onViewTag)
         this.adapter = adapter
-        setupSwipeRefreshLayout()
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
         setupRecyclerView(adapter)
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -104,11 +104,6 @@ class TrendingTagsFragment :
         // Clear the adapter to prevent leaking the View
         adapter = null
         super.onDestroyView()
-    }
-
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
     private fun setupLayoutManager(adapter: TrendingTagsAdapter, columnCount: Int) {

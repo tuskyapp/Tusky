@@ -43,6 +43,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
@@ -329,7 +330,7 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
 fun openLinkInCustomTab(uri: Uri, context: Context) {
     val toolbarColor = MaterialColors.getColor(
         context,
-        com.google.android.material.R.attr.colorSurface,
+        materialR.attr.colorSurface,
         Color.BLACK
     )
     val navigationbarColor = MaterialColors.getColor(

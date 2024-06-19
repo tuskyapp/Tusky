@@ -13,7 +13,7 @@
             android:id="@+id/includedToolbar"
             layout="@layout/toolbar_basic" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -40,7 +40,7 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -63,6 +63,7 @@
         android:contentDescription="@string/action_create_list"
         app:layout_anchor="@id/listsRecycler"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_plus_24dp" />
+        app:srcCompat="@drawable/ic_plus_24dp"
+        app:tint="?attr/colorOnPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -42,7 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/action_mention"
-        app:srcCompat="@drawable/ic_hashtag" />
+        android:contentDescription="@string/action_follow_hashtag"
+        app:srcCompat="@drawable/ic_hashtag"
+        app:tint="?attr/colorOnPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

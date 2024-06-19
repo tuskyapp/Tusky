@@ -102,6 +102,7 @@ class ReportStatusesFragment :
                     startActivity(intent)
                 }
             }
+
             Attachment.Type.UNKNOWN -> {
             }
         }
@@ -111,7 +112,7 @@ class ReportStatusesFragment :
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         handleClicks()
         initStatusesView()
-        setupSwipeRefreshLayout()
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun onDestroyView() {
@@ -138,6 +139,7 @@ class ReportStatusesFragment :
                 onRefresh()
                 true
             }
+
             else -> false
         }
     }
@@ -146,12 +148,6 @@ class ReportStatusesFragment :
         snackbarErrorRetry?.dismiss()
         snackbarErrorRetry = null
         adapter?.refresh()
-    }
-
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun initStatusesView() {

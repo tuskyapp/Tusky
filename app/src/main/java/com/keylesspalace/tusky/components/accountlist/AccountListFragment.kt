@@ -138,7 +138,6 @@ class AccountListFragment :
         binding.recyclerView.addOnScrollListener(scrollListener)
 
         binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts(adapter) }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         fetchAccounts(adapter)
     }

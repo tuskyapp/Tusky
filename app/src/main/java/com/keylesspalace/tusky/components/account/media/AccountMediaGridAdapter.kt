@@ -11,6 +11,7 @@ import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
@@ -47,7 +48,7 @@ class AccountMediaGridAdapter(
 
     private val baseItemBackgroundColor = MaterialColors.getColor(
         context,
-        com.google.android.material.R.attr.colorSurface,
+        materialR.attr.colorSurface,
         Color.BLACK
     )
     private val videoIndicator = AppCompatResources.getDrawable(
