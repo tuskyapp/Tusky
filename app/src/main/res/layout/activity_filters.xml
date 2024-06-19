@@ -24,6 +24,8 @@
                 android:id="@+id/filtersList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerview_bottom_padding_actionbutton"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
