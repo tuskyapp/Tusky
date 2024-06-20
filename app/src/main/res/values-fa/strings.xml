@@ -719,4 +719,5 @@
     <string name="pref_default_reply_privacy">محرمانگی پیش‌گزیدهٔ پاسخ (همگام نشده با کارساز)</string>
     <string name="error_deleting_filter">خطا در حذف پالایهٔ «%1$s»</string>
     <string name="error_saving_filter">خطا در ذخیرهٔ پالایهٔ «%1$s»</string>
+    <string name="action_follow_hashtag">پی‌گیری برچسبی جدید</string>
 </resources>
