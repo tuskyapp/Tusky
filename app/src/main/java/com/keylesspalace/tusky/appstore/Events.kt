@@ -8,7 +8,6 @@ import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.Status
 
 data class StatusChangedEvent(val status: Status) : Event
-data class MuteConversationEvent(val statusId: String, val mute: Boolean) : Event
 data class UnfollowEvent(val accountId: String) : Event
 data class BlockEvent(val accountId: String) : Event
 data class MuteEvent(val accountId: String) : Event

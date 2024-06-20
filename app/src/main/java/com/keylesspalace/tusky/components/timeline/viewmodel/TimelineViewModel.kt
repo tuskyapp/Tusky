@@ -27,7 +27,6 @@ import at.connyduck.calladapter.networkresult.getOrThrow
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
-import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -227,7 +226,6 @@ abstract class TimelineViewModel(
 
     private fun handleEvent(event: Event) {
         when (event) {
-            is MuteConversationEvent -> fullReload()
             is PreferenceChangedEvent -> {
                 onPreferenceChanged(event.preferenceKey)
             }
