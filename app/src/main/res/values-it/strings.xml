@@ -734,4 +734,5 @@
     <string name="pref_default_reply_privacy">Privacy predefinita della risposta (non sincronizzato sul server)</string>
     <string name="error_deleting_filter">Errore nella cancellazione del filtro \'%1$s\'</string>
     <string name="error_saving_filter">Errore nel salvataggio del filtro \'%1$s\'</string>
+    <string name="action_follow_hashtag">Segui un nuovo hashtag</string>
 </resources>

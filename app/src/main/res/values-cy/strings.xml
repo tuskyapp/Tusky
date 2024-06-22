@@ -698,7 +698,7 @@
     <string name="notification_listenable_worker_name">Gweithgaredd cefndirol</string>
     <string name="notification_listenable_worker_description">Hysbysiadau pan fydd Tusky\'n gweithio\'n y cefndir</string>
     <string name="notification_notification_worker">Yn estyn hysbysiadau…</string>
-    <string name="notification_prune_cache">Cynnal a chadw\'r cor dros dro…</string>
+    <string name="notification_prune_cache">Cynnal a chadw\'r cof dros dro…</string>
     <string name="error_missing_edits">Mae eich gweinydd yn gwybod y cafodd y neges hon ei golygu, ond nid oes ganddo gopi o\'r golygiadau, felly nid oes modd eu dangos i chi.
 \n
 \nDyma <a href="https://github.com/mastodon/mastodon/issues/25398">broblem Mastodon #25398</a>.</string>
@@ -763,4 +763,5 @@
     <string name="pref_default_reply_privacy">Preifatrwydd rhagosodedig ymatebion (ni fydd yn cael ei gydweddu gyda\'ch gweinydd)</string>
     <string name="error_deleting_filter">Bu gwall wrth ddileu hidlydd \'%1$s\'</string>
     <string name="error_saving_filter">Bu gwall wrth gadw hidlydd \'%1$s\'</string>
+    <string name="action_follow_hashtag">Dilyn hashnod newydd</string>
 </resources>
