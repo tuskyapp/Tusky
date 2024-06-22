@@ -22,7 +22,6 @@ import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MuteConversationEvent
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
@@ -86,8 +85,8 @@ class TimelineCases @Inject constructor(
             mastodonApi.muteConversation(statusId)
         } else {
             mastodonApi.unmuteConversation(statusId)
-        }.onSuccess {
-            eventHub.dispatch(MuteConversationEvent(statusId, mute))
+        }.onSuccess { status ->
+            eventHub.dispatch(StatusChangedEvent(status))
         }
     }
 
