@@ -33,6 +33,7 @@ class EmojiAdapter(
 
     private val emojiList: List<Emoji> = emojiList.filter { emoji -> emoji.visibleInPicker }
         .sortedBy { it.shortcode.lowercase(Locale.ROOT) }
+        .sortedBy { it.category?.lowercase(Locale.ROOT) ?: "" }
 
     override fun getItemCount() = emojiList.size
 
