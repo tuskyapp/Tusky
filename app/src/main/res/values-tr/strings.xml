@@ -717,4 +717,7 @@
     <string name="url_copied">Url kopyalandı</string>
     <string name="confirmation_hashtag_copied">\'#%1$s\' kopyalandı</string>
     <string name="pref_default_reply_privacy">Varsayılan yanıt gizliliği (sunucu ile eşleştirilmedi)</string>
+    <string name="action_follow_hashtag">Yeni bir etiket takip ediniz</string>
+    <string name="error_deleting_filter">Süzgeç silinirken hata oluştu \'%1$s\'</string>
+    <string name="error_saving_filter">Hata kaydetme süzgeci \'%1$s\'</string>
 </resources>
