@@ -28,6 +28,51 @@
         android:background="?attr/colorSurface"
         app:elevation="0dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="16dp">
+
+            <TextView
+                android:id="@+id/notification_policy_summary_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/filtered_notifications"
+                android:textColor="?android:textColorSecondary"
+                android:textStyle="normal|bold"
+                app:layout_constraintEnd_toStartOf="@id/notification_policy_summary_badge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/notification_policy_summary_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="?android:textColorSecondary"
+                app:layout_constraintEnd_toStartOf="@id/notification_policy_summary_badge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notification_policy_summary_title"
+                android:text="@string/notifications_from_people_you_may_know" />
+
+            <TextView
+                android:id="@+id/notification_policy_summary_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/badge_background"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textColor="?attr/colorOnPrimary"
+                android:textStyle="normal|bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/topButtonsLayout"
             android:layout_width="match_parent"

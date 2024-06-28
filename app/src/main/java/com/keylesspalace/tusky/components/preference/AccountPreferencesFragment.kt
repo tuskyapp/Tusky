@@ -290,6 +290,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     fragment = TabFilterPreferencesFragment::class.qualifiedName
                 }
             }
+                preference {
+                    setTitle(R.string.notification_policies_title)
+                    fragment = NotificationPoliciesFragment::class.qualifiedName
+                }
         }
     }
 

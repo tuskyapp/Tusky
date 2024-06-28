@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationPolicy
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
@@ -722,4 +723,7 @@ interface MastodonApi {
         @Path("id") statusId: String,
         @Field("lang") targetLanguage: String?
     ): NetworkResult<Translation>
+
+    @GET("api/v1/notifications/policy")
+    suspend fun notificationPolicy(): NetworkResult<NotificationPolicy>
 }
