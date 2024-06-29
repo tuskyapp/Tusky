@@ -488,7 +488,7 @@
 \n• Statistiken zu Followern/Beiträgen auf Profilen
 \n
 \nPush-Benachrichtigungen sind nicht betroffen, aber du kannst deine Benachrichtigungseinstellungen manuell überprüfen.</string>
-    <string name="follow_requests_info">Auch wenn dein Konto öffentlich bzw. nicht geschützt ist, haben die Admins von %1$s gedacht, dass du diesen Follower lieber manuell bestätigen solltest.</string>
+    <string name="follow_requests_info">Auch wenn dein Konto öffentlich bzw. nicht geschützt ist, haben die Admins von %1$s gedacht, dass du diese Follower lieber manuell bestätigen solltest.</string>
     <string name="wellbeing_hide_stats_profile">Statistiken auf Profilen ausblenden</string>
     <string name="wellbeing_hide_stats_posts">Statistiken in Beiträgen ausblenden</string>
     <string name="limit_notifications">Timeline-Benachrichtigungen einschränken</string>

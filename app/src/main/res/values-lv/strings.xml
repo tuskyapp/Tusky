@@ -599,4 +599,5 @@
     <string name="filter_keyword_addition_title">Pievienot atslēgvārdu</string>
     <string name="dialog_delete_filter_positive_action">Dzēst</string>
     <string name="list_reply_policy_label">Rāda atbildes uz</string>
+    <string name="error_media_upload_sending_fmt">Augšupielāde neizdevās: %1$s</string>
 </resources>
