@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose.dialog
 
 import android.content.Context
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -44,6 +45,8 @@ class CaptionDialog : DialogFragment() {
     private lateinit var listener: Listener
 
     private val binding by viewBinding(DialogImageDescriptionBinding::bind)
+
+    private var animatable: Animatable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +100,23 @@ class CaptionDialog : DialogFragment() {
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
+                    if (resource is Animatable) {
+                        resource.callback = object : Drawable.Callback {
+                            override fun invalidateDrawable(who: Drawable) {
+                                view.invalidate()
+                            }
+
+                            override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
+                                view.postDelayed(what, `when`)
+                            }
+
+                            override fun unscheduleDrawable(who: Drawable, what: Runnable) {
+                                view.removeCallbacks(what)
+                            }
+                        }
+                        resource.start()
+                        animatable = resource
+                    }
                     imageView.setImageDrawable(resource)
                 }
 
@@ -126,6 +146,12 @@ class CaptionDialog : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as? Listener ?: error("Activity is not ComposeCaptionDialog.Listener")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        animatable?.stop()
+        (animatable as? Drawable?)?.callback = null
     }
 
     interface Listener {
