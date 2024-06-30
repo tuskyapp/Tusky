@@ -40,9 +40,9 @@ interface InstanceDao {
     @Query("SELECT * FROM InstanceEntity WHERE instance = :instance LIMIT 1")
     suspend fun getEmojiInfo(instance: String): EmojisEntity?
 
-    @Query("UPDATE InstanceEntity SET filterV2Available = :filterV2Support WHERE instance = :instance")
+    @Query("UPDATE InstanceEntity SET filterV2Supported = :filterV2Support WHERE instance = :instance")
     suspend fun setFilterV2Support(instance: String, filterV2Support: Boolean)
 
-    @Query("SELECT filterV2Available FROM InstanceEntity WHERE instance = :instance LIMIT 1")
+    @Query("SELECT filterV2Supported FROM InstanceEntity WHERE instance = :instance LIMIT 1")
     suspend fun getFilterV2Support(instance: String): Boolean
 }

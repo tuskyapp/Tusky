@@ -42,8 +42,8 @@ data class InstanceEntity(
     val maxFieldNameLength: Int?,
     val maxFieldValueLength: Int?,
     val translationEnabled: Boolean?,
-    // ToDo: Remove this again when filter v1 supprt is dropped
-    @ColumnInfo(defaultValue = "false") val filterV2Available: Boolean = false
+    // ToDo: Remove this again when filter v1 support is dropped
+    @ColumnInfo(defaultValue = "false") val filterV2Supported: Boolean = false
 )
 
 @TypeConverters(Converters::class)

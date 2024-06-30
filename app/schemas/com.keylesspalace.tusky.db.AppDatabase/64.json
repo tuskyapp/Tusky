@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 64,
-    "identityHash": "ae6014f532846bc66f652ff7924a8892",
+    "identityHash": "12c1f266e9fb1d7fea3dde12866eb338",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -420,7 +420,7 @@
       },
       {
         "tableName": "InstanceEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, `maxPollOptions` INTEGER, `maxPollOptionLength` INTEGER, `minPollDuration` INTEGER, `maxPollDuration` INTEGER, `charactersReservedPerUrl` INTEGER, `version` TEXT, `videoSizeLimit` INTEGER, `imageSizeLimit` INTEGER, `imageMatrixLimit` INTEGER, `maxMediaAttachments` INTEGER, `maxFields` INTEGER, `maxFieldNameLength` INTEGER, `maxFieldValueLength` INTEGER, `translationEnabled` INTEGER, `filterV2Available` INTEGER NOT NULL DEFAULT false, PRIMARY KEY(`instance`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`instance` TEXT NOT NULL, `emojiList` TEXT, `maximumTootCharacters` INTEGER, `maxPollOptions` INTEGER, `maxPollOptionLength` INTEGER, `minPollDuration` INTEGER, `maxPollDuration` INTEGER, `charactersReservedPerUrl` INTEGER, `version` TEXT, `videoSizeLimit` INTEGER, `imageSizeLimit` INTEGER, `imageMatrixLimit` INTEGER, `maxMediaAttachments` INTEGER, `maxFields` INTEGER, `maxFieldNameLength` INTEGER, `maxFieldValueLength` INTEGER, `translationEnabled` INTEGER, `filterV2Supported` INTEGER NOT NULL DEFAULT false, PRIMARY KEY(`instance`))",
         "fields": [
           {
             "fieldPath": "instance",
@@ -525,8 +525,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "filterV2Available",
-            "columnName": "filterV2Available",
+            "fieldPath": "filterV2Supported",
+            "columnName": "filterV2Supported",
             "affinity": "INTEGER",
             "notNull": true,
             "defaultValue": "false"
@@ -1332,7 +1332,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae6014f532846bc66f652ff7924a8892')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '12c1f266e9fb1d7fea3dde12866eb338')"
     ]
   }
 }
