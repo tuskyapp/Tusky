@@ -212,7 +212,7 @@ class StatusListActivity : BottomSheetActivity() {
                         mastodonApi.getFiltersV1().fold(
                             { filters ->
                                 mutedFilterV1 = filters.firstOrNull { filter ->
-                                    hashedTag == filter.phrase && filter.context.contains(FilterV1.HOME)
+                                    hashedTag == filter.phrase && filter.context.contains(Filter.Kind.HOME.kind)
                                 }
                                 updateTagMuteState(mutedFilterV1 != null)
                             },
@@ -249,7 +249,7 @@ class StatusListActivity : BottomSheetActivity() {
 
             mastodonApi.createFilter(
                 title = "#$tag",
-                context = listOf(FilterV1.HOME),
+                context = listOf(Filter.Kind.HOME.kind),
                 filterAction = Filter.Action.WARN.action,
                 expiresInSeconds = null
             ).fold(
@@ -278,7 +278,7 @@ class StatusListActivity : BottomSheetActivity() {
                     if (throwable.isHttpNotFound()) {
                         mastodonApi.createFilterV1(
                             hashedTag,
-                            listOf(FilterV1.HOME),
+                            listOf(Filter.Kind.HOME.kind),
                             irreversible = false,
                             wholeWord = true,
                             expiresInSeconds = null
@@ -355,7 +355,7 @@ class StatusListActivity : BottomSheetActivity() {
                         mastodonApi.updateFilterV1(
                             id = filter.id,
                             phrase = filter.phrase,
-                            context = filter.context.filter { it != FilterV1.HOME },
+                            context = filter.context.filter { it != Filter.Kind.HOME.kind },
                             irreversible = null,
                             wholeWord = null,
                             expiresInSeconds = null

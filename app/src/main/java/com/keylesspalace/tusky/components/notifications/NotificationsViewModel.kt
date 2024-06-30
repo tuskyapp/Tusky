@@ -127,11 +127,17 @@ class NotificationsViewModel @Inject constructor(
                     onPreferenceChanged(event.preferenceKey)
                 }
                 if (event is FilterUpdatedEvent && event.filterContext.contains(Filter.Kind.NOTIFICATIONS.kind)) {
+                    filterModel.init(Filter.Kind.NOTIFICATIONS)
                     refreshTrigger.value += 1
                 }
             }
         }
-        filterModel.kind = Filter.Kind.NOTIFICATIONS
+        viewModelScope.launch {
+            val needsRefresh = filterModel.init(Filter.Kind.NOTIFICATIONS)
+            if (needsRefresh) {
+                refreshTrigger.value++
+            }
+        }
     }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {

@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.components.timeline.fakeStatusViewData
 import com.keylesspalace.tusky.db.AccountManager
@@ -81,8 +82,11 @@ class ViewThreadViewModelTest {
         api = mock {
             onBlocking { getFilters() } doReturn NetworkResult.success(emptyList())
         }
+        val instanceInfoRepo: InstanceInfoRepository = mock {
+            onBlocking { isFilterV2Supported() } doReturn false
+        }
         eventHub = EventHub()
-        val filterModel = FilterModel()
+        val filterModel = FilterModel(instanceInfoRepo, api)
         val timelineCases = TimelineCases(api, eventHub)
         val accountManager: AccountManager = mock {
             on { activeAccount } doReturn AccountEntity(

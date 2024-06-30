@@ -28,13 +28,6 @@ data class FilterV1(
     val irreversible: Boolean,
     @Json(name = "whole_word") val wholeWord: Boolean
 ) {
-    companion object {
-        const val HOME = "home"
-        const val NOTIFICATIONS = "notifications"
-        const val PUBLIC = "public"
-        const val THREAD = "thread"
-        const val ACCOUNT = "account"
-    }
 
     override fun hashCode(): Int {
         return id.hashCode()
