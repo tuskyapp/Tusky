@@ -107,6 +107,10 @@ class InstanceInfoRepository @Inject constructor(
                 }
         }.toInfoOrDefault()
 
+    suspend fun saveFilterV2Support(filterV2Supported: Boolean) = dao.setFilterV2Support(instanceName, filterV2Supported)
+
+    suspend fun isFilterV2Supported(): Boolean = dao.getFilterV2Support(instanceName)
+
     private suspend fun InstanceInfoRepository.fetchAndPersistInstanceInfo(): NetworkResult<InstanceInfoEntity> =
         fetchRemoteInstanceInfo()
             .onSuccess { instanceInfoEntity ->
