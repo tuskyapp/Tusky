@@ -455,8 +455,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     private fun setupRefreshLayout() {
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         lifecycleScope.launch {
-            viewModel.isRefreshing.collect { isRefreshing ->
-                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+            viewModel.isRefreshing.collect {
+                binding.swipeToRefreshLayout.isRefreshing = it
             }
         }
     }
@@ -1045,7 +1045,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 return true
             }
             R.id.action_refresh -> {
-                binding.swipeToRefreshLayout.isRefreshing = true
                 onRefresh()
                 return true
             }
