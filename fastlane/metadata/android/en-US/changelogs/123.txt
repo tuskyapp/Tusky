@@ -1,0 +1,7 @@
+Tusky 26
+
+- The blue primary color has been slightly changed for better contrast
+- The content of the notifications tab is now cached for better offline behavior.
+- New account preference "default reply privacy"
+- A lot off under-the-hood stability & performance improvements
+See https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md for the full changelog
