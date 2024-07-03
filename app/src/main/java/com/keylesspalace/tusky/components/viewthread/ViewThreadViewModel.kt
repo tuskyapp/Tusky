@@ -35,12 +35,10 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -101,8 +99,6 @@ class ViewThreadViewModel @Inject constructor(
                     }
                 }
         }
-
-        loadFilters()
     }
 
     fun loadThread(id: String) {
@@ -110,6 +106,8 @@ class ViewThreadViewModel @Inject constructor(
 
         viewModelScope.launch {
             Log.d(TAG, "Finding status with: $id")
+            val filterCall = async { filterModel.init(Filter.Kind.THREAD) }
+
             val contextCall = async { api.statusContext(id) }
             val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
 
@@ -152,6 +150,7 @@ class ViewThreadViewModel @Inject constructor(
                 }
             }
 
+            filterCall.await() // make sure FilterModel is initialized before using it
             val contextResult = contextCall.await()
 
             contextResult.fold({ statusContext ->
@@ -418,42 +417,6 @@ class ViewThreadViewModel @Inject constructor(
         }
 
         return RevealButtonState.NO_BUTTON
-    }
-
-    private fun loadFilters() {
-        viewModelScope.launch {
-            api.getFilters().fold(
-                {
-                    filterModel.kind = Filter.Kind.THREAD
-                    updateStatuses()
-                },
-                { throwable ->
-                    if (throwable.isHttpNotFound()) {
-                        val filters = api.getFiltersV1().getOrElse {
-                            Log.w(TAG, "Failed to fetch filters", it)
-                            return@launch
-                        }
-
-                        filterModel.initWithFilters(
-                            filters.filter { filter -> filter.context.contains(FilterV1.THREAD) }
-                        )
-                        updateStatuses()
-                    } else {
-                        Log.e(TAG, "Error getting filters", throwable)
-                    }
-                }
-            )
-        }
-    }
-
-    private fun updateStatuses() {
-        updateSuccess { uiState ->
-            val statuses = uiState.statusViewData.filter()
-            uiState.copy(
-                statusViewData = statuses,
-                revealButton = statuses.getRevealButtonState()
-            )
-        }
     }
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {

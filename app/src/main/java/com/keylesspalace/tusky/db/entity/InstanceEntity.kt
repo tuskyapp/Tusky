@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -41,6 +42,8 @@ data class InstanceEntity(
     val maxFieldNameLength: Int?,
     val maxFieldValueLength: Int?,
     val translationEnabled: Boolean?,
+    // ToDo: Remove this again when filter v1 support is dropped
+    @ColumnInfo(defaultValue = "false") val filterV2Supported: Boolean = false
 )
 
 @TypeConverters(Converters::class)
