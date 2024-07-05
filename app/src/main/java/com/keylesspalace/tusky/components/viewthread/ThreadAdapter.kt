@@ -19,10 +19,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusDetailedViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -31,29 +34,33 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class ThreadAdapter(
     private val statusDisplayOptions: StatusDisplayOptions,
     private val statusActionListener: StatusActionListener
-) : ListAdapter<StatusViewData.Concrete, StatusBaseViewHolder>(ThreadDifferCallback) {
+) : ListAdapter<StatusViewData.Concrete, RecyclerView.ViewHolder>(ThreadDifferCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusBaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            VIEW_TYPE_STATUS -> {
+            VIEW_TYPE_STATUS ->
                 StatusViewHolder(inflater.inflate(R.layout.item_status, parent, false))
-            }
-            VIEW_TYPE_STATUS_FILTERED -> {
-                StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, parent, false))
-            }
-            VIEW_TYPE_STATUS_DETAILED -> {
+            VIEW_TYPE_STATUS_FILTERED ->
+                FilteredStatusViewHolder(
+                    ItemStatusFilteredBinding.inflate(inflater, parent, false),
+                    statusActionListener
+                )
+            VIEW_TYPE_STATUS_DETAILED ->
                 StatusDetailedViewHolder(
                     inflater.inflate(R.layout.item_status_detailed, parent, false)
                 )
-            }
             else -> error("Unknown item type: $viewType")
         }
     }
 
-    override fun onBindViewHolder(viewHolder: StatusBaseViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val status = getItem(position)
-        viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions)
+        if (viewHolder is FilteredStatusViewHolder) {
+            viewHolder.bind(status)
+        } else if (viewHolder is StatusViewHolder) {
+            viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -68,7 +75,6 @@ class ThreadAdapter(
     }
 
     companion object {
-        private const val TAG = "ThreadAdapter"
         private const val VIEW_TYPE_STATUS = 0
         private const val VIEW_TYPE_STATUS_DETAILED = 1
         private const val VIEW_TYPE_STATUS_FILTERED = 2

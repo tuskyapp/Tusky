@@ -45,8 +45,6 @@ import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
 import com.keylesspalace.tusky.entity.Card;
 import com.keylesspalace.tusky.entity.Emoji;
-import com.keylesspalace.tusky.entity.Filter;
-import com.keylesspalace.tusky.entity.FilterResult;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.Translation;
@@ -120,9 +118,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView cardDescription;
     private final TextView cardUrl;
     private final PollAdapter pollAdapter;
-    protected final LinearLayout filteredPlaceholder;
-    protected final TextView filteredPlaceholderLabel;
-    protected final Button filteredPlaceholderShowButton;
     protected final ConstraintLayout statusContainer;
     private final TextView translationStatusView;
     private final Button untranslateButton;
@@ -179,9 +174,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         cardDescription = itemView.findViewById(R.id.card_description);
         cardUrl = itemView.findViewById(R.id.card_link);
 
-        filteredPlaceholder = itemView.findViewById(R.id.status_filtered_placeholder);
-        filteredPlaceholderLabel = itemView.findViewById(R.id.status_filter_label);
-        filteredPlaceholderShowButton = itemView.findViewById(R.id.status_filter_show_anyway);
         statusContainer = itemView.findViewById(R.id.status_container);
 
         pollAdapter = new PollAdapter();
@@ -822,8 +814,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             setSpoilerAndContent(status, statusDisplayOptions, listener);
 
-            setupFilterPlaceholder(status, listener, statusDisplayOptions);
-
             setDescriptionForStatus(status, statusDisplayOptions);
 
             // Workaround for RecyclerView 1.0.0 / androidx.core 1.0.0
@@ -864,35 +854,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             untranslateButton.setVisibility(View.GONE);
             untranslateButton.setOnClickListener(null);
         }
-    }
-
-    private void setupFilterPlaceholder(StatusViewData.Concrete status, StatusActionListener listener, StatusDisplayOptions displayOptions) {
-        if (status.getFilterAction() != Filter.Action.WARN) {
-            showFilteredPlaceholder(false);
-            return;
-        }
-
-        showFilteredPlaceholder(true);
-
-        Filter matchedFilter = null;
-
-        for (FilterResult result : status.getActionable().getFiltered()) {
-            Filter filter = result.getFilter();
-            if (filter.getAction() == Filter.Action.WARN) {
-                matchedFilter = filter;
-                break;
-            }
-        }
-
-        final String matchedFilterTitle;
-        if (matchedFilter == null) {
-            matchedFilterTitle = "";
-        } else {
-            matchedFilterTitle = matchedFilter.getTitle();
-        }
-
-        filteredPlaceholderLabel.setText(itemView.getContext().getString(R.string.status_filter_placeholder_label_format, matchedFilterTitle));
-        filteredPlaceholderShowButton.setOnClickListener(view -> listener.clearWarningAction(getBindingAdapterPosition()));
     }
 
     protected static boolean hasPreviewableAttachment(@NonNull List<Attachment> attachments) {
@@ -1305,14 +1266,5 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         favouriteButton.setVisibility(visibility);
         bookmarkButton.setVisibility(visibility);
         moreButton.setVisibility(visibility);
-    }
-
-    public void showFilteredPlaceholder(boolean show) {
-        if (statusContainer != null) {
-            statusContainer.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-        if (filteredPlaceholder != null) {
-            filteredPlaceholder.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
     }
 }
