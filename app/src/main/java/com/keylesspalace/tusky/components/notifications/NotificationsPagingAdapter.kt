@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
-import com.keylesspalace.tusky.databinding.ItemStatusBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
