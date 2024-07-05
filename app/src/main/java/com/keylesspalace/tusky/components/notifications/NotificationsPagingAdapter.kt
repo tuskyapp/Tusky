@@ -20,16 +20,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
-import com.keylesspalace.tusky.databinding.ItemStatusBinding
+import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
-import com.keylesspalace.tusky.databinding.ItemStatusWrapperBinding
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
@@ -103,14 +104,13 @@ class NotificationsPagingAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_STATUS -> StatusViewHolder(
-                ItemStatusBinding.inflate(inflater, parent, false).root,
+                inflater.inflate(R.layout.item_status, parent, false),
                 statusListener,
                 accountId
             )
-            VIEW_TYPE_STATUS_FILTERED -> StatusViewHolder(
-                ItemStatusWrapperBinding.inflate(inflater, parent, false).root,
-                statusListener,
-                accountId
+            VIEW_TYPE_STATUS_FILTERED -> FilteredStatusViewHolder(
+                ItemStatusFilteredBinding.inflate(inflater, parent, false),
+                statusListener
             )
             VIEW_TYPE_STATUS_NOTIFICATION -> StatusNotificationViewHolder(
                 ItemStatusNotificationBinding.inflate(inflater, parent, false),

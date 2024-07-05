@@ -158,7 +158,7 @@ class NotificationsViewModel @Inject constructor(
 
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
-            Notification.Type.MENTION, Notification.Type.STATUS, Notification.Type.POLL -> {
+            Notification.Type.MENTION, Notification.Type.POLL -> {
                 notificationViewData.statusViewData?.let { statusViewData ->
                     statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
                     return statusViewData.filterAction
