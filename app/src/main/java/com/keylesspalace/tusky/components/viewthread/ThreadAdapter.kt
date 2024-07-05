@@ -58,7 +58,7 @@ class ThreadAdapter(
         val status = getItem(position)
         if (viewHolder is FilteredStatusViewHolder) {
             viewHolder.bind(status)
-        } else if (viewHolder is StatusViewHolder) {
+        } else if (viewHolder is StatusBaseViewHolder) {
             viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions)
         }
     }
