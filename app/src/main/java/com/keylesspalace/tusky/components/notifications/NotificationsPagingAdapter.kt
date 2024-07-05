@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
@@ -104,7 +105,7 @@ class NotificationsPagingAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_STATUS -> StatusViewHolder(
-                ItemStatusBinding.inflate(inflater, parent, false).root,
+                inflater.inflate(R.layout.item_status, parent, false),
                 statusListener,
                 accountId
             )
