@@ -93,7 +93,7 @@ abstract class TimelineViewModel(
                         is FilterUpdatedEvent -> {
                             if (filterContextMatchesKind(this@TimelineViewModel.kind, event.filterContext)) {
                                 filterModel.init(kind.toFilterKind())
-                                fullReload()
+                                invalidate()
                             }
                         }
                     }
