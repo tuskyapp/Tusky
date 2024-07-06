@@ -6,6 +6,49 @@
 
 ### Significant bug fixes
 
+## v26.0
+
+### New features and other improvements
+
+- The blue primary color that previously was the same for all themes is now slightly lighter in the dark theme and darker in the light theme for better contrast.
+  Consequently, the color that is used on top of the primary color (e.g. on buttons) is now dark instead of white in the dark theme. [PR#3921](https://github.com/tuskyapp/Tusky/pull/3921) [PR#4507](https://github.com/tuskyapp/Tusky/pull/4507)
+- New account preference "default reply privacy".
+  Note that in contrast to the "default post privacy" this setting will not be synced with the server as Mastodon does not have this feature. [PR#4496](https://github.com/tuskyapp/Tusky/pull/4496)
+- New preference "Show confirmation before following" [PR#4445](https://github.com/tuskyapp/Tusky/pull/4445)
+- The notification tab is now cached on the device for better offline behavior.
+  Since it shares the cache with the home timeline, interactions with posts will now sync between those tabs more often than before. [PR#4026](https://github.com/tuskyapp/Tusky/pull/4026)
+- Tusky will now only make one call to the server to check which version of the filters api is supported and cache the result instead of everytime filters are needed. [PR#4539](https://github.com/tuskyapp/Tusky/pull/4539)
+- The "Hide compose button while scrolling" preference, which had the main purpose of making content behind the button accessible, has been removed and bottom padding added to all lists that could be obscured by buttons. [PR#4486](https://github.com/tuskyapp/Tusky/pull/4486)
+- When viewing media of a translated post the media descriptions will now also be translated [PR#4463](https://github.com/tuskyapp/Tusky/pull/4463)
+- The custom emojis in the emoji picker are now sorted by category [PR#4533](https://github.com/tuskyapp/Tusky/pull/4533)
+- Various internal refactorings to improve performance and maintainability.
+  [PR#4515](https://github.com/tuskyapp/Tusky/pull/4515)
+  [PR#4502](https://github.com/tuskyapp/Tusky/pull/4502)
+  [PR#4472](https://github.com/tuskyapp/Tusky/pull/4472)
+  [PR#4470](https://github.com/tuskyapp/Tusky/pull/4470)
+  [PR#4443](https://github.com/tuskyapp/Tusky/pull/4443)
+  [PR#4441](https://github.com/tuskyapp/Tusky/pull/4441)
+  [PR#4461](https://github.com/tuskyapp/Tusky/pull/4461)
+  [PR#4447](https://github.com/tuskyapp/Tusky/pull/4447)
+  [PR#4411](https://github.com/tuskyapp/Tusky/pull/4411)
+  [PR#4413](https://github.com/tuskyapp/Tusky/pull/4413)
+
+### Significant bug fixes
+
+- Posts with null media focus values will no longer cause Tusky to show an error [PR#4462](https://github.com/tuskyapp/Tusky/pull/4462)
+- A lot of other bugfixes, mostly smaller display bugs
+  [PR#4536](https://github.com/tuskyapp/Tusky/pull/4536)
+  [PR#4537](https://github.com/tuskyapp/Tusky/pull/4537)
+  [PR#4527](https://github.com/tuskyapp/Tusky/pull/4527)
+  [PR#4521](https://github.com/tuskyapp/Tusky/pull/4521)
+  [PR#4525](https://github.com/tuskyapp/Tusky/pull/4525)
+  [PR#4518](https://github.com/tuskyapp/Tusky/pull/4518)
+  [PR#4514](https://github.com/tuskyapp/Tusky/pull/4514)
+  [PR#4491](https://github.com/tuskyapp/Tusky/pull/4491)
+  [PR#4490](https://github.com/tuskyapp/Tusky/pull/4490)
+  [PR#4474](https://github.com/tuskyapp/Tusky/pull/4474)
+  [PR#4436](https://github.com/tuskyapp/Tusky/pull/4436)
+
 ## v25.2
 
 ### Significant bug fixes
