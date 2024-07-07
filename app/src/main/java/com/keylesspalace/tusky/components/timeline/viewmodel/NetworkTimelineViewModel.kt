@@ -295,13 +295,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     private fun handleStatusChangedEvent(status: Status) {
-        updateStatusById(status.id) { oldViewData ->
-            status.toViewData(
-                isShowingContent = oldViewData.isShowingContent,
-                isExpanded = oldViewData.isExpanded,
-                isCollapsed = oldViewData.isCollapsed
-            )
-        }
+        updateStatusByActionableId(status.id) { status }
     }
 
     override fun fullReload() {
@@ -311,7 +305,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun clearWarning(status: StatusViewData.Concrete) {
-        updateActionableStatusById(status.id) {
+        updateStatusByActionableId(status.id) {
             it.copy(filtered = emptyList())
         }
     }
@@ -399,23 +393,17 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    private inline fun updateStatusById(
-        id: String,
-        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
-    ) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
-        if (pos == -1) return
-        updateViewDataAt(pos, updater)
-    }
-
-    private inline fun updateActionableStatusById(id: String, updater: (Status) -> Status) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
-        if (pos == -1) return
-        updateViewDataAt(pos) { vd ->
-            if (vd.status.reblog != null) {
-                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
-            } else {
-                vd.copy(status = updater(vd.status))
+    private inline fun updateStatusByActionableId(id: String, updater: (Status) -> Status) {
+        // posts can be multiple times in the timeline, e.g. once the original and once as boost
+        statusData.forEachIndexed { index, status ->
+            if (status.asStatusOrNull()?.actionableId == id) {
+                updateViewDataAt(index) { vd ->
+                    if (vd.status.reblog != null) {
+                        vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
+                    } else {
+                        vd.copy(status = updater(vd.status))
+                    }
+                }
             }
         }
     }
