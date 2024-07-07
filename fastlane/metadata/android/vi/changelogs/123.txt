@@ -1,0 +1,7 @@
+Tusky 26
+
+- Giảm màu xanh chủ đề để tăng độ tương phản
+-Lưu cache nội dung tab thông báo
+- Thêm "chế độ trả lời mặc định"
+- Rất nhiều cải tiến về độ ổn định và hiệu suất
+Xem https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md để biết thêm
