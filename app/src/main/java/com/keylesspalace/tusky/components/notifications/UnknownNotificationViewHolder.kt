@@ -17,14 +17,14 @@
 
 package com.keylesspalace.tusky.components.notifications
 
-import com.keylesspalace.tusky.adapter.StatusViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 internal class UnknownNotificationViewHolder(
     binding: ItemUnknownNotificationBinding,
-) : NotificationsViewHolder, StatusViewHolder(binding.root) {
+) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
