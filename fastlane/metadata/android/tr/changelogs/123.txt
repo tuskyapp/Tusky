@@ -1,0 +1,7 @@
+Tusky 26
+
+- Mavi ana renk daha iyi kontrast için biraz değiştirildi
+- Bildirimler sekmesinin içeriği artık daha iyi çevrimdışı davranış için önbelleğe alınıyor.
+- Yeni hesap tercihi "varsayılan yanıt gizliliği"
+- Kaputun altında birçok kararlılık ve performans iyileştirmesi
+Tüm değişiklik günlüğü için https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md adresine bakın

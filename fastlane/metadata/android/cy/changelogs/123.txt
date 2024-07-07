@@ -1,0 +1,6 @@
+Tusky 26
+
+- Mae'r prif liw glas wedi cael ei newid er mwyn gwella'r cyferbyniad
+- Mae cynnwys y tab hysbysiadau yn cael ei gadw yn y cof dros dro er mwyn gwella'r ap pan nad yw ar-lein
+- Mae gosodiad cyfrif newydd "preifatrwydd rhagosodedig ymatebion"
+- Mae llawer o gywiriadau cudd eraill: gwelwch https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md am y log newid cyflawn
