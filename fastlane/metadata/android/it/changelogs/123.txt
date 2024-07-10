@@ -1,0 +1,7 @@
+Tusky 26
+
+- Il colore primario blu è stato leggermente cambiato per un contrasto migliore.
+- Il contenuto della tab "Notifiche" ora viene salvato in cache per un miglior comportamento offline.
+- Nuova preferenza dell'account "Privacy delle risposte predefinita".
+- Diversi miglioramenti per la stabilità e le prestazioni
+Vedi https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md per il changelog completo
