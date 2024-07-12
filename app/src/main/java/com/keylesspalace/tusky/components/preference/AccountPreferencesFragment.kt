@@ -185,6 +185,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.serverString
                     setIcon(getIconForVisibility(visibility))
+                    isPersistent = false // its saved to the account and shouldn't be in shared preferences
                     setOnPreferenceChangeListener { _, newValue ->
                         setIcon(
                             getIconForVisibility(Status.Visibility.byString(newValue as String))
@@ -206,6 +207,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         val visibility = activeAccount.defaultReplyPrivacy
                         value = visibility.serverString
                         setIcon(getIconForVisibility(visibility))
+                        isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
                             val newVisibility = Status.Visibility.byString(newValue as String)
                             setIcon(getIconForVisibility(newVisibility))
