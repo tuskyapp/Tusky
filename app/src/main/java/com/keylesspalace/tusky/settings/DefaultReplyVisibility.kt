@@ -1,6 +1,6 @@
-package com.keylesspalace.tusky.settings;
+package com.keylesspalace.tusky.settings
 
-import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.Status
 
 enum class DefaultReplyVisibility(val num: Int) {
     MATCH_DEFAULT_POST_VISIBILITY(0),
