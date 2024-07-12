@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 import java.net.URLDecoder
@@ -62,6 +63,16 @@ class Converters @Inject constructor(
     @TypeConverter
     fun intToVisibility(visibility: Int): Status.Visibility {
         return Status.Visibility.byNum(visibility)
+    }
+
+    @TypeConverter
+    fun defaultReplyVisibilityToInt(visibility: DefaultReplyVisibility?): Int {
+        return visibility?.num ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.num
+    }
+
+    @TypeConverter
+    fun intToDefaultReplyVisibility(visibility: Int): DefaultReplyVisibility {
+        return DefaultReplyVisibility.byNum(visibility)
     }
 
     @TypeConverter

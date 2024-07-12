@@ -342,6 +342,7 @@
     <string name="pref_default_post_language">Default posting language (synced with server)</string>
     <string name="pref_default_reply_privacy">Default reply privacy (not synced with server)</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive (synced with server)</string>
+    <string name="pref_match_default_post_privacy">Match default post privacy</string>
     <string name="pref_publishing">Publishing</string>
     <string name="pref_failed_to_sync">Failed to sync preferences</string>
 
@@ -353,6 +354,7 @@
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Unlisted</string>
     <string name="post_privacy_followers_only">Followers-only</string>
+    <string name="post_privacy_direct">Direct</string>
 
     <string name="pref_ui_text_size">UI text size</string>
     <string name="pref_post_text_size">Post text size</string>

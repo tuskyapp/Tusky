@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.color.MaterialColors
@@ -43,6 +44,7 @@ import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -187,9 +189,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setIcon(getIconForVisibility(visibility))
                     isPersistent = false // its saved to the account and shouldn't be in shared preferences
                     setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(
-                            getIconForVisibility(Status.Visibility.byString(newValue as String))
-                        )
+                        val icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
+                        setIcon(icon)
+                        if (accountManager.activeAccount?.defaultReplyPrivacy == DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY) {
+                            findPreference<ListPreference>(PrefKeys.DEFAULT_REPLY_PRIVACY)?.setIcon(icon)
+                        }
                         syncWithServer(visibility = newValue)
                         true
                     }
@@ -199,18 +203,18 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                 if (activeAccount != null) {
                     listPreference {
                         setTitle(R.string.pref_default_reply_privacy)
-                        setEntries(R.array.post_privacy_names)
-                        setEntryValues(R.array.post_privacy_values)
+                        setEntries(R.array.reply_privacy_names)
+                        setEntryValues(R.array.reply_privacy_values)
                         key = PrefKeys.DEFAULT_REPLY_PRIVACY
                         isSingleLineTitle = false
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
-                        value = visibility.serverString
-                        setIcon(getIconForVisibility(visibility))
+                        value = visibility.string
+                        setIcon(getIconForVisibility(visibility.toVisibility(activeAccount.defaultPostPrivacy)))
                         isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
-                            val newVisibility = Status.Visibility.byString(newValue as String)
-                            setIcon(getIconForVisibility(newVisibility))
+                            val newVisibility = DefaultReplyVisibility.byString(newValue as String)
+                            setIcon(getIconForVisibility(newVisibility.toVisibility(activeAccount.defaultPostPrivacy)))
                             activeAccount.defaultReplyPrivacy = newVisibility
                             accountManager.saveAccount(activeAccount)
                             viewLifecycleOwner.lifecycleScope.launch {
