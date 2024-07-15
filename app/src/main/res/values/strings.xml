@@ -341,6 +341,7 @@
     <string name="pref_default_post_privacy">Default post privacy (synced with server)</string>
     <string name="pref_default_post_language">Default posting language (synced with server)</string>
     <string name="pref_default_reply_privacy">Default reply privacy (not synced with server)</string>
+    <string name="pref_default_reply_privacy_explanation">The pre-selected privacy will depend on the post you are replying to.</string>
     <string name="pref_default_media_sensitivity">Always mark media as sensitive (synced with server)</string>
     <string name="pref_match_default_post_privacy">Match default post privacy</string>
     <string name="pref_publishing">Publishing</string>

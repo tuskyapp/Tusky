@@ -223,6 +223,10 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                             true
                         }
                     }
+                    preference {
+                        setSummary(R.string.pref_default_reply_privacy_explanation)
+                        isEnabled = false
+                    }
                 }
 
                 listPreference {
