@@ -488,7 +488,7 @@ class ComposeViewModel @Inject constructor(
 
         val activeAccount = accountManager.activeAccount!!
         val preferredVisibility = if (inReplyToId != null) {
-            activeAccount.defaultReplyPrivacy.toVisibility(activeAccount.defaultPostPrivacy)
+            activeAccount.defaultReplyPrivacy.toVisibilityOr(activeAccount.defaultPostPrivacy)
         } else {
             activeAccount.defaultPostPrivacy
         }

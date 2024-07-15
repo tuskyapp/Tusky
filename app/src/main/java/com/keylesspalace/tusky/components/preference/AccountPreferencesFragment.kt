@@ -210,11 +210,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
                         value = visibility.string
-                        setIcon(getIconForVisibility(visibility.toVisibility(activeAccount.defaultPostPrivacy)))
+                        setIcon(getIconForVisibility(visibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
                         isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
                             val newVisibility = DefaultReplyVisibility.byString(newValue as String)
-                            setIcon(getIconForVisibility(newVisibility.toVisibility(activeAccount.defaultPostPrivacy)))
+                            setIcon(getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
                             activeAccount.defaultReplyPrivacy = newVisibility
                             accountManager.saveAccount(activeAccount)
                             viewLifecycleOwner.lifecycleScope.launch {

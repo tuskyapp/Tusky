@@ -18,7 +18,7 @@ enum class DefaultReplyVisibility(val num: Int) {
             DIRECT -> "direct"
         }
 
-    fun toVisibility(default: Status.Visibility): Status.Visibility {
+    fun toVisibilityOr(default: Status.Visibility): Status.Visibility {
         return when (this) {
             PUBLIC -> Status.Visibility.PUBLIC
             UNLISTED -> Status.Visibility.UNLISTED
