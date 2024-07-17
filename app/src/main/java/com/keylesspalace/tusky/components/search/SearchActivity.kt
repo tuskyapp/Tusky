@@ -42,6 +42,8 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
 
+    private lateinit var searchView: SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -78,8 +80,8 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         menuInflater.inflate(R.menu.search_toolbar, menu)
         val searchViewMenuItem = menu.findItem(R.id.action_search)
         searchViewMenuItem.expandActionView()
-        val searchView = searchViewMenuItem.actionView as SearchView
-        setupSearchView(searchView)
+        searchView = searchViewMenuItem.actionView as SearchView
+        setupSearchView()
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -99,10 +101,11 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         if (Intent.ACTION_SEARCH == intent.action) {
             viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY).orEmpty()
             viewModel.search(viewModel.currentQuery)
+            searchView.clearFocus()
         }
     }
 
-    private fun setupSearchView(searchView: SearchView) {
+    private fun setupSearchView() {
         searchView.setIconifiedByDefault(false)
         searchView.setSearchableInfo(
             (
@@ -143,7 +146,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         searchView.setOnQueryTextListener(this)
         searchView.setQuery(viewModel.currentSearchFieldContent ?: "", false)
 
-        searchView.requestFocus()
+        if(viewModel.currentSearchFieldContent == "") searchView.requestFocus()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
