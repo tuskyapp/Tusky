@@ -390,7 +390,7 @@ class ComposeViewModel @Inject constructor(
         val tootToSend = StatusToSend(
             text = content,
             warningText = spoilerText,
-            visibility = _statusVisibility.value.serverString,
+            visibility = _statusVisibility.value.stringValue,
             sensitive = attachedMedia.isNotEmpty() && (_markMediaAsSensitive.value || _showContentWarning.value),
             media = attachedMedia,
             scheduledAt = _scheduledAt.value,
@@ -494,8 +494,8 @@ class ComposeViewModel @Inject constructor(
         }
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
-        startingVisibility = Status.Visibility.byNum(
-            preferredVisibility.num.coerceAtLeast(replyVisibility.num)
+        startingVisibility = Status.Visibility.fromInt(
+            preferredVisibility.int.coerceAtLeast(replyVisibility.int)
         )
 
         modifiedInitialState = composeOptions?.modifiedInitialState == true
@@ -537,7 +537,7 @@ class ComposeViewModel @Inject constructor(
         postLanguage = composeOptions?.language
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
-        if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
+        if (tootVisibility.int != Status.Visibility.UNKNOWN.int) {
             startingVisibility = tootVisibility
         }
         _statusVisibility.value = startingVisibility

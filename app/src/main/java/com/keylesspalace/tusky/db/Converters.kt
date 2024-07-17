@@ -57,22 +57,22 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun visibilityToInt(visibility: Status.Visibility?): Int {
-        return visibility?.num ?: Status.Visibility.UNKNOWN.num
+        return visibility?.int ?: Status.Visibility.UNKNOWN.int
     }
 
     @TypeConverter
     fun intToVisibility(visibility: Int): Status.Visibility {
-        return Status.Visibility.byNum(visibility)
+        return Status.Visibility.fromInt(visibility)
     }
 
     @TypeConverter
     fun defaultReplyVisibilityToInt(visibility: DefaultReplyVisibility?): Int {
-        return visibility?.num ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.num
+        return visibility?.int ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.int
     }
 
     @TypeConverter
     fun intToDefaultReplyVisibility(visibility: Int): DefaultReplyVisibility {
-        return DefaultReplyVisibility.byNum(visibility)
+        return DefaultReplyVisibility.fromInt(visibility)
     }
 
     @TypeConverter

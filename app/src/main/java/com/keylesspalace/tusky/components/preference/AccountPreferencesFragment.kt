@@ -185,11 +185,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     isSingleLineTitle = false
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
-                    value = visibility.serverString
+                    value = visibility.stringValue
                     setIcon(getIconForVisibility(visibility))
                     isPersistent = false // its saved to the account and shouldn't be in shared preferences
                     setOnPreferenceChangeListener { _, newValue ->
-                        val icon = getIconForVisibility(Status.Visibility.byString(newValue as String))
+                        val icon = getIconForVisibility(Status.Visibility.fromStringValue(newValue as String))
                         setIcon(icon)
                         if (accountManager.activeAccount?.defaultReplyPrivacy == DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY) {
                             findPreference<ListPreference>(PrefKeys.DEFAULT_REPLY_PRIVACY)?.setIcon(icon)
@@ -209,11 +209,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         isSingleLineTitle = false
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
-                        value = visibility.string
+                        value = visibility.stringValue
                         setIcon(getIconForVisibility(visibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
                         isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
-                            val newVisibility = DefaultReplyVisibility.byString(newValue as String)
+                            val newVisibility = DefaultReplyVisibility.fromStringValue(newValue as String)
                             setIcon(getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
                             activeAccount.defaultReplyPrivacy = newVisibility
                             accountManager.saveAccount(activeAccount)
