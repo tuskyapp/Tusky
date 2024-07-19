@@ -146,7 +146,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         searchView.setOnQueryTextListener(this)
         searchView.setQuery(viewModel.currentSearchFieldContent ?: "", false)
 
-        if(viewModel.currentSearchFieldContent == "") searchView.requestFocus()
+        if (viewModel.currentSearchFieldContent == "") searchView.requestFocus()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
