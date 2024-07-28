@@ -292,19 +292,18 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
-        translations.value = translations.value + (status.id to TranslationViewData.Loading)
+        translations.value += (status.id to TranslationViewData.Loading)
         return timelineCases.translate(status.actionableId)
             .map { translation ->
-                translations.value =
-                    translations.value + (status.id to TranslationViewData.Loaded(translation))
+                translations.value += (status.actionableId to TranslationViewData.Loaded(translation))
             }
             .onFailure {
-                translations.value = translations.value - status.id
+                translations.value -= status.actionableId
             }
     }
 
     override fun untranslate(status: StatusViewData.Concrete) {
-        translations.value = translations.value - status.id
+        translations.value -= status.actionableId
     }
 
     companion object {
