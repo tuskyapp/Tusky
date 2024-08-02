@@ -206,7 +206,6 @@ class CachedTimelineViewModel @Inject constructor(
                             ?.let { rebloggedAccount ->
                                 accountDao.insert(rebloggedAccount)
                             }
-                        val account = accountManager.getAccountById(account.id) ?: return@withTransaction
                         statusDao.insert(
                             status.actionableStatus.toEntity(
                                 tuskyAccountId = account.id,

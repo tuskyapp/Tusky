@@ -287,7 +287,6 @@ class NotificationsViewModel @Inject constructor(
             try {
                 val notificationsDao = db.notificationsDao()
 
-
                 notificationsDao.insertNotification(
                     Placeholder(placeholderId, loading = true).toNotificationEntity(
                         account.id
@@ -348,8 +347,6 @@ class NotificationsViewModel @Inject constructor(
                         notification.status?.let { status ->
                             accountDao.insert(status.account.toEntity(account.id))
 
-                            // get updated account in case some prefs have changed
-                            val account =  accountManager.getAccountById(this@NotificationsViewModel.account.id) ?: this@NotificationsViewModel.account
                             statusDao.insert(
                                 status.toEntity(
                                     tuskyAccountId = account.id,
