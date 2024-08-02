@@ -6,8 +6,8 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.doReturn
@@ -23,8 +23,7 @@ class ComposeViewModelTest {
     private lateinit var eventHub: EventHub
     private lateinit var viewModel: ComposeViewModel
 
-    @Before
-    fun setup() {
+    private fun setup(defaultReplyVisibility: DefaultReplyVisibility = DefaultReplyVisibility.UNLISTED) {
         api = mock()
         accountManager = mock {
             on { activeAccount } doReturn
@@ -34,7 +33,8 @@ class ComposeViewModelTest {
                     accessToken = "fakeToken",
                     clientId = "fakeId",
                     clientSecret = "fakeSecret",
-                    isActive = true
+                    isActive = true,
+                    defaultReplyPrivacy = defaultReplyVisibility
                 )
         }
         eventHub = EventHub()
@@ -51,6 +51,7 @@ class ComposeViewModelTest {
 
     @Test
     fun `startingVisibility initially set to defaultPostPrivacy for post`() {
+        setup()
         viewModel.setup(null)
 
         assertEquals(Status.Visibility.PUBLIC, viewModel.statusVisibility.value)
@@ -58,8 +59,17 @@ class ComposeViewModelTest {
 
     @Test
     fun `startingVisibility initially set to replyPostPrivacy for reply`() {
+        setup()
         viewModel.setup(ComposeActivity.ComposeOptions(inReplyToId = "123"))
 
         assertEquals(Status.Visibility.UNLISTED, viewModel.statusVisibility.value)
+    }
+
+    @Test
+    fun `startingVisibility initially set to defaultPostPrivacy when replyPostPrivacy is MATCH_DEFAULT_POST_VISIBILITY for reply`() {
+        setup(defaultReplyVisibility = DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY)
+        viewModel.setup(ComposeActivity.ComposeOptions(inReplyToId = "123"))
+
+        assertEquals(Status.Visibility.PUBLIC, viewModel.statusVisibility.value)
     }
 }

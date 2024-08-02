@@ -846,7 +846,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_60_62 = new Migration(60, 62) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 2");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

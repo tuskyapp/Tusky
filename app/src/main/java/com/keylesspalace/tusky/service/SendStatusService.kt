@@ -393,7 +393,7 @@ class SendStatusService : Service() {
             content = status.text,
             contentWarning = status.warningText,
             sensitive = status.sensitive,
-            visibility = Status.Visibility.byString(status.visibility),
+            visibility = Status.Visibility.fromStringValue(status.visibility),
             mediaUris = status.media.map { it.uri },
             mediaDescriptions = status.media.map { it.description },
             mediaFocus = status.media.map { it.focus },
