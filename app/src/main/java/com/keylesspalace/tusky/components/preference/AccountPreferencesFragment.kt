@@ -364,6 +364,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
 
+            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
+
             else -> R.drawable.ic_public_24dp
         }
     }
