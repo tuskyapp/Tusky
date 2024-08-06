@@ -189,7 +189,7 @@
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
     <string name="pref_default_post_privacy">Beitragssichtbarkeit (mit dem Server synchronisiert)</string>
     <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen (mit dem Server synchronisiert)</string>
-    <string name="pref_publishing">Standardeinstellungen für Beiträge</string>
+    <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
@@ -720,6 +720,7 @@
     <string name="pref_default_reply_privacy">Antwortsichtbarkeit (nicht mit dem Server synchronisiert)</string>
     <string name="error_deleting_filter">Fehler beim Löschen des Filters »%1$s«</string>
     <string name="error_saving_filter">Fehler beim Speichern des Filters »%1$s«</string>
-    <string name="pref_default_reply_privacy_explanation">Die vorselektierte Sichtbarkeit hängt vom den Beitrag ab auf den du antwortest.</string>
-    <string name="pref_match_default_post_privacy">Gleich wie Standard-Beitragssichtbarkeit</string>
+    <string name="pref_default_reply_privacy_explanation">Die vorausgewählte Sichtbarkeit hängt vom dem Beitrag ab, auf den du antwortest.</string>
+    <string name="pref_match_default_post_privacy">Von Standard-Beitragssichtbarkeit übernehmen</string>
+    <string name="post_privacy_direct">Direkt</string>
 </resources>
