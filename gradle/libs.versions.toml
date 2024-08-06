@@ -33,7 +33,7 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
 glide-animation-plugin = "2.23.0"
-hilt = "2.51.1"
+hilt = "2.52"
 kotlin = "2.0.0"
 image-cropper = "4.3.2"
 material = "1.12.0"
