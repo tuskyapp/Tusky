@@ -415,11 +415,11 @@
     <string name="dialog_download_image">Завантаження</string>
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
-    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> 
+    <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> \u0020
 \n
-\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис.
+\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис. 
 \n
-\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті. 
+\nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті. \u0020
 \n
 \nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>. до них облікові записи. \u0020</string>
     <string name="link_whats_an_instance">Що таке сервер\?</string>
@@ -686,9 +686,9 @@
     <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
-    <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM). 
+    <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM). \u0020
 \n
-\nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів. 
+\nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів. \u0020
 \n
 \nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. \u0020</string>
     <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
@@ -697,9 +697,9 @@
     <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
     <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. 
 \n
-\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте. 
+\n \u0020ЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте. 
 \n
-\nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
+\n \u0020Ці списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="muting_hashtag_success_format">Сховати хештег #%1$s як попередження</string>
     <string name="unmuting_hashtag_success_format">Показувати хештег #%1$s</string>
     <string name="action_view_filter">Переглянути фільтр</string>
