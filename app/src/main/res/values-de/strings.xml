@@ -720,7 +720,7 @@
     <string name="pref_default_reply_privacy">Antwortsichtbarkeit (nicht mit dem Server synchronisiert)</string>
     <string name="error_deleting_filter">Fehler beim Löschen des Filters »%1$s«</string>
     <string name="error_saving_filter">Fehler beim Speichern des Filters »%1$s«</string>
-    <string name="pref_default_reply_privacy_explanation">Die vorausgewählte Sichtbarkeit hängt vom dem Beitrag ab, auf den du antwortest.</string>
+    <string name="pref_default_reply_privacy_explanation">Die vorausgewählte Sichtbarkeit hängt vom Beitrag ab, auf den du antwortest.</string>
     <string name="pref_match_default_post_privacy">Von Standard-Beitragssichtbarkeit übernehmen</string>
     <string name="post_privacy_direct">Direkt</string>
 </resources>
