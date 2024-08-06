@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
@@ -26,7 +27,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.GuardedAdapter
-import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
+import com.keylesspalace.tusky.network.FailingCall
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
@@ -47,6 +48,7 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.Cache
 import okhttp3.OkHttp
@@ -65,6 +67,18 @@ import retrofit2.create
 object NetworkModule {
 
     private const val TAG = "NetworkModule"
+
+    @Provides
+    @Named("defaultPort")
+    fun providesDefaultPort(): Int {
+        return 443
+    }
+
+    @Provides
+    @Named("defaultScheme")
+    fun providesDefaultScheme(): String {
+        return "https://"
+    }
 
     @Provides
     @Singleton
@@ -92,7 +106,6 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providesHttpClient(
-        accountManager: AccountManager,
         @ApplicationContext context: Context,
         preferences: SharedPreferences
     ): OkHttpClient {
@@ -125,23 +138,24 @@ object NetworkModule {
                 builder.proxy(Proxy(Proxy.Type.HTTP, address))
             } ?: Log.w(TAG, "Invalid proxy configuration: ($httpServer, $httpPort)")
         }
-
-        return builder
-            .apply {
-                addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(
-                        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-                    )
-                }
-            }
-            .build()
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+            )
+        }
+        return builder.build()
     }
 
     @Provides
     @Singleton
-    fun providesRetrofit(httpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
+    fun providesRetrofit(
+        httpClient: OkHttpClient,
+        moshi: Moshi,
+        @Named("defaultPort") defaultPort: Int,
+        @Named("defaultScheme") defaultScheme: String
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("$defaultScheme${MastodonApi.PLACEHOLDER_DOMAIN}:$defaultPort")
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
@@ -149,19 +163,75 @@ object NetworkModule {
     }
 
     @Provides
-    @Singleton
-    fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
+    fun providesMastodonApi(
+        httpClient: OkHttpClient,
+        retrofit: Retrofit,
+        accountManager: AccountManager,
+        @Named("defaultPort") defaultPort: Int,
+        @Named("defaultScheme") defaultScheme: String
+    ): MastodonApi {
+        return provideApi(httpClient, retrofit, accountManager, defaultPort, defaultScheme)
+    }
 
     @Provides
-    @Singleton
-    fun providesMediaUploadApi(retrofit: Retrofit, okHttpClient: OkHttpClient): MediaUploadApi {
+    fun providesMediaUploadApi(
+        retrofit: Retrofit,
+        okHttpClient: OkHttpClient,
+        accountManager: AccountManager,
+        @Named("defaultPort") defaultPort: Int,
+        @Named("defaultScheme") defaultScheme: String
+    ): MediaUploadApi {
         val longTimeOutOkHttpClient = okHttpClient.newBuilder()
             .readTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS)
             .build()
 
+        return provideApi(longTimeOutOkHttpClient, retrofit, accountManager, defaultPort, defaultScheme)
+    }
+
+    @VisibleForTesting
+    inline fun <reified T> provideApi(
+        httpClient: OkHttpClient,
+        retrofit: Retrofit,
+        accountManager: AccountManager,
+        @Named("defaultPort") defaultPort: Int,
+        @Named("defaultScheme") defaultScheme: String
+    ): T {
+        val currentAccount = accountManager.activeAccount
         return retrofit.newBuilder()
-            .client(longTimeOutOkHttpClient)
+            .apply {
+                if (currentAccount != null) {
+                    baseUrl("$defaultScheme${currentAccount.domain}:$defaultPort")
+                }
+            }
+            .callFactory { originalRequest ->
+                var request = originalRequest
+
+                val domainHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
+                if (domainHeader != null) {
+                    request = originalRequest.newBuilder()
+                        .url(
+                            originalRequest.url.newBuilder().host(domainHeader).build()
+                        )
+                        .removeHeader(MastodonApi.DOMAIN_HEADER)
+                        .build()
+                }
+
+                if (currentAccount != null && request.url.host == currentAccount.domain) {
+                    request = request.newBuilder()
+                        .header("Authorization", "Bearer %s".format(currentAccount.accessToken))
+                        .build()
+                }
+
+                print(originalRequest)
+                print(request)
+
+                if (request.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
+                    FailingCall(request)
+                } else {
+                    httpClient.newCall(request)
+                }
+            }
             .build()
             .create()
     }

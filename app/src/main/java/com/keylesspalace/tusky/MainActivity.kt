@@ -201,6 +201,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.w(TAG, "MainActivity onCreate $this $savedInstanceState")
         // Newer Android versions don't need to install the compat Splash Screen
         // and it can cause theming bugs.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -363,6 +364,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cacheUpdater.stop()
+        Log.w(TAG, "MainActivity onDestroy $this")
+    }
+
     /** Handle an incoming Intent,
      * @returns true when the intent is coming from an notification and the interface should show the notification tab.
      */
@@ -390,6 +397,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         val accountRequested = tuskyAccountId != -1L
         if (accountRequested && tuskyAccountId != activeAccount.id) {
             accountManager.setActiveAccount(tuskyAccountId)
+            changeAccount(tuskyAccountId, intent, withAnimation = false)
+            return false
         }
 
         val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
@@ -567,7 +576,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
         }
         startActivity(composeIntent)
-        finish()
     }
 
     private fun setupDrawer(
@@ -985,11 +993,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         return false
     }
 
-    private fun changeAccount(newSelectedId: Long, forward: Intent?) {
+    private fun changeAccount(
+        newSelectedId: Long,
+        forward: Intent?,
+        withAnimation: Boolean = true
+    ) {
         cacheUpdater.stop()
         accountManager.setActiveAccount(newSelectedId)
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
+        if (withAnimation) {
+            intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
+        }
         if (forward != null) {
             intent.type = forward.type
             intent.action = forward.action
@@ -1240,6 +1254,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
             return Intent(context, MainActivity::class.java).apply {
                 putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
 
@@ -1286,7 +1301,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(REDIRECT_URL, url)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
 
