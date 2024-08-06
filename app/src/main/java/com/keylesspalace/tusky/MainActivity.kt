@@ -201,7 +201,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.w(TAG, "MainActivity onCreate $this $savedInstanceState")
         // Newer Android versions don't need to install the compat Splash Screen
         // and it can cause theming bugs.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -367,7 +366,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     override fun onDestroy() {
         super.onDestroy()
         cacheUpdater.stop()
-        Log.w(TAG, "MainActivity onDestroy $this")
     }
 
     /** Handle an incoming Intent,
