@@ -1,0 +1,7 @@
+Tusky 26
+
+- A cor azul principal cambiou lixeiramente para mellorar o contraste
+- O contido da pestana de notificacións agora gárdase na caché para mellorar o funcionamento sen conexión.
+- Novo axuste para a conta "privacidade por defecto para a resposta"
+- Moitas melloras non visibles para mellorar a estabilidade e o rendemento
+Le https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md para ver todos os cambios
