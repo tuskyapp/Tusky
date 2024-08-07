@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 
 @Entity(
     indices = [
@@ -63,7 +64,7 @@ data class AccountEntity(
     var notificationVibration: Boolean = true,
     var notificationLight: Boolean = true,
     var defaultPostPrivacy: Status.Visibility = Status.Visibility.PUBLIC,
-    var defaultReplyPrivacy: Status.Visibility = Status.Visibility.UNLISTED,
+    var defaultReplyPrivacy: DefaultReplyVisibility = DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY,
     var defaultMediaSensitivity: Boolean = false,
     var defaultPostLanguage: String = "",
     var alwaysShowSensitiveMedia: Boolean = false,

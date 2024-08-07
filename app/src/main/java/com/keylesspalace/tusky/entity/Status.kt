@@ -68,7 +68,7 @@ data class Status(
         get() = reblog ?: this
 
     @JsonClass(generateAdapter = false)
-    enum class Visibility(val num: Int) {
+    enum class Visibility(val int: Int) {
         UNKNOWN(0),
 
         @Json(name = "public")
@@ -83,7 +83,7 @@ data class Status(
         @Json(name = "direct")
         DIRECT(4);
 
-        val serverString: String
+        val stringValue: String
             get() = when (this) {
                 PUBLIC -> "public"
                 UNLISTED -> "unlisted"
@@ -93,10 +93,8 @@ data class Status(
             }
 
         companion object {
-
-            @JvmStatic
-            fun byNum(num: Int): Visibility {
-                return when (num) {
+            fun fromInt(int: Int): Visibility {
+                return when (int) {
                     4 -> DIRECT
                     3 -> PRIVATE
                     2 -> UNLISTED
@@ -106,8 +104,7 @@ data class Status(
                 }
             }
 
-            @JvmStatic
-            fun byString(s: String): Visibility {
+            fun fromStringValue(s: String): Visibility {
                 return when (s) {
                     "public" -> PUBLIC
                     "unlisted" -> UNLISTED

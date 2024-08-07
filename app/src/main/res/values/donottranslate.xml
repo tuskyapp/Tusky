@@ -21,6 +21,14 @@
         <item>private</item>
     </string-array>
 
+    <string-array name="reply_privacy_values">
+        <item>match_default_post_visibility</item>
+        <item>public</item>
+        <item>unlisted</item>
+        <item>private</item>
+        <item>direct</item>
+    </string-array>
+
     <string-array name="post_text_size_values">
         <item>smallest</item>
         <item>small</item>
