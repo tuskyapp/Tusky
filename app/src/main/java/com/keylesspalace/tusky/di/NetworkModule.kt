@@ -223,9 +223,6 @@ object NetworkModule {
                         .build()
                 }
 
-                print(originalRequest)
-                print(request)
-
                 if (request.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
                     FailingCall(request)
                 } else {
