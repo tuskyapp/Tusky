@@ -187,9 +187,9 @@
     <string name="pref_title_http_proxy_enable">HTTP-Proxy aktivieren</string>
     <string name="pref_title_http_proxy_server">HTTP-Proxy-Server</string>
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
-    <string name="pref_default_post_privacy">Standard-Beitragssichtbarkeit (mit dem Server synchronisiert)</string>
+    <string name="pref_default_post_privacy">Beitragssichtbarkeit (mit dem Server synchronisiert)</string>
     <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen (mit dem Server synchronisiert)</string>
-    <string name="pref_publishing">Beiträge</string>
+    <string name="pref_publishing">Standardeinstellungen für Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
@@ -560,7 +560,7 @@
     <string name="notification_summary_report_format">%1$s · %2$d Beiträge angehängt</string>
     <string name="notification_header_report_format">%1$s meldete %2$s</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s entfolgt</string>
-    <string name="pref_default_post_language">Standard-Beitragssprache (mit dem Server synchronisiert)</string>
+    <string name="pref_default_post_language">Beitragssprache (mit dem Server synchronisiert)</string>
     <string name="report_category_violation">Regelverstoß</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_spam">Spam</string>
@@ -717,7 +717,9 @@
     <string name="unknown_notification_type">Unbekannter Nachrichtentyp</string>
     <string name="dialog_follow_warning">Diesem Konto folgen?</string>
     <string name="action_follow_hashtag">Einem neuen Hashtag folgen</string>
-    <string name="pref_default_reply_privacy">Standard-Antwortsichtbarkeit (nicht mit dem Server synchronisiert)</string>
+    <string name="pref_default_reply_privacy">Antwortsichtbarkeit (nicht mit dem Server synchronisiert)</string>
     <string name="error_deleting_filter">Fehler beim Löschen des Filters »%1$s«</string>
     <string name="error_saving_filter">Fehler beim Speichern des Filters »%1$s«</string>
+    <string name="pref_default_reply_privacy_explanation">Die vorselektierte Sichtbarkeit hängt vom den Beitrag ab auf den du antwortest.</string>
+    <string name="pref_match_default_post_privacy">Gleich wie Standard-Beitragssichtbarkeit</string>
 </resources>
