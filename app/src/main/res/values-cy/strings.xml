@@ -161,7 +161,7 @@
     <string name="pref_title_http_proxy_server">Gweinydd dirprwy HTTP</string>
     <string name="pref_title_http_proxy_port">Porth y dirprwy HTTP</string>
     <string name="pref_default_post_privacy">Preifatrwydd rhagosodedig negeseuon (bydd yn cael ei gydweddu gyda\'ch gweinydd)</string>
-    <string name="pref_publishing">Cyhoeddi</string>
+    <string name="pref_publishing">Rhagosodiadau postio</string>
     <string name="post_privacy_public">Cyhoeddus</string>
     <string name="post_privacy_unlisted">Heb ei restru</string>
     <string name="post_privacy_followers_only">Dilynwyr yn unig</string>
@@ -764,4 +764,7 @@
     <string name="error_deleting_filter">Bu gwall wrth ddileu hidlydd \'%1$s\'</string>
     <string name="error_saving_filter">Bu gwall wrth gadw hidlydd \'%1$s\'</string>
     <string name="action_follow_hashtag">Dilyn hashnod newydd</string>
+    <string name="pref_default_reply_privacy_explanation">Bydd y preifatrwydd dechreuol yn dibynnu ar y neges rydych chi\'n ei hymateb.</string>
+    <string name="post_privacy_direct">Uniongyrchol</string>
+    <string name="pref_match_default_post_privacy">Cydweddu â phreifatrwydd rhagosodedig negeseuon</string>
 </resources>
