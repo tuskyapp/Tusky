@@ -163,7 +163,7 @@
     <string name="pref_title_http_proxy_port">درگاه پیشکار HTTP</string>
     <string name="pref_default_post_privacy">محرمانگی پیش‌گزیدهٔ فرسته (همگام با کارساز)</string>
     <string name="pref_default_media_sensitivity">علامت‌گذاری همیشگی رسانه به عنوان حساس (همگام با کارساز)</string>
-    <string name="pref_publishing">منتشر کردن</string>
+    <string name="pref_publishing">پیش‌گزیده‌های انتشار</string>
     <string name="pref_failed_to_sync">شکست در هم‌گام‌سازی ترجیحات</string>
     <string name="post_privacy_public">عمومی</string>
     <string name="post_privacy_unlisted">فهرست‌نشده</string>
@@ -720,4 +720,7 @@
     <string name="error_deleting_filter">خطا در حذف پالایهٔ «%1$s»</string>
     <string name="error_saving_filter">خطا در ذخیرهٔ پالایهٔ «%1$s»</string>
     <string name="action_follow_hashtag">پی‌گیری برچسبی جدید</string>
+    <string name="pref_default_reply_privacy_explanation">محرمانگی پیش‌گزیده به فرسته‌ای که به آن پاسخ می‌دهید بستگی خواهد داشت.</string>
+    <string name="post_privacy_direct">مستقیم</string>
+    <string name="pref_match_default_post_privacy">تطبیق با محرمانگی پیش‌گزیدهٔ فرسته</string>
 </resources>
