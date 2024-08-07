@@ -178,7 +178,7 @@
     <string name="pref_title_custom_tabs">Links in der App öffnen (Chrome Custom Tabs)</string>
     <string name="pref_title_language">Sprache</string>
     <string name="pref_title_post_filter">Timeline-Filter</string>
-    <string name="pref_title_post_tabs">Startseite Zeitleiste</string>
+    <string name="pref_title_post_tabs">Startseite</string>
     <string name="pref_title_show_boosts">Geteilte Beiträge anzeigen</string>
     <string name="pref_title_show_replies">Antworten anzeigen</string>
     <string name="pref_title_show_media_preview">Dateivorschauen herunterladen</string>
@@ -188,8 +188,8 @@
     <string name="pref_title_http_proxy_server">HTTP-Proxy-Server</string>
     <string name="pref_title_http_proxy_port">HTTP-Proxy-Port</string>
     <string name="pref_default_post_privacy">Standard-Beitragssichtbarkeit (mit dem Server synchronisiert)</string>
-    <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen</string>
-    <string name="pref_publishing">Standardeinstellungen für Beiträge</string>
+    <string name="pref_default_media_sensitivity">Mediendateien immer mit einer Inhaltswarnung versehen (mit dem Server synchronisiert)</string>
+    <string name="pref_publishing">Beiträge</string>
     <string name="pref_failed_to_sync">Fehler beim Synchronisieren</string>
     <string name="post_privacy_public">Öffentlich</string>
     <string name="post_privacy_unlisted">Nicht gelistet</string>
@@ -293,7 +293,7 @@
     <string name="license_apache_2">Lizenziert unter der Apache-Lizenz (s. u.)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
-    <string name="profile_metadata_label">Profil-Metadaten</string>
+    <string name="profile_metadata_label">Zusatzfelder</string>
     <string name="profile_metadata_add">Feld hinzufügen</string>
     <string name="profile_metadata_label_label">Bezeichnung</string>
     <string name="profile_metadata_content_label">Inhalt</string>
@@ -520,7 +520,7 @@
     <string name="notification_update_description">Benachrichtigungen, wenn Beiträge bearbeitet werden, mit denen du interagiert hast</string>
     <string name="title_login">Anmelden</string>
     <string name="error_could_not_load_login_page">Die Anmeldeseite konnte nicht geladen werden.</string>
-    <string name="notification_update_name">Beitragsbearbeitungen</string>
+    <string name="notification_update_name">Bearbeitete Beiträge</string>
     <string name="title_migration_relogin">Neuanmeldung für Push-Benachrichtigungen</string>
     <string name="action_dismiss">Ablehnen</string>
     <string name="dialog_push_notification_migration_other_accounts">Du hast dich erneut in dein aktuelles Konto angemeldet, um Tusky die Genehmigung für Push-Abonnements zu erteilen. Du hast jedoch noch andere Konten, die nicht auf diese Weise migriert wurden. Wechsel zu diesen Konten und melde dich nacheinander neu an, um die Unterstützung für UnifiedPush-Benachrichtigungen zu aktivieren.</string>
@@ -701,7 +701,7 @@
     <string name="list_reply_policy_none">Niemanden</string>
     <string name="pref_title_show_self_boosts">Eigene geteilte Beiträge anzeigen</string>
     <string name="pref_title_show_self_boosts_description">Die Person teilt ihre eigenen Beiträge</string>
-    <string name="pref_title_per_timeline_preferences">Einstellungen pro Zeitleiste</string>
+    <string name="pref_title_per_timeline_preferences">Einstellungen pro Timeline</string>
     <string name="reply_sending">Wird gesendet …</string>
     <string name="reply_sending_long">Deine Antwort wird gesendet.</string>
     <string name="action_translate">Übersetzen</string>
@@ -717,7 +717,7 @@
     <string name="unknown_notification_type">Unbekannter Nachrichtentyp</string>
     <string name="dialog_follow_warning">Diesem Konto folgen?</string>
     <string name="action_follow_hashtag">Einem neuen Hashtag folgen</string>
-    <string name="pref_default_reply_privacy">Standard Antwort-Sichtbarkeit (nicht mit dem Server synchronisiert)</string>
-    <string name="error_deleting_filter">Fehler beim Löschen des Filters \"%1$s\"</string>
-    <string name="error_saving_filter">Fehler beim Speichern des Filters \"%1$s\"</string>
+    <string name="pref_default_reply_privacy">Standard-Antwortsichtbarkeit (nicht mit dem Server synchronisiert)</string>
+    <string name="error_deleting_filter">Fehler beim Löschen des Filters »%1$s«</string>
+    <string name="error_saving_filter">Fehler beim Speichern des Filters »%1$s«</string>
 </resources>
