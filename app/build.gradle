@@ -21,6 +21,15 @@ final def CUSTOM_INSTANCE = ""
 // link to your support account. Will be linked on the about page when not empty.
 final def SUPPORT_ACCOUNT_URL = "https://mastodon.social/@Tusky"
 
+/**
+ * Use the number of seconds/10 since Jan 1 2016 as the versionCode.
+ * This lets us upload a new build at most every 10 seconds for the
+ * next 680 years.
+ */
+def greenvcode = (int)(((new Date().getTime()/1000) - 1451606400) / 10)
+
+
+
 android {
     compileSdk 34
     namespace "com.keylesspalace.tusky"
@@ -66,6 +75,8 @@ android {
             resValue "string", "app_name", APP_NAME + " Test"
             applicationIdSuffix ".test"
             versionNameSuffix "-" + gitSha
+            // Always use a bigger versionCode to trigger Android/F-Droid update process
+            versionCode greenvcode
             isDefault true
         }
     }
