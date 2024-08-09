@@ -173,7 +173,7 @@
     <string name="pref_title_http_proxy_port">HTTP vekil sunucu portu</string>
     <string name="pref_default_post_privacy">Varsayılan gönderi gizliliği (sunucu ile eşleşir)</string>
     <string name="pref_default_media_sensitivity">Medyayı her zaman hassas olarak işaretle (sunucu ile eşleşir)</string>
-    <string name="pref_publishing">Yayın</string>
+    <string name="pref_publishing">Varsayılan gönderiler</string>
     <string name="pref_failed_to_sync">Ayarlar eşitlendirilemedi</string>
     <string name="post_privacy_public">Herkese açık</string>
     <string name="post_privacy_unlisted">Liste dışı</string>
@@ -720,4 +720,7 @@
     <string name="action_follow_hashtag">Yeni bir etiket takip ediniz</string>
     <string name="error_deleting_filter">Süzgeç silinirken hata oluştu \'%1$s\'</string>
     <string name="error_saving_filter">Hata kaydetme süzgeci \'%1$s\'</string>
+    <string name="pref_default_reply_privacy_explanation">Önceden seçilen gizlilik, yanıtladığınız gönderiye bağlı olacak.</string>
+    <string name="pref_match_default_post_privacy">Varsayılan gönderi gizliliğini eşleştiriniz</string>
+    <string name="post_privacy_direct">Doğrudan</string>
 </resources>
