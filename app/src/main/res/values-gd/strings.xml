@@ -560,7 +560,7 @@
     <string name="delete_scheduled_post_warning">A bheil thu airson am post sgeidealaichte seo a sguabadh às\?</string>
     <string name="instance_rule_info">Le clàradh a-steach, bidh tu ag aontachadh ri riaghailtean %1$s.</string>
     <string name="instance_rule_title">riaghailtean %1$s</string>
-    <string name="action_add_reaction">cuir freagairt ris</string>
+    <string name="action_add_reaction">cuir frith-ghnìomh ris</string>
     <string name="failed_to_pin">Dh’fhàillig leis a’ phrìneachadh</string>
     <string name="failed_to_unpin">Dh’fhàillig leis an dì-phrìneachadh</string>
     <string name="compose_save_draft_loses_media">A bheil thu airson a shàbhaladh ’na dhreachd\? (Thèid na ceanglachain a luchdadh suas a-rithist nuair a dh’aisigeas tu an dreuchd.)</string>
