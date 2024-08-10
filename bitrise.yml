@@ -96,7 +96,7 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
     - cache-pull@2.7: {}
-    - install-missing-android-tools@3.1:
+    - install-missing-android-tools@3.2.1:
         inputs:
         - gradlew_path: $PROJECT_LOCATION/gradlew
     - gradle-runner@2.0:
