@@ -364,8 +364,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         cacheUpdater.stop()
+        super.onDestroy()
     }
 
     /** Handle an incoming Intent,
