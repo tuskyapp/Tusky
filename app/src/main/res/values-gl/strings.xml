@@ -343,9 +343,9 @@
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
     <string name="pref_failed_to_sync">Fallou a sincr. das preferencis</string>
-    <string name="pref_publishing">Ao publicar</string>
+    <string name="pref_publishing">Por defecto ao publicar</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible (sincr. co servidor)</string>
-    <string name="pref_default_post_privacy">Privacidade por defecto da publicación (sincr. co servidor)</string>
+    <string name="pref_default_post_privacy">Privacidade da publicación (sincr. co servidor)</string>
     <string name="pref_title_http_proxy_port">Porto proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
     <string name="pref_title_http_proxy_enable">Activar proxy HTTP</string>
@@ -511,7 +511,7 @@
     <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
-    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver a acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
+    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
     <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve a conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
     <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%1$s editou a publicación</string>
@@ -548,7 +548,7 @@
     <string name="failed_to_add_to_list">Fallou a adición da conta á lista</string>
     <string name="failed_to_remove_from_list">Fallou a eliminación da conta da lista</string>
     <string name="action_unfollow_hashtag_format">Non seguir #%1$s\?</string>
-    <string name="pref_default_post_language">Idioma de publicación por defecto (sincr. co servidor)</string>
+    <string name="pref_default_post_language">Idioma de publicación (sincr. co servidor)</string>
     <string name="notification_report_name">Denuncias</string>
     <string name="no_lists">Non tes listas.</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
@@ -707,10 +707,13 @@
     <string name="report_category_legal">Legal</string>
     <string name="pref_title_confirm_follows">Pedir confirmación antes de seguir</string>
     <string name="unknown_notification_type">Tipo de notificación descoñecido</string>
-    <string name="pref_default_reply_privacy">Privacidade por defecto da resposta (non sincr. co servidor)</string>
+    <string name="pref_default_reply_privacy">Privacidade da resposta (non sincr. co servidor)</string>
     <string name="action_follow_hashtag">Seguir un novo cancelo</string>
     <string name="url_copied">URL copiado</string>
     <string name="error_deleting_filter">Erro ao eliminar o filtro \'%1$s\'</string>
     <string name="error_saving_filter">Erro ao gardar o filtro \'%1$s\'</string>
     <string name="confirmation_hashtag_copied">\'#%1$s\' copiado</string>
+    <string name="pref_default_reply_privacy_explanation">O nivel de privacidade preseleccionado dependerá da publicación á que respondas.</string>
+    <string name="pref_match_default_post_privacy">Seguir a privacidade por defecto da publicación</string>
+    <string name="post_privacy_direct">Directa</string>
 </resources>
