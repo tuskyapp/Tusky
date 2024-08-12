@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import at.connyduck.calladapter.networkresult.NetworkResultCallAdapterFactory
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.db.AccountManager
@@ -27,9 +26,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.GuardedAdapter
-import com.keylesspalace.tusky.network.FailingCall
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
+import com.keylesspalace.tusky.network.apiForAccount
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
@@ -56,7 +55,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 
 /**
  * Created by charlag on 3/24/18.
@@ -150,12 +148,10 @@ object NetworkModule {
     @Singleton
     fun providesRetrofit(
         httpClient: OkHttpClient,
-        moshi: Moshi,
-        @Named("defaultPort") defaultPort: Int,
-        @Named("defaultScheme") defaultScheme: String
+        moshi: Moshi
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("$defaultScheme${MastodonApi.PLACEHOLDER_DOMAIN}:$defaultPort")
+            .baseUrl("https://${MastodonApi.PLACEHOLDER_DOMAIN}")
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
@@ -166,70 +162,22 @@ object NetworkModule {
     fun providesMastodonApi(
         httpClient: OkHttpClient,
         retrofit: Retrofit,
-        accountManager: AccountManager,
-        @Named("defaultPort") defaultPort: Int,
-        @Named("defaultScheme") defaultScheme: String
+        accountManager: AccountManager
     ): MastodonApi {
-        return provideApi(httpClient, retrofit, accountManager, defaultPort, defaultScheme)
+        return apiForAccount(accountManager.activeAccount, httpClient, retrofit)
     }
 
     @Provides
     fun providesMediaUploadApi(
         retrofit: Retrofit,
         okHttpClient: OkHttpClient,
-        accountManager: AccountManager,
-        @Named("defaultPort") defaultPort: Int,
-        @Named("defaultScheme") defaultScheme: String
+        accountManager: AccountManager
     ): MediaUploadApi {
         val longTimeOutOkHttpClient = okHttpClient.newBuilder()
             .readTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS)
             .build()
 
-        return provideApi(longTimeOutOkHttpClient, retrofit, accountManager, defaultPort, defaultScheme)
-    }
-
-    @VisibleForTesting
-    inline fun <reified T> provideApi(
-        httpClient: OkHttpClient,
-        retrofit: Retrofit,
-        accountManager: AccountManager,
-        @Named("defaultPort") defaultPort: Int,
-        @Named("defaultScheme") defaultScheme: String
-    ): T {
-        val currentAccount = accountManager.activeAccount
-        return retrofit.newBuilder()
-            .apply {
-                if (currentAccount != null) {
-                    baseUrl("$defaultScheme${currentAccount.domain}:$defaultPort")
-                }
-            }
-            .callFactory { originalRequest ->
-                var request = originalRequest
-
-                val domainHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
-                if (domainHeader != null) {
-                    request = originalRequest.newBuilder()
-                        .url(
-                            originalRequest.url.newBuilder().host(domainHeader).build()
-                        )
-                        .removeHeader(MastodonApi.DOMAIN_HEADER)
-                        .build()
-                }
-
-                if (currentAccount != null && request.url.host == currentAccount.domain) {
-                    request = request.newBuilder()
-                        .header("Authorization", "Bearer %s".format(currentAccount.accessToken))
-                        .build()
-                }
-
-                if (request.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
-                    FailingCall(request)
-                } else {
-                    httpClient.newCall(request)
-                }
-            }
-            .build()
-            .create()
+        return apiForAccount(accountManager.activeAccount, longTimeOutOkHttpClient, retrofit)
     }
 }
