@@ -40,7 +40,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -93,7 +92,6 @@ class MediaTypeException : Exception()
 class CouldNotOpenFileException : Exception()
 class UploadServerError(val errorMessage: String) : Exception()
 
-@Singleton
 class MediaUploader @Inject constructor(
     @ApplicationContext private val context: Context,
     private val mediaUploadApi: MediaUploadApi

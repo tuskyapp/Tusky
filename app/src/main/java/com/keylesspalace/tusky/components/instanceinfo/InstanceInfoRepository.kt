@@ -35,13 +35,11 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Singleton
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
     db: AppDatabase,
@@ -52,9 +50,6 @@ class InstanceInfoRepository @Inject constructor(
     private val dao = db.instanceDao()
     private val instanceName
         get() = accountManager.activeAccount!!.domain
-
-    /** In-memory cache for instance data, per instance domain.  */
-    private var instanceInfoCache = ConcurrentHashMap<String, InstanceInfo>()
 
     fun precache() {
         // We are avoiding some duplicate work but we are not trying too hard.
@@ -211,6 +206,9 @@ class InstanceInfoRepository @Inject constructor(
 
     companion object {
         private const val TAG = "InstanceInfoRepo"
+
+        /** In-memory cache for instance data, per instance domain.  */
+        private var instanceInfoCache = ConcurrentHashMap<String, InstanceInfo>()
 
         const val DEFAULT_CHARACTER_LIMIT = 500
         private const val DEFAULT_MAX_OPTION_COUNT = 4
