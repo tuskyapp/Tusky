@@ -188,7 +188,7 @@
     <string name="pref_title_http_proxy_port">Porta proxy HTTP</string>
     <string name="pref_default_post_privacy">Privacy predefinita dei post (sincronizzato sul server)</string>
     <string name="pref_default_media_sensitivity">Segna sempre media come sensibili (sincronizzato sul server)</string>
-    <string name="pref_publishing">Pubblicazione</string>
+    <string name="pref_publishing">Predefiniti di pubblicazione</string>
     <string name="pref_failed_to_sync">Sincronizzazione preferenze fallita</string>
     <string name="post_privacy_public">Pubblico</string>
     <string name="post_privacy_unlisted">Non in elenco</string>
@@ -735,4 +735,7 @@
     <string name="error_deleting_filter">Errore nella cancellazione del filtro \'%1$s\'</string>
     <string name="error_saving_filter">Errore nel salvataggio del filtro \'%1$s\'</string>
     <string name="action_follow_hashtag">Segui un nuovo hashtag</string>
+    <string name="pref_default_reply_privacy_explanation">La privacy preselezionata dipenderà dal post a cui stai rispondendo</string>
+    <string name="pref_match_default_post_privacy">Stessa privacy predefinita del post</string>
+    <string name="post_privacy_direct">Diretto</string>
 </resources>

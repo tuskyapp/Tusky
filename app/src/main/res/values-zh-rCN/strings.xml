@@ -193,7 +193,7 @@
     <string name="pref_title_http_proxy_port">HTTP 代理端口</string>
     <string name="pref_default_post_privacy">嘟文默认隐私等级（与服务器同步）</string>
     <string name="pref_default_media_sensitivity">始终标记媒体为敏感内容（与服务器同步）</string>
-    <string name="pref_publishing">发布（与服务器同步）</string>
+    <string name="pref_publishing">嘟文发布默认设置</string>
     <string name="pref_failed_to_sync">同步选项失败</string>
     <string name="post_privacy_public">公开</string>
     <string name="post_privacy_unlisted">不公开</string>
@@ -201,7 +201,7 @@
     <string name="pref_post_text_size">嘟文字体大小</string>
     <string name="post_text_size_smallest">最小</string>
     <string name="post_text_size_small">小</string>
-    <string name="post_text_size_medium">标准</string>
+    <string name="post_text_size_medium">中等</string>
     <string name="post_text_size_large">大</string>
     <string name="post_text_size_largest">最大</string>
     <string name="notification_mention_name">新提及</string>
@@ -395,7 +395,7 @@
     <string name="mute_domain_warning_dialog_ok">隐藏来自该域名的所有嘟文</string>
     <string name="pref_title_animate_gif_avatars">动画GIF头像</string>
     <string name="about_powered_by_tusky">由Tusky提供支持</string>
-    <string name="pref_title_alway_open_spoiler">始终扩展有内容警告的嘟文</string>
+    <string name="pref_title_alway_open_spoiler">始终展开有内容警告的嘟文</string>
     <string name="filter_dialog_whole_word">整个单词</string>
     <string name="filter_dialog_whole_word_description">如果关键字或缩写只有字母或数字，则只有在匹配整个单词时才会应用</string>
     <string name="caption_notoemoji">Google正在使用的表情符号</string>
@@ -461,7 +461,7 @@
     <string name="account_note_hint">此账号的备注</string>
     <string name="action_unsubscribe_account">取消关注</string>
     <string name="action_subscribe_account">关注</string>
-    <string name="drafts_post_reply_removed">该草稿回复的原嘟文已被删除</string>
+    <string name="drafts_post_reply_removed">你起草回复的原嘟文已被删除</string>
     <string name="draft_deleted">草稿已删除</string>
     <string name="drafts_failed_loading_reply">加载回复信息失败</string>
     <string name="drafts_post_failed_to_send">嘟文发送失败！</string>
@@ -581,7 +581,7 @@
     <string name="mute_notifications_switch">将通知静音</string>
     <string name="title_edits">编辑</string>
     <string name="status_edit_info">%1$s 编辑了</string>
-    <string name="a11y_label_loading_thread">加载帖子</string>
+    <string name="a11y_label_loading_thread">加载系列嘟文</string>
     <string name="action_share_account_link">分享账户链接</string>
     <string name="action_share_account_username">分享账户用户名</string>
     <string name="send_account_link_to">分享账户链接到…</string>
@@ -649,8 +649,8 @@
     <string name="select_list_manage">管理列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
     <string name="compose_delete_draft">删除草稿？</string>
-    <string name="error_missing_edits">你的服务器知晓这篇帖子被编辑，但没有编辑的副本，所以无法呈现给你。
-\n
+    <string name="error_missing_edits">你的服务器知晓此嘟文被编辑，但没有编辑的副本，所以无法呈现给你。 
+\n 
 \n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
     <string name="pref_ui_text_size">用户界面文本大小</string>
     <string name="notification_listenable_worker_description">Tusky 在后台工作时进行提示</string>
@@ -717,4 +717,7 @@
     <string name="pref_title_per_timeline_preferences">不同时间线采用不同首选项</string>
     <string name="error_deleting_filter">删除筛选器“%1$s”出错</string>
     <string name="error_saving_filter">保存筛选器“%1$s”出错</string>
+    <string name="pref_default_reply_privacy_explanation">预选隐私将取决于你回复的嘟文。</string>
+    <string name="pref_match_default_post_privacy">匹配默认嘟文发布隐私</string>
+    <string name="post_privacy_direct">私信</string>
 </resources>

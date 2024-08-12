@@ -254,7 +254,7 @@
     <string name="pref_main_nav_position_option_top">Trên màn hình</string>
     <string name="pref_main_nav_position">Vị trí menu</string>
     <string name="pref_failed_to_sync">Không thể lưu thiết lập</string>
-    <string name="pref_publishing">Đăng</string>
+    <string name="pref_publishing">Đăng mặc định</string>
     <string name="pref_default_media_sensitivity">Tài khoản nhạy cảm (đồng bộ máy chủ)</string>
     <string name="pref_default_post_privacy">Kiểu tút mặc định (đồng bộ máy chủ)</string>
     <string name="pref_title_http_proxy_server">Máy chủ proxy</string>
@@ -703,4 +703,7 @@
     <string name="error_deleting_filter">Xóa bộ lọc \'%1$s\' không được</string>
     <string name="error_saving_filter">Chưa thể lưu bộ lọc \'%1$s\'</string>
     <string name="action_follow_hashtag">Theo dõi một hashtag mới</string>
+    <string name="pref_default_reply_privacy_explanation">Chọn dựa vào tút bạn đang trả lời.</string>
+    <string name="pref_match_default_post_privacy">Khớp mặc định tút</string>
+    <string name="post_privacy_direct">Nhắn riêng</string>
 </resources>
