@@ -6,6 +6,20 @@
 
 ### Significant bug fixes
 
+## v26.1
+
+### New features and other improvements
+
+- The "Reply privacy" account preference now has two additional options: "Match default post privacy" and "Direct". "Match default post privacy" is the default for new accounts. https://github.com/tuskyapp/Tusky/pull/4568
+- Tusky now includes ISRG root certificates to keep working on Android 7 and servers that use Let's Encrypt. https://github.com/tuskyapp/Tusky/pull/4609
+- The soft keyboard will now be hidden after performing a search. https://github.com/tuskyapp/Tusky/pull/4578
+
+### Significant bug fixes
+
+- Fixes a bug where Tusky sometimes mixes up timelines and/or notifications of accounts. https://github.com/tuskyapp/Tusky/pull/4577 https://github.com/tuskyapp/Tusky/pull/4599
+- Fixes two bugs where Tusky would not provide the translation option even though the server is configured correctly. https://github.com/tuskyapp/Tusky/pull/4560 https://github.com/tuskyapp/Tusky/pull/4590
+- Fixes a bug where Tusky would sometimes randomly crash on startup. https://github.com/tuskyapp/Tusky/pull/4569
+
 ## v26.0
 
 ### New features and other improvements
