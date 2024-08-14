@@ -191,7 +191,7 @@
     <string name="pref_title_http_proxy_enable">启用 HTTP 代理</string>
     <string name="pref_title_http_proxy_server">HTTP 代理服务器</string>
     <string name="pref_title_http_proxy_port">HTTP 代理端口</string>
-    <string name="pref_default_post_privacy">嘟文默认隐私等级（与服务器同步）</string>
+    <string name="pref_default_post_privacy">嘟文隐私级别（与服务器同步）</string>
     <string name="pref_default_media_sensitivity">始终标记媒体为敏感内容（与服务器同步）</string>
     <string name="pref_publishing">嘟文发布默认设置</string>
     <string name="pref_failed_to_sync">同步选项失败</string>
@@ -565,7 +565,7 @@
     <string name="error_following_hashtags_unsupported">此实例不支持下列话题标签。</string>
     <string name="title_followed_hashtags">关注的话题标签</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
-    <string name="pref_default_post_language">发嘟文默认使用的语言（与服务器同步）</string>
+    <string name="pref_default_post_language">发嘟文所用语言（与服务器同步）</string>
     <string name="description_post_edited">已编辑</string>
     <string name="post_edited">编辑了 %1$s</string>
     <string name="error_muting_hashtag_format">对 #%1$s 静音时出错</string>
@@ -649,8 +649,8 @@
     <string name="select_list_manage">管理列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
     <string name="compose_delete_draft">删除草稿？</string>
-    <string name="error_missing_edits">你的服务器知晓此嘟文被编辑，但没有编辑的副本，所以无法呈现给你。 
-\n 
+    <string name="error_missing_edits">你的服务器知晓此嘟文被编辑，但没有编辑的副本，所以无法呈现给你。
+\n
 \n这是一个 <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>。</string>
     <string name="pref_ui_text_size">用户界面文本大小</string>
     <string name="notification_listenable_worker_description">Tusky 在后台工作时进行提示</string>
@@ -699,7 +699,7 @@
     <string name="pref_title_show_self_boosts_description">某人转发自己的嘟文</string>
     <string name="pref_title_show_self_boosts">显示自转发嘟文</string>
     <string name="reply_sending">发送中…</string>
-    <string name="pref_default_reply_privacy">默认回复隐私等级（不与服务器同步）</string>
+    <string name="pref_default_reply_privacy">回复隐私级别（不与服务器同步）</string>
     <string name="label_translated">使用 %2$s 翻译自 %1$s</string>
     <string name="pref_title_show_notifications_filter">显示通知筛选器</string>
     <string name="pref_title_confirm_follows">关注前需确认</string>
