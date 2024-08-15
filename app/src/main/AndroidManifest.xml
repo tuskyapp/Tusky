@@ -19,7 +19,8 @@
         android:theme="@style/TuskyTheme"
         android:usesCleartextTraffic="false"
         android:localeConfig="@xml/locales_config"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <activity
             android:name=".components.login.LoginActivity"
@@ -99,9 +100,13 @@
                 android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
 
         </activity>
+        <!-- When content is shared to Tusky ComposeActivity can be the only active activity,
+             so it must be excluded from recents or the sharing process can be restarted from recents
+             which would be very unexpected -->
         <activity
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".components.viewthread.ViewThreadActivity"

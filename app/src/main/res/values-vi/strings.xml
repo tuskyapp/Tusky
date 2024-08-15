@@ -254,7 +254,7 @@
     <string name="pref_main_nav_position_option_top">Trên màn hình</string>
     <string name="pref_main_nav_position">Vị trí menu</string>
     <string name="pref_failed_to_sync">Không thể lưu thiết lập</string>
-    <string name="pref_publishing">Đăng</string>
+    <string name="pref_publishing">Đăng mặc định</string>
     <string name="pref_default_media_sensitivity">Tài khoản nhạy cảm (đồng bộ máy chủ)</string>
     <string name="pref_default_post_privacy">Kiểu tút mặc định (đồng bộ máy chủ)</string>
     <string name="pref_title_http_proxy_server">Máy chủ proxy</string>
@@ -552,7 +552,7 @@
     <string name="title_followed_hashtags">Những hashtag theo dõi</string>
     <string name="post_edited">Sửa %1$s</string>
     <string name="description_post_edited">Đã sửa</string>
-    <string name="pref_default_post_language">Ngôn ngữ đăng mặc định (đồng bộ máy chủ)</string>
+    <string name="pref_default_post_language">Ngôn ngữ đăng (đồng bộ máy chủ)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="error_muting_hashtag_format">Lỗi khi ẩn #%1$s</string>
     <string name="error_unmuting_hashtag_format">Lỗi khi bỏ ẩn #%1$s</string>
@@ -699,7 +699,11 @@
     <string name="pref_title_confirm_follows">Hỏi trước khi theo dõi</string>
     <string name="url_copied">Đã sao chép liên kết</string>
     <string name="confirmation_hashtag_copied">Đã sao chép \'#%1$s\'</string>
-    <string name="pref_default_reply_privacy">Kiểu trả lời mặc định (không đồng bộ máy chủ)</string>
+    <string name="pref_default_reply_privacy">Kiểu trả lời (không đồng bộ máy chủ)</string>
     <string name="error_deleting_filter">Xóa bộ lọc \'%1$s\' không được</string>
     <string name="error_saving_filter">Chưa thể lưu bộ lọc \'%1$s\'</string>
+    <string name="action_follow_hashtag">Theo dõi một hashtag mới</string>
+    <string name="pref_default_reply_privacy_explanation">Chọn dựa vào tút bạn đang trả lời.</string>
+    <string name="pref_match_default_post_privacy">Khớp mặc định tút</string>
+    <string name="post_privacy_direct">Nhắn riêng</string>
 </resources>

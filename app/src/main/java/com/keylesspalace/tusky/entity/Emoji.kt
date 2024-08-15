@@ -26,5 +26,6 @@ data class Emoji(
     val shortcode: String,
     val url: String,
     @Json(name = "static_url") val staticUrl: String,
-    @Json(name = "visible_in_picker") val visibleInPicker: Boolean = true
+    @Json(name = "visible_in_picker") val visibleInPicker: Boolean = true,
+    val category: String?
 ) : Parcelable

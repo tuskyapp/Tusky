@@ -20,16 +20,19 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
-import com.keylesspalace.tusky.databinding.ItemStatusBinding
+import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
@@ -77,7 +80,11 @@ class NotificationsPagingAdapter(
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
                     Notification.Type.MENTION,
-                    Notification.Type.POLL -> VIEW_TYPE_STATUS
+                    Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                        VIEW_TYPE_STATUS_FILTERED
+                    } else {
+                        VIEW_TYPE_STATUS
+                    }
                     Notification.Type.STATUS,
                     Notification.Type.FAVOURITE,
                     Notification.Type.REBLOG,
@@ -97,9 +104,13 @@ class NotificationsPagingAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_STATUS -> StatusViewHolder(
-                ItemStatusBinding.inflate(inflater, parent, false),
+                inflater.inflate(R.layout.item_status, parent, false),
                 statusListener,
                 accountId
+            )
+            VIEW_TYPE_STATUS_FILTERED -> FilteredStatusViewHolder(
+                ItemStatusFilteredBinding.inflate(inflater, parent, false),
+                statusListener
             )
             VIEW_TYPE_STATUS_NOTIFICATION -> StatusNotificationViewHolder(
                 ItemStatusNotificationBinding.inflate(inflater, parent, false),
@@ -157,12 +168,13 @@ class NotificationsPagingAdapter(
 
     companion object {
         private const val VIEW_TYPE_STATUS = 0
-        private const val VIEW_TYPE_STATUS_NOTIFICATION = 1
-        private const val VIEW_TYPE_FOLLOW = 2
-        private const val VIEW_TYPE_FOLLOW_REQUEST = 3
-        private const val VIEW_TYPE_PLACEHOLDER = 4
-        private const val VIEW_TYPE_REPORT = 5
-        private const val VIEW_TYPE_UNKNOWN = 6
+        private const val VIEW_TYPE_STATUS_FILTERED = 1
+        private const val VIEW_TYPE_STATUS_NOTIFICATION = 2
+        private const val VIEW_TYPE_FOLLOW = 3
+        private const val VIEW_TYPE_FOLLOW_REQUEST = 4
+        private const val VIEW_TYPE_PLACEHOLDER = 5
+        private const val VIEW_TYPE_REPORT = 6
+        private const val VIEW_TYPE_UNKNOWN = 7
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/status_filtered_placeholder"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="0dp"
-        android:text="Filter: MyFilter"
         android:textAlignment="center"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        tools:ignore="HardcodedText" />
+        tools:text="Filter: MyFilter" />
 
     <Button
         android:id="@+id/status_filter_show_anyway"

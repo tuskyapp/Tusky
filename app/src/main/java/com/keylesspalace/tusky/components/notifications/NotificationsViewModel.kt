@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -91,6 +90,8 @@ class NotificationsViewModel @Inject constructor(
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
+    private val account = accountManager.activeAccount!!
+
     private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, excludes.value)
 
     private var readingOrder: ReadingOrder =
@@ -104,12 +105,7 @@ class NotificationsViewModel @Inject constructor(
             ),
             remoteMediator = remoteMediator,
             pagingSourceFactory = {
-                val activeAccount = accountManager.activeAccount
-                if (activeAccount == null) {
-                    EmptyPagingSource()
-                } else {
-                    db.notificationsDao().getNotifications(activeAccount.id)
-                }
+                db.notificationsDao().getNotifications(account.id)
             }
         ).flow
             .cachedIn(viewModelScope)
@@ -133,41 +129,45 @@ class NotificationsViewModel @Inject constructor(
                     onPreferenceChanged(event.preferenceKey)
                 }
                 if (event is FilterUpdatedEvent && event.filterContext.contains(Filter.Kind.NOTIFICATIONS.kind)) {
+                    filterModel.init(Filter.Kind.NOTIFICATIONS)
                     refreshTrigger.value += 1
                 }
             }
         }
-        filterModel.kind = Filter.Kind.NOTIFICATIONS
         viewModelScope.launch {
             notificationPolicyUsecase.getNotificationPolicy()
+        }
+        viewModelScope.launch {
+            val needsRefresh = filterModel.init(Filter.Kind.NOTIFICATIONS)
+            if (needsRefresh) {
+                refreshTrigger.value++
+            }
         }
     }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
         if (newFilters != _excludes.value) {
-            val account = accountManager.activeAccount
-            if (account != null) {
-                viewModelScope.launch {
-                    account.notificationsFilter = serialize(newFilters)
-                    accountManager.saveAccount(account)
-                    remoteMediator.excludes = newFilters
-                    db.notificationsDao().cleanupNotifications(account.id, 0)
-                    refreshTrigger.value++
-                    _excludes.value = newFilters
-                }
+            viewModelScope.launch {
+                account.notificationsFilter = serialize(newFilters)
+                accountManager.saveAccount(account)
+                remoteMediator.excludes = newFilters
+                db.notificationsDao().cleanupNotifications(account.id, 0)
+                refreshTrigger.value++
+                _excludes.value = newFilters
             }
         }
     }
 
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
-            Notification.Type.MENTION, Notification.Type.STATUS, Notification.Type.POLL -> {
+            Notification.Type.MENTION, Notification.Type.POLL -> {
                 notificationViewData.statusViewData?.let { statusViewData ->
                     statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
                     return statusViewData.filterAction
                 }
                 Filter.Action.NONE
             }
+
             else -> Filter.Action.NONE
         }
     }
@@ -181,7 +181,7 @@ class NotificationsViewModel @Inject constructor(
             }.fold(
                 onSuccess = {
                     // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
-                    db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
+                    db.notificationsDao().delete(account.id, notificationId)
                     if (accept) {
                         // refresh the notifications so the new follow notification will be loaded
                         refreshTrigger.value++
@@ -233,33 +233,33 @@ class NotificationsViewModel @Inject constructor(
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setExpanded(accountManager.activeAccount!!.id, status.id, expanded)
+                .setExpanded(account.id, status.id, expanded)
         }
     }
 
     fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentShowing(accountManager.activeAccount!!.id, status.id, isShowing)
+                .setContentShowing(account.id, status.id, isShowing)
         }
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentCollapsed(accountManager.activeAccount!!.id, status.id, isCollapsed)
+                .setContentCollapsed(account.id, status.id, isCollapsed)
         }
     }
 
     fun remove(notificationId: String) {
         viewModelScope.launch {
-            db.notificationsDao().delete(accountManager.activeAccount!!.id, notificationId)
+            db.notificationsDao().delete(account.id, notificationId)
         }
     }
 
     fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineStatusDao().clearWarning(accountManager.activeAccount!!.id, status.actionableId)
+            db.timelineStatusDao().clearWarning(account.id, status.actionableId)
         }
     }
 
@@ -267,7 +267,7 @@ class NotificationsViewModel @Inject constructor(
         viewModelScope.launch {
             api.clearNotifications().fold(
                 {
-                    db.notificationsDao().cleanupNotifications(accountManager.activeAccount!!.id, 0)
+                    db.notificationsDao().cleanupNotifications(account.id, 0)
                 },
                 { t ->
                     Log.w(TAG, "failed to clear notifications", t)
@@ -296,17 +296,15 @@ class NotificationsViewModel @Inject constructor(
             try {
                 val notificationsDao = db.notificationsDao()
 
-                val activeAccount = accountManager.activeAccount!!
-
                 notificationsDao.insertNotification(
                     Placeholder(placeholderId, loading = true).toNotificationEntity(
-                        activeAccount.id
+                        account.id
                     )
                 )
 
                 val response = db.withTransaction {
-                    val idAbovePlaceholder = notificationsDao.getIdAbove(activeAccount.id, placeholderId)
-                    val idBelowPlaceholder = notificationsDao.getIdBelow(activeAccount.id, placeholderId)
+                    val idAbovePlaceholder = notificationsDao.getIdAbove(account.id, placeholderId)
+                    val idBelowPlaceholder = notificationsDao.getIdBelow(account.id, placeholderId)
                     when (readingOrder) {
                         // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
                         // after minId and no larger than maxId
@@ -337,11 +335,11 @@ class NotificationsViewModel @Inject constructor(
                 val accountDao = db.timelineAccountDao()
 
                 db.withTransaction {
-                    notificationsDao.delete(activeAccount.id, placeholderId)
+                    notificationsDao.delete(account.id, placeholderId)
 
                     val overlappedNotifications = if (notifications.isNotEmpty()) {
                         notificationsDao.deleteRange(
-                            activeAccount.id,
+                            account.id,
                             notifications.last().id,
                             notifications.first().id
                         )
@@ -350,26 +348,26 @@ class NotificationsViewModel @Inject constructor(
                     }
 
                     for (notification in notifications) {
-                        accountDao.insert(notification.account.toEntity(activeAccount.id))
+                        accountDao.insert(notification.account.toEntity(account.id))
                         notification.report?.let { report ->
-                            accountDao.insert(report.targetAccount.toEntity(activeAccount.id))
-                            notificationsDao.insertReport(report.toEntity(activeAccount.id))
+                            accountDao.insert(report.targetAccount.toEntity(account.id))
+                            notificationsDao.insertReport(report.toEntity(account.id))
                         }
                         notification.status?.let { status ->
-                            accountDao.insert(status.account.toEntity(activeAccount.id))
+                            accountDao.insert(status.account.toEntity(account.id))
 
                             statusDao.insert(
                                 status.toEntity(
-                                    tuskyAccountId = activeAccount.id,
-                                    expanded = activeAccount.alwaysOpenSpoiler,
-                                    contentShowing = activeAccount.alwaysShowSensitiveMedia || !status.sensitive,
+                                    tuskyAccountId = account.id,
+                                    expanded = account.alwaysOpenSpoiler,
+                                    contentShowing = account.alwaysShowSensitiveMedia || !status.sensitive,
                                     contentCollapsed = true
                                 )
                             )
                         }
                         notificationsDao.insertNotification(
                             notification.toEntity(
-                                activeAccount.id
+                                account.id
                             )
                         )
                     }
@@ -388,7 +386,7 @@ class NotificationsViewModel @Inject constructor(
                             Placeholder(
                                 idToConvert,
                                 loading = false
-                            ).toNotificationEntity(activeAccount.id)
+                            ).toNotificationEntity(account.id)
                         )
                     }
                 }

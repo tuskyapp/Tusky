@@ -223,74 +223,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
         // check for savedInstanceState in order to not handle intent events more than once
         if (intent != null && savedInstanceState == null) {
-            val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
-            if (notificationId != -1) {
-                // opened from a notification action, cancel the notification
-                val notificationManager = getSystemService(
-                    NOTIFICATION_SERVICE
-                ) as NotificationManager
-                notificationManager.cancel(intent.getStringExtra(NOTIFICATION_TAG), notificationId)
-            }
-
-            /** there are two possibilities the accountId can be passed to MainActivity:
-             * - from our code as Long Intent Extra TUSKY_ACCOUNT_ID
-             * - from share shortcuts as String 'android.intent.extra.shortcut.ID'
-             */
-            var tuskyAccountId = intent.getLongExtra(TUSKY_ACCOUNT_ID, -1)
-            if (tuskyAccountId == -1L) {
-                val accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID)
-                if (accountIdString != null) {
-                    tuskyAccountId = accountIdString.toLong()
-                }
-            }
-            val accountRequested = tuskyAccountId != -1L
-            if (accountRequested && tuskyAccountId != activeAccount.id) {
-                accountManager.setActiveAccount(tuskyAccountId)
-            }
-
-            val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
-
-            if (canHandleMimeType(intent.type) || intent.hasExtra(COMPOSE_OPTIONS)) {
-                // Sharing to Tusky from an external app
-                if (accountRequested) {
-                    // The correct account is already active
-                    forwardToComposeActivity(intent)
-                } else {
-                    // No account was provided, show the chooser
-                    showAccountChooserDialog(
-                        getString(R.string.action_share_as),
-                        true,
-                        object : AccountSelectionListener {
-                            override fun onAccountSelected(account: AccountEntity) {
-                                val requestedId = account.id
-                                if (requestedId == activeAccount.id) {
-                                    // The correct account is already active
-                                    forwardToComposeActivity(intent)
-                                } else {
-                                    // A different account was requested, restart the activity
-                                    intent.putExtra(TUSKY_ACCOUNT_ID, requestedId)
-                                    changeAccount(requestedId, intent)
-                                }
-                            }
-                        }
-                    )
-                }
-            } else if (openDrafts) {
-                val intent = DraftsActivity.newIntent(this)
-                startActivity(intent)
-            } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
-                // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
-                // otherwise show notification tab
-                if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
-                    val intent = AccountListActivity.newIntent(
-                        this,
-                        AccountListActivity.Type.FOLLOW_REQUESTS
-                    )
-                    startActivityWithSlideInAnimation(intent)
-                } else {
-                    showNotificationTab = true
-                }
-            }
+            showNotificationTab = handleIntent(intent, activeAccount)
         }
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
@@ -415,6 +348,101 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this, true)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        val activeAccount = accountManager.activeAccount ?: return
+        val showNotificationTab = handleIntent(intent, activeAccount)
+        if (showNotificationTab) {
+            val tabs = activeAccount.tabPreferences
+            val position = tabs.indexOfFirst { it.id == NOTIFICATIONS }
+            if (position != -1) {
+                binding.viewPager.setCurrentItem(position, false)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        cacheUpdater.stop()
+        super.onDestroy()
+    }
+
+    /** Handle an incoming Intent,
+     * @returns true when the intent is coming from an notification and the interface should show the notification tab.
+     */
+    private fun handleIntent(intent: Intent, activeAccount: AccountEntity): Boolean {
+        val notificationId = intent.getIntExtra(NOTIFICATION_ID, -1)
+        if (notificationId != -1) {
+            // opened from a notification action, cancel the notification
+            val notificationManager = getSystemService(
+                NOTIFICATION_SERVICE
+            ) as NotificationManager
+            notificationManager.cancel(intent.getStringExtra(NOTIFICATION_TAG), notificationId)
+        }
+
+        /** there are two possibilities the accountId can be passed to MainActivity:
+         * - from our code as Long Intent Extra TUSKY_ACCOUNT_ID
+         * - from share shortcuts as String 'android.intent.extra.shortcut.ID'
+         */
+        var tuskyAccountId = intent.getLongExtra(TUSKY_ACCOUNT_ID, -1)
+        if (tuskyAccountId == -1L) {
+            val accountIdString = intent.getStringExtra(ShortcutManagerCompat.EXTRA_SHORTCUT_ID)
+            if (accountIdString != null) {
+                tuskyAccountId = accountIdString.toLong()
+            }
+        }
+        val accountRequested = tuskyAccountId != -1L
+        if (accountRequested && tuskyAccountId != activeAccount.id) {
+            accountManager.setActiveAccount(tuskyAccountId)
+            changeAccount(tuskyAccountId, intent, withAnimation = false)
+            return false
+        }
+
+        val openDrafts = intent.getBooleanExtra(OPEN_DRAFTS, false)
+
+        if (canHandleMimeType(intent.type) || intent.hasExtra(COMPOSE_OPTIONS)) {
+            // Sharing to Tusky from an external app
+            if (accountRequested) {
+                // The correct account is already active
+                forwardToComposeActivity(intent)
+            } else {
+                // No account was provided, show the chooser
+                showAccountChooserDialog(
+                    getString(R.string.action_share_as),
+                    true,
+                    object : AccountSelectionListener {
+                        override fun onAccountSelected(account: AccountEntity) {
+                            val requestedId = account.id
+                            if (requestedId == activeAccount.id) {
+                                // The correct account is already active
+                                forwardToComposeActivity(intent)
+                            } else {
+                                // A different account was requested, restart the activity
+                                intent.putExtra(TUSKY_ACCOUNT_ID, requestedId)
+                                changeAccount(requestedId, intent)
+                            }
+                        }
+                    }
+                )
+            }
+        } else if (openDrafts) {
+            val draftsIntent = DraftsActivity.newIntent(this)
+            startActivity(draftsIntent)
+        } else if (accountRequested && intent.hasExtra(NOTIFICATION_TYPE)) {
+            // user clicked a notification, show follow requests for type FOLLOW_REQUEST,
+            // otherwise show notification tab
+            if (intent.getStringExtra(NOTIFICATION_TYPE) == Notification.Type.FOLLOW_REQUEST.name) {
+                val accountListIntent = AccountListActivity.newIntent(
+                    this,
+                    AccountListActivity.Type.FOLLOW_REQUESTS
+                )
+                startActivityWithSlideInAnimation(accountListIntent)
+            } else {
+                return true
+            }
+        }
+        return false
     }
 
     private fun showDirectMessageBadge(showBadge: Boolean) {
@@ -546,7 +574,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
         }
         startActivity(composeIntent)
-        finish()
     }
 
     private fun setupDrawer(
@@ -964,11 +991,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         return false
     }
 
-    private fun changeAccount(newSelectedId: Long, forward: Intent?) {
+    private fun changeAccount(
+        newSelectedId: Long,
+        forward: Intent?,
+        withAnimation: Boolean = true
+    ) {
         cacheUpdater.stop()
         accountManager.setActiveAccount(newSelectedId)
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
+        if (withAnimation) {
+            intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
+        }
         if (forward != null) {
             intent.type = forward.type
             intent.action = forward.action
@@ -1219,6 +1252,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
             return Intent(context, MainActivity::class.java).apply {
                 putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
 
@@ -1265,7 +1299,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
             return accountSwitchIntent(context, tuskyAccountId).apply {
                 putExtra(REDIRECT_URL, url)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
 

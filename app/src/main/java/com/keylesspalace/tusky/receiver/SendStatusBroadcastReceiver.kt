@@ -93,7 +93,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     StatusToSend(
                         text = text,
                         warningText = spoiler,
-                        visibility = visibility.serverString,
+                        visibility = visibility.stringValue,
                         sensitive = false,
                         media = emptyList(),
                         scheduledAt = null,

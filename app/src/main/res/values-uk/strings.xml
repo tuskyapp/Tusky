@@ -361,9 +361,9 @@
     <string name="pref_main_nav_position_option_top">Вгорі</string>
     <string name="pref_main_nav_position">Розташування головної панелі переходів</string>
     <string name="pref_failed_to_sync">Не вдалося синхронізувати налаштування</string>
-    <string name="pref_publishing">Публікування (синхронізовано з сервером)</string>
-    <string name="pref_default_media_sensitivity">Завжди позначати дописи делікатними</string>
-    <string name="pref_default_post_privacy">Типова приватність дописів</string>
+    <string name="pref_publishing">Публікування</string>
+    <string name="pref_default_media_sensitivity">Завжди позначати дописи делікатними (синхронізовано з сервером)</string>
+    <string name="pref_default_post_privacy">Типова приватність дописів (синхронізовано з сервером)</string>
     <string name="pref_title_http_proxy_port">Порт HTTP-проксі</string>
     <string name="pref_title_http_proxy_server">Сервер HTTP-проксі</string>
     <string name="pref_title_http_proxy_enable">Увімкнути HTTP-проксі</string>
@@ -416,11 +416,11 @@
     <string name="dialog_message_uploading_media">Відвантаження…</string>
     <string name="dialog_title_finishing_media_upload">Завершення відвантаження медіа</string>
     <string name="dialog_whats_an_instance">Сюди можна ввести адресу або домен будь-якого сервера, наприклад mastodon.social, icosahedron.website, social.tchncs.de та <a href="https://instances.social">більше!</a> \u0020
-\n \u0020
-\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис. \u0020
-\n \u0020
+\n
+\nЯкщо у вас ще немає облікового запису, ви можете ввести назву сервера, до якого ви хочете приєднатися та створити там обліковий запис. 
+\n
 \nСервер — єдине місце, де розміщено ваш обліковий запис, але ви можете легко спілкуватися з людьми та стежити за ними на інших серверах, ніби ви перебуваєте на тому ж сайті. \u0020
-\n \u0020
+\n
 \nДокладніше на <a href="https://joinmastodon.org">joinmastodon.org</a>. до них облікові записи. \u0020</string>
     <string name="link_whats_an_instance">Що таке сервер\?</string>
     <string name="hint_domain">Котрий сервер\?</string>
@@ -582,7 +582,7 @@
     <string name="report_category_other">Інше</string>
     <string name="error_following_hashtags_unsupported">Цей сервер не підтримує слідкування за хештегами.</string>
     <string name="title_followed_hashtags">Відстежувані хештеги</string>
-    <string name="pref_default_post_language">Типова мова дописів</string>
+    <string name="pref_default_post_language">Усталена мова дописів (синхронізовано з сервером)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="post_edited">Змінено %1$s</string>
     <string name="description_post_edited">Змінено</string>
@@ -660,8 +660,8 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="hint_filter_title">Мій фільтр</string>
     <string name="pref_title_show_stat_inline">Показувати статистику допису у стрічці</string>
-    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите. 
-\n 
+    <string name="help_empty_home">Це ваша <b>головна стрічка</b>. Вона показує останні дописи облікових записів, за якими ви стежите.
+\n
 \nЩоб переглянути облікові записи, ви можете знайти їх в одній з інших стрічок. Наприклад, на локальній стрічці вашого сервера [iconics gmd_group]. Або ви можете шукати їх за іменами [iconics gmd_search]; наприклад, шукайте Tusky, щоб знайти наш обліковий запис Mastodon.</string>
     <string name="post_media_image">Зображення</string>
     <string name="select_list_manage">Керувати списками</string>
@@ -672,8 +672,8 @@
     <string name="notification_prune_cache">Обслуговування кешу…</string>
     <string name="load_newest_notifications">Завантажити найновіші сповіщення</string>
     <string name="compose_delete_draft">Видалити чернетку\?</string>
-    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому вони не можуть бути вам показані. 
-\n 
+    <string name="error_missing_edits">Ваш сервер знає, що цей допис було змінено, але не має копії редагувань, тому їх неможливо вам показати.
+\n
 \nЦе <a href="https://github.com/mastodon/mastodon/issues/25398">помилка #25398 у Mastodon</a>.</string>
     <string name="error_media_upload_sending_fmt">Не вдалося вивантажити: %1$s</string>
     <string name="about_device_info_title">Ваш пристрій</string>
@@ -687,19 +687,19 @@
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
     <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM). \u0020
-\n \u0020
+\n
 \nПриватні повідомлення створюються шляхом налаштування видимості [iconics gmd_public] допису на [iconics gmd_mail] <i>Особисту</i> і згадування в тексті одного або кількох користувачів. \u0020
-\n \u0020
+\n
 \nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість. \u0020</string>
     <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
     <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
     <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
-    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. \u0020
-\n \u0020
-\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте. \u0020
-\n \u0020
-\nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
+    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. 
+\n
+\n \u0020ЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, на за якими слідкуєте. 
+\n
+\n \u0020Ці списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="muting_hashtag_success_format">Сховати хештег #%1$s як попередження</string>
     <string name="unmuting_hashtag_success_format">Показувати хештег #%1$s</string>
     <string name="action_view_filter">Переглянути фільтр</string>
@@ -731,4 +731,8 @@
     <string name="confirmation_hashtag_copied">\'#%1$s\' скопійовано</string>
     <string name="dialog_follow_warning">Стежити за обліковим записом?</string>
     <string name="pref_title_confirm_follows">Запит підтвердження перед початком стеження</string>
+    <string name="action_follow_hashtag">Стежити за новим хештегом</string>
+    <string name="pref_default_reply_privacy">Усталена приватність відповіді (не синхронізовано з сервером)</string>
+    <string name="error_deleting_filter">Помилка видалення фільтра \'%1$s\'</string>
+    <string name="error_saving_filter">Помилка збереження фільтра \'%1$s\'</string>
 </resources>

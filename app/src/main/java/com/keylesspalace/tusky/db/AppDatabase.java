@@ -62,14 +62,15 @@ import java.io.File;
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 62,
+    version = 64,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
         @AutoMigration(from = 50, to = 51),
         @AutoMigration(from = 51, to = 52),
         @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
-        @AutoMigration(from = 56, to = 58) // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 62, to = 64) // filterV2Available in InstanceEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -845,7 +846,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final Migration MIGRATION_60_62 = new Migration(60, 62) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 2");
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

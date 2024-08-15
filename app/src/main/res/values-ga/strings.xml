@@ -264,7 +264,7 @@
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="post_media_video">Físeán</string>
     <string name="state_follow_requested">Lean iarrtha</string>
-    <string name="follows_you">Leanann tú</string>
+    <string name="follows_you">Do do leanúint</string>
     <string name="pref_title_alway_show_sensitive_media">Taispeáin ábhar íogair i gcónaí</string>
     <string name="filter_dialog_update_button">Nuashonrú</string>
     <string name="filter_dialog_whole_word">Focal iomlán</string>

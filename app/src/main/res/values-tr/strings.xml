@@ -171,9 +171,9 @@
     <string name="pref_title_http_proxy_enable">HTTP vekil sunucu etkinleştir</string>
     <string name="pref_title_http_proxy_server">HTTP vekil sunucusu</string>
     <string name="pref_title_http_proxy_port">HTTP vekil sunucu portu</string>
-    <string name="pref_default_post_privacy">Varsayılan gönderi gizliliği (sunucu ile eşleşir)</string>
+    <string name="pref_default_post_privacy">Gönderi gizliliği (sunucu ile eşleşir)</string>
     <string name="pref_default_media_sensitivity">Medyayı her zaman hassas olarak işaretle (sunucu ile eşleşir)</string>
-    <string name="pref_publishing">Yayın</string>
+    <string name="pref_publishing">Varsayılan gönderiler</string>
     <string name="pref_failed_to_sync">Ayarlar eşitlendirilemedi</string>
     <string name="post_privacy_public">Herkese açık</string>
     <string name="post_privacy_unlisted">Liste dışı</string>
@@ -510,7 +510,7 @@
     <string name="duration_180_days">180 gün</string>
     <string name="duration_60_days">60 gün</string>
     <string name="duration_90_days">90 gün</string>
-    <string name="pref_default_post_language">Varsayılan gönderme dili (sunucu ile eşleşir)</string>
+    <string name="pref_default_post_language">Gönderi dili (sunucu ile eşleşir)</string>
     <string name="notification_report_name">Raporlar</string>
     <string name="notification_report_description">Denetleme raporlarıyla ilgili bildirimler</string>
     <string name="duration_no_change">(değişiklik yok)</string>
@@ -716,5 +716,11 @@
     <string name="pref_title_confirm_follows">Takip etmeden önce onayı göster</string>
     <string name="url_copied">Url kopyalandı</string>
     <string name="confirmation_hashtag_copied">\'#%1$s\' kopyalandı</string>
-    <string name="pref_default_reply_privacy">Varsayılan yanıt gizliliği (sunucu ile eşleştirilmedi)</string>
+    <string name="pref_default_reply_privacy">Yanıt gizliliği (sunucu ile eşleştirilmedi)</string>
+    <string name="action_follow_hashtag">Yeni bir etiket takip ediniz</string>
+    <string name="error_deleting_filter">Süzgeç silinirken hata oluştu \'%1$s\'</string>
+    <string name="error_saving_filter">Hata kaydetme süzgeci \'%1$s\'</string>
+    <string name="pref_default_reply_privacy_explanation">Önceden seçilen gizlilik, yanıtladığınız gönderiye bağlı olacak.</string>
+    <string name="pref_match_default_post_privacy">Varsayılan gönderi gizliliğini eşleştiriniz</string>
+    <string name="post_privacy_direct">Doğrudan</string>
 </resources>
