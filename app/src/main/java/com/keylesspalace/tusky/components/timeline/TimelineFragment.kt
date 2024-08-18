@@ -266,6 +266,8 @@ class TimelineFragment :
                             }
                         }
                     }
+                    // we loaded new posts at the top - no need to handle "load more" anymore
+                    loadMorePosition = null
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst(adapter)
