@@ -218,6 +218,7 @@ class NotificationsFragment :
                             )
                         }
                     }
+                    loadMorePosition = null
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst(adapter)
