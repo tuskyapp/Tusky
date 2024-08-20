@@ -361,9 +361,9 @@
     <string name="pref_main_nav_position_option_top">Вгорі</string>
     <string name="pref_main_nav_position">Розташування головної панелі переходів</string>
     <string name="pref_failed_to_sync">Не вдалося синхронізувати налаштування</string>
-    <string name="pref_publishing">Публікування</string>
+    <string name="pref_publishing">Усталені налаштування дописів</string>
     <string name="pref_default_media_sensitivity">Завжди позначати дописи делікатними (синхронізовано з сервером)</string>
-    <string name="pref_default_post_privacy">Типова приватність дописів (синхронізовано з сервером)</string>
+    <string name="pref_default_post_privacy">Приватність дописів (синхронізовано з сервером)</string>
     <string name="pref_title_http_proxy_port">Порт HTTP-проксі</string>
     <string name="pref_title_http_proxy_server">Сервер HTTP-проксі</string>
     <string name="pref_title_http_proxy_enable">Увімкнути HTTP-проксі</string>
@@ -487,7 +487,7 @@
     <string name="add_hashtag_title">Додати хештег</string>
     <string name="hint_list_name">Назва списку</string>
     <string name="description_poll">Опитування з варіантами: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="description_visibility_direct">Безпосередньо</string>
+    <string name="description_visibility_direct">Особисто</string>
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Поширено</string>
     <plurals name="reblogs">
@@ -582,7 +582,7 @@
     <string name="report_category_other">Інше</string>
     <string name="error_following_hashtags_unsupported">Цей сервер не підтримує слідкування за хештегами.</string>
     <string name="title_followed_hashtags">Відстежувані хештеги</string>
-    <string name="pref_default_post_language">Усталена мова дописів (синхронізовано з сервером)</string>
+    <string name="pref_default_post_language">Мова дописів (синхронізовано з сервером)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="post_edited">Змінено %1$s</string>
     <string name="description_post_edited">Змінено</string>
@@ -732,7 +732,10 @@
     <string name="dialog_follow_warning">Стежити за обліковим записом?</string>
     <string name="pref_title_confirm_follows">Запит підтвердження перед початком стеження</string>
     <string name="action_follow_hashtag">Стежити за новим хештегом</string>
-    <string name="pref_default_reply_privacy">Усталена приватність відповіді (не синхронізовано з сервером)</string>
+    <string name="pref_default_reply_privacy">Приватність відповіді (не синхронізовано з сервером)</string>
     <string name="error_deleting_filter">Помилка видалення фільтра \'%1$s\'</string>
     <string name="error_saving_filter">Помилка збереження фільтра \'%1$s\'</string>
+    <string name="pref_match_default_post_privacy">Відповідає типовим параметрам приватності дописів</string>
+    <string name="pref_default_reply_privacy_explanation">Попередньо вибрана приватність буде залежати від допису, на який ви відповідаєте.</string>
+    <string name="post_privacy_direct">Особисті</string>
 </resources>
