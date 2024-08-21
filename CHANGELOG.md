@@ -18,7 +18,8 @@
 
 - Fixes a bug where Tusky sometimes mixes up timelines and/or notifications of accounts. https://github.com/tuskyapp/Tusky/pull/4577 https://github.com/tuskyapp/Tusky/pull/4599
 - Fixes two bugs where Tusky would not provide the translation option even though the server is configured correctly. https://github.com/tuskyapp/Tusky/pull/4560 https://github.com/tuskyapp/Tusky/pull/4590
-- Fixes a bug where Tusky would sometimes randomly crash on startup. https://github.com/tuskyapp/Tusky/pull/4569
+- Fixes a rare bug where Tusky would sometimes randomly crash on startup. https://github.com/tuskyapp/Tusky/pull/4569
+- Fixes a bug where the timeline would randomly jump to the position of the last clicked "show more" placeholder when "Reading order" was set to "Oldest first". https://github.com/tuskyapp/Tusky/pull/4619
 
 ## v26.0
 
