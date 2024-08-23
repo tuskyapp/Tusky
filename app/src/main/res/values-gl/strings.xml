@@ -226,7 +226,7 @@
     <string name="caption_notoemoji">Conxunto actual de emojis de Google</string>
     <string name="caption_twemoji">Conxunto de emojis estándar en Mastodon</string>
     <string name="caption_blobmoji">Os emojis Blob coñecidos de Android 4.4-7.1</string>
-    <string name="caption_systememoji">O conxunto de emojis por defecto no sistema</string>
+    <string name="caption_systememoji">O conxunto de emojis predeterminados do sistema</string>
     <string name="restart">Reiniciar</string>
     <string name="later">Máis tarde</string>
     <string name="restart_emoji">Deberás reiniciar Tusky para aplicar os cambios</string>
@@ -235,7 +235,7 @@
     <string name="expand_collapse_all_posts">Expandir/Contraer todas as publicacións</string>
     <string name="performing_lookup_title">Facendo a busca…</string>
     <string name="download_fonts">Deberás descargar primeiro estes conxuntos de emojis</string>
-    <string name="system_default">Por defecto no sistema</string>
+    <string name="system_default">Predeterminado do sistema</string>
     <string name="emoji_style">Estilo dos emoji</string>
     <string name="error_no_custom_emojis">A túa instancia %1$s non ten emojis personalizados</string>
     <string name="action_compose_shortcut">Redactar</string>
@@ -287,9 +287,9 @@
     <string name="abbreviated_hours_ago">%1$dh</string>
     <string name="abbreviated_days_ago">%1$dd</string>
     <string name="abbreviated_years_ago">%1$da</string>
-    <string name="abbreviated_in_seconds">fai %1$ds</string>
-    <string name="abbreviated_in_hours">fai %1$dh</string>
-    <string name="abbreviated_in_minutes">fai %1$dm</string>
+    <string name="abbreviated_in_seconds">en %1$ds</string>
+    <string name="abbreviated_in_hours">en %1$dh</string>
+    <string name="abbreviated_in_minutes">en %1$dm</string>
     <string name="abbreviated_in_days">en %1$dd</string>
     <string name="abbreviated_in_years">en %1$da</string>
     <string name="state_follow_requested">Seguimento solicitado</string>
@@ -523,7 +523,7 @@
     <string name="action_edit_image">Editar imaxe</string>
     <string name="error_loading_account_details">Fallou a carga dos detalles da conta</string>
     <string name="error_image_edit_failed">A imaxe non puido ser editada.</string>
-    <string name="set_focus_description">Toca ou arrastra o círculo para elexir onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
+    <string name="set_focus_description">Toca ou arrastra o círculo para escoller onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
     <string name="duration_no_change">(Sen cambio)</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %1$s MB.</string>
@@ -546,7 +546,7 @@
     <string name="report_category_spam">Spam</string>
     <string name="action_add_or_remove_from_list">Engadir ou retirar da lista</string>
     <string name="failed_to_add_to_list">Fallou a adición da conta á lista</string>
-    <string name="failed_to_remove_from_list">Produciuse un fallo ao retirar a conta da lista</string>
+    <string name="failed_to_remove_from_list">Fallou a retirada da conta da lista</string>
     <string name="action_unfollow_hashtag_format">Non seguir #%1$s\?</string>
     <string name="pref_default_post_language">Idioma de publicación (sincr. co servidor)</string>
     <string name="notification_report_name">Denuncias</string>
@@ -635,13 +635,13 @@
     <string name="filter_description_hide">Agochar completamente</string>
     <string name="label_filter_action">Acción do filtro</string>
     <string name="label_filter_context">Ámbitos para o filtro</string>
-    <string name="label_filter_keywords">Palabras chave ou frases a filtrar</string>
+    <string name="label_filter_keywords">Palabras clave a filtrar</string>
     <string name="action_add">Engadir</string>
     <string name="filter_keyword_display_format">%1$s (palabra completa)</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_show_stat_inline">Mostrar estatísticas da publicación na cronoloxía</string>
-    <string name="filter_keyword_addition_title">Engadir palabra</string>
-    <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="filter_keyword_addition_title">Engadir palabra clave</string>
+    <string name="filter_edit_keyword_title">Editar palabra clave</string>
     <string name="select_list_manage">Xestionar listas</string>
     <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edición, polo que non pode mostrarchas.
 \n
@@ -678,11 +678,11 @@
     <string name="following_hashtag_success_format">Agora segues o cancelo #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%1$s</string>
     <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
-    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. 
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. \u0020
 \n
-\n \u0020TEN EN CONTA que só podes engadir contas que estás a seguir. 
+\n \u0020TEN EN CONTA que só podes engadir contas que estás a seguir. \u0020
 \n
-\n \u0020Estas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
+\n \u0020Estas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
     <string name="label_image">Imaxe</string>
@@ -696,7 +696,7 @@
     <string name="pref_title_show_self_boosts">Mostrar autopromocións</string>
     <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
     <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
-    <string name="reply_sending">A enviar…</string>
+    <string name="reply_sending">Enviando…</string>
     <string name="reply_sending_long">Enviouse a resposta.</string>
     <string name="action_translate">Traducir</string>
     <string name="action_show_original">Mostrar orixinal</string>
@@ -712,8 +712,8 @@
     <string name="url_copied">URL copiado</string>
     <string name="error_deleting_filter">Produciuse un erro ao eliminar o filtro «%1$s»</string>
     <string name="error_saving_filter">Produciuse un erro ao gardar o filtro «%1$s»</string>
-    <string name="confirmation_hashtag_copied">\'#%1$s\' copiado</string>
+    <string name="confirmation_hashtag_copied">«#%1$s» copiado</string>
     <string name="pref_default_reply_privacy_explanation">O nivel de privacidade preseleccionado dependerá da publicación á que respondas.</string>
-    <string name="pref_match_default_post_privacy">Seguir a privacidade por defecto da publicación</string>
+    <string name="pref_match_default_post_privacy">Seguir a privacidade predeterminada da publicación</string>
     <string name="post_privacy_direct">Directa</string>
 </resources>
