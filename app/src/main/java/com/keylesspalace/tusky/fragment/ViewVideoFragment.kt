@@ -29,9 +29,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.OptIn
+import androidx.core.view.marginTop
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.AudioAttributes
@@ -131,6 +134,8 @@ class ViewVideoFragment : ViewMediaFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setMediaTextSize(view)
 
         /**
          * Handle single taps, flings, and dragging
@@ -288,6 +293,22 @@ class ViewVideoFragment : ViewMediaFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putLong(SEEK_POSITION, savedSeekPosition)
+    }
+
+    private fun setMediaTextSize(containerView: View) {
+        val videoView = containerView.findViewById<PlayerView>(R.id.videoView)
+        val mediaDescription = containerView.findViewById<TextView>(R.id.mediaDescription)
+        val controller = videoView.findViewById<View>(androidx.media3.ui.R.id.exo_center_controls)
+        val bottomBar = containerView.findViewById<View>(androidx.media3.ui.R.id.exo_bottom_bar)
+
+        controller.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (controller.height > 0) {
+                    mediaDescription.maxHeight = binding.videoContainer.height - (controller.height + mediaDescription.marginTop + bottomBar.height)
+                    controller.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            }
+        })
     }
 
     private fun initializePlayer(mediaPlayerListener: Player.Listener) {
