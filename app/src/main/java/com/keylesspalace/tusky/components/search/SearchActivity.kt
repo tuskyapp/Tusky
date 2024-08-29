@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -82,6 +83,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         searchViewMenuItem.expandActionView()
         searchView = searchViewMenuItem.actionView as SearchView
         setupSearchView()
+        setupClearFocusOnClickListeners()
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -101,6 +103,18 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         if (Intent.ACTION_SEARCH == intent.action) {
             viewModel.currentQuery = intent.getStringExtra(SearchManager.QUERY).orEmpty()
             viewModel.search(viewModel.currentQuery)
+            searchView.clearFocus()
+        }
+    }
+    private fun setupClearFocusOnClickListeners(){
+        binding.overlayPagesClickView.setOnTouchListener { view, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                searchView.clearFocus()
+                view.performClick()
+            }
+            false
+        }
+        binding.toolbar.setOnClickListener {
             searchView.clearFocus()
         }
     }
