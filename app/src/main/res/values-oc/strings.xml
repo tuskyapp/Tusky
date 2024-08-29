@@ -158,8 +158,8 @@
     <string name="pref_title_http_proxy_enable">Activar lo proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Pòrt del servidor proxy HTTP</string>
-    <string name="pref_default_post_privacy">Privacitat predeterminada dels tuts</string>
-    <string name="pref_publishing">Publicacion</string>
+    <string name="pref_default_post_privacy">Privacitat dels tuts (alinhat sul servidor)</string>
+    <string name="pref_publishing">Publicacion predeterminada</string>
     <string name="post_privacy_public">Publica</string>
     <string name="post_privacy_unlisted">Pas listat</string>
     <string name="post_privacy_followers_only">Seguidors solament</string>
@@ -290,7 +290,7 @@
     <string name="pref_title_timeline_filters">Filtres</string>
     <string name="pref_title_language">Lenga</string>
     <string name="pref_title_proxy_settings">Servidor mandatari</string>
-    <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles</string>
+    <string name="pref_default_media_sensitivity">Totjorn marcar los mèdias coma sensibles (alinhat sul servidor)</string>
     <string name="pref_failed_to_sync">Fracàs de la sincronizacion de las preferéncias</string>
     <string name="about_tusky_version">Tusky %1$s</string>
     <string name="abbreviated_days_ago">%1$dd</string>
@@ -559,7 +559,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Activar lo limpament per se desplaçar demest los onglets</string>
     <string name="dialog_push_notification_migration_other_accounts">Tusky pòt ara recebre las notificacions instantanèas d\'aquel compte. Pasmens, d\'autres de vòstres comptes an pas encara accèsses a las notificacions instantanèas. Basculatz sus cadun de vòstres comptes e reconnectatz-los per tal de recebre las notificacions amb UnifiedPush.</string>
     <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon \? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
-    <string name="pref_default_post_language">Lenga de publicacion per defaut</string>
+    <string name="pref_default_post_language">Lenga de publicacion (alinhat sul servidor)</string>
     <string name="report_category_spam">Messatge indesirable</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="wellbeing_mode_notice">D\'unas informacions susceptiblas d\'afectar vòstre benestar mental seràn amagadas. S\'agís :
@@ -706,4 +706,10 @@
     <string name="pref_title_show_notifications_filter">Mostrar lo filtre de las notificacions</string>
     <string name="url_copied">Url copiada</string>
     <string name="confirmation_hashtag_copied">« %1$s » copiat</string>
+    <string name="post_privacy_direct">Dirècte</string>
+    <string name="report_category_legal">Avís legal</string>
+    <string name="action_follow_hashtag">Seguir una etiqueta novèla</string>
+    <string name="pref_match_default_post_privacy">Far correspondre la privacitat de las publicacions</string>
+    <string name="pref_default_reply_privacy_explanation">La privacitat preseleccionada dependra de la publicacion a la quala respondètz.</string>
+    <string name="pref_default_reply_privacy">Privacitat de las responsas (alinhat sul servidor)</string>
 </resources>
