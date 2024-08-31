@@ -5,31 +5,30 @@
     android:id="@+id/mainDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context="com.keylesspalace.tusky.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/mainCoordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.keylesspalace.tusky.MainActivity">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/actionbar_elevation"
-            app:elevationOverlayEnabled="false">
+            app:liftOnScroll="false">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mainToolbar"
-                style="@style/Widget.AppCompat.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationContentDescription="@string/action_open_drawer" />
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topNav"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -46,7 +45,8 @@
                     app:tabGravity="fill"
                     app:tabMaxWidth="0dp"
                     app:tabMode="scrollable" />
-            </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.MaterialToolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -61,12 +61,15 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="58dp"
             android:layout_gravity="bottom"
+            android:backgroundTint="?attr/colorSurface"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="end"
-            app:navigationContentDescription="@string/action_open_drawer">
+            app:menuAlignmentMode="auto"
+            app:navigationContentDescription="@string/action_open_drawer"
+            app:paddingBottomSystemWindowInsets="false">
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"
@@ -75,7 +78,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
-                app:tabMode="scrollable" />
+                app:tabMode="scrollable"
+                app:tabPaddingTop="0dp" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -87,16 +91,17 @@
             android:contentDescription="@string/action_compose"
             app:layout_anchor="@id/viewPager"
             app:layout_anchorGravity="bottom|end"
-            app:tint="?attr/colorOnPrimary"
-            app:srcCompat="@drawable/ic_create_24dp" />
+            app:srcCompat="@drawable/ic_create_24dp"
+            app:tint="?attr/colorOnPrimary" />
 
         <include layout="@layout/item_status_bottom_sheet" />
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:indeterminate="true"
             android:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -90,8 +90,8 @@
     <string name="post_media_hidden_title">Media hidden</string>
     <string name="post_media_alt">ALT</string>
     <string name="post_sensitive_media_directions">Click to view</string>
-    <string name="post_content_warning_show_more">Show More</string>
-    <string name="post_content_warning_show_less">Show Less</string>
+    <string name="post_content_warning_show_more">Show more</string>
+    <string name="post_content_warning_show_less">Show less</string>
     <string name="post_content_show_more">Expand</string>
     <string name="post_content_show_less">Collapse</string>
     <string name="post_edited">Edited %1$s</string>
@@ -458,7 +458,7 @@
     <string name="pref_title_alway_open_spoiler">Always expand posts marked with content warnings</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Replying to @%1$s</string>
-    <string name="load_more_placeholder_text">load more</string>
+    <string name="load_more_placeholder_text">Load more</string>
 
     <string name="pref_title_public_filter_keywords">Public timelines</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>

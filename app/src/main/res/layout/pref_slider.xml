@@ -21,6 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:gravity="center_vertical"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -111,7 +112,9 @@
                 android:paddingEnd="@dimen/preference_seekbar_padding_horizontal"
                 android:paddingTop="@dimen/preference_seekbar_padding_vertical"
                 android:paddingBottom="@dimen/preference_seekbar_padding_vertical"
-                android:background="@null"/>
+                android:background="@null"
+                app:trackColorActive="?attr/colorPrimary"
+                app:trackColorInactive="?attr/colorSurface"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/increment"

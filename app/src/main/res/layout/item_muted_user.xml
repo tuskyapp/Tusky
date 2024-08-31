@@ -73,7 +73,7 @@
         app:srcCompat="@drawable/ic_clear_24dp"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/muted_user_mute_notifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,6 +84,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/muted_user_display_name"
         app:layout_constraintTop_toBottomOf="@id/muted_user_username"
-        app:switchPadding="4dp" />
+        app:switchPadding="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

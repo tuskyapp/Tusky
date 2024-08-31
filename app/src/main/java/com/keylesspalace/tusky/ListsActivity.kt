@@ -26,13 +26,13 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.databinding.DialogListBinding
@@ -110,7 +110,7 @@ class ListsActivity : BaseActivity() {
         val binding = DialogListBinding.inflate(layoutInflater).apply {
             replyPolicySpinner.setSelection(MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal)
         }
-        val dialog = AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setView(binding.root)
             .setPositiveButton(
                 if (list == null) {
@@ -147,7 +147,7 @@ class ListsActivity : BaseActivity() {
     }
 
     private fun showListDeleteDialog(list: MastoList) {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setMessage(getString(R.string.dialog_delete_list_warning, list.title))
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteList(list.id)

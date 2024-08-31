@@ -3,7 +3,7 @@
 package com.keylesspalace.tusky.view
 
 import android.app.Activity
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogMuteAccountBinding
 
@@ -16,7 +16,7 @@ fun showMuteAccountDialog(
     binding.warning.text = activity.getString(R.string.dialog_mute_warning, accountUsername)
     binding.checkbox.isChecked = true
 
-    AlertDialog.Builder(activity)
+    MaterialAlertDialogBuilder(activity)
         .setView(binding.root)
         .setPositiveButton(android.R.string.ok) { _, _ ->
             val durationValues = activity.resources.getIntArray(R.array.mute_duration_values)

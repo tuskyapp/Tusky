@@ -65,15 +65,16 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/actionChip"
-            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="false"
             android:text="@string/add_hashtag_title"
             android:textColor="?attr/colorOnPrimary"
+            app:chipStrokeWidth="0dp"
             app:chipIcon="@drawable/ic_plus_24dp"
+            app:closeIconEnabled="false"
             app:chipIconTint="?attr/colorOnPrimary"
-            app:chipSurfaceColor="?attr/colorPrimary" />
+            app:chipBackgroundColor="?attr/colorPrimary" />
 
     </com.google.android.material.chip.ChipGroup>
 

@@ -24,11 +24,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
@@ -110,7 +110,7 @@ class LoginActivity : BaseActivity() {
         binding.loginButton.setOnClickListener { onLoginClick(true) }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
-            val dialog = AlertDialog.Builder(this)
+            val dialog = MaterialAlertDialogBuilder(this)
                 .setMessage(R.string.dialog_whats_an_instance)
                 .setPositiveButton(R.string.action_close, null)
                 .show()

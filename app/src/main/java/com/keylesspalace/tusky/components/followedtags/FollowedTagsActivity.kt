@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
@@ -195,7 +195,7 @@ class FollowedTagsActivity :
                 )
             )
 
-            return AlertDialog.Builder(requireActivity())
+            return MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.dialog_follow_hashtag_title)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok) { _, _ ->

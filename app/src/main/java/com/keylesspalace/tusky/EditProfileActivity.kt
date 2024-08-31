@@ -17,7 +17,6 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -39,6 +38,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
+import com.google.android.material.R as materialR
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
@@ -125,7 +127,7 @@ class EditProfileActivity : BaseActivity() {
 
         val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).apply {
             sizeDp = 12
-            colorInt = Color.WHITE
+            colorInt = MaterialColors.getColor(binding.addFieldButton, materialR.attr.colorOnPrimary)
         }
 
         binding.addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -365,7 +367,7 @@ class EditProfileActivity : BaseActivity() {
         }
     }
 
-    private suspend fun launchSaveDialog() = AlertDialog.Builder(this)
+    private suspend fun launchSaveDialog() = MaterialAlertDialogBuilder(this)
         .setMessage(getString(R.string.dialog_save_profile_changes_message))
         .create()
         .await(R.string.action_save, R.string.action_discard)

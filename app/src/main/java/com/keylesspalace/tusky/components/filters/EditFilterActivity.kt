@@ -7,14 +7,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -46,7 +46,7 @@ class EditFilterActivity : BaseActivity() {
 
     private lateinit var filter: Filter
     private var originalFilter: Filter? = null
-    private lateinit var contextSwitches: Map<SwitchMaterial, Filter.Kind>
+    private lateinit var contextSwitches: Map<MaterialSwitch, Filter.Kind>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -221,7 +221,7 @@ class EditFilterActivity : BaseActivity() {
     private fun showAddKeywordDialog() {
         val binding = DialogFilterBinding.inflate(layoutInflater)
         binding.phraseWholeWord.isChecked = true
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -242,7 +242,7 @@ class EditFilterActivity : BaseActivity() {
         binding.phraseEditText.setText(keyword.keyword)
         binding.phraseWholeWord.isChecked = keyword.wholeWord
 
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->

@@ -32,15 +32,14 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginWebviewBinding
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -196,7 +195,7 @@ class LoginWebViewActivity : BaseActivity() {
             viewModel.instanceRules.collect { instanceRules ->
                 binding.loginRules.visible(instanceRules.isNotEmpty())
                 binding.loginRules.setOnClickListener {
-                    AlertDialog.Builder(this@LoginWebViewActivity)
+                    MaterialAlertDialogBuilder(this@LoginWebViewActivity)
                         .setTitle(getString(R.string.instance_rule_title, data.domain))
                         .setMessage(
                             instanceRules.joinToString(separator = "\n\n") { "• $it" }

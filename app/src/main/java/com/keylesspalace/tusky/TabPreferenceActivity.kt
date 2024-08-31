@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -238,7 +239,7 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
         editText.setText("")
         frameLayout.addView(editText)
 
-        val dialog = AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.add_hashtag_title)
             .setView(frameLayout)
             .setNegativeButton(android.R.string.cancel, null)

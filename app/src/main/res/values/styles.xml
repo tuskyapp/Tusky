@@ -39,7 +39,7 @@
 
     <style name="TuskyDialogActivityTheme" parent="@style/TuskyTheme" />
 
-    <style name="TuskyBaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="TuskyBaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Provide default text sizes. These are overwritten in BaseActivity, but
              if they are missing then the Android Studio layout preview crashes
              with java.lang.reflect.InvocationTargetException -->
@@ -53,7 +53,17 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/white</item>
 
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimary</item>
+
         <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurface</item>
+
+        <item name="colorSurfaceContainerLowest">@color/colorSurface</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurface</item>
+        <item name="colorSurfaceContainer">@color/colorSurface</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurface</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurface</item>
 
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
@@ -67,6 +77,8 @@
         <item name="android:textColorTertiary">@color/textColorTertiary</item>
 
         <item name="iconColor">@color/iconColor</item>
+        <item name="colorOutline">@color/iconColor</item>
+        <item name="colorOutlineVariant">@color/dividerColor</item>
 
         <item name="android:listDivider">@drawable/status_divider</item>
         <item name="dividerColor">@color/dividerColor</item>
@@ -76,18 +88,24 @@
         <item name="materialDrawerStyle">@style/TuskyDrawerStyle</item>
         <item name="materialDrawerHeaderStyle">@style/TuskyDrawerHeaderStyle</item>
 
-        <item name="alertDialogTheme">@style/TuskyDialog</item>
         <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
-        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
+
+        <!-- for dialogs created with MaterialALertDialogBuilder -->
+        <item name="materialAlertDialogTheme">@style/TuskyDialogOverlay</item>
+        <!-- for dialogs opened from preferences -->
+        <item name="alertDialogTheme">@style/TuskyDialogOverlay</item>
+        <item name="dialogCornerRadius">16dp</item>
 
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
         <item name="elevationOverlayEnabled">false</item> <!-- disable the automatic tinting of surfaces with elevation in dark mode -->
 
         <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?attr/colorSurface</item>
 
-        <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
+        <item name="chipStyle">@style/Widget.Material3.Chip.Filter</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
+
+        <item name="licenseCardStyle">@style/Widget.Material3.CardView.Filled</item>
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
@@ -113,24 +131,33 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
-    <style name="TuskyDialog" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:letterSpacing">0</item>
+    <style name="TuskyDialogOverlay" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/TuskyDialog</item>
+    </style>
+
+    <style name="TuskyDialog" parent="@style/MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
+        <item name="backgroundTint">@color/colorBackground</item>
+        <item name="buttonBarNeutralButtonStyle">@style/TuskyButton.TextButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/TuskyButton.TextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/TuskyButton.TextButton</item>
+    </style>
+
+    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.Material3.Dialog">
         <item name="dialogCornerRadius">8dp</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
-    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
-        <item name="dialogCornerRadius">8dp</item>
+    <style name="TuskyTabAppearance" parent="Widget.Material3.TabLayout">
+        <item name="tabIndicatorHeight">4dp</item>
     </style>
 
-    <style name="TuskyTabAppearance" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabTextAppearance">?android:attr/textAppearanceButton</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="tabIndicatorHeight">3dp</item>
-    </style>
-
-    <style name="TuskyPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+    <style name="TuskyPreferenceTheme" parent="@style/PreferenceThemeOverlay">
         <item name="android:tint">?iconColor</item>
+        <item name="switchPreferenceCompatStyle">@style/TuskySwitchPreference</item>
+    </style>
+
+    <style name="TuskySwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
 
     <style name="TuskyImageButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
@@ -138,17 +165,17 @@
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="TuskyButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:letterSpacing">0</item>
+    <style name="TuskyButton" parent="Widget.Material3.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Small</item>
     </style>
 
-    <style name="TuskyButton.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="TuskyButton.Outlined" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">?attr/colorBackgroundAccent</item>
-        <item name="android:letterSpacing">0</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Small</item>
     </style>
 
-    <style name="TuskyButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:letterSpacing">0</item>
+    <style name="TuskyButton.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Small</item>
     </style>
 
     <style name="TuskyTextInput" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

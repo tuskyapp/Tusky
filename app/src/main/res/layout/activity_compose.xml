@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:textStyle="bold"
             app:tooltipText="@string/description_post_language" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/atButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
@@ -47,7 +47,7 @@
             android:textSize="?attr/status_text_large"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/hashButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
@@ -59,7 +59,7 @@
             android:textSize="?attr/status_text_large"
             android:textStyle="bold" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/descriptionMissingWarningButton"
             style="@style/TuskyImageButton"
             android:layout_width="40dp"
@@ -71,7 +71,7 @@
             app:tint="@color/tusky_orange_light"
             app:tooltipText="@string/hint_media_description_missing"
             android:visibility="invisible" />
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/composeMainScrollView"
@@ -311,7 +311,6 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_toggle_visibility"
             android:padding="4dp"
-            app:tint="?android:attr/textColorTertiary"
             app:tooltipText="@string/action_toggle_visibility"
             tools:src="@drawable/ic_public_24dp" />
 

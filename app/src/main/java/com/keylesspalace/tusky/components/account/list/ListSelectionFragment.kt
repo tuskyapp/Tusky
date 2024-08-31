@@ -24,12 +24,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
@@ -77,7 +77,7 @@ class ListSelectionFragment : DialogFragment() {
         val adapter = Adapter()
         binding.listsView.adapter = adapter
 
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = MaterialAlertDialogBuilder(context)
             .setView(binding.root)
             .setTitle(R.string.select_list_title)
             .setNeutralButton(R.string.select_list_manage) { _, _ ->
