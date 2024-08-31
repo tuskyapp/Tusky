@@ -7,12 +7,6 @@
 
     <color name="colorOnPrimary">@color/tusky_grey_10</color>
 
-    <color name="surfaceContainerLowest">@color/tusky_grey_10</color>
-    <color name="surfaceContainerLow">@color/tusky_grey_20</color>
-    <color name="surfaceContainer">@color/tusky_grey_30</color>
-    <color name="surfaceContainerHigh">@color/tusky_grey_40</color>
-    <color name="surfaceContainerHighest">@color/tusky_grey_50</color>
-
     <color name="colorBackground">@color/tusky_grey_20</color>
     <color name="windowBackground">@color/tusky_grey_10</color>
 
