@@ -1246,17 +1246,24 @@ class ComposeActivity :
         TransitionManager.beginDelayedTransition(
             binding.composeContentWarningBar.parent as ViewGroup
         )
-        if (show) {
+        @AttrRes val color = if (show) {
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(
                 binding.composeContentWarningField.text.length
             )
             binding.composeContentWarningField.requestFocus()
+            materialR.attr.colorPrimary
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
+            android.R.attr.textColorTertiary
         }
-        binding.composeContentWarningButton.isActivated = show
+        binding.composeContentWarningButton.drawable.setTint(
+            MaterialColors.getColor(
+                binding.composeHideMediaButton,
+                color
+            )
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
