@@ -1,0 +1,6 @@
+Tusky 26.1
+
+- Nelle preferenze "Privacy risposte" dell'account ora ci sono due nuove opzioni addizionali: "Stessa privacy predefinita del post" e "Diretto".
+- Tusky ora include certificati root ISRG per continuare a funzionare su Android 7 e sui server che usano Let's Encrypt.
+- Corretto un bug in cui alle volte Tusky mostrava timelines e notifiche per diversi account.
+Vedi https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md per il changelog completo
