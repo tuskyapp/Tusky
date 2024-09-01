@@ -56,6 +56,7 @@ class StatusLengthTest(
                 // protocols can have any case https://github.com/tuskyapp/Tusky/issues/4641
                 arrayOf("Http://example.org", 23),
                 arrayOf("HTTPS://example.org", 23),
+                arrayOf("HTTPS://EXAMPLE.ORG", 23)
             )
         }
     }
