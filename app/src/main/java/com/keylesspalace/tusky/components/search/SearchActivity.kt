@@ -107,6 +107,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
             searchView.clearFocus()
         }
     }
+
     private fun setupClearFocusOnClickListeners() {
         binding.overlayPagesClickView.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
