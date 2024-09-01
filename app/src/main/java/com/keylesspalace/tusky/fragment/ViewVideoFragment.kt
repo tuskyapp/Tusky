@@ -22,19 +22,15 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.method.ScrollingMovementMethod
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.OptIn
-import androidx.core.view.marginTop
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.AudioAttributes
@@ -134,8 +130,6 @@ class ViewVideoFragment : ViewMediaFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setMediaTextSize(view)
 
         /**
          * Handle single taps, flings, and dragging
@@ -295,22 +289,6 @@ class ViewVideoFragment : ViewMediaFragment() {
         outState.putLong(SEEK_POSITION, savedSeekPosition)
     }
 
-    private fun setMediaTextSize(containerView: View) {
-        val videoView = containerView.findViewById<PlayerView>(R.id.videoView)
-        val mediaDescription = containerView.findViewById<TextView>(R.id.mediaDescription)
-        val controller = videoView.findViewById<View>(androidx.media3.ui.R.id.exo_center_controls)
-        val bottomBar = containerView.findViewById<View>(androidx.media3.ui.R.id.exo_bottom_bar)
-
-        controller.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (controller.height > 0) {
-                    mediaDescription.maxHeight = binding.videoContainer.height - (controller.height + mediaDescription.marginTop + bottomBar.height)
-                    controller.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            }
-        })
-    }
-
     private fun initializePlayer(mediaPlayerListener: Player.Listener) {
         player = playerProvider.get().apply {
             setAudioAttributes(
@@ -374,12 +352,11 @@ class ViewVideoFragment : ViewMediaFragment() {
         description: String?,
         showingDescription: Boolean
     ) {
-        binding.mediaDescription.text = description
-        binding.mediaDescription.visible(showingDescription)
-        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
+        binding.mediaDescriptionTextView.text = description
+        binding.mediaDescriptionScrollView.visible(showingDescription)
 
         // Ensure the description is visible over the video
-        binding.mediaDescription.elevation = binding.videoView.elevation + 1
+        binding.mediaDescriptionScrollView.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
 
@@ -404,16 +381,16 @@ class ViewVideoFragment : ViewMediaFragment() {
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            binding.mediaDescription.alpha = 0.0f
-            binding.mediaDescription.visible(isDescriptionVisible)
+            binding.mediaDescriptionScrollView.alpha = 0.0f
+            binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
         }
 
-        binding.mediaDescription.animate().alpha(alpha)
+        binding.mediaDescriptionScrollView.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 @SuppressLint("SyntheticAccessor")
                 override fun onAnimationEnd(animation: Animator) {
                     view ?: return
-                    binding.mediaDescription.visible(isDescriptionVisible)
+                    binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
             })
