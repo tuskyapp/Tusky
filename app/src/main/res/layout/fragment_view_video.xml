@@ -29,8 +29,7 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="160dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/mediaDescriptionTextView"
@@ -43,8 +42,6 @@
             android:textAlignment="center"
             android:textColor="#eee"
             android:textSize="?attr/status_text_medium"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Some media description" />
 
     </ScrollView>
