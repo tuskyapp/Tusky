@@ -66,7 +66,7 @@ fun Spannable.highlightSpans(colour: Int, finders: List<PatternFinder> = default
 
     for (finder in finders) {
         // before running the regular expression, check if there is even a chance of it finding something
-        if (this.contains(finder.searchString)) {
+        if (this.contains(finder.searchString, ignoreCase = true)) {
             val matcher = finder.pattern.matcher(this)
 
             while (matcher.find()) {

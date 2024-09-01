@@ -115,6 +115,10 @@ class SpanUtilsTest(
             arrayOf("😜https://connyduck.at", listOf(2 to 22)),
             arrayOf("😜#tag", listOf(2 to 6)),
             arrayOf("😜@user@mastodon.example", listOf(2 to 24)),
+            // case should be ignored on protocols https://github.com/tuskyapp/Tusky/issues/4641
+            arrayOf("HTTPS://example.com", listOf(0 to 19)),
+            arrayOf("Http://example.com/test", listOf(0 to 23)),
+            arrayOf("test Https://example.com/test", listOf(5 to 29)),
         )
     }
 
