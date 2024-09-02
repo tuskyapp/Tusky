@@ -11,6 +11,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
@@ -215,7 +216,17 @@ class NotificationsRemoteMediatorTest {
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(
                     listOf(
-                        fakeNotification(id = "8"),
+                        // testing for https://github.com/tuskyapp/Tusky/issues/4563
+                        fakeNotification(
+                            id = "8",
+                            status = fakeStatus(
+                                id = "r1",
+                                reblog = fakeStatus(
+                                    id = "8",
+                                    authorServerId = "r1"
+                                )
+                            )
+                        ),
                         fakeNotification(id = "7"),
                         fakeNotification(id = "5")
                     )
@@ -249,7 +260,13 @@ class NotificationsRemoteMediatorTest {
 
         db.assertNotifications(
             listOf(
-                fakeNotification(id = "8").toNotificationDataEntity(1),
+                fakeNotification(
+                    id = "8",
+                    status = fakeStatus(
+                        id = "8",
+                        authorServerId = "r1"
+                    )
+                ).toNotificationDataEntity(1),
                 fakeNotification(id = "7").toNotificationDataEntity(1),
                 fakeNotification(id = "5").toNotificationDataEntity(1),
                 fakeNotification(id = "3").toNotificationDataEntity(1),
