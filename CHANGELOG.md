@@ -6,6 +6,15 @@
 
 ### Significant bug fixes
 
+## v26.2
+
+### Significant bug fixes
+
+- Fixes a bug where Tusky would not correctly switch between accounts https://github.com/tuskyapp/Tusky/pull/4636
+- Fixes a crash when a status in a notification contains a reblog (happens when subscribed to a Friendica group) https://github.com/tuskyapp/Tusky/pull/4638
+- Long video descriptions can no longer cover the video controls https://github.com/tuskyapp/Tusky/pull/4632
+- Fixes a bug where Tusky's URL detection algorithm was different from Mastodon's https://github.com/tuskyapp/Tusky/pull/4642
+
 ## v26.1
 
 ### New features and other improvements
