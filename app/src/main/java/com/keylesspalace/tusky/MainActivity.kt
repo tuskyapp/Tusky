@@ -1004,7 +1004,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun logout() {
-
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.action_logout)
             .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
