@@ -177,6 +177,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
+    private lateinit var activeAccount: AccountEntity
+
     private lateinit var header: AccountHeaderView
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
@@ -210,7 +212,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         super.onCreate(savedInstanceState)
 
         // will be redirected to LoginActivity by BaseActivity
-        val activeAccount = accountManager.activeAccount ?: return
+        activeAccount = accountManager.activeAccount ?: return
 
         if (explodeAnimationWasRequested()) {
             overrideActivityTransitionCompat(
@@ -225,7 +227,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         // check for savedInstanceState in order to not handle intent events more than once
         if (intent != null && savedInstanceState == null) {
             showNotificationTab = handleIntent(intent, activeAccount)
+            if (isFinishing) {
+                // handleIntent() finished this activity and started a new one - no need to continue initialization
+                return
+            }
         }
+
         window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
 
@@ -259,10 +266,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         setupDrawer(
             savedInstanceState,
             addSearchButton = hideTopToolbar,
-            addTrendingTagsButton = !accountManager.activeAccount!!.tabPreferences.hasTab(
+            addTrendingTagsButton = !activeAccount.tabPreferences.hasTab(
                 TRENDING_TAGS
             ),
-            addTrendingStatusesButton = !accountManager.activeAccount!!.tabPreferences.hasTab(
+            addTrendingStatusesButton = !activeAccount.tabPreferences.hasTab(
                 TRENDING_STATUSES
             )
         )
@@ -353,7 +360,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val activeAccount = accountManager.activeAccount ?: return
         val showNotificationTab = handleIntent(intent, activeAccount)
         if (showNotificationTab) {
             val tabs = activeAccount.tabPreferences
@@ -395,8 +401,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         val accountRequested = tuskyAccountId != -1L
         if (accountRequested && tuskyAccountId != activeAccount.id) {
-            accountManager.setActiveAccount(tuskyAccountId)
-            changeAccount(tuskyAccountId, intent, withAnimation = false)
+            changeAccount(tuskyAccountId, intent)
             return false
         }
 
@@ -452,11 +457,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
             // TODO a bit cumbersome (also for resetting)
             lifecycleScope.launch(Dispatchers.IO) {
-                accountManager.activeAccount?.let {
-                    if (it.hasDirectMessageBadge != showBadge) {
-                        it.hasDirectMessageBadge = showBadge
-                        accountManager.saveAccount(it)
-                    }
+                if (activeAccount.hasDirectMessageBadge != showBadge) {
+                    activeAccount.hasDirectMessageBadge = showBadge
+                    accountManager.saveAccount(activeAccount)
                 }
             }
         }
@@ -563,7 +566,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private fun forwardToComposeActivity(intent: Intent) {
         val composeOptions =
             intent.getParcelableExtraCompat<ComposeActivity.ComposeOptions>(COMPOSE_OPTIONS)
-
         val composeIntent = if (composeOptions != null) {
             ComposeActivity.startIntent(this, composeOptions)
         } else {
@@ -571,7 +573,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 action = intent.action
                 type = intent.type
                 putExtras(intent)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
         startActivity(composeIntent)
@@ -832,11 +833,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     0 -> {
                         Log.d(TAG, "Creating \"Load more\" gap")
                         lifecycleScope.launch {
-                            accountManager.activeAccount?.let {
-                                developerToolsUseCase.createLoadMoreGap(
-                                    it.id
-                                )
-                            }
+                            developerToolsUseCase.createLoadMoreGap(
+                                activeAccount.id
+                            )
                         }
                     }
                 }
@@ -865,7 +864,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         // Save the previous tab so it can be restored later
         val previousTab = tabAdapter.tabs.getOrNull(binding.viewPager.currentItem)
 
-        val tabs = accountManager.activeAccount!!.tabPreferences
+        val tabs = activeAccount.tabPreferences
 
         // Detach any existing mediator before changing tab contents and attaching a new mediator
         tabLayoutMediator?.detach()
@@ -884,7 +883,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
             if (tabs[position].id == DIRECT) {
                 val badge = tab.orCreateBadge
-                badge.isVisible = accountManager.activeAccount?.hasDirectMessageBadge ?: false
+                badge.isVisible = activeAccount.hasDirectMessageBadge
                 badge.backgroundColor = MaterialColors.getColor(binding.mainDrawer, materialR.attr.colorPrimary)
                 directMessageTab = tab
             }
@@ -922,11 +921,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 if (tab == directMessageTab) {
                     tab.badge?.isVisible = false
 
-                    accountManager.activeAccount?.let {
-                        if (it.hasDirectMessageBadge) {
-                            it.hasDirectMessageBadge = false
-                            accountManager.saveAccount(it)
-                        }
+                    if (activeAccount.hasDirectMessageBadge) {
+                        activeAccount.hasDirectMessageBadge = false
+                        accountManager.saveAccount(activeAccount)
                     }
                 }
             }
@@ -972,10 +969,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun handleProfileClick(profile: IProfile, current: Boolean): Boolean {
-        val activeAccount = accountManager.activeAccount
-
         // open profile when active image was clicked
-        if (current && activeAccount != null) {
+        if (current) {
             val intent = AccountActivity.getIntent(this, activeAccount.accountId)
             startActivityWithSlideInAnimation(intent)
             return false
@@ -995,49 +990,44 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private fun changeAccount(
         newSelectedId: Long,
         forward: Intent?,
-        withAnimation: Boolean = true
     ) {
         cacheUpdater.stop()
         accountManager.setActiveAccount(newSelectedId)
         val intent = Intent(this, MainActivity::class.java)
-        if (withAnimation) {
-            intent.putExtra(OPEN_WITH_EXPLODE_ANIMATION, true)
-        }
         if (forward != null) {
             intent.type = forward.type
             intent.action = forward.action
             intent.putExtras(forward)
         }
-        startActivity(intent)
         finish()
+        startActivity(intent)
     }
 
     private fun logout() {
-        accountManager.activeAccount?.let { activeAccount ->
-            MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.action_logout)
-                .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
-                .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                    binding.appBar.hide()
-                    binding.viewPager.hide()
-                    binding.progressBar.show()
-                    binding.bottomNav.hide()
-                    binding.composeButton.hide()
 
-                    lifecycleScope.launch {
-                        val otherAccountAvailable = logoutUsecase.logout()
-                        val intent = if (otherAccountAvailable) {
-                            Intent(this@MainActivity, MainActivity::class.java)
-                        } else {
-                            LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
-                        }
-                        startActivity(intent)
-                        finish()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.action_logout)
+            .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
+            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
+                binding.appBar.hide()
+                binding.viewPager.hide()
+                binding.progressBar.show()
+                binding.bottomNav.hide()
+                binding.composeButton.hide()
+
+                lifecycleScope.launch {
+                    val otherAccountAvailable = logoutUsecase.logout(activeAccount)
+                    val intent = if (otherAccountAvailable) {
+                        Intent(this@MainActivity, MainActivity::class.java)
+                    } else {
+                        LoginActivity.getIntent(this@MainActivity, LoginActivity.MODE_DEFAULT)
                     }
+                    startActivity(intent)
+                    finish()
                 }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-        }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun fetchUserInfo() = lifecycleScope.launch {
@@ -1059,11 +1049,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
         loadDrawerAvatar(me.avatar, false)
 
-        accountManager.updateActiveAccount(me)
-        NotificationHelper.createNotificationChannelsForAccount(
-            accountManager.activeAccount!!,
-            this
-        )
+        accountManager.updateAccount(activeAccount, me)
+        NotificationHelper.createNotificationChannelsForAccount(activeAccount, this)
 
         // Setup push notifications
         showMigrationNoticeIfNecessary(
@@ -1218,9 +1205,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         header.clear()
         header.profiles = profiles
-        header.setActiveProfile(accountManager.activeAccount!!.id)
+        header.setActiveProfile(activeAccount.id)
         binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername()) {
-            accountManager.activeAccount!!.fullName
+            activeAccount.fullName
         } else {
             null
         }

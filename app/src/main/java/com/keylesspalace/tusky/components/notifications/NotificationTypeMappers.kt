@@ -47,7 +47,7 @@ fun Notification.toEntity(
     type = type,
     id = id,
     accountId = account.id,
-    statusId = status?.id,
+    statusId = status?.reblog?.id ?: status?.id,
     reportId = report?.id,
     loading = false
 )

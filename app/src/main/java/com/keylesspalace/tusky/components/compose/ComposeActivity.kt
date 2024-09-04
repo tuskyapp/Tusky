@@ -220,9 +220,9 @@ class ComposeActivity :
                 }
             }
         } else if (result == CropImage.CancelledResult) {
-            Log.w("ComposeActivity", "Edit image cancelled by user")
+            Log.w(TAG, "Edit image cancelled by user")
         } else {
-            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            Log.w(TAG, "Edit image failed: " + result.error)
             displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
@@ -939,7 +939,7 @@ class ComposeActivity :
                 val errorMessage =
                     getString(
                         R.string.error_no_custom_emojis,
-                        accountManager.activeAccount!!.domain
+                        activeAccount
                     )
                 displayTransientMessage(errorMessage)
             } else {

@@ -106,7 +106,7 @@ class AccountManager @Inject constructor(
         }
 
         activeAccount = newAccountEntity
-        updateActiveAccount(newAccount)
+        updateAccount(newAccountEntity, newAccount)
     }
 
     /**
@@ -122,49 +122,45 @@ class AccountManager @Inject constructor(
     }
 
     /**
-     * Logs the current account out by deleting all data of the account.
+     * Logs an account out by deleting all its data.
      * @return the new active account, or null if no other account was found
      */
-    fun logActiveAccountOut(): AccountEntity? {
-        return activeAccount?.let { account ->
+    fun logout(account: AccountEntity): AccountEntity? {
+        account.logout()
 
-            account.logout()
+        accounts.remove(account)
+        accountDao.delete(account)
 
-            accounts.remove(account)
-            accountDao.delete(account)
-
-            if (accounts.size > 0) {
-                accounts[0].isActive = true
-                activeAccount = accounts[0]
-                Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
-                accountDao.insertOrReplace(accounts[0])
-            } else {
-                activeAccount = null
-            }
-            activeAccount
+        if (accounts.size > 0) {
+            accounts[0].isActive = true
+            activeAccount = accounts[0]
+            Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
+            accountDao.insertOrReplace(accounts[0])
+        } else {
+            activeAccount = null
         }
+        return activeAccount
     }
 
     /**
-     * updates the current account with new information from the mastodon api
-     * and saves it in the database
-     * @param account the [Account] object returned from the api
+     * Updates an account with new information from the Mastodon api
+     * and saves it in the database.
+     * @param accountEntity the [AccountEntity] to update
+     * @param account the [Account] object which the newest data from the api
      */
-    fun updateActiveAccount(account: Account) {
-        activeAccount?.let {
-            it.accountId = account.id
-            it.username = account.username
-            it.displayName = account.name
-            it.profilePictureUrl = account.avatar
-            it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
-            it.defaultPostLanguage = account.source?.language.orEmpty()
-            it.defaultMediaSensitivity = account.source?.sensitive ?: false
-            it.emojis = account.emojis
-            it.locked = account.locked
+    fun updateAccount(accountEntity: AccountEntity, account: Account) {
+        accountEntity.accountId = account.id
+        accountEntity.username = account.username
+        accountEntity.displayName = account.name
+        accountEntity.profilePictureUrl = account.avatar
+        accountEntity.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+        accountEntity.defaultPostLanguage = account.source?.language.orEmpty()
+        accountEntity.defaultMediaSensitivity = account.source?.sensitive ?: false
+        accountEntity.emojis = account.emojis
+        accountEntity.locked = account.locked
 
-            Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
-            accountDao.insertOrReplace(it)
-        }
+        Log.d(TAG, "updateAccount: saving account with id " + accountEntity.id)
+        accountDao.insertOrReplace(accountEntity)
     }
 
     /**

@@ -84,6 +84,7 @@ class CaptionDialog : DialogFragment() {
         }
 
         isCancelable = true
+        dialog?.setCanceledOnTouchOutside(false) // Dialog is full screen anyway. But without this, taps in navbar while keyboard is up can dismiss the dialog.
 
         val previewUri = arguments?.getParcelableCompat<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
 

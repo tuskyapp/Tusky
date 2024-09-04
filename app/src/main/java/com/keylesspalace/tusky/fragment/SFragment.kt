@@ -241,7 +241,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             )
         }
 
-        // translation not there for your own posts, posts already in your language or non-public posts
+        // translation not there for posts already in your language or non-public posts
         menu.findItem(R.id.status_translate)?.let { translateItem ->
             translateItem.isVisible = onMoreTranslate != null &&
                 !status.language.equals(Locale.getDefault().language, ignoreCase = true) &&

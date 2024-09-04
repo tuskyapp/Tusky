@@ -6,6 +6,7 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.disableUnifiedPushNotificationsForAccount
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ShareShortcutHelper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,44 +25,40 @@ class LogoutUsecase @Inject constructor(
      * Logs the current account out and clears all caches associated with it
      * @return true if the user is logged in with other accounts, false if it was the only one
      */
-    suspend fun logout(): Boolean {
-        accountManager.activeAccount?.let { activeAccount ->
-
-            // invalidate the oauth token, if we have the client id & secret
-            // (could be missing if user logged in with a previous version of Tusky)
-            val clientId = activeAccount.clientId
-            val clientSecret = activeAccount.clientSecret
-            if (clientId != null && clientSecret != null) {
-                api.revokeOAuthToken(
-                    clientId = clientId,
-                    clientSecret = clientSecret,
-                    token = activeAccount.accessToken
-                )
-            }
-
-            // disable push notifications
-            disableUnifiedPushNotificationsForAccount(context, activeAccount)
-
-            // disable pull notifications
-            if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {
-                NotificationHelper.disablePullNotifications(context)
-            }
-
-            // clear notification channels
-            NotificationHelper.deleteNotificationChannelsForAccount(activeAccount, context)
-
-            // remove account from local AccountManager
-            val otherAccountAvailable = accountManager.logActiveAccountOut() != null
-
-            // clear the database - this could trigger network calls so do it last when all tokens are gone
-            databaseCleaner.cleanupEverything(activeAccount.id)
-            draftHelper.deleteAllDraftsAndAttachmentsForAccount(activeAccount.id)
-
-            // remove shortcut associated with the account
-            shareShortcutHelper.removeShortcut(activeAccount)
-
-            return otherAccountAvailable
+    suspend fun logout(account: AccountEntity): Boolean {
+        // invalidate the oauth token, if we have the client id & secret
+        // (could be missing if user logged in with a previous version of Tusky)
+        val clientId = account.clientId
+        val clientSecret = account.clientSecret
+        if (clientId != null && clientSecret != null) {
+            api.revokeOAuthToken(
+                clientId = clientId,
+                clientSecret = clientSecret,
+                token = account.accessToken
+            )
         }
-        return false
+
+        // disable push notifications
+        disableUnifiedPushNotificationsForAccount(context, account)
+
+        // disable pull notifications
+        if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {
+            NotificationHelper.disablePullNotifications(context)
+        }
+
+        // clear notification channels
+        NotificationHelper.deleteNotificationChannelsForAccount(account, context)
+
+        // remove account from local AccountManager
+        val otherAccountAvailable = accountManager.logout(account) != null
+
+        // clear the database - this could trigger network calls so do it last when all tokens are gone
+        databaseCleaner.cleanupEverything(account.id)
+        draftHelper.deleteAllDraftsAndAttachmentsForAccount(account.id)
+
+        // remove shortcut associated with the account
+        shareShortcutHelper.removeShortcut(account)
+
+        return otherAccountAvailable
     }
 }

@@ -42,6 +42,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
@@ -106,7 +107,6 @@
         <activity
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
-            android:excludeFromRecents="true"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".components.viewthread.ViewThreadActivity"

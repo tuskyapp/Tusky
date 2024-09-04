@@ -303,11 +303,10 @@ class LoginActivity : BaseActivity() {
                 oauthScopes = OAUTH_SCOPES,
                 newAccount = newAccount
             )
-
+            finishAffinity()
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
-            finishAffinity()
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =
