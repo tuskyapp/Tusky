@@ -132,7 +132,7 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
         val linkDrawableSpan = EmojiSpan(view)
         linkDrawableSpan.imageDrawable = linkDrawable
 
-        val placeholderIndex = replacementText.indexOf("🔗")
+        val placeholderIndex = originalText.length + 2
 
         spannableContent.setSpan(
             linkDrawableSpan,
