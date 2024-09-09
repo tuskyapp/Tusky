@@ -65,6 +65,9 @@
         <item name="colorSurfaceContainerHigh">@color/colorSurface</item>
         <item name="colorSurfaceContainerHighest">@color/colorSurface</item>
 
+        <!-- used for e.g. selected menu items -->
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
         <item name="android:colorBackground">@color/colorBackground</item>

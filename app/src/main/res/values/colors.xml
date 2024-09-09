@@ -32,6 +32,9 @@
     <color name="tusky_grey_90">#d9e1e8</color>
     <color name="tusky_grey_95">#ebeff4</color>
 
+    <color name="tusky_grey_blue_light">#94bada</color>
+    <color name="tusky_grey_blue_dark">#305879</color>
+
     <color name="transparent_tusky_blue">#8c2b90d9</color>
     <color name="transparent_black">#8f000000</color>
     <color name="header_background_filter_dark">#44000000</color>
