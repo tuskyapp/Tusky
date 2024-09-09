@@ -134,6 +134,7 @@
     <style name="TuskyDialogOverlay" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/TuskyDialog</item>
         <item name="android:background">@color/colorBackground</item>
+        <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
     <style name="TuskyDialog" parent="@style/MaterialAlertDialog.Material3">
