@@ -34,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -58,6 +59,7 @@
                     android:textColor="?attr/colorOnPrimary"
                     app:chipBackgroundColor="?attr/colorPrimary"
                     app:chipIcon="@drawable/ic_plus_24dp"
+                    app:chipIconEnabled="true"
                     app:chipIconTint="?attr/colorOnPrimary"
                     app:chipStrokeWidth="0dp"
                     app:closeIconEnabled="false" />
@@ -90,22 +92,24 @@
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     android:text="@string/filter_description_hide" />
+
             </RadioGroup>
 
-            <TextView
-                style="@style/TextAppearance.Material3.TitleSmall"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterDurationInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/label_duration"
-                android:textColor="?attr/colorAccent" />
+                android:hint="@string/label_expires_after">
 
-            <Spinner
-                android:id="@+id/filterDurationSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/filter_duration_names"
-                android:minHeight="48dp" />
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/filterDurationDropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 style="@style/TextAppearance.Material3.TitleSmall"
@@ -172,6 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/action_save" />
+
             </LinearLayout>
 
         </LinearLayout>

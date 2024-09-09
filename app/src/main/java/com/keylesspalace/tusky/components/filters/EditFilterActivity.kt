@@ -3,9 +3,7 @@ package com.keylesspalace.tusky.components.filters
 import android.content.Context
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
-import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
@@ -112,25 +110,14 @@ class EditFilterActivity : BaseActivity() {
                 }
             )
         }
-        binding.filterDurationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.setDuration(
-                    if (originalFilter?.expiresAt == null) {
-                        position
-                    } else {
-                        position - 1
-                    }
-                )
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.setDuration(0)
-            }
+        binding.filterDurationDropDown.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            viewModel.setDuration(
+                if (originalFilter?.expiresAt == null) {
+                    position
+                } else {
+                    position - 1
+                }
+            )
         }
         validateSaveButton()
 
@@ -177,10 +164,13 @@ class EditFilterActivity : BaseActivity() {
     // Populate the UI from the filter's members
     private fun loadFilter() {
         viewModel.load(filter)
-        if (filter.expiresAt != null) {
-            val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
-            binding.filterDurationSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, durationNames)
+        val durationNames = if (filter.expiresAt != null) {
+            arrayOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
+        } else {
+            resources.getStringArray(R.array.filter_duration_names)
         }
+        binding.filterDurationDropDown.setSimpleItems(durationNames)
+        binding.filterDurationDropDown.setText(durationNames[0], false)
     }
 
     private fun updateKeywords(newKeywords: List<FilterKeyword>) {

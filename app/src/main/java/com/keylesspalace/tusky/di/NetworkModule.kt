@@ -138,7 +138,7 @@ object NetworkModule {
         }
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(
-                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
             )
         }
         return builder.build()

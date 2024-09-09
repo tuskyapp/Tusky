@@ -70,11 +70,12 @@
             android:checkable="false"
             android:text="@string/add_hashtag_title"
             android:textColor="?attr/colorOnPrimary"
-            app:chipStrokeWidth="0dp"
+            app:chipBackgroundColor="?attr/colorPrimary"
             app:chipIcon="@drawable/ic_plus_24dp"
-            app:closeIconEnabled="false"
+            app:chipIconEnabled="true"
             app:chipIconTint="?attr/colorOnPrimary"
-            app:chipBackgroundColor="?attr/colorPrimary" />
+            app:chipStrokeWidth="0dp"
+            app:closeIconEnabled="false" />
 
     </com.google.android.material.chip.ChipGroup>
 

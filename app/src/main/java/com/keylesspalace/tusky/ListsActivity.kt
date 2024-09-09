@@ -107,8 +107,15 @@ class ListsActivity : BaseActivity() {
     }
 
     private fun showlistNameDialog(list: MastoList?) {
+        var selectedReplyPolicyIndex = 0
+
+        val replyPolicies = resources.getStringArray(R.array.list_reply_policies_display)
         val binding = DialogListBinding.inflate(layoutInflater).apply {
-            replyPolicySpinner.setSelection(MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal)
+            replyPolicyDropDown.setText(replyPolicies[MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal])
+            replyPolicyDropDown.setSimpleItems(replyPolicies)
+            replyPolicyDropDown.setOnItemClickListener { _, _, position, _ ->
+                selectedReplyPolicyIndex = position
+            }
         }
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(binding.root)
@@ -123,7 +130,7 @@ class ListsActivity : BaseActivity() {
                     binding.nameText.text.toString(),
                     list?.id,
                     binding.exclusiveCheckbox.isChecked,
-                    MastoList.ReplyPolicy.entries[binding.replyPolicySpinner.selectedItemPosition].policy
+                    MastoList.ReplyPolicy.entries[selectedReplyPolicyIndex].policy
                 )
             }
             .setNegativeButton(android.R.string.cancel, null)

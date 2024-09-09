@@ -16,6 +16,15 @@ fun showMuteAccountDialog(
     binding.warning.text = activity.getString(R.string.dialog_mute_warning, accountUsername)
     binding.checkbox.isChecked = true
 
+    val durationLabels = activity.resources.getStringArray(R.array.mute_duration_names)
+    binding.durationDropDown.setSimpleItems(durationLabels)
+
+    var selectedDurationIndex = 0
+    binding.durationDropDown.setOnItemClickListener { _, _, position, _ ->
+        selectedDurationIndex = position
+    }
+    binding.durationDropDown.setText(durationLabels[selectedDurationIndex], false)
+
     MaterialAlertDialogBuilder(activity)
         .setView(binding.root)
         .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -23,10 +32,10 @@ fun showMuteAccountDialog(
 
             // workaround to make indefinite muting work with Mastodon 3.3.0
             // https://github.com/tuskyapp/Tusky/issues/2107
-            val duration = if (binding.duration.selectedItemPosition == 0) {
+            val duration = if (selectedDurationIndex == 0) {
                 null
             } else {
-                durationValues[binding.duration.selectedItemPosition]
+                durationValues[selectedDurationIndex]
             }
 
             onOk(binding.checkbox.isChecked, duration)

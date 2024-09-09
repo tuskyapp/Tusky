@@ -83,7 +83,7 @@ fun showAddPollDialog(
     }
 
     binding.pollDurationDropDown.setText(durationLabels[selectedDurationIndex], false)
-    binding.pollDurationDropDown.setOnItemClickListener { parent, view, position, id ->
+    binding.pollDurationDropDown.setOnItemClickListener { _, _, position, _ ->
         selectedDurationIndex = position
     }
 
