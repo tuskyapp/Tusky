@@ -25,22 +25,31 @@
             style="@style/TuskyButton.Outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/add_poll_choice"
-            app:layout_constraintEnd_toStartOf="@id/pollDurationSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/pollDurationInputLayout"
+            app:layout_constraintEnd_toStartOf="@id/pollDurationInputLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pollChoices" />
+            app:layout_constraintTop_toTopOf="@id/pollDurationInputLayout" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/pollDurationSpinner"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pollDurationInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/addChoiceButton"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/addChoiceButton"
-            app:layout_constraintTop_toTopOf="@id/addChoiceButton" />
+            app:layout_constraintTop_toBottomOf="@id/pollChoices">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/pollDurationDropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
             android:id="@+id/multipleChoicesCheckBox"

@@ -27,7 +27,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
@@ -39,6 +38,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
@@ -485,7 +485,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun onBlock(accountId: String, accountUsername: String) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.dialog_block_warning, accountUsername))
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.blockAccount(accountId) }
             .setNegativeButton(android.R.string.cancel, null)
@@ -555,7 +555,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {
         context?.let {
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewModel.deleteStatusAsync(id)
@@ -568,7 +568,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
         context?.let { context ->
-            AlertDialog.Builder(context)
+            MaterialAlertDialogBuilder(context)
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewLifecycleOwner.lifecycleScope.launch {

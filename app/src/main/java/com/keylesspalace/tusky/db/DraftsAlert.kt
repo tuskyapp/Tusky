@@ -18,10 +18,10 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.db.dao.DraftDao
@@ -61,7 +61,7 @@ class DraftsAlert @Inject constructor(db: AppDatabase) {
                     draftsNeedUserAlert.collect { count ->
                         Log.d(TAG, "User id $activeAccountId changed: Notification-worthy draft count $count")
                         if (count > 0) {
-                            AlertDialog.Builder(context)
+                            MaterialAlertDialogBuilder(context)
                                 .setTitle(R.string.action_post_failed)
                                 .setMessage(
                                     context.resources.getQuantityString(R.plurals.action_post_failed_detail, count)

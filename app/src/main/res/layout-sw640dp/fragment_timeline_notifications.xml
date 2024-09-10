@@ -32,8 +32,7 @@
             android:id="@+id/appBarOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorSurface"
-            app:elevation="0dp">
+            app:liftOnScroll="false">
 
             <LinearLayout
                 android:id="@+id/topButtonsLayout"
@@ -60,13 +59,6 @@
                     android:textSize="?attr/status_text_medium" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_gravity="bottom"
-                android:background="?android:attr/listDivider"
-                app:layout_scrollFlags="scroll|enterAlways" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -98,9 +90,10 @@
             </FrameLayout>
         </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
+            android:indeterminate="true"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 

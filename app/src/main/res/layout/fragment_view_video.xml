@@ -12,15 +12,15 @@
         android:id="@+id/videoView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:hide_on_touch="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:use_controller="false"
-        app:show_previous_button="false"
         app:show_next_button="false"
+        app:show_previous_button="false"
         app:show_timeout="0"
-        app:hide_on_touch="false" />
+        app:use_controller="false" />
 
     <ScrollView
         android:id="@+id/mediaDescriptionScrollView"
@@ -46,10 +46,11 @@
 
     </ScrollView>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

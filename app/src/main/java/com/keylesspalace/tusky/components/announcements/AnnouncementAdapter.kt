@@ -19,7 +19,6 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.SpannableString
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,9 +105,11 @@ class AnnouncementAdapter(
         item.reactions.forEachIndexed { i, reaction ->
             (
                 chips.getChildAt(i)?.takeUnless { it.id == R.id.addReactionChip } as Chip?
-                    ?: Chip(ContextThemeWrapper(chips.context, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice)).apply {
+                    ?: Chip(chips.context).apply {
                         isCheckable = true
                         checkedIcon = null
+                        isCloseIconVisible = false
+                        setChipBackgroundColorResource(R.color.selectable_chip_background)
                         chips.addView(this, i)
                     }
                 )

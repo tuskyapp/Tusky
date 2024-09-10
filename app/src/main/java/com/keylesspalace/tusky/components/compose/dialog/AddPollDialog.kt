@@ -20,8 +20,8 @@ package com.keylesspalace.tusky.components.compose.dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.WindowManager
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogAddPollBinding
 import com.keylesspalace.tusky.entity.NewPoll
@@ -37,7 +37,7 @@ fun showAddPollDialog(
 ) {
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
 
-    val dialog = AlertDialog.Builder(context)
+    val dialog = MaterialAlertDialogBuilder(context)
         .setIcon(R.drawable.ic_poll_24dp)
         .setTitle(R.string.create_poll_title)
         .setView(binding.root)
@@ -63,9 +63,8 @@ fun showAddPollDialog(
     val durationLabels = context.resources.getStringArray(
         R.array.poll_duration_names
     ).filterIndexed { index, _ -> durations[index] in minDuration..maxDuration }
-    binding.pollDurationSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, durationLabels).apply {
-        setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
-    }
+
+    binding.pollDurationDropDown.setSimpleItems(durationLabels.toTypedArray())
     durations = durations.filter { it in minDuration..maxDuration }
 
     binding.addChoiceButton.setOnClickListener {
@@ -79,23 +78,24 @@ fun showAddPollDialog(
 
     val secondsInADay = 60 * 60 * 24
     val desiredDuration = poll?.expiresIn ?: secondsInADay
-    val pollDurationId = durations.indexOfLast {
+    var selectedDurationIndex = durations.indexOfLast {
         it <= desiredDuration
     }
 
-    binding.pollDurationSpinner.setSelection(pollDurationId)
+    binding.pollDurationDropDown.setText(durationLabels[selectedDurationIndex], false)
+    binding.pollDurationDropDown.setOnItemClickListener { _, _, position, _ ->
+        selectedDurationIndex = position
+    }
 
     binding.multipleChoicesCheckBox.isChecked = poll?.multiple ?: false
 
     dialog.setOnShowListener {
         val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         button.setOnClickListener {
-            val selectedPollDurationId = binding.pollDurationSpinner.selectedItemPosition
-
             onUpdatePoll(
                 NewPoll(
                     options = adapter.pollOptions,
-                    expiresIn = durations[selectedPollDurationId],
+                    expiresIn = durations[selectedDurationIndex],
                     multiple = binding.multipleChoicesCheckBox.isChecked
                 )
             )

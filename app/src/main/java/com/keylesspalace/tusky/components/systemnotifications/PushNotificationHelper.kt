@@ -22,10 +22,10 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.login.LoginActivity
@@ -73,7 +73,7 @@ fun showMigrationNoticeIfNecessary(
 }
 
 private fun showMigrationExplanationDialog(context: Context, accountManager: AccountManager) {
-    AlertDialog.Builder(context).apply {
+    MaterialAlertDialogBuilder(context).apply {
         if (currentAccountNeedsMigration(accountManager)) {
             setMessage(R.string.dialog_push_notification_migration)
             setPositiveButton(R.string.title_migration_relogin) { _, _ ->

@@ -60,6 +60,7 @@ import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -822,7 +823,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun buildDeveloperToolsDialog(): AlertDialog {
-        return AlertDialog.Builder(this)
+        return MaterialAlertDialogBuilder(this)
             .setTitle("Developer Tools")
             .setItems(
                 arrayOf("Create \"Load more\" gap")
@@ -1003,7 +1004,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun logout() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.action_logout)
             .setMessage(getString(R.string.action_logout_confirm, activeAccount.fullName))
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
