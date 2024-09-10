@@ -97,9 +97,11 @@ class MediaUploader @Inject constructor(
     private val mediaUploadApi: MediaUploadApi
 ) {
 
-    private val uploads = mutableMapOf<Int, UploadData>()
-
-    private var mostRecentId: Int = 0
+    private companion object {
+        private const val TAG = "MediaUploader"
+        private val uploads = mutableMapOf<Int, UploadData>()
+        private var mostRecentId: Int = 0
+    }
 
     fun getNewLocalMediaId(): Int {
         return mostRecentId++
@@ -325,9 +327,5 @@ class MediaUploader @Inject constructor(
     private fun shouldResizeMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Boolean {
         return media.type == QueuedMedia.Type.IMAGE &&
             (media.mediaSize > instanceInfo.imageSizeLimit || getImageSquarePixels(context.contentResolver, media.uri) > instanceInfo.imageMatrixLimit)
-    }
-
-    private companion object {
-        private const val TAG = "MediaUploader"
     }
 }
