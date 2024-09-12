@@ -99,6 +99,9 @@
         <item name="alertDialogTheme">@style/TuskyDialogOverlay</item>
         <item name="dialogCornerRadius">16dp</item>
 
+        <item name="materialTimePickerTheme">@style/TuskyTimePickerOverlay</item>
+        <item name="materialCalendarTheme">@style/TuskyDatePickerOverlay</item>
+
         <item name="minTouchTargetSize">32dp</item> <!-- this affects RadioButton size -->
         <item name="elevationOverlayEnabled">false</item> <!-- disable the automatic tinting of surfaces with elevation in dark mode -->
 
@@ -143,9 +146,22 @@
     <style name="TuskyDialog" parent="@style/MaterialAlertDialog.Material3">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
         <item name="backgroundTint">@color/colorBackground</item>
-        <item name="buttonBarNeutralButtonStyle">@style/TuskyButton.TextButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/TuskyButton.TextButton</item>
-        <item name="buttonBarNegativeButtonStyle">@style/TuskyButton.TextButton</item>
+    </style>
+
+    <style name="TuskyTimePickerOverlay" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="materialTimePickerStyle">@style/TuskyTimePicker</item>
+    </style>
+    <style name="TuskyTimePicker" parent="@style/Widget.Material3.MaterialTimePicker">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
+        <item name="backgroundTint">@color/colorBackground</item>
+    </style>
+
+    <style name="TuskyDatePickerOverlay" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="materialCalendarStyle">@style/TuskyDatePicker</item>
+    </style>
+    <style name="TuskyDatePicker" parent="@style/Widget.Material3.MaterialCalendar">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
+        <item name="backgroundTint">@color/colorBackground</item>
     </style>
 
     <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.Material3.Dialog">
