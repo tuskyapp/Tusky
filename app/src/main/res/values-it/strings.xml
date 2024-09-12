@@ -252,7 +252,7 @@
     <string name="pref_title_alway_show_sensitive_media">Mostra sempre i contenuti sensibili</string>
     <string name="title_media">Media</string>
     <string name="replying_to">Rispondendo a @%1$s</string>
-    <string name="load_more_placeholder_text">carica altro</string>
+    <string name="load_more_placeholder_text">Carica altro</string>
     <string name="pref_title_public_filter_keywords">Timeline pubbliche</string>
     <string name="pref_title_thread_filter_keywords">Conversazioni</string>
     <string name="filter_addition_title">Aggiungi filtro</string>
@@ -267,9 +267,9 @@
     <string name="error_create_list">Non è stato possibile creare la lista</string>
     <string name="error_rename_list">Non è stato possibile aggiornare la lista</string>
     <string name="error_delete_list">Non è stato possibile eliminare la lista</string>
-    <string name="action_create_list">Crea una lista</string>
-    <string name="action_rename_list">Aggiorna la lista</string>
-    <string name="action_delete_list">Elimina la lista</string>
+    <string name="action_create_list">Crea lista</string>
+    <string name="action_rename_list">Aggiorna lista</string>
+    <string name="action_delete_list">Elimina lista</string>
     <string name="hint_search_people_list">Cerca tra le persone che segui</string>
     <string name="action_add_to_list">Aggiungi un account alla lista</string>
     <string name="action_remove_from_list">Rimuovi un account dalla lista</string>
@@ -738,4 +738,5 @@
     <string name="pref_default_reply_privacy_explanation">La privacy preselezionata dipenderà dal post a cui stai rispondendo.</string>
     <string name="pref_match_default_post_privacy">Stessa privacy predefinita del post</string>
     <string name="post_privacy_direct">Diretto</string>
+    <string name="label_expires_after">Scade dopo</string>
 </resources>

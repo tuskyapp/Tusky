@@ -720,4 +720,5 @@
     <string name="pref_default_reply_privacy_explanation">预选隐私将取决于你回复的嘟文。</string>
     <string name="pref_match_default_post_privacy">匹配默认嘟文发布隐私</string>
     <string name="post_privacy_direct">私信</string>
+    <string name="label_expires_after">多久过期</string>
 </resources>

@@ -723,4 +723,5 @@
     <string name="pref_default_reply_privacy_explanation">محرمانگی پیش‌گزیده به فرسته‌ای که به آن پاسخ می‌دهید بستگی خواهد داشت.</string>
     <string name="post_privacy_direct">مستقیم</string>
     <string name="pref_match_default_post_privacy">تطبیق با محرمانگی پیش‌گزیدهٔ فرسته</string>
+    <string name="label_expires_after">انقضا پس از</string>
 </resources>
