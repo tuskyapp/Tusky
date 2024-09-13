@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
@@ -136,11 +137,14 @@ class ListsActivity : BaseActivity() {
             .setNegativeButton(android.R.string.cancel, null)
             .show()
 
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
         binding.nameText.let { editText ->
             editText.doOnTextChanged { s, _, _, _ ->
                 dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = s?.isNotBlank() == true
             }
             editText.setText(list?.title)
+            editText.requestFocus()
             editText.text?.let { editText.setSelection(it.length) }
         }
 

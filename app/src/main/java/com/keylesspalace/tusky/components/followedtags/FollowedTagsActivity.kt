@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
 import androidx.fragment.app.DialogFragment
@@ -194,6 +195,8 @@ class FollowedTagsActivity :
                     showBotBadge = false
                 )
             )
+            autoCompleteTextView.requestFocus()
+            autoCompleteTextView.setSelection(autoCompleteTextView.length())
 
             return MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.dialog_follow_hashtag_title)
@@ -205,6 +208,11 @@ class FollowedTagsActivity :
                 }
                 .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
                 .create()
+        }
+
+        override fun onStart() {
+            super.onStart()
+            dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
 
         companion object {
