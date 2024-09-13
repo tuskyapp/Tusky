@@ -21,7 +21,10 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -29,18 +32,19 @@ import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.TabPreferenceActivity
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
 import com.keylesspalace.tusky.components.login.LoginActivity
-import com.keylesspalace.tusky.components.notifications.currentAccountNeedsMigration
+import com.keylesspalace.tusky.components.systemnotifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.listPreference
 import com.keylesspalace.tusky.settings.makePreferenceScreen
@@ -57,12 +61,12 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeRes
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
-class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
+@AndroidEntryPoint
+class AccountPreferencesFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var accountManager: AccountManager
 
@@ -178,16 +182,50 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                     setEntries(R.array.post_privacy_names)
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
+                    isSingleLineTitle = false
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
-                    value = visibility.serverString
+                    value = visibility.stringValue
                     setIcon(getIconForVisibility(visibility))
+                    isPersistent = false // its saved to the account and shouldn't be in shared preferences
                     setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(
-                            getIconForVisibility(Status.Visibility.byString(newValue as String))
-                        )
+                        val icon = getIconForVisibility(Status.Visibility.fromStringValue(newValue as String))
+                        setIcon(icon)
+                        if (accountManager.activeAccount?.defaultReplyPrivacy == DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY) {
+                            findPreference<ListPreference>(PrefKeys.DEFAULT_REPLY_PRIVACY)?.setIcon(icon)
+                        }
                         syncWithServer(visibility = newValue)
                         true
+                    }
+                }
+
+                val activeAccount = accountManager.activeAccount
+                if (activeAccount != null) {
+                    listPreference {
+                        setTitle(R.string.pref_default_reply_privacy)
+                        setEntries(R.array.reply_privacy_names)
+                        setEntryValues(R.array.reply_privacy_values)
+                        key = PrefKeys.DEFAULT_REPLY_PRIVACY
+                        isSingleLineTitle = false
+                        setSummaryProvider { entry }
+                        val visibility = activeAccount.defaultReplyPrivacy
+                        value = visibility.stringValue
+                        setIcon(getIconForVisibility(visibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
+                        isPersistent = false // its saved to the account and shouldn't be in shared preferences
+                        setOnPreferenceChangeListener { _, newValue ->
+                            val newVisibility = DefaultReplyVisibility.fromStringValue(newValue as String)
+                            setIcon(getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
+                            activeAccount.defaultReplyPrivacy = newVisibility
+                            accountManager.saveAccount(activeAccount)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                eventHub.dispatch(PreferenceChangedEvent(key))
+                            }
+                            true
+                        }
+                    }
+                    preference {
+                        setSummary(R.string.pref_default_reply_privacy_explanation)
+                        isEnabled = false
                     }
                 }
 
@@ -203,6 +241,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
                         ).toTypedArray()
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
+                    isSingleLineTitle = false
                     icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
@@ -293,29 +332,21 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
     ) {
         // TODO these could also be "datastore backed" preferences (a ServerPreferenceDataStore); follow-up of issue #3204
 
-        mastodonApi.accountUpdateSource(visibility, sensitive, language)
-            .enqueue(object : Callback<Account> {
-                override fun onResponse(call: Call<Account>, response: Response<Account>) {
-                    val account = response.body()
-                    if (response.isSuccessful && account != null) {
-                        accountManager.activeAccount?.let {
-                            it.defaultPostPrivacy = account.source?.privacy
-                                ?: Status.Visibility.PUBLIC
-                            it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                            it.defaultPostLanguage = language.orEmpty()
-                            accountManager.saveAccount(it)
-                        }
-                    } else {
-                        Log.e("AccountPreferences", "failed updating settings on server")
-                        showErrorSnackbar(visibility, sensitive)
+        viewLifecycleOwner.lifecycleScope.launch {
+            mastodonApi.accountUpdateSource(visibility, sensitive, language)
+                .fold({ account: Account ->
+                    accountManager.activeAccount?.let {
+                        it.defaultPostPrivacy = account.source?.privacy
+                            ?: Status.Visibility.PUBLIC
+                        it.defaultMediaSensitivity = account.source?.sensitive ?: false
+                        it.defaultPostLanguage = language.orEmpty()
+                        accountManager.saveAccount(it)
                     }
-                }
-
-                override fun onFailure(call: Call<Account>, t: Throwable) {
+                }, { t ->
                     Log.e("AccountPreferences", "failed updating settings on server", t)
                     showErrorSnackbar(visibility, sensitive)
-                }
-            })
+                })
+        }
     }
 
     private fun showErrorSnackbar(visibility: String?, sensitive: Boolean?) {
@@ -332,6 +363,8 @@ class AccountPreferencesFragment : PreferenceFragmentCompat(), Injectable {
             Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
 
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
+
+            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
 
             else -> R.drawable.ic_public_24dp
         }

@@ -18,12 +18,13 @@ package com.keylesspalace.tusky
 import android.app.Application
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.di.AppInjector
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.NEW_INSTALL_SCHEMA_VERSION
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -32,9 +33,7 @@ import com.keylesspalace.tusky.settings.SCHEMA_VERSION
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.worker.PruneCacheWorker
-import com.keylesspalace.tusky.worker.WorkerFactory
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.HiltAndroidApp
 import de.c1710.filemojicompat_defaults.DefaultEmojiPackList
 import de.c1710.filemojicompat_ui.helpers.EmojiPackHelper
 import de.c1710.filemojicompat_ui.helpers.EmojiPreference
@@ -43,18 +42,17 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import org.conscrypt.Conscrypt
 
-class TuskyApplication : Application(), HasAndroidInjector {
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+@HiltAndroidApp
+class TuskyApplication : Application(), Configuration.Provider {
 
     @Inject
-    lateinit var workerFactory: WorkerFactory
+    lateinit var workerFactory: HiltWorkerFactory
 
     @Inject
     lateinit var localeManager: LocaleManager
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: SharedPreferences
 
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
@@ -71,10 +69,8 @@ class TuskyApplication : Application(), HasAndroidInjector {
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
-        AppInjector.init(this)
-
         // Migrate shared preference keys and defaults from version to version.
-        val oldVersion = sharedPreferences.getInt(
+        val oldVersion = preferences.getInt(
             PrefKeys.SCHEMA_VERSION,
             NEW_INSTALL_SCHEMA_VERSION
         )
@@ -88,19 +84,12 @@ class TuskyApplication : Application(), HasAndroidInjector {
         EmojiPackHelper.init(this, DefaultEmojiPackList.get(this), allowPackImports = false)
 
         // init night mode
-        val theme = sharedPreferences.getString(APP_THEME, AppTheme.DEFAULT.value)
+        val theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.value)
         setAppNightMode(theme)
 
         localeManager.setLocale()
 
         NotificationHelper.createWorkerNotificationChannel(this)
-
-        WorkManager.initialize(
-            this,
-            androidx.work.Configuration.Builder()
-                .setWorkerFactory(workerFactory)
-                .build()
-        )
 
         // Prune the database every ~ 12 hours when the device is idle.
         val pruneCacheWorker = PeriodicWorkRequestBuilder<PruneCacheWorker>(12, TimeUnit.HOURS)
@@ -113,11 +102,14 @@ class TuskyApplication : Application(), HasAndroidInjector {
         )
     }
 
-    override fun androidInjector() = androidInjector
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
     private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
-        val editor = sharedPreferences.edit()
+        val editor = preferences.edit()
 
         if (oldVersion < 2023022701) {
             // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
@@ -127,17 +119,11 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
         }
 
-        if (oldVersion < 2023072401) {
-            // The notifications filter / clear options are shown on a menu, not a separate bar,
-            // the preference to display them is not needed.
-            editor.remove(PrefKeys.Deprecated.SHOW_NOTIFICATIONS_FILTER)
-        }
-
         if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {
             // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
             // didn't have an explicit preference set use the previous default, so the
             // theme does not unexpectedly change.
-            if (!sharedPreferences.contains(APP_THEME)) {
+            if (!preferences.contains(APP_THEME)) {
                 editor.putString(APP_THEME, AppTheme.NIGHT.value)
             }
         }
@@ -146,6 +132,10 @@ class TuskyApplication : Application(), HasAndroidInjector {
             editor.remove(PrefKeys.TAB_FILTER_HOME_REPLIES)
             editor.remove(PrefKeys.TAB_FILTER_HOME_BOOSTS)
             editor.remove(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS)
+        }
+
+        if (oldVersion < 2024060201) {
+            editor.remove(PrefKeys.Deprecated.FAB_HIDE)
         }
 
         editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)

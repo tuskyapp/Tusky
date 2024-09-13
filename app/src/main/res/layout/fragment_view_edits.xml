@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,8 +54,8 @@
                 app:layout_constrainedWidth="true"
                 app:layout_constraintStart_toEndOf="@id/status_avatar"
                 app:layout_constraintTop_toTopOf="@+id/status_avatar"
-                tools:text="Ente r the void you foooooo"
-                tools:ignore="SelectableText"/>
+                tools:ignore="SelectableText"
+                tools:text="Ente r the void you foooooo" />
 
             <TextView
                 android:id="@+id/status_username"
@@ -67,11 +68,11 @@
                 android:textSize="?attr/status_text_medium"
                 app:layout_constraintStart_toStartOf="@+id/status_display_name"
                 app:layout_constraintTop_toBottomOf="@id/status_display_name"
-                tools:text="\@Entenhausen@birbsarecooooooooooool.site"
-                tools:ignore="SelectableText" />
+                tools:ignore="SelectableText"
+                tools:text="\@Entenhausen@birbsarecooooooooooool.site" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -86,26 +87,28 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/colorBackground"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
+                android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
     </LinearLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/initialProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminate="true"
         android:layout_gravity="center"
-        android:contentDescription="@string/a11y_label_loading_thread" />
+        android:contentDescription="@string/a11y_label_loading_thread"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
     <com.keylesspalace.tusky.view.BackgroundMessageView
         android:id="@+id/statusView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" >
+        android:visibility="gone">
 
     </com.keylesspalace.tusky.view.BackgroundMessageView>
 

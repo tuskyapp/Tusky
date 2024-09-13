@@ -36,8 +36,8 @@
     <string name="title_edit_profile">Endre profilen din</string>
     <string name="title_drafts">Utkast</string>
     <string name="title_licenses">Lisenser</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s delte</string>
+    <string name="post_username_format">\@%1$s</string>
+    <string name="post_boosted_format">%1$s delte</string>
     <string name="post_sensitive_media_title">Sensitivt innhold</string>
     <string name="post_media_hidden_title">Media skjult</string>
     <string name="post_sensitive_media_directions">Trykk for å vise</string>
@@ -47,10 +47,10 @@
     <string name="post_content_show_less">Skjul</string>
     <string name="message_empty">Ingenting her.</string>
     <string name="footer_empty">Ingenting her. Dra ned for å oppdatere!</string>
-    <string name="notification_reblog_format">%s delte innlegget ditt</string>
-    <string name="notification_favourite_format">%s favoriserte innlegget ditt</string>
-    <string name="notification_follow_format">%s følger deg</string>
-    <string name="report_username_format">Rapporter @%s</string>
+    <string name="notification_reblog_format">%1$s delte innlegget ditt</string>
+    <string name="notification_favourite_format">%1$s favoriserte innlegget ditt</string>
+    <string name="notification_follow_format">%1$s følger deg</string>
+    <string name="report_username_format">Rapporter @%1$s</string>
     <string name="report_comment_hint">Ytterligere kommentarer\?</string>
     <string name="action_quick_reply">Hurtigsvar</string>
     <string name="action_reply">Svar</string>
@@ -113,10 +113,10 @@
     <string name="title_hashtags_dialog">Stikkord</string>
     <string name="title_mentions_dialog">Nevnelser</string>
     <string name="title_links_dialog">Lenker</string>
-    <string name="action_open_media_n">Åpne media #%d</string>
+    <string name="action_open_media_n">Åpne media #%1$d</string>
     <string name="download_image">Laster ned %1$s</string>
     <string name="action_copy_link">Kopier lenken</string>
-    <string name="action_open_as">Åpne som %s</string>
+    <string name="action_open_as">Åpne som %1$s</string>
     <string name="action_share_as">Del som …</string>
     <string name="download_media">Last ned media</string>
     <string name="downloading_media">Laster ned media</string>
@@ -172,7 +172,6 @@
     <string name="pref_title_timeline_filters">Filtere</string>
     <string name="pref_title_browser_settings">Nettleser</string>
     <string name="pref_title_custom_tabs">Bruk Chrome-tilpassede faner</string>
-    <string name="pref_title_hide_follow_button">Skjul skriv-knappen ved scrolling</string>
     <string name="pref_title_language">Språk</string>
     <string name="pref_title_post_filter">Tidslinjefiltrering</string>
     <string name="pref_title_post_tabs">Faner</string>
@@ -194,17 +193,17 @@
     <string name="notification_boost_description">Varsler når innleggene dine blir delt</string>
     <string name="notification_favourite_name">Favoritter</string>
     <string name="notification_favourite_description">Varsler når innleggene dine blir favorisert</string>
-    <string name="notification_mention_format">%s nevnte deg</string>
+    <string name="notification_mention_format">%1$s nevnte deg</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d andre</string>
     <string name="notification_summary_medium">%1$s, %2$s, og %3$s</string>
     <string name="notification_summary_small">%1$s og %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d ny interaksjon</item>
-        <item quantity="other">%d nye interaksjoner</item>
+        <item quantity="one">%1$d ny interaksjon</item>
+        <item quantity="other">%1$d nye interaksjoner</item>
     </plurals>
     <string name="description_account_locked">Låst konto</string>
     <string name="about_title_activity">Om</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="about_bug_feature_request_site">Rapporter feil og ønsker om funksjonalitet her:
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Tuskys Profil</string>
@@ -213,19 +212,19 @@
     <string name="post_media_images">Bilder</string>
     <string name="post_media_video">Video</string>
     <string name="state_follow_requested">Forespørsel sendt</string>
-    <string name="abbreviated_in_days">om %dd</string>
-    <string name="abbreviated_in_hours">om %dh</string>
-    <string name="abbreviated_in_minutes">om %dm</string>
-    <string name="abbreviated_in_seconds">om %ds</string>
-    <string name="abbreviated_years_ago">%dy</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_days">om %1$dd</string>
+    <string name="abbreviated_in_hours">om %1$dh</string>
+    <string name="abbreviated_in_minutes">om %1$dm</string>
+    <string name="abbreviated_in_seconds">om %1$ds</string>
+    <string name="abbreviated_years_ago">%1$dy</string>
+    <string name="abbreviated_days_ago">%1$dd</string>
+    <string name="abbreviated_hours_ago">%1$dh</string>
+    <string name="abbreviated_minutes_ago">%1$dm</string>
+    <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Følger deg</string>
     <string name="pref_title_alway_show_sensitive_media">Vis alltid sensitivt innhold</string>
     <string name="title_media">Media</string>
-    <string name="replying_to">Svarer til @%s</string>
+    <string name="replying_to">Svarer til @%1$s</string>
     <string name="load_more_placeholder_text">last mer</string>
     <string name="pref_title_public_filter_keywords">Offentlige tidslinjer</string>
     <string name="pref_title_thread_filter_keywords">Samtaler</string>
@@ -253,13 +252,13 @@
     <string name="about_tusky_license">Tusky er fri og åpen kildekode. Applikasjonen er lisensiert under GNU General Public License versjon 3. Du kan se lisensen her: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_project_site">Hjemmeside:
 \n https://tusky.app</string>
-    <string name="abbreviated_in_years">om %dy</string>
+    <string name="abbreviated_in_years">om %1$dy</string>
     <string name="compose_active_account_description">Poster som %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Beskriv innhold for de med nedsatt synsevne
-\n(maks %d tegn)</item>
+\n(maks %1$d tegn)</item>
         <item quantity="other">Beskriv innhold for de med nedsatt synsevne
-\n(maks %d tegn)</item>
+\n(maks %1$d tegn)</item>
     </plurals>
     <string name="action_set_caption">Sett bildetekst</string>
     <string name="action_remove">Slett</string>
@@ -272,7 +271,7 @@
     <string name="send_post_notification_cancel_title">Sending avbrutt</string>
     <string name="send_post_notification_saved_content">En kopi av innlegget er lagret i utkastene dine</string>
     <string name="action_compose_shortcut">Skriv</string>
-    <string name="error_no_custom_emojis">Instansen %s har ingen egendefinerte emojis</string>
+    <string name="error_no_custom_emojis">Instansen %1$s har ingen egendefinerte emojis</string>
     <string name="emoji_style">Emoji-stil</string>
     <string name="system_default">Systemstandard</string>
     <string name="download_fonts">Du må laste ned emoji-samlingene før de kan brukes</string>
@@ -308,16 +307,16 @@
         <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoritter</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">Delt <b>%s</b> gang</item>
-        <item quantity="other">Delt <b>%s</b> ganger</item>
+        <item quantity="one">Delt <b>%1$s</b> gang</item>
+        <item quantity="other">Delt <b>%1$s</b> ganger</item>
     </plurals>
     <string name="title_reblogged_by">Delt av</string>
     <string name="title_favourited_by">Favorisert av</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s og %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s og %3$d fler</string>
-    <string name="description_post_media">Media: %s</string>
-    <string name="description_post_cw">Innholdsadvarsel: %s</string>
+    <string name="description_post_media">Media: %1$s</string>
+    <string name="description_post_cw">Innholdsadvarsel: %1$s</string>
     <string name="description_post_media_no_description_placeholder">Ingen beskrivelse</string>
     <string name="description_post_reblogged">Reblogget</string>
     <string name="description_post_favourited">Favorisert</string>
@@ -338,10 +337,10 @@
     <string name="dialog_redraft_post_warning">Vil du slette denne tuten og skrive den på nytt\?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s stemme</item>
-        <item quantity="other">%s stemmer</item>
+        <item quantity="one">%1$s stemme</item>
+        <item quantity="other">%1$s stemmer</item>
     </plurals>
-    <string name="poll_info_time_absolute">avsluttes %s</string>
+    <string name="poll_info_time_absolute">avsluttes %1$s</string>
     <string name="poll_info_closed">stengt</string>
     <string name="poll_vote">Stem</string>
     <string name="app_them_dark">Mørk</string>
@@ -363,40 +362,40 @@
     <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
     <string name="poll_ended_created">En avstemming du opprettet er avsluttet</string>
     <plurals name="poll_timespan_days">
-        <item quantity="one">%d dag igjen</item>
-        <item quantity="other">%d dager igjen</item>
+        <item quantity="one">%1$d dag igjen</item>
+        <item quantity="other">%1$d dager igjen</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">%d time igjen</item>
-        <item quantity="other">%d timer igjen</item>
+        <item quantity="one">%1$d time igjen</item>
+        <item quantity="other">%1$d timer igjen</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">%d minutt igjen</item>
-        <item quantity="other">%d minutter igjen</item>
+        <item quantity="one">%1$d minutt igjen</item>
+        <item quantity="other">%1$d minutter igjen</item>
     </plurals>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">%d sekund igjen</item>
-        <item quantity="other">%d sekunder igjen</item>
+        <item quantity="one">%1$d sekund igjen</item>
+        <item quantity="other">%1$d sekunder igjen</item>
     </plurals>
-    <string name="compose_preview_image_description">Handlinger for bilde %s</string>
+    <string name="compose_preview_image_description">Handlinger for bilde %1$s</string>
     <string name="pref_title_animate_gif_avatars">Animer GIF-avatarer</string>
     <string name="description_poll">Avstemming med valg: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="caption_notoemoji">Googles nåværende emoji-samling</string>
     <string name="button_continue">Fortsett</string>
     <string name="button_back">Tilbake</string>
     <string name="button_done">Ferdig</string>
-    <string name="report_sent_success">\@%s er rapportert</string>
+    <string name="report_sent_success">\@%1$s er rapportert</string>
     <string name="hint_additional_info">Flere kommentarer</string>
-    <string name="report_remote_instance">Videresend til %s</string>
+    <string name="report_remote_instance">Videresend til %1$s</string>
     <string name="failed_report">Klarte ikke å rapportere</string>
     <string name="failed_fetch_posts">Klarte ikke å hente innlegg</string>
     <string name="report_description_1">Rapporten vil bli sendt til instansmoderatoren. Under kan du skrive en forklaring på hvorfor du rapporterer denne kontoen:</string>
     <string name="report_description_remote_instance">Kontoen tilhører en annen instans. Vil du også sende en anonymisert kopi av rapporten dit\?</string>
     <string name="title_domain_mutes">Skjulte domener</string>
     <string name="action_view_domain_mutes">Skjulte domener</string>
-    <string name="action_mute_domain">Demp %s</string>
-    <string name="confirmation_domain_unmuted">%s er ikke lenger skjult</string>
-    <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
+    <string name="action_mute_domain">Demp %1$s</string>
+    <string name="confirmation_domain_unmuted">%1$s er ikke lenger skjult</string>
+    <string name="mute_domain_warning">Er du sikker på at du vil blokkere alt fra %1$s\? Du kommer ikke til å se innhold fra domenet i noen offentlige tidslinjer, eller i varslene dine. Kontoer som følger deg fra dette domenet vil bli fjernet.</string>
     <string name="mute_domain_warning_dialog_ok">Skjul hele domenet</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">Når nøkkelordet eller frasen kun inneholder bokstaver og tall, vil det bare brukes dersom det stemmer overens med hele ordet</string>
@@ -414,14 +413,14 @@
     <string name="duration_7_days">7 dager</string>
     <string name="add_poll_choice">Legg til valg</string>
     <string name="poll_allow_multiple_choices">Flere valg</string>
-    <string name="poll_new_choice_hint">Valg %d</string>
+    <string name="poll_new_choice_hint">Valg %1$d</string>
     <string name="edit_poll">Endre</string>
     <string name="title_scheduled_posts">Planlagte innlegg</string>
     <string name="action_edit">Rediger</string>
     <string name="action_access_scheduled_posts">Planlagte innlegg</string>
     <string name="action_schedule_post">Planlegg innlegg</string>
     <string name="action_reset_schedule">Tilbakestill</string>
-    <string name="post_lookup_error_format">Det oppsto en feil under henting av %s</string>
+    <string name="post_lookup_error_format">Det oppsto en feil under henting av %1$s</string>
     <string name="about_powered_by_tusky">Drevet av Tusky</string>
     <string name="title_bookmarks">Bokmerker</string>
     <string name="action_bookmark">Bokmerke</string>
@@ -436,26 +435,26 @@
     <string name="pref_title_confirm_reblogs">Vis bekreftelser før deling</string>
     <string name="pref_title_enable_swipe_for_tabs">Skru på sveiping for å bytte mellom faner</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s person</item>
-        <item quantity="other">%s personer</item>
+        <item quantity="one">%1$s person</item>
+        <item quantity="other">%1$s personer</item>
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Følgeforespørsler</string>
     <string name="pref_title_notification_filter_follow_requests">Følgeforespørsel sendt</string>
-    <string name="dialog_mute_warning">Dempe @%s\?</string>
-    <string name="dialog_block_warning">Blokkere @%s\?</string>
+    <string name="dialog_mute_warning">Dempe @%1$s\?</string>
+    <string name="dialog_block_warning">Blokkere @%1$s\?</string>
     <string name="action_unmute_conversation">Fjern demping av samtale</string>
     <string name="action_mute_conversation">Demp samtale</string>
     <string name="hashtags">Stikkord</string>
     <string name="add_hashtag_title">Legg til stikkord</string>
-    <string name="notification_follow_request_format">%s ønsker å følge deg</string>
+    <string name="notification_follow_request_format">%1$s ønsker å følge deg</string>
     <string name="pref_title_gradient_for_media">Vis fargerike gradienter for skjult media</string>
     <string name="pref_main_nav_position_option_bottom">Bunn</string>
     <string name="pref_main_nav_position_option_top">Topp</string>
     <string name="pref_main_nav_position">Plassering av hovednavigasjon</string>
-    <string name="action_unmute_domain">Fjern demping av %s</string>
+    <string name="action_unmute_domain">Fjern demping av %1$s</string>
     <string name="dialog_mute_hide_notifications">Skjul varsler</string>
-    <string name="action_unmute_desc">Fjern demping av %s</string>
+    <string name="action_unmute_desc">Fjern demping av %1$s</string>
     <string name="pref_title_hide_top_toolbar">Skjul tittelen på den øverste verktøylinjen</string>
     <string name="account_note_saved">Lagret!</string>
     <string name="account_note_hint">Ditt private notat om denne kontoen</string>
@@ -476,14 +475,14 @@
     <string name="notification_subscription_description">Varsler når noen jeg følger publiserer et nytt innlegg</string>
     <string name="notification_subscription_name">Nye innlegg</string>
     <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer et nytt innlegg</string>
-    <string name="notification_subscription_format">%s postet akkurat</string>
+    <string name="notification_subscription_format">%1$s postet akkurat</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
         <item quantity="other">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
     </plurals>
     <string name="duration_indefinite">Uendelig</string>
     <string name="label_duration">Varighet</string>
-    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %s\?</string>
+    <string name="dialog_delete_list_warning">Er du sikker på at du vil slette listen %1$s\?</string>
     <string name="post_media_attachments">Vedlegg</string>
     <string name="post_media_audio">Lyd</string>
     <string name="drafts_post_reply_removed">Innlegget du hadde opprettet et utkast som svar på har blitt fjernet</string>
@@ -505,11 +504,11 @@
     <string name="duration_365_days">365 dager</string>
     <string name="duration_14_days">14 dager</string>
     <string name="tusky_compose_post_quicksetting_label">Skriv innlegg</string>
-    <string name="notification_sign_up_format">%s registrerte seg</string>
+    <string name="notification_sign_up_format">%1$s registrerte seg</string>
     <string name="pref_title_notification_filter_sign_ups">noen registrerte seg</string>
     <string name="notification_sign_up_name">Registreringer</string>
     <string name="notification_sign_up_description">Varslinger om nye brukere</string>
-    <string name="notification_update_format">%s redigerte innlegget sitt</string>
+    <string name="notification_update_format">%1$s redigerte innlegget sitt</string>
     <string name="pref_title_notification_filter_updates">et innlegg jeg har interagert med, er redigert</string>
     <string name="notification_update_name">Redigerte innlegg</string>
     <string name="notification_update_description">Varslinger når et innlegg du har interagert med er redigert</string>
@@ -527,10 +526,10 @@
     <string name="action_edit_image">Rediger bilde</string>
     <string name="error_image_edit_failed">Bildet kunne ikke redigeres.</string>
     <string name="error_loading_account_details">Lasting av kontodetaljer feilet</string>
-    <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %s MB.</string>
-    <string name="error_following_hashtag_format">Det oppsto en feil under følging av #%s</string>
-    <string name="error_unfollowing_hashtag_format">Kunne ikke slutte å følge #%s</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="error_multimedia_size_limit">Video- og lydfiler kan ikke være større enn %1$s MB.</string>
+    <string name="error_following_hashtag_format">Det oppsto en feil under følging av #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Kunne ikke slutte å følge #%1$s</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="duration_no_change">(Ingen endring)</string>
     <string name="description_post_language">Innleggspråk</string>
     <string name="action_set_focus">Sett fokuspunkt</string>
@@ -540,8 +539,8 @@
     <string name="pref_show_self_username_never">Aldri</string>
     <string name="pref_title_show_self_username">Vis brukernavn på verktøylinjer</string>
     <string name="delete_scheduled_post_warning">Slette dette planlagte innlegget\?</string>
-    <string name="instance_rule_title">Regler på %s</string>
-    <string name="instance_rule_info">Ved å logge inn godtar du reglene på %s.</string>
+    <string name="instance_rule_title">Regler på %1$s</string>
+    <string name="instance_rule_info">Ved å logge inn godtar du reglene på %1$s.</string>
     <string name="compose_save_draft_loses_media">Lagre utkast\? (Vedlegg vil bli lastet opp igjen når du fortsetter å jobbe på utkastet.)</string>
     <string name="failed_to_pin">Klarte ikke å feste</string>
     <string name="failed_to_unpin">Klarte ikke å løsne</string>
@@ -551,12 +550,12 @@
     <string name="failed_to_remove_from_list">Klarte ikke å fjerne kontoen fra listen</string>
     <string name="pref_default_post_language">Standardspråk på innlegg</string>
     <string name="no_lists">Du har ingen lister.</string>
-    <string name="language_display_name_format">%s (%s)</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="status_created_at_now">nå</string>
-    <string name="post_edited">Redigert %s</string>
-    <string name="notification_summary_report_format">%s · %d innlegg vedlagt</string>
-    <string name="notification_report_format">Ny rapport på %s</string>
-    <string name="notification_header_report_format">%s rapporterte %s</string>
+    <string name="post_edited">Redigert %1$s</string>
+    <string name="notification_summary_report_format">%1$s · %2$d innlegg vedlagt</string>
+    <string name="notification_report_format">Ny rapport på %1$s</string>
+    <string name="notification_header_report_format">%1$s rapporterte %2$s</string>
     <string name="notification_report_description">Varsler om moderasjonsrapporter</string>
     <string name="pref_title_notification_filter_reports">det er en ny rapport</string>
     <string name="notification_report_name">Rapporter</string>
@@ -566,8 +565,8 @@
     <string name="report_category_violation">Regelbrudd</string>
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Annet</string>
-    <string name="action_unfollow_hashtag_format">Slutte å følge #%s\?</string>
-    <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%s</string>
+    <string name="action_unfollow_hashtag_format">Slutte å følge #%1$s\?</string>
+    <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%1$s</string>
     <string name="a11y_label_loading_thread">Laster tråd</string>
     <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger.
 \n
@@ -595,11 +594,11 @@
     <string name="hint_media_description_missing">Media bør ha en beskrivelse.</string>
     <string name="action_refresh">Oppdater</string>
     <string name="post_media_image">Bilde</string>
-    <string name="ui_error_bookmark">Å bokmerke innlegget misslyktes: %s</string>
+    <string name="ui_error_bookmark">Å bokmerke innlegget misslyktes: %1$s</string>
     <string name="hint_filter_title">Mitt filter</string>
     <string name="filter_edit_keyword_title">Endre nøkkelord</string>
-    <string name="filter_description_format">%s: %s</string>
-    <string name="pref_title_http_proxy_port_message">Portnummer burde være mellom %d og %d</string>
+    <string name="filter_description_format">%1$s: %2$s</string>
+    <string name="pref_title_http_proxy_port_message">Portnummer burde være mellom %1$d og %2$d</string>
     <string name="action_post_failed">Opplastningen mislykkets</string>
     <string name="action_post_failed_detail_plural">Opplastningen av innleggene dine mislykktes og de har blitt lagret som utkast.
 \n
@@ -609,11 +608,11 @@
     <string name="post_media_alt">ALT</string>
     <string name="notification_unknown_name">Ukjent</string>
     <string name="socket_timeout_exception">Det tok for lang tid å kontaktere tjeneren din</string>
-    <string name="ui_error_clear_notifications">Sletting av vasler feilet: %s</string>
-    <string name="ui_error_reject_follow_request">Avvisning av følgeforespørselen misslyktes: %s</string>
-    <string name="ui_error_accept_follow_request">Godtagelse av følgeforespørsel mislykktes: %s</string>
-    <string name="error_muting_hashtag_format">Kunne ikke dempe #%s</string>
-    <string name="error_unmuting_hashtag_format">Kunne ikke skru av dempingen av #%s</string>
+    <string name="ui_error_clear_notifications">Sletting av vasler feilet: %1$s</string>
+    <string name="ui_error_reject_follow_request">Avvisning av følgeforespørselen misslyktes: %1$s</string>
+    <string name="ui_error_accept_follow_request">Godtagelse av følgeforespørsel mislykktes: %1$s</string>
+    <string name="error_muting_hashtag_format">Kunne ikke dempe #%1$s</string>
+    <string name="error_unmuting_hashtag_format">Kunne ikke skru av dempingen av #%1$s</string>
     <string name="action_browser_login">Logg inn med nettleseren</string>
     <string name="description_browser_login">Kan støtte flere autentiseringsmetoder, men trenger en støttet nettleser.</string>
     <string name="description_login">Virker som oftest. Ingen informasjon deles med andre apper.</string>
@@ -625,10 +624,10 @@
     <string name="action_continue_edit">Fortsett endring</string>
     <string name="compose_unsaved_changes">Du har ulagrede endringer.</string>
     <string name="select_list_manage">Forvalte lister</string>
-    <string name="ui_error_reblog">Deling av innlegget feilet: %s</string>
+    <string name="ui_error_reblog">Deling av innlegget feilet: %1$s</string>
     <string name="ui_error_unknown">ukjent grunn</string>
-    <string name="ui_error_favourite">Favorisering av innlegg feilet: %s</string>
-    <string name="ui_error_vote">Stemming mislykkes: %s</string>
+    <string name="ui_error_favourite">Favorisering av innlegg feilet: %1$s</string>
+    <string name="ui_error_vote">Stemming mislykkes: %1$s</string>
     <string name="filter_description_hide">Gjem helt</string>
     <string name="label_filter_action">Filterhandling</string>
     <string name="filter_action_hide">Gjem</string>
@@ -640,10 +639,10 @@
     <string name="account_username_copied">Brukernavn kopiert</string>
     <string name="error_status_source_load">Kunne ikke laste status fra tjeneren.</string>
     <string name="status_filtered_show_anyway">Vis allikevel</string>
-    <string name="status_filter_placeholder_label_format">Filtrert: %s</string>
+    <string name="status_filter_placeholder_label_format">Filtrert: %1$s</string>
     <string name="pref_title_account_filter_keywords">Profiler</string>
     <string name="action_add">Legg til</string>
-    <string name="filter_keyword_display_format">%s (helt ord)</string>
+    <string name="filter_keyword_display_format">%1$s (helt ord)</string>
     <string name="label_filter_context">Filtrer sammenhenger</string>
     <string name="label_filter_keywords">Nøkkelord eller fraser som filtreres</string>
     <string name="ui_success_rejected_follow_request">Følgeforespørsel blokkert</string>

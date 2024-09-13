@@ -15,22 +15,21 @@
 
 package com.keylesspalace.tusky.components.timeline
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.view.accessibility.AccessibilityManager
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.MenuProvider
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,8 +51,6 @@ import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewM
 import com.keylesspalace.tusky.components.timeline.viewmodel.NetworkTimelineViewModel
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
@@ -77,30 +74,32 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TimelineFragment :
-    SFragment(),
+    SFragment(R.layout.fragment_timeline),
     OnRefreshListener,
     StatusActionListener,
-    Injectable,
     ReselectableFragment,
     RefreshableFragment,
     MenuProvider {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var eventHub: EventHub
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val viewModel: TimelineViewModel by unsafeLazy {
+        val viewModelProvider = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory, defaultViewModelCreationExtras)
         if (kind == TimelineViewModel.Kind.HOME) {
-            ViewModelProvider(this, viewModelFactory)[CachedTimelineViewModel::class.java]
+            viewModelProvider[CachedTimelineViewModel::class.java]
         } else {
-            ViewModelProvider(this, viewModelFactory)[NetworkTimelineViewModel::class.java]
+            viewModelProvider[NetworkTimelineViewModel::class.java]
         }
     }
 
@@ -108,10 +107,9 @@ class TimelineFragment :
 
     private lateinit var kind: TimelineViewModel.Kind
 
-    private lateinit var adapter: TimelinePagingAdapter
+    private var adapter: TimelinePagingAdapter? = null
 
     private var isSwipeToRefreshEnabled = true
-    private var hideFab = false
 
     /**
      * Adapter position of the placeholder that was most recently clicked to "Load more". If null
@@ -173,9 +171,10 @@ class TimelineFragment :
 
         isSwipeToRefreshEnabled = arguments.getBoolean(ARG_ENABLE_SWIPE_TO_REFRESH, true)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
+    }
 
+    private fun createAdapter(): TimelinePagingAdapter {
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
@@ -199,25 +198,20 @@ class TimelineFragment :
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
-        adapter = TimelinePagingAdapter(
+        return TimelinePagingAdapter(
             statusDisplayOptions,
             this
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_timeline, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        val adapter = createAdapter()
+        this.adapter = adapter
+
         setupSwipeRefreshLayout()
-        setupRecyclerView()
+        setupRecyclerView(adapter)
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -258,7 +252,8 @@ class TimelineFragment :
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                val firstPos = (binding.recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                if (firstPos == 0 && positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
                             if (isSwipeToRefreshEnabled) {
@@ -271,9 +266,11 @@ class TimelineFragment :
                             }
                         }
                     }
+                    // we loaded new posts at the top - no need to handle "load more" anymore
+                    loadMorePosition = null
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
-                    updateReadingPositionForOldestFirst()
+                    updateReadingPositionForOldestFirst(adapter)
                 }
             }
         })
@@ -284,49 +281,34 @@ class TimelineFragment :
             }
         }
 
-        if (actionButtonPresent()) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            hideFab = preferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-                    val composeButton = (activity as ActionButtonActivity).actionButton
-                    if (composeButton != null) {
-                        if (hideFab) {
-                            if (dy > 0 && composeButton.isShown) {
-                                composeButton.hide() // hides the button if we're scrolling down
-                            } else if (dy < 0 && !composeButton.isShown) {
-                                composeButton.show() // shows it if we are scrolling up
-                            }
-                        } else if (!composeButton.isShown) {
-                            composeButton.show()
-                        }
-                    }
-                }
-            })
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->
                 when (event) {
                     is PreferenceChangedEvent -> {
-                        onPreferenceChanged(event.preferenceKey)
+                        onPreferenceChanged(adapter, event.preferenceKey)
                     }
 
                     is StatusComposedEvent -> {
                         val status = event.status
-                        handleStatusComposeEvent(status)
+                        handleStatusComposeEvent(adapter, status)
                     }
                 }
             }
         }
 
-        updateRelativeTimePeriodically {
+        updateRelativeTimePeriodically(preferences) {
             adapter.notifyItemRangeChanged(
                 0,
                 adapter.itemCount,
                 listOf(StatusBaseViewHolder.Key.KEY_CREATED)
             )
         }
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -367,7 +349,7 @@ class TimelineFragment :
     // match the adapter position where data was inserted (which is why loadMorePosition
     // is tracked manually, see this bug report for another example:
     // https://github.com/android/architecture-components-samples/issues/726).
-    private fun updateReadingPositionForOldestFirst() {
+    private fun updateReadingPositionForOldestFirst(adapter: TimelinePagingAdapter) {
         var position = loadMorePosition ?: return
         val statusIdBelowLoadMore = statusIdBelowLoadMore ?: return
 
@@ -393,10 +375,9 @@ class TimelineFragment :
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayout.isEnabled = isSwipeToRefreshEnabled
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(adapter: TimelinePagingAdapter) {
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
                 if (pos in 0 until adapter.itemCount) {
@@ -411,6 +392,14 @@ class TimelineFragment :
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
+        val recyclerViewBottomPadding = if ((activity as? ActionButtonActivity?)?.actionButton != null) {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
+        } else {
+            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
+        }
+
+        binding.recyclerView.updatePadding(bottom = recyclerViewBottomPadding)
+
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         binding.recyclerView.adapter = adapter
@@ -419,7 +408,7 @@ class TimelineFragment :
     override fun onRefresh() {
         binding.statusView.hide()
 
-        adapter.refresh()
+        adapter?.refresh()
     }
 
     override val onMoreTranslate =
@@ -434,18 +423,18 @@ class TimelineFragment :
         }
 
     override fun onReply(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.reply(status.status)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.reblog(reblog, status)
     }
 
     private fun onTranslate(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
-        lifecycleScope.launch {
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
                     Snackbar.make(
@@ -458,32 +447,32 @@ class TimelineFragment :
     }
 
     override fun onUntranslate(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.untranslate(status)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.favorite(favourite, status)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.bookmark(bookmark, status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.voteInPoll(choices, status)
     }
 
     override fun clearWarningAction(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.clearWarning(status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.more(
             status.status,
             view,
@@ -493,34 +482,35 @@ class TimelineFragment :
     }
 
     override fun onOpenReblog(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.openReblog(status.status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onShowReblogs(position: Int) {
-        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
+        val statusId = adapter?.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.REBLOGGED, statusId)
         activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onShowFavs(position: Int) {
-        val statusId = adapter.peek(position)?.asStatusOrNull()?.id ?: return
+        val statusId = adapter?.peek(position)?.asStatusOrNull()?.id ?: return
         val intent = newIntent(requireContext(), AccountListActivity.Type.FAVOURITED, statusId)
         activity?.startActivityWithSlideInAnimation(intent)
     }
 
     override fun onLoadMore(position: Int) {
-        val placeholder = adapter.peek(position)?.asPlaceholderOrNull() ?: return
+        val adapter = this.adapter
+        val placeholder = adapter?.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
         statusIdBelowLoadMore =
             if (position + 1 < adapter.itemCount) adapter.peek(position + 1)?.id else null
@@ -528,21 +518,21 @@ class TimelineFragment :
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(
             attachmentIndex,
-            AttachmentViewData.list(status.actionable),
+            AttachmentViewData.list(status),
             view
         )
     }
 
     override fun onViewThread(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         super.viewThread(status.actionable.id, status.actionable.url)
     }
 
@@ -570,13 +560,8 @@ class TimelineFragment :
         super.viewAccount(id)
     }
 
-    private fun onPreferenceChanged(key: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+    private fun onPreferenceChanged(adapter: TimelinePagingAdapter, key: String) {
         when (key) {
-            PrefKeys.FAB_HIDE -> {
-                hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-            }
-
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled
                 val oldMediaPreviewEnabled = adapter.mediaPreviewEnabled
@@ -588,13 +573,13 @@ class TimelineFragment :
 
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(
-                    sharedPreferences.getString(PrefKeys.READING_ORDER, null)
+                    preferences.getString(PrefKeys.READING_ORDER, null)
                 )
             }
         }
     }
 
-    private fun handleStatusComposeEvent(status: Status) {
+    private fun handleStatusComposeEvent(adapter: TimelinePagingAdapter, status: Status) {
         when (kind) {
             TimelineViewModel.Kind.HOME,
             TimelineViewModel.Kind.PUBLIC_FEDERATED,
@@ -615,7 +600,7 @@ class TimelineFragment :
     }
 
     public override fun removeItem(position: Int) {
-        val status = adapter.peek(position)?.asStatusOrNull() ?: return
+        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.removeStatusWithId(status.id)
     }
 
@@ -633,7 +618,7 @@ class TimelineFragment :
         (binding.recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
             ?.let { position ->
                 if (position != RecyclerView.NO_POSITION) {
-                    adapter.snapshot().getOrNull(position)?.id?.let { statusId ->
+                    adapter?.snapshot()?.getOrNull(position)?.id?.let { statusId ->
                         viewModel.saveReadingPosition(statusId)
                     }
                 }
@@ -642,19 +627,19 @@ class TimelineFragment :
 
     override fun onResume() {
         super.onResume()
-        val a11yManager =
-            ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
+        val a11yManager = requireContext().getSystemService<AccessibilityManager>()
 
         val wasEnabled = talkBackWasEnabled
         talkBackWasEnabled = a11yManager?.isEnabled == true
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
+            val adapter = requireNotNull(this.adapter)
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
         }
     }
 
     override fun onReselect() {
-        if (isAdded) {
+        if (view != null) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }

@@ -43,12 +43,13 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import at.connyduck.sparkbutton.helpers.Utils
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status.Mention
 import com.keylesspalace.tusky.interfaces.LinkListener
-import java.lang.ref.WeakReference
+import com.keylesspalace.tusky.settings.PrefKeys
 import java.net.URI
 import java.net.URISyntaxException
 
@@ -85,7 +86,7 @@ fun setClickableText(
             setClickableText(span, this, mentions, tags, listener)
         }
     }
-    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
 @VisibleForTesting
@@ -128,10 +129,10 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
 
         val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
         // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
-        val linkDrawableSpan = EmojiSpan(WeakReference(view))
+        val linkDrawableSpan = EmojiSpan(view)
         linkDrawableSpan.imageDrawable = linkDrawable
 
-        val placeholderIndex = replacementText.indexOf("🔗")
+        val placeholderIndex = originalText.length + 2
 
         spannableContent.setSpan(
             linkDrawableSpan,
@@ -171,7 +172,7 @@ fun setClickableText(
 
 @VisibleForTesting
 fun getTagName(text: CharSequence, tags: List<HashTag>?): String? {
-    val scrapedName = normalizeToASCII(text.subSequence(1, text.length)).toString()
+    val scrapedName = normalizeToASCII(text.subSequence(1, text.length))
     return when (tags) {
         null -> scrapedName
         else -> tags.firstOrNull { it.name.equals(scrapedName, true) }?.name
@@ -276,7 +277,7 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
             start = end
         }
     }
-    view.movementMethod = NoTrailingSpaceLinkMovementMethod.getInstance()
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
 fun createClickableText(text: String, link: String): CharSequence {
@@ -295,7 +296,7 @@ fun Context.openLink(url: String) {
     val uri = url.toUri().normalizeScheme()
     val useCustomTabs = PreferenceManager.getDefaultSharedPreferences(
         this
-    ).getBoolean("customTabs", false)
+    ).getBoolean(PrefKeys.CUSTOM_TABS, false)
 
     if (useCustomTabs) {
         openLinkInCustomTab(uri, this)
@@ -329,7 +330,7 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
 fun openLinkInCustomTab(uri: Uri, context: Context) {
     val toolbarColor = MaterialColors.getColor(
         context,
-        com.google.android.material.R.attr.colorSurface,
+        materialR.attr.colorSurface,
         Color.BLACK
     )
     val navigationbarColor = MaterialColors.getColor(
@@ -442,6 +443,4 @@ object NoTrailingSpaceLinkMovementMethod : LinkMovementMethod() {
 
         return super.onTouchEvent(widget, buffer, event)
     }
-
-    fun getInstance() = NoTrailingSpaceLinkMovementMethod
 }

@@ -80,7 +80,11 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
             setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), status.getSpoilerText(), listener);
 
-            setDisplayName(account.getDisplayName(), account.getEmojis(), statusDisplayOptions);
+            String displayName = account.getDisplayName();
+            if (displayName == null) {
+                displayName = "";
+            }
+            setDisplayName(displayName, account.getEmojis(), statusDisplayOptions);
             setUsername(account.getUsername());
             setMetaData(statusViewData, statusDisplayOptions, listener);
             setIsReply(status.getInReplyToId() != null);
@@ -92,7 +96,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                 setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
                         statusDisplayOptions.useBlurhash());
 
-                if (attachments.size() == 0) {
+                if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.

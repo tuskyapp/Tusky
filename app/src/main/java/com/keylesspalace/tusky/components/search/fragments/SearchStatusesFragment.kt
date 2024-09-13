@@ -17,39 +17,37 @@ package com.keylesspalace.tusky.components.search.fragments
 
 import android.Manifest
 import android.app.DownloadManager
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.components.report.ReportActivity
 import com.keylesspalace.tusky.components.search.adapter.SearchStatusesAdapter
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.Status.Mention
@@ -59,30 +57,58 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     override val data: Flow<PagingData<StatusViewData.Concrete>>
         get() = viewModel.statusesFlow
 
-    private val searchAdapter
-        get() = super.adapter as SearchStatusesAdapter
+    private var pendingMediaDownloads: List<String>? = null
+
+    private val downloadAllMediaPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pendingMediaDownloads?.let { downloadAllMedia(it) }
+            } else {
+                Toast.makeText(
+                    context,
+                    R.string.error_media_download_permission,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            pendingMediaDownloads = null
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pendingMediaDownloads = savedInstanceState?.getStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        pendingMediaDownloads?.let {
+            outState.putStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY, ArrayList(it))
+        }
+    }
 
     override fun createAdapter(): PagingDataAdapter<StatusViewData.Concrete, *> {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(
-            binding.searchRecyclerView.context
-        )
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             mediaPreviewEnabled = viewModel.mediaPreviewEnabled,
@@ -98,6 +124,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
+        val adapter = SearchStatusesAdapter(statusDisplayOptions, this)
 
         binding.searchRecyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.searchRecyclerView, this) { pos ->
@@ -117,51 +144,51 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         )
         binding.searchRecyclerView.layoutManager =
             LinearLayoutManager(binding.searchRecyclerView.context)
-        return SearchStatusesAdapter(statusDisplayOptions, this)
+        return adapter
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
         }
     }
 
     override fun onReply(position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             reply(status)
         }
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.favorite(status, favourite)
         }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.bookmark(status, bookmark)
         }
     }
 
     override fun onMore(view: View, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             more(it, view, position)
         }
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        searchAdapter.peek(position)?.status?.actionableStatus?.let { actionable ->
-            when (actionable.attachments[attachmentIndex].type) {
+        adapter?.peek(position)?.let { status ->
+            when (status.attachments[attachmentIndex].type) {
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable)
+                    val attachments = AttachmentViewData.list(status)
                     val intent = ViewMediaActivity.newIntent(
                         context,
                         attachments,
                         attachmentIndex
                     )
                     if (view != null) {
-                        val url = actionable.attachments[attachmentIndex].url
+                        val url = status.attachments[attachmentIndex].url
                         ViewCompat.setTransitionName(view, url)
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                             requireActivity(),
@@ -175,27 +202,27 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 Attachment.Type.UNKNOWN -> {
-                    context?.openLink(actionable.attachments[attachmentIndex].url)
+                    context?.openLink(status.attachments[attachmentIndex].url)
                 }
             }
         }
     }
 
     override fun onViewThread(position: Int) {
-        searchAdapter.peek(position)?.status?.let { status ->
+        adapter?.peek(position)?.status?.let { status ->
             val actionableStatus = status.actionableStatus
             bottomSheetActivity?.viewThread(actionableStatus.id, actionableStatus.url)
         }
     }
 
     override fun onOpenReblog(position: Int) {
-        searchAdapter.peek(position)?.status?.let { status ->
+        adapter?.peek(position)?.status?.let { status ->
             bottomSheetActivity?.viewAccount(status.account.id)
         }
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.expandedChange(it, expanded)
         }
     }
@@ -205,13 +232,13 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.collapsedChange(it, isCollapsed)
         }
     }
 
     override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
     }
@@ -219,25 +246,21 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     override fun clearWarningAction(position: Int) {}
 
     private fun removeItem(position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.removeItem(it)
         }
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        searchAdapter.peek(position)?.let { status ->
+        adapter?.peek(position)?.let { status ->
             viewModel.reblog(status, reblog)
         }
     }
 
     override fun onUntranslate(position: Int) {
-        searchAdapter.peek(position)?.let {
+        adapter?.peek(position)?.let {
             viewModel.untranslate(it)
         }
-    }
-
-    companion object {
-        fun newInstance() = SearchStatusesFragment()
     }
 
     private fun reply(status: StatusViewData.Concrete) {
@@ -373,10 +396,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_copy_link -> {
-                    val clipboard = requireActivity().getSystemService(
-                        Context.CLIPBOARD_SERVICE
-                    ) as ClipboardManager
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null, statusUrl))
+                    statusUrl?.let { requireActivity().copyToClipboard(it, getString(R.string.url_copied)) }
                     return@setOnMenuItemClickListener true
                 }
 
@@ -391,7 +411,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_mute_conversation -> {
-                    searchAdapter.peek(position)?.let { foundStatus ->
+                    adapter?.peek(position)?.let { foundStatus ->
                         viewModel.muteConversation(foundStatus, !status.muted)
                     }
                     return@setOnMenuItemClickListener true
@@ -433,7 +453,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 R.id.status_edit -> {
-                    editStatus(id, position, status)
+                    editStatus(id, status)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -446,7 +466,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                     if (statusViewData.translation != null) {
                         viewModel.untranslate(statusViewData)
                     } else {
-                        lifecycleScope.launch {
+                        viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.translate(statusViewData)
                                 .onFailure {
                                     Snackbar.make(
@@ -465,7 +485,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun onBlock(accountId: String, accountUsername: String) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.dialog_block_warning, accountUsername))
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.blockAccount(accountId) }
             .setNegativeButton(android.R.string.cancel, null)
@@ -499,37 +519,31 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         )
     }
 
-    private fun downloadAllMedia(status: Status) {
+    private fun downloadAllMedia(mediaUrls: List<String>) {
         Toast.makeText(context, R.string.downloading_media, Toast.LENGTH_SHORT).show()
-        for ((_, url) in status.attachments) {
-            val uri = Uri.parse(url)
-            val filename = uri.lastPathSegment
+        val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
-            val downloadManager = requireActivity().getSystemService(
-                Context.DOWNLOAD_SERVICE
-            ) as DownloadManager
+        for (url in mediaUrls) {
+            val uri = Uri.parse(url)
             val request = DownloadManager.Request(uri)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+            request.setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                uri.lastPathSegment
+            )
             downloadManager.enqueue(request)
         }
     }
 
     private fun requestDownloadAllMedia(status: Status) {
+        if (status.attachments.isEmpty()) {
+            return
+        }
+        val mediaUrls = status.attachments.map { it.url }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            (activity as BaseActivity).requestPermissions(permissions) { _, grantResults ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadAllMedia(status)
-                } else {
-                    Toast.makeText(
-                        context,
-                        R.string.error_media_download_permission,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            pendingMediaDownloads = mediaUrls
+            downloadAllMediaPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
-            downloadAllMedia(status)
+            downloadAllMedia(mediaUrls)
         }
     }
 
@@ -541,7 +555,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun showConfirmDeleteDialog(id: String, position: Int) {
         context?.let {
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewModel.deleteStatusAsync(id)
@@ -553,11 +567,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     }
 
     private fun showConfirmEditDialog(id: String, position: Int, status: Status) {
-        activity?.let {
-            AlertDialog.Builder(it)
+        context?.let { context ->
+            MaterialAlertDialogBuilder(context)
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.deleteStatusAsync(id).await().fold(
                             { deletedStatus ->
                                 removeItem(position)
@@ -569,7 +583,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                                 }
 
                                 val intent = ComposeActivity.startIntent(
-                                    requireContext(),
+                                    context,
                                     ComposeOptions(
                                         content = redraftStatus.text.orEmpty(),
                                         inReplyToId = redraftStatus.inReplyToId,
@@ -600,8 +614,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    private fun editStatus(id: String, position: Int, status: Status) {
-        lifecycleScope.launch {
+    private fun editStatus(id: String, status: Status) {
+        viewLifecycleOwner.lifecycleScope.launch {
             mastodonApi.statusSource(id).fold(
                 { source ->
                     val composeOptions = ComposeOptions(
@@ -627,5 +641,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
             )
         }
+    }
+
+    companion object {
+        private const val PENDING_MEDIA_DOWNLOADS_STATE_KEY = "pending_media_downloads"
+
+        fun newInstance() = SearchStatusesFragment()
     }
 }

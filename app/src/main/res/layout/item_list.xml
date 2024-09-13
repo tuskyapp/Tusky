@@ -28,34 +28,34 @@
 
     <ImageButton
         android:id="@+id/more_button"
-        android:visibility="gone"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_more"
-        android:layout_marginLeft="8dp"
-        android:src="@drawable/ic_more_horiz_24dp" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_more_horiz_24dp" />
 
     <ImageButton
         android:id="@+id/add_button"
-        android:visibility="gone"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_add_to_list"
-        android:layout_marginLeft="8dp"
-        android:src="@drawable/ic_plus_24dp" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_plus_24dp" />
 
     <ImageButton
         android:id="@+id/remove_button"
-        android:visibility="gone"
         style="@style/TuskyImageButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_remove_from_list"
-        android:layout_marginLeft="8dp"
-        android:src="@drawable/ic_clear_24dp" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_clear_24dp" />
 </LinearLayout>

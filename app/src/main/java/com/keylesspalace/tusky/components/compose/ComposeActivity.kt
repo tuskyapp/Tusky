@@ -16,15 +16,11 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
-import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.icu.text.BreakIterator
 import android.net.Uri
 import android.os.Build
@@ -46,16 +42,12 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.IntentCompat
 import androidx.core.content.res.use
-import androidx.core.os.BundleCompat
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.isGone
@@ -63,15 +55,16 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
+import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -87,10 +80,8 @@ import com.keylesspalace.tusky.components.compose.view.ComposeOptionsListener
 import com.keylesspalace.tusky.components.compose.view.ComposeScheduleView
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityComposeBinding
-import com.keylesspalace.tusky.db.AccountEntity
-import com.keylesspalace.tusky.db.DraftAttachment
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
+import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.NewPoll
@@ -100,27 +91,32 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.MentionSpan
 import com.keylesspalace.tusky.util.PickMediaFiles
+import com.keylesspalace.tusky.util.defaultFinders
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getMediaSize
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
+import com.keylesspalace.tusky.util.getParcelableCompat
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
-import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.migration.OptionalInject
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 import kotlinx.coroutines.flow.collect
@@ -129,18 +125,16 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 
+@OptionalInject
+@AndroidEntryPoint
 class ComposeActivity :
     BaseActivity(),
     ComposeOptionsListener,
     ComposeAutoCompleteAdapter.AutocompletionProvider,
     OnEmojiSelectedListener,
-    Injectable,
     OnReceiveContentListener,
     ComposeScheduleView.OnTimeSetListener,
     CaptionDialog.Listener {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var composeOptionsBehavior: BottomSheetBehavior<*>
     private lateinit var addMediaBehavior: BottomSheetBehavior<*>
@@ -152,25 +146,43 @@ class ComposeActivity :
 
     private var photoUploadUri: Uri? = null
 
-    private val preferences by unsafeLazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    @VisibleForTesting
+    var highlightFinders = defaultFinders
 
     @VisibleForTesting
     var maximumTootCharacters = InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT
     var charactersReservedPerUrl = InstanceInfoRepository.DEFAULT_CHARACTERS_RESERVED_PER_URL
 
-    private val viewModel: ComposeViewModel by viewModels { viewModelFactory }
+    private val viewModel: ComposeViewModel by viewModels()
 
     private val binding by viewBinding(ActivityComposeBinding::inflate)
 
     private var maxUploadMediaNumber = InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS
 
-    private val takePicture =
+    private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
                 pickMedia(photoUploadUri!!)
             }
         }
-    private val pickMediaFile = registerForActivityResult(PickMediaFiles()) { uris ->
+    private val pickMediaFilePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pickMediaFileLauncher.launch(true)
+            } else {
+                Snackbar.make(
+                    binding.activityCompose,
+                    R.string.error_media_upload_permission,
+                    Snackbar.LENGTH_SHORT
+                ).apply {
+                    setAction(R.string.action_retry) { onMediaPick() }
+                    // necessary so snackbar is shown over everything
+                    view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
+                    show()
+                }
+            }
+        }
+    private val pickMediaFileLauncher = registerForActivityResult(PickMediaFiles()) { uris ->
         if (viewModel.media.value.size + uris.size > maxUploadMediaNumber) {
             Toast.makeText(
                 this,
@@ -208,9 +220,9 @@ class ComposeActivity :
                 }
             }
         } else if (result == CropImage.CancelledResult) {
-            Log.w("ComposeActivity", "Edit image cancelled by user")
+            Log.w(TAG, "Edit image cancelled by user")
         } else {
-            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            Log.w(TAG, "Edit image failed: " + result.error)
             displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
@@ -273,17 +285,13 @@ class ComposeActivity :
 
         /* If the composer is started up as a reply to another post, override the "starting" state
          * based on what the intent from the reply request passes. */
-        val composeOptions: ComposeOptions? = IntentCompat.getParcelableExtra(
-            intent,
-            COMPOSE_OPTIONS_EXTRA,
-            ComposeOptions::class.java
-        )
+        val composeOptions: ComposeOptions? = intent.getParcelableExtraCompat(COMPOSE_OPTIONS_EXTRA)
         viewModel.setup(composeOptions)
 
         setupButtons()
         subscribeToUpdates(mediaAdapter)
 
-        if (accountManager.shouldDisplaySelfUsername(this)) {
+        if (accountManager.shouldDisplaySelfUsername()) {
             binding.composeUsernameView.text = getString(
                 R.string.compose_active_account_description,
                 activeAccount.fullName
@@ -311,11 +319,9 @@ class ComposeActivity :
 
         /* Finally, overwrite state with data from saved instance state. */
         savedInstanceState?.let {
-            photoUploadUri = BundleCompat.getParcelable(it, PHOTO_UPLOAD_URI_KEY, Uri::class.java)
+            photoUploadUri = it.getParcelableCompat(PHOTO_UPLOAD_URI_KEY)
 
-            (it.getSerializable(VISIBILITY_KEY) as Status.Visibility).apply {
-                setStatusVisibility(this)
-            }
+            setStatusVisibility(it.getSerializableCompat(VISIBILITY_KEY)!!)
 
             it.getBoolean(CONTENT_WARNING_VISIBLE_KEY).apply {
                 viewModel.contentWarningChanged(this)
@@ -340,22 +346,15 @@ class ComposeActivity :
                 if (type.startsWith("image/") || type.startsWith("video/") || type.startsWith("audio/")) {
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
-                            IntentCompat.getParcelableExtra(
-                                intent,
-                                Intent.EXTRA_STREAM,
-                                Uri::class.java
-                            )?.let { uri ->
+                            intent.getParcelableExtraCompat<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
                                 pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
-                            IntentCompat.getParcelableArrayListExtra(
-                                intent,
-                                Intent.EXTRA_STREAM,
-                                Uri::class.java
-                            )?.forEach { uri ->
-                                pickMedia(uri)
-                            }
+                            intent.getParcelableArrayListExtraCompat<Uri>(Intent.EXTRA_STREAM)
+                                ?.forEach { uri ->
+                                    pickMedia(uri)
+                                }
                         }
                     }
                 }
@@ -474,9 +473,9 @@ class ComposeActivity :
         binding.composeEditField.setSelection(binding.composeEditField.length())
 
         val mentionColour = binding.composeEditField.linkTextColors.defaultColor
-        highlightSpans(binding.composeEditField.text, mentionColour)
+        binding.composeEditField.text.highlightSpans(mentionColour, highlightFinders)
         binding.composeEditField.doAfterTextChanged { editable ->
-            highlightSpans(editable!!, mentionColour)
+            editable!!.highlightSpans(mentionColour, highlightFinders)
             updateVisibleCharactersLeft()
             viewModel.updateContent(editable.toString())
         }
@@ -823,24 +822,26 @@ class ComposeActivity :
             binding.descriptionMissingWarningButton.hide()
         } else {
             binding.composeHideMediaButton.show()
-            @ColorInt val color = if (contentWarningShown) {
+            @AttrRes val color = if (contentWarningShown) {
                 binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
                 binding.composeHideMediaButton.isClickable = false
-                getColor(R.color.transparent_tusky_blue)
+                materialR.attr.colorPrimary
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
-                    getColor(R.color.tusky_blue)
+                    materialR.attr.colorPrimary
                 } else {
                     binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
-                    MaterialColors.getColor(
-                        binding.composeHideMediaButton,
-                        android.R.attr.textColorTertiary
-                    )
+                    android.R.attr.textColorTertiary
                 }
             }
-            binding.composeHideMediaButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeHideMediaButton.drawable.setTint(
+                MaterialColors.getColor(
+                    binding.composeHideMediaButton,
+                    color
+                )
+            )
 
             var oneMediaWithoutDescription = false
             for (media in viewModel.media.value) {
@@ -858,15 +859,16 @@ class ComposeActivity :
             // Can't reschedule a published status
             enableButton(binding.composeScheduleButton, clickable = false, colorActive = false)
         } else {
-            @ColorInt val color = if (binding.composeScheduleView.time == null) {
+            @ColorInt val color =
                 MaterialColors.getColor(
                     binding.composeScheduleButton,
-                    android.R.attr.textColorTertiary
+                    if (binding.composeScheduleView.time == null) {
+                        android.R.attr.textColorTertiary
+                    } else {
+                        materialR.attr.colorPrimary
+                    }
                 )
-            } else {
-                getColor(R.color.tusky_blue)
-            }
-            binding.composeScheduleButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+            binding.composeScheduleButton.drawable.setTint(color)
         }
     }
 
@@ -937,7 +939,7 @@ class ComposeActivity :
                 val errorMessage =
                     getString(
                         R.string.error_no_custom_emojis,
-                        accountManager.activeAccount!!.domain
+                        activeAccount
                     )
                 displayTransientMessage(errorMessage)
             } else {
@@ -971,14 +973,10 @@ class ComposeActivity :
                     // Wait until bottom sheet is not collapsed and show next screen after
                     if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                         addMediaBehavior.removeBottomSheetCallback(this)
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && ContextCompat.checkSelfPermission(this@ComposeActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(
-                                this@ComposeActivity,
-                                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
-                            )
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                            pickMediaFilePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                         } else {
-                            pickMediaFile.launch(true)
+                            pickMediaFileLauncher.launch(true)
                         }
                     }
                 }
@@ -1061,7 +1059,7 @@ class ComposeActivity :
         binding.composeCharactersLeftView.text = String.format(Locale.getDefault(), "%d", remainingLength)
 
         val textColor = if (remainingLength < 0) {
-            getColor(R.color.tusky_red)
+            getColor(R.color.warning_color)
         } else {
             MaterialColors.getColor(
                 binding.composeCharactersLeftView,
@@ -1130,31 +1128,6 @@ class ComposeActivity :
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                pickMediaFile.launch(true)
-            } else {
-                Snackbar.make(
-                    binding.activityCompose,
-                    R.string.error_media_upload_permission,
-                    Snackbar.LENGTH_SHORT
-                ).apply {
-                    setAction(R.string.action_retry) { onMediaPick() }
-                    // necessary so snackbar is shown over everything
-                    view.elevation = resources.getDimension(R.dimen.compose_activity_snackbar_elevation)
-                    show()
-                }
-            }
-        }
-    }
-
     private fun initiateCameraApp() {
         addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
@@ -1170,8 +1143,7 @@ class ComposeActivity :
             this,
             BuildConfig.APPLICATION_ID + ".fileprovider",
             photoFile
-        )
-        takePicture.launch(photoUploadUri)
+        ).also { uri -> takePictureLauncher.launch(uri) }
     }
 
     private fun enableButton(button: ImageButton, clickable: Boolean, colorActive: Boolean) {
@@ -1198,7 +1170,7 @@ class ComposeActivity :
             }
         )
         binding.addPollTextActionTextView.setTextColor(textColor)
-        binding.addPollTextActionTextView.compoundDrawablesRelative[0].colorFilter = PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+        binding.addPollTextActionTextView.compoundDrawablesRelative[0].setTint(textColor)
     }
 
     private fun editImageInQueue(item: QueuedMedia) {
@@ -1274,22 +1246,24 @@ class ComposeActivity :
         TransitionManager.beginDelayedTransition(
             binding.composeContentWarningBar.parent as ViewGroup
         )
-        @ColorInt val color = if (show) {
+        @AttrRes val color = if (show) {
             binding.composeContentWarningBar.show()
             binding.composeContentWarningField.setSelection(
                 binding.composeContentWarningField.text.length
             )
             binding.composeContentWarningField.requestFocus()
-            getColor(R.color.tusky_blue)
+            materialR.attr.colorPrimary
         } else {
             binding.composeContentWarningBar.hide()
             binding.composeEditField.requestFocus()
-            MaterialColors.getColor(
-                binding.composeContentWarningButton,
-                android.R.attr.textColorTertiary
-            )
+            android.R.attr.textColorTertiary
         }
-        binding.composeContentWarningButton.drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+        binding.composeContentWarningButton.drawable.setTint(
+            MaterialColors.getColor(
+                binding.composeHideMediaButton,
+                color
+            )
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -1344,14 +1318,14 @@ class ComposeActivity :
     private fun getSaveAsDraftOrDiscardDialog(
         contentText: String,
         contentWarning: String
-    ): AlertDialog.Builder {
+    ): MaterialAlertDialogBuilder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
             R.string.compose_save_draft
         }
 
-        return AlertDialog.Builder(this)
+        return MaterialAlertDialogBuilder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 viewModel.stopUploads()
@@ -1370,14 +1344,14 @@ class ComposeActivity :
     private fun getUpdateDraftOrDiscardDialog(
         contentText: String,
         contentWarning: String
-    ): AlertDialog.Builder {
+    ): MaterialAlertDialogBuilder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
             R.string.compose_save_draft
         }
 
-        return AlertDialog.Builder(this)
+        return MaterialAlertDialogBuilder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 viewModel.stopUploads()
@@ -1393,8 +1367,8 @@ class ComposeActivity :
      * User is editing a post (scheduled, or posted), and can either go back to editing, or
      * discard the changes.
      */
-    private fun getContinueEditingOrDiscardDialog(): AlertDialog.Builder {
-        return AlertDialog.Builder(this)
+    private fun getContinueEditingOrDiscardDialog(): MaterialAlertDialogBuilder {
+        return MaterialAlertDialogBuilder(this)
             .setMessage(R.string.compose_unsaved_changes)
             .setPositiveButton(R.string.action_continue_edit) { _, _ ->
                 // Do nothing, dialog will dismiss, user can continue editing
@@ -1409,8 +1383,8 @@ class ComposeActivity :
      * User is editing an existing draft and making it empty.
      * The user can either delete the empty draft or go back to editing.
      */
-    private fun getDeleteEmptyDraftOrContinueEditing(): AlertDialog.Builder {
-        return AlertDialog.Builder(this)
+    private fun getDeleteEmptyDraftOrContinueEditing(): MaterialAlertDialogBuilder {
+        return MaterialAlertDialogBuilder(this)
             .setMessage(R.string.compose_delete_draft)
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteDraft()
@@ -1429,19 +1403,7 @@ class ComposeActivity :
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
         lifecycleScope.launch {
-            val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
-                ProgressDialog.show(
-                    this@ComposeActivity,
-                    null,
-                    getString(R.string.saving_draft),
-                    true,
-                    false
-                )
-            } else {
-                null
-            }
             viewModel.saveDraft(contentText, contentWarning)
-            dialog?.cancel()
             finish()
         }
     }
@@ -1550,7 +1512,6 @@ class ComposeActivity :
 
     companion object {
         private const val TAG = "ComposeActivity" // logging tag
-        private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
         internal const val COMPOSE_OPTIONS_EXTRA = "COMPOSE_OPTIONS"
         private const val PHOTO_UPLOAD_URI_KEY = "PHOTO_UPLOAD_URI"

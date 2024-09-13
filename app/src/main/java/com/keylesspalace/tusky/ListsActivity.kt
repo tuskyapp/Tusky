@@ -23,22 +23,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.databinding.ActivityListsBinding
 import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
@@ -53,22 +52,15 @@ import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.ERROR_OTHER
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.INITIAL
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADED
 import com.keylesspalace.tusky.viewmodel.ListsViewModel.LoadingState.LOADING
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 // TODO use the ListSelectionFragment (and/or its adapter or binding) here; but keep the LoadingState from here (?)
 
-class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
+@AndroidEntryPoint
+class ListsActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    private val viewModel: ListsViewModel by viewModels { viewModelFactory }
+    private val viewModel: ListsViewModel by viewModels()
 
     private val binding by viewBinding(ActivityListsBinding::inflate)
 
@@ -93,7 +85,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
         )
 
         binding.swipeRefreshLayout.setOnRefreshListener { viewModel.retryLoading() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
 
         lifecycleScope.launch {
             viewModel.state.collect(this@ListsActivity::update)
@@ -117,10 +108,17 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private fun showlistNameDialog(list: MastoList?) {
+        var selectedReplyPolicyIndex = 0
+
+        val replyPolicies = resources.getStringArray(R.array.list_reply_policies_display)
         val binding = DialogListBinding.inflate(layoutInflater).apply {
-            replyPolicySpinner.setSelection(MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal)
+            replyPolicyDropDown.setText(replyPolicies[MastoList.ReplyPolicy.from(list?.repliesPolicy).ordinal])
+            replyPolicyDropDown.setSimpleItems(replyPolicies)
+            replyPolicyDropDown.setOnItemClickListener { _, _, position, _ ->
+                selectedReplyPolicyIndex = position
+            }
         }
-        val dialog = AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setView(binding.root)
             .setPositiveButton(
                 if (list == null) {
@@ -133,17 +131,20 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
                     binding.nameText.text.toString(),
                     list?.id,
                     binding.exclusiveCheckbox.isChecked,
-                    MastoList.ReplyPolicy.entries[binding.replyPolicySpinner.selectedItemPosition].policy
+                    MastoList.ReplyPolicy.entries[selectedReplyPolicyIndex].policy
                 )
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         binding.nameText.let { editText ->
             editText.doOnTextChanged { s, _, _, _ ->
                 dialog.getButton(Dialog.BUTTON_POSITIVE).isEnabled = s?.isNotBlank() == true
             }
             editText.setText(list?.title)
+            editText.requestFocus()
             editText.text?.let { editText.setSelection(it.length) }
         }
 
@@ -157,7 +158,7 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
     }
 
     private fun showListDeleteDialog(list: MastoList) {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setMessage(getString(R.string.dialog_delete_list_warning, list.title))
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteList(list.id)
@@ -286,8 +287,6 @@ class ListsActivity : BaseActivity(), Injectable, HasAndroidInjector {
             viewModel.updateList(listId, name, exclusive, replyPolicy)
         }
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
         fun newIntent(context: Context) = Intent(context, ListsActivity::class.java)

@@ -24,48 +24,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.ListsActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentListsListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ListSelectionFragment : DialogFragment(), Injectable {
+@AndroidEntryPoint
+class ListSelectionFragment : DialogFragment() {
 
     interface ListSelectionListener {
         fun onListSelected(list: MastoList)
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: ListsForAccountViewModel by viewModels { viewModelFactory }
-
-    private var _binding: FragmentListsListBinding? = null
-
-    // This property is only valid between onCreateDialog and onDestroyView
-    private val binding get() = _binding!!
-
-    private val adapter = Adapter()
+    private val viewModel: ListsForAccountViewModel by viewModels()
 
     private var selectListener: ListSelectionListener? = null
     private var accountId: String? = null
@@ -84,10 +73,11 @@ class ListSelectionFragment : DialogFragment(), Injectable {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val context = requireContext()
 
-        _binding = FragmentListsListBinding.inflate(layoutInflater)
+        val binding = FragmentListsListBinding.inflate(layoutInflater)
+        val adapter = Adapter()
         binding.listsView.adapter = adapter
 
-        val dialogBuilder = AlertDialog.Builder(context)
+        val dialogBuilder = MaterialAlertDialogBuilder(context)
             .setView(binding.root)
             .setTitle(R.string.select_list_title)
             .setNeutralButton(R.string.select_list_manage) { _, _ ->
@@ -124,7 +114,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
                 binding.listsView.hide()
                 binding.messageView.apply {
                     show()
-                    setup(error) { load() }
+                    setup(error) { load(binding) }
                 }
             }
         }
@@ -159,7 +149,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
         }
 
         lifecycleScope.launch {
-            load()
+            load(binding)
         }
 
         return dialog
@@ -177,12 +167,7 @@ class ListSelectionFragment : DialogFragment(), Injectable {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun load() {
+    private fun load(binding: FragmentListsListBinding) {
         binding.progressBar.show()
         binding.listsView.hide()
         binding.messageView.hide()

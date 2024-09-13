@@ -47,7 +47,7 @@ data class Status(
     @Json(name = "media_attachments") val attachments: List<Attachment>,
     val mentions: List<Mention>,
     // Use null to mark the absence of tags because of semantic differences in LinkHelper
-    val tags: List<HashTag>? = null,
+    val tags: List<HashTag> = emptyList(),
     val application: Application? = null,
     val pinned: Boolean = false,
     val muted: Boolean = false,
@@ -56,8 +56,9 @@ data class Status(
     val card: Card? = null,
     /** ISO 639 language code for this status. */
     val language: String? = null,
-    /** If the current token has an authorized user: The filter and keywords that matched this status. */
-    val filtered: List<FilterResult> = emptyList()
+    /** If the current token has an authorized user: The filter and keywords that matched this status.
+     *  Iceshrimp and maybe other implementations explicitly send filtered=null so we can't default to empty list. */
+    val filtered: List<FilterResult>? = null
 ) {
 
     val actionableId: String
@@ -66,15 +67,8 @@ data class Status(
     val actionableStatus: Status
         get() = reblog ?: this
 
-    /** Helpers for Java */
-    fun copyWithFavourited(favourited: Boolean): Status = copy(favourited = favourited)
-    fun copyWithReblogged(reblogged: Boolean): Status = copy(reblogged = reblogged)
-    fun copyWithBookmarked(bookmarked: Boolean): Status = copy(bookmarked = bookmarked)
-    fun copyWithPoll(poll: Poll?): Status = copy(poll = poll)
-    fun copyWithPinned(pinned: Boolean): Status = copy(pinned = pinned)
-
     @JsonClass(generateAdapter = false)
-    enum class Visibility(val num: Int) {
+    enum class Visibility(val int: Int) {
         UNKNOWN(0),
 
         @Json(name = "public")
@@ -89,7 +83,7 @@ data class Status(
         @Json(name = "direct")
         DIRECT(4);
 
-        val serverString: String
+        val stringValue: String
             get() = when (this) {
                 PUBLIC -> "public"
                 UNLISTED -> "unlisted"
@@ -99,10 +93,8 @@ data class Status(
             }
 
         companion object {
-
-            @JvmStatic
-            fun byNum(num: Int): Visibility {
-                return when (num) {
+            fun fromInt(int: Int): Visibility {
+                return when (int) {
                     4 -> DIRECT
                     3 -> PRIVATE
                     2 -> UNLISTED
@@ -112,8 +104,7 @@ data class Status(
                 }
             }
 
-            @JvmStatic
-            fun byString(s: String): Visibility {
+            fun fromStringValue(s: String): Visibility {
                 return when (s) {
                     "public" -> PUBLIC
                     "unlisted" -> UNLISTED

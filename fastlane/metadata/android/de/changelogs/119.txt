@@ -1,0 +1,7 @@
+Tusky 25
+- Unterstützung für die Mastodon-Übersetzungs-API
+- Sichtbarkeit der Beitragssprache
+- Bildschirmübergänge verbessert
+- Filter-Einstellungen in die Konto-Einstellungen verschoben
+- Beitragsstatistiken haben eine feste Position
+- Eine Menge Stabilitäts- und Leistungsverbesserungen

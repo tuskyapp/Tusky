@@ -1,0 +1,8 @@
+Tusky 25
+
+- Mastodon çeviri API'sini destekleyin
+- Gönderi dilini göster
+- Geliştirilmiş ekran geçişleri
+- Süzgeç ayarları hesap tercihlerine taşındı
+- Gönderi istatistikleri artık sabit konuma sahip
+- Kaputun altında birçok kararlılık ve performans iyileştirmesi

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.components.report.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,7 +29,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -45,8 +45,6 @@ import com.keylesspalace.tusky.components.report.adapter.AdapterHandler
 import com.keylesspalace.tusky.components.report.adapter.StatusesAdapter
 import com.keylesspalace.tusky.databinding.FragmentReportStatusesBinding
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -55,56 +53,57 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
+import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ReportStatusesFragment :
     Fragment(R.layout.fragment_report_statuses),
-    Injectable,
     OnRefreshListener,
     MenuProvider,
     AdapterHandler {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var accountManager: AccountManager
 
-    private val viewModel: ReportViewModel by activityViewModels { viewModelFactory }
+    @Inject
+    lateinit var preferences: SharedPreferences
+
+    private val viewModel: ReportViewModel by activityViewModels()
 
     private val binding by viewBinding(FragmentReportStatusesBinding::bind)
 
-    private lateinit var adapter: StatusesAdapter
+    private var adapter: StatusesAdapter? = null
 
     private var snackbarErrorRetry: Snackbar? = null
 
-    override fun showMedia(v: View?, status: Status?, idx: Int) {
-        status?.actionableStatus?.let { actionable ->
-            when (actionable.attachments[idx].type) {
-                Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                    val attachments = AttachmentViewData.list(actionable)
-                    val intent = ViewMediaActivity.newIntent(context, attachments, idx)
-                    if (v != null) {
-                        val url = actionable.attachments[idx].url
-                        ViewCompat.setTransitionName(v, url)
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            requireActivity(),
-                            v,
-                            url
-                        )
-                        startActivity(intent, options.toBundle())
-                    } else {
-                        startActivity(intent)
-                    }
+    override fun showMedia(v: View?, status: StatusViewData.Concrete, idx: Int) {
+        when (status.attachments[idx].type) {
+            Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
+                val attachments = AttachmentViewData.list(status)
+                val intent = ViewMediaActivity.newIntent(context, attachments, idx)
+                if (v != null) {
+                    val url = status.attachments[idx].url
+                    ViewCompat.setTransitionName(v, url)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        requireActivity(),
+                        v,
+                        url
+                    )
+                    startActivity(intent, options.toBundle())
+                } else {
+                    startActivity(intent)
                 }
-                Attachment.Type.UNKNOWN -> {
-                }
+            }
+
+            Attachment.Type.UNKNOWN -> {
             }
         }
     }
@@ -113,7 +112,14 @@ class ReportStatusesFragment :
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         handleClicks()
         initStatusesView()
-        setupSwipeRefreshLayout()
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        snackbarErrorRetry = null
+        super.onDestroyView()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -133,23 +139,18 @@ class ReportStatusesFragment :
                 onRefresh()
                 true
             }
+
             else -> false
         }
     }
 
     override fun onRefresh() {
         snackbarErrorRetry?.dismiss()
-        adapter.refresh()
-    }
-
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        snackbarErrorRetry = null
+        adapter?.refresh()
     }
 
     private fun initStatusesView() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = false,
             mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
@@ -166,7 +167,8 @@ class ReportStatusesFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
+        val adapter = StatusesAdapter(statusDisplayOptions, viewModel.statusViewState, this)
+        this.adapter = adapter
 
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -175,7 +177,7 @@ class ReportStatusesFragment :
         binding.recyclerView.adapter = adapter
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.statusesFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
@@ -186,7 +188,7 @@ class ReportStatusesFragment :
                 loadState.append is LoadState.Error ||
                 loadState.prepend is LoadState.Error
             ) {
-                showError()
+                showError(adapter)
             }
 
             binding.progressBarBottom.visible(loadState.append == LoadState.Loading)
@@ -201,13 +203,15 @@ class ReportStatusesFragment :
         }
     }
 
-    private fun showError() {
+    private fun showError(adapter: StatusesAdapter) {
         if (snackbarErrorRetry?.isShown != true) {
-            snackbarErrorRetry = Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_posts, Snackbar.LENGTH_INDEFINITE)
-            snackbarErrorRetry?.setAction(R.string.action_retry) {
-                adapter.retry()
-            }
-            snackbarErrorRetry?.show()
+            snackbarErrorRetry =
+                Snackbar.make(binding.swipeRefreshLayout, R.string.failed_fetch_posts, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_retry) {
+                        adapter.retry()
+                    }.also {
+                        it.show()
+                    }
         }
     }
 

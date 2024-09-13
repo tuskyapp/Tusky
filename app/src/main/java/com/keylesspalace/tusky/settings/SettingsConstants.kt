@@ -56,21 +56,21 @@ object PrefKeys {
 
     const val SCHEMA_VERSION: String = "schema_version"
     const val APP_THEME = "appTheme"
-    const val FAB_HIDE = "fabHide"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"
     const val READING_ORDER = "readingOrder"
     const val MAIN_NAV_POSITION = "mainNavPosition"
     const val HIDE_TOP_TOOLBAR = "hideTopToolbar"
+    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val ABSOLUTE_TIME_VIEW = "absoluteTimeView"
     const val SHOW_BOT_OVERLAY = "showBotOverlay"
     const val ANIMATE_GIF_AVATARS = "animateGifAvatars"
     const val USE_BLURHASH = "useBlurhash"
     const val SHOW_SELF_USERNAME = "showSelfUsername"
     const val SHOW_CARDS_IN_TIMELINES = "showCardsInTimelines"
-    const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
     const val CONFIRM_REBLOGS = "confirmReblogs"
     const val CONFIRM_FAVOURITES = "confirmFavourites"
+    const val CONFIRM_FOLLOWS = "confirmFollows"
     const val ENABLE_SWIPE_FOR_TABS = "enableSwipeForTabs"
     const val ANIMATE_CUSTOM_EMOJIS = "animateCustomEmojis"
     const val SHOW_STATS_INLINE = "showStatsInline"
@@ -86,6 +86,7 @@ object PrefKeys {
 
     const val DEFAULT_POST_PRIVACY = "defaultPostPrivacy"
     const val DEFAULT_POST_LANGUAGE = "defaultPostLanguage"
+    const val DEFAULT_REPLY_PRIVACY = "defaultReplyPrivacy"
     const val DEFAULT_MEDIA_SENSITIVITY = "defaultMediaSensitivity"
     const val MEDIA_PREVIEW_ENABLED = "mediaPreviewEnabled"
     const val ALWAYS_SHOW_SENSITIVE_MEDIA = "alwaysShowSensitiveMedia"
@@ -112,8 +113,7 @@ object PrefKeys {
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
 
-    /** Keys that are no longer used (e.g., the preference has been removed */
     object Deprecated {
-        const val SHOW_NOTIFICATIONS_FILTER = "showNotificationsFilter"
+        const val FAB_HIDE = "fabHide"
     }
 }

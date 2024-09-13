@@ -27,6 +27,21 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.keylesspalace.tusky.TabDataKt;
 import com.keylesspalace.tusky.components.conversation.ConversationEntity;
+import com.keylesspalace.tusky.db.dao.AccountDao;
+import com.keylesspalace.tusky.db.dao.DraftDao;
+import com.keylesspalace.tusky.db.dao.InstanceDao;
+import com.keylesspalace.tusky.db.dao.NotificationsDao;
+import com.keylesspalace.tusky.db.dao.TimelineAccountDao;
+import com.keylesspalace.tusky.db.dao.TimelineDao;
+import com.keylesspalace.tusky.db.dao.TimelineStatusDao;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
+import com.keylesspalace.tusky.db.entity.DraftEntity;
+import com.keylesspalace.tusky.db.entity.HomeTimelineEntity;
+import com.keylesspalace.tusky.db.entity.InstanceEntity;
+import com.keylesspalace.tusky.db.entity.NotificationEntity;
+import com.keylesspalace.tusky.db.entity.NotificationReportEntity;
+import com.keylesspalace.tusky.db.entity.TimelineAccountEntity;
+import com.keylesspalace.tusky.db.entity.TimelineStatusEntity;
 
 import java.io.File;
 
@@ -40,18 +55,22 @@ import java.io.File;
         InstanceEntity.class,
         TimelineStatusEntity.class,
         TimelineAccountEntity.class,
-        ConversationEntity.class
+        ConversationEntity.class,
+        NotificationEntity.class,
+        NotificationReportEntity.class,
+        HomeTimelineEntity.class
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 58,
+    version = 64,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
         @AutoMigration(from = 50, to = 51),
         @AutoMigration(from = 51, to = 52),
         @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
-        @AutoMigration(from = 56, to = 58) // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
+        @AutoMigration(from = 62, to = 64) // filterV2Available in InstanceEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -61,6 +80,9 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract ConversationsDao conversationDao();
     @NonNull public abstract TimelineDao timelineDao();
     @NonNull public abstract DraftDao draftDao();
+    @NonNull public abstract NotificationsDao notificationsDao();
+    @NonNull public abstract TimelineStatusDao timelineStatusDao();
+    @NonNull public abstract TimelineAccountDao timelineAccountDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -696,6 +718,135 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeBoosts` INTEGER NOT NULL DEFAULT 1");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeReplies` INTEGER NOT NULL DEFAULT 1");
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `isShowHomeSelfBoosts` INTEGER NOT NULL DEFAULT 1");
+        }
+    };
+
+    public static final Migration MIGRATION_58_60 = new Migration(58, 60) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // drop the old tables - they are only caches anyway
+            database.execSQL("DROP TABLE `TimelineStatusEntity`");
+            database.execSQL("DROP TABLE `TimelineAccountEntity`");
+
+            // create the new tables
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `TimelineAccountEntity` (
+                `serverId` TEXT NOT NULL,
+                `tuskyAccountId` INTEGER NOT NULL,
+                `localUsername` TEXT NOT NULL,
+                `username` TEXT NOT NULL,
+                `displayName` TEXT NOT NULL,
+                `url` TEXT NOT NULL,
+                `avatar` TEXT NOT NULL,
+                `emojis` TEXT NOT NULL,
+                `bot` INTEGER NOT NULL,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`)
+                )"""
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `TimelineStatusEntity` (
+                `serverId` TEXT NOT NULL,
+                `url` TEXT,
+                `tuskyAccountId` INTEGER NOT NULL,
+                `authorServerId` TEXT NOT NULL,
+                `inReplyToId` TEXT,
+                `inReplyToAccountId` TEXT,
+                `content` TEXT NOT NULL,
+                `createdAt` INTEGER NOT NULL,
+                `editedAt` INTEGER,
+                `emojis` TEXT NOT NULL,
+                `reblogsCount` INTEGER NOT NULL,
+                `favouritesCount` INTEGER NOT NULL,
+                `repliesCount` INTEGER NOT NULL,
+                `reblogged` INTEGER NOT NULL,
+                `bookmarked` INTEGER NOT NULL,
+                `favourited` INTEGER NOT NULL,
+                `sensitive` INTEGER NOT NULL,
+                `spoilerText` TEXT NOT NULL,
+                `visibility` INTEGER NOT NULL,
+                `attachments` TEXT NOT NULL,
+                `mentions` TEXT NOT NULL,
+                `tags` TEXT NOT NULL,
+                `application` TEXT,
+                `poll` TEXT,
+                `muted` INTEGER NOT NULL,
+                `expanded` INTEGER NOT NULL,
+                `contentCollapsed` INTEGER NOT NULL,
+                `contentShowing` INTEGER NOT NULL,
+                `pinned` INTEGER NOT NULL,
+                `card` TEXT, `language` TEXT,
+                `filtered` TEXT NOT NULL,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`),
+                FOREIGN KEY(`authorServerId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_TimelineStatusEntity_authorServerId_tuskyAccountId` ON `TimelineStatusEntity` (`authorServerId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `HomeTimelineEntity` (
+                `tuskyAccountId` INTEGER NOT NULL,
+                `id` TEXT NOT NULL,
+                `statusId` TEXT,
+                `reblogAccountId` TEXT,
+                `loading` INTEGER NOT NULL,
+                PRIMARY KEY(`id`, `tuskyAccountId`),
+                FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`reblogAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_statusId_tuskyAccountId` ON `HomeTimelineEntity` (`statusId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_HomeTimelineEntity_reblogAccountId_tuskyAccountId` ON `HomeTimelineEntity` (`reblogAccountId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `NotificationReportEntity`(
+                `tuskyAccountId` INTEGER NOT NULL,
+                `serverId` TEXT NOT NULL,
+                `category` TEXT NOT NULL,
+                `statusIds` TEXT,
+                `createdAt` INTEGER NOT NULL,
+                `targetAccountId` TEXT,
+                PRIMARY KEY(`serverId`, `tuskyAccountId`),
+                FOREIGN KEY(`targetAccountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationReportEntity_targetAccountId_tuskyAccountId` ON `NotificationReportEntity` (`targetAccountId`, `tuskyAccountId`)"
+            );
+            database.execSQL("""
+                CREATE TABLE IF NOT EXISTS `NotificationEntity` (
+                `tuskyAccountId` INTEGER NOT NULL,
+                `type` TEXT,
+                `id` TEXT NOT NULL,
+                `accountId` TEXT,
+                `statusId` TEXT,
+                `reportId` TEXT,
+                `loading` INTEGER NOT NULL,
+                PRIMARY KEY(`id`, `tuskyAccountId`),
+                FOREIGN KEY(`accountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`reportId`, `tuskyAccountId`) REFERENCES `NotificationReportEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION
+                )"""
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_accountId_tuskyAccountId` ON `NotificationEntity` (`accountId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_statusId_tuskyAccountId` ON `NotificationEntity` (`statusId`, `tuskyAccountId`)"
+            );
+            database.execSQL(
+                "CREATE INDEX IF NOT EXISTS `index_NotificationEntity_reportId_tuskyAccountId` ON `NotificationEntity` (`reportId`, `tuskyAccountId`)"
+            );
+        }
+    };
+
+    public static final Migration MIGRATION_60_62 = new Migration(60, 62) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

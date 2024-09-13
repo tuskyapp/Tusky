@@ -5,34 +5,36 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FollowedTagsActivity :
     BaseActivity(),
     HashtagActionListener,
@@ -41,13 +43,10 @@ class FollowedTagsActivity :
     lateinit var api: MastodonApi
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
     lateinit var sharedPreferences: SharedPreferences
 
     private val binding by viewBinding(ActivityFollowedTagsBinding::inflate)
-    private val viewModel: FollowedTagsViewModel by viewModels { viewModelFactory }
+    private val viewModel: FollowedTagsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,19 +84,6 @@ class FollowedTagsActivity :
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
         (binding.followedTagsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-
-        val hideFab = sharedPreferences.getBoolean(PrefKeys.FAB_HIDE, false)
-        if (hideFab) {
-            binding.followedTagsView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (dy > 0 && binding.fab.isShown) {
-                        binding.fab.hide()
-                    } else if (dy < 0 && !binding.fab.isShown) {
-                        binding.fab.show()
-                    }
-                }
-            })
-        }
     }
 
     private fun setupAdapter(): FollowedTagsAdapter {
@@ -149,7 +135,7 @@ class FollowedTagsActivity :
         lifecycleScope.launch {
             api.unfollowTag(tagName).fold(
                 {
-                    viewModel.tags.removeAt(position)
+                    viewModel.tags.removeIf { tag -> tag.name == tagName }
                     Snackbar.make(
                         this@FollowedTagsActivity,
                         binding.followedTagsView,
@@ -182,6 +168,17 @@ class FollowedTagsActivity :
         return viewModel.searchAutocompleteSuggestions(token)
     }
 
+    override fun viewTag(tagName: String) {
+        startActivity(StatusListActivity.newHashtagIntent(this, tagName))
+    }
+
+    override fun copyTagName(tagName: String) {
+        copyToClipboard(
+            "#$tagName",
+            getString(R.string.confirmation_hashtag_copied, tagName),
+        )
+    }
+
     companion object {
         const val TAG = "FollowedTagsActivity"
     }
@@ -198,8 +195,10 @@ class FollowedTagsActivity :
                     showBotBadge = false
                 )
             )
+            autoCompleteTextView.requestFocus()
+            autoCompleteTextView.setSelection(autoCompleteTextView.length())
 
-            return AlertDialog.Builder(requireActivity())
+            return MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.dialog_follow_hashtag_title)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -209,6 +208,11 @@ class FollowedTagsActivity :
                 }
                 .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
                 .create()
+        }
+
+        override fun onStart() {
+            super.onStart()
+            dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
 
         companion object {

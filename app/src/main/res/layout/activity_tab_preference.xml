@@ -29,7 +29,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/action_add_tab"
-        android:src="@drawable/ic_plus_24dp" />
+        app:srcCompat="@drawable/ic_plus_24dp"
+        app:tint="?attr/colorOnPrimary" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/sheet"
@@ -38,6 +39,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:visibility="invisible"
+        app:strokeWidth="0dp"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardElevation="2dp">
 
@@ -66,7 +68,8 @@
                 android:text="@string/action_add_tab"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="?attr/status_text_large"
-                app:drawableStartCompat="@drawable/ic_plus_24dp" />
+                app:drawableStartCompat="@drawable/ic_plus_24dp"
+                app:drawableTint="?attr/colorOnPrimary" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

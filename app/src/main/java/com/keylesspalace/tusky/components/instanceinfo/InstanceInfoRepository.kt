@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.components.instanceinfo
 
 import android.util.Log
 import at.connyduck.calladapter.networkresult.NetworkResult
+import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
@@ -24,8 +25,8 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import at.connyduck.calladapter.networkresult.recoverCatching
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
-import com.keylesspalace.tusky.db.EmojisEntity
-import com.keylesspalace.tusky.db.InstanceInfoEntity
+import com.keylesspalace.tusky.db.entity.EmojisEntity
+import com.keylesspalace.tusky.db.entity.InstanceInfoEntity
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Instance
@@ -34,13 +35,11 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Singleton
 class InstanceInfoRepository @Inject constructor(
     private val api: MastodonApi,
     db: AppDatabase,
@@ -52,9 +51,6 @@ class InstanceInfoRepository @Inject constructor(
     private val instanceName
         get() = accountManager.activeAccount!!.domain
 
-    /** In-memory cache for instance data, per instance domain.  */
-    private var instanceInfoCache = ConcurrentHashMap<String, InstanceInfo>()
-
     fun precache() {
         // We are avoiding some duplicate work but we are not trying too hard.
         // We might request it multiple times in parallel which is not a big problem.
@@ -65,9 +61,11 @@ class InstanceInfoRepository @Inject constructor(
         //  - caching default value (we want to rather re-fetch if it fails)
         if (instanceInfoCache[instanceName] == null) {
             externalScope.launch {
-                fetchAndPersistInstanceInfo().onSuccess { fetched ->
-                    instanceInfoCache[fetched.instance] = fetched.toInfoOrDefault()
-                }
+                fetchAndPersistInstanceInfo().fold({ fetched ->
+                    instanceInfoCache[instanceName] = fetched.toInfoOrDefault()
+                }, { e ->
+                    Log.w(TAG, "failed to precache instance info", e)
+                })
             }
         }
     }
@@ -106,6 +104,10 @@ class InstanceInfoRepository @Inject constructor(
                     dao.getInstanceInfo(instanceName)
                 }
         }.toInfoOrDefault()
+
+    suspend fun saveFilterV2Support(filterV2Supported: Boolean) = dao.setFilterV2Support(instanceName, filterV2Supported)
+
+    suspend fun isFilterV2Supported(): Boolean = dao.getFilterV2Support(instanceName)
 
     private suspend fun InstanceInfoRepository.fetchAndPersistInstanceInfo(): NetworkResult<InstanceInfoEntity> =
         fetchRemoteInstanceInfo()
@@ -204,6 +206,9 @@ class InstanceInfoRepository @Inject constructor(
 
     companion object {
         private const val TAG = "InstanceInfoRepo"
+
+        /** In-memory cache for instance data, per instance domain.  */
+        private var instanceInfoCache = ConcurrentHashMap<String, InstanceInfo>()
 
         const val DEFAULT_CHARACTER_LIMIT = 500
         private const val DEFAULT_MAX_OPTION_COUNT = 4

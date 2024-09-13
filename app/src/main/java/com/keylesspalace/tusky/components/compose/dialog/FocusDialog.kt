@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +29,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.databinding.DialogFocusBinding
 import com.keylesspalace.tusky.entity.Attachment.Focus
 import kotlinx.coroutines.launch
@@ -50,10 +50,10 @@ fun <T> T.makeFocusDialog(
         .downsample(DownsampleStrategy.CENTER_INSIDE)
         .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
-                p0: GlideException?,
-                p1: Any?,
-                p2: Target<Drawable?>,
-                p3: Boolean
+                error: GlideException?,
+                model: Any?,
+                target: Target<Drawable?>,
+                isFirstResource: Boolean
             ): Boolean {
                 return false
             }
@@ -68,15 +68,20 @@ fun <T> T.makeFocusDialog(
                 val width = resource.intrinsicWidth
                 val height = resource.intrinsicHeight
 
-                dialogBinding.focusIndicator.setImageSize(width, height)
+                val viewWidth = dialogBinding.imageView.width
+                val viewHeight = dialogBinding.imageView.height
+
+                val scaledHeight = (viewWidth.toFloat() / width.toFloat()) * height
+
+                dialogBinding.focusIndicator.setImageSize(viewWidth, scaledHeight.toInt())
 
                 // We want the dialog to be a little taller than the image, so you can slide your thumb past the image border,
                 // but if it's *too* much taller that looks weird. See if a threshold has been crossed:
                 if (width > height) {
                     val maxHeight = dialogBinding.focusIndicator.maxAttractiveHeight()
 
-                    if (dialogBinding.imageView.height > maxHeight) {
-                        val verticalShrinkLayout = FrameLayout.LayoutParams(width, maxHeight)
+                    if (viewHeight > maxHeight) {
+                        val verticalShrinkLayout = FrameLayout.LayoutParams(viewWidth, maxHeight)
                         dialogBinding.imageView.layoutParams = verticalShrinkLayout
                         dialogBinding.focusIndicator.layoutParams = verticalShrinkLayout
                     }
@@ -93,7 +98,7 @@ fun <T> T.makeFocusDialog(
         dialog.dismiss()
     }
 
-    val dialog = AlertDialog.Builder(this)
+    val dialog = MaterialAlertDialogBuilder(this)
         .setView(dialogBinding.root)
         .setPositiveButton(android.R.string.ok, okListener)
         .setNegativeButton(android.R.string.cancel, null)

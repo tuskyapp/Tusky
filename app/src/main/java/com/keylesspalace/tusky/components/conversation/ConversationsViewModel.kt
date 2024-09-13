@@ -29,10 +29,12 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.EmptyPagingSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class ConversationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val database: AppDatabase,
@@ -42,7 +44,9 @@ class ConversationsViewModel @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val conversationFlow = Pager(
-        config = PagingConfig(pageSize = 30),
+        config = PagingConfig(
+            pageSize = 30
+        ),
         remoteMediator = ConversationsRemoteMediator(api, database, accountManager),
         pagingSourceFactory = {
             val activeAccount = accountManager.activeAccount

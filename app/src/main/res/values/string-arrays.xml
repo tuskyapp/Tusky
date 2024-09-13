@@ -16,6 +16,14 @@
         <item>@string/post_privacy_followers_only</item>
     </string-array>
 
+    <string-array name="reply_privacy_names">
+        <item>@string/pref_match_default_post_privacy</item>
+        <item>@string/post_privacy_public</item>
+        <item>@string/post_privacy_unlisted</item>
+        <item>@string/post_privacy_followers_only</item>
+        <item>@string/post_privacy_direct</item>
+    </string-array>
+
     <string-array name="post_text_size_names">
         <item>@string/post_text_size_smallest</item>
         <item>@string/post_text_size_small</item>

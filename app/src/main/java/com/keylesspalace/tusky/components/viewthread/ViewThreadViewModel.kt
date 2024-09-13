@@ -24,26 +24,26 @@ import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.components.timeline.toViewData
+import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import com.squareup.moshi.Moshi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
     private val filterModel: FilterModel,
@@ -98,8 +99,6 @@ class ViewThreadViewModel @Inject constructor(
                     }
                 }
         }
-
-        loadFilters()
     }
 
     fun loadThread(id: String) {
@@ -107,25 +106,21 @@ class ViewThreadViewModel @Inject constructor(
 
         viewModelScope.launch {
             Log.d(TAG, "Finding status with: $id")
+            val filterCall = async { filterModel.init(Filter.Kind.THREAD) }
+
             val contextCall = async { api.statusContext(id) }
-            val timelineStatus = db.timelineDao().getStatus(accountManager.activeAccount!!.id, id)
+            val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
 
-            var detailedStatus = if (timelineStatus != null) {
+            var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
-                val viewData = timelineStatus.toViewData(
-                    moshi,
+                StatusViewData.Concrete(
+                    status = statusAndAccount.first.toStatus(statusAndAccount.second),
+                    isExpanded = statusAndAccount.first.expanded,
+                    isShowingContent = statusAndAccount.first.contentShowing,
+                    isCollapsed = statusAndAccount.first.contentCollapsed,
                     isDetailed = true,
-                ) as StatusViewData.Concrete
-
-                // Return the correct status, depending on which one matched. If you do not do
-                // this the status IDs will be different between the status that's displayed with
-                // ThreadUiState.LoadingThread and ThreadUiState.Success, even though the apparent
-                // status content is the same. Then the status flickers as it is drawn twice.
-                if (viewData.actionableId == id) {
-                    viewData.actionable.toViewData(isDetailed = true)
-                } else {
-                    viewData
-                }
+                    translation = null
+                )
             } else {
                 Log.d(TAG, "Loaded status from network")
                 val result = api.status(id).getOrElse { exception ->
@@ -143,17 +138,19 @@ class ViewThreadViewModel @Inject constructor(
             // If the detailedStatus was loaded from the database it might be out-of-date
             // compared to the remote one. Now the user has a working UI do a background fetch
             // for the status. Ignore errors, the user still has a functioning UI if the fetch
-            // failed.
-            if (timelineStatus != null) {
-                api.status(id).getOrNull()?.let { result ->
-                    db.timelineDao().update(
-                        accountId = accountManager.activeAccount!!.id,
-                        status = result
+            // failed. Update the database when the fetch was successful.
+            if (statusAndAccount != null) {
+                api.status(id).onSuccess { result ->
+                    db.timelineStatusDao().update(
+                        tuskyAccountId = accountManager.activeAccount!!.id,
+                        status = result,
+                        moshi = moshi
                     )
                     detailedStatus = result.toViewData(isDetailed = true)
                 }
             }
 
+            filterCall.await() // make sure FilterModel is initialized before using it
             val contextResult = contextCall.await()
 
             contextResult.fold({ statusContext ->
@@ -420,42 +417,6 @@ class ViewThreadViewModel @Inject constructor(
         }
 
         return RevealButtonState.NO_BUTTON
-    }
-
-    private fun loadFilters() {
-        viewModelScope.launch {
-            api.getFilters().fold(
-                {
-                    filterModel.kind = Filter.Kind.THREAD
-                    updateStatuses()
-                },
-                { throwable ->
-                    if (throwable.isHttpNotFound()) {
-                        val filters = api.getFiltersV1().getOrElse {
-                            Log.w(TAG, "Failed to fetch filters", it)
-                            return@launch
-                        }
-
-                        filterModel.initWithFilters(
-                            filters.filter { filter -> filter.context.contains(FilterV1.THREAD) }
-                        )
-                        updateStatuses()
-                    } else {
-                        Log.e(TAG, "Error getting filters", throwable)
-                    }
-                }
-            )
-        }
-    }
-
-    private fun updateStatuses() {
-        updateSuccess { uiState ->
-            val statuses = uiState.statusViewData.filter()
-            uiState.copy(
-                statusViewData = statuses,
-                revealButton = statuses.getRevealButtonState()
-            )
-        }
     }
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {

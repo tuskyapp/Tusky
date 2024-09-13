@@ -78,9 +78,10 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <ProgressBar
+                <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:indeterminate="true"
                     android:layout_gravity="center" />
 
                 <TextView
@@ -94,7 +95,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

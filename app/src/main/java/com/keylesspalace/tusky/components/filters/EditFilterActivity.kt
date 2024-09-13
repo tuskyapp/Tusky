@@ -3,36 +3,36 @@ package com.keylesspalace.tusky.components.filters
 import android.content.Context
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
-import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.IntentCompat
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class EditFilterActivity : BaseActivity() {
     @Inject
     lateinit var api: MastodonApi
@@ -40,20 +40,17 @@ class EditFilterActivity : BaseActivity() {
     @Inject
     lateinit var eventHub: EventHub
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
     private val binding by viewBinding(ActivityEditFilterBinding::inflate)
-    private val viewModel: EditFilterViewModel by viewModels { viewModelFactory }
+    private val viewModel: EditFilterViewModel by viewModels()
 
     private lateinit var filter: Filter
     private var originalFilter: Filter? = null
-    private lateinit var contextSwitches: Map<SwitchMaterial, Filter.Kind>
+    private lateinit var contextSwitches: Map<MaterialSwitch, Filter.Kind>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        originalFilter = IntentCompat.getParcelableExtra(intent, FILTER_TO_EDIT, Filter::class.java)
+        originalFilter = intent.getParcelableExtraCompat(FILTER_TO_EDIT)
         filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
         binding.apply {
             contextSwitches = mapOf(
@@ -114,25 +111,14 @@ class EditFilterActivity : BaseActivity() {
                 }
             )
         }
-        binding.filterDurationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.setDuration(
-                    if (originalFilter?.expiresAt == null) {
-                        position
-                    } else {
-                        position - 1
-                    }
-                )
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.setDuration(0)
-            }
+        binding.filterDurationDropDown.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            viewModel.setDuration(
+                if (originalFilter?.expiresAt == null) {
+                    position
+                } else {
+                    position - 1
+                }
+            )
         }
         validateSaveButton()
 
@@ -179,10 +165,13 @@ class EditFilterActivity : BaseActivity() {
     // Populate the UI from the filter's members
     private fun loadFilter() {
         viewModel.load(filter)
-        if (filter.expiresAt != null) {
-            val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
-            binding.filterDurationSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, durationNames)
+        val durationNames = if (filter.expiresAt != null) {
+            arrayOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
+        } else {
+            resources.getStringArray(R.array.filter_duration_names)
         }
+        binding.filterDurationDropDown.setSimpleItems(durationNames)
+        binding.filterDurationDropDown.setText(durationNames[0], false)
     }
 
     private fun updateKeywords(newKeywords: List<FilterKeyword>) {
@@ -223,7 +212,7 @@ class EditFilterActivity : BaseActivity() {
     private fun showAddKeywordDialog() {
         val binding = DialogFilterBinding.inflate(layoutInflater)
         binding.phraseWholeWord.isChecked = true
-        AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -237,6 +226,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun showEditKeywordDialog(keyword: FilterKeyword) {
@@ -244,7 +239,7 @@ class EditFilterActivity : BaseActivity() {
         binding.phraseEditText.setText(keyword.keyword)
         binding.phraseWholeWord.isChecked = keyword.wholeWord
 
-        AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
@@ -258,6 +253,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun validateSaveButton() {
@@ -278,7 +279,7 @@ class EditFilterActivity : BaseActivity() {
             } else {
                 Snackbar.make(
                     binding.root,
-                    "Error saving filter '${viewModel.title.value}'",
+                    getString(R.string.error_deleting_filter, viewModel.title.value),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
@@ -301,7 +302,7 @@ class EditFilterActivity : BaseActivity() {
                                 {
                                     Snackbar.make(
                                         binding.root,
-                                        "Error deleting filter '${filter.title}'",
+                                        getString(R.string.error_deleting_filter, filter.title),
                                         Snackbar.LENGTH_SHORT
                                     ).show()
                                 }
@@ -309,7 +310,7 @@ class EditFilterActivity : BaseActivity() {
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                "Error deleting filter '${filter.title}'",
+                                getString(R.string.error_deleting_filter, filter.title),
                                 Snackbar.LENGTH_SHORT
                             ).show()
                         }

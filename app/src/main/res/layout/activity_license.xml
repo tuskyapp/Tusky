@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://kotlinlang.org/"
                 license:name="Kotlin" />
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://developer.android.com/jetpack/androidx"
                 license:name="AndroidX" />
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/material-components/material-components-android"
                 license:name="Material Components for Android" />
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://square.github.io/okhttp/"
                 license:name="OkHttp" />
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/google/conscrypt"
                 license:name="Conscrypt" />
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://square.github.io/retrofit/"
                 license:name="Retrofit" />
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/square/moshi"
                 license:name="Moshi" />
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://bumptech.github.io/glide/"
                 license:name="Glide" />
@@ -119,9 +119,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
-                license:link="https://google.github.io/dagger/"
+                license:link="https://dagger.dev/"
                 license:name="Dagger 2" />
 
             <com.keylesspalace.tusky.view.LicenseCard
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/mikepenz/MaterialDrawer"
                 license:name="MaterialDrawer" />
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/connyduck/SparkButton"
                 license:name="SparkButton" />
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/chrisbanes/PhotoView"
                 license:name="PhotoView" />
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/CanHub/Android-Image-Cropper"
                 license:name="Android Image Cropper" />
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/penfeizhou/APNG4Android"
                 license:name="APNG4Android" />
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_apache_2"
                 license:link="https://github.com/C1710/FileMojiCompat"
                 license:name="FileMojiCompat" />
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_cc_by_4"
                 license:link="https://twemoji.twitter.com/"
                 license:name="Twemoji" />
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_cc_by_4"
                 license:link="https://github.com/c1710/blobmoji"
                 license:name="Blobmoji" />
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 license:license="@string/license_cc_by_sa_4"
                 license:link="https://github.com/tuskyapp/artwork"
                 license:name="Tusky elephant artwork" />

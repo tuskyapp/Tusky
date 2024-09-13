@@ -11,11 +11,12 @@ import androidx.work.testing.WorkManagerTestInitHelper
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
-import com.keylesspalace.tusky.components.notifications.NotificationHelper
-import com.keylesspalace.tusky.db.AccountEntity
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.util.getSerializableExtraCompat
 import java.util.Date
 import kotlinx.coroutines.test.TestScope
 import org.junit.After
@@ -87,7 +88,7 @@ class MainActivityTest {
 
         assertNotNull(nextActivity)
         assertEquals(ComponentName(context, AccountListActivity::class.java.name), nextActivity.component)
-        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtra("type"))
+        assertEquals(AccountListActivity.Type.FOLLOW_REQUESTS, nextActivity.getSerializableExtraCompat("type"))
     }
 
     private fun showNotification(type: Notification.Type): Intent {
@@ -139,6 +140,13 @@ class MainActivityTest {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
             onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
         }
+        activity.preferences = mock(defaultAnswer = {
+            when (it.method.returnType) {
+                String::class.java -> "test"
+                Boolean::class.java -> false
+                else -> null
+            }
+        })
         controller.create().start()
         return activity
     }

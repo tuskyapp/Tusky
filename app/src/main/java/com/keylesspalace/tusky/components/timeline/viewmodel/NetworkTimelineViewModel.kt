@@ -26,7 +26,14 @@ import androidx.paging.filter
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.DomainMuteEvent
+import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
+import com.keylesspalace.tusky.appstore.StatusDeletedEvent
+import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
@@ -41,6 +48,7 @@ import com.keylesspalace.tusky.util.isLessThanOrEqual
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -54,6 +62,7 @@ import retrofit2.Response
 /**
  * TimelineViewModel that caches all statuses in an in-memory list
  */
+@HiltViewModel
 class NetworkTimelineViewModel @Inject constructor(
     timelineCases: TimelineCases,
     private val api: MastodonApi,
@@ -78,7 +87,9 @@ class NetworkTimelineViewModel @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
-        config = PagingConfig(pageSize = LOAD_AT_ONCE),
+        config = PagingConfig(
+            pageSize = LOAD_AT_ONCE
+        ),
         pagingSourceFactory = {
             NetworkTimelinePagingSource(
                 viewModel = this
@@ -95,6 +106,48 @@ class NetworkTimelineViewModel @Inject constructor(
         }
         .flowOn(Dispatchers.Default)
         .cachedIn(viewModelScope)
+
+    init {
+        viewModelScope.launch {
+            eventHub.events
+                .collect { event -> handleEvent(event) }
+        }
+    }
+
+    private fun handleEvent(event: Event) {
+        when (event) {
+            is StatusChangedEvent -> handleStatusChangedEvent(event.status)
+            is UnfollowEvent -> {
+                if (kind == Kind.HOME) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is BlockEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is MuteEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val id = event.accountId
+                    removeAllByAccountId(id)
+                }
+            }
+            is DomainMuteEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    val instance = event.instance
+                    removeAllByInstance(instance)
+                }
+            }
+            is StatusDeletedEvent -> {
+                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
+                    removeStatusWithId(event.statusId)
+                }
+            }
+        }
+    }
 
     override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
         status.copy(
@@ -120,7 +173,7 @@ class NetworkTimelineViewModel @Inject constructor(
         ).update()
     }
 
-    override fun removeAllByAccountId(accountId: String) {
+    private fun removeAllByAccountId(accountId: String) {
         statusData.removeAll { vd ->
             val status = vd.asStatusOrNull()?.status ?: return@removeAll false
             status.account.id == accountId || status.actionableStatus.account.id == accountId
@@ -128,7 +181,7 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun removeAllByInstance(instance: String) {
+    private fun removeAllByInstance(instance: String) {
         statusData.removeAll { vd ->
             val status = vd.asStatusOrNull()?.status ?: return@removeAll false
             getDomain(status.account.url) == instance
@@ -241,14 +294,8 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    override fun handleStatusChangedEvent(status: Status) {
-        updateStatusById(status.id) { oldViewData ->
-            status.toViewData(
-                isShowingContent = oldViewData.isShowingContent,
-                isExpanded = oldViewData.isExpanded,
-                isCollapsed = oldViewData.isCollapsed
-            )
-        }
+    private fun handleStatusChangedEvent(status: Status) {
+        updateStatusByActionableId(status.id) { status }
     }
 
     override fun fullReload() {
@@ -258,7 +305,7 @@ class NetworkTimelineViewModel @Inject constructor(
     }
 
     override fun clearWarning(status: StatusViewData.Concrete) {
-        updateActionableStatusById(status.id) {
+        updateStatusByActionableId(status.id) {
             it.copy(filtered = emptyList())
         }
     }
@@ -346,23 +393,17 @@ class NetworkTimelineViewModel @Inject constructor(
         currentSource?.invalidate()
     }
 
-    private inline fun updateStatusById(
-        id: String,
-        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
-    ) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
-        if (pos == -1) return
-        updateViewDataAt(pos, updater)
-    }
-
-    private inline fun updateActionableStatusById(id: String, updater: (Status) -> Status) {
-        val pos = statusData.indexOfFirst { it.asStatusOrNull()?.id == id }
-        if (pos == -1) return
-        updateViewDataAt(pos) { vd ->
-            if (vd.status.reblog != null) {
-                vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
-            } else {
-                vd.copy(status = updater(vd.status))
+    private inline fun updateStatusByActionableId(id: String, updater: (Status) -> Status) {
+        // posts can be multiple times in the timeline, e.g. once the original and once as boost
+        statusData.forEachIndexed { index, status ->
+            if (status.asStatusOrNull()?.actionableId == id) {
+                updateViewDataAt(index) { vd ->
+                    if (vd.status.reblog != null) {
+                        vd.copy(status = vd.status.copy(reblog = updater(vd.status.reblog)))
+                    } else {
+                        vd.copy(status = updater(vd.status))
+                    }
+                }
             }
         }
     }

@@ -27,10 +27,10 @@
         android:layout_height="24dp"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
-        android:src="@drawable/bot_badge"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/account_avatar"
         app:layout_constraintEnd_toEndOf="@id/account_avatar"
+        app:srcCompat="@drawable/bot_badge"
         tools:src="#000"
         tools:visibility="visible" />
 

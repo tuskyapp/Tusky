@@ -22,13 +22,13 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
 class PickMediaFiles : ActivityResultContract<Boolean, List<Uri>>() {
-    override fun createIntent(context: Context, allowMultiple: Boolean): Intent {
+    override fun createIntent(context: Context, input: Boolean): Intent {
         return Intent(Intent.ACTION_GET_CONTENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType("*/*")
             .apply {
                 putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*", "audio/*"))
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
             }
     }
 

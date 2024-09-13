@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.PointF
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -28,8 +27,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.os.BundleCompat
-import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -37,9 +34,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -58,8 +55,8 @@ class ViewImageFragment : ViewMediaFragment() {
 
     private val binding by viewBinding(FragmentViewImageBinding::bind)
 
-    private lateinit var photoActionsListener: PhotoActionsListener
-    private lateinit var toolbar: View
+    private val photoActionsListener: PhotoActionsListener
+        get() = requireActivity() as PhotoActionsListener
     private var transition: CompletableDeferred<Unit>? = null
     private var shouldStartTransition = false
 
@@ -67,11 +64,6 @@ class ViewImageFragment : ViewMediaFragment() {
     // immediately on another thread. Atomic is an overkill for such thing.
     @Volatile
     private var startedTransition = false
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        photoActionsListener = context as PhotoActionsListener
-    }
 
     override fun setupMediaView(
         url: String,
@@ -92,7 +84,6 @@ class ViewImageFragment : ViewMediaFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        toolbar = (requireActivity() as ViewMediaActivity).toolbar
         this.transition = CompletableDeferred()
         return inflater.inflate(R.layout.fragment_view_image, container, false)
     }
@@ -101,12 +92,8 @@ class ViewImageFragment : ViewMediaFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val arguments = this.requireArguments()
-        val attachment = BundleCompat.getParcelable(
-            arguments,
-            ARG_ATTACHMENT,
-            Attachment::class.java
-        )
+        val arguments = requireArguments()
+        val attachment = arguments.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
         this.shouldStartTransition = arguments.getBoolean(ARG_START_POSTPONED_TRANSITION)
         val url: String?
         var description: String? = null
@@ -121,7 +108,7 @@ class ViewImageFragment : ViewMediaFragment() {
             }
         }
 
-        val singleTapDetector = GestureDetectorCompat(
+        val singleTapDetector = GestureDetector(
             requireContext(),
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
@@ -232,7 +219,7 @@ class ViewImageFragment : ViewMediaFragment() {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (!userVisibleHint) return
+        if (view == null) return
 
         isDescriptionVisible = showingDescription && visible
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f

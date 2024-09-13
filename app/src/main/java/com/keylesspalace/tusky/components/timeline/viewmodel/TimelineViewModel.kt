@@ -21,32 +21,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import at.connyduck.calladapter.networkresult.NetworkResult
-import at.connyduck.calladapter.networkresult.fold
-import at.connyduck.calladapter.networkresult.getOrElse
 import at.connyduck.calladapter.networkresult.getOrThrow
-import com.keylesspalace.tusky.appstore.BlockEvent
-import com.keylesspalace.tusky.appstore.DomainMuteEvent
-import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
-import com.keylesspalace.tusky.appstore.MuteConversationEvent
-import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
-import com.keylesspalace.tusky.appstore.StatusChangedEvent
-import com.keylesspalace.tusky.appstore.StatusDeletedEvent
-import com.keylesspalace.tusky.appstore.UnfollowEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Poll
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -81,7 +68,6 @@ abstract class TimelineViewModel(
         this.kind = kind
         this.id = id
         this.tags = tags
-        filterModel.kind = kind.toFilterKind()
 
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
@@ -99,10 +85,27 @@ abstract class TimelineViewModel(
 
         viewModelScope.launch {
             eventHub.events
-                .collect { event -> handleEvent(event) }
+                .collect { event ->
+                    when (event) {
+                        is PreferenceChangedEvent -> {
+                            onPreferenceChanged(event.preferenceKey)
+                        }
+                        is FilterUpdatedEvent -> {
+                            if (filterContextMatchesKind(this@TimelineViewModel.kind, event.filterContext)) {
+                                filterModel.init(kind.toFilterKind())
+                                invalidate()
+                            }
+                        }
+                    }
+                }
         }
 
-        reloadFilters()
+        viewModelScope.launch {
+            val needsRefresh = filterModel.init(kind.toFilterKind())
+            if (needsRefresh) {
+                fullReload()
+            }
+        }
     }
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
@@ -162,15 +165,9 @@ abstract class TimelineViewModel(
 
     abstract fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete)
 
-    abstract fun removeAllByAccountId(accountId: String)
-
-    abstract fun removeAllByInstance(instance: String)
-
     abstract fun removeStatusWithId(id: String)
 
     abstract fun loadMore(placeholderId: String)
-
-    abstract fun handleStatusChangedEvent(status: Status)
 
     abstract fun fullReload()
 
@@ -222,11 +219,6 @@ abstract class TimelineViewModel(
                     fullReload()
                 }
             }
-            FilterV1.HOME, FilterV1.NOTIFICATIONS, FilterV1.THREAD, FilterV1.PUBLIC, FilterV1.ACCOUNT -> {
-                if (filterContextMatchesKind(kind, listOf(key))) {
-                    reloadFilters()
-                }
-            }
             PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
                 // it is ok if only newly loaded statuses are affected, no need to fully refresh
                 alwaysShowSensitiveMedia =
@@ -235,81 +227,6 @@ abstract class TimelineViewModel(
             PrefKeys.READING_ORDER -> {
                 readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
             }
-        }
-    }
-
-    private fun handleEvent(event: Event) {
-        when (event) {
-            is StatusChangedEvent -> handleStatusChangedEvent(event.status)
-            is MuteConversationEvent -> fullReload()
-            is UnfollowEvent -> {
-                if (kind == Kind.HOME) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is BlockEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is MuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val id = event.accountId
-                    removeAllByAccountId(id)
-                }
-            }
-            is DomainMuteEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    val instance = event.instance
-                    removeAllByInstance(instance)
-                }
-            }
-            is StatusDeletedEvent -> {
-                if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
-                    removeStatusWithId(event.statusId)
-                }
-            }
-            is PreferenceChangedEvent -> {
-                onPreferenceChanged(event.preferenceKey)
-            }
-            is FilterUpdatedEvent -> {
-                if (filterContextMatchesKind(kind, event.filterContext)) {
-                    fullReload()
-                }
-            }
-        }
-    }
-
-    private fun reloadFilters() {
-        viewModelScope.launch {
-            api.getFilters().fold(
-                {
-                    // After the filters are loaded we need to reload displayed content to apply them.
-                    // It can happen during the usage or at startup, when we get statuses before filters.
-                    invalidate()
-                },
-                { throwable ->
-                    if (throwable.isHttpNotFound()) {
-                        // Fallback to client-side filter code
-                        val filters = api.getFiltersV1().getOrElse {
-                            Log.e(TAG, "Failed to fetch filters", it)
-                            return@launch
-                        }
-                        filterModel.initWithFilters(
-                            filters.filter {
-                                filterContextMatchesKind(kind, it.context)
-                            }
-                        )
-                        // After the filters are loaded we need to reload displayed content to apply them.
-                        // It can happen during the usage or at startup, when we get statuses before filters.
-                        invalidate()
-                    } else {
-                        Log.e(TAG, "Error getting filters", throwable)
-                    }
-                }
-            )
         }
     }
 

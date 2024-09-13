@@ -20,12 +20,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityManager
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -34,8 +35,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.trending.viewmodel.TrendingTagsViewModel
 import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -44,40 +43,42 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.TrendingViewData
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TrendingTagsFragment :
     Fragment(R.layout.fragment_trending_tags),
     OnRefreshListener,
-    Injectable,
     ReselectableFragment,
     RefreshableFragment {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: TrendingTagsViewModel by viewModels { viewModelFactory }
+    private val viewModel: TrendingTagsViewModel by viewModels()
 
     private val binding by viewBinding(FragmentTrendingTagsBinding::bind)
 
-    private val adapter = TrendingTagsAdapter(::onViewTag)
+    private var adapter: TrendingTagsAdapter? = null
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
-        setupLayoutManager(columnCount)
+        adapter?.let {
+            setupLayoutManager(it, columnCount)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupSwipeRefreshLayout()
-        setupRecyclerView()
+        val adapter = TrendingTagsAdapter(::onViewTag)
+        this.adapter = adapter
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
+        setupRecyclerView(adapter)
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0 && adapter.itemCount != itemCount) {
+                val firstPos = (binding.recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                if (firstPos == 0 && positionStart == 0 && adapter.itemCount != itemCount) {
                     binding.recyclerView.post {
                         if (getView() != null) {
                             binding.recyclerView.scrollBy(
@@ -92,21 +93,20 @@ class TrendingTagsFragment :
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collectLatest { trendingState ->
-                processViewState(trendingState)
+                processViewState(adapter, trendingState)
             }
         }
 
-        if (activity is ActionButtonActivity) {
-            (activity as ActionButtonActivity).actionButton?.visibility = View.GONE
-        }
+        (requireActivity() as? ActionButtonActivity)?.actionButton?.visibility = View.GONE
     }
 
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
-    private fun setupLayoutManager(columnCount: Int) {
+    private fun setupLayoutManager(adapter: TrendingTagsAdapter, columnCount: Int) {
         binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount).apply {
             spanSizeLookup = object : SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -120,10 +120,10 @@ class TrendingTagsFragment :
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(adapter: TrendingTagsAdapter) {
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
-        setupLayoutManager(columnCount)
+        setupLayoutManager(adapter, columnCount)
 
         binding.recyclerView.setHasFixedSize(true)
 
@@ -141,19 +141,22 @@ class TrendingTagsFragment :
         )
     }
 
-    private fun processViewState(uiState: TrendingTagsViewModel.TrendingTagsUiState) {
+    private fun processViewState(
+        adapter: TrendingTagsAdapter,
+        uiState: TrendingTagsViewModel.TrendingTagsUiState
+    ) {
         Log.d(TAG, uiState.loadingState.name)
         when (uiState.loadingState) {
             TrendingTagsViewModel.LoadingState.INITIAL -> clearLoadingState()
             TrendingTagsViewModel.LoadingState.LOADING -> applyLoadingState()
             TrendingTagsViewModel.LoadingState.REFRESHING -> applyRefreshingState()
-            TrendingTagsViewModel.LoadingState.LOADED -> applyLoadedState(uiState.trendingViewData)
+            TrendingTagsViewModel.LoadingState.LOADED -> applyLoadedState(adapter, uiState.trendingViewData)
             TrendingTagsViewModel.LoadingState.ERROR_NETWORK -> networkError()
             TrendingTagsViewModel.LoadingState.ERROR_OTHER -> otherError()
         }
     }
 
-    private fun applyLoadedState(viewData: List<TrendingViewData>) {
+    private fun applyLoadedState(adapter: TrendingTagsAdapter, viewData: List<TrendingViewData>) {
         clearLoadingState()
 
         adapter.submitList(viewData)
@@ -221,13 +224,13 @@ class TrendingTagsFragment :
 
     override fun onResume() {
         super.onResume()
-        val a11yManager =
-            ContextCompat.getSystemService(requireContext(), AccessibilityManager::class.java)
+        val a11yManager = requireContext().getSystemService<AccessibilityManager>()
 
         val wasEnabled = talkBackWasEnabled
         talkBackWasEnabled = a11yManager?.isEnabled == true
         Log.d(TAG, "talkback was enabled: $wasEnabled, now $talkBackWasEnabled")
         if (talkBackWasEnabled && !wasEnabled) {
+            val adapter = requireNotNull(this.adapter)
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
         }
 
@@ -238,7 +241,7 @@ class TrendingTagsFragment :
     }
 
     override fun onReselect() {
-        if (isAdded) {
+        if (view != null) {
             binding.recyclerView.layoutManager?.scrollToPosition(0)
             binding.recyclerView.stopScroll()
         }

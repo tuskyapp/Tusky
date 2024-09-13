@@ -107,7 +107,7 @@ class FocusIndicatorView
         val imageSize = this.imageSize
         val focus = this.focus
 
-        if (imageSize != null && focus != null) {
+        if (imageSize != null && focus?.x != null && focus.y != null) {
             val x = axisFromFocus(focus.x, imageSize.x, this.width)
             val y = axisFromFocus(-focus.y, imageSize.y, this.height)
             val circleRadius = getCircleRadius()

@@ -29,17 +29,17 @@
     <string name="title_follow_requests">Peticions de seguiment</string>
     <string name="title_edit_profile">Edita el perfil</string>
     <string name="title_drafts">Esborranys</string>
-    <string name="post_username_format">\@%s</string>
-    <string name="post_boosted_format">%s ha impulsat</string>
+    <string name="post_username_format">\@%1$s</string>
+    <string name="post_boosted_format">%1$s ha impulsat</string>
     <string name="post_sensitive_media_title">Contingut sensible</string>
     <string name="post_sensitive_media_directions">Fes clic per a visualitzar-lo</string>
     <string name="post_content_warning_show_more">Mostra\'n més</string>
     <string name="post_content_warning_show_less">Mostra\'n menys</string>
     <string name="footer_empty">No hi res aquí. Llisca avall per a actualitzar!</string>
-    <string name="notification_reblog_format">%s ha impulsat la teva publicació</string>
-    <string name="notification_favourite_format">%s ha marcat com a preferida la teva publicació</string>
-    <string name="notification_follow_format">%s et segueix</string>
-    <string name="report_username_format">Denuncia @%s</string>
+    <string name="notification_reblog_format">%1$s ha impulsat la teva publicació</string>
+    <string name="notification_favourite_format">%1$s ha marcat com a preferida la teva publicació</string>
+    <string name="notification_follow_format">%1$s et segueix</string>
+    <string name="report_username_format">Denuncia @%1$s</string>
     <string name="report_comment_hint">Cap comentari addicional?</string>
     <string name="action_reply">Respon</string>
     <string name="action_reblog">Impulsa</string>
@@ -128,7 +128,6 @@
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Pestanyes personalitzades del Chrome</string>
-    <string name="pref_title_hide_follow_button">Amaga el botó de redacció en desplaçament</string>
     <string name="pref_title_post_filter">Filtre de la cronologia</string>
     <string name="pref_title_post_tabs">Pestanyes</string>
     <string name="pref_title_show_boosts">Mostra els impulsos</string>
@@ -148,17 +147,17 @@
     <string name="notification_boost_description">Notificacions quan s\'impulsen les teves publicacions</string>
     <string name="notification_favourite_name">Preferits</string>
     <string name="notification_favourite_description">Notificacions quan les teves publicacions es marquen com a preferides</string>
-    <string name="notification_mention_format">%s et mencionen</string>
+    <string name="notification_mention_format">%1$s et mencionen</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s i %4$d més</string>
     <string name="notification_summary_medium">%1$s, %2$s i %3$s</string>
     <string name="notification_summary_small">%1$s i %2$s</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%d interacció nova</item>
-        <item quantity="other">%d interaccions noves</item>
+        <item quantity="one">%1$d interacció nova</item>
+        <item quantity="other">%1$d interaccions noves</item>
     </plurals>
     <string name="description_account_locked">Compte blocat</string>
     <string name="about_title_activity">Quant a</string>
-    <string name="about_tusky_version">Tusky %s</string>
+    <string name="about_tusky_version">Tusky %1$s</string>
     <string name="about_tusky_license">Tusky és programari gratuït, lliure i de codi obert.
         Està llicenciat en els termes de la Llicència Pública General GNU versió 3.
         Podeu trobar les llicència aquí: https://www.gnu.org/licenses/gpl-3.0.ca.html</string>
@@ -177,20 +176,20 @@
     <string name="post_media_images">Imatges</string>
     <string name="post_media_video">Vídeo</string>
     <!--These are for timestamps on statuses. For example: "16s" or "2d"-->
-    <string name="abbreviated_in_years">en %d anys</string>
-    <string name="abbreviated_in_days">en %dd</string>
-    <string name="abbreviated_in_hours">en %dh</string>
-    <string name="abbreviated_in_minutes">en %dm</string>
-    <string name="abbreviated_in_seconds">en %ds</string>
-    <string name="abbreviated_years_ago">%d anys</string>
-    <string name="abbreviated_days_ago">%dd</string>
-    <string name="abbreviated_hours_ago">%dh</string>
-    <string name="abbreviated_minutes_ago">%dm</string>
-    <string name="abbreviated_seconds_ago">%ds</string>
+    <string name="abbreviated_in_years">en %1$d anys</string>
+    <string name="abbreviated_in_days">en %1$dd</string>
+    <string name="abbreviated_in_hours">en %1$dh</string>
+    <string name="abbreviated_in_minutes">en %1$dm</string>
+    <string name="abbreviated_in_seconds">en %1$ds</string>
+    <string name="abbreviated_years_ago">%1$d anys</string>
+    <string name="abbreviated_days_ago">%1$dd</string>
+    <string name="abbreviated_hours_ago">%1$dh</string>
+    <string name="abbreviated_minutes_ago">%1$dm</string>
+    <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Et segueix</string>
     <string name="pref_title_alway_show_sensitive_media">Mostra el contingut no apte (NSFW)</string>
     <string name="title_media">Multimèdia</string>
-    <string name="replying_to">En resposta a @%s</string>
+    <string name="replying_to">En resposta a @%1$s</string>
     <string name="load_more_placeholder_text">carrega\'n més</string>
     <string name="poll_vote">Vota</string>
     <string name="error_sender_account_gone">S\'ha produït un error en publicar.</string>
@@ -228,8 +227,8 @@
     <string name="state_follow_requested">Petició enviada</string>
     <string name="title_posts_with_replies">Amb respostes</string>
     <string name="action_emoji_keyboard">Teclat d\'emojis</string>
-    <string name="action_open_media_n">Obrir el media #%d</string>
-    <string name="action_open_as">Obre com a %s</string>
+    <string name="action_open_media_n">Obrir el media #%1$d</string>
+    <string name="action_open_as">Obre com a %1$s</string>
     <string name="downloading_media">S\'està Descarregant media</string>
     <string name="label_quick_reply">Resposta …</string>
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
@@ -284,9 +283,9 @@
     <string name="compose_active_account_description">"Publicar com a  %1$s"</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Descriu per a persones amb discapacitat visual
-\n(%d límit de caràcters)</item>
+\n(%1$d límit de caràcters)</item>
         <item quantity="other">Descriu per a persones amb discapacitat visual
-\n(%d límit de caràcters)</item>
+\n(%1$d límit de caràcters)</item>
     </plurals>
     <string name="action_set_caption">Afegir una llegenda</string>
     <string name="action_remove">Eliminar</string>
@@ -299,7 +298,7 @@
     <string name="send_post_notification_cancel_title">Envio anul·lat</string>
     <string name="send_post_notification_saved_content">S\'ha guardat una còpia de la publicació als esborranys</string>
     <string name="action_compose_shortcut">Escriure</string>
-    <string name="error_no_custom_emojis">La teva instància %s no te emojis personalitzats</string>
+    <string name="error_no_custom_emojis">La teva instància %1$s no te emojis personalitzats</string>
     <string name="emoji_style">Estil dels emojis</string>
     <string name="system_default">Sistema per defecte</string>
     <string name="download_fonts">Hauràs de descarregar el joc d\'emojis</string>
@@ -333,15 +332,15 @@
         <item quantity="other"><b>%1$s</b> Favorits</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%s</b> impuls</item>
-        <item quantity="other"><b>%s</b> impulsos</item>
+        <item quantity="one"><b>%1$s</b> impuls</item>
+        <item quantity="other"><b>%1$s</b> impulsos</item>
     </plurals>
     <string name="title_reblogged_by">Impulsat per</string>
     <string name="title_favourited_by">Marcat favorit per</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s i %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s i %3$d més</string>
-    <string name="description_post_media">Mèdia : %s</string>
+    <string name="description_post_media">Mèdia : %1$s</string>
     <string name="description_post_media_no_description_placeholder">Sense descripció</string>
     <string name="description_post_favourited">Favorits</string>
     <string name="description_visibility_public">Públic</string>
@@ -359,24 +358,24 @@
     <string name="notification_clear_text">Vols netejar totes les notificacions permanentment\?</string>
     <string name="poll_info_format"> <!-- 15 vots • queda 1 hora --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
-        <item quantity="one">%s vot</item>
-        <item quantity="other">%s vots</item>
+        <item quantity="one">%1$s vot</item>
+        <item quantity="other">%1$s vots</item>
     </plurals>
-    <string name="poll_info_time_absolute">Acaba a %s</string>
+    <string name="poll_info_time_absolute">Acaba a %1$s</string>
     <string name="poll_info_closed">tancat</string>
     <string name="poll_ended_voted">L\'enquesta on has votat està tancada</string>
     <string name="poll_ended_created">La enquesta que heu creat ha finalitzat</string>
-    <string name="description_post_cw">Advertència: %s</string>
+    <string name="description_post_cw">Advertència: %1$s</string>
     <string name="title_posts_pinned">Fixat</string>
     <string name="unpin_action">No fixis</string>
     <string name="pin_action">Fixar</string>
     <string name="description_post_reblogged">Respost</string>
-    <string name="compose_preview_image_description">Accions per a la imatge %s</string>
+    <string name="compose_preview_image_description">Accions per a la imatge %1$s</string>
     <string name="pref_title_animate_gif_avatars">Activar l\'animació dels GIF</string>
     <string name="title_domain_mutes">Dominis ocults</string>
     <string name="action_view_domain_mutes">Dominis ocults</string>
-    <string name="action_mute_domain">Silenciar %s</string>
-    <string name="confirmation_domain_unmuted">%s visible</string>
+    <string name="action_mute_domain">Silenciar %1$s</string>
+    <string name="confirmation_domain_unmuted">%1$s visible</string>
     <string name="mute_domain_warning_dialog_ok">Amagar el domini sencer</string>
     <string name="pref_title_alway_open_spoiler">Mostra sempre obertes les publicacions marcades amb avisos de contingut</string>
     <string name="filter_dialog_whole_word">Paraula sencera</string>
@@ -386,14 +385,14 @@
     <string name="button_back">Enrere</string>
     <string name="button_done">Fet</string>
     <string name="hint_additional_info">Comentaris addicionals</string>
-    <string name="report_remote_instance">Reenviar a %s</string>
+    <string name="report_remote_instance">Reenviar a %1$s</string>
     <string name="failed_report">Report erroni</string>
     <string name="failed_fetch_posts">Error obtenint els estats</string>
     <string name="report_description_1">L\'informe s\'enviarà al moderador del teu servidor. Pots afegir una explicació del motiu d\'aquest informe del compte a sota:</string>
     <string name="title_accounts">Comptes</string>
-    <string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %s\? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
+    <string name="mute_domain_warning">Estàs segur que vols bloquejar tot de %1$s\? No veuràs cap contingut de domini ni en els fils públics ni a les teves notificacions. Els teus seguidors d\'aquest domini seran eliminats.</string>
     <string name="filter_dialog_whole_word_description">Quan la paraula o la frase siguin només alfanumèrica , només s\'aplicarà si coincideix amb tota la paraula</string>
-    <string name="report_sent_success">\@%s reportat satisfactoriament</string>
+    <string name="report_sent_success">\@%1$s reportat satisfactoriament</string>
     <string name="report_description_remote_instance">El compte és d\'un altre servidor. Enviar, igualment, una copia anònima del report\?</string>
     <string name="failed_search">Cerca fallida</string>
     <string name="duration_1_hour">1 hora</string>
@@ -408,7 +407,7 @@
     <string name="duration_7_days">7 dies</string>
     <string name="add_poll_choice">Afegeix una tria</string>
     <string name="poll_allow_multiple_choices">Múltiples tries</string>
-    <string name="poll_new_choice_hint">Tria %d</string>
+    <string name="poll_new_choice_hint">Tria %1$d</string>
     <string name="title_bookmarks">Preferits</string>
     <string name="title_scheduled_posts">Publicacions programades</string>
     <string name="action_bookmark">Preferit</string>
@@ -421,7 +420,7 @@
     <string name="description_post_bookmarked">S\'ha afegit a les adreces d\'interès</string>
     <string name="select_list_title">Seleccionar la llista</string>
     <string name="list">Llista</string>
-    <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %s</string>
+    <string name="post_lookup_error_format">S\'ha produït un error en cercar la publicació %1$s</string>
     <string name="no_scheduled_posts">No tens cap estat planificat.</string>
     <string name="no_drafts">No teniu cap esborrany.</string>
     <string name="warning_scheduling_interval">L\'interval mínim de planificació a Mastodon és de 5 minuts.</string>
@@ -430,25 +429,25 @@
     <string name="pref_title_show_cards_in_timelines">Mostra les previsualitzacions dels enllaços en els fils</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilita el gest de desplaçament per despleçar-te entre pestanyes</string>
     <plurals name="poll_info_people">
-        <item quantity="one">%s persona</item>
-        <item quantity="other">%s persones</item>
+        <item quantity="one">%1$s persona</item>
+        <item quantity="other">%1$s persones</item>
     </plurals>
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>
     <string name="notification_follow_request_description">Notificacions sobre sol·licituds de seguiment</string>
     <string name="pref_title_notification_filter_follow_requests">sol·licitació de seguiment</string>
-    <string name="dialog_mute_warning">Silenciar @%s\?</string>
-    <string name="dialog_block_warning">Bloquejar @%s\?</string>
+    <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
+    <string name="dialog_block_warning">Bloquejar @%1$s\?</string>
     <string name="action_unmute_conversation">No silenciar la conversació</string>
     <string name="action_mute_conversation">Silencia la conversa</string>
-    <string name="notification_follow_request_format">%s ha sol·licitat seguir-te</string>
+    <string name="notification_follow_request_format">%1$s ha sol·licitat seguir-te</string>
     <string name="pref_main_nav_position_option_bottom">A baix</string>
     <string name="pref_main_nav_position_option_top">A dalt</string>
     <string name="pref_main_nav_position">Posició de navegació principal</string>
     <string name="pref_title_gradient_for_media">Mostra els degradats de colors per als mitjans ocults</string>
     <string name="dialog_mute_hide_notifications">Amagar notificacions</string>
-    <string name="action_unmute_domain">Deixar de silenciar %s</string>
-    <string name="action_unmute_desc">Deixar de silenciar %s</string>
+    <string name="action_unmute_domain">Deixar de silenciar %1$s</string>
+    <string name="action_unmute_desc">Deixar de silenciar %1$s</string>
     <string name="review_notifications">Revisió d\'avisos</string>
     <string name="account_note_saved">S\'ha desat!</string>
     <string name="account_note_hint">Les vostres notes quant a aquest compte</string>
@@ -458,20 +457,20 @@
     <string name="duration_indefinite">Indefinit</string>
     <string name="label_duration">Durada</string>
     <plurals name="poll_timespan_seconds">
-        <item quantity="one">falta %d segon</item>
-        <item quantity="other">falten %d segons</item>
+        <item quantity="one">falta %1$d segon</item>
+        <item quantity="other">falten %1$d segons</item>
     </plurals>
     <plurals name="poll_timespan_minutes">
-        <item quantity="one">falta %d minut</item>
-        <item quantity="other">falten %d minuts</item>
+        <item quantity="one">falta %1$d minut</item>
+        <item quantity="other">falten %1$d minuts</item>
     </plurals>
     <plurals name="poll_timespan_hours">
-        <item quantity="one">falta %d hora</item>
-        <item quantity="other">falten %d hores</item>
+        <item quantity="one">falta %1$d hora</item>
+        <item quantity="other">falten %1$d hores</item>
     </plurals>
     <plurals name="poll_timespan_days">
-        <item quantity="one">falta %d dia</item>
-        <item quantity="other">falten %d dies</item>
+        <item quantity="one">falta %1$d dia</item>
+        <item quantity="other">falten %1$d dies</item>
     </plurals>
     <string name="post_media_attachments">Adjuncions</string>
     <string name="post_media_audio">Àudio</string>
@@ -479,13 +478,13 @@
     <string name="notification_subscription_name">Publicacions noves</string>
     <string name="pref_title_animate_custom_emojis">emojis personalitzats animats</string>
     <string name="pref_title_notification_filter_subscriptions">algú a qui estic subscrit ha publicat una nova publicació</string>
-    <string name="notification_subscription_format">%s acaba de fer una publicació</string>
+    <string name="notification_subscription_format">%1$s acaba de fer una publicació</string>
     <string name="title_announcements">Avisos</string>
     <string name="drafts_post_reply_removed">S\'ha eliminat la publicació a la qual vau fer un esborrany de resposta</string>
     <string name="draft_deleted">S\'ha eliminat l\'esborrany</string>
     <string name="drafts_failed_loading_reply">No s\'ha pogut carregar la informació de la resposta</string>
     <string name="drafts_post_failed_to_send">No s\'ha pogut publicar!</string>
-    <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %s\?</string>
+    <string name="dialog_delete_list_warning">Segur que voleu esborrar la llista %1$s\?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">No podeu penjar més de %1$d fitxers adjunts multimèdia.</item>
         <item quantity="other">No podeu penjar més de %1$d fitxers adjunts multimèdia.</item>
@@ -496,13 +495,13 @@
     <string name="error_could_not_load_login_page">No s\'ha pogut carregar la pàgina d\'inici de sessió.</string>
     <string name="error_loading_account_details">No s\'han pogut carregar els detalls del compte</string>
     <string name="action_add_or_remove_from_list">Afegeix o elimina de la llista</string>
-    <string name="filter_expiration_format">%s (%s)</string>
+    <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="dialog_delete_conversation_warning">Vols suprimir aquesta conversa\?</string>
     <string name="failed_to_add_to_list">No s\'ha pogut afegir el compte a la llista</string>
-    <string name="error_multimedia_size_limit">Els fitxers de vídeo i àudio no poden superar la mida de %s MB.</string>
+    <string name="error_multimedia_size_limit">Els fitxers de vídeo i àudio no poden superar la mida de %1$s MB.</string>
     <string name="error_image_edit_failed">La imatge no s\'ha pogut editar.</string>
     <string name="action_dismiss">Descartar</string>
-    <string name="pref_title_http_proxy_port_message">El port hauria d\'estar entre %d i %d</string>
+    <string name="pref_title_http_proxy_port_message">El port hauria d\'estar entre %1$d i %2$d</string>
     <string name="status_count_one_plus">+1</string>
     <string name="title_edits">Edicions</string>
     <string name="pref_title_notification_filter_reports">hi ha un nou informe</string>
@@ -510,13 +509,13 @@
     <string name="pref_summary_http_proxy_missing">&lt;no definit&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;no vàlid&gt;</string>
     <string name="error_following_hashtags_unsupported">Aquesta instància no admet seguir hashtags.</string>
-    <string name="notification_sign_up_format">%s s\'ha registrat</string>
+    <string name="notification_sign_up_format">%1$s s\'ha registrat</string>
     <string name="pref_show_self_username_always">Sempre</string>
     <string name="pref_show_self_username_disambiguate">Quan s\'inicien la sessió amb diversos comptes</string>
     <string name="pref_show_self_username_never">Mai</string>
-    <string name="error_unmuting_hashtag_format">S\'ha produït un error en activar #%s</string>
-    <string name="error_muting_hashtag_format">S\'ha produït un error en silenciar #%s</string>
-    <string name="post_edited">S\'ha editat %s</string>
+    <string name="error_unmuting_hashtag_format">S\'ha produït un error en activar #%1$s</string>
+    <string name="error_muting_hashtag_format">S\'ha produït un error en silenciar #%1$s</string>
+    <string name="post_edited">S\'ha editat %1$s</string>
     <string name="notification_update_name">Edicions de publicacions</string>
     <string name="action_post_failed">La càrrega ha fallat</string>
     <string name="action_post_failed_detail">La teva publicació no s\'ha pogut penjar i s\'ha desat als esborranys.
@@ -529,10 +528,10 @@
     <string name="action_post_failed_do_nothing">Descartar</string>
     <string name="send_account_link_to">Comparteix l\'URL del compte a…</string>
     <string name="post_media_alt">ALT</string>
-    <string name="notification_update_format">%s ha editat la seva publicació</string>
-    <string name="notification_report_format">Nou informe sobre %s</string>
-    <string name="notification_header_report_format">%s ha informat %s</string>
-    <string name="notification_summary_report_format">%s · %d publicacions adjuntes</string>
+    <string name="notification_update_format">%1$s ha editat la seva publicació</string>
+    <string name="notification_report_format">Nou informe sobre %1$s</string>
+    <string name="notification_header_report_format">%1$s ha informat %2$s</string>
+    <string name="notification_summary_report_format">%1$s · %2$d publicacions adjuntes</string>
     <string name="action_unbookmark">Elimina el marcador</string>
     <string name="action_delete_conversation">Suprimeix la conversa</string>
     <string name="notification_sign_up_name">Inscripcions</string>
@@ -550,12 +549,12 @@
     <string name="action_details">Detalls</string>
     <string name="send_account_username_to">Comparteix el nom d\'usuari del compte a…</string>
     <string name="account_username_copied">S\'ha copiat el nom d\'usuari</string>
-    <string name="confirmation_hashtag_unfollowed">#%s deixat de seguir</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s deixat de seguir</string>
     <string name="pref_title_notification_filter_sign_ups">algú s\'ha donat d\'alta</string>
     <string name="pref_title_notification_filter_updates">una publicació amb la qual he interactuat s\'ha editat</string>
     <string name="notification_report_name">Informes</string>
-    <string name="error_following_hashtag_format">Error seguint #%s</string>
-    <string name="error_unfollowing_hashtag_format">Error en deixar de seguir #%s</string>
+    <string name="error_following_hashtag_format">Error seguint #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Error en deixar de seguir #%1$s</string>
     <string name="error_status_source_load">No s\'ha pogut carregar la font d\'estat des del servidor.</string>
     <string name="title_followed_hashtags">Hashtags seguits</string>
     <string name="notification_sign_up_description">Notificacions sobre nous usuaris</string>
@@ -564,7 +563,7 @@
     <string name="a11y_label_loading_thread">S\'està carregant el fil</string>
     <string name="compose_save_draft_loses_media">Guardar l\'esborrany\? (Els fitxers adjunts es tornaran a penjar quan recupereu l\'esborrany.)</string>
     <string name="dialog_push_notification_migration_other_accounts">Heu tornat a iniciar sessió al vostre compte actual per concedir permís de subscripció push a Tusky. Tanmateix, encara teniu altres comptes que no s\'han migrat d\'aquesta manera. Canvieu-los i torneu a iniciar sessió un per un per activar el suport de notificacions UnifiedPush.</string>
-    <string name="instance_rule_info">En iniciar sessió, accepteu les regles de %s.</string>
+    <string name="instance_rule_info">En iniciar sessió, accepteu les regles de %1$s.</string>
     <string name="action_edit_image">Edita la imatge</string>
     <string name="failed_to_pin">No s\'ha pogut fixar</string>
     <string name="failed_to_unpin">No s\'ha pogut desfixar</string>
@@ -582,7 +581,7 @@
     <string name="duration_no_change">(Sense canvis)</string>
     <string name="tusky_compose_post_quicksetting_label">Redacta la publicació</string>
     <string name="pref_title_confirm_favourites">Mostra el diàleg de confirmació abans de marcar com a preferit</string>
-    <string name="action_unfollow_hashtag_format">Deixar de seguir #%s\?</string>
+    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s\?</string>
     <string name="compose_unsaved_changes">Tens canvis no desats.</string>
     <string name="set_focus_description">Toqueu o arrossegueu el cercle per triar el punt focal que sempre serà visible a les miniatures.</string>
     <string name="pref_title_show_self_username">Mostra el nom d\'usuari a les barres d\'eines</string>
@@ -591,7 +590,7 @@
     <string name="description_browser_login">Pot ser compatible amb mètodes d\'autenticació addicionals, però requereix un navegador compatible.</string>
     <string name="no_lists">No tens cap llista.</string>
     <string name="delete_scheduled_post_warning">Vols suprimir aquesta publicació programada\?</string>
-    <string name="language_display_name_format">%s (%s)</string>
+    <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Incompliment de la regla</string>
     <string name="report_category_spam">Spam</string>
     <string name="duration_180_days">180 dies</string>
@@ -611,7 +610,7 @@
     <string name="status_edit_info">%1$s ha editat</string>
     <string name="action_subscribe_account">Subscriu-te</string>
     <string name="action_unsubscribe_account">Cancel·la la subscripció</string>
-    <string name="instance_rule_title">%s regles</string>
+    <string name="instance_rule_title">%1$s regles</string>
     <string name="mute_notifications_switch">Silencia les notificacions</string>
     <string name="status_created_info">%1$s ha creat</string>
     <string name="title_public_trending_hashtags">Hashtags populars</string>
@@ -622,7 +621,7 @@
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_refresh">Actualitzar</string>
     <string name="notification_unknown_name">Desconegut</string>
-    <string name="status_filter_placeholder_label_format">Filtrat: %s</string>
+    <string name="status_filter_placeholder_label_format">Filtrat: %1$s</string>
     <string name="pref_title_account_filter_keywords">Perfils</string>
     <string name="status_filtered_show_anyway">Mostra de totes maneres</string>
     <string name="socket_timeout_exception">El contacte amb el teu servidor ha trigat massa</string>

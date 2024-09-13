@@ -82,10 +82,12 @@ sealed class StatusViewData {
         /**
          * Specifies whether the content of this post is long enough to be automatically
          * collapsed or if it should show all content regardless.
+         * Translated posts only show the button if the original post had it as well.
          *
          * @return Whether the post is collapsible or never collapsed.
          */
-        val isCollapsible: Boolean = shouldTrimStatus(this.content)
+        val isCollapsible: Boolean = shouldTrimStatus(this.content) &&
+            (translation == null || shouldTrimStatus(actionable.content.parseAsMastodonHtml()))
 
         val actionable: Status
             get() = status.actionableStatus
@@ -102,21 +104,6 @@ sealed class StatusViewData {
 
         val rebloggingStatus: Status?
             get() = if (status.reblog != null) status else null
-
-        /** Helper for Java */
-        fun copyWithStatus(status: Status): Concrete {
-            return copy(status = status)
-        }
-
-        /** Helper for Java */
-        fun copyWithExpanded(isExpanded: Boolean): Concrete {
-            return copy(isExpanded = isExpanded)
-        }
-
-        /** Helper for Java */
-        fun copyWithShowingContent(isShowingContent: Boolean): Concrete {
-            return copy(isShowingContent = isShowingContent)
-        }
 
         /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {

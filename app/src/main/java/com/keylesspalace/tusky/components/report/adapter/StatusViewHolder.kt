@@ -59,7 +59,7 @@ class StatusViewHolder(
     private val previewListener = object : StatusViewHelper.MediaPreviewListener {
         override fun onViewMedia(v: View?, idx: Int) {
             viewdata()?.let { viewdata ->
-                adapterHandler.showMedia(v, viewdata.status, idx)
+                adapterHandler.showMedia(v, viewdata, idx)
             }
         }
 

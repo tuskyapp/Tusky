@@ -1,0 +1,7 @@
+Tusky 26
+
+- Die blaue Primärfarbe wurde für einen besseren Kontrast leicht angepasst
+- Die Inhalte im Tab »Benachrichtigungen« werden jetzt im Cache gespeichert, um das Offline-Verhalten zu verbessern
+- Neue Einstellung: Standard-Antwortsichtbarkeit
+- Viele Stabilitäts- und Leistungsverbesserungen
+Sieh dir https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md für alle Änderungen an.

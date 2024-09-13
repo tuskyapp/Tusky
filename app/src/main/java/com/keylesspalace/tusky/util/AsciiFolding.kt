@@ -21,6 +21,6 @@ val unicodeToASCIIMap = "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČ�
     "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz".toList()
 ).toMap()
 
-fun normalizeToASCII(text: CharSequence): CharSequence {
+fun normalizeToASCII(text: CharSequence): String {
     return String(text.map { unicodeToASCIIMap[it] ?: it }.toCharArray())
 }

@@ -243,7 +243,7 @@ class StatusViewHelper(private val itemView: View) {
 
         // Set the icon next to the label.
         val drawableId = getLabelIcon(attachments[0].type)
-        mediaLabel.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
+        mediaLabel.setCompoundDrawablesRelativeWithIntrinsicBounds(drawableId, 0, 0, 0)
 
         mediaLabel.setOnClickListener { listener.onViewMedia(null, 0) }
     }

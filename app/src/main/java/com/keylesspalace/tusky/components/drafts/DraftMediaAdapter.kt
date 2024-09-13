@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.db.DraftAttachment
+import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.view.MediaPreviewImageView
 
 class DraftMediaAdapter(

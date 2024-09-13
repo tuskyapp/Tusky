@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.compose.dialog
 
 import android.content.Context
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -25,7 +26,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -34,6 +34,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 
@@ -44,6 +45,8 @@ class CaptionDialog : DialogFragment() {
     private lateinit var listener: Listener
 
     private val binding by viewBinding(DialogImageDescriptionBinding::bind)
+
+    private var animatable: Animatable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,11 @@ class CaptionDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val imageView = binding.imageDescriptionView
         imageView.maxZoom = 6f
+        val imageDescriptionText = binding.imageDescriptionText
+        imageDescriptionText.post {
+            imageDescriptionText.requestFocus()
+            imageDescriptionText.setSelection(imageDescriptionText.length())
+        }
 
         binding.imageDescriptionText.hint = resources.getQuantityString(
             R.plurals.hint_describe_for_visually_impaired,
@@ -81,8 +89,9 @@ class CaptionDialog : DialogFragment() {
         }
 
         isCancelable = true
+        dialog?.setCanceledOnTouchOutside(false) // Dialog is full screen anyway. But without this, taps in navbar while keyboard is up can dismiss the dialog.
 
-        val previewUri = BundleCompat.getParcelable(requireArguments(), PREVIEW_URI_ARG, Uri::class.java) ?: error("Preview Uri is null")
+        val previewUri = arguments?.getParcelableCompat<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
 
         // Load the image and manually set it into the ImageView because it doesn't have a fixed size.
         Glide.with(this)
@@ -97,6 +106,23 @@ class CaptionDialog : DialogFragment() {
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
+                    if (resource is Animatable) {
+                        resource.callback = object : Drawable.Callback {
+                            override fun invalidateDrawable(who: Drawable) {
+                                view.invalidate()
+                            }
+
+                            override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
+                                view.postDelayed(what, `when`)
+                            }
+
+                            override fun unscheduleDrawable(who: Drawable, what: Runnable) {
+                                view.removeCallbacks(what)
+                            }
+                        }
+                        resource.start()
+                        animatable = resource
+                    }
                     imageView.setImageDrawable(resource)
                 }
 
@@ -126,6 +152,12 @@ class CaptionDialog : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as? Listener ?: error("Activity is not ComposeCaptionDialog.Listener")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        animatable?.stop()
+        (animatable as? Drawable?)?.callback = null
     }
 
     interface Listener {

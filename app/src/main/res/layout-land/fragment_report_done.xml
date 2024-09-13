@@ -23,13 +23,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_check_24dp"
         app:layout_constraintBottom_toBottomOf="@id/checkMark"
         app:layout_constraintEnd_toEndOf="@id/checkMark"
+        app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="@id/checkMark"
         app:layout_constraintTop_toTopOf="@id/checkMark"
-        app:layout_constraintHeight_default="percent"
+        app:srcCompat="@drawable/ic_check_24dp"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -59,10 +59,11 @@
         app:layout_constraintTop_toBottomOf="@id/textReported"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressMute"
-        style="?android:attr/progressBarStyleSmall"
+        style="@style/Widget.Material3.CircularProgressIndicator.Small"
         android:layout_width="wrap_content"
+        android:indeterminate="true"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/buttonMute"
         app:layout_constraintEnd_toEndOf="@id/buttonMute"
@@ -82,9 +83,9 @@
         app:layout_constraintTop_toBottomOf="@id/buttonMute"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBlock"
-        style="?android:attr/progressBarStyleSmall"
+        style="@style/Widget.Material3.CircularProgressIndicator.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/buttonBlock"

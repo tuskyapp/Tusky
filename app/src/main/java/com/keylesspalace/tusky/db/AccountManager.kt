@@ -15,9 +15,10 @@
 
 package com.keylesspalace.tusky.db
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
+import com.keylesspalace.tusky.db.dao.AccountDao
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -33,7 +34,10 @@ import javax.inject.Singleton
 private const val TAG = "AccountManager"
 
 @Singleton
-class AccountManager @Inject constructor(db: AppDatabase) {
+class AccountManager @Inject constructor(
+    db: AppDatabase,
+    private val preferences: SharedPreferences
+) {
 
     @Volatile
     var activeAccount: AccountEntity? = null
@@ -102,7 +106,7 @@ class AccountManager @Inject constructor(db: AppDatabase) {
         }
 
         activeAccount = newAccountEntity
-        updateActiveAccount(newAccount)
+        updateAccount(newAccountEntity, newAccount)
     }
 
     /**
@@ -118,49 +122,45 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     }
 
     /**
-     * Logs the current account out by deleting all data of the account.
+     * Logs an account out by deleting all its data.
      * @return the new active account, or null if no other account was found
      */
-    fun logActiveAccountOut(): AccountEntity? {
-        return activeAccount?.let { account ->
+    fun logout(account: AccountEntity): AccountEntity? {
+        account.logout()
 
-            account.logout()
+        accounts.remove(account)
+        accountDao.delete(account)
 
-            accounts.remove(account)
-            accountDao.delete(account)
-
-            if (accounts.size > 0) {
-                accounts[0].isActive = true
-                activeAccount = accounts[0]
-                Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
-                accountDao.insertOrReplace(accounts[0])
-            } else {
-                activeAccount = null
-            }
-            activeAccount
+        if (accounts.size > 0) {
+            accounts[0].isActive = true
+            activeAccount = accounts[0]
+            Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
+            accountDao.insertOrReplace(accounts[0])
+        } else {
+            activeAccount = null
         }
+        return activeAccount
     }
 
     /**
-     * updates the current account with new information from the mastodon api
-     * and saves it in the database
-     * @param account the [Account] object returned from the api
+     * Updates an account with new information from the Mastodon api
+     * and saves it in the database.
+     * @param accountEntity the [AccountEntity] to update
+     * @param account the [Account] object which the newest data from the api
      */
-    fun updateActiveAccount(account: Account) {
-        activeAccount?.let {
-            it.accountId = account.id
-            it.username = account.username
-            it.displayName = account.name
-            it.profilePictureUrl = account.avatar
-            it.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
-            it.defaultPostLanguage = account.source?.language.orEmpty()
-            it.defaultMediaSensitivity = account.source?.sensitive ?: false
-            it.emojis = account.emojis.orEmpty()
-            it.locked = account.locked
+    fun updateAccount(accountEntity: AccountEntity, account: Account) {
+        accountEntity.accountId = account.id
+        accountEntity.username = account.username
+        accountEntity.displayName = account.name
+        accountEntity.profilePictureUrl = account.avatar
+        accountEntity.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
+        accountEntity.defaultPostLanguage = account.source?.language.orEmpty()
+        accountEntity.defaultMediaSensitivity = account.source?.sensitive ?: false
+        accountEntity.emojis = account.emojis
+        accountEntity.locked = account.locked
 
-            Log.d(TAG, "updateActiveAccount: saving account with id " + it.id)
-            accountDao.insertOrReplace(it)
-        }
+        Log.d(TAG, "updateAccount: saving account with id " + accountEntity.id)
+        accountDao.insertOrReplace(accountEntity)
     }
 
     /**
@@ -234,9 +234,8 @@ class AccountManager @Inject constructor(db: AppDatabase) {
     /**
      * @return true if the name of the currently-selected account should be displayed in UIs
      */
-    fun shouldDisplaySelfUsername(context: Context): Boolean {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val showUsernamePreference = sharedPreferences.getString(
+    fun shouldDisplaySelfUsername(): Boolean {
+        val showUsernamePreference = preferences.getString(
             PrefKeys.SHOW_SELF_USERNAME,
             "disambiguate"
         )

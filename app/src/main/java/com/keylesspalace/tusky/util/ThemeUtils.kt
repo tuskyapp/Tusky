@@ -19,7 +19,6 @@ package com.keylesspalace.tusky.util
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -39,10 +38,7 @@ fun getDimension(context: Context, @AttrRes attribute: Int): Int {
 }
 
 fun setDrawableTint(context: Context, drawable: Drawable, @AttrRes attribute: Int) {
-    drawable.setColorFilter(
-        MaterialColors.getColor(context, attribute, Color.BLACK),
-        PorterDuff.Mode.SRC_IN
-    )
+    drawable.setTint(MaterialColors.getColor(context, attribute, Color.BLACK))
 }
 
 fun setAppNightMode(flavor: String?) {

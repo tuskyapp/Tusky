@@ -5,12 +5,13 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.setPadding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
@@ -47,7 +48,7 @@ class AccountMediaGridAdapter(
 
     private val baseItemBackgroundColor = MaterialColors.getColor(
         context,
-        com.google.android.material.R.attr.colorSurface,
+        materialR.attr.colorSurface,
         Color.BLACK
     )
     private val videoIndicator = AppCompatResources.getDrawable(
@@ -141,11 +142,7 @@ class AccountMediaGridAdapter(
                 onAttachmentClickListener(item, imageView)
             }
 
-            holder.binding.root.setOnLongClickListener { view ->
-                val description = item.attachment.getFormattedDescription(view.context)
-                Toast.makeText(view.context, description, Toast.LENGTH_LONG).show()
-                true
-            }
+            TooltipCompat.setTooltipText(holder.binding.root, imageView.contentDescription)
         }
     }
 }

@@ -1,8 +1,5 @@
 package com.keylesspalace.tusky
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,20 +9,21 @@ import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.util.NoUnderlineURLSpan
+import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class AboutActivity : BottomSheetActivity(), Injectable {
+@AndroidEntryPoint
+class AboutActivity : BottomSheetActivity() {
     @Inject
     lateinit var instanceInfoRepository: InstanceInfoRepository
 
@@ -90,13 +88,11 @@ class AboutActivity : BottomSheetActivity(), Injectable {
         }
 
         binding.copyDeviceInfo.setOnClickListener {
-            val text = "${binding.versionTextView.text}\n\nDevice:\n\n${binding.deviceInfo.text}\n\nAccount:\n\n${binding.accountInfo.text}"
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Tusky version information", text)
-            clipboard.setPrimaryClip(clip)
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                Toast.makeText(this, getString(R.string.about_copied), Toast.LENGTH_SHORT).show()
-            }
+            copyToClipboard(
+                "${binding.versionTextView.text}\n\nDevice:\n\n${binding.deviceInfo.text}\n\nAccount:\n\n${binding.accountInfo.text}",
+                getString(R.string.about_copied),
+                "Tusky version information",
+            )
         }
     }
 }

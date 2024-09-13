@@ -14,10 +14,11 @@
         android:id="@+id/followedTagsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_followed_hashtag"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/recyclerview_bottom_padding_actionbutton"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        tools:itemCount="5"
+        tools:listitem="@layout/item_followed_hashtag" />
 
     <com.keylesspalace.tusky.view.BackgroundMessageView
         android:id="@+id/followedTagsMessageView"
@@ -25,17 +26,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/followedTagsProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:indeterminate="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -43,7 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/action_mention"
-        app:srcCompat="@drawable/ic_hashtag" />
+        android:contentDescription="@string/action_follow_hashtag"
+        app:srcCompat="@drawable/ic_hashtag"
+        app:tint="?attr/colorOnPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/licenseCardName"
@@ -29,7 +30,7 @@
             android:id="@+id/licenseCardLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/tusky_blue" />
+            android:textColor="?attr/colorPrimary" />
     </LinearLayout>
 
 </merge>

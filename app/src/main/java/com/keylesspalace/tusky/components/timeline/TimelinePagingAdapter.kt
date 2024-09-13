@@ -21,9 +21,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
+import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -50,11 +53,15 @@ class TimelinePagingAdapter(
         val inflater = LayoutInflater.from(viewGroup.context)
         return when (viewType) {
             VIEW_TYPE_STATUS_FILTERED -> {
-                StatusViewHolder(inflater.inflate(R.layout.item_status_wrapper, viewGroup, false))
+                FilteredStatusViewHolder(
+                    ItemStatusFilteredBinding.inflate(inflater, viewGroup, false),
+                    statusListener
+                )
             }
             VIEW_TYPE_PLACEHOLDER -> {
                 PlaceholderViewHolder(
-                    inflater.inflate(R.layout.item_status_placeholder, viewGroup, false)
+                    ItemStatusPlaceholderBinding.inflate(inflater, viewGroup, false),
+                    statusListener
                 )
             }
             else -> {
@@ -80,18 +87,23 @@ class TimelinePagingAdapter(
         position: Int,
         payloads: List<*>?
     ) {
-        val status = getItem(position)
-        if (status is StatusViewData.Placeholder) {
+        val viewData = getItem(position)
+        if (viewData is StatusViewData.Placeholder) {
             val holder = viewHolder as PlaceholderViewHolder
-            holder.setup(statusListener, status.isLoading)
-        } else if (status is StatusViewData.Concrete) {
-            val holder = viewHolder as StatusViewHolder
-            holder.setupWithStatus(
-                status,
-                statusListener,
-                statusDisplayOptions,
-                if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
-            )
+            holder.setup(viewData.isLoading)
+        } else if (viewData is StatusViewData.Concrete) {
+            if (viewData.filterAction == Filter.Action.WARN) {
+                val holder = viewHolder as FilteredStatusViewHolder
+                holder.bind(viewData)
+            } else {
+                val holder = viewHolder as StatusViewHolder
+                holder.setupWithStatus(
+                    viewData,
+                    statusListener,
+                    statusDisplayOptions,
+                    if (payloads != null && payloads.isNotEmpty()) payloads[0] else null
+                )
+            }
         }
     }
 

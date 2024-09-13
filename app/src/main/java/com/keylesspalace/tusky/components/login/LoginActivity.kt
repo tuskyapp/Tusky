@@ -17,45 +17,43 @@ package com.keylesspalace.tusky.components.login
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityLoginBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
 import com.keylesspalace.tusky.util.shouldRickRoll
-import com.keylesspalace.tusky.util.supportsOverridingActivityTransitions
 import com.keylesspalace.tusky.util.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 
 /** Main login page, the first thing that users see. Has prompt for instance and login button. */
-class LoginActivity : BaseActivity(), Injectable {
+@AndroidEntryPoint
+class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
 
     private val binding by viewBinding(ActivityLoginBinding::inflate)
-
-    private lateinit var preferences: SharedPreferences
 
     private val oauthRedirectUri: String
         get() {
@@ -74,6 +72,10 @@ class LoginActivity : BaseActivity(), Injectable {
         }
     }
 
+    private var domain: String = ""
+    private var clientId: String = ""
+    private var clientSecret: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,6 +87,12 @@ class LoginActivity : BaseActivity(), Injectable {
         ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
+        }
+
+        if (savedInstanceState != null) {
+            domain = savedInstanceState.getString(DOMAIN, "")
+            clientId = savedInstanceState.getString(CLIENT_ID, "")
+            clientSecret = savedInstanceState.getString(CLIENT_SECRET, "")
         }
 
         if (isAccountMigration()) {
@@ -99,15 +107,10 @@ class LoginActivity : BaseActivity(), Injectable {
                 .into(binding.loginLogo)
         }
 
-        preferences = getSharedPreferences(
-            getString(R.string.preferences_file_key),
-            Context.MODE_PRIVATE
-        )
-
         binding.loginButton.setOnClickListener { onLoginClick(true) }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
-            val dialog = AlertDialog.Builder(this)
+            val dialog = MaterialAlertDialogBuilder(this)
                 .setMessage(R.string.dialog_whats_an_instance)
                 .setPositiveButton(R.string.action_close, null)
                 .show()
@@ -135,16 +138,18 @@ class LoginActivity : BaseActivity(), Injectable {
         return super.onCreateOptionsMenu(menu)
     }
 
-    /**
-     * Obtain the oauth client credentials for this app. This is only necessary the first time the
-     * app is run on a given server instance. So, after the first authentication, they are
-     * saved in SharedPreferences and every subsequent run they are simply fetched from there.
-     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(DOMAIN, domain)
+        outState.putString(CLIENT_ID, clientId)
+        outState.putString(CLIENT_SECRET, clientSecret)
+    }
+
     private fun onLoginClick(openInWebView: Boolean) {
         binding.loginButton.isEnabled = false
         binding.domainTextInputLayout.error = null
 
-        val domain = canonicalizeDomain(binding.domainEditText.text.toString())
+        domain = canonicalizeDomain(binding.domainEditText.text.toString())
 
         try {
             HttpUrl.Builder().host(domain).scheme("https").build()
@@ -170,16 +175,9 @@ class LoginActivity : BaseActivity(), Injectable {
                 getString(R.string.tusky_website)
             ).fold(
                 { credentials ->
-                    // Before we open browser page we save the data.
-                    // Even if we don't open other apps user may go to password manager or somewhere else
-                    // and we will need to pick up the process where we left off.
-                    // Alternatively we could pass it all as part of the intent and receive it back
-                    // but it is a bit of a workaround.
-                    preferences.edit()
-                        .putString(DOMAIN, domain)
-                        .putString(CLIENT_ID, credentials.clientId)
-                        .putString(CLIENT_SECRET, credentials.clientSecret)
-                        .apply()
+                    // Save credentials. These will be put into the savedInstanceState so they get restored after activity recreation.
+                    clientId = credentials.clientId
+                    clientSecret = credentials.clientSecret
 
                     redirectUserToAuthorizeAndLogin(domain, credentials.clientId, openInWebView)
                 },
@@ -202,17 +200,15 @@ class LoginActivity : BaseActivity(), Injectable {
     ) {
         // To authorize this app and log in it's necessary to redirect to the domain given,
         // login there, and the server will redirect back to the app with its response.
-        val uri = HttpUrl.Builder()
+        val uri = Uri.Builder()
             .scheme("https")
-            .host(domain)
-            .addPathSegments(MastodonApi.ENDPOINT_AUTHORIZE)
-            .addQueryParameter("client_id", clientId)
-            .addQueryParameter("redirect_uri", oauthRedirectUri)
-            .addQueryParameter("response_type", "code")
-            .addQueryParameter("scope", OAUTH_SCOPES)
+            .authority(domain)
+            .path(MastodonApi.ENDPOINT_AUTHORIZE)
+            .appendQueryParameter("client_id", clientId)
+            .appendQueryParameter("redirect_uri", oauthRedirectUri)
+            .appendQueryParameter("response_type", "code")
+            .appendQueryParameter("scope", OAUTH_SCOPES)
             .build()
-            .toString()
-            .toUri()
 
         if (openInWebView) {
             doWebViewAuth.launch(LoginData(domain, uri, oauthRedirectUri.toUri()))
@@ -267,11 +263,6 @@ class LoginActivity : BaseActivity(), Injectable {
     }
 
     private suspend fun fetchOauthToken(code: String) {
-        /* restore variables from SharedPreferences */
-        val domain = preferences.getNonNullString(DOMAIN, "")
-        val clientId = preferences.getNonNullString(CLIENT_ID, "")
-        val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
-
         setLoading(true)
 
         mastodonApi.fetchOAuthToken(
@@ -312,15 +303,10 @@ class LoginActivity : BaseActivity(), Injectable {
                 oauthScopes = OAUTH_SCOPES,
                 newAccount = newAccount
             )
-
+            finishAffinity()
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
-            finishAffinity()
-            if (!supportsOverridingActivityTransitions()) {
-                @Suppress("DEPRECATION")
-                overridePendingTransition(R.anim.explode, R.anim.activity_open_exit)
-            }
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =

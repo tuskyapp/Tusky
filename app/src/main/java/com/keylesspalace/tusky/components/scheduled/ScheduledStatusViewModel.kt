@@ -22,21 +22,24 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
-import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.network.MastodonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class ScheduledStatusViewModel @Inject constructor(
-    val mastodonApi: MastodonApi,
-    val eventHub: EventHub
+    val mastodonApi: MastodonApi
 ) : ViewModel() {
 
     private val pagingSourceFactory = ScheduledStatusPagingSourceFactory(mastodonApi)
 
     val data = Pager(
-        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        config = PagingConfig(
+            pageSize = 20,
+            initialLoadSize = 20
+        ),
         pagingSourceFactory = pagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)

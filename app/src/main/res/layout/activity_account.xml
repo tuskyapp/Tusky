@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.keylesspalace.tusky.view.TuskySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeToRefreshLayout"
@@ -17,7 +17,7 @@
             android:id="@+id/accountAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="@dimen/actionbar_elevation">
+            app:liftOnScroll="false">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
@@ -165,6 +165,7 @@
                         app:chipMinHeight="@dimen/profile_badge_min_height"
                         app:chipStrokeColor="?android:attr/textColorTertiary"
                         app:chipStrokeWidth="@dimen/profile_badge_stroke_width"
+                        app:closeIconEnabled="false"
                         app:ensureMinTouchTargetSize="false"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountUsernameTextView"
@@ -189,7 +190,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/accountNoteTextInputLayout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        style="@style/TuskyTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -210,7 +211,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/account_note_saved"
-                        android:textColor="@color/tusky_blue"
+                        android:textColor="?attr/colorPrimary"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/accountNoteTextInputLayout" />
@@ -424,7 +425,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- top margin equal to statusbar size will be set programmatically -->
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/accountToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -441,7 +442,6 @@
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorSurface"
                 app:tabGravity="center"
                 app:tabMode="scrollable" />
 
@@ -461,7 +461,8 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/action_mention"
-            app:srcCompat="@drawable/ic_create_24dp" />
+            app:srcCompat="@drawable/ic_create_24dp"
+            app:tint="?attr/colorOnPrimary" />
 
         <include layout="@layout/item_status_bottom_sheet" />
 
@@ -479,4 +480,4 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>

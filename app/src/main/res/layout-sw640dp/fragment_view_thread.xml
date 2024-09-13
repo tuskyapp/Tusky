@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.keylesspalace.tusky.view.TuskySwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="640dp"
         android:layout_height="match_parent"
@@ -23,15 +23,18 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="?android:attr/colorBackground"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
+                android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/threadProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:contentDescription="@string/a11y_label_loading_thread"
                 android:indeterminate="true"
-                android:contentDescription="@string/a11y_label_loading_thread" />
+                android:visibility="gone" />
 
             <com.keylesspalace.tusky.view.BackgroundMessageView
                 android:id="@+id/statusView"
@@ -41,15 +44,15 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
         </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.keylesspalace.tusky.view.TuskySwipeRefreshLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/initialProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminate="true"
         android:layout_gravity="center"
-        android:contentDescription="@string/a11y_label_loading_thread" />
+        android:contentDescription="@string/a11y_label_loading_thread"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

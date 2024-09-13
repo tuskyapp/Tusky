@@ -15,12 +15,12 @@
 
 package com.keylesspalace.tusky.components.accountlist
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.components.accountlist.adapter.FollowRequestsHead
 import com.keylesspalace.tusky.components.accountlist.adapter.MutesAdapter
 import com.keylesspalace.tusky.databinding.FragmentAccountListBinding
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
@@ -50,20 +49,23 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.view.EndlessOnScrollListener
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
+@AndroidEntryPoint
 class AccountListFragment :
     Fragment(R.layout.fragment_account_list),
     AccountActionListener,
-    LinkListener,
-    Injectable {
+    LinkListener {
 
     @Inject
     lateinit var api: MastodonApi
@@ -71,19 +73,21 @@ class AccountListFragment :
     @Inject
     lateinit var accountManager: AccountManager
 
+    @Inject
+    lateinit var preferences: SharedPreferences
+
     private val binding by viewBinding(FragmentAccountListBinding::bind)
 
     private lateinit var type: Type
     private var id: String? = null
 
-    private lateinit var scrollListener: EndlessOnScrollListener
-    private lateinit var adapter: AccountAdapter<*>
+    private var adapter: AccountAdapter<*>? = null
     private var fetching = false
     private var bottomId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = requireArguments().getSerializable(ARG_TYPE) as Type
+        type = requireArguments().getSerializableCompat(ARG_TYPE)!!
         id = requireArguments().getString(ARG_ID)
     }
 
@@ -96,17 +100,13 @@ class AccountListFragment :
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
-        binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts() }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.tusky_blue)
-
-        val pm = PreferenceManager.getDefaultSharedPreferences(view.context)
-        val animateAvatar = pm.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-        val animateEmojis = pm.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        val showBotOverlay = pm.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
+        val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
+        val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        val showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
 
         val activeAccount = accountManager.activeAccount!!
 
-        adapter = when (type) {
+        val adapter = when (type) {
             Type.BLOCKS -> BlocksAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.MUTES -> MutesAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
             Type.FOLLOW_REQUESTS -> {
@@ -121,22 +121,31 @@ class AccountListFragment :
             }
             else -> FollowAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
         }
+        this.adapter = adapter
         if (binding.recyclerView.adapter == null) {
             binding.recyclerView.adapter = adapter
         }
 
-        scrollListener = object : EndlessOnScrollListener(layoutManager) {
+        val scrollListener = object : EndlessOnScrollListener(layoutManager) {
             override fun onLoadMore(totalItemsCount: Int, view: RecyclerView) {
                 if (bottomId == null) {
                     return
                 }
-                fetchAccounts(bottomId)
+                fetchAccounts(adapter, bottomId)
             }
         }
 
         binding.recyclerView.addOnScrollListener(scrollListener)
 
-        fetchAccounts()
+        binding.swipeRefreshLayout.setOnRefreshListener { fetchAccounts(adapter) }
+
+        fetchAccounts(adapter)
+    }
+
+    override fun onDestroyView() {
+        // Clear the adapter to prevent leaking the View
+        adapter = null
+        super.onDestroyView()
     }
 
     override fun onViewTag(tag: String) {
@@ -244,12 +253,12 @@ class AccountListFragment :
         Log.e(TAG, "Failed to $verb account accountId $accountId")
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, accountId: String, position: Int) {
+    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(accountId)
+                api.authorizeFollowRequest(id)
             } else {
-                api.rejectFollowRequest(accountId)
+                api.rejectFollowRequest(id)
             }.fold(
                 onSuccess = {
                     onRespondToFollowRequestSuccess(position)
@@ -260,7 +269,7 @@ class AccountListFragment :
                     } else {
                         "reject"
                     }
-                    Log.e(TAG, "Failed to $verb account id $accountId.", throwable)
+                    Log.e(TAG, "Failed to $verb account id $id.", throwable)
                 }
             )
         }
@@ -299,7 +308,7 @@ class AccountListFragment :
         return requireNotNull(id) { "id must not be null for type " + type.name }
     }
 
-    private fun fetchAccounts(fromId: String? = null) {
+    private fun fetchAccounts(adapter: AccountAdapter<*>, fromId: String? = null) {
         if (fetching) {
             return
         }
@@ -315,26 +324,36 @@ class AccountListFragment :
                 val response = getFetchCallByListType(fromId)
 
                 if (!response.isSuccessful) {
-                    onFetchAccountsFailure(Exception(response.message()))
+                    onFetchAccountsFailure(adapter, Exception(response.message()))
                     return@launch
                 }
 
                 val accountList = response.body()
 
                 if (accountList == null) {
-                    onFetchAccountsFailure(Exception(response.message()))
+                    onFetchAccountsFailure(adapter, Exception(response.message()))
                     return@launch
                 }
 
                 val linkHeader = response.headers()["Link"]
-                onFetchAccountsSuccess(accountList, linkHeader)
+                onFetchAccountsSuccess(adapter, accountList, linkHeader)
             } catch (exception: Exception) {
-                onFetchAccountsFailure(exception)
+                if (exception is CancellationException) {
+                    // Scope is cancelled, probably because the fragment is destroyed.
+                    // We must not touch any views anymore, so rethrow the exception.
+                    // (CancellationException in a cancelled scope is normal and will be ignored)
+                    throw exception
+                }
+                onFetchAccountsFailure(adapter, exception)
             }
         }
     }
 
-    private fun onFetchAccountsSuccess(accounts: List<TimelineAccount>, linkHeader: String?) {
+    private fun onFetchAccountsSuccess(
+        adapter: AccountAdapter<*>,
+        accounts: List<TimelineAccount>,
+        linkHeader: String?
+    ) {
         adapter.setBottomLoading(false)
         binding.swipeRefreshLayout.isRefreshing = false
 
@@ -349,7 +368,7 @@ class AccountListFragment :
         }
 
         if (adapter is MutesAdapter) {
-            fetchRelationships(accounts.map { it.id })
+            fetchRelationships(adapter, accounts.map { it.id })
         }
 
         bottomId = fromId
@@ -368,23 +387,30 @@ class AccountListFragment :
         }
     }
 
-    private fun fetchRelationships(ids: List<String>) {
-        lifecycleScope.launch {
+    private fun fetchRelationships(mutesAdapter: MutesAdapter, ids: List<String>) {
+        viewLifecycleOwner.lifecycleScope.launch {
             api.relationships(ids)
-                .fold(::onFetchRelationshipsSuccess) { throwable ->
-                    Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
-                }
+                .fold(
+                    onSuccess = { relationships ->
+                        onFetchRelationshipsSuccess(mutesAdapter, relationships)
+                    },
+                    onFailure = { throwable ->
+                        Log.e(TAG, "Fetch failure for relationships of accounts: $ids", throwable)
+                    }
+                )
         }
     }
 
-    private fun onFetchRelationshipsSuccess(relationships: List<Relationship>) {
-        val mutesAdapter = adapter as MutesAdapter
+    private fun onFetchRelationshipsSuccess(
+        mutesAdapter: MutesAdapter,
+        relationships: List<Relationship>
+    ) {
         val mutingNotificationsMap = HashMap<String, Boolean>()
         relationships.map { mutingNotificationsMap.put(it.id, it.mutingNotifications) }
         mutesAdapter.updateMutingNotificationsMap(mutingNotificationsMap)
     }
 
-    private fun onFetchAccountsFailure(throwable: Throwable) {
+    private fun onFetchAccountsFailure(adapter: AccountAdapter<*>, throwable: Throwable) {
         fetching = false
         binding.swipeRefreshLayout.isRefreshing = false
         Log.e(TAG, "Fetch failure", throwable)
@@ -393,7 +419,7 @@ class AccountListFragment :
             binding.messageView.show()
             binding.messageView.setup(throwable) {
                 binding.messageView.hide()
-                this.fetchAccounts(null)
+                this.fetchAccounts(adapter, null)
             }
         }
     }

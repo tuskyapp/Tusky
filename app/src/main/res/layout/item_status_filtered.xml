@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/status_filtered_placeholder"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/status_filter_label"
@@ -12,22 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="0dp"
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
         android:textAlignment="center"
-        android:text="Filter: MyFilter"
-        tools:ignore="HardcodedText"
-        />
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        tools:text="Filter: MyFilter" />
 
     <Button
         android:id="@+id/status_filter_show_anyway"
+        style="@style/TuskyButton.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        style="@style/TuskyButton.TextButton"
-        android:textStyle="bold"
-        android:textSize="?attr/status_text_medium"
         android:text="@string/status_filtered_show_anyway"
-        />
+        android:textSize="?attr/status_text_medium"
+        android:textStyle="bold" />
 
 </LinearLayout>

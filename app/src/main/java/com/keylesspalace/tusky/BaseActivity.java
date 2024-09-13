@@ -19,7 +19,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,34 +33,35 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.color.MaterialColors;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
 import com.keylesspalace.tusky.components.login.LoginActivity;
-import com.keylesspalace.tusky.db.AccountEntity;
+import com.keylesspalace.tusky.db.entity.AccountEntity;
 import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.di.Injectable;
+import com.keylesspalace.tusky.di.PreferencesEntryPoint;
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
-import com.keylesspalace.tusky.interfaces.PermissionRequester;
 import com.keylesspalace.tusky.settings.AppTheme;
 import com.keylesspalace.tusky.settings.PrefKeys;
+import com.keylesspalace.tusky.util.ActivityConstants;
 import com.keylesspalace.tusky.util.ActivityExtensions;
 import com.keylesspalace.tusky.util.ThemeUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
-import static com.keylesspalace.tusky.util.ActivityExtensions.supportsOverridingActivityTransitions;
 
-public abstract class BaseActivity extends AppCompatActivity implements Injectable {
+import dagger.hilt.EntryPoints;
+
+/**
+ * All activities inheriting from BaseActivity must be annotated with @AndroidEntryPoint
+ */
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
 
@@ -71,19 +71,34 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
     @NonNull
     public AccountManager accountManager;
 
-    private static final int REQUESTER_NONE = Integer.MAX_VALUE;
-    private HashMap<Integer, PermissionRequester> requesters;
+    @Inject
+    @NonNull
+    public SharedPreferences preferences;
+
+    /**
+     * Allows overriding the default ViewModelProvider.Factory for testing purposes.
+     */
+    @Nullable
+    public ViewModelProvider.Factory viewModelProviderFactory = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, R.anim.activity_open_enter, R.anim.activity_open_exit);
-            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        if (activityTransitionWasRequested()) {
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                    R.anim.activity_open_enter,
+                    R.anim.activity_open_exit
+            );
+            ActivityExtensions.overrideActivityTransitionCompat(
+                    this,
+                    ActivityConstants.OVERRIDE_TRANSITION_CLOSE,
+                    R.anim.activity_close_enter,
+                    R.anim.activity_close_exit
+            );
         }
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
@@ -92,6 +107,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Log.d("activeTheme", theme);
         if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
             setTheme(R.style.TuskyBlackTheme);
+        } else if (this instanceof MainActivity) {
+            // Replace the SplashTheme of MainActivity
+            setTheme(R.style.TuskyTheme);
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */
@@ -107,8 +125,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if(requiresLogin()) {
             redirectIfNotLoggedIn();
         }
-
-        requesters = new HashMap<>();
     }
 
     private boolean activityTransitionWasRequested() {
@@ -117,7 +133,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        // injected preferences not yet available at this point of the lifecycle
+        SharedPreferences preferences = EntryPoints.get(newBase.getApplicationContext(), PreferencesEntryPoint.class).preferences();
 
         // Scale text in the UI from PrefKeys.UI_TEXT_SCALE_RATIO
         float uiScaleRatio = preferences.getFloat(PrefKeys.UI_TEXT_SCALE_RATIO, 100F);
@@ -151,6 +168,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         Context fontScaleContext = newBase.createConfigurationContext(configuration);
 
         super.attachBaseContext(fontScaleContext);
+    }
+
+    @NonNull
+    @Override
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        final ViewModelProvider.Factory factory = viewModelProviderFactory;
+        return (factory != null) ? factory : super.getDefaultViewModelProviderFactory();
     }
 
     protected boolean requiresLogin() {
@@ -189,21 +213,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        // if this activity was opened with slide-in, close it with slide out
-        if (!supportsOverridingActivityTransitions() && activityTransitionWasRequested()) {
-            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
-        }
-    }
-
     protected void redirectIfNotLoggedIn() {
         AccountEntity account = accountManager.getActiveAccount();
         if (account == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = LoginActivity.getIntent(this, LoginActivity.MODE_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ActivityExtensions.startActivityWithSlideInAnimation(this, intent);
+            startActivity(intent);
             finish();
         }
     }
@@ -239,10 +254,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
         if (!showActiveAccount && activeAccount != null) {
             accounts.remove(activeAccount);
         }
-        AccountSelectionAdapter adapter = new AccountSelectionAdapter(this);
+        AccountSelectionAdapter adapter = new AccountSelectionAdapter(
+            this,
+            preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+            preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+        );
         adapter.addAll(accounts);
 
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
             .setTitle(dialogTitle)
             .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
             .show();
@@ -272,37 +291,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Injectab
 
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requesters.containsKey(requestCode)) {
-            PermissionRequester requester = requesters.remove(requestCode);
-            requester.onRequestPermissionsResult(permissions, grantResults);
-        }
-    }
-
-    public void requestPermissions(@NonNull String[] permissions, @NonNull PermissionRequester requester) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for(String permission: permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.isEmpty()) {
-            int[] permissionsAlreadyGranted = new int[permissions.length];
-            requester.onRequestPermissionsResult(permissions, permissionsAlreadyGranted);
-            return;
-        }
-
-        int newKey = requester == null ? REQUESTER_NONE : requesters.size();
-        if (newKey != REQUESTER_NONE) {
-            requesters.put(newKey, requester);
-        }
-        String[] permissionsCopy = new String[permissionsToRequest.size()];
-        permissionsToRequest.toArray(permissionsCopy);
-        ActivityCompat.requestPermissions(this, permissionsCopy, newKey);
-
     }
 }

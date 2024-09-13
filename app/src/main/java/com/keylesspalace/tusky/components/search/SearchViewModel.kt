@@ -27,8 +27,8 @@ import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFactory
-import com.keylesspalace.tusky.db.AccountEntity
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.DeletedStatus
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
@@ -36,11 +36,13 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class SearchViewModel @Inject constructor(
     mastodonApi: MastodonApi,
     private val timelineCases: TimelineCases,
@@ -86,19 +88,28 @@ class SearchViewModel @Inject constructor(
         }
 
     val statusesFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = statusesPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val accountsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = accountsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)
 
     val hashtagsFlow = Pager(
-        config = PagingConfig(pageSize = DEFAULT_LOAD_SIZE, initialLoadSize = DEFAULT_LOAD_SIZE),
+        config = PagingConfig(
+            pageSize = DEFAULT_LOAD_SIZE,
+            initialLoadSize = DEFAULT_LOAD_SIZE
+        ),
         pagingSourceFactory = hashtagsPagingSourceFactory
     ).flow
         .cachedIn(viewModelScope)

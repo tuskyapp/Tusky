@@ -23,6 +23,7 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.replacedFirstWhich
 import com.keylesspalace.tusky.util.withoutFirstWhich
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Inject
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 internal class ListsViewModel @Inject constructor(private val api: MastodonApi) : ViewModel() {
     enum class LoadingState {
         INITIAL,

@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.service.MediaToSend
 import com.keylesspalace.tusky.service.ServiceClient
 import com.keylesspalace.tusky.service.StatusToSend
 import com.keylesspalace.tusky.util.randomAlphanumericString
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -56,6 +57,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@HiltViewModel
 class ComposeViewModel @Inject constructor(
     private val api: MastodonApi,
     private val accountManager: AccountManager,
@@ -180,7 +182,8 @@ class ComposeViewModel @Inject constructor(
                 mediaList + mediaItem
             }
         }
-        val mediaItem = stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
+        val mediaItem =
+            stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
 
         viewModelScope.launch {
             mediaUploader
@@ -191,6 +194,7 @@ class ComposeViewModel @Inject constructor(
                     val newMediaItem = when (event) {
                         is UploadEvent.ProgressEvent ->
                             item.copy(uploadPercent = event.percentage)
+
                         is UploadEvent.FinishedEvent ->
                             item.copy(
                                 id = event.mediaId,
@@ -327,13 +331,6 @@ class ComposeViewModel @Inject constructor(
         mediaUploader.cancelUploadScope(*_media.value.map { it.localId }.toIntArray())
     }
 
-    fun shouldShowSaveDraftDialog(): Boolean {
-        // if any of the media files need to be downloaded first it could take a while, so show a loading dialog
-        return _media.value.any { mediaValue ->
-            mediaValue.uri.scheme == "https"
-        }
-    }
-
     suspend fun saveDraft(content: String, contentWarning: String) {
         val mediaUris: MutableList<String> = mutableListOf()
         val mediaDescriptions: MutableList<String?> = mutableListOf()
@@ -386,7 +383,7 @@ class ComposeViewModel @Inject constructor(
         val tootToSend = StatusToSend(
             text = content,
             warningText = spoilerText,
-            visibility = _statusVisibility.value.serverString,
+            visibility = _statusVisibility.value.stringValue,
             sensitive = attachedMedia.isNotEmpty() && (_markMediaAsSensitive.value || _showContentWarning.value),
             media = attachedMedia,
             scheduledAt = _scheduledAt.value,
@@ -453,6 +450,7 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
+
             ':' -> {
                 val emojiList = emoji.replayCache.firstOrNull() ?: return emptyList()
                 val incomplete = token.substring(1)
@@ -465,6 +463,7 @@ class ComposeViewModel @Inject constructor(
                     AutocompleteResult.EmojiResult(emoji)
                 }
             }
+
             else -> {
                 Log.w(TAG, "Unexpected autocompletion token: $token")
                 emptyList()
@@ -478,15 +477,19 @@ class ComposeViewModel @Inject constructor(
         }
 
         composeKind = composeOptions?.kind ?: ComposeKind.NEW
+        inReplyToId = composeOptions?.inReplyToId
 
-        val preferredVisibility = accountManager.activeAccount!!.defaultPostPrivacy
+        val activeAccount = accountManager.activeAccount!!
+        val preferredVisibility = if (inReplyToId != null) {
+            activeAccount.defaultReplyPrivacy.toVisibilityOr(activeAccount.defaultPostPrivacy)
+        } else {
+            activeAccount.defaultPostPrivacy
+        }
 
         val replyVisibility = composeOptions?.replyVisibility ?: Status.Visibility.UNKNOWN
-        startingVisibility = Status.Visibility.byNum(
-            preferredVisibility.num.coerceAtLeast(replyVisibility.num)
+        startingVisibility = Status.Visibility.fromInt(
+            preferredVisibility.int.coerceAtLeast(replyVisibility.int)
         )
-
-        inReplyToId = composeOptions?.inReplyToId
 
         modifiedInitialState = composeOptions?.modifiedInitialState == true
 
@@ -523,10 +526,11 @@ class ComposeViewModel @Inject constructor(
         scheduledTootId = composeOptions?.scheduledTootId
         originalStatusId = composeOptions?.statusId
         startingText = composeOptions?.content
+        currentContent = composeOptions?.content
         postLanguage = composeOptions?.language
 
         val tootVisibility = composeOptions?.visibility ?: Status.Visibility.UNKNOWN
-        if (tootVisibility.num != Status.Visibility.UNKNOWN.num) {
+        if (tootVisibility.int != Status.Visibility.UNKNOWN.int) {
             startingVisibility = tootVisibility
         }
         _statusVisibility.value = startingVisibility

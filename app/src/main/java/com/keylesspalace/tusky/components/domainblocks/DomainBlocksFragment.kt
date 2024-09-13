@@ -12,24 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentDomainBlocksBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+@AndroidEntryPoint
+class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks) {
 
     private val binding by viewBinding(FragmentDomainBlocksBinding::bind)
 
-    private val viewModel: DomainBlocksViewModel by viewModels { viewModelFactory }
+    private val viewModel: DomainBlocksViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = DomainBlocksAdapter(viewModel::unblock)
@@ -47,7 +43,7 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks), Injectab
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.domainPager.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }

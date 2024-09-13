@@ -16,24 +16,22 @@
 package com.keylesspalace.tusky.receiver
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.notifications.registerUnifiedPushEndpoint
-import com.keylesspalace.tusky.components.notifications.unregisterUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.systemnotifications.registerUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.systemnotifications.unregisterUnifiedPushEndpoint
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.worker.NotificationWorker
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import org.unifiedpush.android.connector.MessagingReceiver
 
-@DelicateCoroutinesApi
+@AndroidEntryPoint
 class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     companion object {
         const val TAG = "UnifiedPush"
@@ -49,13 +47,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     @ApplicationScope
     lateinit var externalScope: CoroutineScope
 
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-        AndroidInjection.inject(this, context)
-    }
-
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        AndroidInjection.inject(this, context)
         Log.d(TAG, "New message received for account $instance")
         val workManager = WorkManager.getInstance(context)
         val request = OneTimeWorkRequest.from(NotificationWorker::class.java)
@@ -63,7 +55,6 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
-        AndroidInjection.inject(this, context)
         Log.d(TAG, "Endpoint available for account $instance: $endpoint")
         accountManager.getAccountById(instance.toLong())?.let {
             externalScope.launch {
@@ -75,7 +66,6 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     override fun onRegistrationFailed(context: Context, instance: String) = Unit
 
     override fun onUnregistered(context: Context, instance: String) {
-        AndroidInjection.inject(this, context)
         Log.d(TAG, "Endpoint unregistered for account $instance")
         accountManager.getAccountById(instance.toLong())?.let {
             // It's fine if the account does not exist anymore -- that means it has been logged out

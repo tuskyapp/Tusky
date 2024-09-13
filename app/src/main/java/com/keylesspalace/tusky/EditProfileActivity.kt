@@ -17,7 +17,6 @@ package com.keylesspalace.tusky
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -39,12 +38,13 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
+import com.google.android.material.R as materialR
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityEditProfileBinding
-import com.keylesspalace.tusky.di.Injectable
-import com.keylesspalace.tusky.di.ViewModelFactory
 import com.keylesspalace.tusky.util.Error
 import com.keylesspalace.tusky.util.Loading
 import com.keylesspalace.tusky.util.Success
@@ -57,11 +57,12 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizeDp
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class EditProfileActivity : BaseActivity(), Injectable {
+@AndroidEntryPoint
+class EditProfileActivity : BaseActivity() {
 
     companion object {
         const val AVATAR_SIZE = 400
@@ -69,10 +70,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         const val HEADER_HEIGHT = 500
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: EditProfileViewModel by viewModels { viewModelFactory }
+    private val viewModel: EditProfileViewModel by viewModels()
 
     private val binding by viewBinding(ActivityEditProfileBinding::inflate)
 
@@ -129,7 +127,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
 
         val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).apply {
             sizeDp = 12
-            colorInt = Color.WHITE
+            colorInt = MaterialColors.getColor(binding.addFieldButton, materialR.attr.colorOnPrimary)
         }
 
         binding.addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -369,7 +367,7 @@ class EditProfileActivity : BaseActivity(), Injectable {
         }
     }
 
-    private suspend fun launchSaveDialog() = AlertDialog.Builder(this)
+    private suspend fun launchSaveDialog() = MaterialAlertDialogBuilder(this)
         .setMessage(getString(R.string.dialog_save_profile_changes_message))
         .create()
         .await(R.string.action_save, R.string.action_discard)

@@ -6,6 +6,8 @@
         <attr name="android:text"/>
     </declare-styleable>
 
+    <attr name="licenseCardStyle" format="reference" />
+
     <declare-styleable name="LicenseCard">
         <attr name="name" format="string|reference" />
         <attr name="license" format="string|reference" />

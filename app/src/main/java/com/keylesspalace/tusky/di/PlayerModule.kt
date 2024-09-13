@@ -21,6 +21,8 @@ import android.content.Context
 import android.os.Looper
 import androidx.annotation.OptIn
 import androidx.media3.common.C
+import androidx.media3.common.Format
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
@@ -44,22 +46,33 @@ import androidx.media3.extractor.mp3.Mp3Extractor
 import androidx.media3.extractor.mp4.FragmentedMp4Extractor
 import androidx.media3.extractor.mp4.Mp4Extractor
 import androidx.media3.extractor.ogg.OggExtractor
+import androidx.media3.extractor.text.SubtitleParser
+import androidx.media3.extractor.text.ttml.TtmlParser
+import androidx.media3.extractor.text.webvtt.Mp4WebvttParser
+import androidx.media3.extractor.text.webvtt.WebvttParser
 import androidx.media3.extractor.wav.WavExtractor
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 
 @Module
+@InstallIn(SingletonComponent::class)
 @OptIn(UnstableApi::class)
 object PlayerModule {
     @Provides
-    fun provideAudioSink(context: Context): AudioSink {
+    fun provideAudioSink(@ApplicationContext context: Context): AudioSink {
         return DefaultAudioSink.Builder(context)
             .build()
     }
 
     @Provides
-    fun provideRenderersFactory(context: Context, audioSink: AudioSink): RenderersFactory {
+    fun provideRenderersFactory(
+        @ApplicationContext context: Context,
+        audioSink: AudioSink
+    ): RenderersFactory {
         return RenderersFactory { eventHandler,
                                   videoRendererEventListener,
                                   audioRendererEventListener,
@@ -98,24 +111,60 @@ object PlayerModule {
     }
 
     @Provides
-    fun provideExtractorsFactory(): ExtractorsFactory {
+    fun providesSubtitleParserFactory(): SubtitleParser.Factory {
+        return object : SubtitleParser.Factory {
+            override fun supportsFormat(format: Format): Boolean {
+                return when (format.sampleMimeType) {
+                    MimeTypes.TEXT_VTT,
+                    MimeTypes.APPLICATION_MP4VTT,
+                    MimeTypes.APPLICATION_TTML -> true
+
+                    else -> false
+                }
+            }
+
+            override fun getCueReplacementBehavior(format: Format): Int {
+                return when (val mimeType = format.sampleMimeType) {
+                    MimeTypes.TEXT_VTT -> WebvttParser.CUE_REPLACEMENT_BEHAVIOR
+                    MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser.CUE_REPLACEMENT_BEHAVIOR
+                    MimeTypes.APPLICATION_TTML -> TtmlParser.CUE_REPLACEMENT_BEHAVIOR
+                    else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
+                }
+            }
+
+            override fun create(format: Format): SubtitleParser {
+                return when (val mimeType = format.sampleMimeType) {
+                    MimeTypes.TEXT_VTT -> WebvttParser()
+                    MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser()
+                    MimeTypes.APPLICATION_TTML -> TtmlParser()
+                    else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
+                }
+            }
+        }
+    }
+
+    @Provides
+    fun provideExtractorsFactory(subtitleParserFactory: SubtitleParser.Factory): ExtractorsFactory {
         // Extractors order is optimized according to
         // https://docs.google.com/document/d/1w2mKaWMxfz2Ei8-LdxqbPs1VLe_oudB-eryXXw9OvQQ
         return ExtractorsFactory {
             arrayOf(
                 FlacExtractor(),
                 WavExtractor(),
-                Mp4Extractor(),
-                FragmentedMp4Extractor(),
+                Mp4Extractor(subtitleParserFactory),
+                FragmentedMp4Extractor(subtitleParserFactory),
                 OggExtractor(),
-                MatroskaExtractor(),
+                MatroskaExtractor(subtitleParserFactory),
                 Mp3Extractor()
             )
         }
     }
 
     @Provides
-    fun provideDataSourceFactory(context: Context, okHttpClient: OkHttpClient): DataSource.Factory {
+    fun provideDataSourceFactory(
+        @ApplicationContext context: Context,
+        okHttpClient: OkHttpClient
+    ): DataSource.Factory {
         return DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient))
     }
 
@@ -130,7 +179,7 @@ object PlayerModule {
 
     @Provides
     fun provideExoPlayer(
-        context: Context,
+        @ApplicationContext context: Context,
         renderersFactory: RenderersFactory,
         mediaSourceFactory: MediaSource.Factory
     ): ExoPlayer {

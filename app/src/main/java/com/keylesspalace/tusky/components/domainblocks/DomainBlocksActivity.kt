@@ -4,14 +4,10 @@ import android.os.Bundle
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityAccountListBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-class DomainBlocksActivity : BaseActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class DomainBlocksActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +26,4 @@ class DomainBlocksActivity : BaseActivity(), HasAndroidInjector {
             .replace(R.id.fragment_container, DomainBlocksFragment())
             .commit()
     }
-
-    override fun androidInjector() = androidInjector
 }

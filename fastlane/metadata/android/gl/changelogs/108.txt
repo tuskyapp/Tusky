@@ -1,5 +1,5 @@
 Tusky 22.0 beta 6
 
-Fixes:
+Arranxos:
 
-- Save reading position in the Notifications tab more frequently
+- gardar con maior frecuencia a posición de lectura na pestana de Notificacións

@@ -8,10 +8,10 @@
 
     <string name="at_symbol" translatable="false">\@</string>
     <string name="hash_symbol" translatable="false">#</string>
-    <string name="title_tag" translatable="false">#%s</string>
+    <string name="title_tag" translatable="false">#%1$s</string>
 
-    <string name="emoji_shortcode_format" translatable="false">:%s:</string>
-    <string name="post_timestamp_with_edited_indicator" translatable="false">%s *</string>
+    <string name="emoji_shortcode_format" translatable="false">:%1$s:</string>
+    <string name="post_timestamp_with_edited_indicator" translatable="false">%1$s *</string>
     <string name="metadata_joiner" translatable="false">" • "</string>
     <string name="date_range" translatable="false">%1$s — %2$s</string>
 
@@ -19,6 +19,14 @@
         <item>public</item>
         <item>unlisted</item>
         <item>private</item>
+    </string-array>
+
+    <string-array name="reply_privacy_values">
+        <item>match_default_post_visibility</item>
+        <item>public</item>
+        <item>unlisted</item>
+        <item>private</item>
+        <item>direct</item>
     </string-array>
 
     <string-array name="post_text_size_values">
@@ -257,6 +265,6 @@
         <item>NEWEST_FIRST</item>
     </string-array>
 
-    <string name="url_domain_notifier" translatable="false">%s (🔗 %s)</string>
+    <string name="url_domain_notifier" translatable="false">%1$s (🔗 %2$s)</string>
 
 </resources>

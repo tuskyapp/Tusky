@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="colorPrimary">@color/tusky_blue_light</color>
+    <color name="colorSecondary">@color/tusky_blue_light</color>
     <color name="colorSurface">@color/tusky_grey_30</color>
     <color name="colorPrimaryDark">@color/tusky_grey_25</color>
 
+    <color name="colorOnPrimary">@color/tusky_grey_10</color>
+
     <color name="colorBackground">@color/tusky_grey_20</color>
     <color name="windowBackground">@color/tusky_grey_10</color>
+
+    <color name="colorSecondaryContainer">@color/tusky_grey_blue_dark</color>
 
     <color name="textColorPrimary">@color/white</color>
     <color name="textColorSecondary">@color/tusky_grey_90</color>
@@ -16,10 +21,12 @@
 
     <color name="colorBackgroundAccent">@color/tusky_grey_30</color>
     <color name="colorBackgroundHighlight">@color/tusky_grey_50</color>
-    <color name="dividerColor">@color/tusky_grey_30</color>
+    <color name="dividerColor">@color/tusky_grey_40</color>
     <color name="dividerColorOther">@color/tusky_grey_10</color>
 
     <color name="favoriteButtonActiveColor">@color/tusky_orange</color>
+
+    <color name="warning_color">@color/tusky_red_lighter</color>
 
     <color name="headerBackgroundFilter">@color/header_background_filter_dark</color>
 
@@ -28,7 +35,9 @@
     <color name="botBadgeForeground">@color/white</color>
     <color name="botBadgeBackground">@color/tusky_grey_10</color>
 
+    <color name="toolbar_icon_background">#CC444B5D</color>
+
     <!-- colors used to show inserted/deleted text -->
-    <color name="view_edits_background_insert">#00731B</color>
-    <color name="view_edits_background_delete">#DF0000</color>
+    <color name="view_edits_background_insert">@color/tusky_green</color>
+    <color name="view_edits_background_delete">@color/tusky_red</color>
 </resources>

@@ -49,7 +49,6 @@ import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.entity.TrendingTag
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -138,15 +137,18 @@ interface MastodonApi {
     ): Response<List<Status>>
 
     @GET("api/v1/notifications")
+    @Throws(Exception::class)
     suspend fun notifications(
         /** Return results older than this ID */
-        @Query("max_id") maxId: String?,
+        @Query("max_id") maxId: String? = null,
         /** Return results newer than this ID */
-        @Query("since_id") sinceId: String?,
+        @Query("since_id") sinceId: String? = null,
+        /** Return results immediately newer than this ID */
+        @Query("min_id") minId: String? = null,
         /** Maximum number of results to return. Defaults to 15, max is 30 */
-        @Query("limit") limit: Int?,
+        @Query("limit") limit: Int? = null,
         /** Types to excludes from the results */
-        @Query("exclude_types[]") excludes: Set<Notification.Type>?
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
     ): Response<List<Notification>>
 
     /** Fetch a single notification */
@@ -198,6 +200,14 @@ interface MastodonApi {
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
     ): NetworkResult<Status>
+
+    @POST("api/v1/statuses")
+    suspend fun createScheduledStatus(
+        @Header("Authorization") auth: String,
+        @Header(DOMAIN_HEADER) domain: String,
+        @Header("Idempotency-Key") idempotencyKey: String,
+        @Body status: NewStatus
+    ): NetworkResult<ScheduledStatus>
 
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
@@ -284,11 +294,11 @@ interface MastodonApi {
 
     @FormUrlEncoded
     @PATCH("api/v1/accounts/update_credentials")
-    fun accountUpdateSource(
+    suspend fun accountUpdateSource(
         @Field("source[privacy]") privacy: String?,
         @Field("source[sensitive]") sensitive: Boolean?,
         @Field("source[language]") language: String?
-    ): Call<Account>
+    ): NetworkResult<Account>
 
     @Multipart
     @PATCH("api/v1/accounts/update_credentials")

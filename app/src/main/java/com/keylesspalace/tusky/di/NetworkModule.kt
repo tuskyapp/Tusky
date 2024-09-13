@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.GuardedAdapter
-import com.keylesspalace.tusky.network.InstanceSwitchAuthInterceptor
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
+import com.keylesspalace.tusky.network.apiForAccount
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_ENABLED
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_PORT
 import com.keylesspalace.tusky.settings.PrefKeys.HTTP_PROXY_SERVER
@@ -39,11 +39,15 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import java.net.IDN
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.Cache
 import okhttp3.OkHttp
@@ -51,16 +55,28 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 
 /**
  * Created by charlag on 3/24/18.
  */
 
 @Module
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     private const val TAG = "NetworkModule"
+
+    @Provides
+    @Named("defaultPort")
+    fun providesDefaultPort(): Int {
+        return 443
+    }
+
+    @Provides
+    @Named("defaultScheme")
+    fun providesDefaultScheme(): String {
+        return "https://"
+    }
 
     @Provides
     @Singleton
@@ -88,8 +104,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providesHttpClient(
-        accountManager: AccountManager,
-        context: Context,
+        @ApplicationContext context: Context,
         preferences: SharedPreferences
     ): OkHttpClient {
         val httpProxyEnabled = preferences.getBoolean(HTTP_PROXY_ENABLED, false)
@@ -121,23 +136,22 @@ object NetworkModule {
                 builder.proxy(Proxy(Proxy.Type.HTTP, address))
             } ?: Log.w(TAG, "Invalid proxy configuration: ($httpServer, $httpPort)")
         }
-
-        return builder
-            .apply {
-                addInterceptor(InstanceSwitchAuthInterceptor(accountManager))
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(
-                        HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-                    )
-                }
-            }
-            .build()
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+            )
+        }
+        return builder.build()
     }
 
     @Provides
     @Singleton
-    fun providesRetrofit(httpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Retrofit.Builder().baseUrl("https://" + MastodonApi.PLACEHOLDER_DOMAIN)
+    fun providesRetrofit(
+        httpClient: OkHttpClient,
+        moshi: Moshi
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://${MastodonApi.PLACEHOLDER_DOMAIN}")
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
@@ -145,20 +159,25 @@ object NetworkModule {
     }
 
     @Provides
-    @Singleton
-    fun providesApi(retrofit: Retrofit): MastodonApi = retrofit.create()
+    fun providesMastodonApi(
+        httpClient: OkHttpClient,
+        retrofit: Retrofit,
+        accountManager: AccountManager
+    ): MastodonApi {
+        return apiForAccount(accountManager.activeAccount, httpClient, retrofit)
+    }
 
     @Provides
-    @Singleton
-    fun providesMediaUploadApi(retrofit: Retrofit, okHttpClient: OkHttpClient): MediaUploadApi {
+    fun providesMediaUploadApi(
+        retrofit: Retrofit,
+        okHttpClient: OkHttpClient,
+        accountManager: AccountManager
+    ): MediaUploadApi {
         val longTimeOutOkHttpClient = okHttpClient.newBuilder()
             .readTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS)
             .build()
 
-        return retrofit.newBuilder()
-            .client(longTimeOutOkHttpClient)
-            .build()
-            .create()
+        return apiForAccount(accountManager.activeAccount, longTimeOutOkHttpClient, retrofit)
     }
 }

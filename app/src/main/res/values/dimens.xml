@@ -24,8 +24,6 @@
     <dimen name="compose_activity_scrollview_height">-1px</dimen> <!-- match_parent -->
     <dimen name="timeline_width">-1px</dimen> <!-- match_parent -->
 
-    <dimen name="actionbar_elevation">4dp</dimen>
-
     <item name="wrap_content" format="integer" type="dimen">-2</item>
 
     <dimen name="preference_icon_size">20dp</dimen>
@@ -47,7 +45,7 @@
     <dimen name="poll_preview_padding">12dp</dimen>
     <dimen name="poll_preview_min_width">120dp</dimen>
 
-    <dimen name="adaptive_bitmap_inner_size">72dp</dimen>
+    <dimen name="adaptive_bitmap_inner_size">74dp</dimen>
     <dimen name="adaptive_bitmap_outer_size">108dp</dimen>
 
     <dimen name="fabMargin">16dp</dimen>
@@ -72,5 +70,13 @@
     <dimen name="profile_badge_icon_size">16dp</dimen>
     <dimen name="profile_badge_icon_start_padding">8dp</dimen>
     <dimen name="profile_badge_icon_end_padding">0dp</dimen>
+
+    <dimen name="account_swiperefresh_distance">64dp</dimen>
+
+    <dimen name="fallback_emoji_size">16sp</dimen>
+
+    <!-- 56dp + 16dp padding on top and bottom -->
+    <dimen name="recyclerview_bottom_padding_actionbutton">88dp</dimen>
+    <dimen name="recyclerview_bottom_padding_no_actionbutton">32dp</dimen>
 
 </resources>

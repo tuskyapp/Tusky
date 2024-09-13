@@ -18,12 +18,10 @@ package com.keylesspalace.tusky.fragment
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.method.ScrollingMovementMethod
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -33,7 +31,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
-import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -43,25 +42,29 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.util.EventLogger
 import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
-import com.keylesspalace.tusky.di.Injectable
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.math.abs
 
+@AndroidEntryPoint
 @OptIn(UnstableApi::class)
-class ViewVideoFragment : ViewMediaFragment(), Injectable {
+class ViewVideoFragment : ViewMediaFragment() {
     interface VideoActionsListener {
         fun onDismiss()
     }
@@ -71,19 +74,23 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
     private val binding by viewBinding(FragmentViewVideoBinding::bind)
 
-    private lateinit var videoActionsListener: VideoActionsListener
-    private lateinit var toolbar: View
+    private val videoActionsListener: VideoActionsListener
+        get() = requireActivity() as VideoActionsListener
     private val handler = Handler(Looper.getMainLooper())
     private val hideToolbar = Runnable {
         // Hoist toolbar hiding to activity so it can track state across different fragments
         // This is explicitly stored as runnable so that we pass it to the handler later for cancellation
         mediaActivity.onPhotoTap()
     }
-    private lateinit var mediaActivity: ViewMediaActivity
-    private lateinit var mediaPlayerListener: Player.Listener
-    private var isAudio = false
+    private val mediaActivity: ViewMediaActivity
+        get() = requireActivity() as ViewMediaActivity
+    private val isAudio
+        get() = mediaAttachment.type == Attachment.Type.AUDIO
 
-    private lateinit var mediaAttachment: Attachment
+    private val mediaAttachment: Attachment by unsafeLazy {
+        arguments?.getParcelableCompat<Attachment>(ARG_ATTACHMENT)
+            ?: throw IllegalArgumentException("attachment has to be set")
+    }
 
     private var player: ExoPlayer? = null
 
@@ -99,20 +106,12 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     /** Prevent the next play start from queueing a toolbar hide. */
     private var suppressNextHideToolbar = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        videoActionsListener = context as VideoActionsListener
-    }
-
     @SuppressLint("PrivateResource", "MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mediaActivity = activity as ViewMediaActivity
-        toolbar = mediaActivity.toolbar
         val rootView = inflater.inflate(R.layout.fragment_view_video, container, false)
 
         // Move the controls to the bottom of the screen, with enough bottom margin to clear the seekbar
@@ -131,11 +130,6 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val attachment = arguments?.getParcelable<Attachment>(ARG_ATTACHMENT)
-            ?: throw IllegalArgumentException("attachment has to be set")
-
-        val url = attachment.url
-        isAudio = attachment.type == Attachment.Type.AUDIO
 
         /**
          * Handle single taps, flings, and dragging
@@ -151,7 +145,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             )
 
             /** Handle taps and flings */
-            val simpleGestureDetector = GestureDetectorCompat(
+            val simpleGestureDetector = GestureDetector(
                 requireContext(),
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onDown(e: MotionEvent) = true
@@ -209,7 +203,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
             }
         }
 
-        mediaPlayerListener = object : Player.Listener {
+        val mediaPlayerListener = object : Player.Listener {
             @SuppressLint("ClickableViewAccessibility", "SyntheticAccessor")
             @OptIn(UnstableApi::class)
             override fun onPlaybackStateChanged(playbackState: Int) {
@@ -271,25 +265,23 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
 
         savedSeekPosition = savedInstanceState?.getLong(SEEK_POSITION) ?: 0
 
-        mediaAttachment = attachment
+        val attachment = mediaAttachment
+        finalizeViewSetup(attachment.url, attachment.previewUrl, attachment.description)
 
-        finalizeViewSetup(url, attachment.previewUrl, attachment.description)
-    }
+        // Lifecycle callbacks
+        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                initializePlayer(mediaPlayerListener)
+                binding.videoView.onResume()
+            }
 
-    override fun onStart() {
-        super.onStart()
-
-        initializePlayer()
-        binding.videoView.onResume()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        // This might be multi-window, so pause everything now.
-        binding.videoView.onPause()
-        releasePlayer()
-        handler.removeCallbacks(hideToolbar)
+            override fun onStop(owner: LifecycleOwner) {
+                // This might be multi-window, so pause everything now.
+                binding.videoView.onPause()
+                releasePlayer()
+                handler.removeCallbacks(hideToolbar)
+            }
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -297,7 +289,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         outState.putLong(SEEK_POSITION, savedSeekPosition)
     }
 
-    private fun initializePlayer() {
+    private fun initializePlayer(mediaPlayerListener: Player.Listener) {
         player = playerProvider.get().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
@@ -320,22 +312,26 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         // Audio-only files might have a preview image. If they do, set it as the artwork
         if (isAudio) {
             mediaAttachment.previewUrl?.let { url ->
-                Glide.with(this).load(url).into(object : CustomTarget<Drawable>() {
-                    @SuppressLint("SyntheticAccessor")
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        view ?: return
-                        binding.videoView.defaultArtwork = resource
-                    }
+                Glide.with(this)
+                    .load(url)
+                    .into(
+                        object : CustomViewTarget<PlayerView, Drawable>(binding.videoView) {
+                            override fun onLoadFailed(errorDrawable: Drawable?) {
+                                // Don't do anything
+                            }
 
-                    @SuppressLint("SyntheticAccessor")
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        view ?: return
-                        binding.videoView.defaultArtwork = null
-                    }
-                })
+                            override fun onResourceCleared(placeholder: Drawable?) {
+                                view.defaultArtwork = null
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                view.defaultArtwork = resource
+                            }
+                        }.clearOnDetach()
+                    )
             }
         }
     }
@@ -356,12 +352,11 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         description: String?,
         showingDescription: Boolean
     ) {
-        binding.mediaDescription.text = description
-        binding.mediaDescription.visible(showingDescription)
-        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
+        binding.mediaDescriptionTextView.text = description
+        binding.mediaDescriptionScrollView.visible(showingDescription)
 
         // Ensure the description is visible over the video
-        binding.mediaDescription.elevation = binding.videoView.elevation + 1
+        binding.mediaDescriptionScrollView.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
 
@@ -378,7 +373,7 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
     }
 
     override fun onToolbarVisibilityChange(visible: Boolean) {
-        if (!userVisibleHint) {
+        if (view == null) {
             return
         }
 
@@ -386,16 +381,16 @@ class ViewVideoFragment : ViewMediaFragment(), Injectable {
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            binding.mediaDescription.alpha = 0.0f
-            binding.mediaDescription.visible(isDescriptionVisible)
+            binding.mediaDescriptionScrollView.alpha = 0.0f
+            binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
         }
 
-        binding.mediaDescription.animate().alpha(alpha)
+        binding.mediaDescriptionScrollView.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 @SuppressLint("SyntheticAccessor")
                 override fun onAnimationEnd(animation: Animator) {
                     view ?: return
-                    binding.mediaDescription.visible(isDescriptionVisible)
+                    binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
             })

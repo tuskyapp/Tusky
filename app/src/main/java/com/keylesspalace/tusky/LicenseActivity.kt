@@ -19,12 +19,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RawRes
+import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
-import com.keylesspalace.tusky.util.closeQuietly
-import java.io.BufferedReader
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
-import java.io.InputStreamReader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okio.buffer
+import okio.source
 
+@AndroidEntryPoint
 class LicenseActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,23 +49,15 @@ class LicenseActivity : BaseActivity() {
     }
 
     private fun loadFileIntoTextView(@RawRes fileId: Int, textView: TextView) {
-        val sb = StringBuilder()
-
-        val br = BufferedReader(InputStreamReader(resources.openRawResource(fileId)))
-
-        try {
-            var line: String? = br.readLine()
-            while (line != null) {
-                sb.append(line)
-                sb.append('\n')
-                line = br.readLine()
+        lifecycleScope.launch {
+            textView.text = withContext(Dispatchers.IO) {
+                try {
+                    resources.openRawResource(fileId).source().buffer().use { it.readUtf8() }
+                } catch (e: IOException) {
+                    Log.w("LicenseActivity", e)
+                    ""
+                }
             }
-        } catch (e: IOException) {
-            Log.w("LicenseActivity", e)
         }
-
-        br.closeQuietly()
-
-        textView.text = sb.toString()
     }
 }

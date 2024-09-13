@@ -20,6 +20,7 @@ import androidx.room.TypeConverter
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
+import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
@@ -28,6 +29,7 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 import java.net.URLDecoder
@@ -55,12 +57,22 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun visibilityToInt(visibility: Status.Visibility?): Int {
-        return visibility?.num ?: Status.Visibility.UNKNOWN.num
+        return visibility?.int ?: Status.Visibility.UNKNOWN.int
     }
 
     @TypeConverter
     fun intToVisibility(visibility: Int): Status.Visibility {
-        return Status.Visibility.byNum(visibility)
+        return Status.Visibility.fromInt(visibility)
+    }
+
+    @TypeConverter
+    fun defaultReplyVisibilityToInt(visibility: DefaultReplyVisibility?): Int {
+        return visibility?.int ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.int
+    }
+
+    @TypeConverter
+    fun intToDefaultReplyVisibility(visibility: Int): DefaultReplyVisibility {
+        return DefaultReplyVisibility.fromInt(visibility)
     }
 
     @TypeConverter
@@ -186,5 +198,30 @@ class Converters @Inject constructor(
     @TypeConverter
     fun cardToJson(card: Card?): String {
         return moshi.adapter<Card?>().toJson(card)
+    }
+
+    @TypeConverter
+    fun jsonToCard(cardJson: String?): Card? {
+        return cardJson?.let { moshi.adapter<Card?>().fromJson(cardJson) }
+    }
+
+    @TypeConverter
+    fun stringListToJson(list: List<String>?): String? {
+        return moshi.adapter<List<String>?>().toJson(list)
+    }
+
+    @TypeConverter
+    fun jsonToStringList(listJson: String?): List<String>? {
+        return listJson?.let { moshi.adapter<List<String>?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun applicationToJson(application: Status.Application?): String {
+        return moshi.adapter<Status.Application?>().toJson(application)
+    }
+
+    @TypeConverter
+    fun jsonToApplication(applicationJson: String?): Status.Application? {
+        return applicationJson?.let { moshi.adapter<Status.Application?>().fromJson(it) }
     }
 }

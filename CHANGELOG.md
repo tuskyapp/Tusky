@@ -6,11 +6,132 @@
 
 ### Significant bug fixes
 
+## v26.2
+
+### Significant bug fixes
+
+- Fixes a bug where Tusky would not correctly switch between accounts https://github.com/tuskyapp/Tusky/pull/4636
+- Fixes a crash when a status in a notification contains a reblog (happens when subscribed to a Friendica group) https://github.com/tuskyapp/Tusky/pull/4638
+- Long video descriptions can no longer cover the video controls https://github.com/tuskyapp/Tusky/pull/4632
+- Fixes a bug where Tusky's URL detection algorithm was different from Mastodon's https://github.com/tuskyapp/Tusky/pull/4642
+
+## v26.1
+
+### New features and other improvements
+
+- The "Reply privacy" account preference now has two additional options: "Match default post privacy" and "Direct". "Match default post privacy" is the default for new accounts. https://github.com/tuskyapp/Tusky/pull/4568
+- Tusky now includes ISRG root certificates to keep working on Android 7 and servers that use Let's Encrypt. https://github.com/tuskyapp/Tusky/pull/4609
+- The soft keyboard will now be hidden after performing a search. https://github.com/tuskyapp/Tusky/pull/4578
+
+### Significant bug fixes
+
+- Fixes a bug where Tusky sometimes mixes up timelines and/or notifications of accounts. https://github.com/tuskyapp/Tusky/pull/4577 https://github.com/tuskyapp/Tusky/pull/4599
+- Fixes two bugs where Tusky would not provide the translation option even though the server is configured correctly. https://github.com/tuskyapp/Tusky/pull/4560 https://github.com/tuskyapp/Tusky/pull/4590
+- Fixes a rare bug where Tusky would sometimes randomly crash on startup. https://github.com/tuskyapp/Tusky/pull/4569
+- Fixes a bug where the timeline would randomly jump to the position of the last clicked "show more" placeholder when "Reading order" was set to "Oldest first". https://github.com/tuskyapp/Tusky/pull/4619
+
+## v26.0
+
+### New features and other improvements
+
+- The blue primary color that previously was the same for all themes is now slightly lighter in the dark theme and darker in the light theme for better contrast.
+  Consequently, the color that is used on top of the primary color (e.g. on buttons) is now dark instead of white in the dark theme. [PR#3921](https://github.com/tuskyapp/Tusky/pull/3921) [PR#4507](https://github.com/tuskyapp/Tusky/pull/4507)
+- New account preference "default reply privacy".
+  Note that in contrast to the "default post privacy" this setting will not be synced with the server as Mastodon does not have this feature. [PR#4496](https://github.com/tuskyapp/Tusky/pull/4496)
+- New preference "Show confirmation before following" [PR#4445](https://github.com/tuskyapp/Tusky/pull/4445)
+- The notification tab is now cached on the device for better offline behavior.
+  Since it shares the cache with the home timeline, interactions with posts will now sync between those tabs more often than before. [PR#4026](https://github.com/tuskyapp/Tusky/pull/4026)
+- Tusky will now only make one call to the server to check which version of the filters api is supported and cache the result instead of everytime filters are needed. [PR#4539](https://github.com/tuskyapp/Tusky/pull/4539)
+- The "Hide compose button while scrolling" preference, which had the main purpose of making content behind the button accessible, has been removed and bottom padding added to all lists that could be obscured by buttons. [PR#4486](https://github.com/tuskyapp/Tusky/pull/4486)
+- When viewing media of a translated post the media descriptions will now also be translated [PR#4463](https://github.com/tuskyapp/Tusky/pull/4463)
+- The custom emojis in the emoji picker are now sorted by category [PR#4533](https://github.com/tuskyapp/Tusky/pull/4533)
+- Various internal refactorings to improve performance and maintainability.
+  [PR#4515](https://github.com/tuskyapp/Tusky/pull/4515)
+  [PR#4502](https://github.com/tuskyapp/Tusky/pull/4502)
+  [PR#4472](https://github.com/tuskyapp/Tusky/pull/4472)
+  [PR#4470](https://github.com/tuskyapp/Tusky/pull/4470)
+  [PR#4443](https://github.com/tuskyapp/Tusky/pull/4443)
+  [PR#4441](https://github.com/tuskyapp/Tusky/pull/4441)
+  [PR#4461](https://github.com/tuskyapp/Tusky/pull/4461)
+  [PR#4447](https://github.com/tuskyapp/Tusky/pull/4447)
+  [PR#4411](https://github.com/tuskyapp/Tusky/pull/4411)
+  [PR#4413](https://github.com/tuskyapp/Tusky/pull/4413)
+
+### Significant bug fixes
+
+- Posts with null media focus values will no longer cause Tusky to show an error [PR#4462](https://github.com/tuskyapp/Tusky/pull/4462)
+- A lot of other bugfixes, mostly smaller display bugs
+  [PR#4536](https://github.com/tuskyapp/Tusky/pull/4536)
+  [PR#4537](https://github.com/tuskyapp/Tusky/pull/4537)
+  [PR#4527](https://github.com/tuskyapp/Tusky/pull/4527)
+  [PR#4521](https://github.com/tuskyapp/Tusky/pull/4521)
+  [PR#4525](https://github.com/tuskyapp/Tusky/pull/4525)
+  [PR#4518](https://github.com/tuskyapp/Tusky/pull/4518)
+  [PR#4514](https://github.com/tuskyapp/Tusky/pull/4514)
+  [PR#4491](https://github.com/tuskyapp/Tusky/pull/4491)
+  [PR#4490](https://github.com/tuskyapp/Tusky/pull/4490)
+  [PR#4474](https://github.com/tuskyapp/Tusky/pull/4474)
+  [PR#4436](https://github.com/tuskyapp/Tusky/pull/4436)
+
+## v25.2
+
+### Significant bug fixes
+
+- Fixes a bug that could sometimes crash Tusky when rotating the screen while viewing an account list [PR#4430](https://github.com/tuskyapp/Tusky/pull/4430)
+- Fixes a bug that could crash Tusky at startup under certain conditions [PR#4431](https://github.com/tuskyapp/Tusky/pull/4431)
+- Fixes a bug that caused Tusky to crash when custom emojis with too large dimensions were loaded [PR#4429](https://github.com/tuskyapp/Tusky/pull/4429)
+- Makes Tusky work again with Iceshrimp by working around a quirk in their API implementation [PR#4426](https://github.com/tuskyapp/Tusky/pull/4426)
+- Fixes a bug that made translations not work on some servers [PR#4422](https://github.com/tuskyapp/Tusky/pull/4422)
+
+## v25.1
+
+### Significant bug fixes
+
+- Fixed two crashes at startup introduced in 25.0 [PR#4415](https://github.com/tuskyapp/Tusky/pull/4415) [PR#4417](https://github.com/tuskyapp/Tusky/pull/4417)
+
+## v25.0
+
+### New features and other improvements
+
+- Added support for the [Mastodon translation api](https://docs.joinmastodon.org/methods/statuses/#translate).
+  You can now find a new option "translate" in the three-dot-menu on posts that are not in your display language when your server supports the translation api.
+  Support is determined by checking the `configuration.translation.enabled` attribute of the `/api/v2/instance` endpoint.
+  [PR#4307](https://github.com/tuskyapp/Tusky/pull/4307)
+- The language of a post is now shown in the metadata section of the detail post view, if it is available. [PR#4127](https://github.com/tuskyapp/Tusky/pull/4127)
+- The transitions between screens have been changed to feel faster and align more with default Android transitions. [PR#4285](https://github.com/tuskyapp/Tusky/pull/4285)
+- The post statistic section below the detail post view is now always shown to prevent layout shifts on the first like or boost.
+  [PR#4205](https://github.com/tuskyapp/Tusky/pull/4205) [PR#4260](https://github.com/tuskyapp/Tusky/pull/4260)
+- The filters for boosts/replies/self-boosts in the home timeline have moved from general preferences to account specific preferences. [PR#4115](https://github.com/tuskyapp/Tusky/pull/4115)
+- The json parsing library has been migrated from Gson to Moshi. This change will make Tusky no longer crash on unexpected server responses. [PR#4309](https://github.com/tuskyapp/Tusky/pull/4309)
+- Small layout improvements to the header of the profile view [PR#4375](https://github.com/tuskyapp/Tusky/pull/4375) [PR#4371](https://github.com/tuskyapp/Tusky/pull/4371)
+- support for Android 14 Upside Down Cake [PR#4224](https://github.com/tuskyapp/Tusky/pull/4224)
+- Various internal refactorings to improve performance and maintainability.
+  [PR#4269](https://github.com/tuskyapp/Tusky/pull/4269)
+  [PR#4290](https://github.com/tuskyapp/Tusky/pull/4290)
+  [PR#4291](https://github.com/tuskyapp/Tusky/pull/4291)
+  [PR#4296](https://github.com/tuskyapp/Tusky/pull/4296)
+  [PR#4364](https://github.com/tuskyapp/Tusky/pull/4364)
+  [PR#4366](https://github.com/tuskyapp/Tusky/pull/4366)
+  [PR#4372](https://github.com/tuskyapp/Tusky/pull/4372)
+  [PR#4356](https://github.com/tuskyapp/Tusky/pull/4356)
+  [PR#4348](https://github.com/tuskyapp/Tusky/pull/4348)
+  [PR#4339](https://github.com/tuskyapp/Tusky/pull/4339)
+  [PR#4337](https://github.com/tuskyapp/Tusky/pull/4337)
+  [PR#4336](https://github.com/tuskyapp/Tusky/pull/4336)
+  [PR#4330](https://github.com/tuskyapp/Tusky/pull/4330)
+  [PR#4235](https://github.com/tuskyapp/Tusky/pull/4235)
+  [PR#4081](https://github.com/tuskyapp/Tusky/pull/4081)
+
+### Significant bug fixes
+
+- The setting to hide the notification filter bar that was accidentally removed is back. [PR#4225](https://github.com/tuskyapp/Tusky/pull/4225)
+- The profile picture in the bottom navigation bar now has the correct content description. [PR#4400](https://github.com/tuskyapp/Tusky/pull/4400)
+
 ## v24.1
 
 - The screen will stay on again while a video is playing. [PR#4168](https://github.com/tuskyapp/Tusky/pull/4168)
 - A memory leak has been fixed. This should improve stability and performance. [PR#4150](https://github.com/tuskyapp/Tusky/pull/4150) [PR#4153](https://github.com/tuskyapp/Tusky/pull/4153)
-- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](hhttps://github.com/tuskyapp/Tusky/pull/4152)
+- Emojis are now correctly counted as 1 character when composing a post. [PR#4152](https://github.com/tuskyapp/Tusky/pull/4152)
 - Fixed a crash when text was selected on some devices. [PR#4166](https://github.com/tuskyapp/Tusky/pull/4166)
 - The icons in the help texts of empty timelines will now always be correctly
   aligned. [PR#4179](https://github.com/tuskyapp/Tusky/pull/4179)

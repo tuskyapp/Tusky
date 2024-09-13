@@ -26,7 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
@@ -37,15 +37,12 @@ import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@AndroidEntryPoint
+class StatusListActivity : BottomSheetActivity() {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -215,12 +212,12 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         mastodonApi.getFiltersV1().fold(
                             { filters ->
                                 mutedFilterV1 = filters.firstOrNull { filter ->
-                                    hashedTag == filter.phrase && filter.context.contains(FilterV1.HOME)
+                                    hashedTag == filter.phrase && filter.context.contains(Filter.Kind.HOME.kind)
                                 }
                                 updateTagMuteState(mutedFilterV1 != null)
                             },
-                            { throwable ->
-                                Log.e(TAG, "Error getting filters: $throwable")
+                            { throwable2 ->
+                                Log.e(TAG, "Error getting filters: $throwable2")
                             }
                         )
                     } else {
@@ -252,7 +249,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
             mastodonApi.createFilter(
                 title = "#$tag",
-                context = listOf(FilterV1.HOME),
+                context = listOf(Filter.Kind.HOME.kind),
                 filterAction = Filter.Action.WARN.action,
                 expiresInSeconds = null
             ).fold(
@@ -266,8 +263,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         // must be requested again; otherwise does not contain the keyword (but server does)
                         mutedFilter = mastodonApi.getFilter(filter.id).getOrNull()
 
-                        // TODO the preference key here ("home") is not meaningful; should probably be another event if any
-                        eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                        eventHub.dispatch(FilterUpdatedEvent(filter.context))
                         filterCreateSuccess = true
                     } else {
                         Snackbar.make(
@@ -282,23 +278,23 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                     if (throwable.isHttpNotFound()) {
                         mastodonApi.createFilterV1(
                             hashedTag,
-                            listOf(FilterV1.HOME),
+                            listOf(Filter.Kind.HOME.kind),
                             irreversible = false,
                             wholeWord = true,
                             expiresInSeconds = null
                         ).fold(
                             { filter ->
                                 mutedFilterV1 = filter
-                                eventHub.dispatch(PreferenceChangedEvent(filter.context[0]))
+                                eventHub.dispatch(FilterUpdatedEvent(filter.context))
                                 filterCreateSuccess = true
                             },
-                            { throwable ->
+                            { throwable2 ->
                                 Snackbar.make(
                                     binding.root,
                                     getString(R.string.error_muting_hashtag_format, tag),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
-                                Log.e(TAG, "Failed to mute #$tag", throwable)
+                                Log.e(TAG, "Failed to mute #$tag", throwable2)
                             }
                         )
                     } else {
@@ -359,7 +355,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
                         mastodonApi.updateFilterV1(
                             id = filter.id,
                             phrase = filter.phrase,
-                            context = filter.context.filter { it != FilterV1.HOME },
+                            context = filter.context.filter { it != Filter.Kind.HOME.kind },
                             irreversible = null,
                             wholeWord = null,
                             expiresInSeconds = null
@@ -375,7 +371,7 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
             result?.fold(
                 {
                     updateTagMuteState(false)
-                    eventHub.dispatch(PreferenceChangedEvent(Filter.Kind.HOME.kind))
+                    eventHub.dispatch(FilterUpdatedEvent(listOf(Filter.Kind.HOME.kind)))
                     mutedFilterV1 = null
                     mutedFilter = null
 
@@ -398,8 +394,6 @@ class StatusListActivity : BottomSheetActivity(), HasAndroidInjector {
 
         return true
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 
     companion object {
 

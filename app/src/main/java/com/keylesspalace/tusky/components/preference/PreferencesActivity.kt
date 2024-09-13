@@ -26,7 +26,6 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.R
@@ -39,22 +38,18 @@ import com.keylesspalace.tusky.settings.PrefKeys.APP_THEME
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PreferencesActivity :
     BaseActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener,
-    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
-    HasAndroidInjector {
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     @Inject
     lateinit var eventHub: EventHub
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private val restartActivitiesOnBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
@@ -112,7 +107,6 @@ class PreferencesActivity :
             pref.fragment!!
         )
         fragment.arguments = args
-        fragment.setTargetFragment(caller, 0)
         supportFragmentManager.commit {
             setCustomAnimations(
                 R.anim.activity_open_enter,
@@ -128,16 +122,12 @@ class PreferencesActivity :
 
     override fun onResume() {
         super.onResume()
-        PreferenceManager.getDefaultSharedPreferences(
-            this
-        ).registerOnSharedPreferenceChangeListener(this)
+        preferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
-        PreferenceManager.getDefaultSharedPreferences(
-            this
-        ).unregisterOnSharedPreferenceChangeListener(this)
+        preferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -171,8 +161,6 @@ class PreferencesActivity :
             eventHub.dispatch(PreferenceChangedEvent(key))
         }
     }
-
-    override fun androidInjector() = androidInjector
 
     companion object {
         @Suppress("unused")
