@@ -17,9 +17,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v4
-
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
