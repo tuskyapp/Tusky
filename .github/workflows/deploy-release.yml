@@ -1,6 +1,6 @@
 # When a tag is created, create a release build and upload it to Google Play
 
-name: Populate build cache
+name: Deploy release to Google Play
 
 on:
   push:

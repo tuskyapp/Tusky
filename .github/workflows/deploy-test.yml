@@ -1,6 +1,6 @@
 # Deploy Tusky Nightly on each push to develop
 
-name: Populate build cache
+name: Deploy Tusky Nightly to Google Play
 
 on:
   push:
