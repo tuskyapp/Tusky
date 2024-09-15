@@ -136,6 +136,8 @@
         <item name="colorBackgroundAccent">@color/tusky_grey_20</item>
 
         <item name="dividerColor">@color/tusky_grey_20</item>
+        <item name="colorOutlineVariant">@color/tusky_grey_20</item>
+
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
