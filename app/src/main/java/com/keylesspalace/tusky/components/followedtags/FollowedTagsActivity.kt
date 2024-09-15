@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
+import com.keylesspalace.tusky.databinding.DialogFollowHashtagBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.copyToClipboard
@@ -60,8 +61,7 @@ class FollowedTagsActivity :
         }
 
         binding.fab.setOnClickListener {
-            val dialog: DialogFragment = FollowTagDialog.newInstance()
-            dialog.show(supportFragmentManager, "dialog")
+            showDialog()
         }
 
         setupAdapter().let { adapter ->
@@ -178,37 +178,30 @@ class FollowedTagsActivity :
         )
     }
 
-    companion object {
-        const val TAG = "FollowedTagsActivity"
-    }
-
-    class FollowTagDialog : DialogFragment() {
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val layout = layoutInflater.inflate(R.layout.dialog_follow_hashtag, null)
-            val autoCompleteTextView = layout.findViewById<AutoCompleteTextView>(R.id.hashtag)!!
-            autoCompleteTextView.setAdapter(
+     fun showDialog(): Dialog {
+            val dialogBinding = DialogFollowHashtagBinding.inflate(layoutInflater)
+            dialogBinding.hashtagAutoCompleteTextView.setAdapter(
                 ComposeAutoCompleteAdapter(
-                    requireActivity() as FollowedTagsActivity,
+                    this,
                     animateAvatar = false,
                     animateEmojis = false,
                     showBotBadge = false
                 )
             )
 
-            return MaterialAlertDialogBuilder(requireActivity())
+            return MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.dialog_follow_hashtag_title)
-                .setView(layout)
+                .setView(dialogBinding.root)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    (requireActivity() as FollowedTagsActivity).follow(
-                        autoCompleteTextView.text.toString().removePrefix("#")
+                    follow(
+                        dialogBinding.hashtagAutoCompleteTextView.text.toString().removePrefix("#")
                     )
                 }
-                .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
-                .create()
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
         }
 
-        companion object {
-            fun newInstance(): FollowTagDialog = FollowTagDialog()
-        }
+    companion object {
+        const val TAG = "FollowedTagsActivity"
     }
 }
