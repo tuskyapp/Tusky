@@ -1,4 +1,4 @@
-[![Translate - with Weblate](https://img.shields.io/badge/translate%20with-Weblate-green.svg?style=flat)](https://weblate.tusky.app/) [![OpenCollective](https://opencollective.com/tusky/backers/badge.svg)](https://opencollective.com/tusky/) [![Build Status](https://app.bitrise.io/app/a3e773c3c57a894c/status.svg?token=qLu_Ti4Gp2LWcYT4eo2INQ&branch=develop)](https://app.bitrise.io/app/a3e773c3c57a894c) 
+[![Translate - with Weblate](https://img.shields.io/badge/translate%20with-Weblate-green.svg?style=flat)](https://weblate.tusky.app/) [![OpenCollective](https://opencollective.com/tusky/backers/badge.svg)](https://opencollective.com/tusky/) [![Build Status](https://github.com/tuskyapp/Tusky/actions/workflows/deploy-test.yml/badge.svg)](https://app.bitrise.io/app/a3e773c3c57a894c)
 # Tusky
 
 <img src="/fastlane/metadata/android/en-US/images/icon.png" width="120" height="120"/>
@@ -15,13 +15,13 @@ Tusky is a beautiful Android client for [Mastodon](https://github.com/mastodon/m
 - Multi-Account support
 - Dark, light and black themes with the possibility to auto-switch based on the time of day
 - Drafts - compose posts and save them for later
-- Choose between different emoji styles 
+- Choose between different emoji styles
 - Optimized for all screen sizes
 - Completely open-source - no non-free dependencies like Google services
 
 ### Testing
 
-The nightly build containing the newest development code is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test). 
+The nightly build containing the newest development code is [available on Google Play](https://play.google.com/store/apps/details?id=com.keylesspalace.tusky.test).
 
 ### Support
 
