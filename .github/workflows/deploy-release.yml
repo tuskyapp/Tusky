@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    name: app:buildGreenDebug
     runs-on: ubuntu-latest
     steps:
       - uses: ./.github/workflows/check-and-build.yml
