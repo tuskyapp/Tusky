@@ -501,7 +501,7 @@
     <string name="action_delete_conversation">Beszélgetés törlése</string>
     <string name="action_unbookmark">Könyvjelző törlése</string>
     <string name="pref_title_confirm_favourites">Jóváhagyás megjelenítése kedvencnek jelölés előtt</string>
-    <string name="notification_update_format">%1$d szerkesztette a bejegyzését</string>
+    <string name="notification_update_format">%1$s szerkesztette a bejegyzését</string>
     <string name="pref_title_notification_filter_updates">szerkesztették a bejegyzést, mellyel dolgod volt</string>
     <string name="notification_sign_up_format">%1$s regisztrált</string>
     <string name="pref_title_notification_filter_sign_ups">valaki regisztrált</string>

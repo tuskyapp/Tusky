@@ -72,7 +72,6 @@ class NetworkTimelineViewModel @Inject constructor(
     filterModel: FilterModel
 ) : TimelineViewModel(
     timelineCases,
-    api,
     eventHub,
     accountManager,
     sharedPreferences,

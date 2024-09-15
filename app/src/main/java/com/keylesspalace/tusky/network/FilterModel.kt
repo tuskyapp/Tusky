@@ -104,7 +104,7 @@ class FilterModel @Inject constructor(
         val phrase = filter.phrase
         val quotedPhrase = Pattern.quote(phrase)
         return if (filter.wholeWord && ALPHANUMERIC.matcher(phrase).matches()) {
-            String.format("(^|\\W)%s($|\\W)", quotedPhrase)
+            "(^|\\W)$quotedPhrase($|\\W)"
         } else {
             quotedPhrase
         }

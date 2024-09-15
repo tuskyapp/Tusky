@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.getParcelableCompat
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.ortiz.touchview.OnTouchCoordinatesListener

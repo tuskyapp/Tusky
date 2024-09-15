@@ -265,12 +265,8 @@ class MediaUploader @Inject constructor(
             }
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = "%s_%d_%s.%s".format(
-                context.getString(R.string.app_name),
-                System.currentTimeMillis(),
-                randomAlphanumericString(10),
-                fileExtension
-            )
+            val filename =
+                "${context.getString(R.string.app_name)}_${System.currentTimeMillis()}_${randomAlphanumericString(10)}.$fileExtension"
 
             if (mimeType == null) mimeType = "multipart/form-data"
 
