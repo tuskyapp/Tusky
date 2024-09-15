@@ -42,7 +42,6 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
             android:exported="true"
-            android:launchMode="singleTask"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
