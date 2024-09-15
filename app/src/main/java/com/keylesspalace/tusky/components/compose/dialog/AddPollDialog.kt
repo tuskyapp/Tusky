@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogAddPollBinding
 import com.keylesspalace.tusky.entity.NewPoll
@@ -105,6 +106,14 @@ fun showAddPollDialog(
     }
 
     dialog.show()
+
+    dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    binding.pollChoices.post {
+        val firstItemView = binding.pollChoices.layoutManager?.findViewByPosition(0)
+        val editText = firstItemView?.findViewById<TextInputEditText>(R.id.optionEditText)
+        editText?.requestFocus()
+        editText?.setSelection(editText.length())
+    }
 
     // make the dialog focusable so the keyboard does not stay behind it
     dialog.window?.clearFlags(

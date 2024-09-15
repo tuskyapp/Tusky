@@ -62,6 +62,11 @@ class CaptionDialog : DialogFragment() {
         binding = DialogImageDescriptionBinding.inflate(layoutInflater)
         val imageView = binding.imageDescriptionView
         imageView.maxZoom = 6f
+        val imageDescriptionText = binding.imageDescriptionText
+        imageDescriptionText.post {
+            imageDescriptionText.requestFocus()
+            imageDescriptionText.setSelection(imageDescriptionText.length())
+        }
 
         binding.imageDescriptionText.hint = resources.getQuantityString(
             R.plurals.hint_describe_for_visually_impaired,

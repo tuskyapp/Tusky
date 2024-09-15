@@ -18,6 +18,7 @@ package com.keylesspalace.tusky
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -267,6 +268,7 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(editText.text)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         editText.requestFocus()
     }
 

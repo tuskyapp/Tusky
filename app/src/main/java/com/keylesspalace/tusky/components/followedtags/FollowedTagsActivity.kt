@@ -1,13 +1,10 @@
 package com.keylesspalace.tusky.components.followedtags
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.AutoCompleteTextView
+import android.view.WindowManager
 import androidx.activity.viewModels
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -178,28 +175,32 @@ class FollowedTagsActivity :
         )
     }
 
-     fun showDialog(): Dialog {
-            val dialogBinding = DialogFollowHashtagBinding.inflate(layoutInflater)
-            dialogBinding.hashtagAutoCompleteTextView.setAdapter(
-                ComposeAutoCompleteAdapter(
-                    this,
-                    animateAvatar = false,
-                    animateEmojis = false,
-                    showBotBadge = false
-                )
+    private fun showDialog() {
+        val dialogBinding = DialogFollowHashtagBinding.inflate(layoutInflater)
+        dialogBinding.hashtagAutoCompleteTextView.setAdapter(
+            ComposeAutoCompleteAdapter(
+                this,
+                animateAvatar = false,
+                animateEmojis = false,
+                showBotBadge = false
             )
+        )
+        dialogBinding.hashtagAutoCompleteTextView.requestFocus()
+        dialogBinding.hashtagAutoCompleteTextView.setSelection(dialogBinding.hashtagAutoCompleteTextView.length())
 
-            return MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.dialog_follow_hashtag_title)
-                .setView(dialogBinding.root)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    follow(
-                        dialogBinding.hashtagAutoCompleteTextView.text.toString().removePrefix("#")
-                    )
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-        }
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_follow_hashtag_title)
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                follow(
+                    dialogBinding.hashtagAutoCompleteTextView.text.toString().removePrefix("#")
+                )
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog.show()
+    }
 
     companion object {
         const val TAG = "FollowedTagsActivity"

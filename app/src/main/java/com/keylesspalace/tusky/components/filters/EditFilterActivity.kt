@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.components.filters
 import android.content.Context
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.core.view.size
@@ -211,7 +212,7 @@ class EditFilterActivity : BaseActivity() {
     private fun showAddKeywordDialog() {
         val binding = DialogFilterBinding.inflate(layoutInflater)
         binding.phraseWholeWord.isChecked = true
-        MaterialAlertDialogBuilder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -225,6 +226,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun showEditKeywordDialog(keyword: FilterKeyword) {
@@ -232,7 +239,7 @@ class EditFilterActivity : BaseActivity() {
         binding.phraseEditText.setText(keyword.keyword)
         binding.phraseWholeWord.isChecked = keyword.wholeWord
 
-        MaterialAlertDialogBuilder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
@@ -246,6 +253,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun validateSaveButton() {

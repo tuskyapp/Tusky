@@ -281,7 +281,7 @@
     <string name="filter_addition_title">Thêm bộ lọc</string>
     <string name="pref_title_thread_filter_keywords">Thảo luận</string>
     <string name="pref_title_public_filter_keywords">Liên hợp</string>
-    <string name="load_more_placeholder_text">hiện những tút chưa đọc</string>
+    <string name="load_more_placeholder_text">Hiện những tút chưa đọc</string>
     <string name="replying_to">Trả lời đến @%1$s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
@@ -706,4 +706,5 @@
     <string name="pref_default_reply_privacy_explanation">Chọn dựa vào tút bạn đang trả lời.</string>
     <string name="pref_match_default_post_privacy">Khớp mặc định tút</string>
     <string name="post_privacy_direct">Nhắn riêng</string>
+    <string name="label_expires_after">Hết hạn sau</string>
 </resources>
