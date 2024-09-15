@@ -164,10 +164,6 @@
         <item name="backgroundTint">@color/colorBackground</item>
     </style>
 
-    <style name="TuskyDialogFragmentStyle" parent="@style/ThemeOverlay.Material3.Dialog">
-        <item name="dialogCornerRadius">8dp</item>
-    </style>
-
     <style name="TuskyTabAppearance" parent="Widget.Material3.TabLayout">
         <item name="tabIndicatorHeight">4dp</item>
     </style>

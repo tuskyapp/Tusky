@@ -15,15 +15,14 @@
 
 package com.keylesspalace.tusky.components.compose.dialog
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.core.os.bundleOf
@@ -32,11 +31,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.DialogImageDescriptionBinding
 import com.keylesspalace.tusky.util.getParcelableCompat
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.viewBinding
 
 // https://github.com/tootsuite/mastodon/blob/c6904c0d3766a2ea8a81ab025c127169ecb51373/app/models/media_attachment.rb#L32
 private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
@@ -44,22 +43,23 @@ private const val MEDIA_DESCRIPTION_CHARACTER_LIMIT = 1500
 class CaptionDialog : DialogFragment() {
     private lateinit var listener: Listener
 
-    private val binding by viewBinding(DialogImageDescriptionBinding::bind)
+    private lateinit var binding: DialogImageDescriptionBinding
 
     private var animatable: Animatable? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
+        return MaterialAlertDialogBuilder(requireContext())
+            .setView(createView(savedInstanceState))
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                listener.onUpdateDescription(localId, binding.imageDescriptionText.text.toString())
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.dialog_image_description, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private fun createView(savedInstanceState: Bundle?): View {
+        binding = DialogImageDescriptionBinding.inflate(layoutInflater)
         val imageView = binding.imageDescriptionView
         imageView.maxZoom = 6f
 
@@ -72,15 +72,6 @@ class CaptionDialog : DialogFragment() {
         binding.imageDescriptionText.setText(arguments?.getString(EXISTING_DESCRIPTION_ARG))
         savedInstanceState?.getCharSequence(DESCRIPTION_KEY)?.let {
             binding.imageDescriptionText.setText(it)
-        }
-
-        binding.cancelButton.setOnClickListener {
-            dismiss()
-        }
-        val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
-        binding.okButton.setOnClickListener {
-            listener.onUpdateDescription(localId, binding.imageDescriptionText.text.toString())
-            dismiss()
         }
 
         isCancelable = true
@@ -104,15 +95,15 @@ class CaptionDialog : DialogFragment() {
                     if (resource is Animatable) {
                         resource.callback = object : Drawable.Callback {
                             override fun invalidateDrawable(who: Drawable) {
-                                view.invalidate()
+                                imageView.invalidate()
                             }
 
                             override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
-                                view.postDelayed(what, `when`)
+                                imageView.postDelayed(what, `when`)
                             }
 
                             override fun unscheduleDrawable(who: Drawable, what: Runnable) {
-                                view.removeCallbacks(what)
+                                imageView.removeCallbacks(what)
                             }
                         }
                         resource.start()
@@ -126,6 +117,7 @@ class CaptionDialog : DialogFragment() {
                     imageView.hide()
                 }
             })
+        return binding.root
     }
 
     override fun onStart() {
