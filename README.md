@@ -1,4 +1,4 @@
-[![Translate - with Weblate](https://img.shields.io/badge/translate%20with-Weblate-green.svg?style=flat)](https://weblate.tusky.app/) [![OpenCollective](https://opencollective.com/tusky/backers/badge.svg)](https://opencollective.com/tusky/) [![Build Status](https://github.com/tuskyapp/Tusky/actions/workflows/deploy-test.yml/badge.svg)](https://app.bitrise.io/app/a3e773c3c57a894c)
+[![Translate - with Weblate](https://img.shields.io/badge/translate%20with-Weblate-green.svg?style=flat)](https://weblate.tusky.app/) [![OpenCollective](https://opencollective.com/tusky/backers/badge.svg)](https://opencollective.com/tusky/) [![Build Status](https://github.com/tuskyapp/Tusky/actions/workflows/deploy-test.yml/badge.svg)](https://github.com/tuskyapp/Tusky/actions/workflows/deploy-test.yml)
 # Tusky
 
 <img src="/fastlane/metadata/android/en-US/images/icon.png" width="120" height="120"/>
