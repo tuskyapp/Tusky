@@ -123,6 +123,13 @@
         <item name="windowBackgroundColor">@color/black</item>
 
         <item name="colorSurface">@color/tusky_grey_10</item>
+        <item name="colorSurfaceVariant">@color/tusky_grey_10</item>
+
+        <item name="colorSurfaceContainerLowest">@color/tusky_grey_10</item>
+        <item name="colorSurfaceContainerLow">@color/tusky_grey_10</item>
+        <item name="colorSurfaceContainer">@color/tusky_grey_10</item>
+        <item name="colorSurfaceContainerHigh">@color/tusky_grey_10</item>
+        <item name="colorSurfaceContainerHighest">@color/tusky_grey_10</item>
 
         <item name="iconColor">@color/tusky_grey_40</item>
         <item name="colorBackgroundHighlight">@color/tusky_grey_40</item>
