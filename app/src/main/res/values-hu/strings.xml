@@ -118,7 +118,7 @@
     <string name="confirmation_reported">Elküldve!</string>
     <string name="confirmation_unblocked">Felhasználó letiltása feloldva</string>
     <string name="confirmation_unmuted">Felhasználó némítása feloldva</string>
-    <string name="hint_domain">Melyik példány\?</string>
+    <string name="hint_domain">Melyik példány?</string>
     <string name="hint_compose">Mi jár a fejedben\?</string>
     <string name="hint_content_warning">Tartalom figyelmeztetés</string>
     <string name="hint_display_name">Megjelenítési név</string>
@@ -644,8 +644,8 @@
     <string name="notification_prune_cache">Gyorsítótár karbantartása…</string>
     <string name="load_newest_notifications">Legújabb értesítések betöltése</string>
     <string name="compose_delete_draft">Töröljük a vázlatot\?</string>
-    <string name="error_missing_edits">A kiszolgálód tudja, hogy ezt a bejegyzést szerkesztették, de nincs másolata a szekesztésekről, így ezeket nem tudja megjeleníteni.
-\n
+    <string name="error_missing_edits">A kiszolgálód tudja, hogy ezt a bejegyzést szerkesztették, de nincs másolata a szekesztésekről, így ezeket nem tudja megjeleníteni. 
+\n 
 \nEz egy ismert probléma: <a href="https://github.com/mastodon/mastodon/issues/25398">#25398-as számú Mastodon jegy</a>.</string>
     <string name="reply_sending">Küldés…</string>
     <string name="reply_sending_long">A válaszodat épp elküldjük.</string>
