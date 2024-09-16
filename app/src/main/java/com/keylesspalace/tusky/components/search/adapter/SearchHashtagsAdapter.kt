@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemHashtagBinding
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.interfaces.LinkListener
@@ -37,7 +38,7 @@ class SearchHashtagsAdapter(private val linkListener: LinkListener) :
 
     override fun onBindViewHolder(holder: BindingHolder<ItemHashtagBinding>, position: Int) {
         getItem(position)?.let { (name) ->
-            holder.binding.root.text = String.format("#%s", name)
+            holder.binding.root.text = holder.binding.root.context.getString(R.string.hashtag_format, name)
             holder.binding.root.setOnClickListener { linkListener.onViewTag(name) }
         }
     }

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.visible
 
 /**

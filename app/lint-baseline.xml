@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.3.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.3.2)" variant="all" version="8.3.2">
+<issues format="6" by="lint 8.6.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.6.0)" variant="all" version="8.6.0">
 
     <issue
         id="GestureBackNavigation"
@@ -8,7 +8,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/compose/ComposeActivity.kt"
-            line="1314"
+            line="1288"
             column="28"/>
     </issue>
 
@@ -19,7 +19,7 @@
         errorLine2="                               ~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/adapter/StatusDetailedViewHolder.java"
-            line="104"
+            line="101"
             column="32"/>
     </issue>
 
@@ -53,14 +53,14 @@
 
     <issue
         id="PrivateResource"
-        message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.3.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
+        message="Overriding `@layout/exo_player_control_view` which is marked as private in androidx.media3:media3-ui:1.4.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name.">
         <location
             file="src/main/res/layout/exo_player_control_view.xml"/>
     </issue>
 
     <issue
         id="PrivateResource"
-        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -71,7 +71,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_controls_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_controls_padding` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:padding=&quot;@dimen/exo_styled_controls_padding&quot;"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -82,7 +82,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@layout/exo_player_control_rewind_button` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@layout/exo_player_control_rewind_button` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_rewind_button&quot; />"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -93,7 +93,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@layout/exo_player_control_ffwd_button` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@layout/exo_player_control_ffwd_button` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        &lt;include layout=&quot;@layout/exo_player_control_ffwd_button&quot; />"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -104,7 +104,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_height` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_height` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:layout_height=&quot;@dimen/exo_styled_bottom_bar_height&quot;"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -115,7 +115,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_margin_top` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_margin_top` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:layout_marginTop=&quot;@dimen/exo_styled_bottom_bar_margin_top&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -126,7 +126,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@color/exo_bottom_bar_background` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:background=&quot;@color/exo_bottom_bar_background&quot;"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -137,7 +137,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="            android:paddingStart=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -148,7 +148,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="            android:paddingEnd=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -159,7 +159,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="            android:paddingLeft=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -170,7 +170,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_bottom_bar_time_padding` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="            android:paddingRight=&quot;@dimen/exo_styled_bottom_bar_time_padding&quot;"
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -181,7 +181,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_progress_layout_height` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_progress_layout_height` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:layout_height=&quot;@dimen/exo_styled_progress_layout_height&quot;"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -192,7 +192,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_progress_margin_bottom` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_progress_margin_bottom` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_progress_margin_bottom&quot;/>"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -203,7 +203,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@dimen/exo_styled_minimal_controls_margin_bottom` is marked as private in androidx.media3:media3-ui:1.3.1"
+        message="The resource `@dimen/exo_styled_minimal_controls_margin_bottom` is marked as private in androidx.media3:media3-ui:1.4.1"
         errorLine1="        android:layout_marginBottom=&quot;@dimen/exo_styled_minimal_controls_margin_bottom&quot;"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -215,22 +215,22 @@
     <issue
         id="PluralsCandidate"
         message="Formatting %d followed by words (&quot;posts&quot;): This should probably be a plural rather than a string"
-        errorLine1="    &lt;string name=&quot;notification_summary_report_format&quot;>%s · %d posts attached&lt;/string>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    &lt;string name=&quot;notification_summary_report_format&quot;>%1$s · %2$d posts attached&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="109"
+            line="111"
             column="5"/>
     </issue>
 
     <issue
         id="PluralsCandidate"
         message="Formatting %d followed by words (&quot;and&quot;): This should probably be a plural rather than a string"
-        errorLine1="    &lt;string name=&quot;pref_title_http_proxy_port_message&quot;>Port should be between %d and %d&lt;/string>"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="    &lt;string name=&quot;pref_title_http_proxy_port_message&quot;>Port should be between %1$d and %2$d&lt;/string>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="331"
+            line="336"
             column="5"/>
     </issue>
 
@@ -241,7 +241,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="389"
+            line="398"
             column="5"/>
     </issue>
 
@@ -252,7 +252,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="570"
+            line="579"
             column="5"/>
     </issue>
 
@@ -263,7 +263,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="790"
+            line="801"
             column="5"/>
     </issue>
 
@@ -384,7 +384,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/account/AccountActivity.kt"
-            line="532"
+            line="478"
             column="9"/>
     </issue>
 
@@ -428,7 +428,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/components/announcements/AnnouncementAdapter.kt"
-            line="157"
+            line="175"
             column="9"/>
     </issue>
 
@@ -545,11 +545,11 @@
     <issue
         id="ReportShortcutUsage"
         message="Calling this method indicates use of dynamic shortcuts, but there are no calls to methods that track shortcut usage, such as `pushDynamicShortcut` or `reportShortcutUsed`. Calling these methods is recommended, as they track shortcut usage and allow launchers to adjust which shortcuts appear based on activation history. Please see https://developer.android.com/develop/ui/views/launch/shortcuts/managing-shortcuts#track-usage"
-        errorLine1="            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcutInfo))"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="            ShortcutManagerCompat.setDynamicShortcuts(context, shortcuts)"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/util/ShareShortcutHelper.kt"
-            line="96"
+            line="101"
             column="13"/>
     </issue>
 
@@ -725,7 +725,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/activity_edit_profile.xml"
-            line="129"
+            line="128"
             column="21"/>
     </issue>
 
@@ -758,7 +758,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_report_notification.xml"
-            line="23"
+            line="22"
             column="9"/>
     </issue>
 
@@ -847,39 +847,6 @@
         <location
             file="src/main/res/layout/view_compose_schedule.xml"
             line="38"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlHardcoded"
-        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
-        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_list.xml"
-            line="37"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlHardcoded"
-        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
-        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_list.xml"
-            line="48"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="RtlHardcoded"
-        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;8dp&quot;` to better support right-to-left layouts"
-        errorLine1="        android:layout_marginLeft=&quot;8dp&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_list.xml"
-            line="59"
             column="9"/>
     </issue>
 

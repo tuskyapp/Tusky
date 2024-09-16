@@ -178,7 +178,7 @@ class DraftHelper @Inject constructor(
             map.getExtensionFromMimeType(mimeType)
         }
 
-        val filename = String.format("Tusky_Draft_Media_%s_%d.%s", timeStamp, index, fileExtension)
+        val filename = "Tusky_Draft_Media_${timeStamp}_$index.$fileExtension"
         val file = File(folder, filename)
 
         if (scheme == "https") {
