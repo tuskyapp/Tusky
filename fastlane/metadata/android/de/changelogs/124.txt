@@ -1,0 +1,7 @@
+Tusky 26.1
+
+- 2 neue Einstellungen für die »Antwortsichtbarkeit«: »Von Standard-Beitragssichtbarkeit übernehmen« und »Direkt«.
+- Tusky enthält ISRG-Root-Zertifikate, um auf Geräten mit Android 7 und Servern, die Let's Encrypt verwenden, zu funktionieren.
+- Tusky vermischt nicht länger Timelines und/oder Benachrichtigungen mit anderen Konten.
+
+Alle Änderungen sind auf https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md einsehbar (nur Englisch)
