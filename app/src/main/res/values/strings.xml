@@ -864,5 +864,7 @@
     <string name="list_reply_policy_followed">Any followed user</string>
     <string name="list_reply_policy_label">Show replies to</string>
 
+    <string name="open_link">Open Link</string>
+
     <string name="unknown_notification_type">Unknown notification type</string>
 </resources>
