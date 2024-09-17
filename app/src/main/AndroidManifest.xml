@@ -40,7 +40,7 @@
         <activity android:name=".components.login.LoginWebViewActivity" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize"
             android:exported="true"
             android:theme="@style/SplashTheme">
 
@@ -116,7 +116,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity
             android:name=".components.account.AccountActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
