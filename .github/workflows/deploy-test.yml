@@ -4,8 +4,8 @@ name: Deploy Tusky Nightly to Google Play
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - develop
 
 jobs:
   build:
