@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentViewImageBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.getParcelableCompat
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.ortiz.touchview.OnTouchCoordinatesListener
@@ -113,7 +112,9 @@ class ViewImageFragment : ViewMediaFragment() {
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
                 override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    photoActionsListener.onPhotoTap()
+                    if (isAdded) {
+                        photoActionsListener.onPhotoTap()
+                    }
                     return false
                 }
             }

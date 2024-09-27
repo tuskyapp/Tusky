@@ -8,7 +8,7 @@
 
     <string name="at_symbol" translatable="false">\@</string>
     <string name="hash_symbol" translatable="false">#</string>
-    <string name="title_tag" translatable="false">#%1$s</string>
+    <string name="hashtag_format" translatable="false">#%1$s</string>
 
     <string name="emoji_shortcode_format" translatable="false">:%1$s:</string>
     <string name="post_timestamp_with_edited_indicator" translatable="false">%1$s *</string>

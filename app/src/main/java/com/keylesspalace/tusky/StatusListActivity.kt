@@ -75,7 +75,7 @@ class StatusListActivity : BottomSheetActivity() {
         val title = when (kind) {
             Kind.FAVOURITES -> getString(R.string.title_favourites)
             Kind.BOOKMARKS -> getString(R.string.title_bookmarks)
-            Kind.TAG -> getString(R.string.title_tag).format(hashtag)
+            Kind.TAG -> getString(R.string.hashtag_format, hashtag)
             Kind.PUBLIC_TRENDING_STATUSES -> getString(R.string.title_public_trending_statuses)
             else -> intent.getStringExtra(EXTRA_LIST_TITLE)
         }

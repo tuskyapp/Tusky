@@ -118,7 +118,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
             arguments = arguments,
             title = { context ->
                 arguments.joinToString(separator = " ") {
-                    context.getString(R.string.title_tag, it)
+                    context.getString(R.string.hashtag_format, it)
                 }
             }
         )

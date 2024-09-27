@@ -604,13 +604,6 @@ class TimelineFragment :
         viewModel.removeStatusWithId(status.id)
     }
 
-    private fun actionButtonPresent(): Boolean {
-        return viewModel.kind != TimelineViewModel.Kind.TAG &&
-            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
-            activity is ActionButtonActivity
-    }
-
     private var talkBackWasEnabled = false
 
     override fun onPause() {

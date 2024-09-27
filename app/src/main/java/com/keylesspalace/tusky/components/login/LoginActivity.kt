@@ -257,7 +257,7 @@ class LoginActivity : BaseActivity() {
             getString(R.string.error_authorization_unknown)
         } else {
             // Use error returned by the server or fall back to the generic message
-            Log.e(TAG, "%s %s".format(getString(R.string.error_authorization_denied), error))
+            Log.e(TAG, getString(R.string.error_authorization_denied) + " " + error)
             error.ifBlank { getString(R.string.error_authorization_denied) }
         }
     }
