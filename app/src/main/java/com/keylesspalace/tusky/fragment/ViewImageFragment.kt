@@ -112,7 +112,9 @@ class ViewImageFragment : ViewMediaFragment() {
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onDown(e: MotionEvent) = true
                 override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    photoActionsListener.onPhotoTap()
+                    if (isAdded) {
+                        photoActionsListener.onPhotoTap()
+                    }
                     return false
                 }
             }
