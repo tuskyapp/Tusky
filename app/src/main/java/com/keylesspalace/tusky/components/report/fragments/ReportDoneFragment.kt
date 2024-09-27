@@ -49,11 +49,11 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done) {
             viewModel.muteState.collect {
                 if (it == null) return@collect
                 if (it !is Loading) {
-                    binding.buttonMute.show()
-                    binding.progressMute.show()
+                    binding.buttonMute.visibility = View.VISIBLE
+                    binding.progressMute.visibility = View.GONE
                 } else {
-                    binding.buttonMute.hide()
-                    binding.progressMute.hide()
+                    binding.buttonMute.visibility = View.INVISIBLE
+                    binding.progressMute.visibility = View.VISIBLE
                 }
 
                 binding.buttonMute.setText(
@@ -69,11 +69,11 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done) {
             viewModel.blockState.collect {
                 if (it == null) return@collect
                 if (it !is Loading) {
-                    binding.buttonBlock.show()
-                    binding.progressBlock.show()
+                    binding.buttonBlock.visibility = View.VISIBLE
+                    binding.progressBlock.visibility = View.GONE
                 } else {
-                    binding.buttonBlock.hide()
-                    binding.progressBlock.hide()
+                    binding.buttonBlock.visibility = View.INVISIBLE
+                    binding.progressBlock.visibility = View.VISIBLE
                 }
                 binding.buttonBlock.setText(
                     when (it.data) {
