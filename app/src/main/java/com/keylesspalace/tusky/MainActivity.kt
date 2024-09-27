@@ -576,6 +576,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
         }
         startActivity(composeIntent)
+        finish()
     }
 
     private fun setupDrawer(

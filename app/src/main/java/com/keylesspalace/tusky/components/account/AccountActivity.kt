@@ -387,7 +387,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             viewModel.accountData.collect {
                 if (it == null) return@collect
                 when (it) {
-                    is Success -> onAccountChanged(it.data)
+                    is Success -> {
+                        onAccountChanged(it.data)
+                        binding.swipeToRefreshLayout.isEnabled = true
+                    }
                     is Error -> {
                         Snackbar.make(
                             binding.accountCoordinatorLayout,
@@ -396,6 +399,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                         )
                             .setAction(R.string.action_retry) { viewModel.refresh() }
                             .show()
+                        binding.swipeToRefreshLayout.isEnabled = true
                     }
                     is Loading -> { }
                 }
@@ -438,10 +442,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Setup swipe to refresh layout
      */
     private fun setupRefreshLayout() {
+        binding.swipeToRefreshLayout.isEnabled = false // will only be enabled after the first load completed
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         lifecycleScope.launch {
-            viewModel.isRefreshing.collect { isRefreshing ->
-                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+            viewModel.isRefreshing.collect {
+                binding.swipeToRefreshLayout.isRefreshing = it
             }
         }
     }
@@ -1030,7 +1035,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 return true
             }
             R.id.action_refresh -> {
-                binding.swipeToRefreshLayout.isRefreshing = true
                 onRefresh()
                 return true
             }

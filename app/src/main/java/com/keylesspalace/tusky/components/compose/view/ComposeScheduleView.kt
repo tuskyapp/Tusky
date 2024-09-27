@@ -14,6 +14,7 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.components.compose.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -80,11 +81,8 @@ class ComposeScheduleView
         }
 
         val scheduled = scheduleDateTimeUtc!!.time
-        binding.scheduledDateTime.text = String.format(
-            "%s %s",
-            dateFormat.format(scheduled),
-            timeFormat.format(scheduled)
-        )
+        @SuppressLint("SetTextI18n")
+        binding.scheduledDateTime.text = "${dateFormat.format(scheduled)} ${timeFormat.format(scheduled)}"
         verifyScheduledTime(scheduled)
     }
 

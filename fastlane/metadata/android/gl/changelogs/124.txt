@@ -1,0 +1,6 @@
+Tusky 26.1
+
+- O axuste da conta "Privacidade da resposta" agora ten dúas opcións engadidas: "Directa" e "Seguir ao valor por defecto".
+- Tusky inclúe certificados raíz ISRG para seguir funcionando en Android 7 e servidores que usan Let's Encrypt.
+- Arranxo do problema que causaba que se misturasen cronoloxías e/ou notificacións para as contas.
+Le o rexistro completo coas novidades https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md
