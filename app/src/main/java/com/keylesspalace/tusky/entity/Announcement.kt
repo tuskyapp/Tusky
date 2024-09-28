@@ -30,7 +30,6 @@ data class Announcement(
     @Json(name = "updated_at") val updatedAt: Date,
     val read: Boolean = false,
     val mentions: List<Status.Mention>,
-    val statuses: List<Status>,
     val tags: List<HashTag>,
     val emojis: List<Emoji>,
     val reactions: List<Reaction>
