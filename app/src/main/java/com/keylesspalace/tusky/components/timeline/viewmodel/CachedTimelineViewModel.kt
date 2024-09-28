@@ -70,7 +70,6 @@ class CachedTimelineViewModel @Inject constructor(
     private val db: AppDatabase
 ) : TimelineViewModel(
     timelineCases,
-    api,
     eventHub,
     accountManager,
     sharedPreferences,

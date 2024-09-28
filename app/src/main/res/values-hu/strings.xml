@@ -710,6 +710,7 @@
     <string name="pref_title_show_self_boosts">Önmegtolások megjelenítése</string>
     <string name="pref_title_show_self_boosts_description">Valaki a saját bejegyzését tolja meg</string>
     <string name="pref_title_show_notifications_filter">Értesítésszűrő megjelenítése</string>
+
     <string name="action_follow_hashtag">Új hashtag követése</string>
     <string name="url_copied">Webcím másolva</string>
     <string name="dialog_follow_warning">Követed ezt a fiókot?</string>

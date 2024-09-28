@@ -31,7 +31,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
-import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -41,7 +40,6 @@ import kotlinx.coroutines.launch
 
 abstract class TimelineViewModel(
     protected val timelineCases: TimelineCases,
-    private val api: MastodonApi,
     private val eventHub: EventHub,
     protected val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,

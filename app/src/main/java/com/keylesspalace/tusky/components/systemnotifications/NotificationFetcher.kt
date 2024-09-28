@@ -162,7 +162,7 @@ class NotificationFetcher @Inject constructor(
      * than the marker.
      */
     private suspend fun fetchNewNotifications(account: AccountEntity): List<Notification> {
-        val authHeader = String.format("Bearer %s", account.accessToken)
+        val authHeader = "Bearer ${account.accessToken}"
 
         // Figure out where to read from. Choose the most recent notification ID from:
         //

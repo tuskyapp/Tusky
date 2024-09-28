@@ -237,7 +237,7 @@ class StatusViewHelper(private val itemView: View) {
         var labelText = getLabelTypeText(context, attachments[0].type)
         if (sensitive) {
             val sensitiveText = context.getString(R.string.post_sensitive_media_title)
-            labelText += String.format(" (%s)", sensitiveText)
+            labelText += " ($sensitiveText)"
         }
         mediaLabel.text = labelText
 
