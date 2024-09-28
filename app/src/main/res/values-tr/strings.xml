@@ -723,4 +723,5 @@
     <string name="pref_default_reply_privacy_explanation">Önceden seçilen gizlilik, yanıtladığınız gönderiye bağlı olacak.</string>
     <string name="pref_match_default_post_privacy">Varsayılan gönderi gizliliğini eşleştiriniz</string>
     <string name="post_privacy_direct">Doğrudan</string>
+    <string name="label_expires_after">Son kullanma tarihi</string>
 </resources>
