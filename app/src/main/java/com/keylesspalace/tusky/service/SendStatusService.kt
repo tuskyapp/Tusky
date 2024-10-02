@@ -47,7 +47,6 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
-import com.keylesspalace.tusky.entity.ScheduledStatus
 import com.keylesspalace.tusky.entity.ScheduledStatusReply
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
