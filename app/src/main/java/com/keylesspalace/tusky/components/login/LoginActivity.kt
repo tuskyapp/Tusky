@@ -212,8 +212,7 @@ class LoginActivity : BaseActivity() {
             // This should either have returned an authorization code or an error.
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
-
-
+            
             if (code != null) {
                 fetchOauthToken(code)
             } else {
