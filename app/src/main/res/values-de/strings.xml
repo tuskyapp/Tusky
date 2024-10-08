@@ -239,7 +239,7 @@
     <string name="pref_title_alway_show_sensitive_media">Mediendateien mit Inhaltswarnung immer anzeigen</string>
     <string name="title_media">Medien</string>
     <string name="replying_to">Antwort an @%1$s</string>
-    <string name="load_more_placeholder_text">mehr laden</string>
+    <string name="load_more_placeholder_text">Mehr laden</string>
     <string name="pref_title_thread_filter_keywords">Unterhaltungen</string>
     <string name="filter_addition_title">Filter hinzufügen</string>
     <string name="filter_edit_title">Filter bearbeiten</string>
@@ -723,4 +723,5 @@
     <string name="pref_default_reply_privacy_explanation">Die vorausgewählte Sichtbarkeit hängt vom Beitrag ab, auf den du antwortest.</string>
     <string name="pref_match_default_post_privacy">Von Standard-Beitragssichtbarkeit übernehmen</string>
     <string name="post_privacy_direct">Direkt</string>
+    <string name="label_expires_after">Gültig bis</string>
 </resources>

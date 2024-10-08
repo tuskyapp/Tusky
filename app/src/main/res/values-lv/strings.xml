@@ -152,7 +152,7 @@
     <string name="description_post_bookmarked">Atzīmēts ar grāmatzīmi</string>
     <string name="description_visibility_public">Publisks</string>
     <string name="hashtags">Tēmturi</string>
-    <string name="notifications_clear">Notīrīt</string>
+    <string name="notifications_clear">Dzēst</string>
     <string name="notifications_apply_filter">Filtrēt</string>
     <string name="filter_apply">Pielietot</string>
     <string name="button_continue">Turpināt</string>
@@ -228,7 +228,7 @@
     <string name="notification_follow_request_name">Sekošanas pieprasījumi</string>
     <string name="notification_subscription_name">Jauni ieraksti</string>
     <string name="follows_you">Seko tev</string>
-    <string name="load_more_placeholder_text">ielādēt vairāk</string>
+    <string name="load_more_placeholder_text">Ielādēt vairāk</string>
     <string name="compose_save_draft">Saglabāt melnrakstu\?</string>
     <string name="download_failed">Lejupielāde neizdevās</string>
     <string name="duration_14_days">14 dienas</string>
@@ -600,4 +600,23 @@
     <string name="dialog_delete_filter_positive_action">Dzēst</string>
     <string name="list_reply_policy_label">Rāda atbildes uz</string>
     <string name="error_media_upload_sending_fmt">Augšupielāde neizdevās: %1$s</string>
+    <string name="notification_unknown_name">Nezināms</string>
+    <string name="about_device_info_title">Tava ierīce</string>
+    <string name="about_device_info">%1$s %2$s
+\nAndroid versija: %3$s
+\nSDK versija: %4$d</string>
+    <string name="about_account_info_title">Tavs konts</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nVersija: %3$s</string>
+    <string name="compose_delete_draft">Dzēst melnrakstu?</string>
+    <string name="label_translating">Tulko…</string>
+    <string name="action_show_original">Rādīt oriģinālu</string>
+    <string name="reply_sending">Sūta…</string>
+    <string name="reply_sending_long">Tava atbilde tiek sūtīta.</string>
+    <string name="label_image">Attēls</string>
+    <string name="dialog_delete_filter_text">Dzēst filtru \'%1$s\'?</string>
+    <string name="action_translate">Tulkot</string>
+    <string name="dialog_follow_warning">Sekot šim kontam?</string>
+    <string name="ui_error_translate">Nevarēja iztulkot: %1$s</string>
+    <string name="action_view_filter">Skatīt filtru</string>
 </resources>

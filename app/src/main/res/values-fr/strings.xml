@@ -62,7 +62,7 @@
     <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter avec Tusky</string>
     <string name="action_logout">Déconnexion</string>
-    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ?</string>
+    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ? Cela va vider toutes les données locales du compte, incluant brouillons et préférénces.</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -190,10 +190,10 @@
     <string name="pref_title_http_proxy_enable">Activer le proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Adresse du proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
-    <string name="pref_default_post_privacy">Confidentialité par défaut</string>
-    <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles</string>
+    <string name="pref_default_post_privacy">Confidentialité des publications (synchronisée avec le serveur)</string>
+    <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles (synchronisée avec le serveur)</string>
     <string name="pref_publishing">Publication (synchronisée avec le serveur)</string>
-    <string name="pref_failed_to_sync">Échec de synchronisation des paramètres</string>
+    <string name="pref_failed_to_sync">Échec de synchronisation des préférences</string>
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
     <string name="post_privacy_followers_only">Abonné·e·s uniquement</string>
@@ -232,12 +232,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">      Site du projet :\n
-      https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">      Rapports d’anomalies &amp; demandes de fonctionnalités :\n
-      https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Site du projet : https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Rapports d’anomalies &amp; demandes de fonctionnalités :
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profil de Tusky</string>
     <string name="post_share_content">Partager le contenu du message</string>
     <string name="post_share_link">Partager le lien du message</string>
@@ -259,7 +256,7 @@
     <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%1$s</string>
-    <string name="load_more_placeholder_text">en charger plus</string>
+    <string name="load_more_placeholder_text">Charger plus</string>
     <string name="pref_title_public_filter_keywords">Fils publics</string>
     <string name="pref_title_thread_filter_keywords">Conversations</string>
     <string name="filter_addition_title">Ajouter un filtre</string>
@@ -272,7 +269,7 @@
     <string name="action_lists">Listes</string>
     <string name="title_lists">Listes</string>
     <string name="error_create_list">Impossible de créer la liste</string>
-    <string name="error_rename_list">Impossible de renommer la liste</string>
+    <string name="error_rename_list">Impossible de modifier la liste</string>
     <string name="error_delete_list">Impossible de supprimer la liste</string>
     <string name="action_create_list">Créer une liste</string>
     <string name="action_rename_list">Renommer la liste</string>
@@ -356,7 +353,7 @@
     <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="edit_hashtag_hint">Hashtag sans #</string>
-    <string name="notifications_clear">Nettoyer</string>
+    <string name="notifications_clear">Supprimer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
     <string name="compose_shortcut_long_label">Écrire un message</string>
@@ -440,7 +437,7 @@
     <string name="post_lookup_error_format">Erreur lors de la recherche du post %1$s</string>
     <string name="about_powered_by_tusky">Propulsé par Tusky</string>
     <string name="title_bookmarks">Signets</string>
-    <string name="action_bookmark">Marquer comme signet</string>
+    <string name="action_bookmark">Signet</string>
     <string name="action_view_bookmarks">Signets</string>
     <string name="description_post_bookmarked">Ajouté aux signets</string>
     <string name="select_list_title">Sélectionner la liste</string>
@@ -548,7 +545,7 @@
     <string name="title_migration_relogin">Se reconnecter pour recevoir les notifications instantanées</string>
     <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s’inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l’option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
     <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
-    <string name="error_image_edit_failed">L\'image n’a pas pu être retouchée.</string>
+    <string name="error_image_edit_failed">L\'image n’a pas pu être modifiée.</string>
     <string name="delete_scheduled_post_warning">Supprimer ce message planifié \?</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="pref_show_self_username_always">Toujours</string>
@@ -573,7 +570,7 @@
     <string name="pref_summary_http_proxy_disabled">Désactivé</string>
     <string name="pref_summary_http_proxy_missing">&lt;non spécifié&gt;</string>
     <string name="title_edits">Modifications</string>
-    <string name="pref_default_post_language">Langue de publication par défaut</string>
+    <string name="pref_default_post_language">Langue de publication (synchronisée avec le serveur)</string>
     <string name="error_multimedia_size_limit">Les fichiers vidéo et audio ne peuvent pas dépasser %1$s Mo.</string>
     <string name="pref_title_http_proxy_port_message">Le port doit être entre %1$d et %2$d</string>
     <string name="action_set_focus">Définir le point focal</string>
@@ -688,4 +685,30 @@
     <string name="list_reply_policy_list">Membres de la liste</string>
     <string name="list_reply_policy_label">Afficher les réponses à</string>
     <string name="about_copied">Les informations de la version et de l’appareil ont été copiés</string>
+    <string name="action_follow_hashtag">Suivre un nouvel hashtag</string>
+    <string name="action_translate">Traduire</string>
+    <string name="action_show_original">Voir l\'original</string>
+    <string name="url_copied">Url copiée</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' copié</string>
+    <string name="reply_sending">Envoi…</string>
+    <string name="reply_sending_long">Votre réponse est en train d\'être envoyée.</string>
+    <string name="dialog_follow_warning">Suivre ce compte ?</string>
+    <string name="report_category_legal">Légal</string>
+    <string name="pref_title_confirm_follows">Afficher une confirmation avant de suivre</string>
+    <string name="load_newest_notifications">Charger les notifications récentes</string>
+    <string name="dialog_delete_filter_text">Supprimer le filtre \'%1$s\' ?</string>
+    <string name="unknown_notification_type">Notification de type inconnu</string>
+    <string name="dialog_save_profile_changes_message">Voulez-vous sauvegarder vos changements de profil ?</string>
+    <string name="pref_match_default_post_privacy">Appliquer la confidentialité des messages par défaut</string>
+    <string name="notification_listenable_worker_description">Notifications quand Tusky est en arrière-plan</string>
+    <string name="notification_notification_worker">Récupération des notifications…</string>
+    <string name="compose_delete_draft">Supprimer le brouillon ?</string>
+    <string name="label_translating">Traduction…</string>
+    <string name="label_translated">Traduit de %1$s avec %2$s</string>
+    <string name="unmuting_hashtag_success_format">Démasquer le hashtag #%1$s</string>
+    <string name="action_view_filter">Voir le filtre</string>
+    <string name="error_blocking_domain">Impossible de masquer %1$s : %2$s</string>
+    <string name="error_media_upload_sending_fmt">Le téléversement à échoué : %1$s</string>
+    <string name="error_deleting_filter">Erreur lors de la suppresssion du filtre \'%1$s\'</string>
+    <string name="error_saving_filter">Erreur lors de l\'enregistrement du filtre \'%1$s\'</string>
 </resources>
