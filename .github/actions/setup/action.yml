@@ -9,6 +9,7 @@ runs:
         distribution: 'temurin'
 
     - name: Copy CI gradle.properties
+      shell: bash
       run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
     - name: Gradle Build Action
