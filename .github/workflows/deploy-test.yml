@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - uses: ./.github/workflows/check-and-build.yml
 
       - name: Build Green aab
