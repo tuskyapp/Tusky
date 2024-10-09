@@ -3,9 +3,6 @@ description: 'Sets up an environment for building Tusky'
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - uses: actions/setup-java@v4
       with:
         java-version: '21'
