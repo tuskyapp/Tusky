@@ -83,7 +83,7 @@ class LoginActivity : BaseActivity() {
 
         if (savedInstanceState == null &&
             BuildConfig.CUSTOM_INSTANCE.isNotBlank() &&
-            !isAdditionalLogin() && !isAccountMigration()
+            !isAdditionalLogin()
         ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
@@ -93,11 +93,6 @@ class LoginActivity : BaseActivity() {
             domain = savedInstanceState.getString(DOMAIN, "")
             clientId = savedInstanceState.getString(CLIENT_ID, "")
             clientSecret = savedInstanceState.getString(CLIENT_SECRET, "")
-        }
-
-        if (isAccountMigration()) {
-            binding.domainEditText.setText(accountManager.activeAccount!!.domain)
-            binding.domainEditText.isEnabled = false
         }
 
         if (BuildConfig.CUSTOM_LOGO_URL.isNotBlank()) {
@@ -119,7 +114,7 @@ class LoginActivity : BaseActivity() {
         }
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(isAdditionalLogin() || isAccountMigration())
+        supportActionBar?.setDisplayHomeAsUpEnabled(isAdditionalLogin())
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
@@ -330,10 +325,6 @@ class LoginActivity : BaseActivity() {
         return intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_ADDITIONAL_LOGIN
     }
 
-    private fun isAccountMigration(): Boolean {
-        return intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_MIGRATION
-    }
-
     companion object {
         private const val TAG = "LoginActivity" // logging tag
         private const val OAUTH_SCOPES = "read write follow push"
@@ -344,9 +335,6 @@ class LoginActivity : BaseActivity() {
 
         const val MODE_DEFAULT = 0
         const val MODE_ADDITIONAL_LOGIN = 1
-
-        // "Migration" is used to update the OAuth scope granted to the client
-        const val MODE_MIGRATION = 2
 
         @JvmStatic
         fun getIntent(context: Context, mode: Int): Intent {

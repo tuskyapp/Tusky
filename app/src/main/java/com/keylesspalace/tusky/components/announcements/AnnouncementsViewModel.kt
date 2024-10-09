@@ -58,7 +58,7 @@ class AnnouncementsViewModel @Inject constructor(
     fun load() {
         viewModelScope.launch {
             _announcements.value = Loading()
-            mastodonApi.listAnnouncements()
+            mastodonApi.announcements()
                 .fold(
                     {
                         _announcements.value = Success(it)

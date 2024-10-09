@@ -41,17 +41,22 @@ import kotlinx.coroutines.launch
 
 abstract class BottomSheetActivity : BaseActivity() {
 
-    lateinit var bottomSheet: BottomSheetBehavior<LinearLayout>
     var searchUrl: String? = null
 
     @Inject
     lateinit var mastodonApi: MastodonApi
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    open fun viewUrl(
+        url: String,
+        lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER
+    ) {
+        if (!looksLikeMastodonUrl(url)) {
+            openLink(url)
+            return
+        }
 
         val bottomSheetLayout: LinearLayout = findViewById(R.id.item_status_bottom_sheet)
-        bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
+        val bottomSheet = BottomSheetBehavior.from(bottomSheetLayout)
         bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheet.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -62,16 +67,6 @@ abstract class BottomSheetActivity : BaseActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
-    }
-
-    open fun viewUrl(
-        url: String,
-        lookupFallbackBehavior: PostLookupFallbackBehavior = PostLookupFallbackBehavior.OPEN_IN_BROWSER
-    ) {
-        if (!looksLikeMastodonUrl(url)) {
-            openLink(url)
-            return
-        }
 
         lifecycleScope.launch {
             mastodonApi.search(
@@ -177,11 +172,11 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 
     private fun showQuerySheet() {
-        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+      //  bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun hideQuerySheet() {
-        bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+      //  bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
 }
 

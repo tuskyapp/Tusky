@@ -607,9 +607,7 @@ interface MastodonApi {
     ): NetworkResult<Poll>
 
     @GET("api/v1/announcements")
-    suspend fun listAnnouncements(
-        @Query("with_dismissed") withDismissed: Boolean = true
-    ): NetworkResult<List<Announcement>>
+    suspend fun announcements(): NetworkResult<List<Announcement>>
 
     @POST("api/v1/announcements/{id}/dismiss")
     suspend fun dismissAnnouncement(@Path("id") announcementId: String): NetworkResult<Unit>

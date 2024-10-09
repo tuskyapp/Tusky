@@ -188,7 +188,7 @@ class NotificationsRemoteMediator(
         return overlappedNotifications
     }
 
-    private fun saveNewestNotificationId(notification: Notification) {
+    private suspend fun saveNewestNotificationId(notification: Notification) {
         val account = accountManager.activeAccount
         // make sure the account we are currently working with is still active
         if (account == activeAccount) {
@@ -196,8 +196,7 @@ class NotificationsRemoteMediator(
             val newestNotificationId = notification.id
             if (lastNotificationId.isLessThan(newestNotificationId)) {
                 Log.d(TAG, "saving newest noti id: $lastNotificationId for account ${account.id}")
-                account.lastNotificationId = newestNotificationId
-                accountManager.saveAccount(account)
+                accountManager.updateAccount(account) { copy(lastNotificationId = newestNotificationId) }
             }
         }
     }

@@ -134,8 +134,6 @@ class NotificationFetcher @Inject constructor(
                         notificationManager,
                         account
                     )
-
-                    accountManager.saveAccount(account)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error while fetching notifications", e)
                 }
@@ -221,8 +219,7 @@ class NotificationFetcher @Inject constructor(
                 domain = account.domain,
                 notificationsLastReadId = newMarkerId
             )
-            account.notificationMarkerId = newMarkerId
-            accountManager.saveAccount(account)
+            accountManager.updateAccount(account) { copy(notificationMarkerId = newMarkerId) }
         }
 
         return notifications

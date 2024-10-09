@@ -17,14 +17,33 @@ package com.keylesspalace.tusky.db
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.room.withTransaction
 import com.keylesspalace.tusky.db.dao.AccountDao
 import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.reflect.KProperty
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * This class caches the account database and handles all account related operations
@@ -35,25 +54,36 @@ private const val TAG = "AccountManager"
 
 @Singleton
 class AccountManager @Inject constructor(
-    db: AppDatabase,
-    private val preferences: SharedPreferences
+    private val db: AppDatabase,
+    private val preferences: SharedPreferences,
+    @ApplicationScope private val applicationScope: CoroutineScope
 ) {
-
-    @Volatile
-    var activeAccount: AccountEntity? = null
-        private set
-
-    var accounts: MutableList<AccountEntity> = mutableListOf()
-        private set
 
     private val accountDao: AccountDao = db.accountDao()
 
-    init {
-        accounts = accountDao.loadAll().toMutableList()
+    val accountsFlow: StateFlow<List<AccountEntity>> = runBlocking {
+        accountDao.allAccounts()
+            .onEach {
+                Log.d(TAG, "accounts updated: $it")
+            }
+            .onCompletion {
+                Log.d(TAG, "accounts flow completed: $it")
 
-        activeAccount = accounts.find { acc -> acc.isActive }
-            ?: accounts.firstOrNull()?.also { acc -> acc.isActive = true }
+            }
+            .stateIn(CoroutineScope(applicationScope.coroutineContext + Dispatchers.IO))
     }
+
+    val accounts: List<AccountEntity>
+        get() = accountsFlow.value
+
+    val activeAccount: AccountEntity?
+        get() {
+            val a = accounts.firstOrNull()
+            Log.d(TAG, "returning active account with id ${a?.id}")
+            return a
+        }
+
+    fun activeAccount() = ActiveAccountDelegate(this)
 
     /**
      * Adds a new account and makes it the active account.
@@ -64,19 +94,19 @@ class AccountManager @Inject constructor(
      * @param oauthScopes the oauth scopes granted to the account
      * @param newAccount the [Account] as returned by the Mastodon Api
      */
-    fun addAccount(
+    suspend fun addAccount(
         accessToken: String,
         domain: String,
         clientId: String,
         clientSecret: String,
         oauthScopes: String,
         newAccount: Account
-    ) {
+    ) = db.withTransaction {
         activeAccount?.let {
-            it.isActive = false
+            //it.isActive = false
             Log.d(TAG, "addAccount: saving account with id " + it.id)
 
-            accountDao.insertOrReplace(it)
+            accountDao.insertOrReplace(it.copy(isActive = false))
         }
         // check if this is a relogin with an existing account, if yes update it, otherwise create a new one
         val existingAccountIndex = accounts.indexOfFirst { account ->
@@ -89,7 +119,7 @@ class AccountManager @Inject constructor(
                 clientSecret = clientSecret,
                 oauthScopes = oauthScopes,
                 isActive = true
-            ).also { accounts[existingAccountIndex] = it }
+            )
         } else {
             val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
             val newAccountId = maxAccountId + 1
@@ -102,10 +132,8 @@ class AccountManager @Inject constructor(
                 oauthScopes = oauthScopes,
                 isActive = true,
                 accountId = newAccount.id
-            ).also { accounts.add(it) }
+            )
         }
-
-        activeAccount = newAccountEntity
         updateAccount(newAccountEntity, newAccount)
     }
 
@@ -114,10 +142,11 @@ class AccountManager @Inject constructor(
      * New accounts must be created with [addAccount]
      * @param account the account to save
      */
-    fun saveAccount(account: AccountEntity) {
+    suspend fun updateAccount(account: AccountEntity, changer: AccountEntity.() -> AccountEntity) {
         if (account.id != 0L) {
-            Log.d(TAG, "saveAccount: saving account with id " + account.id)
-            accountDao.insertOrReplace(account)
+            // get the newest version of the account to make sure no stale data gets re-saved to db
+            val acc = accounts.find { it.id == account.id } ?: return
+            accountDao.insertOrReplace(changer(acc))
         }
     }
 
@@ -125,21 +154,20 @@ class AccountManager @Inject constructor(
      * Logs an account out by deleting all its data.
      * @return the new active account, or null if no other account was found
      */
-    fun logout(account: AccountEntity): AccountEntity? {
-        account.logout()
-
-        accounts.remove(account)
+    suspend fun logout(account: AccountEntity): AccountEntity? = db.withTransaction {
         accountDao.delete(account)
 
-        if (accounts.size > 0) {
-            accounts[0].isActive = true
-            activeAccount = accounts[0]
-            Log.d(TAG, "logActiveAccountOut: saving account with id " + accounts[0].id)
-            accountDao.insertOrReplace(accounts[0])
+        val otherAccount = accounts.find { it.id != account.id }
+        if (otherAccount != null) {
+            val otherAccountActive = otherAccount.copy(
+                isActive = true
+            )
+            Log.d(TAG, "logActiveAccountOut: saving account with id " + otherAccountActive.id)
+            accountDao.insertOrReplace(otherAccountActive)
+            otherAccountActive
         } else {
-            activeAccount = null
+            null
         }
-        return activeAccount
     }
 
     /**
@@ -147,59 +175,50 @@ class AccountManager @Inject constructor(
      * and saves it in the database.
      * @param accountEntity the [AccountEntity] to update
      * @param account the [Account] object which the newest data from the api
+     * @return the updated [AccountEntity]
      */
-    fun updateAccount(accountEntity: AccountEntity, account: Account) {
-        accountEntity.accountId = account.id
-        accountEntity.username = account.username
-        accountEntity.displayName = account.name
-        accountEntity.profilePictureUrl = account.avatar
-        accountEntity.defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC
-        accountEntity.defaultPostLanguage = account.source?.language.orEmpty()
-        accountEntity.defaultMediaSensitivity = account.source?.sensitive ?: false
-        accountEntity.emojis = account.emojis
-        accountEntity.locked = account.locked
+    suspend fun updateAccount(accountEntity: AccountEntity, account: Account): AccountEntity {
+        val newAccount = accountEntity.copy(
+        accountId = account.id,
+        username = account.username,
+        displayName = account.name,
+        profilePictureUrl = account.avatar,
+        profileHeaderUrl = account.header,
+        defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
+        defaultPostLanguage = account.source?.language.orEmpty(),
+        defaultMediaSensitivity = account.source?.sensitive ?: false,
+        emojis = account.emojis,
+        locked = account.locked
+        )
 
         Log.d(TAG, "updateAccount: saving account with id " + accountEntity.id)
-        accountDao.insertOrReplace(accountEntity)
+        accountDao.insertOrReplace(newAccount)
+        return newAccount
     }
 
     /**
      * changes the active account
      * @param accountId the database id of the new active account
      */
-    fun setActiveAccount(accountId: Long) {
+    suspend fun setActiveAccount(accountId: Long) = db.withTransaction {
+        Log.d(TAG, "setActiveAccount $accountId")
+
         val newActiveAccount = accounts.find { (id) ->
             id == accountId
-        } ?: return // invalid accountId passed, do nothing
+        } ?: return@withTransaction // invalid accountId passed, do nothing
 
         activeAccount?.let {
-            Log.d(TAG, "setActiveAccount: saving account with id " + it.id)
-            it.isActive = false
-            saveAccount(it)
+            accountDao.insertOrReplace(it.copy(isActive = false))
         }
 
-        activeAccount = newActiveAccount
-
-        activeAccount?.let {
-            it.isActive = true
-            accountDao.insertOrReplace(it)
-        }
+        accountDao.insertOrReplace(newActiveAccount.copy(isActive = true))
     }
 
     /**
      * @return an immutable list of all accounts in the database with the active account first
      */
     fun getAllAccountsOrderedByActive(): List<AccountEntity> {
-        val accountsCopy = accounts.toMutableList()
-        accountsCopy.sortWith { l, r ->
-            when {
-                l.isActive && !r.isActive -> -1
-                r.isActive && !l.isActive -> 1
-                else -> 0
-            }
-        }
-
-        return accountsCopy
+        return accounts
     }
 
     /**
@@ -247,5 +266,17 @@ class AccountManager @Inject constructor(
         }
 
         return accounts.size > 1 // "disambiguate"
+    }
+}
+
+
+class ActiveAccountDelegate(
+    private val accountManager: AccountManager
+) {
+
+    val accountId = accountManager.activeAccount?.id
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): AccountEntity? {
+        return accountManager.accounts.find { it.id == accountId }
     }
 }

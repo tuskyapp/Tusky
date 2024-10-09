@@ -268,10 +268,13 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     override fun saveReadingPosition(statusId: String) {
-        accountManager.activeAccount?.let { account ->
-            Log.d(TAG, "Saving position at: $statusId")
-            account.lastVisibleHomeTimelineStatusId = statusId
-            accountManager.saveAccount(account)
+        viewModelScope.launch {
+            accountManager.activeAccount?.let { account ->
+                Log.d(TAG, "Saving position at: $statusId")
+                accountManager.updateAccount(account) {
+                    copy(lastVisibleHomeTimelineStatusId = statusId)
+                }
+            }
         }
     }
 

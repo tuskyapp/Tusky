@@ -139,8 +139,9 @@ class NotificationsViewModel @Inject constructor(
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
         if (newFilters != _excludes.value) {
             viewModelScope.launch {
-                account.notificationsFilter = serialize(newFilters)
-                accountManager.saveAccount(account)
+                accountManager.updateAccount(account) {
+                    copy(notificationsFilter = serialize(newFilters))
+                }
                 remoteMediator.excludes = newFilters
                 db.notificationsDao().cleanupNotifications(account.id, 0)
                 refreshTrigger.value++

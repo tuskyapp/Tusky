@@ -60,7 +60,7 @@ data class TabData(
     override fun hashCode() = Objects.hash(id, arguments)
 }
 
-fun List<TabData>.hasTab(id: String): Boolean = this.find { it.id == id } != null
+fun List<TabData>.hasTab(id: String): Boolean = this.any { it.id == id }
 
 fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
     return when (id) {

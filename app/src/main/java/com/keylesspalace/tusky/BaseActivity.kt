@@ -1,4 +1,4 @@
-/* Copyright 2017 Andrew Dawson
+/* Copyright 2024 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -12,133 +12,120 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+package com.keylesspalace.tusky
 
-package com.keylesspalace.tusky;
-
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
-import com.keylesspalace.tusky.adapter.AccountSelectionAdapter;
-import com.keylesspalace.tusky.components.login.LoginActivity;
-import com.keylesspalace.tusky.db.entity.AccountEntity;
-import com.keylesspalace.tusky.db.AccountManager;
-import com.keylesspalace.tusky.di.PreferencesEntryPoint;
-import com.keylesspalace.tusky.interfaces.AccountSelectionListener;
-import com.keylesspalace.tusky.settings.AppTheme;
-import com.keylesspalace.tusky.settings.PrefKeys;
-import com.keylesspalace.tusky.util.ActivityConstants;
-import com.keylesspalace.tusky.util.ActivityExtensions;
-import com.keylesspalace.tusky.util.ThemeUtils;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import static com.keylesspalace.tusky.settings.PrefKeys.APP_THEME;
-
-import dagger.hilt.EntryPoints;
+import android.app.ActivityManager.TaskDescription
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider.Factory
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.MainActivity.Companion.redirectIntent
+import com.keylesspalace.tusky.adapter.AccountSelectionAdapter
+import com.keylesspalace.tusky.components.login.LoginActivity
+import com.keylesspalace.tusky.components.login.LoginActivity.Companion.getIntent
+import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.di.PreferencesEntryPoint
+import com.keylesspalace.tusky.interfaces.AccountSelectionListener
+import com.keylesspalace.tusky.settings.AppTheme
+import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.ActivityConstants
+import com.keylesspalace.tusky.util.isBlack
+import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
+import dagger.hilt.EntryPoints
+import javax.inject.Inject
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * All activities inheriting from BaseActivity must be annotated with @AndroidEntryPoint
  */
-public abstract class BaseActivity extends AppCompatActivity {
-
-    public static final String OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN";
-
-    private static final String TAG = "BaseActivity";
+abstract class BaseActivity : AppCompatActivity() {
+    @Inject
+    lateinit var accountManager: AccountManager
 
     @Inject
-    @NonNull
-    public AccountManager accountManager;
-
-    @Inject
-    @NonNull
-    public SharedPreferences preferences;
+    lateinit var preferences: SharedPreferences
 
     /**
      * Allows overriding the default ViewModelProvider.Factory for testing purposes.
      */
-    @Nullable
-    public ViewModelProvider.Factory viewModelProviderFactory = null;
+    var viewModelProviderFactory: Factory? = null
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         if (activityTransitionWasRequested()) {
-            ActivityExtensions.overrideActivityTransitionCompat(
-                    this,
-                    ActivityConstants.OVERRIDE_TRANSITION_OPEN,
-                    R.anim.activity_open_enter,
-                    R.anim.activity_open_exit
-            );
-            ActivityExtensions.overrideActivityTransitionCompat(
-                    this,
-                    ActivityConstants.OVERRIDE_TRANSITION_CLOSE,
-                    R.anim.activity_close_enter,
-                    R.anim.activity_close_exit
-            );
+            overrideActivityTransitionCompat(
+                ActivityConstants.OVERRIDE_TRANSITION_OPEN,
+                R.anim.activity_open_enter,
+                R.anim.activity_open_exit
+            )
+            overrideActivityTransitionCompat(
+                ActivityConstants.OVERRIDE_TRANSITION_CLOSE,
+                R.anim.activity_close_enter,
+                R.anim.activity_close_exit
+            )
         }
 
         /* There isn't presently a way to globally change the theme of a whole application at
          * runtime, just individual activities. So, each activity has to set its theme before any
          * views are created. */
-        String theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.getValue());
-        Log.d("activeTheme", theme);
-        if (ThemeUtils.isBlack(getResources().getConfiguration(), theme)) {
-            setTheme(R.style.TuskyBlackTheme);
-        } else if (this instanceof MainActivity) {
+        val theme = preferences.getString(PrefKeys.APP_THEME, AppTheme.DEFAULT.value)
+        if (isBlack(resources.configuration, theme)) {
+            setTheme(R.style.TuskyBlackTheme)
+        } else if (this is MainActivity) {
             // Replace the SplashTheme of MainActivity
-            setTheme(R.style.TuskyTheme);
+            setTheme(R.style.TuskyTheme)
         }
 
         /* set the taskdescription programmatically, the theme would turn it blue */
-        String appName = getString(R.string.app_name);
-        Bitmap appIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        int recentsBackgroundColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface, Color.BLACK);
+        val appName = getString(R.string.app_name)
+        val appIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
+        val recentsBackgroundColor = MaterialColors.getColor(
+            this,
+            com.google.android.material.R.attr.colorSurface,
+            Color.BLACK
+        )
 
-        setTaskDescription(new ActivityManager.TaskDescription(appName, appIcon, recentsBackgroundColor));
+        setTaskDescription(TaskDescription(appName, appIcon, recentsBackgroundColor))
 
-        int style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"));
-        getTheme().applyStyle(style, true);
+        val style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"))
+        getTheme().applyStyle(style, true)
 
-        if(requiresLogin()) {
-            redirectIfNotLoggedIn();
+        if (requiresLogin()) {
+            redirectIfNotLoggedIn()
         }
     }
 
-    private boolean activityTransitionWasRequested() {
-        return getIntent().getBooleanExtra(OPEN_WITH_SLIDE_IN, false);
+    private fun activityTransitionWasRequested(): Boolean {
+        return intent.getBooleanExtra(OPEN_WITH_SLIDE_IN, false)
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
+    override fun attachBaseContext(newBase: Context) {
         // injected preferences not yet available at this point of the lifecycle
-        SharedPreferences preferences = EntryPoints.get(newBase.getApplicationContext(), PreferencesEntryPoint.class).preferences();
+        val preferences =
+            EntryPoints.get(newBase.applicationContext, PreferencesEntryPoint::class.java)
+                .preferences()
 
         // Scale text in the UI from PrefKeys.UI_TEXT_SCALE_RATIO
-        float uiScaleRatio = preferences.getFloat(PrefKeys.UI_TEXT_SCALE_RATIO, 100F);
+        val uiScaleRatio = preferences.getFloat(PrefKeys.UI_TEXT_SCALE_RATIO, 100f)
 
-        Configuration configuration = newBase.getResources().getConfiguration();
+        val configuration = newBase.resources.configuration
 
         // Adjust `fontScale` in the configuration.
         //
@@ -150,7 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         // changes to the base context. It does contain contain any changes to the font scale from
         // "Settings > Display > Font size" in the device settings, so scaling performed here
         // is in addition to any scaling in the device settings.
-        Configuration appConfiguration = newBase.getApplicationContext().getResources().getConfiguration();
+        val appConfiguration = newBase.applicationContext.resources.configuration
 
         // This only adjusts the fonts, anything measured in `dp` is unaffected by this.
         // You can try to adjust `densityDpi` as shown in the commented out code below. This
@@ -162,133 +149,117 @@ public abstract class BaseActivity extends AppCompatActivity {
         //
         // val displayMetrics = appContext.resources.displayMetrics
         // configuration.densityDpi = ((displayMetrics.densityDpi * uiScaleRatio).toInt())
-        configuration.fontScale = appConfiguration.fontScale * uiScaleRatio / 100F;
+        configuration.fontScale = appConfiguration.fontScale * uiScaleRatio / 100f
 
-        Context fontScaleContext = newBase.createConfigurationContext(configuration);
+        val fontScaleContext = newBase.createConfigurationContext(configuration)
 
-        super.attachBaseContext(fontScaleContext);
+        super.attachBaseContext(fontScaleContext)
     }
 
-    @NonNull
-    @Override
-    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
-        final ViewModelProvider.Factory factory = viewModelProviderFactory;
-        return (factory != null) ? factory : super.getDefaultViewModelProviderFactory();
-    }
+    override val defaultViewModelProviderFactory: Factory
+        get() = viewModelProviderFactory ?:  super.defaultViewModelProviderFactory
 
-    protected boolean requiresLogin() {
-        return true;
-    }
+    protected open fun requiresLogin(): Boolean = true
 
-    private static int textStyle(String name) {
-        int style;
-        switch (name) {
-            case "smallest":
-                style = R.style.TextSizeSmallest;
-                break;
-            case "small":
-                style = R.style.TextSizeSmall;
-                break;
-            case "medium":
-            default:
-                style = R.style.TextSizeMedium;
-                break;
-            case "large":
-                style = R.style.TextSizeLarge;
-                break;
-            case "largest":
-                style = R.style.TextSizeLargest;
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressedDispatcher.onBackPressed()
+            return true
         }
-        return style;
+        return super.onOptionsItemSelected(item)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            getOnBackPressedDispatcher().onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private fun redirectIfNotLoggedIn() {
+            val currentAccounts = accountManager.accounts
+
+            if (currentAccounts.isEmpty()) {
+                println("redirecting to Login")
+                val intent = getIntent(this@BaseActivity, LoginActivity.MODE_DEFAULT)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
     }
 
-    protected void redirectIfNotLoggedIn() {
-        AccountEntity account = accountManager.getActiveAccount();
-        if (account == null) {
-            Intent intent = LoginActivity.getIntent(this, LoginActivity.MODE_DEFAULT);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
-    }
+    fun showAccountChooserDialog(
+        dialogTitle: CharSequence?,
+        showActiveAccount: Boolean,
+        listener: AccountSelectionListener
+    ) {
+        val accounts = accountManager.getAllAccountsOrderedByActive().toMutableList()
+        val activeAccount = accountManager.activeAccount
 
-    protected void showErrorDialog(@Nullable View anyView, @StringRes int descriptionId, @StringRes int actionId, @Nullable View.OnClickListener listener) {
-        if (anyView != null) {
-            Snackbar bar = Snackbar.make(anyView, getString(descriptionId), Snackbar.LENGTH_SHORT);
-            bar.setAction(actionId, listener);
-            bar.show();
-        }
-    }
-
-    public void showAccountChooserDialog(@Nullable CharSequence dialogTitle, boolean showActiveAccount, @NonNull AccountSelectionListener listener) {
-        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
-        AccountEntity activeAccount = accountManager.getActiveAccount();
-
-        switch(accounts.size()) {
-            case 1:
-                listener.onAccountSelected(activeAccount);
-                return;
-            case 2:
-                if (!showActiveAccount) {
-                    for (AccountEntity account : accounts) {
-                        if (activeAccount != account) {
-                            listener.onAccountSelected(account);
-                            return;
-                        }
+        when (accounts.size) {
+            1 -> {
+                listener.onAccountSelected(activeAccount!!)
+                return
+            }
+            2 -> if (!showActiveAccount) {
+                for (account in accounts) {
+                    if (activeAccount !== account) {
+                        listener.onAccountSelected(account)
+                        return
                     }
                 }
-                break;
+            }
         }
-
         if (!showActiveAccount && activeAccount != null) {
-            accounts.remove(activeAccount);
+            accounts.remove(activeAccount)
         }
-        AccountSelectionAdapter adapter = new AccountSelectionAdapter(
+        val adapter = AccountSelectionAdapter(
             this,
             preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        );
-        adapter.addAll(accounts);
+        )
+        adapter.addAll(accounts)
 
-        new MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(this)
             .setTitle(dialogTitle)
-            .setAdapter(adapter, (dialogInterface, index) -> listener.onAccountSelected(accounts.get(index)))
-            .show();
+            .setAdapter(adapter) { _: DialogInterface?, index: Int ->
+                listener.onAccountSelected(accounts[index])
+            }
+            .show()
     }
 
-    public @Nullable String getOpenAsText() {
-        List<AccountEntity> accounts = accountManager.getAllAccountsOrderedByActive();
-        switch (accounts.size()) {
-            case 0:
-            case 1:
-                return null;
-            case 2:
-                for (AccountEntity account : accounts) {
-                    if (account != accountManager.getActiveAccount()) {
-                        return String.format(getString(R.string.action_open_as), account.getFullName());
+    val openAsText: String?
+        get() {
+            val accounts = accountManager.getAllAccountsOrderedByActive()
+            when (accounts.size) {
+                0, 1 -> return null
+                2 -> {
+                    for (account in accounts) {
+                        if (account !== accountManager.activeAccount) {
+                            return getString(R.string.action_open_as, account.fullName)
+                        }
                     }
+                    return null
                 }
-                return null;
-            default:
-                return String.format(getString(R.string.action_open_as), "…");
+
+                else -> return getString(R.string.action_open_as, "…")
+            }
+        }
+
+    fun openAsAccount(url: String, account: AccountEntity) {
+        lifecycleScope.launch {
+            accountManager.setActiveAccount(account.id)
+            val intent = redirectIntent(this@BaseActivity, account.id, url)
+
+            startActivity(intent)
+            finish()
         }
     }
 
-    public void openAsAccount(@NonNull String url, @NonNull AccountEntity account) {
-        accountManager.setActiveAccount(account.getId());
-        Intent intent = MainActivity.redirectIntent(this, account.getId(), url);
+    companion object {
+        const val OPEN_WITH_SLIDE_IN = "OPEN_WITH_SLIDE_IN"
 
-        startActivity(intent);
-        finish();
+        @StyleRes
+        private fun textStyle(name: String?): Int = when (name) {
+            "smallest" -> R.style.TextSizeSmallest
+            "small" -> R.style.TextSizeSmall
+            "medium" -> R.style.TextSizeMedium
+            "large" -> R.style.TextSizeLarge
+            "largest" -> R.style.TextSizeLargest
+            else -> R.style.TextSizeMedium
+        }
     }
 }

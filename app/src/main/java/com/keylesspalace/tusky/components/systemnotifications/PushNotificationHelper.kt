@@ -40,59 +40,6 @@ import org.unifiedpush.android.connector.UnifiedPush
 
 private const val TAG = "PushNotificationHelper"
 
-private const val KEY_MIGRATION_NOTICE_DISMISSED = "migration_notice_dismissed"
-
-private fun anyAccountNeedsMigration(accountManager: AccountManager): Boolean =
-    accountManager.accounts.any(::accountNeedsMigration)
-
-private fun accountNeedsMigration(account: AccountEntity): Boolean =
-    !account.oauthScopes.contains("push")
-
-fun currentAccountNeedsMigration(accountManager: AccountManager): Boolean =
-    accountManager.activeAccount?.let(::accountNeedsMigration) ?: false
-
-fun showMigrationNoticeIfNecessary(
-    context: Context,
-    parent: View,
-    anchorView: View?,
-    accountManager: AccountManager
-) {
-    // No point showing anything if we cannot enable it
-    if (!isUnifiedPushAvailable(context)) return
-    if (!anyAccountNeedsMigration(accountManager)) return
-
-    val pm = PreferenceManager.getDefaultSharedPreferences(context)
-    if (pm.getBoolean(KEY_MIGRATION_NOTICE_DISMISSED, false)) return
-
-    Snackbar.make(parent, R.string.tips_push_notification_migration, Snackbar.LENGTH_INDEFINITE)
-        .setAnchorView(anchorView)
-        .setAction(
-            R.string.action_details
-        ) { showMigrationExplanationDialog(context, accountManager) }
-        .show()
-}
-
-private fun showMigrationExplanationDialog(context: Context, accountManager: AccountManager) {
-    MaterialAlertDialogBuilder(context).apply {
-        if (currentAccountNeedsMigration(accountManager)) {
-            setMessage(R.string.dialog_push_notification_migration)
-            setPositiveButton(R.string.title_migration_relogin) { _, _ ->
-                context.startActivity(
-                    LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION)
-                )
-            }
-        } else {
-            setMessage(R.string.dialog_push_notification_migration_other_accounts)
-        }
-        setNegativeButton(R.string.action_dismiss) { dialog, _ ->
-            val pm = PreferenceManager.getDefaultSharedPreferences(context)
-            pm.edit().putBoolean(KEY_MIGRATION_NOTICE_DISMISSED, true).apply()
-            dialog.dismiss()
-        }
-        show()
-    }
-}
-
 private suspend fun enableUnifiedPushNotificationsForAccount(
     context: Context,
     api: MastodonApi,
@@ -123,18 +70,15 @@ fun disableUnifiedPushNotificationsForAccount(context: Context, account: Account
 fun isUnifiedPushNotificationEnabledForAccount(account: AccountEntity): Boolean =
     account.unifiedPushUrl.isNotEmpty()
 
-private fun isUnifiedPushAvailable(context: Context): Boolean =
+fun isUnifiedPushAvailable(context: Context): Boolean =
     UnifiedPush.getDistributors(context).isNotEmpty()
-
-fun canEnablePushNotifications(context: Context, accountManager: AccountManager): Boolean =
-    isUnifiedPushAvailable(context) && !anyAccountNeedsMigration(accountManager)
 
 suspend fun enablePushNotificationsWithFallback(
     context: Context,
     api: MastodonApi,
     accountManager: AccountManager
 ) {
-    if (!canEnablePushNotifications(context, accountManager)) {
+    if (!isUnifiedPushAvailable(context)) {
         // No UP distributors
         NotificationHelper.enablePullNotifications(context)
         return
@@ -208,12 +152,15 @@ suspend fun registerUnifiedPushEndpoint(
     }.onSuccess {
         Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
-        account.pushPubKey = keyPair.pubkey
-        account.pushPrivKey = keyPair.privKey
-        account.pushAuth = auth
-        account.pushServerKey = it.serverKey
-        account.unifiedPushUrl = endpoint
-        accountManager.saveAccount(account)
+        accountManager.updateAccount(account) {
+            copy(
+                pushPubKey = keyPair.pubkey,
+                pushPrivKey = keyPair.privKey,
+                pushAuth = auth,
+                pushServerKey = it.serverKey,
+                unifiedPushUrl = endpoint
+            )
+        }
     }
 }
 
@@ -231,9 +178,9 @@ suspend fun updateUnifiedPushSubscription(
             buildSubscriptionData(context, account)
         ).onSuccess {
             Log.d(TAG, "UnifiedPush subscription updated for account ${account.id}")
-
-            account.pushServerKey = it.serverKey
-            accountManager.saveAccount(account)
+            accountManager.updateAccount(account) {
+                copy(pushServerKey = it.serverKey)
+            }
         }
     }
 }
@@ -251,12 +198,15 @@ suspend fun unregisterUnifiedPushEndpoint(
             .onSuccess {
                 Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)
                 // Clear the URL in database
-                account.unifiedPushUrl = ""
-                account.pushServerKey = ""
-                account.pushAuth = ""
-                account.pushPrivKey = ""
-                account.pushPubKey = ""
-                accountManager.saveAccount(account)
+                accountManager.updateAccount(account) {
+                    copy(
+                        pushPubKey = "",
+                        pushPrivKey = "",
+                        pushAuth = "",
+                        pushServerKey = "",
+                        unifiedPushUrl = ""
+                    )
+                }
             }
     }
 }

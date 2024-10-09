@@ -43,6 +43,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BuildConfig.APPLICATION_ID
 import com.keylesspalace.tusky.components.viewthread.ViewThreadActivity
 import com.keylesspalace.tusky.databinding.ActivityViewMediaBinding
@@ -91,11 +92,9 @@ class ViewMediaActivity :
             if (isGranted) {
                 downloadMedia()
             } else {
-                showErrorDialog(
-                    binding.toolbar,
-                    R.string.error_media_download_permission,
-                    R.string.action_retry
-                ) { requestDownloadMedia() }
+                Snackbar.make(binding.toolbar, getString(R.string.error_media_download_permission), Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.action_retry) { requestDownloadMedia() }
+                    .show()
             }
         }
 

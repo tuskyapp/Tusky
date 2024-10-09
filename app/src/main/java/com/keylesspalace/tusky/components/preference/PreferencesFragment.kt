@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
@@ -40,6 +41,7 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import dagger.hilt.android.AndroidEntryPoint
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PreferencesFragment : PreferenceFragmentCompat() {
@@ -279,8 +281,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                                 notificationFilter.remove(Notification.Type.REBLOG)
                             }
 
-                            account.notificationsFilter = serialize(notificationFilter)
-                            accountManager.saveAccount(account)
+                            lifecycleScope.launch {
+                                accountManager.updateAccount(account) { copy(notificationsFilter = serialize(notificationFilter)) }
+                            }
                         }
                         true
                     }

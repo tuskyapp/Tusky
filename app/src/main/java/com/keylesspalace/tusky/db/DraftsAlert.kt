@@ -38,12 +38,12 @@ import kotlinx.coroutines.launch
 private const val TAG = "DraftsAlert"
 
 @Singleton
-class DraftsAlert @Inject constructor(db: AppDatabase) {
+class DraftsAlert @Inject constructor(
+    db: AppDatabase,
+    private val accountManager: AccountManager
+) {
     // For tracking when a media upload fails in the service
     private val draftDao: DraftDao = db.draftDao()
-
-    @Inject
-    lateinit var accountManager: AccountManager
 
     fun <T> observeInContext(context: T, showAlert: Boolean) where T : Context, T : LifecycleOwner {
         accountManager.activeAccount?.let { activeAccount ->
