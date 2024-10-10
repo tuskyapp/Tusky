@@ -303,7 +303,8 @@ class NotificationsViewModel @Inject constructor(
                             maxId = idAbovePlaceholder,
                             minId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value
+                            excludes = excludes.value,
+                            includeFiltered = true
                         )
                         // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
                         // maxId, and no smaller than minId.
@@ -311,7 +312,8 @@ class NotificationsViewModel @Inject constructor(
                             maxId = idAbovePlaceholder,
                             sinceId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value
+                            excludes = excludes.value,
+                            includeFiltered = true
                         )
                     }
                 }
