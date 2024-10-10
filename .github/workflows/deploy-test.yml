@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: get GITHUB_RUN_NUMBER
-        run: echo ${{ github.GITHUB_RUN_NUMBER }}
+        run: echo "${{ github.GITHUB_RUN_NUMBER }}"
 
       - name: Setup
         uses: ./.github/actions/setup
