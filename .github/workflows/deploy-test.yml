@@ -17,11 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: get GITHUB_RUN_NUMBER
-        run: echo "${{ github.GITHUB_RUN_NUMBER }}"
-
       - name: Setup
         uses: ./.github/actions/setup
+
+      - name: Set versionsCode
+        run: |
+          export VERSION_CODE=$(( ${{ github.GITHUB_RUN_NUMBER }} + 11000 ))
+          sed -i'.original' -e "s/^\([[:space:]]*versionCode[[:space:]]*\)[0-9]*/\\1$VERSION_CODE/" app/build.gradle
 
       - name: Build Green aab
         run: ./gradlew app:bundleGreenRelease
