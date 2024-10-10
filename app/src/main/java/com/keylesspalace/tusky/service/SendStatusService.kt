@@ -47,7 +47,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.NewStatus
-import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.entity.ScheduledStatusReply
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
@@ -290,7 +290,7 @@ class SendStatusService : Service() {
                 mediaUploader.cancelUploadScope(*statusToSend.media.map { it.localId }.toIntArray())
 
                 if (scheduled) {
-                    eventHub.dispatch(StatusScheduledEvent(sentStatus as ScheduledStatus))
+                    eventHub.dispatch(StatusScheduledEvent((sentStatus as ScheduledStatusReply).id))
                 } else if (!isNew) {
                     eventHub.dispatch(StatusChangedEvent(sentStatus as Status))
                 } else {
