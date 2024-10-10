@@ -1,14 +1,10 @@
 package com.keylesspalace.tusky.components.followedtags
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
-import android.widget.AutoCompleteTextView
 import androidx.activity.viewModels
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,6 +18,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
+import com.keylesspalace.tusky.databinding.DialogFollowHashtagBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.copyToClipboard
@@ -61,8 +58,7 @@ class FollowedTagsActivity :
         }
 
         binding.fab.setOnClickListener {
-            val dialog: DialogFragment = FollowTagDialog.newInstance()
-            dialog.show(supportFragmentManager, "dialog")
+            showDialog()
         }
 
         setupAdapter().let { adapter ->
@@ -179,44 +175,34 @@ class FollowedTagsActivity :
         )
     }
 
-    companion object {
-        const val TAG = "FollowedTagsActivity"
+    private fun showDialog() {
+        val dialogBinding = DialogFollowHashtagBinding.inflate(layoutInflater)
+        dialogBinding.hashtagAutoCompleteTextView.setAdapter(
+            ComposeAutoCompleteAdapter(
+                this,
+                animateAvatar = false,
+                animateEmojis = false,
+                showBotBadge = false
+            )
+        )
+        dialogBinding.hashtagAutoCompleteTextView.requestFocus()
+        dialogBinding.hashtagAutoCompleteTextView.setSelection(dialogBinding.hashtagAutoCompleteTextView.length())
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_follow_hashtag_title)
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                follow(
+                    dialogBinding.hashtagAutoCompleteTextView.text.toString().removePrefix("#")
+                )
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog.show()
     }
 
-    class FollowTagDialog : DialogFragment() {
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val layout = layoutInflater.inflate(R.layout.dialog_follow_hashtag, null)
-            val autoCompleteTextView = layout.findViewById<AutoCompleteTextView>(R.id.hashtag)!!
-            autoCompleteTextView.setAdapter(
-                ComposeAutoCompleteAdapter(
-                    requireActivity() as FollowedTagsActivity,
-                    animateAvatar = false,
-                    animateEmojis = false,
-                    showBotBadge = false
-                )
-            )
-            autoCompleteTextView.requestFocus()
-            autoCompleteTextView.setSelection(autoCompleteTextView.length())
-
-            return MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.dialog_follow_hashtag_title)
-                .setView(layout)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    (requireActivity() as FollowedTagsActivity).follow(
-                        autoCompleteTextView.text.toString().removePrefix("#")
-                    )
-                }
-                .setNegativeButton(android.R.string.cancel) { _: DialogInterface, _: Int -> }
-                .create()
-        }
-
-        override fun onStart() {
-            super.onStart()
-            dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
-
-        companion object {
-            fun newInstance(): FollowTagDialog = FollowTagDialog()
-        }
+    companion object {
+        const val TAG = "FollowedTagsActivity"
     }
 }

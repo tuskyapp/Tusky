@@ -34,6 +34,8 @@
                 android:layout_height="48dp"
                 android:orientation="horizontal"
                 app:contentInsetStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:navigationContentDescription="@string/action_open_drawer">
 
