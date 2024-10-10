@@ -115,29 +115,28 @@ fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuil
     for (span in obscuredLinkSpans) {
         val start = spannableContent.getSpanStart(span)
         val end = spannableContent.getSpanEnd(span)
-        val originalText = spannableContent.subSequence(start, end)
-        val replacementText = view.context.getString(
+        val additionalText = " " + view.context.getString(
             R.string.url_domain_notifier,
-            originalText,
             getDomain(span.url)
         )
-        spannableContent.replace(
-            start,
+        spannableContent.insert(
             end,
-            replacementText
-        ) // this also updates the span locations
+            additionalText
+        )
+        // reinsert the span so it covers the original and the additional text
+        spannableContent.setSpan(span, start, end + additionalText.length, 0)
 
         val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
         // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
         val linkDrawableSpan = EmojiSpan(view)
         linkDrawableSpan.imageDrawable = linkDrawable
 
-        val placeholderIndex = originalText.length + 2
+        val placeholderIndex = end + 2
 
         spannableContent.setSpan(
             linkDrawableSpan,
-            start + placeholderIndex,
-            start + placeholderIndex + "🔗".length,
+            placeholderIndex,
+            placeholderIndex + "🔗".length,
             0
         )
     }
