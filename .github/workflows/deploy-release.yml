@@ -8,13 +8,17 @@ on:
       - '*'
 
 jobs:
-  build:
+  check-and-build:
+    uses: ./.github/workflows/check-and-build.yml
+  deploy:
     runs-on: ubuntu-latest
+    needs: check-and-build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/workflows/check-and-build.yml
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Build Blue aab
         run: ./gradlew app:bundleBlueRelease
