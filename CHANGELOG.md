@@ -6,6 +6,21 @@
 
 ### Significant bug fixes
 
+## v27.0
+
+### New features and other improvements
+
+- Tusky has been redesigned with Material 3 https://github.com/tuskyapp/Tusky/pull/4637 https://github.com/tuskyapp/Tusky/pull/4673
+- full support for folding devices https://github.com/tuskyapp/Tusky/pull/4689
+- improved post rendering in some edge cases https://github.com/tuskyapp/Tusky/pull/4650 https://github.com/tuskyapp/Tusky/pull/4672
+- descriptions can now be added to audio attachments https://github.com/tuskyapp/Tusky/pull/4711
+- The screen keyboard now pops up automatically when opening a dialog that contains a textfield https://github.com/tuskyapp/Tusky/pull/4667
+
+### Significant bug fixes
+
+- fixes a bug where Tusky would drop your draft when switching apps https://github.com/tuskyapp/Tusky/pull/4685
+- fixes a bug where Tusky would drop media that is being added to a post https://github.com/tuskyapp/Tusky/pull/4662
+
 ## v26.2
 
 ### Significant bug fixes
