@@ -112,10 +112,10 @@ class MediaPreviewAdapter(
             }
 
             glide.into(imageView)
+        }
 
-            holder.progressImageView.setOnClickListener {
-                onMediaClick(item, holder.progressImageView)
-            }
+        holder.progressImageView.setOnClickListener {
+            onMediaClick(item, holder.progressImageView)
         }
     }
 
