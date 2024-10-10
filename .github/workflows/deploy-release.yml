@@ -50,4 +50,4 @@ jobs:
           track: internal
           whatsNewDirectory: whatsnew
           status: completed
-          mappingFile: app/build/outputs/mapping/blueGoogleRelease/mapping.txt
+          mappingFile: app/build/outputs/mapping/blueRelease/mapping.txt
