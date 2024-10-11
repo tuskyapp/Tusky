@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.entity.ScheduledStatusReply
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
@@ -207,7 +208,7 @@ interface MastodonApi {
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
-    ): NetworkResult<ScheduledStatus>
+    ): NetworkResult<ScheduledStatusReply>
 
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
