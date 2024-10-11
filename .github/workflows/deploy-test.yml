@@ -7,6 +7,10 @@ on:
     branches:
       - develop
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   check-and-build:
     uses: ./.github/workflows/check-and-build.yml
@@ -23,7 +27,7 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Set versionsCode
+      - name: Set versionCode
         run: |
           export VERSION_CODE=$(( ${BUILD_NUMBER} + 11000 ))
           sed -i'.original' -e "s/^\([[:space:]]*versionCode[[:space:]]*\)[0-9]*/\\1$VERSION_CODE/" app/build.gradle
