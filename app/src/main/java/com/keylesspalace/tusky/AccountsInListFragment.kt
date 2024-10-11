@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky
 
+import android.app.Dialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
@@ -39,7 +41,6 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unsafeLazy
-import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewmodel.AccountsInListViewModel
 import com.keylesspalace.tusky.viewmodel.State
@@ -50,13 +51,13 @@ import kotlinx.coroutines.launch
 private typealias AccountInfo = Pair<TimelineAccount, Boolean>
 
 @AndroidEntryPoint
-class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list) {
+class AccountsInListFragment : DialogFragment() {
 
     @Inject
     lateinit var preferences: SharedPreferences
 
     private val viewModel: AccountsInListViewModel by viewModels()
-    private val binding by viewBinding(FragmentAccountsInListBinding::bind)
+    private lateinit var binding: FragmentAccountsInListBinding
 
     private lateinit var listId: String
     private lateinit var listName: String
@@ -65,12 +66,17 @@ class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
         val args = requireArguments()
         listId = args.getString(LIST_ID_ARG)!!
         listName = args.getString(LIST_NAME_ARG)!!
 
         viewModel.load(listId)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return MaterialAlertDialogBuilder(requireContext())
+            .setView(createView())
+            .create()
     }
 
     override fun onStart() {
@@ -84,17 +90,18 @@ class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private fun createView(): View {
+        binding = FragmentAccountsInListBinding.inflate(layoutInflater)
         val adapter = Adapter()
         val searchAdapter = SearchAdapter()
 
-        binding.accountsRecycler.layoutManager = LinearLayoutManager(view.context)
+        binding.accountsRecycler.layoutManager = LinearLayoutManager(binding.root.context)
         binding.accountsRecycler.adapter = adapter
 
-        binding.accountsSearchRecycler.layoutManager = LinearLayoutManager(view.context)
+        binding.accountsSearchRecycler.layoutManager = LinearLayoutManager(binding.root.context)
         binding.accountsSearchRecycler.adapter = searchAdapter
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.state.collect { state ->
                 adapter.submitList(state.accounts.getOrDefault(emptyList()))
 
@@ -122,6 +129,7 @@ class AccountsInListFragment : DialogFragment(R.layout.fragment_accounts_in_list
                 return true
             }
         })
+        return binding.root
     }
 
     private fun setupSearchView(searchAdapter: SearchAdapter, state: State) {
