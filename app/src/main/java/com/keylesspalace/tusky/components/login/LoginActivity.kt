@@ -24,11 +24,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
@@ -64,17 +64,11 @@ class LoginActivity : BaseActivity() {
 
     private val doWebViewAuth = registerForActivityResult(OauthLogin()) { result ->
         when (result) {
-            is LoginResult.Ok -> lifecycleScope.launch {
-                fetchOauthToken(result.code)
-            }
+            is LoginResult.Ok -> fetchOauthToken(result.code)
             is LoginResult.Err -> displayError(result.errorMessage)
             is LoginResult.Cancel -> setLoading(false)
         }
     }
-
-    private var domain: String = ""
-    private var clientId: String = ""
-    private var clientSecret: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,12 +81,6 @@ class LoginActivity : BaseActivity() {
         ) {
             binding.domainEditText.setText(BuildConfig.CUSTOM_INSTANCE)
             binding.domainEditText.setSelection(BuildConfig.CUSTOM_INSTANCE.length)
-        }
-
-        if (savedInstanceState != null) {
-            domain = savedInstanceState.getString(DOMAIN, "")
-            clientId = savedInstanceState.getString(CLIENT_ID, "")
-            clientSecret = savedInstanceState.getString(CLIENT_SECRET, "")
         }
 
         if (isAccountMigration()) {
@@ -110,7 +98,7 @@ class LoginActivity : BaseActivity() {
         binding.loginButton.setOnClickListener { onLoginClick(true) }
 
         binding.whatsAnInstanceTextView.setOnClickListener {
-            val dialog = AlertDialog.Builder(this)
+            val dialog = MaterialAlertDialogBuilder(this)
                 .setMessage(R.string.dialog_whats_an_instance)
                 .setPositiveButton(R.string.action_close, null)
                 .show()
@@ -138,18 +126,11 @@ class LoginActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(DOMAIN, domain)
-        outState.putString(CLIENT_ID, clientId)
-        outState.putString(CLIENT_SECRET, clientSecret)
-    }
-
     private fun onLoginClick(openInWebView: Boolean) {
         binding.loginButton.isEnabled = false
         binding.domainTextInputLayout.error = null
 
-        domain = canonicalizeDomain(binding.domainEditText.text.toString())
+        val domain = canonicalizeDomain(binding.domainEditText.text.toString())
 
         try {
             HttpUrl.Builder().host(domain).scheme("https").build()
@@ -175,9 +156,12 @@ class LoginActivity : BaseActivity() {
                 getString(R.string.tusky_website)
             ).fold(
                 { credentials ->
-                    // Save credentials. These will be put into the savedInstanceState so they get restored after activity recreation.
-                    clientId = credentials.clientId
-                    clientSecret = credentials.clientSecret
+                    // Save credentials so we can access them after we opened another activity for auth.
+                    preferences.edit()
+                        .putString(DOMAIN, domain)
+                        .putString(CLIENT_ID, credentials.clientId)
+                        .putString(CLIENT_SECRET, credentials.clientSecret)
+                        .apply()
 
                     redirectUserToAuthorizeAndLogin(domain, credentials.clientId, openInWebView)
                 },
@@ -229,15 +213,8 @@ class LoginActivity : BaseActivity() {
             val code = uri.getQueryParameter("code")
             val error = uri.getQueryParameter("error")
 
-            /* restore variables from SharedPreferences */
-            val domain = preferences.getNonNullString(DOMAIN, "")
-            val clientId = preferences.getNonNullString(CLIENT_ID, "")
-            val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
-
-            if (code != null && domain.isNotEmpty() && clientId.isNotEmpty() && clientSecret.isNotEmpty()) {
-                lifecycleScope.launch {
-                    fetchOauthToken(code)
-                }
+            if (code != null) {
+                fetchOauthToken(code)
             } else {
                 displayError(error)
             }
@@ -257,32 +234,39 @@ class LoginActivity : BaseActivity() {
             getString(R.string.error_authorization_unknown)
         } else {
             // Use error returned by the server or fall back to the generic message
-            Log.e(TAG, "%s %s".format(getString(R.string.error_authorization_denied), error))
+            Log.e(TAG, getString(R.string.error_authorization_denied) + " " + error)
             error.ifBlank { getString(R.string.error_authorization_denied) }
         }
     }
 
-    private suspend fun fetchOauthToken(code: String) {
+    private fun fetchOauthToken(code: String) {
         setLoading(true)
 
-        mastodonApi.fetchOAuthToken(
-            domain,
-            clientId,
-            clientSecret,
-            oauthRedirectUri,
-            code,
-            "authorization_code"
-        ).fold(
-            { accessToken ->
-                fetchAccountDetails(accessToken, domain, clientId, clientSecret)
-            },
-            { e ->
-                setLoading(false)
-                binding.domainTextInputLayout.error =
-                    getString(R.string.error_retrieving_oauth_token)
-                Log.e(TAG, getString(R.string.error_retrieving_oauth_token), e)
-            }
-        )
+        /* restore variables from SharedPreferences */
+        val domain = preferences.getNonNullString(DOMAIN, "")
+        val clientId = preferences.getNonNullString(CLIENT_ID, "")
+        val clientSecret = preferences.getNonNullString(CLIENT_SECRET, "")
+
+        lifecycleScope.launch {
+            mastodonApi.fetchOAuthToken(
+                domain,
+                clientId,
+                clientSecret,
+                oauthRedirectUri,
+                code,
+                "authorization_code"
+            ).fold(
+                { accessToken ->
+                    fetchAccountDetails(accessToken, domain, clientId, clientSecret)
+                },
+                { e ->
+                    setLoading(false)
+                    binding.domainTextInputLayout.error =
+                        getString(R.string.error_retrieving_oauth_token)
+                    Log.e(TAG, getString(R.string.error_retrieving_oauth_token), e)
+                }
+            )
+        }
     }
 
     private suspend fun fetchAccountDetails(
@@ -303,11 +287,10 @@ class LoginActivity : BaseActivity() {
                 oauthScopes = OAUTH_SCOPES,
                 newAccount = newAccount
             )
-
+            finishAffinity()
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
             startActivity(intent)
-            finishAffinity()
         }, { e ->
             setLoading(false)
             binding.domainTextInputLayout.error =

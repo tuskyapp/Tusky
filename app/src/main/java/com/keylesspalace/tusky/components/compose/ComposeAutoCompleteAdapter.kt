@@ -57,9 +57,9 @@ class ComposeAutoCompleteAdapter(
 
             override fun convertResultToString(resultValue: Any): CharSequence {
                 return when (resultValue) {
-                    is AutocompleteResult.AccountResult -> formatUsername(resultValue)
-                    is AutocompleteResult.HashtagResult -> formatHashtag(resultValue)
-                    is AutocompleteResult.EmojiResult -> formatEmoji(resultValue)
+                    is AutocompleteResult.AccountResult -> "@${resultValue.account.username}"
+                    is AutocompleteResult.HashtagResult -> "#${resultValue.hashtag}"
+                    is AutocompleteResult.EmojiResult -> ":${resultValue.emoji.shortcode}:"
                     else -> ""
                 }
             }
@@ -122,7 +122,7 @@ class ComposeAutoCompleteAdapter(
             }
             is ItemAutocompleteHashtagBinding -> {
                 val result = getItem(position) as AutocompleteResult.HashtagResult
-                binding.root.text = formatHashtag(result)
+                binding.root.text = context.getString(R.string.hashtag_format, result.hashtag)
             }
             is ItemAutocompleteEmojiBinding -> {
                 val emojiResult = getItem(position) as AutocompleteResult.EmojiResult
@@ -162,17 +162,5 @@ class ComposeAutoCompleteAdapter(
         private const val ACCOUNT_VIEW_TYPE = 0
         private const val HASHTAG_VIEW_TYPE = 1
         private const val EMOJI_VIEW_TYPE = 2
-
-        private fun formatUsername(result: AutocompleteResult.AccountResult): String {
-            return String.format("@%s", result.account.username)
-        }
-
-        private fun formatHashtag(result: AutocompleteResult.HashtagResult): String {
-            return String.format("#%s", result.hashtag)
-        }
-
-        private fun formatEmoji(result: AutocompleteResult.EmojiResult): String {
-            return String.format(":%s:", result.emoji.shortcode)
-        }
     }
 }

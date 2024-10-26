@@ -233,7 +233,7 @@
     <string name="follows_you">Seni takip ediyor</string>
     <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
     <string name="title_media">Medya</string>
-    <string name="load_more_placeholder_text">daha fazlası</string>
+    <string name="load_more_placeholder_text">Daha fazlası</string>
     <string name="add_account_name">Hesap Ekle</string>
     <string name="add_account_description">Yeni Mastodon hesabı ekle</string>
     <string name="action_lists">Listeler</string>
@@ -723,4 +723,5 @@
     <string name="pref_default_reply_privacy_explanation">Önceden seçilen gizlilik, yanıtladığınız gönderiye bağlı olacak.</string>
     <string name="pref_match_default_post_privacy">Varsayılan gönderi gizliliğini eşleştiriniz</string>
     <string name="post_privacy_direct">Doğrudan</string>
+    <string name="label_expires_after">Son kullanma tarihi</string>
 </resources>

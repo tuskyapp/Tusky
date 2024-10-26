@@ -1,0 +1,6 @@
+Tusky 26.1
+
+- The "Reply privacy" account preference now has two additional options: "Match default post privacy" and "Direct".
+- Tusky now includes ISRG root certificates to keep working on Android 7 and servers that use Let's Encrypt.
+- Fixes a bug where Tusky sometimes mixes up timelines and/or notifications of accounts.
+See https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md for the full changelog

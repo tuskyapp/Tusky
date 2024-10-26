@@ -39,6 +39,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:visibility="invisible"
+        app:strokeWidth="0dp"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardElevation="2dp">
 

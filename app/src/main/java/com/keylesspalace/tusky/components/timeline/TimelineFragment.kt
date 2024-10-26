@@ -266,6 +266,8 @@ class TimelineFragment :
                             }
                         }
                     }
+                    // we loaded new posts at the top - no need to handle "load more" anymore
+                    loadMorePosition = null
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst(adapter)
@@ -600,13 +602,6 @@ class TimelineFragment :
     public override fun removeItem(position: Int) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.removeStatusWithId(status.id)
-    }
-
-    private fun actionButtonPresent(): Boolean {
-        return viewModel.kind != TimelineViewModel.Kind.TAG &&
-            viewModel.kind != TimelineViewModel.Kind.FAVOURITES &&
-            viewModel.kind != TimelineViewModel.Kind.BOOKMARKS &&
-            activity is ActionButtonActivity
     }
 
     private var talkBackWasEnabled = false

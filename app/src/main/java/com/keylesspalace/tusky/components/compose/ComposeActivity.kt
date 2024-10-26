@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.compose
 
 import android.Manifest
-import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
@@ -47,7 +46,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
@@ -66,6 +64,7 @@ import com.google.android.material.R as materialR
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -221,9 +220,9 @@ class ComposeActivity :
                 }
             }
         } else if (result == CropImage.CancelledResult) {
-            Log.w("ComposeActivity", "Edit image cancelled by user")
+            Log.w(TAG, "Edit image cancelled by user")
         } else {
-            Log.w("ComposeActivity", "Edit image failed: " + result.error)
+            Log.w(TAG, "Edit image failed: " + result.error)
             displayTransientMessage(R.string.error_image_edit_failed)
         }
         viewModel.cropImageItemOld = null
@@ -940,7 +939,7 @@ class ComposeActivity :
                 val errorMessage =
                     getString(
                         R.string.error_no_custom_emojis,
-                        accountManager.activeAccount!!.domain
+                        activeAccount
                     )
                 displayTransientMessage(errorMessage)
             } else {
@@ -1319,14 +1318,14 @@ class ComposeActivity :
     private fun getSaveAsDraftOrDiscardDialog(
         contentText: String,
         contentWarning: String
-    ): AlertDialog.Builder {
+    ): MaterialAlertDialogBuilder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
             R.string.compose_save_draft
         }
 
-        return AlertDialog.Builder(this)
+        return MaterialAlertDialogBuilder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 viewModel.stopUploads()
@@ -1345,14 +1344,14 @@ class ComposeActivity :
     private fun getUpdateDraftOrDiscardDialog(
         contentText: String,
         contentWarning: String
-    ): AlertDialog.Builder {
+    ): MaterialAlertDialogBuilder {
         val warning = if (viewModel.media.value.isNotEmpty()) {
             R.string.compose_save_draft_loses_media
         } else {
             R.string.compose_save_draft
         }
 
-        return AlertDialog.Builder(this)
+        return MaterialAlertDialogBuilder(this)
             .setMessage(warning)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 viewModel.stopUploads()
@@ -1368,8 +1367,8 @@ class ComposeActivity :
      * User is editing a post (scheduled, or posted), and can either go back to editing, or
      * discard the changes.
      */
-    private fun getContinueEditingOrDiscardDialog(): AlertDialog.Builder {
-        return AlertDialog.Builder(this)
+    private fun getContinueEditingOrDiscardDialog(): MaterialAlertDialogBuilder {
+        return MaterialAlertDialogBuilder(this)
             .setMessage(R.string.compose_unsaved_changes)
             .setPositiveButton(R.string.action_continue_edit) { _, _ ->
                 // Do nothing, dialog will dismiss, user can continue editing
@@ -1384,8 +1383,8 @@ class ComposeActivity :
      * User is editing an existing draft and making it empty.
      * The user can either delete the empty draft or go back to editing.
      */
-    private fun getDeleteEmptyDraftOrContinueEditing(): AlertDialog.Builder {
-        return AlertDialog.Builder(this)
+    private fun getDeleteEmptyDraftOrContinueEditing(): MaterialAlertDialogBuilder {
+        return MaterialAlertDialogBuilder(this)
             .setMessage(R.string.compose_delete_draft)
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 viewModel.deleteDraft()
@@ -1404,19 +1403,7 @@ class ComposeActivity :
 
     private fun saveDraftAndFinish(contentText: String, contentWarning: String) {
         lifecycleScope.launch {
-            val dialog = if (viewModel.shouldShowSaveDraftDialog()) {
-                ProgressDialog.show(
-                    this@ComposeActivity,
-                    null,
-                    getString(R.string.saving_draft),
-                    true,
-                    false
-                )
-            } else {
-                null
-            }
             viewModel.saveDraft(contentText, contentWarning)
-            dialog?.cancel()
             finish()
         }
     }

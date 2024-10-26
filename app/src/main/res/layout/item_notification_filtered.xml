@@ -27,88 +27,31 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Filtered notification" />
 
-    <ImageView
-        android:id="@+id/notification_status_avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-
-        android:layout_marginBottom="14dp"
-        android:contentDescription="@string/action_view_profile"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification_top_text"
-        tools:ignore="RtlHardcoded,RtlSymmetry"
-        tools:src="@drawable/avatar_default" />
-
-    <TextView
-        android:id="@+id/status_display_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="6dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:visibility="gone"
-
-        android:paddingStart="0dp"
-        android:paddingEnd="@dimen/status_display_name_padding_end"
-        android:paddingBottom="4dp"
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
-        android:textStyle="normal|bold"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
-        app:layout_constraintTop_toBottomOf="@id/notification_top_text"
-        tools:text="Ente MM" />
-
-    <TextView
-        android:id="@+id/status_username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:visibility="gone"
-        android:paddingBottom="4dp"
-        android:layout_marginStart="14dp"
-
-        android:textColor="?android:textColorTertiary"
-        android:textSize="?attr/status_text_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/status_display_name"
-        tools:text="\@Entenhausen" />
-
     <Button
         android:id="@+id/button_accept"
-        app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
-        app:layout_constraintTop_toBottomOf="@id/notification_status_avatar"
-        android:layout_marginEnd="4dp"
         style="@style/TuskyButton.TextButton"
-android:text="Show"
-        android:minHeight="0dp"
-        android:layout_marginStart="14dp"
-
-        app:layout_constraintEnd_toStartOf="@id/button_deny"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
-        android:layout_height="wrap_content"/>
+        android:layout_marginEnd="4dp"
+        android:minHeight="0dp"
+        android:text="Show"
+        app:layout_constraintEnd_toStartOf="@id/button_deny"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_top_text" />
 
     <Button
         android:id="@+id/button_deny"
         style="@style/TuskyButton.TextButton"
-        android:text="Hide"
-        android:minHeight="0dp"
-
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification_status_avatar"
-        app:layout_constraintStart_toEndOf="@id/button_accept"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="6dp"
+        android:minHeight="0dp"
+        android:text="Hide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_accept"
+        app:layout_constraintTop_toBottomOf="@id/notification_top_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@
 <resources>
     <string name="action_content_warning">Aviso sobre o contido</string>
     <string name="action_toggle_visibility">Visibilidade da publicación</string>
-    <string name="action_access_scheduled_posts">Toots programados</string>
+    <string name="action_access_scheduled_posts">Publicacións programadas</string>
     <string name="action_access_drafts">Borradores</string>
     <string name="action_search">Buscar</string>
     <string name="action_reject">Rexeitar</string>
@@ -19,7 +19,7 @@
     <string name="action_unmute_domain">Reactivar %1$s</string>
     <string name="action_mute_domain">Acalar %1$s</string>
     <string name="action_unmute_desc">Reactivar %1$s</string>
-    <string name="action_unmute">Desacalar</string>
+    <string name="action_unmute">Reactivar</string>
     <string name="action_mute">Acalar</string>
     <string name="action_share">Compartir</string>
     <string name="action_photo_take">Facer foto</string>
@@ -38,8 +38,8 @@
     <string name="action_view_profile">Perfil</string>
     <string name="action_close">Pechar</string>
     <string name="action_retry">Intenta outra vez</string>
-    <string name="action_send_public">TOOT!</string>
-    <string name="action_send">TOOT</string>
+    <string name="action_send_public">PUBLICA!</string>
+    <string name="action_send">PUBLICAR</string>
     <string name="action_delete_and_redraft">Eliminar e reescribir</string>
     <string name="action_delete">Eliminar</string>
     <string name="action_edit">Editar</string>
@@ -55,10 +55,10 @@
     <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
     <string name="action_more">Máis</string>
-    <string name="action_unfavourite">Eliminar favorito</string>
+    <string name="action_unfavourite">Retirar favorito</string>
     <string name="action_bookmark">Marcar</string>
     <string name="action_favourite">Favorito</string>
-    <string name="action_unreblog">Eliminar promoción</string>
+    <string name="action_unreblog">Retirar a promoción</string>
     <string name="action_reblog">Promover</string>
     <string name="action_reply">Responder</string>
     <string name="action_quick_reply">Resposta rápida</string>
@@ -69,20 +69,20 @@
     <string name="notification_follow_format">%1$s seguiute</string>
     <string name="notification_favourite_format">%1$s fixo favorita a publicación</string>
     <string name="notification_reblog_format">%1$s promoveu a túa publicación</string>
-    <string name="footer_empty">Nada por aquí. Arrastra hacia abaixo para actualizar!</string>
+    <string name="footer_empty">Nada por aquí. Arrastra cara abaixo para actualizar!</string>
     <string name="message_empty">Nada por aquí.</string>
-    <string name="post_content_show_less">Pregar</string>
+    <string name="post_content_show_less">Contraer</string>
     <string name="post_content_show_more">Expandir</string>
     <string name="post_content_warning_show_less">Ver menos</string>
     <string name="post_content_warning_show_more">Ver máis</string>
-    <string name="post_sensitive_media_directions">Click para ver</string>
+    <string name="post_sensitive_media_directions">Preme para ver</string>
     <string name="post_media_hidden_title">Multimedia agochado</string>
     <string name="post_sensitive_media_title">Contido sensible</string>
     <string name="post_boosted_format">%1$s promoveu</string>
     <string name="post_username_format">\@%1$s</string>
     <string name="title_licenses">Licenzas</string>
     <string name="title_announcements">Anuncios</string>
-    <string name="title_scheduled_posts">Toots programados</string>
+    <string name="title_scheduled_posts">Publicacións programadas</string>
     <string name="title_drafts">Borradores</string>
     <string name="title_edit_profile">Edita o teu perfil</string>
     <string name="title_follow_requests">Solicitudes de seguimento</string>
@@ -103,27 +103,27 @@
     <string name="title_public_local">Local</string>
     <string name="title_notifications">Notificacións</string>
     <string name="title_home">Inicio</string>
-    <string name="error_sender_account_gone">Erro ao enviar a publicación.</string>
-    <string name="error_media_upload_sending">Fallou a subida.</string>
+    <string name="error_sender_account_gone">Produciuse un erro ao enviar a publicación.</string>
+    <string name="error_media_upload_sending">Produciuse un fallo no envío.</string>
     <string name="error_media_upload_image_or_video">As imaxes e vídeo non poden engadirse simultáneamente á mesma publicación.</string>
     <string name="error_media_download_permission">Requírese o permiso de almacenaxe do multimedia.</string>
     <string name="error_media_upload_permission">Requírese o permiso de lectura do multimedia.</string>
     <string name="error_media_upload_opening">Non se puido abrir o ficheiro.</string>
-    <string name="error_media_upload_type">Non pode subirse ese tipo de ficheiro.</string>
+    <string name="error_media_upload_type">Non pode enviarse ese tipo de ficheiro.</string>
     <string name="error_compose_character_limit">A publicación é demasiado longa!</string>
     <string name="error_retrieving_oauth_token">Non se obtivo o token de acceso. Se non o consigues, inténtao desde Acceder no Navegador.</string>
     <string name="error_authorization_denied">A autorización foi rexeitada. Se tes a certeza de que as credenciais son correctas, inténtao desde Acceder no Navegador no menú.</string>
-    <string name="error_authorization_unknown">Aconteceu un erro non identificado na autorización. Se persiste, inténtao desde Acceder no Navedor.</string>
+    <string name="error_authorization_unknown">Produciuse un erro non identificado na autorización. Se persiste, inténtao desde Acceder no Navegador.</string>
     <string name="error_no_web_browser_found">Non se atopou un navegador para utilizar.</string>
-    <string name="error_failed_app_registration">Fallou a autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
+    <string name="error_failed_app_registration">Produciuse un fallo na autenticación nesta instancia. Se persiste, inténtao desde Acceder no Navegador no menú.</string>
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
-    <string name="error_empty">Esto non pode estar baleiro.</string>
-    <string name="error_network">Houbo un fallo na rede. Comproba a conexión e inténtao outra vez.</string>
-    <string name="error_generic">Algo fallou.</string>
+    <string name="error_empty">Isto non pode estar baleiro.</string>
+    <string name="error_network">Produciuse un fallo na rede. Comproba a conexión e inténtao outra vez.</string>
+    <string name="error_generic">Produciuse un fallo.</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="action_unsubscribe_account">Desubscribir</string>
     <string name="action_subscribe_account">Subscribir</string>
-    <string name="drafts_post_reply_removed">Eliminouse o toot para o que redactaches a resposta</string>
+    <string name="drafts_post_reply_removed">Retirouse a publicación para a que redactaches a resposta</string>
     <string name="duration_indefinite">Sen límite</string>
     <string name="label_duration">Duración</string>
     <string name="create_poll_title">Enquisa</string>
@@ -177,8 +177,8 @@
     <string name="filter_apply">Aplicar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="notifications_clear">Borrar</string>
-    <string name="list">Listaxe</string>
-    <string name="select_list_title">Elexir listaxe</string>
+    <string name="list">Lista</string>
+    <string name="select_list_title">Escoller lista</string>
     <string name="hashtags">Cancelos</string>
     <string name="edit_hashtag_hint">Cancelo sen #</string>
     <string name="add_hashtag_title">Engadir cancelo</string>
@@ -207,7 +207,7 @@
         <item quantity="other"><b>%1$s</b> Favoritos</item>
     </plurals>
     <string name="pin_action">Fixar</string>
-    <string name="unpin_action">Desafixar</string>
+    <string name="unpin_action">Desprender</string>
     <string name="label_remote_account">A información inferior sobre a usuaria podería non estar completa. Preme para ver o perfil completo no navegador.</string>
     <string name="pref_title_absolute_time">Usar hora absoluta</string>
     <string name="profile_metadata_content_label">Contido</string>
@@ -226,57 +226,57 @@
     <string name="caption_notoemoji">Conxunto actual de emojis de Google</string>
     <string name="caption_twemoji">Conxunto de emojis estándar en Mastodon</string>
     <string name="caption_blobmoji">Os emojis Blob coñecidos de Android 4.4-7.1</string>
-    <string name="caption_systememoji">O conxunto de emojis por defecto no sistema</string>
+    <string name="caption_systememoji">O conxunto de emojis predeterminados do sistema</string>
     <string name="restart">Reiniciar</string>
     <string name="later">Máis tarde</string>
     <string name="restart_emoji">Deberás reiniciar Tusky para aplicar os cambios</string>
     <string name="restart_required">Require reiniciar app</string>
-    <string name="action_open_post">Abrir toot</string>
-    <string name="expand_collapse_all_posts">Expandir/Pregar tódolos estados</string>
-    <string name="performing_lookup_title">Realizando a busca…</string>
-    <string name="download_fonts">Deberás descargar primeiro estos conxuntos de emojis</string>
-    <string name="system_default">Por defecto no sistema</string>
+    <string name="action_open_post">Abrir publicación</string>
+    <string name="expand_collapse_all_posts">Expandir/Contraer todas as publicacións</string>
+    <string name="performing_lookup_title">Facendo a busca…</string>
+    <string name="download_fonts">Deberás descargar primeiro estes conxuntos de emojis</string>
+    <string name="system_default">Predeterminado do sistema</string>
     <string name="emoji_style">Estilo dos emoji</string>
     <string name="error_no_custom_emojis">A túa instancia %1$s non ten emojis personalizados</string>
     <string name="action_compose_shortcut">Redactar</string>
-    <string name="send_post_notification_saved_content">Gardouse unha copia do toot nos borradores</string>
+    <string name="send_post_notification_saved_content">Gardouse unha copia da publicación nos borradores</string>
     <string name="send_post_notification_cancel_title">Envío cancelado</string>
-    <string name="send_post_notification_channel_name">Enviando Toots</string>
-    <string name="send_post_notification_error_title">Erro ao enviar o toot</string>
-    <string name="send_post_notification_title">Enviando Toot…</string>
+    <string name="send_post_notification_channel_name">Ao enviar Publicacións</string>
+    <string name="send_post_notification_error_title">Produciuse un erro ao enviar a mensaxe</string>
+    <string name="send_post_notification_title">Enviando publicación…</string>
     <string name="compose_save_draft">Gardar borrador\?</string>
     <string name="lock_account_label_description">Require que aprobes manualmente as seguidoras</string>
     <string name="lock_account_label">Bloquear conta</string>
-    <string name="action_remove">Eliminar</string>
+    <string name="action_remove">Retirar</string>
     <string name="action_set_caption">Escribir descrición</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Describe para persoas con deficiencias visuais (límite %1$d caracter)</item>
         <item quantity="other">Describe para persoas con deficiencias visuais (%1$d caracteres como máximo)</item>
     </plurals>
     <string name="compose_active_account_description">Publicar como %1$s</string>
-    <string name="action_remove_from_list">Eliminar conta da listaxe</string>
-    <string name="action_add_to_list">Engadir conta á listaxe</string>
+    <string name="action_remove_from_list">Retirar conta da lista</string>
+    <string name="action_add_to_list">Engadir conta á lista</string>
     <string name="hint_search_people_list">Atopar persoas ás que segues</string>
-    <string name="action_delete_list">Eliminar a listaxe</string>
-    <string name="action_rename_list">Actualizar a listaxe</string>
-    <string name="action_create_list">Crear unha listaxe</string>
-    <string name="error_delete_list">Non se puido eliminar a listaxe</string>
-    <string name="error_rename_list">Non se actualizou a listaxe</string>
-    <string name="error_create_list">Non se puido crear a listaxe</string>
-    <string name="title_lists">Listaxes</string>
-    <string name="action_lists">Listaxes</string>
+    <string name="action_delete_list">Eliminar lista</string>
+    <string name="action_rename_list">Actualizar lista</string>
+    <string name="action_create_list">Crear lista</string>
+    <string name="error_delete_list">Non se puido eliminar a lista</string>
+    <string name="error_rename_list">Non se actualizou a lista</string>
+    <string name="error_create_list">Non se puido crear a lista</string>
+    <string name="title_lists">Listas</string>
+    <string name="action_lists">Listas</string>
     <string name="add_account_description">Engadir unha nova conta Mastodon</string>
     <string name="add_account_name">Engadir conta</string>
     <string name="filter_add_description">Frase a filtrar</string>
     <string name="filter_dialog_whole_word_description">Cando a palabra ou frase é só alfanumérica, só se aplicará se concorda a palabra completa</string>
     <string name="filter_dialog_whole_word">Palabra completa</string>
     <string name="filter_dialog_update_button">Actualiza</string>
-    <string name="filter_dialog_remove_button">Eliminar</string>
+    <string name="filter_dialog_remove_button">Retirar</string>
     <string name="filter_edit_title">Editar filtro</string>
     <string name="filter_addition_title">Engadir filtro</string>
     <string name="pref_title_thread_filter_keywords">Conversas</string>
     <string name="pref_title_public_filter_keywords">Cronoloxías públicas</string>
-    <string name="load_more_placeholder_text">cargar máis</string>
+    <string name="load_more_placeholder_text">Cargar máis</string>
     <string name="replying_to">Respondendo a @%1$s</string>
     <string name="title_media">Multimedia</string>
     <string name="pref_title_alway_open_spoiler">Despregar sempre publicacións marcadas con avisos sobre o contido</string>
@@ -287,9 +287,9 @@
     <string name="abbreviated_hours_ago">%1$dh</string>
     <string name="abbreviated_days_ago">%1$dd</string>
     <string name="abbreviated_years_ago">%1$da</string>
-    <string name="abbreviated_in_seconds">fai %1$ds</string>
-    <string name="abbreviated_in_hours">fai %1$dh</string>
-    <string name="abbreviated_in_minutes">fai %1$dm</string>
+    <string name="abbreviated_in_seconds">en %1$ds</string>
+    <string name="abbreviated_in_hours">en %1$dh</string>
+    <string name="abbreviated_in_minutes">en %1$dm</string>
     <string name="abbreviated_in_days">en %1$dd</string>
     <string name="abbreviated_in_years">en %1$da</string>
     <string name="state_follow_requested">Seguimento solicitado</string>
@@ -297,8 +297,8 @@
     <string name="post_media_audio">Audio</string>
     <string name="post_media_video">Vídeo</string>
     <string name="post_media_images">Imaxes</string>
-    <string name="post_share_link">Compartir ligazón ao toot</string>
-    <string name="post_share_content">Compartir contido do toot</string>
+    <string name="post_share_link">ligazón á publicación</string>
+    <string name="post_share_content">contido da publicación</string>
     <string name="about_tusky_account">Perfil de Tusky</string>
     <string name="about_bug_feature_request_site">Informar de fallos e solicitar funcións:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
@@ -306,7 +306,7 @@
     <string name="about_tusky_license">Tusky é software libre e de código aberto. Está baixo a licenza GNU General Public License Version 3. Podes ver a licenza aquí: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="about_powered_by_tusky">Desenvolta por Tusky</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_title_activity">Acerca de</string>
+    <string name="about_title_activity">Sobre</string>
     <string name="description_account_locked">Conta bloqueada</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%1$d nova interacción</item>
@@ -324,9 +324,9 @@
     <string name="notification_favourite_name">Favoritos</string>
     <string name="notification_boost_description">Notificacións cando as túas publicacións sexan promovidas</string>
     <string name="notification_boost_name">Promocións</string>
-    <string name="notification_follow_request_description">Notificación acerca de solicitudes de seguimento</string>
+    <string name="notification_follow_request_description">Notificación sobre solicitudes de seguimento</string>
     <string name="notification_follow_request_name">Solicitudes de seguimento</string>
-    <string name="notification_follow_description">Notificacións acerca de novas seguidoras</string>
+    <string name="notification_follow_description">Notificacións sobre novas seguidoras</string>
     <string name="notification_follow_name">Novas seguidoras</string>
     <string name="notification_mention_descriptions">Notificación de novas mencións</string>
     <string name="notification_mention_name">Novas mencións</string>
@@ -342,8 +342,8 @@
     <string name="pref_main_nav_position_option_bottom">Abaixo</string>
     <string name="pref_main_nav_position_option_top">Arriba</string>
     <string name="pref_main_nav_position">Posición de navegación principal</string>
-    <string name="pref_failed_to_sync">Fallou a sincr. das preferencis</string>
-    <string name="pref_publishing">Por defecto ao publicar</string>
+    <string name="pref_failed_to_sync">Fallou a sincr. das preferencias</string>
+    <string name="pref_publishing">Predeterminado ao publicar</string>
     <string name="pref_default_media_sensitivity">Marcar sempre multimedia como sensible (sincr. co servidor)</string>
     <string name="pref_default_post_privacy">Privacidade da publicación (sincr. co servidor)</string>
     <string name="pref_title_http_proxy_port">Porto proxy HTTP</string>
@@ -370,12 +370,12 @@
     <string name="app_them_dark">Escuro</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="pref_title_timelines">Cronoloxías</string>
-    <string name="pref_title_app_theme">Decorado da app</string>
+    <string name="pref_title_app_theme">Decorado da aplicación</string>
     <string name="pref_title_appearance_settings">Aparencia</string>
     <string name="pref_title_notification_filter_subscriptions">alguén a quen eu siga publique novo contido</string>
     <string name="pref_title_notification_filter_poll">rematen as enquisas</string>
-    <string name="pref_title_notification_filter_favourites">marquen un toot meu como favorito</string>
-    <string name="pref_title_notification_filter_reblogs">promocionen un dos meus toots</string>
+    <string name="pref_title_notification_filter_favourites">marquen unha publicación como favorita</string>
+    <string name="pref_title_notification_filter_reblogs">promovan unha publicación miña</string>
     <string name="pref_title_notification_filter_follow_requests">soliciten seguirme</string>
     <string name="pref_title_notification_filter_follows">me sigan</string>
     <string name="pref_title_notification_filter_mentions">me mencionen</string>
@@ -394,14 +394,14 @@
     <string name="dialog_mute_warning">Acalar a @%1$s\?</string>
     <string name="dialog_block_warning">Bloquear @%1$s\?</string>
     <string name="mute_domain_warning_dialog_ok">Agochar todo o dominio</string>
-    <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %1$s\? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán eliminadas.</string>
+    <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %1$s? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán retiradas.</string>
     <string name="dialog_redraft_post_warning">Eliminar e reescribir esta publicación\?</string>
     <string name="dialog_delete_post_warning">Eliminar esta publicación\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
     <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento\?</string>
     <string name="dialog_download_image">Descargar</string>
-    <string name="dialog_message_uploading_media">Subindo…</string>
-    <string name="dialog_title_finishing_media_upload">Rematando a subida multimedia</string>
+    <string name="dialog_message_uploading_media">Enviando…</string>
+    <string name="dialog_title_finishing_media_upload">Rematando o envío de multimedia</string>
     <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.social, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
 \n 
 \nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. 
@@ -422,17 +422,17 @@
     <string name="hint_compose">Que contas\?</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Fallou a carga da información da Resposta</string>
-    <string name="drafts_post_failed_to_send">Fallou o envío do toot!</string>
-    <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a listaxe %1$s\?</string>
+    <string name="drafts_post_failed_to_send">Fallou o envío da publicación!</string>
+    <string name="dialog_delete_list_warning">Tes a certeza de querer eliminar a lista %1$s?</string>
     <plurals name="error_upload_max_media_reached">
-        <item quantity="one">Non podes subir máis de %1$d anexo multimedia.</item>
-        <item quantity="other">Non podes subir máis de %1$d anexos multimedia.</item>
+        <item quantity="one">Non podes enviar máis de %1$d anexo multimedia.</item>
+        <item quantity="other">Non podes enviar máis de %1$d anexos multimedia.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">Agochar estatísticas cuantitativas nos perfís</string>
     <string name="wellbeing_hide_stats_posts">Agochar estatísticas cuantitativas nas publicacións</string>
     <string name="limit_notifications">Limitar notificacións da cronoloxía</string>
-    <string name="review_notifications">Revisar Notificacións</string>
-    <string name="wellbeing_mode_notice">Agocharemos algunha información que podería afectar ao teu benestar mental. Esto inclúe:
+    <string name="review_notifications">Revisar as Notificacións</string>
+    <string name="wellbeing_mode_notice">Agocharemos algunha información que podería afectar ao teu benestar mental. Isto inclúe:
 \n
 \n- Notificacións acerca de Favoritos/Promocións/Seguimentos
 \n- Número de Favoritos/Promocións nas publicacións
@@ -440,7 +440,7 @@
 \n
 \nAs notificacións tipo push non estarán afectadas, mais podes revisar as preferencias de notificacións manualmente.</string>
     <string name="account_note_saved">Gardado!</string>
-    <string name="account_note_hint">Nota privada acerca desta conta</string>
+    <string name="account_note_hint">Nota privada sobre esta conta</string>
     <string name="pref_title_wellbeing_mode">Benestar</string>
     <string name="pref_title_hide_top_toolbar">Agochar o título da barra de ferramentas superior</string>
     <string name="pref_title_confirm_reblogs">Pedir confirmación antes de promover</string>
@@ -452,7 +452,7 @@
     <string name="post_lookup_error_format">Erro ao buscar publicación %1$s</string>
     <string name="edit_poll">Editar</string>
     <string name="poll_new_choice_hint">Opción %1$d</string>
-    <string name="poll_allow_multiple_choices">Múltiples opcións</string>
+    <string name="poll_allow_multiple_choices">Varias opcións</string>
     <string name="add_poll_choice">Engadir opción</string>
     <string name="duration_7_days">7 días</string>
     <string name="duration_3_days">3 días</string>
@@ -467,11 +467,11 @@
     <string name="confirmation_unblocked">Usuaria desbloqueada</string>
     <string name="confirmation_reported">Enviado!</string>
     <string name="send_media_to">Compartir multimedia en…</string>
-    <string name="send_post_content_to">Compartir toot en…</string>
-    <string name="send_post_link_to">Compartir URL do toot a…</string>
+    <string name="send_post_content_to">Compartir publicación en…</string>
+    <string name="send_post_link_to">Compartir URL da publicación con…</string>
     <string name="downloading_media">Descargando multimedia</string>
     <string name="download_media">Descargar multimedia</string>
-    <string name="action_share_as">Compartir como …</string>
+    <string name="action_share_as">Compartir como…</string>
     <string name="action_open_as">Abrir como %1$s</string>
     <string name="action_copy_link">Copiar ligazón</string>
     <string name="download_image">Descargando %1$s</string>
@@ -487,12 +487,12 @@
     <string name="action_links">Ligazóns</string>
     <string name="action_add_tab">Engadir pestana</string>
     <string name="action_reset_schedule">Restablecer</string>
-    <string name="action_schedule_post">Programar Toot</string>
+    <string name="action_schedule_post">Programar publicación</string>
     <string name="action_emoji_keyboard">Teclado Emoji</string>
     <string name="follow_requests_info">Aínda que a túa conta non está bloqueada, a administración de %1$s opina que debes revisar manualmente as peticións de seguimento destas contas.</string>
     <string name="dialog_delete_conversation_warning">Eliminar esta conversa\?</string>
     <string name="action_delete_conversation">Eliminar conversa</string>
-    <string name="action_unbookmark">Eliminar marcador</string>
+    <string name="action_unbookmark">Retirar marcador</string>
     <string name="pref_title_confirm_favourites">Pedir confirmación antes de favorecer</string>
     <string name="duration_14_days">14 días</string>
     <string name="duration_30_days">30 días</string>
@@ -508,11 +508,11 @@
     <string name="pref_title_notification_filter_updates">Foi editada unha publicación coa que interactuei</string>
     <string name="notification_update_name">Edicións da publicación</string>
     <string name="account_date_joined">Creada %1$s</string>
-    <string name="tips_push_notification_migration">Volve a acceder con tódalas contas para activar as notificacións push.</string>
+    <string name="tips_push_notification_migration">Volve acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
     <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve a conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
     <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%1$s editou a publicación</string>
     <string name="action_dismiss">Desbotar</string>
@@ -523,30 +523,30 @@
     <string name="action_edit_image">Editar imaxe</string>
     <string name="error_loading_account_details">Fallou a carga dos detalles da conta</string>
     <string name="error_image_edit_failed">A imaxe non puido ser editada.</string>
-    <string name="set_focus_description">Toca ou arrastra o círculo para elexir onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
+    <string name="set_focus_description">Toca ou arrastra o círculo para escoller onde centrar a imaxe e sexa máis visible nas miniaturas.</string>
     <string name="duration_no_change">(Sen cambio)</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="error_multimedia_size_limit">Os ficheiros de vídeo e audio non poden superar os %1$s MB.</string>
     <string name="description_post_language">Idioma de publicación</string>
-    <string name="action_set_focus">Establece foco</string>
-    <string name="error_following_hashtag_format">Erro ao seguir #%1$s</string>
-    <string name="error_unfollowing_hashtag_format">Error ao retirar seguimento de #%1$s</string>
+    <string name="action_set_focus">Definir o foco</string>
+    <string name="error_following_hashtag_format">Produciuse un erro ao seguir #%1$s</string>
+    <string name="error_unfollowing_hashtag_format">Produciuse un erro ao retirar o seguimento de #%1$s</string>
     <string name="instance_rule_title">Normas de %1$s</string>
     <string name="instance_rule_info">Ao iniciar sesión aceptas as normas de %1$s.</string>
     <string name="action_add_reaction">engadir reacción</string>
-    <string name="compose_save_draft_loses_media">Gardar borrador\? (Os adxuntos serán subidos outra vez cando restablezas o borrador.)</string>
+    <string name="compose_save_draft_loses_media">Gardar borrador? (Os adxuntos serán enviados outra vez cando restablezas o borrador.)</string>
     <string name="pref_title_show_self_username">Mostrar identificador na barra ferramentas</string>
     <string name="delete_scheduled_post_warning">Eliminar publicación programada\?</string>
-    <string name="failed_to_pin">Fallo ao Fixar</string>
-    <string name="failed_to_unpin">Fallo ao Desafixar</string>
+    <string name="failed_to_pin">Produciuse un fallo ao fixar</string>
+    <string name="failed_to_unpin">Produciuse un fallo ao desprender</string>
     <string name="pref_show_self_username_always">Sempre</string>
     <string name="pref_show_self_username_disambiguate">Cando hai máis dunha conta activa</string>
     <string name="pref_show_self_username_never">Nunca</string>
     <string name="notification_report_description">Notificacións sobre temas de moderación</string>
     <string name="report_category_spam">Spam</string>
-    <string name="action_add_or_remove_from_list">Engadir ou quitar da lista</string>
+    <string name="action_add_or_remove_from_list">Engadir ou retirar da lista</string>
     <string name="failed_to_add_to_list">Fallou a adición da conta á lista</string>
-    <string name="failed_to_remove_from_list">Fallou a eliminación da conta da lista</string>
+    <string name="failed_to_remove_from_list">Fallou a retirada da conta da lista</string>
     <string name="action_unfollow_hashtag_format">Non seguir #%1$s\?</string>
     <string name="pref_default_post_language">Idioma de publicación (sincr. co servidor)</string>
     <string name="notification_report_name">Denuncias</string>
@@ -554,7 +554,7 @@
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Faltar a unha norma</string>
     <string name="report_category_other">Outra</string>
-    <string name="error_following_hashtags_unsupported">Esta instancia non ten soporte para seguimento de cancelos.</string>
+    <string name="error_following_hashtags_unsupported">Esta instancia non ten compatibilidade para seguimento de cancelos.</string>
     <string name="title_followed_hashtags">Cancelos seguidos</string>
     <string name="status_created_at_now">agora</string>
     <string name="notification_report_format">Nova denuncia en %1$s</string>
@@ -564,12 +564,12 @@
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
     <string name="pref_title_http_proxy_port_message">O porto debe estar entre %1$d e %2$d</string>
-    <string name="error_muting_hashtag_format">Erro ao acalar #%1$s</string>
-    <string name="error_unmuting_hashtag_format">Erro ao reactivar #%1$s</string>
+    <string name="error_muting_hashtag_format">Produciuse un erro ao acalar #%1$s</string>
+    <string name="error_unmuting_hashtag_format">Produciuse un erro ao reactivar #%1$s</string>
     <string name="description_post_edited">Editado</string>
     <string name="post_media_alt">ALT</string>
     <string name="post_edited">Editado %1$s</string>
-    <string name="error_status_source_load">Fallou a carga da fonte do estado desde o servidor.</string>
+    <string name="error_status_source_load">Produciuse un fallo na carga da fonte do estado desde o servidor.</string>
     <string name="a11y_label_loading_thread">Cargando fío</string>
     <string name="mute_notifications_switch">Acalar notificacións</string>
     <string name="title_edits">Edicións</string>
@@ -584,25 +584,25 @@
     <string name="send_account_username_to">Compartir identificador da conta en…</string>
     <string name="account_username_copied">Identificador copiado</string>
     <string name="pref_title_reading_order">Orde de lectura</string>
-    <string name="pref_reading_order_oldest_first">Antigo primeiro</string>
-    <string name="pref_reading_order_newest_first">Novidades primeiro</string>
-    <string name="pref_summary_http_proxy_missing">&lt;non establecido&gt;</string>
+    <string name="pref_reading_order_oldest_first">O máis antigo primeiro</string>
+    <string name="pref_reading_order_newest_first">As novidades primeiro</string>
+    <string name="pref_summary_http_proxy_missing">&lt;sen definir&gt;</string>
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>
     <string name="pref_summary_http_proxy_invalid">&lt;non válido&gt;</string>
-    <string name="action_post_failed">Fallou a subida</string>
-    <string name="action_post_failed_detail">Fallou a subida da publicación e gardouse non borradores.
+    <string name="action_post_failed">Produciuse un fallo no envío</string>
+    <string name="action_post_failed_detail">Produciuse un fallo no envío da publicación e gardouse nos borradores.
 \n
-\nPode que o servidor non estive accesible ou que rexeitase a publicación.</string>
-    <string name="action_post_failed_detail_plural">Fallou a subida das túas publicacións e gardáronse nos borradores.
+\nPode que o servidor non estivese accesible ou que rexeitase a publicación.</string>
+    <string name="action_post_failed_detail_plural">Produciuse un fallo no envío das túas publicacións e gardáronse nos borradores.
 \n
 \nPode que o servidor non estivese accesible ou que rexeitase as publicacións.</string>
     <string name="action_post_failed_show_drafts">Mostrar borradores</string>
     <string name="action_post_failed_do_nothing">Desbotar</string>
     <string name="action_browser_login">Acceder no Navegador</string>
-    <string name="description_browser_login">Pode ter soporte para métodos adicionais de autenticación, pero require un navegador soportado.</string>
+    <string name="description_browser_login">Pode ter compatibilidade para métodos adicionais de autenticación, pero require un navegador compatíbel.</string>
     <string name="description_login">Funciona case sempre. Non se filtran datos a outras apps.</string>
-    <string name="accessibility_talking_about_tag">%1$d persoas están falando acerca do cancelo %2$s</string>
-    <string name="title_public_trending_hashtags">Cancelos en voga</string>
+    <string name="accessibility_talking_about_tag">%1$d persoas están falando do cancelo %2$s</string>
+    <string name="title_public_trending_hashtags">Cancelos populares</string>
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
@@ -635,13 +635,13 @@
     <string name="filter_description_hide">Agochar completamente</string>
     <string name="label_filter_action">Acción do filtro</string>
     <string name="label_filter_context">Ámbitos para o filtro</string>
-    <string name="label_filter_keywords">Palabras chave a filtrar</string>
+    <string name="label_filter_keywords">Palabras clave a filtrar</string>
     <string name="action_add">Engadir</string>
     <string name="filter_keyword_display_format">%1$s (palabra completa)</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_show_stat_inline">Mostrar estatísticas da publicación na cronoloxía</string>
-    <string name="filter_keyword_addition_title">Engadir palabra</string>
-    <string name="filter_edit_keyword_title">Editar palabra</string>
+    <string name="filter_keyword_addition_title">Engadir palabra clave</string>
+    <string name="filter_edit_keyword_title">Editar palabra clave</string>
     <string name="select_list_manage">Xestionar listas</string>
     <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edición, polo que non pode mostrarchas.
 \n
@@ -653,7 +653,7 @@
     <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
     <string name="notification_notification_worker">Obtendo as notificacións…</string>
     <string name="notification_prune_cache">Mantemento da caché…</string>
-    <string name="error_media_upload_sending_fmt">Fallou a subida: %1$s</string>
+    <string name="error_media_upload_sending_fmt">Produciuse un fallo no envío: %1$s</string>
     <string name="about_device_info_title">O teu dispositivo</string>
     <string name="about_device_info">%1$s %2$s
 \nVersión de Android: %3$s
@@ -666,7 +666,7 @@
     <string name="dialog_delete_filter_positive_action">Eliminar</string>
     <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
     <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'\?</string>
-    <string name="error_media_playback">Fallou a reprodución: %1$s</string>
+    <string name="error_media_playback">Produciuse un fallo ao reproducir: %1$s</string>
     <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); 
 \n 
 \nAs mensaxes privadas créanse establecendo a visibilidade [iconics gmd_public] da publicación como [iconics gmd_mail] <i>Directa</i> e mencionando a unha ou máis usuarias no texto. 
@@ -678,30 +678,30 @@
     <string name="following_hashtag_success_format">Agora segues o cancelo #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%1$s</string>
     <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
-    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. 
-\n 
-\nTEN EN CONTA que só podes engadir contas que estás a seguir. 
-\n 
-\nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. \u0020
+\n
+\n \u0020TEN EN CONTA que só podes engadir contas que estás a seguir. \u0020
+\n
+\n \u0020Estas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
     <string name="label_image">Imaxe</string>
     <string name="app_theme_system_black">Usar o deseño do Sistema (negro)</string>
-    <string name="title_public_trending_statuses">Publicacións en voga</string>
+    <string name="title_public_trending_statuses">Publicacións populares</string>
     <string name="list_reply_policy_none">Ninguén</string>
     <string name="list_reply_policy_list">Compoñentes da lista</string>
     <string name="list_reply_policy_followed">Calquera usuaria seguida</string>
     <string name="list_reply_policy_label">Mostrar respostas a</string>
     <string name="pref_title_show_self_boosts_description">Alguén que promove as súas propias publicacións</string>
-    <string name="pref_title_show_self_boosts">Mostrar auto-promocións</string>
+    <string name="pref_title_show_self_boosts">Mostrar autopromocións</string>
     <string name="pref_title_per_timeline_preferences">Preferencias nas cronoloxías</string>
     <string name="pref_title_show_notifications_filter">Mostrar Filtro das notificacións</string>
-    <string name="reply_sending">A enviar…</string>
+    <string name="reply_sending">Enviando…</string>
     <string name="reply_sending_long">Enviouse a resposta.</string>
     <string name="action_translate">Traducir</string>
     <string name="action_show_original">Mostrar orixinal</string>
     <string name="label_translated">Traducida do %1$s con %2$s</string>
-    <string name="label_translating">A traducir…</string>
+    <string name="label_translating">Traducindo…</string>
     <string name="ui_error_translate">Non se puido traducir: %1$s</string>
     <string name="dialog_follow_warning">Seguir esta conta?</string>
     <string name="report_category_legal">Legal</string>
@@ -710,10 +710,11 @@
     <string name="pref_default_reply_privacy">Privacidade da resposta (non sincr. co servidor)</string>
     <string name="action_follow_hashtag">Seguir un novo cancelo</string>
     <string name="url_copied">URL copiado</string>
-    <string name="error_deleting_filter">Erro ao eliminar o filtro \'%1$s\'</string>
-    <string name="error_saving_filter">Erro ao gardar o filtro \'%1$s\'</string>
-    <string name="confirmation_hashtag_copied">\'#%1$s\' copiado</string>
+    <string name="error_deleting_filter">Produciuse un erro ao eliminar o filtro «%1$s»</string>
+    <string name="error_saving_filter">Produciuse un erro ao gardar o filtro «%1$s»</string>
+    <string name="confirmation_hashtag_copied">«#%1$s» copiado</string>
     <string name="pref_default_reply_privacy_explanation">O nivel de privacidade preseleccionado dependerá da publicación á que respondas.</string>
-    <string name="pref_match_default_post_privacy">Seguir a privacidade por defecto da publicación</string>
+    <string name="pref_match_default_post_privacy">Seguir a privacidade predeterminada da publicación</string>
     <string name="post_privacy_direct">Directa</string>
+    <string name="label_expires_after">Caduca após</string>
 </resources>

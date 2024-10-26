@@ -34,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -51,15 +52,18 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/actionChip"
-                    style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="false"
                     android:text="@string/action_add"
                     android:textColor="?attr/colorOnPrimary"
+                    app:chipBackgroundColor="?attr/colorPrimary"
                     app:chipIcon="@drawable/ic_plus_24dp"
+                    app:chipIconEnabled="true"
                     app:chipIconTint="?attr/colorOnPrimary"
-                    app:chipSurfaceColor="?attr/colorPrimary" />
+                    app:chipStrokeWidth="0dp"
+                    app:closeIconEnabled="false" />
+
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
@@ -88,22 +92,24 @@
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     android:text="@string/filter_description_hide" />
+
             </RadioGroup>
 
-            <TextView
-                style="@style/TextAppearance.Material3.TitleSmall"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterDurationInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/label_duration"
-                android:textColor="?attr/colorAccent" />
+                android:hint="@string/label_expires_after">
 
-            <Spinner
-                android:id="@+id/filterDurationSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/filter_duration_names"
-                android:minHeight="48dp" />
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/filterDurationDropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 style="@style/TextAppearance.Material3.TitleSmall"
@@ -113,35 +119,35 @@
                 android:text="@string/label_filter_context"
                 android:textColor="?attr/colorAccent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/filter_context_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/title_home" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/filter_context_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/title_notifications" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/filter_context_public"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/pref_title_public_filter_keywords" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/filter_context_thread"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/pref_title_thread_filter_keywords" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/filter_context_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,18 +164,19 @@
 
                 <Button
                     android:id="@+id/filter_delete_button"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="@style/TuskyButton.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/action_delete" />
 
                 <Button
                     android:id="@+id/filter_save_button"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="@style/TuskyButton.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/action_save" />
+
             </LinearLayout>
 
         </LinearLayout>

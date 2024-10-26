@@ -34,7 +34,6 @@ import androidx.activity.viewModels
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.Px
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.ColorUtils
@@ -53,6 +52,7 @@ import com.google.android.material.R as materialR
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -190,9 +190,9 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Load colors and dimensions from resources
      */
     private fun loadResources() {
-        toolbarColor = MaterialColors.getColor(this, materialR.attr.colorSurface, Color.BLACK)
+        toolbarColor = MaterialColors.getColor(binding.accountToolbar, materialR.attr.colorSurface)
         statusBarColorTransparent = getColor(R.color.transparent_statusbar_background)
-        statusBarColorOpaque = MaterialColors.getColor(this, materialR.attr.colorPrimaryDark, Color.BLACK)
+        statusBarColorOpaque = MaterialColors.getColor(binding.accountToolbar, materialR.attr.colorPrimaryDark)
         avatarSize = resources.getDimension(R.dimen.account_activity_avatar_size)
         titleVisibleHeight = resources.getDimensionPixelSize(R.dimen.account_activity_scroll_title_visible_height)
     }
@@ -320,28 +320,13 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             setDisplayShowTitleEnabled(false)
         }
 
-        val appBarElevation = resources.getDimension(R.dimen.actionbar_elevation)
-
-        val toolbarBackground = MaterialShapeDrawable.createWithElevationOverlay(
-            this,
-            appBarElevation
-        )
-        toolbarBackground.fillColor = ColorStateList.valueOf(Color.TRANSPARENT)
-        binding.accountToolbar.background = toolbarBackground
+        binding.accountToolbar.setBackgroundColor(Color.TRANSPARENT)
 
         binding.accountToolbar.setNavigationIcon(R.drawable.ic_arrow_back_with_background)
-        binding.accountToolbar.setOverflowIcon(
-            AppCompatResources.getDrawable(this, R.drawable.ic_more_with_background)
-        )
+        binding.accountToolbar.overflowIcon = AppCompatResources.getDrawable(this, R.drawable.ic_more_with_background)
 
-        binding.accountHeaderInfoContainer.background = MaterialShapeDrawable.createWithElevationOverlay(this, appBarElevation)
-
-        val avatarBackground = MaterialShapeDrawable.createWithElevationOverlay(
-            this,
-            appBarElevation
-        ).apply {
+        val avatarBackground = MaterialShapeDrawable().apply {
             fillColor = ColorStateList.valueOf(toolbarColor)
-            elevation = appBarElevation
             shapeAppearanceModel = ShapeAppearanceModel.builder()
                 .setAllCornerSizes(resources.getDimension(R.dimen.account_avatar_background_radius))
                 .build()
@@ -382,7 +367,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     toolbarColor
                 ) as Int
 
-                toolbarBackground.fillColor = ColorStateList.valueOf(evaluatedToolbarColor)
+                binding.accountToolbar.setBackgroundColor(evaluatedToolbarColor)
 
                 binding.swipeToRefreshLayout.isEnabled = verticalOffset == 0
             }
@@ -402,7 +387,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             viewModel.accountData.collect {
                 if (it == null) return@collect
                 when (it) {
-                    is Success -> onAccountChanged(it.data)
+                    is Success -> {
+                        onAccountChanged(it.data)
+                        binding.swipeToRefreshLayout.isEnabled = true
+                    }
                     is Error -> {
                         Snackbar.make(
                             binding.accountCoordinatorLayout,
@@ -411,6 +399,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                         )
                             .setAction(R.string.action_retry) { viewModel.refresh() }
                             .show()
+                        binding.swipeToRefreshLayout.isEnabled = true
                     }
                     is Loading -> { }
                 }
@@ -453,10 +442,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
      * Setup swipe to refresh layout
      */
     private fun setupRefreshLayout() {
+        binding.swipeToRefreshLayout.isEnabled = false // will only be enabled after the first load completed
         binding.swipeToRefreshLayout.setOnRefreshListener { onRefresh() }
         lifecycleScope.launch {
-            viewModel.isRefreshing.collect { isRefreshing ->
-                binding.swipeToRefreshLayout.isRefreshing = isRefreshing == true
+            viewModel.isRefreshing.collect {
+                binding.swipeToRefreshLayout.isRefreshing = it
             }
         }
     }
@@ -874,7 +864,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     }
 
     private fun showFollowRequestPendingDialog() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setMessage(R.string.dialog_message_cancel_follow_request)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
             .setNegativeButton(android.R.string.cancel, null)
@@ -882,7 +872,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     }
 
     private fun showUnfollowWarningDialog() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setMessage(R.string.dialog_unfollow_warning)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
             .setNegativeButton(android.R.string.cancel, null)
@@ -890,7 +880,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
     }
 
     private fun showFollowWarningDialog() {
-        AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder(this)
             .setMessage(R.string.dialog_follow_warning)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeFollowState() }
             .setNegativeButton(android.R.string.cancel, null)
@@ -901,7 +891,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         if (blockingDomain) {
             viewModel.unblockDomain(instance)
         } else {
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                 .setMessage(getString(R.string.mute_domain_warning, instance))
                 .setPositiveButton(
                     getString(R.string.mute_domain_warning_dialog_ok)
@@ -913,7 +903,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
     private fun toggleBlock() {
         if (viewModel.relationshipData.value?.data?.blocking != true) {
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                 .setMessage(getString(R.string.dialog_block_warning, loadedAccount?.username))
                 .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.changeBlockState() }
                 .setNegativeButton(android.R.string.cancel, null)
@@ -1045,7 +1035,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 return true
             }
             R.id.action_refresh -> {
-                binding.swipeToRefreshLayout.isRefreshing = true
                 onRefresh()
                 return true
             }
@@ -1115,6 +1104,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         badge.isClickable = false
         badge.isFocusable = false
         badge.setEnsureMinTouchTargetSize(false)
+        badge.isCloseIconVisible = false
 
         // reset some chip defaults so it looks better for our badge usecase
         badge.iconStartPadding = resources.getDimension(R.dimen.profile_badge_icon_start_padding)

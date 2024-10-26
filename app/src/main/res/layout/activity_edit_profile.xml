@@ -155,15 +155,14 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="6dp"
-                    android:text="@string/profile_metadata_add"
-                    android:textColor="#fff" />
+                    android:text="@string/profile_metadata_add" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/saveProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

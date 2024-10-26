@@ -347,10 +347,11 @@ class NotificationsViewModel @Inject constructor(
                             notificationsDao.insertReport(report.toEntity(account.id))
                         }
                         notification.status?.let { status ->
-                            accountDao.insert(status.account.toEntity(account.id))
+                            val statusToInsert = status.reblog ?: status
+                            accountDao.insert(statusToInsert.account.toEntity(account.id))
 
                             statusDao.insert(
-                                status.toEntity(
+                                statusToInsert.toEntity(
                                     tuskyAccountId = account.id,
                                     expanded = account.alwaysOpenSpoiler,
                                     contentShowing = account.alwaysShowSensitiveMedia || !status.sensitive,

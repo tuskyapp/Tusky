@@ -28,11 +28,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:visibility="gone" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/followedTagsProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:indeterminate="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:visibility="gone" />
 

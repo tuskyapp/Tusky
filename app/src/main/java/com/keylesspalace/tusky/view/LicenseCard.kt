@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.view
 
 import android.content.Context
-import android.graphics.Color
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.res.use
@@ -32,19 +32,13 @@ class LicenseCard
 @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = R.attr.licenseCardStyle
 ) : MaterialCardView(context, attrs, defStyleAttr) {
 
     init {
         val binding = CardLicenseBinding.inflate(LayoutInflater.from(context), this)
 
-        setCardBackgroundColor(
-            MaterialColors.getColor(
-                context,
-                materialR.attr.colorSurface,
-                Color.BLACK
-            )
-        )
+        setStrokeColor(ColorStateList.valueOf(MaterialColors.getColor(this, materialR.attr.colorOutline)))
 
         val (name, license, link) = context.theme.obtainStyledAttributes(
             attrs,

@@ -38,9 +38,7 @@ inline fun <reified T> apiForAccount(
                     )
                     .removeHeader(MastodonApi.DOMAIN_HEADER)
                     .build()
-            }
-
-            if (account != null && request.url.host == account.domain) {
+            } else if (account != null && request.url.host == account.domain) {
                 request = request.newBuilder()
                     .header("Authorization", "Bearer ${account.accessToken}")
                     .build()

@@ -8,12 +8,12 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.entity.Status.Companion.MAX_MEDIA_ATTACHMENTS
@@ -174,7 +174,7 @@ class ListStatusAccessibilityDelegate(
             val status = getStatus(host) as? StatusViewData.Concrete ?: return
             val links = getLinks(status).toList()
             val textLinks = links.map { item -> item.link }
-            AlertDialog.Builder(host.context)
+            MaterialAlertDialogBuilder(host.context)
                 .setTitle(R.string.title_links_dialog)
                 .setAdapter(
                     ArrayAdapter(
@@ -191,7 +191,7 @@ class ListStatusAccessibilityDelegate(
             val status = getStatus(host) as? StatusViewData.Concrete ?: return
             val mentions = status.actionable.mentions
             val stringMentions = mentions.map { it.username }
-            AlertDialog.Builder(host.context)
+            MaterialAlertDialogBuilder(host.context)
                 .setTitle(R.string.title_mentions_dialog)
                 .setAdapter(
                     ArrayAdapter<CharSequence>(
@@ -209,7 +209,7 @@ class ListStatusAccessibilityDelegate(
         private fun showHashtagsDialog(host: View) {
             val status = getStatus(host) as? StatusViewData.Concrete ?: return
             val tags = getHashtags(status).map { it.subSequence(1, it.length) }.toList()
-            AlertDialog.Builder(host.context)
+            MaterialAlertDialogBuilder(host.context)
                 .setTitle(R.string.title_hashtags_dialog)
                 .setAdapter(
                     ArrayAdapter(

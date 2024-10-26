@@ -20,13 +20,16 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemTrendingCellBinding
 import com.keylesspalace.tusky.util.formatNumber
 import com.keylesspalace.tusky.viewdata.TrendingViewData
+import java.text.NumberFormat
 
 class TrendingTagViewHolder(
     private val binding: ItemTrendingCellBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    private val numberFormat: NumberFormat = NumberFormat.getNumberInstance()
+
     fun setup(tagViewData: TrendingViewData.Tag, onViewTag: (String) -> Unit) {
-        binding.tag.text = binding.root.context.getString(R.string.title_tag, tagViewData.name)
+        binding.tag.text = binding.root.context.getString(R.string.hashtag_format, tagViewData.name)
 
         binding.graph.maxTrendingValue = tagViewData.maxTrendingValue
         binding.graph.primaryLineData = tagViewData.usage
@@ -37,8 +40,8 @@ class TrendingTagViewHolder(
         val totalAccounts = tagViewData.accounts.sum()
         binding.totalAccounts.text = formatNumber(totalAccounts, 1000)
 
-        binding.currentUsage.text = tagViewData.usage.last().toString()
-        binding.currentAccounts.text = tagViewData.usage.last().toString()
+        binding.currentUsage.text = numberFormat.format(tagViewData.usage.last())
+        binding.currentAccounts.text = numberFormat.format(tagViewData.usage.last())
 
         itemView.setOnClickListener {
             onViewTag(tagViewData.name)

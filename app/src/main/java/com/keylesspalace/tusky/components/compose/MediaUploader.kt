@@ -97,9 +97,11 @@ class MediaUploader @Inject constructor(
     private val mediaUploadApi: MediaUploadApi
 ) {
 
-    private val uploads = mutableMapOf<Int, UploadData>()
-
-    private var mostRecentId: Int = 0
+    private companion object {
+        private const val TAG = "MediaUploader"
+        private val uploads = mutableMapOf<Int, UploadData>()
+        private var mostRecentId: Int = 0
+    }
 
     fun getNewLocalMediaId(): Int {
         return mostRecentId++
@@ -263,12 +265,8 @@ class MediaUploader @Inject constructor(
             }
             val map = MimeTypeMap.getSingleton()
             val fileExtension = map.getExtensionFromMimeType(mimeType)
-            val filename = "%s_%d_%s.%s".format(
-                context.getString(R.string.app_name),
-                System.currentTimeMillis(),
-                randomAlphanumericString(10),
-                fileExtension
-            )
+            val filename =
+                "${context.getString(R.string.app_name)}_${System.currentTimeMillis()}_${randomAlphanumericString(10)}.$fileExtension"
 
             if (mimeType == null) mimeType = "multipart/form-data"
 
@@ -325,9 +323,5 @@ class MediaUploader @Inject constructor(
     private fun shouldResizeMedia(media: QueuedMedia, instanceInfo: InstanceInfo): Boolean {
         return media.type == QueuedMedia.Type.IMAGE &&
             (media.mediaSize > instanceInfo.imageSizeLimit || getImageSquarePixels(context.contentResolver, media.uri) > instanceInfo.imageMatrixLimit)
-    }
-
-    private companion object {
-        private const val TAG = "MediaUploader"
     }
 }

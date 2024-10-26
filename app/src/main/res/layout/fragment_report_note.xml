@@ -35,12 +35,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:lineSpacingMultiplier="1.1"
                 android:text="@string/report_description_1"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="?attr/status_text_small"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
-                android:lineSpacingMultiplier="1.1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -70,10 +70,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:lineSpacingMultiplier="1.1"
                 android:text="@string/report_description_remote_instance"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="?attr/status_text_small"
-                android:lineSpacingMultiplier="1.1"
                 app:layout_constraintEnd_toEndOf="@id/guideEnd"
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
                 app:layout_constraintTop_toBottomOf="@id/layoutAdditionalInfo" />
@@ -91,11 +91,12 @@
                 app:layout_constraintStart_toStartOf="@id/guideBegin"
                 app:layout_constraintTop_toBottomOf="@id/reportDescriptionRemoteInstance" />
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
+                android:indeterminate="true"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +108,6 @@
 
     <Button
         android:id="@+id/buttonBack"
-        tools:ignore="BackButton"
         style="@style/TuskyButton.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +115,8 @@
         android:text="@string/button_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonReport" />
+        app:layout_constraintEnd_toStartOf="@id/buttonReport"
+        tools:ignore="BackButton" />
 
     <Button
         android:id="@+id/buttonReport"

@@ -40,7 +40,6 @@
         <activity android:name=".components.login.LoginWebViewActivity" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
             android:exported="true"
             android:theme="@style/SplashTheme">
 
@@ -106,7 +105,6 @@
         <activity
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
-            android:excludeFromRecents="true"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".components.viewthread.ViewThreadActivity"
@@ -115,9 +113,7 @@
             android:name=".ViewMediaActivity"
             android:theme="@style/TuskyBaseTheme"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
-        <activity
-            android:name=".components.account.AccountActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
+        <activity android:name=".components.account.AccountActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />

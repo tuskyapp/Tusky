@@ -22,13 +22,9 @@ import com.keylesspalace.tusky.util.getDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -48,10 +44,8 @@ class AccountViewModel @Inject constructor(
     private val _noteSaved = MutableStateFlow(false)
     val noteSaved: StateFlow<Boolean> = _noteSaved.asStateFlow()
 
-    private val _isRefreshing = MutableSharedFlow<Boolean>(1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    val isRefreshing: SharedFlow<Boolean> = _isRefreshing.asSharedFlow()
-
-    private var isDataLoading = false
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     lateinit var accountId: String
     var isSelf = false
@@ -78,7 +72,9 @@ class AccountViewModel @Inject constructor(
 
     private fun obtainAccount(reload: Boolean = false) {
         if (_accountData.value == null || reload) {
-            isDataLoading = true
+            if (reload) {
+                _isRefreshing.value = true
+            }
             _accountData.value = Loading()
 
             viewModelScope.launch {
@@ -89,14 +85,12 @@ class AccountViewModel @Inject constructor(
                             isFromOwnDomain = domain == activeAccount.domain
 
                             _accountData.value = Success(account)
-                            isDataLoading = false
-                            _isRefreshing.emit(false)
+                            _isRefreshing.value = false
                         },
                         { t ->
                             Log.w(TAG, "failed obtaining account", t)
                             _accountData.value = Error(cause = t)
-                            isDataLoading = false
-                            _isRefreshing.emit(false)
+                            _isRefreshing.value = false
                         }
                     )
             }
@@ -318,7 +312,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun reload(isReload: Boolean = false) {
-        if (isDataLoading) {
+        if (_isRefreshing.value) {
             return
         }
         accountId.let {

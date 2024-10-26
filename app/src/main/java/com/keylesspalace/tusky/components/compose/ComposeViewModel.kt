@@ -331,13 +331,6 @@ class ComposeViewModel @Inject constructor(
         mediaUploader.cancelUploadScope(*_media.value.map { it.localId }.toIntArray())
     }
 
-    fun shouldShowSaveDraftDialog(): Boolean {
-        // if any of the media files need to be downloaded first it could take a while, so show a loading dialog
-        return _media.value.any { mediaValue ->
-            mediaValue.uri.scheme == "https"
-        }
-    }
-
     suspend fun saveDraft(content: String, contentWarning: String) {
         val mediaUris: MutableList<String> = mutableListOf()
         val mediaDescriptions: MutableList<String?> = mutableListOf()

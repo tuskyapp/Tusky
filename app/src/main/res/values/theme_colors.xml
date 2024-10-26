@@ -10,6 +10,8 @@
     <color name="colorBackground">@color/white</color>
     <color name="windowBackground">@color/tusky_grey_80</color>
 
+    <color name="colorSecondaryContainer">@color/tusky_grey_blue_light</color>
+
     <color name="textColorPrimary">@color/tusky_grey_10</color>
     <color name="textColorSecondary">@color/tusky_grey_20</color>
     <color name="textColorTertiary">@color/tusky_grey_30</color>

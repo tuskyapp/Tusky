@@ -1,0 +1,6 @@
+Tusky 26.1
+
+- "Yanıt gizliliği" hesap tercihinin artık iki ek seçeneği var: "Varsayılan gönderi gizliliğini eşleştir" ve "Doğrudan".
+- Tusky artık Android 7'de ve Let's Encrypt kullanan sunucularda çalışmaya devam etmek için ISRG kök sertifikalarını içeriyor.
+- Tusky'nin bazen hesapların zaman çizelgelerini ve/veya bildirimlerini karıştırmasına neden olan bir hatayı düzeltir.
+Tüm değişiklik günlüğü için https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md adresine bakın

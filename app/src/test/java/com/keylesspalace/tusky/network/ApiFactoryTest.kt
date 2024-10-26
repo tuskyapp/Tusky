@@ -17,7 +17,7 @@ import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class RetrofitApiTest {
+class ApiFactoryTest {
 
     private val mockWebServer = MockWebServer()
     private val okHttpClient = OkHttpClient.Builder().build()
@@ -68,7 +68,7 @@ class RetrofitApiTest {
 
         val account = AccountEntity(
             id = 1,
-            domain = "test.domain",
+            domain = mockWebServer.hostName,
             accessToken = "fakeToken",
             clientId = "fakeId",
             clientSecret = "fakeSecret",

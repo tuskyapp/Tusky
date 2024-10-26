@@ -6,22 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.keylesspalace.tusky.components.viewthread.ViewThreadActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/actionbar_elevation"
-        app:elevationOverlayEnabled="false">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/Widget.AppCompat.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentInsetStartWithNavigation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include
+        android:id="@+id/includedToolbar"
+        layout="@layout/toolbar_basic" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"

@@ -34,6 +34,7 @@ fun String.parseAsMastodonHtml(tagHandler: TagHandler? = tuskyTagHandler): Spann
     return this.replace("<br> ", "<br>&nbsp;")
         .replace("<br /> ", "<br />&nbsp;")
         .replace("<br/> ", "<br/>&nbsp;")
+        .replace("<br>\n", "<br/>") // pixelfed quirk https://github.com/tuskyapp/Tusky/issues/4663
         .replace("\n", "<br/>")
         .replace("  ", "&nbsp;&nbsp;")
         .parseAsHtml(tagHandler = tagHandler)

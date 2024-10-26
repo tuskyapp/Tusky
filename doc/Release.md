@@ -15,7 +15,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
   - Tag the head of `main`.
   - Create an exhaustive changelog by going through all commits since the last release.
   - Mark the release as being a pre-release.
-- Bitrise will automatically build and upload the release to the Internal Testing track on Google Play.
+- GitHub Actions will automatically build and upload the release to the Internal Testing track on Google Play.
 - Do a quick check to make sure the build doesn't crash, e.g. by enrolling yourself into the test track.
     - In case there are any problems, delete the GitHub release, fix the problems and start again
 - Download the build as apk from Google Play (App Bundle Explorer -> choose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
@@ -33,11 +33,10 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
   - Tag the head of `main`.
   - Reuse the changelog from the beta release, or create a new one if this is only a minor release.
 - (F-Droid will automatically detect and build the release)
-- Bitrise will automatically build and upload the release to the Internal Testing track on Google Play.
+- GitHub Actions will automatically build and upload the release to the Internal Testing track on Google Play.
 - Do a quick check to make sure the build doesn't crash, e.g. by enrolling yourself into the test track.
     - In case there are any problems, delete the GitHub release, fix the problems and start again
 - Download the build as apk from Google Play (App Bundle Explorer -> choose the release -> Downloads -> Signed, universal APK). Attach it to the GitHub Release.
-- Update the download link in the [index.html of the website](https://github.com/tuskyapp/tuskyapp.github.io/blob/main/index.html) to point to the apk attached to the GitHub release.
 - Create a new full release on Google Play. Reuse the build from the Internal Testing track.
 - Announce the release
 

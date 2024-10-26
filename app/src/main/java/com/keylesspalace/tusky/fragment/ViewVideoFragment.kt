@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.method.ScrollingMovementMethod
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -54,7 +53,6 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentViewVideoBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.getParcelableCompat
-import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -353,12 +351,11 @@ class ViewVideoFragment : ViewMediaFragment() {
         description: String?,
         showingDescription: Boolean
     ) {
-        binding.mediaDescription.text = description
-        binding.mediaDescription.visible(showingDescription)
-        binding.mediaDescription.movementMethod = ScrollingMovementMethod()
+        binding.mediaDescriptionTextView.text = description
+        binding.mediaDescriptionScrollView.visible(showingDescription)
 
         // Ensure the description is visible over the video
-        binding.mediaDescription.elevation = binding.videoView.elevation + 1
+        binding.mediaDescriptionScrollView.elevation = binding.videoView.elevation + 1
 
         binding.videoView.transitionName = url
 
@@ -383,16 +380,16 @@ class ViewVideoFragment : ViewMediaFragment() {
         val alpha = if (isDescriptionVisible) 1.0f else 0.0f
         if (isDescriptionVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            binding.mediaDescription.alpha = 0.0f
-            binding.mediaDescription.visible(isDescriptionVisible)
+            binding.mediaDescriptionScrollView.alpha = 0.0f
+            binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
         }
 
-        binding.mediaDescription.animate().alpha(alpha)
+        binding.mediaDescriptionScrollView.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 @SuppressLint("SyntheticAccessor")
                 override fun onAnimationEnd(animation: Animator) {
                     view ?: return
-                    binding.mediaDescription.visible(isDescriptionVisible)
+                    binding.mediaDescriptionScrollView.visible(isDescriptionVisible)
                     animation.removeListener(this)
                 }
             })

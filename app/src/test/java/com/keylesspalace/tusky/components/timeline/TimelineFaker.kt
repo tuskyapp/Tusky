@@ -35,7 +35,8 @@ fun fakeStatus(
     reblogged: Boolean = false,
     favourited: Boolean = true,
     bookmarked: Boolean = true,
-    domain: String = "mastodon.example"
+    domain: String = "mastodon.example",
+    reblog: Status? = null
 ) = Status(
     id = id,
     url = "https://$domain/@ConnyDuck/$id",
@@ -45,7 +46,7 @@ fun fakeStatus(
     ),
     inReplyToId = inReplyToId,
     inReplyToAccountId = inReplyToAccountId,
-    reblog = null,
+    reblog = reblog,
     content = "Test",
     createdAt = fixedDate,
     editedAt = null,

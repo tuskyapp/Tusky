@@ -3,18 +3,17 @@ package com.keylesspalace.tusky.components.filters
 import android.content.Context
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
-import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.size
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -46,7 +45,7 @@ class EditFilterActivity : BaseActivity() {
 
     private lateinit var filter: Filter
     private var originalFilter: Filter? = null
-    private lateinit var contextSwitches: Map<SwitchMaterial, Filter.Kind>
+    private lateinit var contextSwitches: Map<MaterialSwitch, Filter.Kind>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,25 +110,14 @@ class EditFilterActivity : BaseActivity() {
                 }
             )
         }
-        binding.filterDurationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.setDuration(
-                    if (originalFilter?.expiresAt == null) {
-                        position
-                    } else {
-                        position - 1
-                    }
-                )
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.setDuration(0)
-            }
+        binding.filterDurationDropDown.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            viewModel.setDuration(
+                if (originalFilter?.expiresAt == null) {
+                    position
+                } else {
+                    position - 1
+                }
+            )
         }
         validateSaveButton()
 
@@ -176,10 +164,13 @@ class EditFilterActivity : BaseActivity() {
     // Populate the UI from the filter's members
     private fun loadFilter() {
         viewModel.load(filter)
-        if (filter.expiresAt != null) {
-            val durationNames = listOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
-            binding.filterDurationSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, durationNames)
+        val durationNames = if (filter.expiresAt != null) {
+            arrayOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
+        } else {
+            resources.getStringArray(R.array.filter_duration_names)
         }
+        binding.filterDurationDropDown.setSimpleItems(durationNames)
+        binding.filterDurationDropDown.setText(durationNames[0], false)
     }
 
     private fun updateKeywords(newKeywords: List<FilterKeyword>) {
@@ -220,7 +211,7 @@ class EditFilterActivity : BaseActivity() {
     private fun showAddKeywordDialog() {
         val binding = DialogFilterBinding.inflate(layoutInflater)
         binding.phraseWholeWord.isChecked = true
-        AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_keyword_addition_title)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -234,6 +225,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun showEditKeywordDialog(keyword: FilterKeyword) {
@@ -241,7 +238,7 @@ class EditFilterActivity : BaseActivity() {
         binding.phraseEditText.setText(keyword.keyword)
         binding.phraseWholeWord.isChecked = keyword.wholeWord
 
-        AlertDialog.Builder(this)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.filter_edit_keyword_title)
             .setView(binding.root)
             .setPositiveButton(R.string.filter_dialog_update_button) { _, _ ->
@@ -255,6 +252,12 @@ class EditFilterActivity : BaseActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+        val editText = binding.phraseEditText
+        editText.requestFocus()
+        editText.setSelection(editText.length())
     }
 
     private fun validateSaveButton() {
