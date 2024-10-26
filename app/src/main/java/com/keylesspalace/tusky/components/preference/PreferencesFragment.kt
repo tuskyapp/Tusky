@@ -32,10 +32,8 @@ import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.makeIcon
+import com.keylesspalace.tusky.util.icon
 import com.keylesspalace.tusky.util.serialize
-import com.keylesspalace.tusky.util.unsafeLazy
-import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import dagger.hilt.android.AndroidEntryPoint
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -49,12 +47,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var localeManager: LocaleManager
-
-    private val iconSize by unsafeLazy {
-        resources.getDimensionPixelSize(
-            R.dimen.preference_icon_size
-        )
-    }
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */
@@ -86,12 +78,12 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.APP_THEME
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_app_theme)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_palette)
+                    icon = icon(GoogleMaterial.Icon.gmd_palette)
                 }
 
                 emojiPreference(requireActivity()) {
                     setTitle(R.string.emoji_style)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
+                    icon = icon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
                 }
 
                 listPreference {
@@ -101,7 +93,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.LANGUAGE + "_" // deliberately not the actual key, the real handling happens in LocaleManager
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_language)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_translate)
+                    icon = icon(GoogleMaterial.Icon.gmd_translate)
                     preferenceDataStore = localeManager
                 }
 
@@ -113,9 +105,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     stepSize = 5F
                     setTitle(R.string.pref_ui_text_size)
                     format = "%.0f%%"
-                    decrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_out)
-                    incrementIcon = makeIcon(GoogleMaterial.Icon.gmd_zoom_in)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                    decrementIcon = icon(GoogleMaterial.Icon.gmd_zoom_out)
+                    incrementIcon = icon(GoogleMaterial.Icon.gmd_zoom_in)
+                    icon = icon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
                 listPreference {
@@ -125,7 +117,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.STATUS_TEXT_SIZE
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_post_text_size)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_format_size)
+                    icon = icon(GoogleMaterial.Icon.gmd_format_size)
                 }
 
                 listPreference {
@@ -135,7 +127,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.READING_ORDER
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_reading_order)
-                    icon = makeIcon(GoogleMaterial.Icon.gmd_sort)
+                    icon = icon(GoogleMaterial.Icon.gmd_sort)
                 }
 
                 listPreference {
@@ -182,7 +174,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.SHOW_BOT_OVERLAY
                     setTitle(R.string.pref_title_bot_overlay)
                     isSingleLineTitle = false
-                    setIcon(R.drawable.ic_bot_24dp)
+                    icon = icon(R.drawable.ic_bot_24dp)
                 }
 
                 switchPreference {
@@ -307,10 +299,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 }
             }
         }
-    }
-
-    private fun makeIcon(icon: GoogleMaterial.Icon): IconicsDrawable {
-        return makeIcon(requireContext(), icon, iconSize)
     }
 
     override fun onResume() {

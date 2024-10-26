@@ -20,15 +20,28 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class NotificationPolicy(
-    @Json(name = "filter_not_following") val filterNotFollowing: Boolean,
-    @Json(name = "filter_not_followers") val filterNotFollowers: Boolean,
-    @Json(name = "filter_new_accounts") val filterNewAccounts: Boolean,
-    @Json(name = "filter_private_mentions") val filterPrivateMentions: Boolean,
-    val summary: NotificationPolicySummary
-)
+    @Json(name = "for_not_following") val forNotFollowing: State,
+    @Json(name = "for_not_followers") val forNotFollowers: State,
+    @Json(name = "for_new_accounts") val forNewAccounts: State,
+    @Json(name = "for_private_mentions") val forPrivateMentions: State,
+    @Json(name = "for_limited_accounts") val forLimitedAccounts: State,
+    val summary: Summary
+) {
+    @JsonClass(generateAdapter = false)
+    enum class State {
+        @Json(name = "accept")
+        ACCEPT,
 
-@JsonClass(generateAdapter = true)
-data class NotificationPolicySummary(
-    @Json(name = "pending_requests_count") val pendingRequestsCount: Int,
-    @Json(name = "pending_notifications_count") val pendingNotificationsCount: Int
-)
+        @Json(name = "filter")
+        FILTER,
+
+        @Json(name = "drop")
+        DROP
+    }
+
+    @JsonClass(generateAdapter = true)
+    data class Summary(
+        @Json(name = "pending_requests_count") val pendingRequestsCount: Int,
+        @Json(name = "pending_notifications_count") val pendingNotificationsCount: Int
+    )
+}

@@ -86,8 +86,6 @@
         <item name="swipeRefreshLayoutProgressSpinnerBackgroundColor">?attr/colorSurface</item>
 
         <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
-
-        <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
@@ -127,10 +125,6 @@
         <item name="tabTextAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:textAllCaps">true</item>
         <item name="tabIndicatorHeight">3dp</item>
-    </style>
-
-    <style name="TuskyPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
-        <item name="android:tint">?iconColor</item>
     </style>
 
     <style name="TuskyImageButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">

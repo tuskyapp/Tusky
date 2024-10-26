@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.databinding.ItemNotificationFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
@@ -41,7 +42,9 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 interface NotificationActionListener {
-    fun onViewReport(reportId: String?)
+    fun onViewReport(reportId: String)
+    fun onAcceptNotificationRequest(notificationId: String)
+    fun onDismissNotificationRequest(notificationId: String)
 }
 
 interface NotificationsViewHolder {
@@ -78,22 +81,26 @@ class NotificationsPagingAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (val notification = getItem(position)) {
             is NotificationViewData.Concrete -> {
-                when (notification.type) {
-                    Notification.Type.MENTION,
-                    Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
-                        VIEW_TYPE_STATUS_FILTERED
-                    } else {
-                        VIEW_TYPE_STATUS
+                if (notification.filtered) {
+                    VIEW_TYPE_FILTERED
+                } else {
+                    when (notification.type) {
+                        Notification.Type.MENTION,
+                        Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                            VIEW_TYPE_STATUS_FILTERED
+                        } else {
+                            VIEW_TYPE_STATUS
+                        }
+                        Notification.Type.STATUS,
+                        Notification.Type.FAVOURITE,
+                        Notification.Type.REBLOG,
+                        Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
+                        Notification.Type.FOLLOW,
+                        Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
+                        Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
+                        Notification.Type.REPORT -> VIEW_TYPE_REPORT
+                        else -> VIEW_TYPE_UNKNOWN
                     }
-                    Notification.Type.STATUS,
-                    Notification.Type.FAVOURITE,
-                    Notification.Type.REBLOG,
-                    Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
-                    Notification.Type.FOLLOW,
-                    Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
-                    Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
-                    Notification.Type.REPORT -> VIEW_TYPE_REPORT
-                    else -> VIEW_TYPE_UNKNOWN
                 }
             }
             else -> VIEW_TYPE_PLACEHOLDER
@@ -136,6 +143,11 @@ class NotificationsPagingAdapter(
                 notificationActionListener,
                 accountActionListener
             )
+            VIEW_TYPE_FILTERED -> FilteredNotificationViewHolder(
+                ItemNotificationFilteredBinding.inflate(inflater, parent, false),
+                accountActionListener,
+                notificationActionListener
+            )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )
@@ -174,7 +186,8 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_FOLLOW_REQUEST = 4
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_UNKNOWN = 7
+        private const val VIEW_TYPE_FILTERED = 7
+        private const val VIEW_TYPE_UNKNOWN = 8
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

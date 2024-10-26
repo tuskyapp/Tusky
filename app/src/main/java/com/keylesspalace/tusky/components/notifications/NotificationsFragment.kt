@@ -35,7 +35,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,7 +53,6 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.NotificationPolicySummary
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -101,7 +99,6 @@ class NotificationsFragment :
     private val viewModel: NotificationsViewModel by viewModels()
 
     private var notificationsAdapter: NotificationsPagingAdapter? = null
-    private var notificationsPolicyAdapter: NotificationPolicySummaryAdapter? = null
 
     private var showNotificationsFilterBar: Boolean = true
     private var readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST
@@ -173,18 +170,13 @@ class NotificationsFragment :
             )
         )
 
-        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter{ /*TODO */}
-        this.notificationsPolicyAdapter = notificationsPolicyAdapter
-
-        binding.recyclerView.adapter = ConcatAdapter(notificationsPolicyAdapter, notificationsAdapter)
+        binding.recyclerView.adapter = notificationsAdapter
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
-
-        binding.notificationPolicySummaryDescription?.text = context?.getString(R.string.notifications_from_people_you_may_know, 13)
 
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
 
@@ -220,19 +212,19 @@ class NotificationsFragment :
                 val firstPos = (binding.recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
                 if (firstPos == 0 && positionStart == 0 && adapter.itemCount != itemCount) {
                     val v = (binding.recyclerView.layoutManager as LinearLayoutManager).getChildAt(1)
-                    val offset = if (v!= null) {
+                    val offset = if (v != null) {
                         (binding.recyclerView.layoutManager as LinearLayoutManager).getDecoratedTop(v)
                     } else {
                         Utils.dpToPx(binding.recyclerView.context, 30)
                     }
-                    //binding.recyclerView.post {
+                    binding.recyclerView.post {
                         if (getView() != null) {
                             (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
                                 1 + itemCount,
                                 offset
                             )
                         }
-                   // }
+                    }
                 }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst(adapter)
@@ -271,18 +263,11 @@ class NotificationsFragment :
                 }
             }
         }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.notificationPolicy.collect {
-                notificationsPolicyAdapter.updateState(it)
-            }
-        }
     }
 
     override fun onDestroyView() {
         // Clear the adapters to prevent leaking the View
         notificationsAdapter = null
-        notificationsPolicyAdapter = null
         super.onDestroyView()
     }
 
@@ -314,10 +299,18 @@ class NotificationsFragment :
         viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
     }
 
-    override fun onViewReport(reportId: String?) {
+    override fun onViewReport(reportId: String) {
         requireContext().openLink(
             "https://${accountManager.activeAccount!!.domain}/admin/reports/$reportId"
         )
+    }
+
+    override fun onAcceptNotificationRequest(notificationId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDismissNotificationRequest(notificationId: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onViewTag(tag: String) {

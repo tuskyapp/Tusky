@@ -149,7 +149,9 @@ interface MastodonApi {
         /** Maximum number of results to return. Defaults to 15, max is 30 */
         @Query("limit") limit: Int? = null,
         /** Types to excludes from the results */
-        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null,
+        /** Include notifications filtered by notifications policy? Defaults to false. **/
+        @Query("include_filtered") includeFiltered: Boolean? = null
     ): Response<List<Notification>>
 
     /** Fetch a single notification */
@@ -724,6 +726,16 @@ interface MastodonApi {
         @Field("lang") targetLanguage: String?
     ): NetworkResult<Translation>
 
-    @GET("api/v1/notifications/policy")
+    @GET("api/v2/notifications/policy")
     suspend fun notificationPolicy(): NetworkResult<NotificationPolicy>
+
+    @FormUrlEncoded
+    @PATCH("api/v2/notifications/policy")
+    suspend fun updateNotificationPolicy(
+        @Field("for_not_following") forNotFollowing: String?,
+        @Field("for_not_followers") forNotFollowers: String?,
+        @Field("for_new_accounts") forNewAccounts: String?,
+        @Field("for_private_mentions") forPrivateMentions: String?,
+        @Field("for_limited_accounts") forLimitedAccounts: String?
+    ): NetworkResult<NotificationPolicy>
 }

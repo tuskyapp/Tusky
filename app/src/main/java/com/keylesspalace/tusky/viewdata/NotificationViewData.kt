@@ -30,7 +30,8 @@ sealed class NotificationViewData {
         val type: Notification.Type,
         val account: TimelineAccount,
         val statusViewData: StatusViewData.Concrete?,
-        val report: Report?
+        val report: Report?,
+        val filtered: Boolean
     ) : NotificationViewData() {
         override fun asStatusOrNull() = statusViewData
 
