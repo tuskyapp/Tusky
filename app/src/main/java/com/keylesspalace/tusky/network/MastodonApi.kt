@@ -739,4 +739,7 @@ interface MastodonApi {
         @Field("for_private_mentions") forPrivateMentions: String?,
         @Field("for_limited_accounts") forLimitedAccounts: String?
     ): NetworkResult<NotificationPolicy>
+
+    @POST("api/v1/notifications/requests/{id}/dismiss")
+    suspend fun dismissNotificationRequest(@Path("id") notificationId: String): NetworkResult<Unit>
 }

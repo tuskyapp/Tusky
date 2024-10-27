@@ -35,22 +35,12 @@ class FilteredNotificationViewHolder(
     private val notificationActionListener: NotificationActionListener
 ) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
 
-    private val avatarRadius36dp = itemView.context.resources.getDimensionPixelSize(
-        R.dimen.avatar_radius_36dp
-    )
-    init {
-    }
-
     override fun bind(
         viewData: NotificationViewData.Concrete,
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
-        val statusViewData = viewData.statusViewData
         val displayName = viewData.account.name.unicodeWrap()
-        val type = viewData.type
-        val context = binding.notificationTopText.context
-        val format: String
 
         val wholeMessage = String.format("Filtered notification from %1\$s", displayName).toSpannable()
         val displayNameIndex = "Filtered notification from %1\$s".indexOf("%1\$s")

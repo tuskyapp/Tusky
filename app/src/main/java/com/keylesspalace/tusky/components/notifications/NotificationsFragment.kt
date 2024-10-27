@@ -307,11 +307,11 @@ class NotificationsFragment :
     }
 
     override fun onAcceptNotificationRequest(notificationId: String) {
-
+        viewModel.dismissNotificationRequest(notificationId)
     }
 
     override fun onDismissNotificationRequest(notificationId: String) {
-
+        viewModel.dismissNotificationRequest(notificationId)
     }
 
     override fun onViewTag(tag: String) {
