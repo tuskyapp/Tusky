@@ -13,9 +13,9 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.components.filters;
+package com.keylesspalace.tusky.components.filters
 
-import kotlin.jvm.JvmInline;
+import kotlin.jvm.JvmInline
 
 /**
  * Custom class to have typesafety for filter expirations.
@@ -25,7 +25,7 @@ import kotlin.jvm.JvmInline;
 value class FilterExpiration private constructor(val seconds: Int) {
 
     override fun toString(): String {
-        return if(seconds < 0) "" else seconds.toString()
+        return if (seconds < 0) "" else seconds.toString()
     }
 
     companion object {
