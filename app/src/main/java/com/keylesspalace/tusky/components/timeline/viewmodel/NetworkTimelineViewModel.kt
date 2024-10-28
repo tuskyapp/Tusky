@@ -305,7 +305,10 @@ class NetworkTimelineViewModel @Inject constructor(
 
     override fun clearWarning(status: StatusViewData.Concrete) {
         updateStatusByActionableId(status.id) {
-            it.copy(filtered = emptyList())
+            it.copy(
+                filtered = emptyList(),
+                reblog = status.status.reblog?.copy(filtered = emptyList())
+            )
         }
     }
 
