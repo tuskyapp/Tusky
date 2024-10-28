@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
@@ -234,7 +235,8 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
     companion object {
         // Mastodon *stores* the absolute date in the filter,
         // but create/edit take a number of seconds (relative to the time the operation is posted)
-        private fun getExpirationForDurationIndex(index: Int, context: Context, default: Date? = null): FilterExpiration? {
+        @VisibleForTesting
+        fun getExpirationForDurationIndex(index: Int, context: Context, default: Date? = null): FilterExpiration? {
             return when (index) {
                 -1 -> if (default == null) {
                     FilterExpiration.unchanged
