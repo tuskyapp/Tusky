@@ -137,6 +137,7 @@ class EditFilterActivity : BaseActivity() {
 
         if (originalFilter == null) {
             binding.filterActionWarn.isChecked = true
+            initializeDurationDropDown(false)
         } else {
             loadFilter()
         }
@@ -178,7 +179,11 @@ class EditFilterActivity : BaseActivity() {
     // Populate the UI from the filter's members
     private fun loadFilter() {
         viewModel.load(filter)
-        val durationNames = if (filter.expiresAt != null) {
+        initializeDurationDropDown(withNoChange = filter.expiresAt != null)
+    }
+
+    private fun initializeDurationDropDown(withNoChange: Boolean) {
+        val durationNames = if (withNoChange) {
             arrayOf(getString(R.string.duration_no_change)) + resources.getStringArray(R.array.filter_duration_names)
         } else {
             resources.getStringArray(R.array.filter_duration_names)
