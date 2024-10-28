@@ -1,14 +1,31 @@
+/* Copyright 2024 Tusky contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.components.filters
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterKeyword
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.isHttpNotFound
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Date
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -112,12 +129,12 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         durationIndex: Int,
         context: Context
     ): Boolean {
-        val expiresInSeconds = EditFilterActivity.getSecondsForDurationIndex(durationIndex, context)
+        val expiration = getExpirationForDurationIndex(durationIndex, context)
         api.createFilter(
             title = title,
             context = contexts,
             filterAction = action,
-            expiresInSeconds = expiresInSeconds
+            expiresIn = expiration
         ).fold(
             { newFilter ->
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
@@ -133,7 +150,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
                 return (
                     throwable.isHttpNotFound() &&
                         // Endpoint not found, fall back to v1 api
-                        createFilterV1(contexts, expiresInSeconds)
+                        createFilterV1(contexts, expiration)
                     )
             }
         )
@@ -147,13 +164,13 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         durationIndex: Int,
         context: Context
     ): Boolean {
-        val expiresInSeconds = EditFilterActivity.getSecondsForDurationIndex(durationIndex, context)
+        val expiration = getExpirationForDurationIndex(durationIndex, context)
         api.updateFilter(
             id = originalFilter.id,
             title = title,
             context = contexts,
             filterAction = action,
-            expiresInSeconds = expiresInSeconds
+            expires = expiration
         ).fold(
             {
                 // This is _terrible_, but the all-in-one update filter api Just Doesn't Work
@@ -173,7 +190,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
             { throwable ->
                 if (throwable.isHttpNotFound()) {
                     // Endpoint not found, fall back to v1 api
-                    if (updateFilterV1(contexts, expiresInSeconds)) {
+                    if (updateFilterV1(contexts, expiration)) {
                         return true
                     }
                 }
@@ -182,13 +199,13 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         )
     }
 
-    private suspend fun createFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
+    private suspend fun createFilterV1(context: List<String>, expiration: FilterExpiration?): Boolean {
         return _keywords.value.map { keyword ->
-            api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiresInSeconds)
+            api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiration)
         }.none { it.isFailure }
     }
 
-    private suspend fun updateFilterV1(context: List<String>, expiresInSeconds: Int?): Boolean {
+    private suspend fun updateFilterV1(context: List<String>, expiration: FilterExpiration?): Boolean {
         val results = _keywords.value.map { keyword ->
             if (originalFilter == null) {
                 api.createFilterV1(
@@ -196,7 +213,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
                     context = context,
                     irreversible = false,
                     wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds
+                    expiresIn = expiration
                 )
             } else {
                 api.updateFilterV1(
@@ -205,12 +222,30 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
                     context = context,
                     irreversible = false,
                     wholeWord = keyword.wholeWord,
-                    expiresInSeconds = expiresInSeconds
+                    expiresIn = expiration
                 )
             }
         }
         // Don't handle deleted keywords here because there's only one keyword per v1 filter anyway
 
         return results.none { it.isFailure }
+    }
+
+    companion object {
+        // Mastodon *stores* the absolute date in the filter,
+        // but create/edit take a number of seconds (relative to the time the operation is posted)
+        private fun getExpirationForDurationIndex(index: Int, context: Context, default: Date? = null): FilterExpiration? {
+            return when (index) {
+                -1 -> if (default == null) {
+                    FilterExpiration.unchanged
+                } else {
+                    FilterExpiration.seconds(((default.time - System.currentTimeMillis()) / 1000).toInt())
+                }
+                0 -> FilterExpiration.never
+                else -> FilterExpiration.seconds(
+                    context.resources.getIntArray(R.array.filter_duration_values)[index]
+                )
+            }
+        }
     }
 }
