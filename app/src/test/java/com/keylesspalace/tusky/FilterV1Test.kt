@@ -20,7 +20,6 @@ package com.keylesspalace.tusky
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
-import com.keylesspalace.tusky.components.filters.EditFilterViewModel
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
@@ -47,8 +46,6 @@ import retrofit2.Response
 @Config(sdk = [28])
 @RunWith(AndroidJUnit4::class)
 class FilterV1Test {
-
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
     private lateinit var filterModel: FilterModel
 
