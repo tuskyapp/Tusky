@@ -29,10 +29,8 @@ value class FilterExpiration private constructor(val seconds: Int) {
     }
 
     companion object {
-        val unchanged: FilterExpiration?
-            get() = null
-        val never: FilterExpiration
-            get() = FilterExpiration(-1)
+        val unchanged: FilterExpiration? = null
+        val never: FilterExpiration = FilterExpiration(-1)
 
         fun seconds(seconds: Int): FilterExpiration = FilterExpiration(seconds)
     }
