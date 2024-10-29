@@ -18,7 +18,6 @@
 package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import at.connyduck.calladapter.networkresult.NetworkResult
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.entity.Attachment
