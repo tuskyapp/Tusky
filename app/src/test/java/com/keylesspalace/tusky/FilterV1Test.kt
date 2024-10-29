@@ -280,22 +280,6 @@ class FilterV1Test {
         )
     }
 
-    @Test
-    fun unchangedExpiration_shouldBeNegative_whenFilterIsExpired() {
-        val expiredBySeconds = 3600
-        val expiredDate = Date.from(Instant.now().minusSeconds(expiredBySeconds.toLong()))
-        val updatedDuration = EditFilterViewModel.getExpirationForDurationIndex(-1, context, expiredDate)
-        assert(updatedDuration != null && updatedDuration.seconds <= -expiredBySeconds)
-    }
-
-    @Test
-    fun unchangedExpiration_shouldBePositive_whenFilterIsUnexpired() {
-        val expiresInSeconds = 3600
-        val expiredDate = Date.from(Instant.now().plusSeconds(expiresInSeconds.toLong()))
-        val updatedDuration = EditFilterViewModel.getExpirationForDurationIndex(-1, context, expiredDate)
-        assert(updatedDuration != null && updatedDuration.seconds > (expiresInSeconds - 60))
-    }
-
     companion object {
         fun mockStatus(
             content: String = "",

@@ -235,14 +235,9 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
     companion object {
         // Mastodon *stores* the absolute date in the filter,
         // but create/edit take a number of seconds (relative to the time the operation is posted)
-        @VisibleForTesting
-        fun getExpirationForDurationIndex(index: Int, context: Context, default: Date? = null): FilterExpiration? {
+        private fun getExpirationForDurationIndex(index: Int, context: Context): FilterExpiration? {
             return when (index) {
-                -1 -> if (default == null) {
-                    FilterExpiration.unchanged
-                } else {
-                    FilterExpiration.seconds(((default.time - System.currentTimeMillis()) / 1000).toInt())
-                }
+                -1 -> FilterExpiration.unchanged
                 0 -> FilterExpiration.never
                 else -> FilterExpiration.seconds(
                     context.resources.getIntArray(R.array.filter_duration_values)[index]
