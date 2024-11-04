@@ -1190,7 +1190,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                     builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
                 }
-                builder.into(cardImage);
+                builder.centerInside()
+                  .into(cardImage);
             } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                 int radius = cardImage.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.card_radius);
