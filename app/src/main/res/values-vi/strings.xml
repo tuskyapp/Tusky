@@ -52,11 +52,11 @@
     <string name="button_done">Xong</string>
     <string name="action_send_public">ĐĂNG</string>
     <string name="button_back">Quay lại</string>
-    <string name="button_continue">Tiếp tục</string>
+    <string name="button_continue">TIẾP TỤC</string>
     <string name="filter_dialog_update_button">Cập nhật</string>
     <string name="filter_dialog_remove_button">Xóa</string>
     <string name="action_send">ĐĂNG</string>
-    <string name="action_login">Đăng nhập Mastodon</string>
+    <string name="action_login">ĐĂNG NHẬP MASTODON</string>
     <string name="dialog_redraft_post_warning">Xóa và viết lại tút này\?</string>
     <string name="dialog_delete_post_warning">Xóa tút này\?</string>
     <string name="dialog_unfollow_warning">Bỏ theo dõi người này\?</string>
@@ -90,7 +90,7 @@
     <string name="send_post_link_to">Đăng lại URL tút với…</string>
     <string name="send_post_content_to">Đăng lại tút với…</string>
     <string name="downloading_media">Đang lưu vào thiết bị</string>
-    <string name="download_media">Tải xuống</string>
+    <string name="download_media">Lưu media</string>
     <string name="action_share_as">Đăng lại với tư cách …</string>
     <string name="action_open_as">Mở với tư cách %1$s</string>
     <string name="action_copy_link">Chép URL</string>
@@ -98,7 +98,7 @@
     <string name="action_open_media_n">Mở tập tin #%1$d</string>
     <string name="title_links_dialog">Links</string>
     <string name="title_mentions_dialog">Lượt nhắc tới</string>
-    <string name="title_hashtags_dialog">Hashtag</string>
+    <string name="title_hashtags_dialog">HASHTAG</string>
     <string name="action_open_faved_by">Xem lượt thích</string>
     <string name="action_open_reblogged_by">Xem lượt đăng lại</string>
     <string name="action_open_reblogger">Xem lượt đăng lại</string>
@@ -139,7 +139,7 @@
     <string name="action_view_favourites">Thích</string>
     <string name="action_view_profile">Trang hồ sơ</string>
     <string name="action_close">Đóng</string>
-    <string name="action_retry">Thử lại</string>
+    <string name="action_retry">THỬ LẠI</string>
     <string name="action_delete_and_redraft">Xóa &amp; viết lại</string>
     <string name="action_delete">Xóa</string>
     <string name="action_edit">Sửa</string>
@@ -148,8 +148,8 @@
     <string name="action_hide_reblogs">Ẩn lượt đăng lại</string>
     <string name="action_unblock">Bỏ chặn</string>
     <string name="action_block">Chặn</string>
-    <string name="action_unfollow">Bỏ theo dõi</string>
-    <string name="action_follow">Theo dõi</string>
+    <string name="action_unfollow">BỎ THEO DÕI</string>
+    <string name="action_follow">THEO DÕI</string>
     <string name="action_logout_confirm">Bạn có muốn đăng xuất tài khoản %1$s\? Dữ liệu của tài khoản sẽ bị xóa, bao gồm những bản nháp và thiết lập.</string>
     <string name="action_compose">Soạn tút</string>
     <string name="action_more">Thêm</string>
@@ -183,10 +183,10 @@
     <string name="title_bookmarks">Những tút đã lưu</string>
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
-    <string name="title_posts_pinned">Ghim</string>
-    <string name="title_posts_with_replies">Lượt trả lời</string>
-    <string name="title_posts">Tút</string>
-    <string name="title_view_thread">Nội dung tút</string>
+    <string name="title_posts_pinned">GHIM</string>
+    <string name="title_posts_with_replies">LƯỢT TRẢ LỜI</string>
+    <string name="title_posts">TÚT</string>
+    <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Nhắn riêng</string>
     <string name="title_public_federated">Liên hợp</string>
@@ -288,13 +288,13 @@
     <string name="pref_title_alway_show_sensitive_media">Hiện nội dung nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
     <string name="abbreviated_seconds_ago">%1$ds</string>
-    <string name="abbreviated_minutes_ago">%1$d phút</string>
-    <string name="abbreviated_hours_ago">%1$d giờ</string>
+    <string name="abbreviated_minutes_ago">%1$dp</string>
+    <string name="abbreviated_hours_ago">%1$dh</string>
     <string name="abbreviated_days_ago">%1$d ngày</string>
     <string name="abbreviated_years_ago">%1$d năm</string>
     <string name="abbreviated_in_seconds">%1$ds</string>
     <string name="abbreviated_in_minutes">%1$d phút</string>
-    <string name="abbreviated_in_hours">%1$d giờ</string>
+    <string name="abbreviated_in_hours">%1$dh%1$ giờ</string>
     <string name="abbreviated_in_days">%1$d ngày</string>
     <string name="abbreviated_in_years">%1$d năm</string>
     <string name="state_follow_requested">Yêu cầu theo dõi</string>
@@ -322,7 +322,7 @@
     <string name="create_poll_title">Bình chọn</string>
     <string name="pref_title_enable_swipe_for_tabs">Vuốt qua lại giữa các tab</string>
     <string name="failed_search">Không thể tìm thấy</string>
-    <string name="title_accounts">Người</string>
+    <string name="title_accounts">NGƯỜI</string>
     <string name="report_description_remote_instance">Người này thuộc máy chủ khác. Gửi luôn cho máy chủ đó\?</string>
     <string name="report_description_1">Báo cáo này sẽ được gửi tới kiểm duyệt viên. Hãy cho biết lý do vì sao bạn báo cáo người này bên dưới:</string>
     <string name="failed_fetch_posts">Chưa tải được tút</string>
@@ -358,8 +358,8 @@
     <string name="compose_shortcut_short_label">Soạn</string>
     <string name="compose_shortcut_long_label">Soạn tút</string>
     <string name="filter_apply">Áp dụng</string>
-    <string name="notifications_apply_filter">Lọc</string>
-    <string name="notifications_clear">Xóa hết</string>
+    <string name="notifications_apply_filter">LỌC</string>
+    <string name="notifications_clear">XÓA HẾT</string>
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
     <string name="hashtags">Hashtag</string>
@@ -382,10 +382,10 @@
     <string name="title_favourited_by">Thích bởi</string>
     <string name="title_reblogged_by">Đăng lại bởi</string>
     <plurals name="reblogs">
-        <item quantity="other"><b>%1$s</b> Đăng lại</item>
+        <item quantity="other"><b>%1$s</b> đăng lại</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="other"><b>%1$s</b> Thích</item>
+        <item quantity="other"><b>%1$s</b> thích</item>
     </plurals>
     <string name="pin_action">Ghim</string>
     <string name="unpin_action">Gỡ ghim</string>
@@ -393,7 +393,7 @@
     <string name="pref_title_absolute_time">Sử dụng thời gian thiết bị</string>
     <string name="profile_metadata_content_label">Nội dung</string>
     <string name="profile_metadata_label_label">Nhãn</string>
-    <string name="profile_metadata_add">thêm nội dung</string>
+    <string name="profile_metadata_add">THÊM NỘI DUNG</string>
     <string name="profile_metadata_label">Metadata</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
@@ -412,7 +412,7 @@
     <string name="later">Để sau</string>
     <string name="restart_emoji">Bạn cần khởi động lại Tusky để áp dụng các thiết lập</string>
     <string name="restart_required">Yêu cầu khởi động lại ứng dụng</string>
-    <string name="action_open_post">Đọc tút</string>
+    <string name="action_open_post">Xem tút</string>
     <string name="expand_collapse_all_posts">Mở rộng/Thu gọn toàn bộ tút</string>
     <string name="performing_lookup_title">Đang tra cứu…</string>
     <string name="download_fonts">Bạn cần tải về bộ emoji này trước</string>
