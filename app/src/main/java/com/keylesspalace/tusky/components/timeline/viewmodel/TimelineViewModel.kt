@@ -46,6 +46,8 @@ abstract class TimelineViewModel(
     private val filterModel: FilterModel
 ) : ViewModel() {
 
+    protected val account = accountManager.activeAccount!!
+
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
     var kind: Kind = Kind.HOME
@@ -179,6 +181,10 @@ abstract class TimelineViewModel(
 
     protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
+        if (status.actionableStatus.account.id == account.accountId) {
+            // never filter own posts
+            return Filter.Action.NONE
+        }
         return if (
             (status.inReplyToId != null && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs) ||

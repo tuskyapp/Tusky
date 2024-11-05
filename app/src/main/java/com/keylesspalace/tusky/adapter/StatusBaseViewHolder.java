@@ -1186,12 +1186,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 RequestBuilder<Drawable> builder = Glide.with(cardImage.getContext())
-                    .load(card.getImage())
-                    .dontTransform();
+                    .load(card.getImage());
                 if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                     builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
                 }
-                builder.into(cardImage);
+                builder.centerInside()
+                  .into(cardImage);
             } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                 int radius = cardImage.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.card_radius);
@@ -1213,7 +1213,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 Glide.with(cardImage.getContext())
                     .load(decodeBlurHash(card.getBlurhash()))
-                    .dontTransform()
                     .into(cardImage);
             } else {
                 cardView.setOrientation(LinearLayout.HORIZONTAL);

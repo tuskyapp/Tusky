@@ -76,8 +76,6 @@ class CachedTimelineViewModel @Inject constructor(
     filterModel
 ) {
 
-    private val account = accountManager.activeAccount!!
-
     private var currentPagingSource: PagingSource<Int, HomeTimelineData>? = null
 
     /** Map from status id to translation. */

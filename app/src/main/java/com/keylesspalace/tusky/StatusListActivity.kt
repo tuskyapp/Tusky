@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.components.filters.EditFilterActivity
+import com.keylesspalace.tusky.components.filters.FilterExpiration
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.timeline.TimelineFragment
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel.Kind
@@ -251,7 +252,7 @@ class StatusListActivity : BottomSheetActivity() {
                 title = "#$tag",
                 context = listOf(Filter.Kind.HOME.kind),
                 filterAction = Filter.Action.WARN.action,
-                expiresInSeconds = null
+                expiresIn = FilterExpiration.never
             ).fold(
                 { filter ->
                     if (mastodonApi.addFilterKeyword(
@@ -281,7 +282,7 @@ class StatusListActivity : BottomSheetActivity() {
                             listOf(Filter.Kind.HOME.kind),
                             irreversible = false,
                             wholeWord = true,
-                            expiresInSeconds = null
+                            expiresIn = FilterExpiration.never
                         ).fold(
                             { filter ->
                                 mutedFilterV1 = filter
@@ -358,7 +359,7 @@ class StatusListActivity : BottomSheetActivity() {
                             context = filter.context.filter { it != Filter.Kind.HOME.kind },
                             irreversible = null,
                             wholeWord = null,
-                            expiresInSeconds = null
+                            expiresIn = FilterExpiration.never
                         )
                     } else {
                         mastodonApi.deleteFilterV1(filter.id)
