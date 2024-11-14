@@ -15,7 +15,6 @@
 
 package com.keylesspalace.tusky.db.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -37,8 +36,7 @@ data class NotificationDataEntity(
     @Embedded(prefix = "r_") val report: NotificationReportEntity?,
     @Embedded(prefix = "ra_") val reportTargetAccount: TimelineAccountEntity?,
     // relevant when it is a placeholder
-    val loading: Boolean = false,
-    val filtered: Boolean = false
+    val loading: Boolean = false
 )
 
 @Entity(
@@ -79,8 +77,7 @@ data class NotificationEntity(
     val statusId: String?,
     val reportId: String?,
     // relevant when it is a placeholder
-    val loading: Boolean = false,
-    @ColumnInfo(defaultValue = "false") val filtered: Boolean = false
+    val loading: Boolean = false
 )
 
 @Entity(

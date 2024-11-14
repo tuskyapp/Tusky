@@ -62,10 +62,10 @@ class FilteredNotificationViewHolder(
         }
 
         binding.buttonAccept.setOnClickListener {
-            notificationActionListener.onAcceptNotificationRequest(viewData.id)
+            //notificationActionListener.onAcceptNotificationRequest(viewData.id)
         }
         binding.buttonDeny.setOnClickListener {
-            notificationActionListener.onDismissNotificationRequest(viewData.id)
+           // notificationActionListener.onDismissNotificationRequest(viewData.id)
         }
     }
 }

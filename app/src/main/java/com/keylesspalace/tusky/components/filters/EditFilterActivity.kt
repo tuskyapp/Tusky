@@ -67,6 +67,7 @@ class EditFilterActivity : BaseActivity() {
         filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
         binding.apply {
             contextSwitches = mapOf(
+                filterContextHome to Filter.Kind.HOME,
                 filterContextNotifications to Filter.Kind.NOTIFICATIONS,
                 filterContextPublic to Filter.Kind.PUBLIC,
                 filterContextThread to Filter.Kind.THREAD,

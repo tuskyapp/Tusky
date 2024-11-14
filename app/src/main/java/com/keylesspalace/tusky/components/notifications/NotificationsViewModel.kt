@@ -45,6 +45,8 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.usecase.NotificationPolicyState
+import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
@@ -73,7 +75,8 @@ class NotificationsViewModel @Inject constructor(
     private val accountManager: AccountManager,
     private val preferences: SharedPreferences,
     private val filterModel: FilterModel,
-    private val db: AppDatabase
+    private val db: AppDatabase,
+    private val notificationPolicyUsecase: NotificationPolicyUsecase
 ) : ViewModel() {
 
     private val refreshTrigger = MutableStateFlow(0L)
@@ -116,6 +119,8 @@ class NotificationsViewModel @Inject constructor(
     }
         .flowOn(Dispatchers.Default)
 
+    val notificationPolicy: StateFlow<NotificationPolicyState> = notificationPolicyUsecase.state
+
     init {
         viewModelScope.launch {
             eventHub.events.collect { event ->
@@ -133,6 +138,9 @@ class NotificationsViewModel @Inject constructor(
             if (needsRefresh) {
                 refreshTrigger.value++
             }
+        }
+        viewModelScope.launch {
+            notificationPolicyUsecase.getNotificationPolicy()
         }
     }
 
@@ -321,8 +329,7 @@ class NotificationsViewModel @Inject constructor(
                             maxId = idAbovePlaceholder,
                             minId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value,
-                            includeFiltered = true
+                            excludes = excludes.value
                         )
                         // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
                         // maxId, and no smaller than minId.
@@ -330,8 +337,7 @@ class NotificationsViewModel @Inject constructor(
                             maxId = idAbovePlaceholder,
                             sinceId = idBelowPlaceholder,
                             limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value,
-                            includeFiltered = true
+                            excludes = excludes.value
                         )
                     }
                 }

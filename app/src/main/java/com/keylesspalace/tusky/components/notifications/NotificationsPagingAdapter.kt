@@ -43,8 +43,6 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 interface NotificationActionListener {
     fun onViewReport(reportId: String)
-    fun onAcceptNotificationRequest(notificationId: String)
-    fun onDismissNotificationRequest(notificationId: String)
 }
 
 interface NotificationsViewHolder {
@@ -81,10 +79,7 @@ class NotificationsPagingAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (val notification = getItem(position)) {
             is NotificationViewData.Concrete -> {
-                if (notification.filtered) {
-                    VIEW_TYPE_FILTERED
-                } else {
-                    when (notification.type) {
+                when (notification.type) {
                         Notification.Type.MENTION,
                         Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
                             VIEW_TYPE_STATUS_FILTERED
@@ -101,7 +96,6 @@ class NotificationsPagingAdapter(
                         Notification.Type.REPORT -> VIEW_TYPE_REPORT
                         else -> VIEW_TYPE_UNKNOWN
                     }
-                }
             }
             else -> VIEW_TYPE_PLACEHOLDER
         }

@@ -35,7 +35,7 @@ abstract class NotificationsDao {
 
     @Query(
         """
-SELECT n.tuskyAccountId, n.type, n.id, n.loading, n.filtered,
+SELECT n.tuskyAccountId, n.type, n.id, n.loading,
 a.serverId as 'a_serverId', a.tuskyAccountId as 'a_tuskyAccountId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',

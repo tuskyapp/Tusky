@@ -23,6 +23,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.makePreferenceScreen
 import com.keylesspalace.tusky.settings.preferenceCategory
+import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -93,7 +94,7 @@ class NotificationPoliciesFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect { state ->
-                if (state is NotificationPoliciesViewModel.State.Loaded) {
+                if (state is NotificationPolicyState.Loaded) {
                     findPreference<NotificationPolicyPreference>(KEY_NOT_FOLLOWING)?.value = state.policy.forNotFollowing.name.lowercase()
                     findPreference<NotificationPolicyPreference>(KEY_NOT_FOLLOWERS)?.value = state.policy.forNotFollowers.name.lowercase()
                     findPreference<NotificationPolicyPreference>(KEY_NEW_ACCOUNTS)?.value = state.policy.forNewAccounts.name.lowercase()

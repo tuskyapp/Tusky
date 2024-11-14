@@ -73,8 +73,7 @@ class NotificationsRemoteMediator(
                         // so already existing placeholders don't get accidentally overwritten
                         sinceId = topPlaceholderId,
                         limit = state.config.pageSize,
-                        excludes = excludes,
-                        includeFiltered = true
+                        excludes = excludes
                     )
 
                     val notifications = notificationResponse.body()
@@ -90,14 +89,14 @@ class NotificationsRemoteMediator(
 
             val notificationResponse = when (loadType) {
                 LoadType.REFRESH -> {
-                    api.notifications(sinceId = topPlaceholderId, limit = state.config.pageSize, excludes = excludes, includeFiltered = true)
+                    api.notifications(sinceId = topPlaceholderId, limit = state.config.pageSize, excludes = excludes)
                 }
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
                 LoadType.APPEND -> {
                     val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.id
-                    api.notifications(maxId = maxId, limit = state.config.pageSize, excludes = excludes, includeFiltered = true)
+                    api.notifications(maxId = maxId, limit = state.config.pageSize, excludes = excludes)
                 }
             }
 

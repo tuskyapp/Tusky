@@ -10,8 +10,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.preference.notificationpolicies.NotificationPoliciesViewModel
-import com.keylesspalace.tusky.components.preference.notificationpolicies.NotificationPoliciesViewModel.State
 import com.keylesspalace.tusky.databinding.ActivityNotificationPolicyBinding
+import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -40,19 +40,17 @@ class FilteredNotificationActivity : BaseActivity() {
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
-                binding.progressBar.visible(state is State.Loading)
-                binding.preferenceFragment.visible(state is State.Loaded)
-                binding.messageView.visible(state !is State.Loading && state !is State.Loaded)
+                binding.progressBar.visible(state is NotificationPolicyState.Loading)
+                binding.preferenceFragment.visible(state is NotificationPolicyState.Loaded)
+                binding.messageView.visible(state !is NotificationPolicyState.Loading && state !is NotificationPolicyState.Loaded)
                 when (state) {
-                    is State.Loading -> {}
-                    State.GenericError ->
-                        binding.messageView.setup(R.drawable.errorphant_error, R.string.error_generic) { viewModel.loadPolicy() }
+                    is NotificationPolicyState.Loading -> {}
+                    is NotificationPolicyState.Error ->
+                        binding.messageView.setup(state.throwable) { viewModel.loadPolicy() }
 
-                    is State.Loaded -> { }
-                    State.NetworkError ->
-                        binding.messageView.setup(R.drawable.errorphant_offline, R.string.error_network) { viewModel.loadPolicy() }
+                    is NotificationPolicyState.Loaded -> { }
 
-                    State.Unsupported ->
+                    NotificationPolicyState.Unsupported ->
                         binding.messageView.setup(R.drawable.errorphant_error, R.string.notification_policies_not_supported) { viewModel.loadPolicy() }
                 }
             }

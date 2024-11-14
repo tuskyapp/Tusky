@@ -49,8 +49,7 @@ fun Notification.toEntity(
     accountId = account.id,
     statusId = status?.reblog?.id ?: status?.id,
     reportId = report?.id,
-    loading = false,
-    filtered = filtered,
+    loading = false
 )
 
 fun Report.toEntity(
@@ -90,8 +89,7 @@ fun NotificationDataEntity.toViewData(
             report.toReport(reportTargetAccount)
         } else {
             null
-        },
-        filtered = filtered
+        }
     )
 }
 

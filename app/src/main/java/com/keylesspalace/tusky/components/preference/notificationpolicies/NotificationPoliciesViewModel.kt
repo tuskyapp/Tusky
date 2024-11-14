@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.entity.NotificationPolicy
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.usecase.NotificationPolicyState
+import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
@@ -20,11 +23,10 @@ import retrofit2.HttpException
 
 @HiltViewModel
 class NotificationPoliciesViewModel @Inject constructor(
-    private val api: MastodonApi
+    private val usecase: NotificationPolicyUsecase
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
-    val state: StateFlow<State> = _state.asStateFlow()
+    val state: StateFlow<NotificationPolicyState> = usecase.state
 
     private val _error = MutableSharedFlow<Throwable>(
         replay = 0,
@@ -38,23 +40,8 @@ class NotificationPoliciesViewModel @Inject constructor(
     }
 
     fun loadPolicy() {
-        _state.value = State.Loading
         viewModelScope.launch {
-            api.notificationPolicy().fold({ notificationPolicy ->
-                _state.value = State.Loaded(notificationPolicy)
-            }, { error ->
-                Log.w(TAG, "failed to load notifications policy", error)
-                when (error) {
-                    is HttpException -> if (error.code() == 404) {
-                        _state.value = State.Unsupported
-                    } else {
-                        _state.value = State.GenericError
-                    }
-                    else -> {
-                        _state.value = State.NetworkError
-                    }
-                }
-            })
+            usecase.getNotificationPolicy()
         }
     }
 
@@ -66,32 +53,20 @@ class NotificationPoliciesViewModel @Inject constructor(
         forLimitedAccounts: String? = null
     ) {
         viewModelScope.launch {
-            api.updateNotificationPolicy(
+            usecase.updatePolicy(
                 forNotFollowing = forNotFollowing,
                 forNotFollowers = forNotFollowers,
                 forNewAccounts = forNewAccounts,
                 forPrivateMentions = forPrivateMentions,
                 forLimitedAccounts = forLimitedAccounts
-            ).fold({ notificationPolicy ->
-                _state.value = State.Loaded(notificationPolicy)
-            }, { error ->
+            ).onFailure { error ->
                 Log.w(TAG, "failed to update notifications policy", error)
                 _error.emit(error)
-            })
+            }
         }
     }
 
     companion object {
         private const val TAG = "NotificationPoliciesViewModel"
-    }
-
-    sealed class State {
-        data object Loading : State()
-        data class Loaded(
-            val policy: NotificationPolicy
-        ) : State()
-        data object NetworkError : State()
-        data object Unsupported : State()
-        data object GenericError : State()
     }
 }
