@@ -184,7 +184,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         translationStatusView = itemView.findViewById(R.id.status_translation_status);
         untranslateButton = itemView.findViewById(R.id.status_button_untranslate);
-        trailingHashtagView = itemView.findViewById(R.id.status_trailing_hashtags);
+        trailingHashtagView = itemView.findViewById(R.id.status_trailing_hashtags_content);
 
         this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
