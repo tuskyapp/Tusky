@@ -91,10 +91,10 @@ fun setClickableText(
     view.text = spannableContent.apply {
         styleQuoteSpans(view)
         getSpans(0, endOfContent, URLSpan::class.java).forEach { span ->
-            val updated = setClickableText(span, this, mentions, tags, listener)
-            if (updated[0] == '#') {
+            if (get(getSpanStart(span)) == '#') {
                 inlineHashtagSpanCount += 1
             }
+            setClickableText(span, this, mentions, tags, listener)
         }
     }.subSequence(0, endOfContent)
 
