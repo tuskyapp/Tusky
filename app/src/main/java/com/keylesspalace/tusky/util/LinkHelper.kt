@@ -129,7 +129,7 @@ fun setClickableText(
 }
 
 private val trailingHashtagExpression by unsafeLazy {
-    Pattern.compile("""$wordBreakExpression(#$hashtagExpression$wordBreakFromSpaceExpression+)*""", Pattern.CASE_INSENSITIVE)
+    Pattern.compile("""$WORD_BREAK_EXPRESSION(#$HASHTAG_EXPRESSION$WORD_BREAK_FROM_SPACE_EXPRESSION+)*""", Pattern.CASE_INSENSITIVE)
 }
 
 /**
@@ -172,7 +172,8 @@ internal fun Spanned.reversedLineSequence() = generateSequence(Pair(length + 1, 
 
 // URLSpan("#tag", url) -> Hashtag("tag", url)
 private fun spanToHashtag(content: Spanned, span: URLSpan) = HashTag(
-    content.subSequence(content.getSpanStart(span) + 1, content.getSpanEnd(span)).toString(), span.url
+    content.subSequence(content.getSpanStart(span) + 1, content.getSpanEnd(span)).toString(),
+    span.url,
 )
 
 @VisibleForTesting

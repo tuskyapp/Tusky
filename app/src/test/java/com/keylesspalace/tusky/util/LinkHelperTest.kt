@@ -392,7 +392,7 @@ class LinkHelperTest {
 
         // test every combination of separator, prefix, suffix
         // I tried the ParameterizedTest pattern, but had strange issues with SpannableStringBuilder inside the parameterized test function
-        for(separator in separators) {
+        for (separator in separators) {
             for (prefix in fixes) {
                 for (suffix in fixes) {
                     val text = SpannableStringBuilder(lines.joinToString(separator, prefix, suffix))
@@ -400,7 +400,7 @@ class LinkHelperTest {
                     assertArrayEquals(
                         text.split('\r', '\n').filter(CharSequence::isNotBlank).reversed().toTypedArray(),
                         text.reversedLineSequence() // get spans
-                            .map{ pair -> text.subSequence(pair.first, pair.second) } // get subsequences from spans
+                            .map { pair -> text.subSequence(pair.first, pair.second) } // get subsequences from spans
                             .filter(CharSequence::isNotBlank) // drop blank ones since ::split drops separators
                             .map(CharSequence::toString) // toString so the array comparison works
                             .toList() // sequence doesn't have toTypedArray 🙄
