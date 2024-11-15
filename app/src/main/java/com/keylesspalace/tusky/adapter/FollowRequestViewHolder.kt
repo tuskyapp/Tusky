@@ -93,7 +93,7 @@ class FollowRequestViewHolder(
 
             val emojifiedNote = account.note.parseAsMastodonHtml()
                 .emojify(account.emojis, binding.accountNote, animateEmojis)
-            setClickableText(binding.accountNote, emojifiedNote, emptyList(), null, linkListener)
+            setClickableText(binding.accountNote, emojifiedNote, emptyList(), null, linkListener, null)
         }
         val avatarRadius = binding.avatar.context.resources.getDimensionPixelSize(
             R.dimen.avatar_radius_48dp

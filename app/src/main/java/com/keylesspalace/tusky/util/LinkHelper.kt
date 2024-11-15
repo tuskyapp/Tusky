@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import java.net.URI
 import java.net.URISyntaxException
+import java.util.regex.Pattern
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -70,27 +71,112 @@ fun getDomain(urlString: String?): String {
  * @param content containing text with mentions, links, or hashtags
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
+ * @param trailingHashtagView a text view to fill with trailing / out-of-band hashtags
  */
 fun setClickableText(
     view: TextView,
     content: CharSequence,
     mentions: List<Mention>,
     tags: List<HashTag>?,
-    listener: LinkListener
+    listener: LinkListener,
+    trailingHashtagView: TextView?,
 ) {
     val spannableContent = markupHiddenUrls(view, content)
+    val (endOfContent, trailingHashtags) = when {
+        tags.isNullOrEmpty() -> Pair(content.length, emptyList())
+        else -> getTrailingHashtags(spannableContent)
+    }
+    var inlineHashtagSpanCount = 0
 
     view.text = spannableContent.apply {
         styleQuoteSpans(view)
-        getSpans(0, spannableContent.length, URLSpan::class.java).forEach { span ->
-            setClickableText(span, this, mentions, tags, listener)
+        getSpans(0, endOfContent, URLSpan::class.java).forEach { span ->
+            val updated = setClickableText(span, this, mentions, tags, listener)
+            if (updated[0] == '#') {
+                inlineHashtagSpanCount += 1
+            }
+        }
+    }.subSequence(0, endOfContent)
+
+    view.movementMethod = NoTrailingSpaceLinkMovementMethod
+
+    val showHashtagBar = (trailingHashtags.isNotEmpty() || inlineHashtagSpanCount != tags?.size)
+    // I don't _love_ setting the visibility here, but the alternative is to duplicate the logic in other places
+    trailingHashtagView?.visible(showHashtagBar)
+
+    if (showHashtagBar) {
+        trailingHashtagView?.apply {
+            text = SpannableStringBuilder().apply {
+                var offset = 0
+                tags?.forEachIndexed { index, tag ->
+                    val text = "#${tag.name}"
+                    append(text)
+                    setSpan(
+                        getCustomSpanForTag(text, tags, URLSpan(tag.url), listener),
+                        offset,
+                        offset + tag.name.length + 1,
+                        0
+                    )
+                    offset += tag.name.length + 1
+                    if (index != tags.lastIndex) {
+                        append(" ")
+                        offset += 1
+                    }
+                }
+            }
         }
     }
-    view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
+private val trailingHashtagExpression by unsafeLazy {
+    Pattern.compile("""$wordBreakExpression(#$hashtagExpression$wordBreakFromSpaceExpression+)*""", Pattern.CASE_INSENSITIVE)
+}
+
+/**
+ * Find the "trailing" hashtags in spanned content
+ * These are hashtags in lines consisting *only* of hashtags at the end of the post
+ */
 @VisibleForTesting
-fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuilder {
+internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
+    val trailingHashtagStart = content.reversedLineSequence().takeWhile {
+        val line = content.subSequence(it.first, it.second)
+        line.isBlank() || trailingHashtagExpression.matcher(line).matches()
+    }.lastOrNull()?.first ?: return Pair(content.length, emptyList())
+
+    return Pair(
+        trailingHashtagStart,
+        content.getSpans(trailingHashtagStart, content.length, URLSpan::class.java)
+            .filter { content[content.getSpanStart(it)] == '#' } // just in case
+            .map { spanToHashtag(content, it) }
+    )
+}
+
+private val newlineCharacters = arrayOf('\n', '\r').toCharArray()
+
+/**
+ * Get a reversed sequence of start/end line indices (not including the newline characters)
+ * for lazily searching backward by line.
+ * The idea is that we're very likely to early-out, so we want to avoid splitting lots of long messages
+ * in their entirety just to look at the last line or two.
+ * Maybe it's overkill? 🤷
+ */
+@VisibleForTesting
+internal fun Spanned.reversedLineSequence() = generateSequence(Pair(length + 1, 0)) { pair ->
+    if (pair.first == 0) return@generateSequence null // reached the start
+
+    when (val index = lastIndexOfAny(newlineCharacters, startIndex = pair.first - 2)) {
+        -1 -> Pair(0, pair.first - 1) // manually add the first line
+        else -> Pair(index + 1, pair.first - 1) // from the character after the found newline character to the character before the start of the previous line
+    }
+}.drop(1) // drop the sequence seed
+
+// URLSpan("#tag", url) -> Hashtag("tag", url)
+private fun spanToHashtag(content: Spanned, span: URLSpan) = HashTag(
+    content.subSequence(content.getSpanStart(span) + 1, content.getSpanEnd(span)).toString(), span.url
+)
+
+@VisibleForTesting
+internal fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuilder {
     val spannableContent = SpannableStringBuilder(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {

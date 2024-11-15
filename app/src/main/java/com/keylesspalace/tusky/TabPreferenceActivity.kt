@@ -40,11 +40,11 @@ import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.databinding.DialogAddHashtagBinding
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.hashtagPattern
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,10 +69,6 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
     private val selectedItemElevation by unsafeLazy {
         resources.getDimension(R.dimen.selected_drag_item_elevation)
-    }
-
-    private val hashtagRegex by unsafeLazy {
-        Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE)
     }
 
     private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
@@ -285,7 +281,7 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
     private fun validateHashtag(input: CharSequence?): Boolean {
         val trimmedInput = input?.trim() ?: ""
-        return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
+        return trimmedInput.isNotEmpty() && hashtagPattern.matcher(trimmedInput).matches()
     }
 
     private fun updateAvailableTabs() {

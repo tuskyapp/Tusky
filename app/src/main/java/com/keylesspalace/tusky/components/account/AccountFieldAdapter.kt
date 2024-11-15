@@ -63,7 +63,7 @@ class AccountFieldAdapter(
             valueTextView,
             animateEmojis
         )
-        setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener)
+        setClickableText(valueTextView, emojifiedValue, emptyList(), null, linkListener, null)
 
         if (field.verifiedAt != null) {
             valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(

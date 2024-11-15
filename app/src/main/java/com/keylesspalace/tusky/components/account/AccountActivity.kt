@@ -476,7 +476,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             binding.accountNoteTextView,
             animateEmojis
         )
-        setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this)
+        setClickableText(binding.accountNoteTextView, emojifiedNote, emptyList(), null, this, null)
 
         accountFieldAdapter.fields = account.fields
         accountFieldAdapter.emojis = account.emojis

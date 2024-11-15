@@ -183,7 +183,7 @@ class StatusViewHolder(
                 binding.statusContent,
                 statusDisplayOptions.animateEmojis
             )
-            setClickableText(binding.statusContent, emojifiedText, mentions, tags, listener)
+            setClickableText(binding.statusContent, emojifiedText, mentions, tags, listener, null)
         } else {
             setClickableMentions(binding.statusContent, mentions, listener)
         }

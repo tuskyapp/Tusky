@@ -338,6 +338,25 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
 
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
+        android:id="@+id/status_trailing_hashtags"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:hyphenationFrequency="full"
+        android:importantForAccessibility="no"
+        android:textColor="?android:textColorPrimary"
+        android:textIsSelectable="true"
+        android:textSize="?attr/status_text_medium"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        tools:text="#one #two #three #four #five #six #seven #eight #nine #ten" />
+
     <ImageButton
         android:id="@+id/status_reply"
         style="@style/TuskyImageButton"
@@ -350,7 +369,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
+        app:layout_constraintTop_toBottomOf="@id/status_trailing_hashtags"
         app:srcCompat="@drawable/ic_reply_24dp"
         tools:ignore="NegativeMargin" />
 

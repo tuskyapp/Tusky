@@ -3,9 +3,15 @@
 package com.keylesspalace.tusky.util
 
 import android.text.Spanned
+import java.util.regex.Pattern
 import kotlin.random.Random
 
 private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+const val wordBreakExpression = """(^|$|[^\p{L}\p{N}_])"""
+const val wordBreakFromSpaceExpression = """(^|$|\s)"""
+const val hashtagExpression = "([\\w_]*[\\p{Alpha}_][\\w_]*)"
+val hashtagPattern by unsafeLazy { Pattern.compile(hashtagExpression, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE) }
 
 fun randomAlphanumericString(count: Int): String {
     val chars = CharArray(count)
