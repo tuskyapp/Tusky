@@ -887,5 +887,8 @@
     <string name="notification_policy_accept">Accept</string>
     <string name="notification_policy_filter">Filter</string>
     <string name="notification_policy_ignore">Ignore</string>
+    <string name="filtered_notifications_title">Filtered Notifications</string>
+    <string name="accept_notification_request">Accept notification request</string>
+    <string name="dismiss_notification_request">Dismiss notification request</string>
 
 </resources>

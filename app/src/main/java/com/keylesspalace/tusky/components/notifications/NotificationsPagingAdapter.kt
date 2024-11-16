@@ -137,11 +137,6 @@ class NotificationsPagingAdapter(
                 notificationActionListener,
                 accountActionListener
             )
-            VIEW_TYPE_FILTERED -> FilteredNotificationViewHolder(
-                ItemNotificationFilteredBinding.inflate(inflater, parent, false),
-                accountActionListener,
-                notificationActionListener
-            )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )
@@ -180,8 +175,7 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_FOLLOW_REQUEST = 4
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_FILTERED = 7
-        private const val VIEW_TYPE_UNKNOWN = 8
+        private const val VIEW_TYPE_UNKNOWN = 7
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

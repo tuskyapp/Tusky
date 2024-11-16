@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.NotificationPolicy
+import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
@@ -738,6 +739,17 @@ interface MastodonApi {
         @Field("for_private_mentions") forPrivateMentions: String?,
         @Field("for_limited_accounts") forLimitedAccounts: String?
     ): NetworkResult<NotificationPolicy>
+
+    @GET("api/v1/notifications/requests")
+    suspend fun getNotificationRequests(
+        @Query("max_id") maxId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("limit") limit: Int? = null
+    ): Response<List<NotificationRequest>>
+
+    @POST("api/v1/notifications/requests/{id}/accept")
+    suspend fun acceptNotificationRequest(@Path("id") notificationId: String): NetworkResult<Unit>
 
     @POST("api/v1/notifications/requests/{id}/dismiss")
     suspend fun dismissNotificationRequest(@Path("id") notificationId: String): NetworkResult<Unit>

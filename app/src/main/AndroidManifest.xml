@@ -150,6 +150,7 @@
         <activity android:name="com.keylesspalace.tusky.components.filters.EditFilterActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".components.preference.notificationpolicies.NotificationPoliciesActivity"/>
+        <activity android:name=".components.notifications.requests.NotificationRequestsActivity"/>
 
         <receiver
             android:name=".receiver.SendStatusBroadcastReceiver"

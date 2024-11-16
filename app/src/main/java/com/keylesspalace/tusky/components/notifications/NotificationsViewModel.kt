@@ -139,6 +139,10 @@ class NotificationsViewModel @Inject constructor(
                 refreshTrigger.value++
             }
         }
+        loadNotificationPolicy()
+    }
+
+    fun loadNotificationPolicy() {
         viewModelScope.launch {
             notificationPolicyUsecase.getNotificationPolicy()
         }

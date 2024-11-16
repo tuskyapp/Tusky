@@ -45,16 +45,17 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.NotificationPolicy.Summary
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -67,6 +68,7 @@ import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -172,7 +174,9 @@ class NotificationsFragment :
             )
         )
 
-        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter{ /*TODO */}
+        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter{
+            (activity as BaseActivity).startActivityWithSlideInAnimation(NotificationRequestsActivity.newIntent(requireContext()))
+        }
         this.notificationsPolicyAdapter = notificationsPolicyAdapter
 
         binding.recyclerView.adapter = ConcatAdapter(notificationsPolicyAdapter, notificationsAdapter)
@@ -294,6 +298,7 @@ class NotificationsFragment :
 
     override fun onRefresh() {
         notificationsAdapter?.refresh()
+        viewModel.loadNotificationPolicy()
     }
 
     override fun onViewAccount(id: String) {
