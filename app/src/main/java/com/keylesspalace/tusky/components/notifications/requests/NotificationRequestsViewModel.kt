@@ -26,7 +26,6 @@ import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
-import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -78,7 +77,7 @@ class NotificationRequestsViewModel @Inject constructor(
         viewModelScope.launch {
             eventHub.events
                 .collect { event ->
-                    when(event){
+                    when (event) {
                         is BlockEvent -> removeAllByAccount(event.accountId)
                         is MuteEvent -> removeAllByAccount(event.accountId)
                     }

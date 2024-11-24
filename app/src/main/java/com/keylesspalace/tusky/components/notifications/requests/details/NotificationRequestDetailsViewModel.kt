@@ -24,6 +24,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
+import at.connyduck.calladapter.networkresult.map
 import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
@@ -36,6 +37,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
+import com.keylesspalace.tusky.viewdata.TranslationViewData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -98,7 +100,7 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
         viewModelScope.launch {
             eventHub.events
                 .collect { event ->
-                    when(event){
+                    when (event) {
                         is StatusChangedEvent -> updateStatus(event.status)
                         is BlockEvent -> removeIfAccount(event.accountId)
                         is MuteEvent -> removeIfAccount(event.accountId)
@@ -181,30 +183,15 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
     }
 
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
-        val position = notificationData.indexOfFirst { it.asStatusOrNull()?.id == status.id }
-        if (position == -1) {
-            return
-        }
-        notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isExpanded = expanded))
-        currentSource?.invalidate()
+        updateStatusViewData(status.id) { it.copy(isExpanded = expanded) }
     }
 
     fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
-        val position = notificationData.indexOfFirst { it.asStatusOrNull()?.id == status.id }
-        if (position == -1) {
-            return
-        }
-        notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isShowingContent = isShowing))
-        currentSource?.invalidate()
+        updateStatusViewData(status.id) { it.copy(isShowingContent = isShowing) }
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
-        val position = notificationData.indexOfFirst { it.asStatusOrNull()?.id == status.id }
-        if (position == -1) {
-            return
-        }
-        notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isCollapsed = isCollapsed))
-        currentSource?.invalidate()
+        updateStatusViewData(status.id) { it.copy(isCollapsed = isCollapsed) }
     }
 
     fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete) = viewModelScope.launch {
@@ -219,11 +206,26 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
-        return NetworkResult.success(Unit)
+    suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
+        updateStatusViewData(status.id) { viewData ->
+            viewData.copy(translation = TranslationViewData.Loading)
+        }
+        return timelineCases.translate(status.actionableId)
+            .map { translation ->
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = TranslationViewData.Loaded(translation))
+                }
+            }
+            .onFailure {
+                updateStatusViewData(status.id) { viewData ->
+                    viewData.copy(translation = null)
+                }
+            }
     }
 
-    fun untranslate(status: StatusViewData.Concrete) {}
+    fun untranslate(status: StatusViewData.Concrete) {
+        updateStatusViewData(status.id) { it.copy(translation = null) }
+    }
 
     fun respondToFollowRequest(accept: Boolean, accountId: String, notification: NotificationViewData) {
         viewModelScope.launch {
@@ -241,6 +243,16 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
                 }
             )
         }
+    }
+
+    private fun updateStatusViewData(
+        statusId: String,
+        updater: (StatusViewData.Concrete) -> StatusViewData.Concrete
+    ) {
+        val position = notificationData.indexOfFirst { it.asStatusOrNull()?.id == statusId }
+        val statusViewData = notificationData.getOrNull(position)?.statusViewData ?: return
+        notificationData[position] = notificationData[position].copy(statusViewData = updater(statusViewData))
+        currentSource?.invalidate()
     }
 
     companion object {
