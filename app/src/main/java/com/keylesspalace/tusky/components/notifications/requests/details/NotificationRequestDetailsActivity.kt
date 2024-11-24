@@ -44,6 +44,7 @@ class NotificationRequestDetailsActivity : BaseActivity() {
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
         val emojis: List<Emoji> = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            @Suppress("DEPRECATION")
             intent.getParcelableArrayListExtra<Emoji>(EXTRA_ACCOUNT_EMOJIS) as ArrayList<Emoji>
         } else {
             intent.getParcelableArrayListExtra(EXTRA_ACCOUNT_EMOJIS, Emoji::class.java)!!
