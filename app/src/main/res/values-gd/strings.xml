@@ -162,13 +162,13 @@
         <item quantity="few">%1$s bhòtaichean</item>
         <item quantity="other">%1$s bhòt</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 bhòtaichean • 1 uair a thìde air fhàgail --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 bhòtaichean • 1 uair a thìde air fhàgail --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">Gnìomhan dhan dealbh %1$s</string>
     <string name="notification_clear_text">A bheil thu cinnteach gu bheil thu airson na brathan uile agad fhalamhachadh gu buan\?</string>
     <string name="compose_shortcut_long_label">Sgrìobh post</string>
     <string name="filter_apply">Cuir an sàs</string>
     <string name="notifications_apply_filter">Criathraich</string>
-    <string name="notifications_clear">Falamhaich</string>
+    <string name="notifications_clear">Sguab às</string>
     <string name="list">Liosta</string>
     <string name="select_list_title">Tagh liosta</string>
     <string name="edit_hashtag_hint">Taga hais gun #</string>
@@ -267,13 +267,13 @@
     <string name="notification_boost_description">Brathan nuair a thèid post agad brosnachadh</string>
     <string name="dialog_redraft_post_warning">A bheil thu airson am post seo a sguabadh às is dreachd ùr a dhèanamh air\?</string>
     <string name="dialog_delete_post_warning">A bheil thu airson am post seo a sguabadh às\?</string>
-    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a>
-\n
-\nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann.
-\n
-\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach.
-\n
-\nGheibh thu barrachd fiosrachaidh air <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a> 
+\n 
+\nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann. 
+\n 
+\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach. 
+\n 
+\nGheibh thu barrachd fiosrachaidh air <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="send_post_content_to">Co-roinn am post le…</string>
     <string name="send_post_link_to">Co-roinn URL a’ phuist le…</string>
     <string name="action_schedule_post">Cuir post air an sgeideal</string>
@@ -297,7 +297,7 @@
     <string name="filter_addition_title">Cuir criathrag ris</string>
     <string name="pref_title_thread_filter_keywords">Còmhraidhean</string>
     <string name="pref_title_public_filter_keywords">Loidhnichean-ama poblach</string>
-    <string name="load_more_placeholder_text">luchdaich barrachd dheth</string>
+    <string name="load_more_placeholder_text">Luchdaich barrachd dheth</string>
     <string name="replying_to">A’ freagairt gu @%1$s</string>
     <string name="title_media">Meadhanan</string>
     <string name="pref_title_alway_show_sensitive_media">Seall susbaint fhrionasach an-còmhnaidh</string>
@@ -354,9 +354,9 @@
     <string name="pref_main_nav_position_option_top">Aig a’ bhàrr</string>
     <string name="pref_main_nav_position">Prìomh-ionad na seòladaireachd</string>
     <string name="pref_failed_to_sync">Dh’fhàillig le sioncronachadh nan roghainnean</string>
-    <string name="pref_publishing">’Ga fhoillseachadh (ga shioncronachadh le frithealaiche)</string>
-    <string name="pref_default_media_sensitivity">Cuir comharra ri meadhanan an-còmhnaidh gu bheil iad frionasach</string>
-    <string name="pref_default_post_privacy">Prìobhaideachd bhunaiteach nam post</string>
+    <string name="pref_publishing">Bun-roghainnean an fhoillseachaidh</string>
+    <string name="pref_default_media_sensitivity">Cuir comharra ri meadhanan an-còmhnaidh gu bheil iad frionasach (’ga shioncronachadh leis an fhrithealaiche)</string>
+    <string name="pref_default_post_privacy">Prìobhaideachd nam post (’ga shioncronachadh leis an fhrithealaiche)</string>
     <string name="pref_title_http_proxy_port">Port progsaidh HTTP</string>
     <string name="pref_title_http_proxy_server">Frithealaiche progsaidh HTTP</string>
     <string name="pref_title_http_proxy_enable">Cuir an comas a’ phrogsaidh HTTP</string>
@@ -364,7 +364,7 @@
     <string name="pref_title_proxy_settings">Progsaidh</string>
     <string name="pref_title_show_media_preview">Luchdaich a-nuas ro-sheallaidhean air meadhanan</string>
     <string name="pref_title_show_replies">Seall na freagairtean</string>
-    <string name="pref_title_post_tabs">Tabaichean</string>
+    <string name="pref_title_post_tabs">Dachaigh</string>
     <string name="pref_title_post_filter">Criathradh na loidhne-ama</string>
     <string name="pref_title_gradient_for_media">Seall caiseadan dathte an àite meadhanan falaichte</string>
     <string name="pref_title_animate_gif_avatars">Beothaich avataran GIF</string>
@@ -580,7 +580,7 @@
     <string name="failed_to_remove_from_list">Cha deach leinn an cunntas a thoirt air falbh on liosta</string>
     <string name="title_edits">Deasachaidhean</string>
     <string name="status_created_at_now">an-dràsta</string>
-    <string name="pref_default_post_language">Cànan bunaiteach nam post</string>
+    <string name="pref_default_post_language">Cànan nam post (’ga shioncronachadh leis an fhrithealaiche)</string>
     <string name="status_created_info">Chruthaich %1$s</string>
     <string name="status_edit_info">Dheasaich %1$s</string>
     <string name="no_lists">Chan eil liosta sam bith agad.</string>
@@ -686,4 +686,57 @@
     <string name="about_copied">Chaidh lethbhreac de thionndadh is fiosrachadh an uidheim a dhèanamh</string>
     <string name="list_exclusive_label">Falaich o loidhne-ama na dachaigh</string>
     <string name="error_media_upload_sending_fmt">Dh’fhàillig leis an luchdadh suas: %1$s</string>
+    <string name="action_follow_hashtag">Lean taga hais ùr</string>
+    <string name="action_translate">Eadar-theangaich</string>
+    <string name="action_show_original">Seall an tionndadh tùsail</string>
+    <string name="label_image">Dealbh</string>
+    <string name="pref_title_per_timeline_preferences">Roghainnean do loidhne-ama fa leth</string>
+    <string name="label_expires_after">Falbhaidh an ùine air an dèidh</string>
+    <string name="report_category_legal">Laghail</string>
+    <string name="dialog_delete_filter_text">A bheil thu airson a’ chriathrag “%1$s” a sguabadh às?</string>
+    <string name="list_reply_policy_none">Chan eil gin</string>
+    <string name="error_media_playback">Cha b’ urrainn dhuinn a chluich: %1$s</string>
+    <string name="app_theme_system_black">Cleachd co-dhealbhachd an t-siostaim (dubh)</string>
+    <string name="pref_title_show_self_boosts">Seall na bhrosnaichear fhèin</string>
+    <string name="pref_title_show_self_boosts_description">Cuideigin a’ brosnachadh am post aca fhèin</string>
+    <string name="url_copied">Chaidh lethbhreac dhen URL a dhèanamh</string>
+    <string name="confirmation_hashtag_copied">Chaidh lethbhreac a dhèanamh dhe “#%1$s”</string>
+    <string name="reply_sending">’Ga chur…</string>
+    <string name="reply_sending_long">Tha an fhreagairt agad ’ga cur.</string>
+    <string name="pref_default_reply_privacy">Prìobhaideachd nam freagairtean (gun sioncronachadh leis an fhrithealaiche)</string>
+    <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. 
+\n
+\nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd [iconics gmd_public] puist air [iconics gmd_mail] <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. 
+\n
+\nMar eisimpleir, ’s urrainn dhut tòiseachadh air sealladh pròifil cunntais agus gnogag a thoirt air putan a’ chruthachaidh [iconics gmd_edit] agus an fhaicsinneachd atharrachadh. \u0020</string>
+    <string name="help_empty_lists">Seo <b>sealladh nan liostaichean</b> agad. ’S urrainn dhut iomadh liosta phrìobhaideach a chruthachadh ’s cunntasan a chur riutha. 
+\n
+\n \u0020THOIR AN AIRE nach urrainn dhut ach cunntasan a leanas tu a chur ris na liostaichean agad. 
+\n
+\n \u0020’S urrainn dhut na liostaichean seo a chleachdadh ’nan tabaichean ann an “Roghainnean a’ chunntais” [iconics gmd_account_circle] [iconics gmd_navigate_next] “Tabaichean”. \u0020</string>
+    <string name="list_reply_policy_list">Buill na liosta</string>
+    <string name="list_reply_policy_followed">Cleachdaiche sam bith a leanas mi</string>
+    <string name="list_reply_policy_label">Seall na freagairtean gu</string>
+    <string name="dialog_save_profile_changes_message">A bheil thu airson na h-atharraichean air a’ phròifil agad a shàbhaladh?</string>
+    <string name="muting_hashtag_success_format">A’ mùchadh an taga hais #%1$s mar rabhadh</string>
+    <string name="error_blocking_domain">Dh’fhàillig le mùchadh %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Dh’fhàillig le dì-mhùchadh %1$s: %2$s</string>
+    <string name="pref_default_reply_privacy_explanation">Bi ro-thaghadh na prìobhaideachd an eisimeil air a’ phost dhan fhreagair thu.</string>
+    <string name="pref_match_default_post_privacy">A-rèir prìobhaideachd bhunaiteach nam post</string>
+    <string name="post_privacy_direct">Dìreach</string>
+    <string name="dialog_delete_filter_positive_action">Sguab às</string>
+    <string name="label_translating">’Ga eadar-theangachadh…</string>
+    <string name="label_translated">Air eadar-theangachadh o %1$s le %2$s</string>
+    <string name="action_view_filter">Seall a’ chriathrag</string>
+    <string name="unmuting_hashtag_success_format">A’ dì-mhùchadh an taga hais #%1$s</string>
+    <string name="following_hashtag_success_format">A’ leantainn an taga hais #%1$s a-nis</string>
+    <string name="unfollowing_hashtag_success_format">Air sgur de leantainn an taga hais #%1$s</string>
+    <string name="pref_title_confirm_follows">Seall dearbhadh mus lean thu</string>
+    <string name="ui_error_translate">Cha b’ urrainn dhuinn seo eadar-theangachadh: %1$s</string>
+    <string name="unknown_notification_type">Seòrsa bratha nach aithne dhuinn</string>
+    <string name="dialog_follow_warning">A bheil thu airson an cunntas seo a leantainn?</string>
+    <string name="pref_title_show_notifications_filter">Seall criathrag nam brathan</string>
+    <string name="error_deleting_filter">Mearachd le sguabadh às na criathraige “%1$s”</string>
+    <string name="error_saving_filter">Mearachd le sàbhaladh na criathraige “%1$s”</string>
+    <string name="title_public_trending_statuses">Postaichean a’ treandadh</string>
 </resources>
