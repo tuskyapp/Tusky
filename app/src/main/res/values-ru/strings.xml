@@ -4,7 +4,7 @@
     <string name="error_network">Произошла ошибка сети. Пожалуйста, проверьте интернет-соединение и попробуйте снова.</string>
     <string name="error_empty">Не может быть пустым.</string>
     <string name="error_invalid_domain">Введен недопустимый домен</string>
-    <string name="error_failed_app_registration">Не удалось пройти аутентификацию в этом экземпляре. Если ситуация не изменилась, попробуйте войти в систему через браузер из меню.</string>
+    <string name="error_failed_app_registration">Не удалось пройти аутентификацию на этом сервере. Если ошибка повторяется каждый раз, попробуйте войти через браузер, выбрав соответствующий пункт в меню.</string>
     <string name="error_no_web_browser_found">Не удалось найти веб-браузер для использования.</string>
     <string name="error_authorization_unknown">Произошла неопознанная ошибка авторизации. Если ошибка не исчезла, попробуйте войти в систему через браузер из меню.</string>
     <string name="error_authorization_denied">В авторизации было отказано. Если вы уверены, что ввели правильные учетные данные, попробуйте войти из браузера в меню.</string>
@@ -37,7 +37,7 @@
     <string name="title_drafts">Черновики</string>
     <string name="title_licenses">Лицензии</string>
     <string name="post_username_format">\@%1$s</string>
-    <string name="post_boosted_format">%1$s поделился(-ась)</string>
+    <string name="post_boosted_format">%1$s продвинул(а)</string>
     <string name="post_sensitive_media_title">Содержание, которое может быть неприятным или нежелательным</string>
     <string name="post_media_hidden_title">Медиа скрыто</string>
     <string name="post_sensitive_media_directions">Нажмите для просмотра</string>
@@ -47,15 +47,15 @@
     <string name="post_content_show_less">Свернуть</string>
     <string name="message_empty">Тут ничего нет.</string>
     <string name="footer_empty">Тут ничего нет. Потяните вниз, чтобы обновить!</string>
-    <string name="notification_reblog_format">%1$s поделился(-ась) вашей записью</string>
+    <string name="notification_reblog_format">%1$s продвинул(а) ваш пост</string>
     <string name="notification_favourite_format">%1$s отдал(а) предпочтение вашему посту</string>
     <string name="notification_follow_format">%1$s подписался(-лась) на вас</string>
     <string name="report_username_format">Пожаловаться на @%1$s</string>
     <string name="report_comment_hint">Дополнительные замечания\?</string>
     <string name="action_quick_reply">Быстрый ответ</string>
     <string name="action_reply">Ответить</string>
-    <string name="action_reblog">Поделиться</string>
-    <string name="action_unreblog">Убрать цитирование</string>
+    <string name="action_reblog">Продвинуть</string>
+    <string name="action_unreblog">Отменить продвижение</string>
     <string name="action_favourite">Избрать</string>
     <string name="action_unfavourite">Убрать из избранного</string>
     <string name="action_more">Больше</string>
@@ -67,8 +67,8 @@
     <string name="action_unfollow">Отписаться</string>
     <string name="action_block">Заблокировать</string>
     <string name="action_unblock">Разблокировать</string>
-    <string name="action_hide_reblogs">Скрыть цитирование</string>
-    <string name="action_show_reblogs">Показать цитирование</string>
+    <string name="action_hide_reblogs">Скрывать продвижения</string>
+    <string name="action_show_reblogs">Показывать продвижения</string>
     <string name="action_report">Пожаловаться</string>
     <string name="action_delete">Удалить</string>
     <string name="action_delete_and_redraft">Удалить и пересоздать</string>
@@ -102,14 +102,14 @@
     <string name="action_search">Поиск</string>
     <string name="action_access_drafts">Черновики</string>
     <string name="action_toggle_visibility">Видимость поста</string>
-    <string name="action_content_warning">Предупреждения о нежелательном содержимом</string>
+    <string name="action_content_warning">Предупреждение о содержании</string>
     <string name="action_emoji_keyboard">Эмодзи-клавиатура</string>
     <string name="action_add_tab">Добавить вкладку</string>
     <string name="action_links">Ссылки</string>
     <string name="action_mentions">Упоминания</string>
     <string name="action_hashtags">Хэштеги</string>
-    <string name="action_open_reblogger">Перейти к автору цитирования</string>
-    <string name="action_open_reblogged_by">Показать цитирования</string>
+    <string name="action_open_reblogger">Перейти к продвинувшему пост</string>
+    <string name="action_open_reblogged_by">Показать продвижения</string>
     <string name="action_open_faved_by">Показать избранное</string>
     <string name="title_hashtags_dialog">Хэштеги</string>
     <string name="title_mentions_dialog">Упоминания</string>
@@ -121,15 +121,15 @@
     <string name="action_share_as">Поделиться как…</string>
     <string name="download_media">Скачать медиа</string>
     <string name="downloading_media">Скачивание медиа</string>
-    <string name="send_post_link_to">Поделиться URL-ссылкой на запись…</string>
+    <string name="send_post_link_to">Поделиться ссылкой на пост с…</string>
     <string name="send_post_content_to">Поделится постом с…</string>
     <string name="send_media_to">Поделится медиа в…</string>
     <string name="confirmation_reported">Отправлено!</string>
     <string name="confirmation_unblocked">Пользователь разблокирован</string>
     <string name="confirmation_unmuted">Глушение пользователя снято</string>
-    <string name="hint_domain">Какой экземпляр\?</string>
+    <string name="hint_domain">Какой сервер?</string>
     <string name="hint_compose">Что случилось\?</string>
-    <string name="hint_content_warning">Предупреждение о потенциально нежелательном содержании</string>
+    <string name="hint_content_warning">Предупреждение о содержании</string>
     <string name="hint_display_name">Отображаемое имя</string>
     <string name="hint_note">О себе</string>
     <string name="hint_search">Поиск…</string>
@@ -137,26 +137,26 @@
     <string name="label_quick_reply">Ответить…</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_header">Заголовок</string>
-    <string name="link_whats_an_instance">Что такое экземпляр\?</string>
+    <string name="link_whats_an_instance">Что такое сервер?</string>
     <string name="login_connection">Подключаюсь…</string>
-    <string name="dialog_whats_an_instance">Здесь можно указать адрес или домен любого экземпляра, например mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">другие!</a>.
-\n
-\nЕсли у вас еще нет учетной записи Вы можете ввести имя экземпляра к которому хотите присоединиться и создать там учетную запись.
-\n
-\nЭкземпляр - это отдельное место где размещен ваш аккаунт, но вы можете легко общаться с людьми на других экземплярах и следить за ними как будто вы находитесь на том же сайте.
-\n
-\nБолее подробную информацию можно найти на сайте <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+    <string name="dialog_whats_an_instance">Здесь можно указать адрес или домен любого сервера, например mastodon.social, icosahedron.website, social.tchncs.de или <a href="https://instances.social">какого-нибудь ещё!</a>. 
+\n 
+\nЕсли у вас еще нет учетной записи, вы можете ввести название сервера, к которому хотите присоединиться, и создать на нем новую учетную запись. 
+\n 
+\nСервер — это тот сайт, на котором располагается ваша учетная запись, но вы можете легко общаться с людьми на других серверах и подписываться на них, как будто вы находитесь на одном и том же сайте. 
+\n 
+\nБолее подробную информацию можно найти на сайте <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Завершение загрузки медиа</string>
     <string name="dialog_message_uploading_media">Загружаем…</string>
     <string name="dialog_download_image">Загрузить</string>
     <string name="dialog_message_cancel_follow_request">Отозвать запрос на подписку\?</string>
-    <string name="dialog_unfollow_warning">Отписаться от этого аккаунта?</string>
+    <string name="dialog_unfollow_warning">Отписаться от пользователя?</string>
     <string name="dialog_delete_post_warning">Удалить пост\?</string>
     <string name="dialog_redraft_post_warning">Удалить и переписать этот пост\?</string>
-    <string name="visibility_public">Публично: Написать в общедоступных лентах</string>
-    <string name="visibility_unlisted">Скрытно: Не показывать в общедоступных лентах</string>
-    <string name="visibility_private">Только подписчики: Публикуйте записи только для подписчиков</string>
-    <string name="visibility_direct">Напрямую: сделать запись только для упомянутых пользователей</string>
+    <string name="visibility_public">Публичный: Видимый в публичных лентах</string>
+    <string name="visibility_unlisted">Скрытый: Не отображается в публичных лентах</string>
+    <string name="visibility_private">Только для подписчиков: Видим только вашим подписчикам</string>
+    <string name="visibility_direct">Личное упоминание: Видим только для упомянутых пользователей</string>
     <string name="pref_title_edit_notification_settings">Уведомления</string>
     <string name="pref_title_notifications_enabled">Уведомления</string>
     <string name="pref_title_notification_alerts">Оповещения</string>
@@ -166,11 +166,11 @@
     <string name="pref_title_notification_filters">Уведомлять меня если</string>
     <string name="pref_title_notification_filter_mentions">меня упомянули</string>
     <string name="pref_title_notification_filter_follows">кто-то подписался</string>
-    <string name="pref_title_notification_filter_reblogs">мои посты процитировали</string>
+    <string name="pref_title_notification_filter_reblogs">мои посты продвигают</string>
     <string name="pref_title_notification_filter_favourites">мой пост был избран</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема приложения</string>
-    <string name="pref_title_timelines">Хроники</string>
+    <string name="pref_title_timelines">Ленты</string>
     <string name="pref_title_timeline_filters">Фильтры</string>
     <string name="app_them_dark">Тёмная</string>
     <string name="app_theme_light">Светлая</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_language">Язык</string>
     <string name="pref_title_post_filter">Фильтрование ленты</string>
     <string name="pref_title_post_tabs">Bкладки</string>
-    <string name="pref_title_show_boosts">Показать цитирования</string>
+    <string name="pref_title_show_boosts">Показывать продвижения</string>
     <string name="pref_title_show_replies">Показать ответы</string>
     <string name="pref_title_show_media_preview">Загрузить предпросмотр медиа</string>
     <string name="pref_title_proxy_settings">Прокси</string>
@@ -190,12 +190,12 @@
     <string name="pref_title_http_proxy_enable">Включить HTTP прокси</string>
     <string name="pref_title_http_proxy_server">Адрес HTTP прокси сервера</string>
     <string name="pref_title_http_proxy_port">Порт</string>
-    <string name="pref_default_post_privacy">Конфиденциальность постов по умолчанию</string>
-    <string name="pref_default_media_sensitivity">Всегда помечать медиа как деликатные</string>
-    <string name="pref_publishing">Опубликовывать (синхронизировано с сервером)</string>
+    <string name="pref_default_post_privacy">Видимость постов (синхронизируется с сервером)</string>
+    <string name="pref_default_media_sensitivity">Всегда помечать медиафайлы как деликатные (синхронизируется с сервером)</string>
+    <string name="pref_publishing">Установки по умолчанию для новых постов</string>
     <string name="pref_failed_to_sync">Не удалось синхронизировать настройки</string>
-    <string name="post_privacy_public">Публично</string>
-    <string name="post_privacy_unlisted">Скрытно</string>
+    <string name="post_privacy_public">Публичный</string>
+    <string name="post_privacy_unlisted">Скрытый</string>
     <string name="post_privacy_followers_only">Только для подписчиков</string>
     <string name="pref_post_text_size">Размер текста сообщения</string>
     <string name="post_text_size_smallest">Крохотный</string>
@@ -207,8 +207,8 @@
     <string name="notification_mention_descriptions">Уведомлять о новых упоминаниях</string>
     <string name="notification_follow_name">Новые подписчики</string>
     <string name="notification_follow_description">Уведомлять о новых подписчиках</string>
-    <string name="notification_boost_name">Цитирования</string>
-    <string name="notification_boost_description">Уведомлять, если кто-то процитировал ваши записи</string>
+    <string name="notification_boost_name">Продвижения</string>
+    <string name="notification_boost_description">Уведомлять, когда кто-то продвигает ваши посты</string>
     <string name="notification_favourite_name">Избранное</string>
     <string name="notification_favourite_description">Уведомлять, когда ваши сообщения добавляют в «избранное»</string>
     <string name="notification_poll_name">Опросы</string>
@@ -233,7 +233,7 @@
 \n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Профиль Tusky</string>
     <string name="post_share_content">Поделиться содержанием поста</string>
-    <string name="post_share_link">Поделиться ссылкой на запись</string>
+    <string name="post_share_link">Поделиться ссылкой на пост</string>
     <string name="post_media_images">Изображения</string>
     <string name="post_media_video">Видео</string>
     <string name="state_follow_requested">Запрос на подписку отправлено</string>
@@ -274,10 +274,10 @@
         <item quantity="other">осталось %1$d секунд</item>
     </plurals>
     <string name="follows_you">Подписан(а) на вас</string>
-    <string name="pref_title_alway_show_sensitive_media">Всегда показывать потенциально нежелательный контент</string>
+    <string name="pref_title_alway_show_sensitive_media">Всегда показывать контент деликатного характера</string>
     <string name="title_media">Медиа</string>
     <string name="replying_to">Ответить @%1$s</string>
-    <string name="load_more_placeholder_text">загрузить ещё</string>
+    <string name="load_more_placeholder_text">Загрузить ещё</string>
     <string name="pref_title_public_filter_keywords">Публичные ленты</string>
     <string name="pref_title_thread_filter_keywords">Разговоры</string>
     <string name="filter_addition_title">Добавить фильтр</string>
@@ -293,7 +293,7 @@
     <string name="error_rename_list">Не удалось обновить список</string>
     <string name="error_delete_list">Не удалось удалить список</string>
     <string name="action_create_list">Создать список</string>
-    <string name="action_rename_list">Обновить список</string>
+    <string name="action_rename_list">Изменить список</string>
     <string name="action_delete_list">Удалить список</string>
     <string name="hint_search_people_list">Поиск среди людей на которых вы подписаны</string>
     <string name="action_add_to_list">Добавить аккаунт в список</string>
@@ -316,7 +316,7 @@
     <string name="send_post_notification_cancel_title">Отправка отменена</string>
     <string name="send_post_notification_saved_content">Копия этого сообщения сохранена в ваших черновиках</string>
     <string name="action_compose_shortcut">Написать</string>
-    <string name="error_no_custom_emojis">У вашего экземпляра %1$s нет собственных эмодзи</string>
+    <string name="error_no_custom_emojis">На сервере %1$s нет собственных эмодзи</string>
     <string name="emoji_style">Стиль эмодзи</string>
     <string name="system_default">Задан системой по умолчанию</string>
     <string name="download_fonts">Эти наборы эмодзи сперва нужно загрузить</string>
@@ -324,7 +324,7 @@
     <string name="expand_collapse_all_posts">Развернуть/свернуть все посты</string>
     <string name="action_open_post">Открыть пост</string>
     <string name="restart_required">Требуется перезапуск приложения</string>
-    <string name="restart_emoji">Вам нужно будет перезапустить Tusky, чтобы применить эти изменения.</string>
+    <string name="restart_emoji">Перезапустите Tusky, чтобы изменения вступили в силу</string>
     <string name="later">Позже</string>
     <string name="restart">Перезапустить</string>
     <string name="caption_systememoji">Набор эмодзи по умолчанию на этом устройстве</string>
@@ -334,45 +334,45 @@
     <string name="profile_badge_bot_text">Бот</string>
     <string name="account_moved_description">%1$s переехал(а) на:</string>
     <string name="reblog_private">Процитировать для изначальной аудитории</string>
-    <string name="unreblog_private">Не цитировать</string>
+    <string name="unreblog_private">Отменить продвижение</string>
     <string name="license_description">Tusky использует код и материалы из следующих проектов с открытым исходным кодом:</string>
     <string name="license_apache_2">Используется лицензия Apache License (копия ниже)</string>
     <string name="license_cc_by_4">CC-BY 4.0</string>
     <string name="license_cc_by_sa_4">CC-BY-SA 4.0</string>
     <string name="profile_metadata_label">Метаданные профиля</string>
     <string name="profile_metadata_add">добавить данные</string>
-    <string name="profile_metadata_label_label">Этикетка</string>
+    <string name="profile_metadata_label_label">Заголовок</string>
     <string name="profile_metadata_content_label">Содержание</string>
     <string name="pref_title_absolute_time">Показывать абсолютное время</string>
     <string name="label_remote_account">Информация ниже может отображать профиль пользователя не полностью. Нажмите чтобы открыть полный профиль в браузере.</string>
     <string name="unpin_action">Открепить</string>
     <string name="pin_action">Прикрепить</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Понравился</item>
-        <item quantity="few"><b>%1$s</b> Понравилось</item>
-        <item quantity="many"><b>%1$s</b> Понравилось</item>
-        <item quantity="other"><b>%1$s</b> Понравилось</item>
+        <item quantity="one"><b>%1$s</b> лайк</item>
+        <item quantity="few"><b>%1$s</b> лайка</item>
+        <item quantity="many"><b>%1$s</b> лайков</item>
+        <item quantity="other"><b>%1$s</b> лайков</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> Процитировал(а)</item>
-        <item quantity="few"><b>%1$s</b> Процитировали</item>
-        <item quantity="many"><b>%1$s</b> Процитировали</item>
-        <item quantity="other"><b>%1$s</b> Процитировали</item>
+        <item quantity="one"><b>%1$s</b> продвижение</item>
+        <item quantity="few"><b>%1$s</b> продвижения</item>
+        <item quantity="many"><b>%1$s</b> продвижений</item>
+        <item quantity="other"><b>%1$s</b> продвижений</item>
     </plurals>
-    <string name="title_reblogged_by">Процитировано</string>
-    <string name="title_favourited_by">Понравилось</string>
+    <string name="title_reblogged_by">Продвинули</string>
+    <string name="title_favourited_by">Добавили в избранное</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s и %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s и ещё %3$d</string>
     <string name="description_post_media">Медиа: %1$s</string>
-    <string name="description_post_cw">Предупреждение о потенциально нежелательном материале %1$s</string>
+    <string name="description_post_cw">Предупреждение о содержании: %1$s</string>
     <string name="description_post_media_no_description_placeholder">Без описания</string>
     <string name="description_post_reblogged">Распространено</string>
     <string name="description_post_favourited">Понравилось</string>
-    <string name="description_visibility_public">Публично</string>
-    <string name="description_visibility_unlisted">Скрыто</string>
+    <string name="description_visibility_public">Публичный</string>
+    <string name="description_visibility_unlisted">Скрытый</string>
     <string name="description_visibility_private">Подписчики</string>
-    <string name="description_visibility_direct">Прямо</string>
+    <string name="description_visibility_direct">Личное упоминание</string>
     <string name="hint_list_name">Название списка</string>
     <string name="edit_hashtag_hint">Хэштег без #</string>
     <string name="notifications_clear">Очистить</string>
@@ -380,9 +380,9 @@
     <string name="filter_apply">Применить</string>
     <string name="compose_shortcut_long_label">Создать пост</string>
     <string name="compose_shortcut_short_label">Написать</string>
-    <string name="pref_title_bot_overlay">Показать индикаторы для ботов</string>
+    <string name="pref_title_bot_overlay">Показывать индикаторы для ботов</string>
     <string name="notification_clear_text">Вы точно хотите удалить навсегда все ваши уведомления\?</string>
-    <string name="poll_info_format"> <!-- 15 голосов • 1 час остался--> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 голосов • 1 час остался--> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s голос</item>
         <item quantity="few">%1$s голоса</item>
@@ -402,7 +402,7 @@
     <string name="action_view_domain_mutes">Скрытые домены</string>
     <string name="action_mute_domain">Заглушить %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s не скрыт</string>
-    <string name="mute_domain_warning">Вы уверены, что хотите заблокировать все %1$s\? Вы не увидите контент с этого домена ни в публичных лентах, ни в своих уведомлениях. Ваши подписчики с этого домена будут удалены.</string>
+    <string name="mute_domain_warning">Вы уверены, что хотите заблокировать весь %1$s? Вы не увидите контент с этого домена ни в публичных лентах, ни в своих уведомлениях. Ваши подписчики с этого домена будут удалены.</string>
     <string name="mute_domain_warning_dialog_ok">Скрыть весь домен</string>
     <string name="pref_title_notification_filter_poll">опросы закончились</string>
     <string name="pref_title_animate_gif_avatars">Анимировать GIF-аватары</string>
@@ -415,11 +415,11 @@
     <string name="report_remote_instance">Переслать в %1$s</string>
     <string name="failed_report">Не удалось пожаловаться</string>
     <string name="failed_fetch_posts">Не удалось получить посты</string>
-    <string name="report_description_1">Жалоба будет отправлена модератору вашего экземпляра. Ниже вы можете дать объяснение о причинах жалобы на эту учетную запись:</string>
-    <string name="report_description_remote_instance">Этот аккаунт расположен на другом экземпляре. Отправить анонимную копию жалобы туда тоже\?</string>
+    <string name="report_description_1">Жалоба будет отправлена модератору вашего сервера. Ниже вы можете дать объяснение о причинах жалобы на эту учетную запись:</string>
+    <string name="report_description_remote_instance">Эта учетная запись расположена на другом сервере. Переслать туда анонимную копию жалобы?</string>
     <string name="action_add_poll">Добавить опрос</string>
-    <string name="pref_title_alway_open_spoiler">Всегда разворачивать посты с предупреждением о нежелательном контенте</string>
-    <string name="title_accounts">Аккаунты</string>
+    <string name="pref_title_alway_open_spoiler">Всегда раскрывать посты с предупреждениями о содержании</string>
+    <string name="title_accounts">Учетные записи</string>
     <string name="failed_search">Поиск завершился ошибкой</string>
     <string name="create_poll_title">Опрос</string>
     <string name="duration_5_min">5 минут</string>
@@ -449,7 +449,7 @@
     <string name="no_drafts">У вас нет никаких черновиков.</string>
     <string name="no_scheduled_posts">У вас нет запланированных постов.</string>
     <string name="warning_scheduling_interval">Минимальный интервал планирования в Mastodon составляет 5 минут.</string>
-    <string name="pref_title_confirm_reblogs">Запрашивать подтверждение перед цитированием</string>
+    <string name="pref_title_confirm_reblogs">Запрашивать подтверждение перед продвижением</string>
     <string name="pref_title_show_cards_in_timelines">Показывать предпросмотр ссылок в ленте</string>
     <string name="pref_title_enable_swipe_for_tabs">Включите жест пролистывания для переключения между вкладками</string>
     <plurals name="poll_info_people">
@@ -480,14 +480,14 @@
     <string name="pref_title_hide_top_toolbar">Скрыть заголовок верхней панели инструментов</string>
     <string name="no_announcements">Объявлений нет.</string>
     <string name="title_announcements">Объявления</string>
-    <string name="wellbeing_mode_notice">Некоторая информация, которая может повлиять на ваш комфорт будет скрыта. Она включает:
+    <string name="wellbeing_mode_notice">Некоторая информация, которая может повлиять на ваше самочувствие, будет скрыта. Она включает:
 \n
-\n - Уведомления о добавлении в избранное/цитировании/подписке
-\n - Количество добавлений в избранное/количество цитирований
-\n - Статистика подписчиков/постов в профилях
+\n - Уведомления о добавлении в избранное/продвижении/подписке
+\n - Количество добавлений в избранное/количество продвижений
+\n - Статистику подписчиков/постов в профилях
 \n
-\n На всплывающие уведомления это не повлияет, однако, вы можете пересмотреть настройки уведомлений самостоятельно.</string>
-    <string name="pref_title_wellbeing_mode">Комфорт</string>
+\n На push-уведомления это не повлияет, однако вы можете изменить настройки уведомлений вручную.</string>
+    <string name="pref_title_wellbeing_mode">Самочувствие</string>
     <string name="duration_indefinite">Без ограничений</string>
     <string name="label_duration">Продолжительность</string>
     <string name="post_media_attachments">Вложения</string>
@@ -513,7 +513,7 @@
     <string name="review_notifications">Просмотр уведомлений</string>
     <string name="notification_subscription_description">Уведомлять о новых постах пользователей на которых Вы подписаны</string>
     <string name="notification_subscription_name">Новые посты</string>
-    <string name="pref_title_animate_custom_emojis">Анимировать собственные эмодзи</string>
+    <string name="pref_title_animate_custom_emojis">Анимировать эмодзи</string>
     <string name="pref_title_notification_filter_subscriptions">кое-кто, на кого я подписан, опубликовал новое сообщение</string>
     <string name="dialog_delete_conversation_warning">Удалить этот разговор\?</string>
     <string name="action_delete_conversation">Удалить разговор</string>
@@ -522,14 +522,14 @@
     <string name="a11y_label_loading_thread">Загрузка обсуждения</string>
     <string name="pref_reading_order_newest_first">Сначала новые</string>
     <string name="title_edits">Правки</string>
-    <string name="status_edit_info">%1$s отредактировал</string>
-    <string name="status_created_info">%1$s создал</string>
+    <string name="status_edit_info">Пост изменён: %1$s</string>
+    <string name="status_created_info">Пост создан: %1$s</string>
     <string name="title_login">Войти</string>
     <string name="action_browser_login">Вход через Браузер</string>
     <string name="error_image_edit_failed">Изображение не удалось отредактировать.</string>
     <string name="error_multimedia_size_limit">Размер видео и аудио не может превышать %1$s МБ.</string>
     <string name="error_muting_hashtag_format">Не удалось заглушить #%1$s</string>
-    <string name="error_following_hashtags_unsupported">Этот экземпляр не поддерживает подписку на хештеги.</string>
+    <string name="error_following_hashtags_unsupported">Этот сервер не поддерживает подписку на хештеги.</string>
     <string name="error_following_hashtag_format">Не удалось подписаться на #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Не удалось отписаться от #%1$s</string>
     <string name="error_media_upload_sending_fmt">Загрузка не удалась: %1$s</string>
@@ -554,7 +554,7 @@
     <string name="status_filter_placeholder_label_format">Отфильтровано: %1$s</string>
     <string name="mute_notifications_switch">Отключение звука уведомлений</string>
     <string name="dialog_follow_hashtag_title">Подписаться на хэштег</string>
-    <string name="notification_update_format">%1$s отредактировал свое сообщение</string>
+    <string name="notification_update_format">%1$s изменил(а) свой пост</string>
     <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="pref_summary_http_proxy_disabled">Отключено</string>
     <string name="pref_summary_http_proxy_missing">&lt;не задано&gt;</string>
@@ -566,7 +566,7 @@
     <string name="dialog_push_notification_migration_other_accounts">Вы повторно вошли в свою текущую учетную запись, чтобы дать разрешение Tusky на рассылку push-уведомлений. Однако у вас все еще есть другие учетные записи, которые не были перенесены подобным образом. Переключитесь на них и заново войдите по очереди, чтобы включить поддержку UnifiedPush-уведомлений.</string>
     <string name="total_accounts">Всего аккаунтов</string>
     <string name="description_post_language">Язык записи</string>
-    <string name="pref_default_post_language">Язык постов по умолчанию</string>
+    <string name="pref_default_post_language">Язык постов (синхронизируется с сервером)</string>
     <string name="notification_update_description">Уведомлять о редактировании постов в которых вы участвовали</string>
     <string name="notification_update_name">Правки постов</string>
     <string name="notification_report_name">Жалобы</string>
@@ -580,7 +580,7 @@
 \nВерсия SDK: %4$d</string>
     <string name="pref_show_self_username_always">Всегда</string>
     <string name="pref_title_show_self_username">Показывать имя пользователя на панели инструментов</string>
-    <string name="ui_error_reblog">Не удалось поделится этим постом: %1$s</string>
+    <string name="ui_error_reblog">Не удалось продвинуть пост: %1$s</string>
     <string name="hint_filter_title">Мой фильтр</string>
     <string name="label_filter_title">Название</string>
     <string name="filter_action_warn">Предупреждение</string>
@@ -623,7 +623,7 @@
     <string name="ui_error_favourite">Не удалось отдать предпочтение сообщению: %1$s</string>
     <string name="filter_action_hide">Скрыть</string>
     <string name="label_filter_action">Отфильтровать действие</string>
-    <string name="label_filter_context">Фильтр контекстов</string>
+    <string name="label_filter_context">Область применения фильтра</string>
     <string name="filter_keyword_addition_title">Добавить ключевое слово</string>
     <string name="filter_edit_keyword_title">Редактировать ключевое слово</string>
     <string name="failed_to_remove_from_list">Не удалось удалить учетную запись из списка</string>
@@ -644,9 +644,9 @@
     <string name="action_continue_edit">Продолжить править</string>
     <string name="notification_sign_up_name">Регистрации</string>
     <string name="notification_sign_up_description">Уведомлять о новых пользователях</string>
-    <string name="action_share_account_link">Поделиться ссылкой на учетную запись</string>
-    <string name="action_share_account_username">Поделитесь именем пользователя учетной записи</string>
-    <string name="send_account_link_to">Поделится URL-адресом аккаунта в…</string>
+    <string name="action_share_account_link">Поделиться ссылкой на профиль</string>
+    <string name="action_share_account_username">Поделиться именем пользователя</string>
+    <string name="send_account_link_to">Поделится ссылкой на профиль через…</string>
     <string name="send_account_username_to">Поделится именем пользователя в…</string>
     <string name="account_username_copied">Имя пользователя скопировано</string>
     <string name="post_edited">Отредактировано %1$s</string>
@@ -670,25 +670,25 @@
     <string name="report_category_violation">Нарушение правил</string>
     <string name="action_set_focus">Установите фокус</string>
     <string name="dialog_push_notification_migration">Чтобы использовать push-уведомления через UnifiedPush Tusky нужно разрешение на отслеживание уведомлений на вашем сервере Mastodon. Это требует повторного входа в систему для изменения ключей OAuth предоставленных Tusky. Использование опции повторного входа здесь или в настройках аккаунта сохранит все ваши локальные черновики и кэш.</string>
-    <string name="help_empty_home">Это ваша <b>основная хронология</b>. Здесь отображаются последние сообщения от аккаунтов на которые вы подписаны.
-\n
-\nЧтобы исследовать учетные записи, вы можете открыть их одной из других вкладок. Например, в местной ленте вашего экземпляра [iconics gmd_group]. Либо вы можете поискать их по имени [iconics gmd_search]; например, по имени Tusky вы найдете наш аккаунт Mastodon.</string>
-    <string name="help_empty_conversations">Здесь находятся ваши <b>личные сообщения</b>; иногда их называют беседами или прямыми сообщениями (ПС).
-\n
-\nЛичные сообщения создаются путем установки видимости [iconics gmd_public] сообщения на [iconics gmd_mail] <i>Прямые</i> и упоминания одного или нескольких пользователей в тексте.
-\n
-\nНапример, вы можете зайти в профиль аккаунта, нажать кнопку создания [iconics gmd_edit] и изменить видимость. </string>
-    <string name="help_empty_lists">Это ваш <b> обзор списков</b>. Вы можете сформировать ряд личных списков и добавить в них аккаунты.
-\n
-\nОбратите внимание, что в списки можно добавлять только те аккаунты на которые вы подписаны.
-\n
-\nЭти списки можно использовать в качестве вкладки в настройках аккаунта [iconics gmd_account_circle] [iconics gmd_navigate_next] Вкладки. </string>
+    <string name="help_empty_home">Это ваша <b>домашняя лента</b>. Здесь отображаются последние сообщения от пользователей, на которых вы подписаны. 
+\n 
+\nЧтобы найти людей, вы можете обнаружить профили в других лентах. Например, в местной ленте вашего сервера [iconics gmd_group]. Либо вы можете поискать их по имени [iconics gmd_search]; например, по имени Tusky вы найдете наш профиль Mastodon.</string>
+    <string name="help_empty_conversations">Здесь находятся ваши <b>личные сообщения</b>; иногда их называют беседами или direct messages (DM). 
+\n 
+\nЛичные сообщения создаются путем установки видимости [iconics gmd_public] поста на [iconics gmd_mail] <i>Личное упоминание</i> и упоминания одного или нескольких пользователей в тексте. 
+\n 
+\nНапример, вы можете зайти в профиль пользователя, нажать кнопку создания поста [iconics gmd_edit] и изменить видимость. \u0020</string>
+    <string name="help_empty_lists">Это ваш <b>раздел списков</b>. Вы можете создавать личные списки и добавлять в них пользователей. 
+\n 
+\n \u0020Обратите внимание, что в списки можно добавлять только тех пользователей, на которые вы подписаны. 
+\n 
+\n \u0020Эти списки можно использовать в качестве вкладок в меню Настройки учетной записи [iconics gmd_account_circle] [iconics gmd_navigate_next] Вкладки. \u0020</string>
     <string name="compose_unsaved_changes">У вас есть несохраненные изменения.</string>
     <string name="status_count_one_plus">1+</string>
     <string name="compose_save_draft_loses_media">Сохранить черновик\? (Вложения будут загружены снова при восстановлении черновика).</string>
     <string name="title_public_trending_hashtags">Популярные хэштеги</string>
     <string name="notification_sign_up_format">%1$s зарегистрировался</string>
-    <string name="pref_title_show_stat_inline">Показать статистику поста в ленте</string>
+    <string name="pref_title_show_stat_inline">Показывать статистику постов в ленте</string>
     <string name="filter_description_warn">Скрыть с предупреждением</string>
     <string name="title_migration_relogin">Повторный вход в систему для получения push-уведомлений</string>
     <string name="ui_error_unknown">неизвестная причина</string>
@@ -704,8 +704,8 @@
     <string name="list_reply_policy_list">Члены списка</string>
     <string name="list_reply_policy_followed">Любой пользователь на которого вы подписаны</string>
     <string name="list_reply_policy_label">Показать ответы</string>
-    <string name="pref_title_show_self_boosts">Показать самоцитирования</string>
-    <string name="pref_title_show_self_boosts_description">Кто-то цитирует свой собственный пост</string>
+    <string name="pref_title_show_self_boosts">Показывать самопродвижения</string>
+    <string name="pref_title_show_self_boosts_description">Кто-то продвигает свой собственный пост</string>
     <string name="pref_show_self_username_never">Никогда</string>
     <string name="notification_prune_cache">Осматриваю кэш…</string>
     <string name="list_exclusive_label">Скрыть с главной ленты</string>
@@ -719,5 +719,21 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="dialog_save_profile_changes_message">Хотите сохранить изменения профиля\?</string>
     <string name="action_edit_image">Редактировать изображение</string>
-    <string name="pref_title_per_timeline_preferences">Временные предпочтения</string>
+    <string name="pref_title_per_timeline_preferences">Настройки лент</string>
+    <string name="post_privacy_direct">Личное упоминание</string>
+    <string name="label_translating">Перевод…</string>
+    <string name="label_translated">Переведено с %1$s с помощью %2$s</string>
+    <string name="action_translate">Перевести</string>
+    <string name="action_show_original">Показать оригинал</string>
+    <string name="url_copied">Ссылка скопирована</string>
+    <string name="reply_sending_long">Ваш ответ отправляется.</string>
+    <string name="confirmation_hashtag_copied">Хэштег «#%1$s» скопирован</string>
+    <string name="reply_sending">Отправка…</string>
+    <string name="pref_default_reply_privacy">Видимость ответов (не синхронизируется с сервером)</string>
+    <string name="unknown_notification_type">Неизвестный тип уведомлений</string>
+    <string name="pref_title_show_notifications_filter">Показывать панель фильтра уведомлений</string>
+    <string name="dialog_follow_warning">Подписаться на пользователя?</string>
+    <string name="pref_title_confirm_follows">Запрашивать подтверждение перед подпиской на пользователя</string>
+    <string name="report_category_legal">Нарушение закона</string>
+    <string name="ui_error_translate">Ошибка перевода: %1$s</string>
 </resources>
