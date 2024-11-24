@@ -63,7 +63,7 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorSurface"
             app:contentInsetStart="0dp"
