@@ -11,12 +11,11 @@
         layout="@layout/toolbar_basic" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="com.keylesspalace.tusky.components.notifications.requests.details.NotificationRequestDetailsFragment"
         android:id="@+id/fragmentContainer"
+        android:name="com.keylesspalace.tusky.components.notifications.requests.details.NotificationRequestDetailsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +32,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Accept" />
+            android:text="@string/action_accept_notification_request" />
 
         <Button
             android:id="@+id/dismissButtin"
@@ -44,7 +43,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:text="Dismiss" />
+            android:text="@string/action_dismiss_notification_request" />
 
     </LinearLayout>
 

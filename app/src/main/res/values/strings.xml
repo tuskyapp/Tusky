@@ -892,5 +892,7 @@
     <string name="dismiss_notification_request">Dismiss notification request</string>
     <string name="open_settings">Open settings</string>
     <string name="notifications_from">Notifications from %1$s</string>
+    <string name="action_accept_notification_request">Accept</string>
+    <string name="action_dismiss_notification_request">Dismiss</string>
 
 </resources>
