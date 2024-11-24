@@ -168,7 +168,7 @@
     <string name="post_content_show_more">Tiếp tục đọc</string>
     <string name="post_content_warning_show_less">Thu gọn</string>
     <string name="post_content_warning_show_more">Mở rộng</string>
-    <string name="post_sensitive_media_directions">Hiển thị</string>
+    <string name="post_sensitive_media_directions">Vẫn xem</string>
     <string name="post_media_hidden_title">Media bị ẩn</string>
     <string name="post_sensitive_media_title">Nhạy cảm</string>
     <string name="post_boosted_format">%1$s đăng lại</string>
@@ -183,9 +183,9 @@
     <string name="title_bookmarks">Những tút đã lưu</string>
     <string name="title_followers">Người theo dõi</string>
     <string name="title_follows">Theo dõi</string>
-    <string name="title_posts_pinned">GHIM</string>
-    <string name="title_posts_with_replies">LƯỢT TRẢ LỜI</string>
-    <string name="title_posts">TÚT</string>
+    <string name="title_posts_pinned">Ghim</string>
+    <string name="title_posts_with_replies">Lượt trả lời</string>
+    <string name="title_posts">Tút</string>
     <string name="title_view_thread">Tút</string>
     <string name="title_tab_preferences">Xếp tab</string>
     <string name="title_direct_messages">Nhắn riêng</string>
@@ -302,7 +302,7 @@
     <string name="post_media_images">Hình ảnh</string>
     <string name="post_share_link">URL tút</string>
     <string name="post_share_content">Nội dung tút</string>
-    <string name="about_tusky_account">Trang hồ sơ Tusky</string>
+    <string name="about_tusky_account">Trang Tusky</string>
     <string name="pref_title_confirm_reblogs">Hỏi trước khi đăng lại tút</string>
     <string name="pref_title_show_cards_in_timelines">Hiện xem trước link</string>
     <string name="warning_scheduling_interval">Mastodon giới hạn tối thiểu 5 phút.</string>
@@ -566,7 +566,7 @@
     <string name="mute_notifications_switch">Ẩn thông báo</string>
     <string name="status_edit_info">Sửa %1$s</string>
     <string name="status_created_info">Đăng %1$s</string>
-    <string name="title_edits">Những lượt sửa tút</string>
+    <string name="title_edits">Lịch sử sửa tút</string>
     <string name="a11y_label_loading_thread">Đang tải thảo luận</string>
     <string name="action_share_account_link">Liên kết trang hồ sơ</string>
     <string name="send_account_link_to">Chia sẻ URL người dùng…</string>

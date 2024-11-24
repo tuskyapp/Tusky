@@ -19,7 +19,7 @@
 
     <color name="iconColor">@color/tusky_grey_70</color>
 
-    <color name="colorBackgroundAccent">@color/tusky_grey_30</color>
+    <color name="colorBackgroundAccent">@color/tusky_grey_40</color>
     <color name="colorBackgroundHighlight">@color/tusky_grey_50</color>
     <color name="dividerColor">@color/tusky_grey_40</color>
     <color name="dividerColorOther">@color/tusky_grey_10</color>
