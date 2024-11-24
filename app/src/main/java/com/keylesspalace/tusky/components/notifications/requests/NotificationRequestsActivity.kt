@@ -29,6 +29,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
@@ -111,6 +112,7 @@ class NotificationRequestsActivity : BaseActivity(), MenuProvider {
         binding.notificationRequestsView.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
+        (binding.notificationRequestsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun setupAdapter(): NotificationRequestsAdapter {

@@ -23,6 +23,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.fold
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +39,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NotificationRequestsViewModel @Inject constructor(
-    private val api: MastodonApi
+    private val api: MastodonApi,
+    private val eventHub: EventHub
 ) : ViewModel() {
 
     var currentSource: NotificationRequestsPagingSource? = null
@@ -69,6 +74,18 @@ class NotificationRequestsViewModel @Inject constructor(
     )
     val error: SharedFlow<Throwable> = _error.asSharedFlow()
 
+    init {
+        viewModelScope.launch {
+            eventHub.events
+                .collect { event ->
+                    when(event){
+                        is BlockEvent -> removeAllByAccount(event.accountId)
+                        is MuteEvent -> removeAllByAccount(event.accountId)
+                    }
+                }
+        }
+    }
+
     fun acceptNotificationRequest(id: String) {
         viewModelScope.launch {
             api.acceptNotificationRequest(id).fold({
@@ -93,6 +110,11 @@ class NotificationRequestsViewModel @Inject constructor(
 
     fun removeNotificationRequest(id: String) {
         requestData.removeAll { request -> request.id == id }
+        currentSource?.invalidate()
+    }
+
+    private fun removeAllByAccount(accountId: String) {
+        requestData.removeAll { request -> request.account.id == accountId }
         currentSource?.invalidate()
     }
 

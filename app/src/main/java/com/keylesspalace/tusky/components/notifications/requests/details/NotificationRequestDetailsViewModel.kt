@@ -25,8 +25,13 @@ import androidx.paging.cachedIn
 import at.connyduck.calladapter.networkresult.NetworkResult
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import com.keylesspalace.tusky.appstore.BlockEvent
+import com.keylesspalace.tusky.appstore.EventHub
+import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -46,6 +51,7 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
     val api: MastodonApi,
     val accountManager: AccountManager,
     val timelineCases: TimelineCases,
+    val eventHub: EventHub,
     @Assisted("notificationRequestId") val notificationRequestId: String,
     @Assisted("accountId") val accountId: String
 ) : ViewModel() {
@@ -88,6 +94,19 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
     )
     val finish: SharedFlow<Unit> = _finish.asSharedFlow()
 
+    init {
+        viewModelScope.launch {
+            eventHub.events
+                .collect { event ->
+                    when(event){
+                        is StatusChangedEvent -> updateStatus(event.status)
+                        is BlockEvent -> removeIfAccount(event.accountId)
+                        is MuteEvent -> removeIfAccount(event.accountId)
+                    }
+                }
+        }
+    }
+
     fun acceptNotificationRequest() {
         viewModelScope.launch {
             api.acceptNotificationRequest(notificationRequestId).fold(
@@ -110,6 +129,25 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
                 Log.w(TAG, "failed to dismiss notifications request", error)
                 _error.emit(error)
             })
+        }
+    }
+
+    private fun updateStatus(status: Status) {
+        val position = notificationData.indexOfFirst { it.asStatusOrNull()?.id == status.id }
+        if (position == -1) {
+            return
+        }
+        val viewData = notificationData[position].statusViewData?.copy(status = status)
+        notificationData[position] = notificationData[position].copy(statusViewData = viewData)
+        currentSource?.invalidate()
+    }
+
+    private fun removeIfAccount(accountId: String) {
+        // if the account we are displaying notifications from got blocked or muted, we can exit
+        if (accountId == this.accountId) {
+            viewModelScope.launch {
+                _finish.emit(Unit)
+            }
         }
     }
 
@@ -148,6 +186,7 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
             return
         }
         notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isExpanded = expanded))
+        currentSource?.invalidate()
     }
 
     fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
@@ -156,6 +195,7 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
             return
         }
         notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isShowingContent = isShowing))
+        currentSource?.invalidate()
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
@@ -164,6 +204,7 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
             return
         }
         notificationData[position] = notificationData[position].copy(statusViewData = status.copy(isCollapsed = isCollapsed))
+        currentSource?.invalidate()
     }
 
     fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete) = viewModelScope.launch {

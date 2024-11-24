@@ -21,7 +21,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.keylesspalace.tusky.BaseActivity
+import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityNotificationRequestDetailsBinding
 import com.keylesspalace.tusky.entity.Emoji
@@ -34,7 +34,7 @@ import kotlin.getValue
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationRequestDetailsActivity : BaseActivity() {
+class NotificationRequestDetailsActivity : BottomSheetActivity() {
 
     private val viewModel: NotificationRequestDetailsViewModel by viewModels(
         extrasProducer = {
