@@ -274,7 +274,7 @@
     <string name="label_remote_account">Ondorengo edukiak erabiltzailearen informazioa erdizka erakutsi dezake. Profil osoa ikusteko nabigatzailean sakatu.</string>
     <string name="unpin_action">Desainguratu</string>
     <string name="pin_action">Ainguratu</string>
-    <string name="error_network">Sareko errore bat sortu da! Zure konexioa ziurta ezazu berriro, mesedez!</string>
+    <string name="error_network">Sareko errore bat gertatu da. Egiaztatu zure konexioa eta saiatu berriro, mesedez</string>
     <string name="title_direct_messages">Mezu zuzenak</string>
     <string name="title_tab_preferences">Fitxak</string>
     <string name="title_posts_pinned">Finkatua</string>
