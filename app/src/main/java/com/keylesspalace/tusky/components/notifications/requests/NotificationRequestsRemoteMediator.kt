@@ -43,14 +43,14 @@ class NotificationRequestsRemoteMediator(
     }
 
     private fun applyResponse(response: Response<List<NotificationRequest>>): MediatorResult {
-        val tags = response.body()
-        if (!response.isSuccessful || tags == null) {
+        val notificationRequests = response.body()
+        if (!response.isSuccessful || notificationRequests == null) {
             return MediatorResult.Error(HttpException(response))
         }
 
         val links = HttpHeaderLink.parse(response.headers()["Link"])
         viewModel.nextKey = HttpHeaderLink.findByRelationType(links, "next")?.uri?.getQueryParameter("max_id")
-        viewModel.requestData.addAll(tags)
+        viewModel.requestData.addAll(notificationRequests)
         viewModel.currentSource?.invalidate()
 
         return MediatorResult.Success(endOfPaginationReached = viewModel.nextKey == null)

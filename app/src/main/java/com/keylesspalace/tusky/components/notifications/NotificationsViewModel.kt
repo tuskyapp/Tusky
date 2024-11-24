@@ -297,21 +297,6 @@ class NotificationsViewModel @Inject constructor(
         translations.value -= status.id
     }
 
-    fun acceptNotificationRequest(notificationId: String) {
-
-    }
-
-    fun dismissNotificationRequest(notificationId: String) {
-        viewModelScope.launch {
-            api.dismissNotificationRequest(notificationId).fold({
-                db.notificationsDao().deleteRange(account.id, notificationId, notificationId)
-            },
-                { t ->
-                    Log.w(TAG, "failed to dismiss notification request notifications", t)
-                })
-        }
-    }
-
     fun loadMore(placeholderId: String) {
         viewModelScope.launch {
             try {

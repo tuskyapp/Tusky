@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
-import com.keylesspalace.tusky.databinding.ItemNotificationFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
@@ -80,22 +79,22 @@ class NotificationsPagingAdapter(
         return when (val notification = getItem(position)) {
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
-                        Notification.Type.MENTION,
-                        Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
-                            VIEW_TYPE_STATUS_FILTERED
-                        } else {
-                            VIEW_TYPE_STATUS
-                        }
-                        Notification.Type.STATUS,
-                        Notification.Type.FAVOURITE,
-                        Notification.Type.REBLOG,
-                        Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
-                        Notification.Type.FOLLOW,
-                        Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
-                        Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
-                        Notification.Type.REPORT -> VIEW_TYPE_REPORT
-                        else -> VIEW_TYPE_UNKNOWN
+                    Notification.Type.MENTION,
+                    Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                        VIEW_TYPE_STATUS_FILTERED
+                    } else {
+                        VIEW_TYPE_STATUS
                     }
+                    Notification.Type.STATUS,
+                    Notification.Type.FAVOURITE,
+                    Notification.Type.REBLOG,
+                    Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
+                    Notification.Type.FOLLOW,
+                    Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
+                    Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
+                    Notification.Type.REPORT -> VIEW_TYPE_REPORT
+                    else -> VIEW_TYPE_UNKNOWN
+                }
             }
             else -> VIEW_TYPE_PLACEHOLDER
         }

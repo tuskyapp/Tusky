@@ -55,10 +55,9 @@ class NotificationRequestsViewModel @Inject constructor(
     val error: SharedFlow<Throwable> = _error.asSharedFlow()
 
     fun acceptNotificationRequest(id: String) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             api.acceptNotificationRequest(id).fold({
-                requestData.removeAll { request -> request.id == id }
-                currentSource?.invalidate()
+                removeNotificationRequest(id)
             }, { error ->
                 Log.w(TAG, "failed to dismiss notifications request", error)
                 _error.emit(error)
@@ -67,15 +66,19 @@ class NotificationRequestsViewModel @Inject constructor(
     }
 
     fun dismissNotificationRequest(id: String) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             api.dismissNotificationRequest(id).fold({
-                requestData.removeAll { request -> request.id == id }
-                currentSource?.invalidate()
+                removeNotificationRequest(id)
             }, { error ->
                 Log.w(TAG, "failed to dismiss notifications request", error)
                 _error.emit(error)
             })
         }
+    }
+
+    fun removeNotificationRequest(id: String) {
+        requestData.removeAll { request -> request.id == id }
+        currentSource?.invalidate()
     }
 
     companion object {

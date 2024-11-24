@@ -11,7 +11,7 @@ import java.text.NumberFormat
 
 class NotificationPolicySummaryAdapter(
     private val onOpenDetails: () -> Unit
-): RecyclerView.Adapter<BindingHolder<ItemFilteredNotificationsInfoBinding>>() {
+) : RecyclerView.Adapter<BindingHolder<ItemFilteredNotificationsInfoBinding>>() {
 
     private var state: NotificationPolicyState = NotificationPolicyState.Loading
 

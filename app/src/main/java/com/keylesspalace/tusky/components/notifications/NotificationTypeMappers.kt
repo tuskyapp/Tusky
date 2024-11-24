@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.db.entity.NotificationReportEntity
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
+import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -50,6 +51,22 @@ fun Notification.toEntity(
     statusId = status?.reblog?.id ?: status?.id,
     reportId = report?.id,
     loading = false
+)
+
+fun Notification.toViewData(
+    isShowingContent: Boolean,
+    isExpanded: Boolean,
+    isCollapsed: Boolean,
+): NotificationViewData.Concrete = NotificationViewData.Concrete(
+    id = id,
+    type = type,
+    account = account,
+    statusViewData = status?.toViewData(
+        isShowingContent = isShowingContent,
+        isExpanded = isExpanded,
+        isCollapsed = isCollapsed
+    ),
+    report = report
 )
 
 fun Report.toEntity(

@@ -14,8 +14,9 @@ import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
 
 class NotificationRequestsAdapter(
-    private val onAcceptRequest: (String) -> Unit,
-    private val onDismissRequest: (String) -> Unit,
+    private val onAcceptRequest: (notificationRequestId: String) -> Unit,
+    private val onDismissRequest: (notificationRequestId: String) -> Unit,
+    private val onOpenDetails: (notificationRequest: NotificationRequest) -> Unit,
     private val animateAvatar: Boolean,
     private val animateEmojis: Boolean,
 ) : PagingDataAdapter<NotificationRequest, BindingHolder<ItemNotificationRequestBinding>>(NOTIFICATION_REQUEST_COMPARATOR) {
@@ -58,6 +59,9 @@ class NotificationRequestsAdapter(
             }
             binding.notificationRequestDismiss.setOnClickListener {
                 onDismissRequest(notificationRequest.id)
+            }
+            binding.root.setOnClickListener {
+                onOpenDetails(notificationRequest)
             }
         }
     }

@@ -41,7 +41,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.connyduck.calladapter.networkresult.onFailure
-import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -174,7 +173,7 @@ class NotificationsFragment :
             )
         )
 
-        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter{
+        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter {
             (activity as BaseActivity).startActivityWithSlideInAnimation(NotificationRequestsActivity.newIntent(requireContext()))
         }
         this.notificationsPolicyAdapter = notificationsPolicyAdapter
@@ -187,9 +186,13 @@ class NotificationsFragment :
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
 
-     //   binding.notificationPolicySummaryDescription?.text = context?.getString(R.string.notifications_from_people_you_may_know, 13)
-
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
+
+        notificationsPolicyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+        })
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -220,23 +223,6 @@ class NotificationsFragment :
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                val firstPos = (binding.recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                if (firstPos == 0 && positionStart == 0 && adapter.itemCount != itemCount) {
-                    val v = (binding.recyclerView.layoutManager as LinearLayoutManager).getChildAt(1)
-                    val offset = if (v!= null) {
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).getDecoratedTop(v)
-                    } else {
-                        Utils.dpToPx(binding.recyclerView.context, 30)
-                    }
-                    binding.recyclerView.post {
-                    if (getView() != null) {
-                        (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
-                            1 + itemCount,
-                            offset
-                        )
-                    }
-                     }
-                }
                 if (readingOrder == ReadingOrder.OLDEST_FIRST) {
                     updateReadingPositionForOldestFirst(adapter)
                 }

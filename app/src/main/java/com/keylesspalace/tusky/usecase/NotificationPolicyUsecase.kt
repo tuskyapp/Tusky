@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import retrofit2.HttpException
 
-
 class NotificationPolicyUsecase @Inject constructor(
     private val api: MastodonApi
 ) {
@@ -28,16 +27,17 @@ class NotificationPolicyUsecase @Inject constructor(
             }
         }
 
-        api.notificationPolicy().fold({ policy ->
-            _state.value = NotificationPolicyState.Loaded(refreshing = false, policy = policy)
-        }, {
-                t ->
-            if (t is HttpException && t.code() == 404) {
-                _state.value = NotificationPolicyState.Unsupported
-            } else {
-                _state.value = NotificationPolicyState.Error(t)
+        api.notificationPolicy().fold(
+            { policy ->
+                _state.value = NotificationPolicyState.Loaded(refreshing = false, policy = policy)
+            },
+            { t ->
+                if (t is HttpException && t.code() == 404) {
+                    _state.value = NotificationPolicyState.Unsupported
+                } else {
+                    _state.value = NotificationPolicyState.Error(t)
+                }
             }
-        }
         )
     }
 
@@ -49,26 +49,26 @@ class NotificationPolicyUsecase @Inject constructor(
         forLimitedAccounts: String? = null
     ): NetworkResult<NotificationPolicy> {
         return api.updateNotificationPolicy(
-                forNotFollowing = forNotFollowing,
-                forNotFollowers = forNotFollowers,
-                forNewAccounts = forNewAccounts,
-                forPrivateMentions = forPrivateMentions,
-                forLimitedAccounts = forLimitedAccounts
-            ).onSuccess { notificationPolicy ->
-                _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
-            }
+            forNotFollowing = forNotFollowing,
+            forNotFollowers = forNotFollowers,
+            forNewAccounts = forNewAccounts,
+            forPrivateMentions = forPrivateMentions,
+            forLimitedAccounts = forLimitedAccounts
+        ).onSuccess { notificationPolicy ->
+            _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
         }
+    }
 }
 
 sealed interface NotificationPolicyState {
 
     data object Loading : NotificationPolicyState
-    data object Unsupported: NotificationPolicyState
+    data object Unsupported : NotificationPolicyState
     data class Error(
         val throwable: Throwable
-    ): NotificationPolicyState
+    ) : NotificationPolicyState
     data class Loaded(
         val refreshing: Boolean,
         val policy: NotificationPolicy
-    ): NotificationPolicyState
+    ) : NotificationPolicyState
 }

@@ -151,6 +151,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".components.preference.notificationpolicies.NotificationPoliciesActivity"/>
         <activity android:name=".components.notifications.requests.NotificationRequestsActivity"/>
+        <activity android:name=".components.notifications.requests.details.NotificationRequestDetailsActivity"/>
 
         <receiver
             android:name=".receiver.SendStatusBroadcastReceiver"

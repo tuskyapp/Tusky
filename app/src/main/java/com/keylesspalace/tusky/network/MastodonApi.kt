@@ -152,7 +152,9 @@ interface MastodonApi {
         /** Maximum number of results to return. Defaults to 15, max is 30 */
         @Query("limit") limit: Int? = null,
         /** Types to excludes from the results */
-        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null,
+        /** Return only notifications received from the specified account. */
+        @Query("account_id") accountId: String? = null
     ): Response<List<Notification>>
 
     /** Fetch a single notification */

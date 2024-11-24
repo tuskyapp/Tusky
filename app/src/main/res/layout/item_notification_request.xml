@@ -45,7 +45,7 @@
         android:textStyle="normal|bold"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/notificationRequestUsername"
-        app:layout_constraintEnd_toStartOf="@id/notificationRequestAccept"
+        app:layout_constraintEnd_toStartOf="@id/notificationRequestDismiss"
         app:layout_constraintStart_toEndOf="@id/notificationRequestAvatar"
         app:layout_constraintTop_toTopOf="@id/notificationRequestAvatar"
         tools:text="Display name" />
@@ -65,7 +65,7 @@
         tools:text="\@username" />
 
     <ImageButton
-        android:id="@+id/notification_request_dismiss"
+        android:id="@+id/notificationRequestDismiss"
         style="@style/TuskyImageButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
