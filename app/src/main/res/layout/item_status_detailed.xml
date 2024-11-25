@@ -295,35 +295,22 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
 
-    <HorizontalScrollView
-        android:id="@+id/status_trailing_hashtags_scroll"
+    <com.keylesspalace.tusky.view.ClickableSpanTextView
+        android:id="@+id/status_trailing_hashtags_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
-        android:scrollbars="none"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hyphenationFrequency="full"
+        android:importantForAccessibility="no"
+        android:textColor="?android:textColorPrimary"
+        android:textIsSelectable="true"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <com.keylesspalace.tusky.view.ClickableSpanTextView
-            android:id="@+id/status_trailing_hashtags_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hyphenationFrequency="full"
-            android:importantForAccessibility="no"
-            android:textColor="?android:textColorPrimary"
-            android:textIsSelectable="true"
-            android:textSize="?attr/status_text_medium"
-            android:singleLine="true"
-            android:ellipsize="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="#one #two #three #four #five #six #seven #eight #nine #ten" />
-
-    </HorizontalScrollView>
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="#one #two #three #four #five #six #seven #eight #nine #ten" />
 
     <TextView
         android:id="@+id/status_meta_info"
@@ -339,7 +326,7 @@
         android:textSize="?attr/status_text_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_trailing_hashtags_scroll"
+        app:layout_constraintTop_toBottomOf="@id/status_trailing_hashtags_content"
         tools:text="21 Dec 2018 18:45" />
 
     <View
