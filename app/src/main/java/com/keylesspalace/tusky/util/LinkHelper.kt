@@ -83,7 +83,7 @@ fun setClickableText(
 ) {
     val spannableContent = markupHiddenUrls(view, content)
     val (endOfContent, trailingHashtags) = when {
-        tags.isNullOrEmpty() -> Pair(spannableContent.length, emptyList())
+        trailingHashtagView == null || tags.isNullOrEmpty() -> Pair(spannableContent.length, emptyList())
         else -> getTrailingHashtags(spannableContent)
     }
     var inlineHashtagSpanCount = 0
@@ -96,7 +96,7 @@ fun setClickableText(
             }
             setClickableText(span, this, mentions, tags, listener)
         }
-    }.subSequence(0, endOfContent)
+    }.subSequence(0, endOfContent).trimEnd()
 
     view.movementMethod = NoTrailingSpaceLinkMovementMethod
 

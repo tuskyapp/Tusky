@@ -297,7 +297,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         } else {
             hidePoll();
-            trailingHashtagView.setVisibility(View.GONE);
+            if (trailingHashtagView != null) {
+                trailingHashtagView.setVisibility(View.GONE);
+            }
             LinkHelper.setClickableMentions(this.content, mentions, listener);
         }
         if (TextUtils.isEmpty(this.content.getText())) {
