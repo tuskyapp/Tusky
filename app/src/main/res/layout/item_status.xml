@@ -338,34 +338,23 @@
         app:layout_constraintTop_toBottomOf="@id/status_poll_button"
         tools:text="7 votes • 7 hours remaining" />
 
-    <HorizontalScrollView
-        android:id="@+id/status_trailing_hashtags_scroll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:scrollbars="none"
-        app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-
     <com.keylesspalace.tusky.view.ClickableSpanTextView
         android:id="@+id/status_trailing_hashtags_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
         android:textColor="?android:textColorPrimary"
         android:textIsSelectable="true"
         android:textSize="?attr/status_text_medium"
         android:singleLine="true"
-        android:ellipsize="none"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_display_name"
         tools:text="#one #two #three #four #five #six #seven #eight #nine #ten" />
-
-    </HorizontalScrollView>
 
     <ImageButton
         android:id="@+id/status_reply"
@@ -379,7 +368,7 @@
         app:layout_constraintEnd_toStartOf="@id/status_inset"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@id/status_trailing_hashtags_scroll"
+        app:layout_constraintTop_toBottomOf="@id/status_trailing_hashtags_content"
         app:srcCompat="@drawable/ic_reply_24dp"
         tools:ignore="NegativeMargin" />
 
