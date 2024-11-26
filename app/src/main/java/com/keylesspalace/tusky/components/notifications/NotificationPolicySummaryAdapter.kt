@@ -55,7 +55,7 @@ class NotificationPolicySummaryAdapter(
         return BindingHolder(binding)
     }
 
-    override fun getItemCount() = if (state.shouldShowInfo()) 0 else 0
+    override fun getItemCount() = if (state.shouldShowInfo()) 1 else 0
 
     override fun onBindViewHolder(holder: BindingHolder<ItemFilteredNotificationsInfoBinding>, position: Int) {
         val policySummary = (state as? NotificationPolicyState.Loaded)?.policy?.summary
