@@ -17,7 +17,6 @@ package com.keylesspalace.tusky.components.notifications.requests.details
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +26,7 @@ import com.keylesspalace.tusky.databinding.ActivityNotificationRequestDetailsBin
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.emojify
+import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
@@ -58,12 +58,7 @@ class NotificationRequestDetailsActivity : BottomSheetActivity() {
 
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
 
-        val emojis: List<Emoji> = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            @Suppress("DEPRECATION")
-            intent.getParcelableArrayListExtra<Emoji>(EXTRA_ACCOUNT_EMOJIS) as ArrayList<Emoji>
-        } else {
-            intent.getParcelableArrayListExtra(EXTRA_ACCOUNT_EMOJIS, Emoji::class.java)!!
-        }
+        val emojis: List<Emoji> = intent.getParcelableArrayListExtraCompat(EXTRA_ACCOUNT_EMOJIS)!!
 
         val title = getString(R.string.notifications_from, intent.getStringExtra(EXTRA_ACCOUNT_NAME))
             .emojify(emojis, binding.includedToolbar.toolbar, animateEmojis)
