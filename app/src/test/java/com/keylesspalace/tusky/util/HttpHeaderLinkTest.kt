@@ -6,7 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class HttpHeaderLinkTest {
     data class TestData(val name: String, val input: String, val want: List<HttpHeaderLink>)

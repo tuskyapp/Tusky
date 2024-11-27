@@ -12,7 +12,7 @@ import org.robolectric.annotation.Config
 
 private const val STATUS_CREATED_AT_NOW = "test"
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class TimestampUtilsTest {
     private val ctx: Context = mock {

@@ -67,7 +67,7 @@ import retrofit2.Response
  * Created by charlag on 3/7/18.
  */
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class ComposeActivityTest {
     private lateinit var activity: ComposeActivity

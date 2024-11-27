@@ -46,10 +46,9 @@ networkresult-calladapter = "1.2.0"
 okhttp = "4.12.0"
 okio = "3.9.1"
 retrofit = "2.11.0"
-robolectric = "4.13"
+robolectric = "4.14.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
-truth = "1.4.4"
 turbine = "1.2.0"
 unified-push = "2.4.0"
 xmlwriter = "1.0.4"
@@ -131,7 +130,6 @@ retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "ret
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
 xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }

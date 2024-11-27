@@ -28,7 +28,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class DatabaseCleanerTest {
     private lateinit var timelineDao: TimelineDao

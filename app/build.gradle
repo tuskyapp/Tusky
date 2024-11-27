@@ -185,7 +185,6 @@ dependencies {
     testImplementation libs.androidx.core.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
-    testImplementation libs.truth
     testImplementation libs.turbine
 
     androidTestImplementation libs.espresso.core
