@@ -107,20 +107,11 @@ fun setClickableText(
     if (showHashtagBar) {
         trailingHashtagView?.apply {
             text = SpannableStringBuilder().apply {
-                var offset = 0
                 tags?.forEachIndexed { index, tag ->
                     val text = "#${tag.name}"
-                    append(text)
-                    setSpan(
-                        getCustomSpanForTag(text, tags, URLSpan(tag.url), listener),
-                        offset,
-                        offset + tag.name.length + 1,
-                        0
-                    )
-                    offset += tag.name.length + 1
+                    append(text, getCustomSpanForTag(text, tags, URLSpan(tag.url), listener), 0)
                     if (index != tags.lastIndex) {
                         append(" ")
-                        offset += 1
                     }
                 }
             }
