@@ -854,13 +854,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
             menu.removeItem(R.id.action_add_or_remove_from_list)
         }
-
-        menu.findItem(R.id.action_search)?.apply {
-            icon = IconicsDrawable(this@AccountActivity, GoogleMaterial.Icon.gmd_search).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.collapsingToolbar, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     private fun showFollowRequestPendingDialog() {

@@ -1160,7 +1160,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     private fun fetchAnnouncements() {
         lifecycleScope.launch {
-            mastodonApi.listAnnouncements(false)
+            mastodonApi.announcements()
                 .fold(
                     { announcements ->
                         unreadAnnouncementsCount = announcements.count { !it.read }
