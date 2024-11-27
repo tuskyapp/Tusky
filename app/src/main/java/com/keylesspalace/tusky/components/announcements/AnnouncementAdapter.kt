@@ -84,7 +84,7 @@ class AnnouncementAdapter(
             animateEmojis
         )
 
-        setClickableText(text, emojifiedText, item.mentions, item.tags, listener, null)
+        setClickableText(text, emojifiedText, item.mentions, item.tags, listener)
 
         // If wellbeing mode is enabled, announcement badge counts should not be shown.
         if (wellbeingEnabled) {

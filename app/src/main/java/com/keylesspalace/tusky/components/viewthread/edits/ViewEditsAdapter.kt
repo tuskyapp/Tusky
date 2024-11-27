@@ -131,7 +131,6 @@ class ViewEditsAdapter(
             emptyList(),
             emptyList(),
             listener,
-            null,
         )
 
         if (edit.poll == null) {

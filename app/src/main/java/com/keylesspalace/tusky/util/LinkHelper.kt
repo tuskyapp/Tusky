@@ -79,7 +79,7 @@ fun setClickableText(
     mentions: List<Mention>,
     tags: List<HashTag>?,
     listener: LinkListener,
-    trailingHashtagView: TextView?,
+    trailingHashtagView: TextView? = null,
 ) {
     val spannableContent = markupHiddenUrls(view, content)
     val (endOfContent, trailingHashtags) = when {
