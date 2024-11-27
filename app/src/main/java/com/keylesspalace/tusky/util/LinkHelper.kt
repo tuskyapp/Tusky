@@ -129,37 +129,24 @@ private val trailingHashtagExpression by unsafeLazy {
  */
 @VisibleForTesting
 internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
-    val trailingHashtagStart = content.reversedLineSequence().takeWhile {
-        val line = content.subSequence(it.first, it.second)
+    // split() instead of lines() because we need to be able to account for the length of the removed delimiter
+    val trailingContentLength = content.split('\r', '\n').asReversed().takeWhile { line ->
         line.isBlank() || trailingHashtagExpression.matcher(line).matches()
-    }.lastOrNull()?.first ?: return Pair(content.length, emptyList())
+    }.sumOf { it.length + 1 } // length + 1 to include the stripped line ending character
 
-    return Pair(
-        trailingHashtagStart,
-        content.getSpans(trailingHashtagStart, content.length, URLSpan::class.java)
-            .filter { content[content.getSpanStart(it)] == '#' } // just in case
-            .map { spanToHashtag(content, it) }
-    )
-}
-
-private val newlineCharacters = arrayOf('\n', '\r').toCharArray()
-
-/**
- * Get a reversed sequence of start/end line indices (not including the newline characters)
- * for lazily searching backward by line.
- * The idea is that we're very likely to early-out, so we want to avoid splitting lots of long messages
- * in their entirety just to look at the last line or two.
- * Maybe it's overkill? 🤷
- */
-@VisibleForTesting
-internal fun Spanned.reversedLineSequence() = generateSequence(Pair(length + 1, 0)) { pair ->
-    if (pair.first == 0) return@generateSequence null // reached the start
-
-    when (val index = lastIndexOfAny(newlineCharacters, startIndex = pair.first - 2)) {
-        -1 -> Pair(0, pair.first - 1) // manually add the first line
-        else -> Pair(index + 1, pair.first - 1) // from the character after the found newline character to the character before the start of the previous line
+    return when (trailingContentLength) {
+        0 -> Pair(content.length, emptyList())
+        else -> {
+            val trailingContentOffset = content.length - trailingContentLength
+            Pair(
+                trailingContentOffset,
+                content.getSpans(trailingContentOffset, content.length, URLSpan::class.java)
+                    .filter { content[content.getSpanStart(it)] == '#' } // just in case
+                    .map { spanToHashtag(content, it) }
+            )
+        }
     }
-}.drop(1) // drop the sequence seed
+}
 
 // URLSpan("#tag", url) -> Hashtag("tag", url)
 private fun spanToHashtag(content: Spanned, span: URLSpan) = HashTag(

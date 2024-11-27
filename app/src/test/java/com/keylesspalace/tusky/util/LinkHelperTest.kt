@@ -9,7 +9,6 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
-import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -380,33 +379,6 @@ class LinkHelperTest {
             tags.forEachIndexed { index, tag ->
                 assertEquals(tag.name, trailingHashtags[index].name)
                 assertEquals(tag.url, trailingHashtags[index].url)
-            }
-        }
-    }
-
-    @Test
-    fun `reverse line sequence`() {
-        val separators = listOf("\n", "\r\n")
-        val fixes = listOf("", "\n", "\r\n")
-        val lines = listOf("a", "b", "c", "d")
-
-        // test every combination of separator, prefix, suffix
-        // I tried the ParameterizedTest pattern, but had strange issues with SpannableStringBuilder inside the parameterized test function
-        for (separator in separators) {
-            for (prefix in fixes) {
-                for (suffix in fixes) {
-                    val text = SpannableStringBuilder(lines.joinToString(separator, prefix, suffix))
-
-                    assertArrayEquals(
-                        text.split('\r', '\n').filter(CharSequence::isNotBlank).reversed().toTypedArray(),
-                        text.reversedLineSequence() // get spans
-                            .map { pair -> text.subSequence(pair.first, pair.second) } // get subsequences from spans
-                            .filter(CharSequence::isNotBlank) // drop blank ones since ::split drops separators
-                            .map(CharSequence::toString) // toString so the array comparison works
-                            .toList() // sequence doesn't have toTypedArray 🙄
-                            .toTypedArray(),
-                    )
-                }
             }
         }
     }
