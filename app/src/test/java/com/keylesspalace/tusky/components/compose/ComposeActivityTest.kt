@@ -181,7 +181,7 @@ class ComposeActivityTest {
     @Test
     fun whenCloseButtonPressedAndEmpty_finish() {
         clickUp()
-        assertFalse(activity.isFinishing)
+        assertTrue(activity.isFinishing)
     }
 
     @Test
