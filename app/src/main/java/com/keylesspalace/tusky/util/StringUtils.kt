@@ -11,7 +11,7 @@ private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const val WORD_BREAK_EXPRESSION = """(^|$|[^\p{L}\p{N}_])"""
 const val WORD_BREAK_FROM_SPACE_EXPRESSION = """(^|$|\s)"""
 const val HASHTAG_EXPRESSION = "([\\w_]*[\\p{Alpha}_][\\w_]*)"
-val hashtagPattern by unsafeLazy { Pattern.compile(HASHTAG_EXPRESSION, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE) }
+val hashtagPattern = Pattern.compile(HASHTAG_EXPRESSION, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE)
 
 fun randomAlphanumericString(count: Int): String {
     val chars = CharArray(count)
