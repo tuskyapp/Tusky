@@ -130,7 +130,7 @@ class ViewEditsAdapter(
             emojifiedText,
             emptyList(),
             emptyList(),
-            listener
+            listener,
         )
 
         if (edit.poll == null) {

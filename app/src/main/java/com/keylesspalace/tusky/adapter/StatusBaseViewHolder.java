@@ -121,6 +121,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected final ConstraintLayout statusContainer;
     private final TextView translationStatusView;
     private final Button untranslateButton;
+    private final TextView trailingHashtagView;
 
 
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -183,6 +184,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         translationStatusView = itemView.findViewById(R.id.status_translation_status);
         untranslateButton = itemView.findViewById(R.id.status_button_untranslate);
+        trailingHashtagView = itemView.findViewById(R.id.status_trailing_hashtags_content);
 
         this.avatarRadius48dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_48dp);
         this.avatarRadius36dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.avatar_radius_36dp);
@@ -284,7 +286,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         if (expanded) {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content, statusDisplayOptions.animateEmojis());
-            LinkHelper.setClickableText(this.content, emojifiedText, mentions, tags, listener);
+            LinkHelper.setClickableText(this.content, emojifiedText, mentions, tags, listener, this.trailingHashtagView);
             for (int i = 0; i < mediaLabels.length; ++i) {
                 updateMediaLabel(i, sensitive, true);
             }
@@ -295,6 +297,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         } else {
             hidePoll();
+            if (trailingHashtagView != null) {
+                trailingHashtagView.setVisibility(View.GONE);
+            }
             LinkHelper.setClickableMentions(this.content, mentions, listener);
         }
         if (TextUtils.isEmpty(this.content.getText())) {
