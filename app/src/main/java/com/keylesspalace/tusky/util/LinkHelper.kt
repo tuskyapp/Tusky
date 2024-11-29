@@ -52,6 +52,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import java.net.URI
 import java.net.URISyntaxException
+import java.util.regex.Pattern
 
 fun getDomain(urlString: String?): String {
     val host = urlString?.toUri()?.host
@@ -70,27 +71,91 @@ fun getDomain(urlString: String?): String {
  * @param content containing text with mentions, links, or hashtags
  * @param mentions any '@' mentions which are known to be in the content
  * @param listener to notify about particular spans that are clicked
+ * @param trailingHashtagView a text view to fill with trailing / out-of-band hashtags
  */
 fun setClickableText(
     view: TextView,
     content: CharSequence,
     mentions: List<Mention>,
     tags: List<HashTag>?,
-    listener: LinkListener
+    listener: LinkListener,
+    trailingHashtagView: TextView? = null,
 ) {
     val spannableContent = markupHiddenUrls(view, content)
+    val (endOfContent, trailingHashtags) = when {
+        trailingHashtagView == null || tags.isNullOrEmpty() -> Pair(spannableContent.length, emptyList())
+        else -> getTrailingHashtags(spannableContent)
+    }
+    var inlineHashtagSpanCount = 0
 
     view.text = spannableContent.apply {
         styleQuoteSpans(view)
-        getSpans(0, spannableContent.length, URLSpan::class.java).forEach { span ->
+        getSpans(0, endOfContent, URLSpan::class.java).forEach { span ->
+            if (get(getSpanStart(span)) == '#') {
+                inlineHashtagSpanCount += 1
+            }
             setClickableText(span, this, mentions, tags, listener)
         }
-    }
+    }.subSequence(0, endOfContent).trimEnd()
+
     view.movementMethod = NoTrailingSpaceLinkMovementMethod
+
+    val showHashtagBar = (trailingHashtags.isNotEmpty() || inlineHashtagSpanCount != tags?.size)
+    // I don't _love_ setting the visibility here, but the alternative is to duplicate the logic in other places
+    trailingHashtagView?.visible(showHashtagBar)
+
+    if (showHashtagBar) {
+        trailingHashtagView?.apply {
+            text = SpannableStringBuilder().apply {
+                tags?.forEachIndexed { index, tag ->
+                    val text = "#${tag.name}"
+                    append(text, getCustomSpanForTag(text, tags, URLSpan(tag.url), listener), 0)
+                    if (index != tags.lastIndex) {
+                        append(" ")
+                    }
+                }
+            }
+        }
+    }
 }
 
+private val trailingHashtagExpression by unsafeLazy {
+    Pattern.compile("""$WORD_BREAK_EXPRESSION(#$HASHTAG_EXPRESSION$WORD_BREAK_FROM_SPACE_EXPRESSION+)*""", Pattern.CASE_INSENSITIVE)
+}
+
+/**
+ * Find the "trailing" hashtags in spanned content
+ * These are hashtags in lines consisting *only* of hashtags at the end of the post
+ */
 @VisibleForTesting
-fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuilder {
+internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
+    // split() instead of lines() because we need to be able to account for the length of the removed delimiter
+    val trailingContentLength = content.split('\r', '\n').asReversed().takeWhile { line ->
+        line.isBlank() || trailingHashtagExpression.matcher(line).matches()
+    }.sumOf { it.length + 1 } // length + 1 to include the stripped line ending character
+
+    return when (trailingContentLength) {
+        0 -> Pair(content.length, emptyList())
+        else -> {
+            val trailingContentOffset = (content.length - trailingContentLength).coerceAtLeast(0)
+            Pair(
+                trailingContentOffset,
+                content.getSpans(trailingContentOffset, content.length, URLSpan::class.java)
+                    .filter { content[content.getSpanStart(it)] == '#' } // just in case
+                    .map { spanToHashtag(content, it) }
+            )
+        }
+    }
+}
+
+// URLSpan("#tag", url) -> Hashtag("tag", url)
+private fun spanToHashtag(content: Spanned, span: URLSpan) = HashTag(
+    content.subSequence(content.getSpanStart(span) + 1, content.getSpanEnd(span)).toString(),
+    span.url,
+)
+
+@VisibleForTesting
+internal fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableStringBuilder {
     val spannableContent = SpannableStringBuilder(content)
     val originalSpans = spannableContent.getSpans(0, content.length, URLSpan::class.java)
     val obscuredLinkSpans = originalSpans.filter {

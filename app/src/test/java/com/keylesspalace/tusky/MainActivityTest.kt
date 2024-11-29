@@ -138,7 +138,7 @@ class MainActivityTest {
         activity.externalScope = TestScope()
         activity.mastodonApi = mock {
             onBlocking { accountVerifyCredentials() } doReturn NetworkResult.success(account)
-            onBlocking { listAnnouncements(false) } doReturn NetworkResult.success(emptyList())
+            onBlocking { announcements() } doReturn NetworkResult.success(emptyList())
         }
         activity.preferences = mock(defaultAnswer = {
             when (it.method.returnType) {

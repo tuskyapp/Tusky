@@ -346,7 +346,7 @@ internal class StatusNotificationViewHolder(
             emojifiedText,
             statusViewData.actionable.mentions,
             statusViewData.actionable.tags,
-            listener
+            listener,
         )
         val emojifiedContentWarning: CharSequence = statusViewData.status.spoilerText.emojify(
             statusViewData.actionable.emojis,

@@ -20,7 +20,6 @@ package com.keylesspalace.tusky.util
 import android.content.DialogInterface
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 /**
@@ -30,14 +29,13 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  * @param negativeText Optional text to show on the negative button
  * @param neutralText Optional text to show on the neutral button
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 suspend fun AlertDialog.await(
     positiveText: String,
     negativeText: String? = null,
     neutralText: String? = null
 ) = suspendCancellableCoroutine { cont ->
     val listener = DialogInterface.OnClickListener { _, which ->
-        cont.resume(which) { dismiss() }
+        cont.resume(which) { _, _, _ -> dismiss() }
     }
 
     setButton(AlertDialog.BUTTON_POSITIVE, positiveText, listener)

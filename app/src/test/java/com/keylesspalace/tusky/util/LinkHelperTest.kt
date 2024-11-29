@@ -315,6 +315,89 @@ class LinkHelperTest {
         }
     }
 
+    @Test
+    fun `get trailing hashtags with empty content returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder(""))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with no hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some untagged content"))
+        assertEquals(21, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with all inline hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some #inline #tagged #content"))
+        assertEquals(29, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with only hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("#some #inline #tagged #content"))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with one tag`() {
+        val content = SpannableStringBuilder("some content followed by tags:\n").apply {
+            tags.first().let { append("#${it.name}", URLSpan(it.url), 0) }
+        }
+
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+        assertEquals(30, endOfContent)
+        assertEquals(tags.first().name, trailingHashtags.single().name)
+        assertEquals(tags.first().url, trailingHashtags.single().url)
+    }
+
+    @Test
+    fun `get trailing hashtags with multiple tags`() {
+        for (separator in listOf(" ", "\t", "\n", "\r\n")) {
+            val content = SpannableStringBuilder("some content followed by tags:\n").apply {
+                for (tag in tags) {
+                    append(separator)
+                    append("#${tag.name}", URLSpan(tag.url), 0)
+                    append(separator)
+                }
+            }
+
+            val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+            assertEquals(30, endOfContent)
+            assertEquals(tags.size, trailingHashtags.size)
+            tags.forEachIndexed { index, tag ->
+                assertEquals(tag.name, trailingHashtags[index].name)
+                assertEquals(tag.url, trailingHashtags[index].url)
+            }
+        }
+    }
+
+    @Test
+    fun `get trailing hashtags ignores inline tags`() {
+        for (separator in listOf(" ", "\t", "\n", "\r\n")) {
+            val content = SpannableStringBuilder("some content with inline tag ").apply {
+                append("#inline", URLSpan("https://example.com/tag/inline"), 0)
+                append(" followed by trailing tags\n")
+                for (tag in tags) {
+                    append(separator)
+                    append("#${tag.name}", URLSpan(tag.url), 0)
+                    append(separator)
+                }
+            }
+
+            val (_, trailingHashtags) = getTrailingHashtags(content)
+            assertEquals(tags.size, trailingHashtags.size)
+            tags.forEachIndexed { index, tag ->
+                assertEquals(tag.name, trailingHashtags[index].name)
+                assertEquals(tag.url, trailingHashtags[index].url)
+            }
+        }
+    }
+
     @RunWith(Parameterized::class)
     class UrlMatchingTests(private val url: String, private val expectedResult: Boolean) {
         companion object {
