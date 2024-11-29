@@ -128,6 +128,13 @@ ksp {
     arg("room.incremental", "true")
 }
 
+configurations {
+    // JNI-only libraries don't play nicely with Robolectric
+    // see https://github.com/tuskyapp/Tusky/pull/3367
+    testImplementation.exclude group: "org.conscrypt", module: "conscrypt-android"
+    testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
+}
+
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
 dependencies {
     implementation libs.kotlinx.coroutines.android
@@ -182,5 +189,4 @@ dependencies {
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
     testImplementation libs.turbine
-
 }
