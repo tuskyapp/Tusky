@@ -93,7 +93,9 @@ android {
         }
     }
     sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        // workaround to have migrations available in unit tests
+        // https://github.com/robolectric/robolectric/issues/3928#issuecomment-395309991
+        debug.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     // Exclude unneeded files added by libraries
@@ -124,13 +126,6 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.generateKotlin", "true")
     arg("room.incremental", "true")
-}
-
-configurations {
-    // JNI-only libraries don't play nicely with Robolectric
-    // see https://github.com/tuskyapp/Tusky/pull/3367
-    testImplementation.exclude group: "org.conscrypt", module: "conscrypt-android"
-    testRuntime.exclude group: "org.conscrypt", module: "conscrypt-android"
 }
 
 // library versions are in PROJECT_ROOT/gradle/libs.versions.toml
@@ -183,11 +178,9 @@ dependencies {
     testImplementation libs.bundles.mockito
     testImplementation libs.mockwebserver
     testImplementation libs.androidx.core.testing
+    testImplementation libs.androidx.room.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
     testImplementation libs.turbine
 
-    androidTestImplementation libs.espresso.core
-    androidTestImplementation libs.androidx.room.testing
-    androidTestImplementation libs.androidx.test.junit
 }

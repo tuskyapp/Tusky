@@ -28,7 +28,6 @@ conscrypt = "2.5.3"
 coroutines = "1.9.0"
 diffx = "1.1.1"
 emoji2 = "1.4.0"
-espresso = "3.6.1"
 filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
@@ -101,7 +100,6 @@ conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
 filemojicompat-ui = { module = "de.c1710:filemojicompat-ui", version.ref = "filemoji-compat" }

@@ -1,40 +1,54 @@
-package com.keylesspalace.tusky
+package com.keylesspalace.tusky.db
 
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.di.StorageModule
+import com.keylesspalace.tusky.entity.Emoji
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
-const val TEST_DB = "migration_test"
-
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class MigrationsTest {
 
-    @JvmField
-    @Rule
-    var helper: MigrationTestHelper = MigrationTestHelper(
+    @get:Rule
+    val migrationHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
         AppDatabase::class.java
     )
 
     @Test
-    fun migrateTo11() {
-        val db = helper.createDatabase(TEST_DB, 10)
+    fun testMigrations() {
+        val db = migrationHelper.createDatabase("tuskyDB", 10)
+        val moshi = Moshi.Builder().build()
 
-        val id = 1
+        val id = 1L
         val domain = "domain.site"
         val token = "token"
         val active = true
         val accountId = "accountId"
         val username = "username"
+        val emoji = moshi.adapter<List<Emoji>>(Types.newParameterizedType(List::class.java, Emoji::class.java), emptySet()).toJson(
+            listOf(
+                Emoji(
+                    shortcode = "testemoji",
+                    url = "https://some.url",
+                    staticUrl = "https://some.url",
+                    visibleInPicker = true,
+                    category = null
+                )
+            )
+        )
         val values = arrayOf(
             id, domain, token, active, accountId, username, "Display Name",
             "https://picture.url", true, true, true, true, true, true, true,
-            true, "1000", "[]", "[{\"shortcode\": \"emoji\", \"url\": \"yes\"}]", 0, false,
+            true, "1000", "[]", emoji, 0, false,
             false, true
         )
 
@@ -52,15 +66,20 @@ class MigrationsTest {
 
         db.close()
 
-        val newDb = helper.runMigrationsAndValidate(TEST_DB, 11, true, AppDatabase.MIGRATION_10_11)
+        val roomDb = StorageModule.providesDatabase(
+            InstrumentationRegistry.getInstrumentation().context,
+            Converters(moshi)
+        )
 
-        val cursor = newDb.query("SELECT * FROM AccountEntity")
-        cursor.moveToFirst()
-        assertEquals(id, cursor.getInt(0))
-        assertEquals(domain, cursor.getString(1))
-        assertEquals(token, cursor.getString(2))
-        assertEquals(active, cursor.getInt(3) != 0)
-        assertEquals(accountId, cursor.getString(4))
-        assertEquals(username, cursor.getString(5))
+        val account = roomDb.accountDao().loadAll().first()
+
+        roomDb.close()
+
+        assertEquals(id, account.id)
+        assertEquals(domain, account.domain)
+        assertEquals(token, account.accessToken)
+        assertEquals(active, account.isActive)
+        assertEquals(accountId, account.accountId)
+        assertEquals(username, account.username)
     }
 }
