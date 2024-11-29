@@ -25,6 +25,7 @@ class MigrationsTest {
 
     @Test
     fun testMigrations() {
+        /** the db name must match the one in [StorageModule.providesDatabase] */
         val db = migrationHelper.createDatabase("tuskyDB", 10)
         val moshi = Moshi.Builder().build()
 
@@ -66,6 +67,7 @@ class MigrationsTest {
 
         db.close()
 
+        // Room will run all migrations and validate the scheme afterwards
         val roomDb = StorageModule.providesDatabase(
             InstrumentationRegistry.getInstrumentation().context,
             Converters(moshi)
