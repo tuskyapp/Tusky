@@ -317,17 +317,30 @@ class LinkHelperTest {
 
     @Test
     fun `get trailing hashtags with empty content returns empty list`() {
-        assert(getTrailingHashtags(SpannableStringBuilder("")).second.isEmpty())
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder(""))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
     }
 
     @Test
     fun `get trailing hashtags with no hashtags returns empty list`() {
-        assert(getTrailingHashtags(SpannableStringBuilder("some untagged content")).second.isEmpty())
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some untagged content"))
+        assertEquals(21, endOfContent)
+        assert(trailingHashtags.isEmpty())
     }
 
     @Test
     fun `get trailing hashtags with all inline hashtags returns empty list`() {
-        assert(getTrailingHashtags(SpannableStringBuilder("some #inline #tagged #content")).second.isEmpty())
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some #inline #tagged #content"))
+        assertEquals(29, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with only hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("#some #inline #tagged #content"))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
     }
 
     @Test
@@ -336,7 +349,8 @@ class LinkHelperTest {
             tags.first().let { append("#${it.name}", URLSpan(it.url), 0) }
         }
 
-        val (_, trailingHashtags) = getTrailingHashtags(content)
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+        assertEquals(30, endOfContent)
         assertEquals(tags.first().name, trailingHashtags.single().name)
         assertEquals(tags.first().url, trailingHashtags.single().url)
     }
@@ -352,7 +366,8 @@ class LinkHelperTest {
                 }
             }
 
-            val (_, trailingHashtags) = getTrailingHashtags(content)
+            val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+            assertEquals(30, endOfContent)
             assertEquals(tags.size, trailingHashtags.size)
             tags.forEachIndexed { index, tag ->
                 assertEquals(tag.name, trailingHashtags[index].name)
