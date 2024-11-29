@@ -137,7 +137,7 @@ internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
     return when (trailingContentLength) {
         0 -> Pair(content.length, emptyList())
         else -> {
-            val trailingContentOffset = content.length - trailingContentLength
+            val trailingContentOffset = (content.length - trailingContentLength).coerceAtLeast(0)
             Pair(
                 trailingContentOffset,
                 content.getSpans(trailingContentOffset, content.length, URLSpan::class.java)
