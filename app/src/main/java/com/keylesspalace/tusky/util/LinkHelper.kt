@@ -119,9 +119,8 @@ fun setClickableText(
     }
 }
 
-private val trailingHashtagExpression by unsafeLazy {
-    Pattern.compile("""$WORD_BREAK_EXPRESSION(#$HASHTAG_EXPRESSION$WORD_BREAK_FROM_SPACE_EXPRESSION+)*""", Pattern.CASE_INSENSITIVE)
-}
+private val hashtagWithHashPattern = Pattern.compile("^#$HASHTAG_EXPRESSION$")
+private val whitespacePattern = Pattern.compile("""\s+""")
 
 /**
  * Find the "trailing" hashtags in spanned content
@@ -131,7 +130,7 @@ private val trailingHashtagExpression by unsafeLazy {
 internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
     // split() instead of lines() because we need to be able to account for the length of the removed delimiter
     val trailingContentLength = content.split('\r', '\n').asReversed().takeWhile { line ->
-        line.isBlank() || trailingHashtagExpression.matcher(line).matches()
+        line.split(whitespacePattern).all { it.isBlank() || hashtagWithHashPattern.matcher(it).matches() }
     }.sumOf { it.length + 1 } // length + 1 to include the stripped line ending character
 
     return when (trailingContentLength) {
