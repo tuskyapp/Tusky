@@ -53,7 +53,7 @@ data class Status(
     val muted: Boolean = false,
     val poll: Poll? = null,
     /** Preview card for links included within status content. */
-    val card: Card? = null,
+    val card: PreviewCard? = null,
     /** ISO 639 language code for this status. */
     val language: String? = null,
     /** If the current token has an authorized user: The filter and keywords that matched this status.

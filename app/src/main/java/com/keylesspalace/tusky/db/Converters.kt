@@ -22,12 +22,12 @@ import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.PreviewCard
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
@@ -196,13 +196,13 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun cardToJson(card: Card?): String {
-        return moshi.adapter<Card?>().toJson(card)
+    fun cardToJson(card: PreviewCard?): String {
+        return moshi.adapter<PreviewCard?>().toJson(card)
     }
 
     @TypeConverter
-    fun jsonToCard(cardJson: String?): Card? {
-        return cardJson?.let { moshi.adapter<Card?>().fromJson(cardJson) }
+    fun jsonToCard(cardJson: String?): PreviewCard? {
+        return cardJson?.let { moshi.adapter<PreviewCard?>().fromJson(cardJson) }
     }
 
     @TypeConverter

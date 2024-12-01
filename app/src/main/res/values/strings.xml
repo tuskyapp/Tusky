@@ -865,4 +865,7 @@
     <string name="list_reply_policy_label">Show replies to</string>
 
     <string name="unknown_notification_type">Unknown notification type</string>
+
+    <string name="preview_card_by_author">By %1$s</string>
+    <string name="preview_card_more_by_author">More by %1$s</string>
 </resources>
