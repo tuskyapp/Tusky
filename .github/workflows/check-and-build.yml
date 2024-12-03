@@ -1,0 +1,27 @@
+name: Check and build
+
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: ktlint
+        run: ./gradlew clean ktlintCheck
+
+      - name: Regular lint
+        run: ./gradlew app:lintGreenDebug
+
+      - name: Test
+        run: ./gradlew app:testGreenDebugUnitTest
+
+      - name: Build
+        run: ./gradlew app:buildGreenDebug

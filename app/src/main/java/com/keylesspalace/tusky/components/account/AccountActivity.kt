@@ -94,10 +94,6 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showMuteAccountDialog
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.NumberFormat
 import java.text.ParseException
@@ -853,13 +849,6 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         if (!viewModel.isSelf && followState != FollowState.FOLLOWING) {
             menu.removeItem(R.id.action_add_or_remove_from_list)
-        }
-
-        menu.findItem(R.id.action_search)?.apply {
-            icon = IconicsDrawable(this@AccountActivity, GoogleMaterial.Icon.gmd_search).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.collapsingToolbar, android.R.attr.textColorPrimary)
-            }
         }
     }
 

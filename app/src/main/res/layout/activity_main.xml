@@ -34,6 +34,8 @@
                 android:layout_height="48dp"
                 android:orientation="horizontal"
                 app:contentInsetStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:navigationContentDescription="@string/action_open_drawer">
 
@@ -61,7 +63,7 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorSurface"
             app:contentInsetStart="0dp"

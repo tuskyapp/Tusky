@@ -19,11 +19,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -31,7 +28,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
@@ -40,13 +36,14 @@ import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
+import com.keylesspalace.tusky.databinding.DialogAddHashtagBinding
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.hashtagPattern
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,10 +66,6 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
     private val selectedItemElevation by unsafeLazy {
         resources.getDimension(R.dimen.selected_drag_item_elevation)
-    }
-
-    private val hashtagRegex by unsafeLazy {
-        Pattern.compile("([\\w_]*[\\p{Alpha}_][\\w_]*)", Pattern.CASE_INSENSITIVE)
     }
 
     private val onFabDismissedCallback = object : OnBackPressedCallback(false) {
@@ -228,18 +221,12 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
-        val frameLayout = FrameLayout(this)
-        val padding = Utils.dpToPx(this, 8)
-        frameLayout.updatePadding(left = padding, right = padding)
-
-        val editText = AppCompatEditText(this)
-        editText.setHint(R.string.edit_hashtag_hint)
-        editText.setText("")
-        frameLayout.addView(editText)
+        val dialogBinding = DialogAddHashtagBinding.inflate(layoutInflater)
+        val editText = dialogBinding.addHashtagEditText
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.add_hashtag_title)
-            .setView(frameLayout)
+            .setView(dialogBinding.root)
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.action_save) { _, _ ->
                 val input = editText.text.toString().trim()
@@ -291,7 +278,7 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
     private fun validateHashtag(input: CharSequence?): Boolean {
         val trimmedInput = input?.trim() ?: ""
-        return trimmedInput.isNotEmpty() && hashtagRegex.matcher(trimmedInput).matches()
+        return trimmedInput.isNotEmpty() && hashtagPattern.matcher(trimmedInput).matches()
     }
 
     private fun updateAvailableTabs() {

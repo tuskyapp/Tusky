@@ -68,6 +68,8 @@ class ViewThreadViewModel @Inject constructor(
     private val moshi: Moshi
 ) : ViewModel() {
 
+    private val activeAccount = accountManager.activeAccount!!
+
     private val _uiState = MutableStateFlow(ThreadUiState.Loading as ThreadUiState)
     val uiState: Flow<ThreadUiState> = _uiState.asStateFlow()
 
@@ -80,14 +82,10 @@ class ViewThreadViewModel @Inject constructor(
 
     var isInitialLoad: Boolean = true
 
-    private val alwaysShowSensitiveMedia: Boolean
-    private val alwaysOpenSpoiler: Boolean
+    private val alwaysShowSensitiveMedia: Boolean = activeAccount.alwaysShowSensitiveMedia
+    private val alwaysOpenSpoiler: Boolean = activeAccount.alwaysOpenSpoiler
 
     init {
-        val activeAccount = accountManager.activeAccount
-        alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
-        alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
-
         viewModelScope.launch {
             eventHub.events
                 .collect { event ->
@@ -109,7 +107,7 @@ class ViewThreadViewModel @Inject constructor(
             val filterCall = async { filterModel.init(Filter.Kind.THREAD) }
 
             val contextCall = async { api.statusContext(id) }
-            val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(accountManager.activeAccount!!.id, id)
+            val statusAndAccount = db.timelineStatusDao().getStatusWithAccount(activeAccount.id, id)
 
             var detailedStatus = if (statusAndAccount != null) {
                 Log.d(TAG, "Loaded status from local timeline")
@@ -142,7 +140,7 @@ class ViewThreadViewModel @Inject constructor(
             if (statusAndAccount != null) {
                 api.status(id).onSuccess { result ->
                     db.timelineStatusDao().update(
-                        tuskyAccountId = accountManager.activeAccount!!.id,
+                        tuskyAccountId = activeAccount.id,
                         status = result,
                         moshi = moshi
                     )
@@ -421,7 +419,7 @@ class ViewThreadViewModel @Inject constructor(
 
     private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
         return filter { status ->
-            if (status.isDetailed) {
+            if (status.isDetailed || status.status.account.id == activeAccount.accountId) {
                 true
             } else {
                 status.filterAction = filterModel.shouldFilterStatus(status.status)

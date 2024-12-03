@@ -154,6 +154,9 @@ class NotificationsViewModel @Inject constructor(
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
             Notification.Type.MENTION, Notification.Type.POLL -> {
                 notificationViewData.statusViewData?.let { statusViewData ->
+                    if (statusViewData.status.account.id == account.accountId) {
+                        return Filter.Action.NONE
+                    }
                     statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
                     return statusViewData.filterAction
                 }

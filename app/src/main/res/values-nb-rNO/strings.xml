@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_generic">En feil har oppstått.</string>
-    <string name="error_network">En nettverksfeil har oppstått. Sjekk tilkoblingen, og prøv igjen.</string>
+    <string name="error_network">En nettverksfeil har oppstått. Sjekk tilkoblingen og prøv igjen.</string>
     <string name="error_empty">Denne kan ikke være tom.</string>
     <string name="error_invalid_domain">Ugyldig domene</string>
     <string name="error_failed_app_registration">Kunne ikke autentisere med den instansen. Hvis dette fortsetter å skje, prøv å logge inn i nettleseren fra menyen.</string>
     <string name="error_no_web_browser_found">Fant ingen nettleser som kunne brukes.</string>
     <string name="error_authorization_unknown">En ukjent autoriseringsfeil oppsto. Hvis dette fortsetter, prøv å logge inn i nettleseren fra menyen.</string>
-    <string name="error_authorization_denied">Autorisasjon ble nektet. Hvis du er sikker på at du ga riktige data, prøv å logge inn i nettleseren fra menyen.</string>
-    <string name="error_retrieving_oauth_token">Henting av logintoken feilet. Hvis dette fortsetter prøv å logge in i nettleseren fra menyen.</string>
+    <string name="error_authorization_denied">Autorisasjon ble nektet. Hvis du er sikker på at du oppga riktige data, prøv å logge inn i nettleseren fra menyen.</string>
+    <string name="error_retrieving_oauth_token">Henting av logintoken feilet. Hvis dette fortsetter, prøv å logge inn i nettleseren fra menyen.</string>
     <string name="error_compose_character_limit">Innlegget er for langt!</string>
     <string name="error_media_upload_type">Den filtypen kan ikke lastes opp.</string>
     <string name="error_media_upload_opening">Den filen kunne ikke åpnes.</string>
@@ -62,7 +62,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logg inn med Tusky</string>
     <string name="action_logout">Logg ut</string>
-    <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s\? Dette vil slette all lokal data for kontoen, som utkast og instillinger.</string>
+    <string name="action_logout_confirm">Er du sikker på at du vil logge ut fra kontoen %1$s? Dette vil slette all lokal data for kontoen, som utkast og instillinger.</string>
     <string name="action_follow">Følg</string>
     <string name="action_unfollow">Slutt å følge</string>
     <string name="action_block">Blokkér</string>
@@ -575,7 +575,7 @@
     <string name="pref_reading_order_oldest_first">Eldste først</string>
     <string name="pref_ui_text_size">Skriftstørrelse for brukergrensesnitt</string>
     <string name="pref_reading_order_newest_first">Nyeste først</string>
-    <string name="dialog_follow_hashtag_title">Følg emneknagger</string>
+    <string name="dialog_follow_hashtag_title">Følg emneknagg</string>
     <string name="dialog_follow_hashtag_hint">#emneknagg</string>
     <string name="accessibility_talking_about_tag">%1$d folk snakker om emneknaggen %2$s</string>
     <string name="total_usage">Total bruk</string>
@@ -599,10 +599,10 @@
     <string name="filter_edit_keyword_title">Endre nøkkelord</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_http_proxy_port_message">Portnummer burde være mellom %1$d og %2$d</string>
-    <string name="action_post_failed">Opplastningen mislykkets</string>
-    <string name="action_post_failed_detail_plural">Opplastningen av innleggene dine mislykktes og de har blitt lagret som utkast.
+    <string name="action_post_failed">Opplastningen mislyktes</string>
+    <string name="action_post_failed_detail_plural">Opplastningen av innleggene dine mislyktes og de har blitt lagret som utkast.
 \n
-\nEnten kunne ikke tjeneren nås, eller så ble opplastningen nektet.</string>
+\nEnten kunne ikke tjeneren nås, eller så ble opplastningen avvist.</string>
     <string name="action_post_failed_show_drafts">Vis utkast</string>
     <string name="action_post_failed_do_nothing">Lukk</string>
     <string name="post_media_alt">ALT</string>
@@ -616,9 +616,9 @@
     <string name="action_browser_login">Logg inn med nettleseren</string>
     <string name="description_browser_login">Kan støtte flere autentiseringsmetoder, men trenger en støttet nettleser.</string>
     <string name="description_login">Virker som oftest. Ingen informasjon deles med andre apper.</string>
-    <string name="action_post_failed_detail">Opplastingen misslykktes og har blit lagret som utkast.
+    <string name="action_post_failed_detail">Opplastingen mislyktes og har blitt lagret som utkast.
 \n
-\nEnten kunne tjeneren ikke kontakteres, eller den nektet opplastningen.</string>
+\nEnten kunne ikke tjeneren ikke kontaktes, eller så ble posten avvist.</string>
     <string name="ui_success_accepted_follow_request">Følgeforespørsel akseptert</string>
     <string name="action_discard">Forkast endringer</string>
     <string name="action_continue_edit">Fortsett endring</string>
@@ -638,7 +638,7 @@
     <string name="send_account_username_to">Del kontoens brukernavn med…</string>
     <string name="account_username_copied">Brukernavn kopiert</string>
     <string name="error_status_source_load">Kunne ikke laste status fra tjeneren.</string>
-    <string name="status_filtered_show_anyway">Vis allikevel</string>
+    <string name="status_filtered_show_anyway">Vis likevel</string>
     <string name="status_filter_placeholder_label_format">Filtrert: %1$s</string>
     <string name="pref_title_account_filter_keywords">Profiler</string>
     <string name="action_add">Legg til</string>
@@ -656,4 +656,11 @@
     <string name="error_missing_edits">Serveren din vet at denne posten ble endret, men har ingen kopi av entringene så de kann ikke vises.
 \n
 \nDette er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
+    <string name="pref_title_show_self_boosts">Vis selvompostinger</string>
+    <string name="error_media_upload_sending_fmt">Opplasting feilet: %1$s</string>
+    <string name="error_blocking_domain">Kunne ikke dempe %1$s: %2$s</string>
+    <string name="error_unblocking_domain">Kunne ikke skru av dempingen av %1$s: %2$s</string>
+    <string name="error_deleting_filter">Kunne ikke slette filter \'%1$s\'</string>
+    <string name="error_saving_filter">Kunne ikke lagre filter \'%1$s\'</string>
+    <string name="title_public_trending_statuses">Trendende poster</string>
 </resources>

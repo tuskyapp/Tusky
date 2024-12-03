@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.network
 
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.keylesspalace.tusky.components.filters.FilterExpiration
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
@@ -39,6 +40,7 @@ import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.entity.ScheduledStatusReply
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
@@ -207,7 +209,7 @@ interface MastodonApi {
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
-    ): NetworkResult<ScheduledStatus>
+    ): NetworkResult<ScheduledStatusReply>
 
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
@@ -539,7 +541,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<FilterV1>
 
     @FormUrlEncoded
@@ -550,7 +552,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<FilterV1>
 
     @DELETE("api/v1/filters/{id}")
@@ -562,7 +564,7 @@ interface MastodonApi {
         @Field("title") title: String,
         @Field("context[]") context: List<String>,
         @Field("filter_action") filterAction: String,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<Filter>
 
     @FormUrlEncoded
@@ -572,7 +574,7 @@ interface MastodonApi {
         @Field("title") title: String? = null,
         @Field("context[]") context: List<String>? = null,
         @Field("filter_action") filterAction: String? = null,
-        @Field("expires_in") expiresInSeconds: Int? = null
+        @Field("expires_in") expires: FilterExpiration? = null
     ): NetworkResult<Filter>
 
     @DELETE("api/v2/filters/{id}")

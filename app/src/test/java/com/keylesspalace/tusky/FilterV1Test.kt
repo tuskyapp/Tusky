@@ -19,7 +19,6 @@ package com.keylesspalace.tusky
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.connyduck.calladapter.networkresult.NetworkResult
-import com.keylesspalace.tusky.components.filters.EditFilterActivity
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
@@ -275,22 +274,6 @@ class FilterV1Test {
                 mockStatus(content = "content matching unexpired filter should be filtered")
             )
         )
-    }
-
-    @Test
-    fun unchangedExpiration_shouldBeNegative_whenFilterIsExpired() {
-        val expiredBySeconds = 3600
-        val expiredDate = Date.from(Instant.now().minusSeconds(expiredBySeconds.toLong()))
-        val updatedDuration = EditFilterActivity.getSecondsForDurationIndex(-1, null, expiredDate)
-        assert(updatedDuration != null && updatedDuration <= -expiredBySeconds)
-    }
-
-    @Test
-    fun unchangedExpiration_shouldBePositive_whenFilterIsUnexpired() {
-        val expiresInSeconds = 3600
-        val expiredDate = Date.from(Instant.now().plusSeconds(expiresInSeconds.toLong()))
-        val updatedDuration = EditFilterActivity.getSecondsForDurationIndex(-1, null, expiredDate)
-        assert(updatedDuration != null && updatedDuration > (expiresInSeconds - 60))
     }
 
     companion object {

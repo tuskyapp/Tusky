@@ -9,7 +9,11 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -51,7 +55,7 @@ class LinkHelperTest {
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            Assert.assertNotNull(mentions.firstOrNull { it.url == span.url })
+            assertNotNull(mentions.firstOrNull { it.url == span.url })
         }
     }
 
@@ -72,7 +76,7 @@ class LinkHelperTest {
 
         urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java)
         for (span in urlSpans) {
-            Assert.assertEquals(nonMentionUrl, span.url)
+            assertEquals(nonMentionUrl, span.url)
         }
     }
 
@@ -81,8 +85,8 @@ class LinkHelperTest {
         for (tag in tags) {
             for (mutatedTagName in listOf(tag.name, tag.name.uppercase(), tag.name.lowercase())) {
                 val tagName = getTagName("#$mutatedTagName", tags)
-                Assert.assertNotNull(tagName)
-                Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
+                assertNotNull(tagName)
+                assertNotNull(tags.firstOrNull { it.name == tagName })
             }
         }
     }
@@ -93,22 +97,22 @@ class LinkHelperTest {
         for (tag in tags) {
             val mutatedTagName = String(tag.name.map { mutator[it] ?: it }.toCharArray())
             val tagName = getTagName("#$mutatedTagName", tags)
-            Assert.assertNotNull(tagName)
-            Assert.assertNotNull(tags.firstOrNull { it.name == tagName })
+            assertNotNull(tagName)
+            assertNotNull(tags.firstOrNull { it.name == tagName })
         }
     }
 
     @Test
     fun hashedUrlSpans_withNoMatchingTag_areNotModified() {
         for (tag in tags) {
-            Assert.assertNull(getTagName("#not${tag.name}", tags))
+            assertNull(getTagName("#not${tag.name}", tags))
         }
     }
 
     @Test
     fun whenTagsAreNull_tagNameIsGeneratedFromText() {
         for (tag in tags) {
-            Assert.assertEquals(tag.name, getTagName("#${tag.name}", null))
+            assertEquals(tag.name, getTagName("#${tag.name}", null))
         }
     }
 
@@ -120,7 +124,7 @@ class LinkHelperTest {
             "http:/foo.bar",
             "c:/foo/bar"
         ).forEach {
-            Assert.assertEquals("", getDomain(it))
+            assertEquals("", getDomain(it))
         }
     }
 
@@ -142,7 +146,7 @@ class LinkHelperTest {
                 "https://$domain/foo/bar.html?argument=value",
                 "https://$domain/foo/bar.html?argument=value&otherArgument=otherValue"
             ).forEach { url ->
-                Assert.assertEquals(domain, getDomain(url))
+                assertEquals(domain, getDomain(url))
             }
         }
     }
@@ -155,7 +159,7 @@ class LinkHelperTest {
             "http://www.localhost" to "localhost",
             "https://wwwexample.com/" to "wwwexample.com"
         ).forEach { (url, domain) ->
-            Assert.assertEquals(domain, getDomain(url))
+            assertEquals(domain, getDomain(url))
         }
     }
 
@@ -167,11 +171,11 @@ class LinkHelperTest {
         val content = SpannableStringBuilder()
         content.append(displayedContent, URLSpan(maliciousUrl), 0)
         val oldContent = content.toString()
-        Assert.assertEquals(
-            textView.context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain),
+        assertEquals(
+            displayedContent + " " + textView.context.getString(R.string.url_domain_notifier, maliciousDomain),
             markupHiddenUrls(textView, content).toString()
         )
-        Assert.assertEquals(oldContent, content.toString())
+        assertEquals(oldContent, content.toString())
     }
 
     @Test
@@ -181,8 +185,8 @@ class LinkHelperTest {
         val maliciousUrl = "https://$maliciousDomain/to/go"
         val content = SpannableStringBuilder()
         content.append(displayedContent, URLSpan(maliciousUrl), 0)
-        Assert.assertEquals(
-            textView.context.getString(R.string.url_domain_notifier, displayedContent, maliciousDomain),
+        assertEquals(
+            displayedContent + " " + textView.context.getString(R.string.url_domain_notifier, maliciousDomain),
             markupHiddenUrls(textView, content).toString()
         )
     }
@@ -198,7 +202,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(textView, content)
         for (domain in domains) {
-            Assert.assertTrue(markedUpContent.contains(textView.context.getString(R.string.url_domain_notifier, displayedContent, domain)))
+            assertTrue(markedUpContent.contains(displayedContent + " " + textView.context.getString(R.string.url_domain_notifier, domain)))
         }
     }
 
@@ -216,7 +220,7 @@ class LinkHelperTest {
             .append("$domain/", URLSpan("https://www.$domain"), 0)
 
         val markedUpContent = markupHiddenUrls(textView, content)
-        Assert.assertFalse(markedUpContent.contains("🔗"))
+        assertFalse(markedUpContent.contains("🔗"))
     }
 
     @Test
@@ -229,7 +233,7 @@ class LinkHelperTest {
             .append("Some Place https://some.place/path", URLSpan("https://some.place/path"), 0)
 
         val markedUpContent = markupHiddenUrls(textView, content)
-        Assert.assertFalse(markedUpContent.contains("🔗"))
+        assertFalse(markedUpContent.contains("🔗"))
     }
 
     @Test
@@ -249,8 +253,9 @@ class LinkHelperTest {
             "Another Place | https://another.place/",
             "Another Place https://another.place/path"
         )
+        print(markedUpContent)
         asserts.forEach {
-            Assert.assertTrue(markedUpContent.contains(textView.context.getString(R.string.url_domain_notifier, it, "some.place")))
+            assertTrue(markedUpContent.contains(it + " " + textView.context.getString(R.string.url_domain_notifier, "some.place")))
         }
     }
 
@@ -264,7 +269,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(textView, builder)
         for (mention in mentions) {
-            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
+            assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
         }
     }
 
@@ -278,7 +283,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(textView, builder)
         for (mention in mentions) {
-            Assert.assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
+            assertFalse(markedUpContent.contains("${getDomain(mention.url)})"))
         }
     }
 
@@ -292,7 +297,7 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(textView, builder)
         for (tag in tags) {
-            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
+            assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
         }
     }
 
@@ -306,7 +311,90 @@ class LinkHelperTest {
 
         val markedUpContent = markupHiddenUrls(textView, builder)
         for (tag in tags) {
-            Assert.assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
+            assertFalse(markedUpContent.contains("${getDomain(tag.url)})"))
+        }
+    }
+
+    @Test
+    fun `get trailing hashtags with empty content returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder(""))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with no hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some untagged content"))
+        assertEquals(21, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with all inline hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("some #inline #tagged #content"))
+        assertEquals(29, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with only hashtags returns empty list`() {
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(SpannableStringBuilder("#some #inline #tagged #content"))
+        assertEquals(0, endOfContent)
+        assert(trailingHashtags.isEmpty())
+    }
+
+    @Test
+    fun `get trailing hashtags with one tag`() {
+        val content = SpannableStringBuilder("some content followed by tags:\n").apply {
+            tags.first().let { append("#${it.name}", URLSpan(it.url), 0) }
+        }
+
+        val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+        assertEquals(30, endOfContent)
+        assertEquals(tags.first().name, trailingHashtags.single().name)
+        assertEquals(tags.first().url, trailingHashtags.single().url)
+    }
+
+    @Test
+    fun `get trailing hashtags with multiple tags`() {
+        for (separator in listOf(" ", "\t", "\n", "\r\n")) {
+            val content = SpannableStringBuilder("some content followed by tags:\n").apply {
+                for (tag in tags) {
+                    append(separator)
+                    append("#${tag.name}", URLSpan(tag.url), 0)
+                    append(separator)
+                }
+            }
+
+            val (endOfContent, trailingHashtags) = getTrailingHashtags(content)
+            assertEquals(30, endOfContent)
+            assertEquals(tags.size, trailingHashtags.size)
+            tags.forEachIndexed { index, tag ->
+                assertEquals(tag.name, trailingHashtags[index].name)
+                assertEquals(tag.url, trailingHashtags[index].url)
+            }
+        }
+    }
+
+    @Test
+    fun `get trailing hashtags ignores inline tags`() {
+        for (separator in listOf(" ", "\t", "\n", "\r\n")) {
+            val content = SpannableStringBuilder("some content with inline tag ").apply {
+                append("#inline", URLSpan("https://example.com/tag/inline"), 0)
+                append(" followed by trailing tags\n")
+                for (tag in tags) {
+                    append(separator)
+                    append("#${tag.name}", URLSpan(tag.url), 0)
+                    append(separator)
+                }
+            }
+
+            val (_, trailingHashtags) = getTrailingHashtags(content)
+            assertEquals(tags.size, trailingHashtags.size)
+            tags.forEachIndexed { index, tag ->
+                assertEquals(tag.name, trailingHashtags[index].name)
+                assertEquals(tag.url, trailingHashtags[index].url)
+            }
         }
     }
 
@@ -375,7 +463,7 @@ class LinkHelperTest {
 
         @Test
         fun test() {
-            Assert.assertEquals(expectedResult, looksLikeMastodonUrl(url))
+            assertEquals(expectedResult, looksLikeMastodonUrl(url))
         }
     }
 }

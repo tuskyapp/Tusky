@@ -272,4 +272,7 @@
     <string name="pref_title_show_boosts">Sken-d beṭuyat</string>
     <string name="hashtags">Ihacṭagen</string>
     <string name="notification_follow_request_name">Isuturen n teḍfeṛt</string>
+    <string name="notification_boost_name">Izuzar</string>
+    <string name="profile_metadata_content_label">Agbur</string>
+    <string name="button_done">Immed</string>
 </resources>

@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
@@ -46,13 +47,13 @@ class NotificationsRemoteMediator(
     private val notificationsDao = db.notificationsDao()
     private val accountDao = db.timelineAccountDao()
     private val statusDao = db.timelineStatusDao()
-    private val activeAccount = accountManager.activeAccount!!
+    private val activeAccount = accountManager.activeAccount
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NotificationDataEntity>
     ): MediatorResult {
-        if (!activeAccount.isLoggedIn()) {
+        if (activeAccount == null) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
@@ -79,7 +80,7 @@ class NotificationsRemoteMediator(
                     val notifications = notificationResponse.body()
                     if (notificationResponse.isSuccessful && notifications != null) {
                         db.withTransaction {
-                            replaceNotificationRange(notifications, state)
+                            replaceNotificationRange(notifications, state, activeAccount)
                         }
                     }
                 }
@@ -106,7 +107,7 @@ class NotificationsRemoteMediator(
             }
 
             db.withTransaction {
-                val overlappedNotifications = replaceNotificationRange(notifications, state)
+                val overlappedNotifications = replaceNotificationRange(notifications, state, activeAccount)
 
                 /* In case we loaded a whole page and there was no overlap with existing statuses,
                    we insert a placeholder because there might be even more unknown statuses */
@@ -135,7 +136,11 @@ class NotificationsRemoteMediator(
      * @param notifications the new notifications
      * @return the number of old notifications that have been cleared from the database
      */
-    private suspend fun replaceNotificationRange(notifications: List<Notification>, state: PagingState<Int, NotificationDataEntity>): Int {
+    private suspend fun replaceNotificationRange(
+        notifications: List<Notification>,
+        state: PagingState<Int, NotificationDataEntity>,
+        activeAccount: AccountEntity
+        ): Int {
         val overlappedNotifications = if (notifications.isNotEmpty()) {
             notificationsDao.deleteRange(activeAccount.id, notifications.last().id, notifications.first().id)
         } else {
@@ -191,7 +196,7 @@ class NotificationsRemoteMediator(
     private suspend fun saveNewestNotificationId(notification: Notification) {
         val account = accountManager.activeAccount
         // make sure the account we are currently working with is still active
-        if (account == activeAccount) {
+        if (account != null && account == activeAccount) {
             val lastNotificationId: String = activeAccount.lastNotificationId
             val newestNotificationId = notification.id
             if (lastNotificationId.isLessThan(newestNotificationId)) {

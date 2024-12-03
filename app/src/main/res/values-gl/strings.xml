@@ -64,7 +64,7 @@
     <string name="action_quick_reply">Resposta rápida</string>
     <string name="report_comment_hint">Comentarios adicionais\?</string>
     <string name="report_username_format">Denunciar a @%1$s</string>
-    <string name="notification_subscription_format">%1$s publicou agora</string>
+    <string name="notification_subscription_format">%1$s acaba de publicar</string>
     <string name="notification_follow_request_format">%1$s solicitou seguirte</string>
     <string name="notification_follow_format">%1$s seguiute</string>
     <string name="notification_favourite_format">%1$s fixo favorita a publicación</string>
@@ -119,7 +119,7 @@
     <string name="error_invalid_domain">O dominio escrito non é válido</string>
     <string name="error_empty">Isto non pode estar baleiro.</string>
     <string name="error_network">Produciuse un fallo na rede. Comproba a conexión e inténtao outra vez.</string>
-    <string name="error_generic">Produciuse un fallo.</string>
+    <string name="error_generic">Algo fallou.</string>
     <string name="conversation_1_recipients">%1$s</string>
     <string name="action_unsubscribe_account">Desubscribir</string>
     <string name="action_subscribe_account">Subscribir</string>
@@ -501,7 +501,7 @@
     <string name="duration_180_days">180 días</string>
     <string name="duration_365_days">365 días</string>
     <string name="tusky_compose_post_quicksetting_label">Redactar publicación</string>
-    <string name="notification_sign_up_format">%1$s rexistrouse</string>
+    <string name="notification_sign_up_format">%1$s creou a conta</string>
     <string name="pref_title_notification_filter_sign_ups">hai unha nova usuaria</string>
     <string name="notification_sign_up_name">Rexistros</string>
     <string name="notification_sign_up_description">Notificacións sobre novas usuarias</string>
@@ -554,12 +554,12 @@
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Faltar a unha norma</string>
     <string name="report_category_other">Outra</string>
-    <string name="error_following_hashtags_unsupported">Esta instancia non ten compatibilidade para seguimento de cancelos.</string>
+    <string name="error_following_hashtags_unsupported">Esta instancia non é compatible co seguimento de cancelos.</string>
     <string name="title_followed_hashtags">Cancelos seguidos</string>
     <string name="status_created_at_now">agora</string>
     <string name="notification_report_format">Nova denuncia en %1$s</string>
     <string name="notification_header_report_format">%1$s denunciou a %2$s</string>
-    <string name="notification_summary_report_format">%1$s · %2$d publicacións fixadas</string>
+    <string name="notification_summary_report_format">%1$s · %2$d publicacións anexadas</string>
     <string name="confirmation_hashtag_unfollowed">Xa non segues a #%1$s</string>
     <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
@@ -568,7 +568,7 @@
     <string name="error_unmuting_hashtag_format">Produciuse un erro ao reactivar #%1$s</string>
     <string name="description_post_edited">Editado</string>
     <string name="post_media_alt">ALT</string>
-    <string name="post_edited">Editado %1$s</string>
+    <string name="post_edited">Editado o %1$s</string>
     <string name="error_status_source_load">Produciuse un fallo na carga da fonte do estado desde o servidor.</string>
     <string name="a11y_label_loading_thread">Cargando fío</string>
     <string name="mute_notifications_switch">Acalar notificacións</string>

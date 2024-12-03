@@ -66,7 +66,6 @@ class ListSelectionFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TuskyDialogFragmentStyle)
         accountId = requireArguments().getString(ARG_ACCOUNT_ID)
     }
 
