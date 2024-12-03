@@ -1180,10 +1180,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else {
                 cardAuthorName = card.getAuthors().get(0).getName();
                 cardAuthorAccount = card.getAuthors().get(0).getAccount();
+                if (cardAuthorAccount != null) {
+                    cardAuthorName = cardAuthorAccount.getName();
+                }
             }
 
             if (TextUtils.isEmpty(cardAuthorName)) {
-                cardAuthor.setVisibility(View.GONE);
+                cardAuthor.setVisibility(View.VISIBLE);
+                cardAuthor.setText(card.getDescription());
                 cardAuthorButton.setVisibility(View.GONE);
             } else if (cardAuthorAccount == null) {
                 cardAuthor.setVisibility(View.VISIBLE);
@@ -1191,7 +1195,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 cardAuthorButton.setVisibility(View.GONE);
             } else {
                 cardAuthorButton.setVisibility(View.VISIBLE);
-                final String buttonText = context.getString(R.string.preview_card_more_by_author, cardAuthorAccount.getName());
+                final String buttonText = context.getString(R.string.preview_card_more_by_author, cardAuthorName);
                 final CharSequence emojifiedButtonText = CustomEmojiHelper.emojify(buttonText, cardAuthorAccount.getEmojis(), cardAuthorButton, statusDisplayOptions.animateEmojis());
                 cardAuthorButton.setText(emojifiedButtonText);
                 cardAuthorButton.setOnClickListener(v-> listener.onViewAccount(cardAuthorAccount.getId()));
