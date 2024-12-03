@@ -8,7 +8,7 @@ import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import java.util.Date
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -21,7 +21,7 @@ import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class TimelineCasesTest {
 
@@ -39,23 +39,21 @@ class TimelineCasesTest {
     }
 
     @Test
-    fun `pin success emits StatusChangedEvent`() {
+    fun `pin success emits StatusChangedEvent`() = runTest {
         val pinnedStatus = mockStatus(pinned = true)
 
         api.stub {
             onBlocking { pinStatus(statusId) } doReturn NetworkResult.success(pinnedStatus)
         }
 
-        runBlocking {
-            eventHub.events.test {
-                timelineCases.pin(statusId, true)
-                assertEquals(StatusChangedEvent(pinnedStatus), awaitItem())
-            }
+        eventHub.events.test {
+            timelineCases.pin(statusId, true)
+            assertEquals(StatusChangedEvent(pinnedStatus), awaitItem())
         }
     }
 
     @Test
-    fun `pin failure with server error throws TimelineError with server message`() {
+    fun `pin failure with server error throws TimelineError with server message`() = runTest {
         api.stub {
             onBlocking { pinStatus(statusId) } doReturn NetworkResult.failure(
                 HttpException(
@@ -66,12 +64,10 @@ class TimelineCasesTest {
                 )
             )
         }
-        runBlocking {
-            assertEquals(
-                "Validation Failed: You have already pinned the maximum number of toots",
-                timelineCases.pin(statusId, true).exceptionOrNull()?.message
-            )
-        }
+        assertEquals(
+            "Validation Failed: You have already pinned the maximum number of toots",
+            timelineCases.pin(statusId, true).exceptionOrNull()?.message
+        )
     }
 
     private fun mockStatus(pinned: Boolean = false): Status {

@@ -17,10 +17,10 @@ package com.keylesspalace.tusky.components.preference
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.DrawableRes
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
@@ -37,6 +37,8 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
+
+import com.keylesspalace.tusky.components.preference.notificationpolicies.NotificationPoliciesActivity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
@@ -52,9 +54,8 @@ import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.getInitialLanguages
 import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
-import com.keylesspalace.tusky.util.makeIcon
+import com.keylesspalace.tusky.util.icon
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.keylesspalace.tusky.util.unsafeLazy
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
@@ -77,12 +78,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore
 
-    private val iconSize by unsafeLazy {
-        resources.getDimensionPixelSize(
-            R.dimen.preference_icon_size
-        )
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
         makePreferenceScreen {
@@ -100,7 +95,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.title_tab_preferences)
-                setIcon(R.drawable.ic_tabs)
+                icon = icon(R.drawable.ic_tabs)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -110,7 +105,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.title_followed_hashtags)
-                setIcon(R.drawable.ic_hashtag)
+                icon = icon(R.drawable.ic_hashtag)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, FollowedTagsActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -120,7 +115,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.action_view_mutes)
-                setIcon(R.drawable.ic_mute_24dp)
+                icon = icon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
@@ -131,10 +126,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.action_view_blocks)
-                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_block).apply {
-                    sizeRes = R.dimen.preference_icon_size
-                    colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
-                }
+                icon = icon(GoogleMaterial.Icon.gmd_block)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.BLOCKS)
@@ -145,7 +137,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.title_domain_mutes)
-                setIcon(R.drawable.ic_mute_24dp)
+                icon = icon(R.drawable.ic_mute_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, DomainBlocksActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -155,7 +147,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
             preference {
                 setTitle(R.string.pref_title_timeline_filters)
-                setIcon(R.drawable.ic_filter_24dp)
+                icon = icon(R.drawable.ic_filter_24dp)
                 setOnPreferenceClickListener {
                     launchFilterActivity()
                     true
@@ -172,13 +164,12 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.stringValue
-                    setIcon(getIconForVisibility(visibility))
+                    icon = getIconForVisibility(visibility)
                     isPersistent = false // its saved to the account and shouldn't be in shared preferences
                     setOnPreferenceChangeListener { _, newValue ->
-                        val icon = getIconForVisibility(Status.Visibility.fromStringValue(newValue as String))
-                        setIcon(icon)
+                        icon = getIconForVisibility(Status.Visibility.fromStringValue(newValue as String))
                         if (accountManager.activeAccount?.defaultReplyPrivacy == DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY) {
-                            findPreference<ListPreference>(PrefKeys.DEFAULT_REPLY_PRIVACY)?.setIcon(icon)
+                            findPreference<ListPreference>(PrefKeys.DEFAULT_REPLY_PRIVACY)?.icon = icon
                         }
                         syncWithServer(visibility = newValue)
                         true
@@ -196,11 +187,13 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
                         value = visibility.stringValue
-                        setIcon(getIconForVisibility(visibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
+                        icon = getIconForVisibility(visibility.toVisibilityOr(activeAccount.defaultPostPrivacy))
                         isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
                             val newVisibility = DefaultReplyVisibility.fromStringValue(newValue as String)
-                            setIcon(getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy)))
+
+                            icon = getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy))
+
                             viewLifecycleOwner.lifecycleScope.launch {
                                 accountManager.updateAccount(activeAccount) { copy(defaultReplyPrivacy = newVisibility) }
                                 eventHub.dispatch(PreferenceChangedEvent(key))
@@ -210,6 +203,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     }
                     preference {
                         setSummary(R.string.pref_default_reply_privacy_explanation)
+                        shouldDisableView = false
                         isEnabled = false
                     }
                 }
@@ -227,7 +221,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
                     isSingleLineTitle = false
-                    icon = makeIcon(requireContext(), GoogleMaterial.Icon.gmd_translate, iconSize)
+                    icon = icon(GoogleMaterial.Icon.gmd_translate)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
                     setSummaryProvider { entry }
@@ -240,14 +234,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
 
                 switchPreference {
                     setTitle(R.string.pref_default_media_sensitivity)
-                    setIcon(R.drawable.ic_eye_24dp)
+                    icon = icon(R.drawable.ic_eye_24dp)
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
                     isSingleLineTitle = false
-                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity ?: false
+                    val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity == true
                     setDefaultValue(sensitivity)
-                    setIcon(getIconForSensitivity(sensitivity))
+                    icon = getIconForSensitivity(sensitivity)
                     setOnPreferenceChangeListener { _, newValue ->
-                        setIcon(getIconForSensitivity(newValue as Boolean))
+                        icon = getIconForSensitivity(newValue as Boolean)
                         syncWithServer(sensitive = newValue)
                         true
                     }
@@ -283,6 +277,16 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                 preference {
                     setTitle(R.string.pref_title_post_tabs)
                     fragment = TabFilterPreferencesFragment::class.qualifiedName
+                }
+            }
+            preference {
+                setTitle(R.string.notification_policies_title)
+                setOnPreferenceClickListener {
+                    activity?.let {
+                        val intent = NotificationPoliciesActivity.newIntent(it)
+                        it.startActivityWithSlideInAnimation(intent)
+                    }
+                    true
                 }
             }
         }
@@ -345,25 +349,21 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
         }
     }
 
-    @DrawableRes
-    private fun getIconForVisibility(visibility: Status.Visibility): Int {
-        return when (visibility) {
+    private fun getIconForVisibility(visibility: Status.Visibility): Drawable? {
+        val iconRes = when (visibility) {
             Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
-
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
-
             Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
-
             else -> R.drawable.ic_public_24dp
         }
+        return icon(iconRes)
     }
 
-    @DrawableRes
-    private fun getIconForSensitivity(sensitive: Boolean): Int {
+    private fun getIconForSensitivity(sensitive: Boolean): Drawable? {
         return if (sensitive) {
-            R.drawable.ic_hide_media_24dp
+            icon(R.drawable.ic_hide_media_24dp)
         } else {
-            R.drawable.ic_eye_24dp
+            icon(R.drawable.ic_eye_24dp)
         }
     }
 

@@ -860,4 +860,34 @@
     <string name="list_reply_policy_label">Show replies to</string>
 
     <string name="unknown_notification_type">Unknown notification type</string>
+
+    <string name="notification_policies_title">Notification Policies</string>
+    <string name="notification_policies_filter_out">Manage notifications from…</string>
+
+    <string name="notification_policies_filter_dont_follow_title">People you don\'t follow</string>
+    <string name="notification_policies_filter_dont_follow_description">Until you manually approve them</string>
+    <string name="notification_policies_filter_not_following_title">People not following you</string>
+    <string name="notification_policies_filter_not_following_description">Including people who have been following you fewer than 3 days</string>
+    <string name="unknown_notification_filter_new_accounts_title">New accounts</string>
+    <string name="unknown_notification_filter_new_accounts_description">Created within the past 30 days</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title">Unsolicited private mentions</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description">Filtered unless it\'s in reply to your own mention or if you follow the sender</string>
+    <string name="unknown_notification_filter_moderated_accounts">Moderated accounts</string>
+    <string name="unknown_notification_filter_moderated_accounts_description">Limited by server moderators</string>
+
+    <string name="notification_policies_not_supported">This feature is only supported on Mastodon servers running v4.3.0 or later.</string>
+    <string name="filtered_notifications">Filtered notifications</string>
+    <string name="notifications_from_people_you_may_know">Notifications from %1$d people you may know</string>
+
+    <string name="notification_policy_accept">Accept</string>
+    <string name="notification_policy_filter">Filter</string>
+    <string name="notification_policy_ignore">Ignore</string>
+    <string name="filtered_notifications_title">Filtered Notifications</string>
+    <string name="accept_notification_request">Accept notification request</string>
+    <string name="dismiss_notification_request">Dismiss notification request</string>
+    <string name="open_settings">Open settings</string>
+    <string name="notifications_from">Notifications from %1$s</string>
+    <string name="action_accept_notification_request">Accept</string>
+    <string name="action_dismiss_notification_request">Dismiss</string>
+
 </resources>
