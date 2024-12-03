@@ -28,7 +28,6 @@ conscrypt = "2.5.3"
 coroutines = "1.9.0"
 diffx = "1.1.1"
 emoji2 = "1.4.0"
-espresso = "3.6.1"
 filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
@@ -46,10 +45,9 @@ networkresult-calladapter = "1.2.0"
 okhttp = "4.12.0"
 okio = "3.9.1"
 retrofit = "2.11.0"
-robolectric = "4.13"
+robolectric = "4.14.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
-truth = "1.4.4"
 turbine = "1.2.0"
 unified-push = "2.4.0"
 xmlwriter = "1.0.4"
@@ -102,7 +100,6 @@ conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 diffx = { module = "org.pageseeder.diffx:pso-diffx", version.ref = "diffx" }
-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 filemojicompat-core = { module = "de.c1710:filemojicompat", version.ref = "filemoji-compat" }
 filemojicompat-defaults = { module = "de.c1710:filemojicompat-defaults", version.ref = "filemoji-compat" }
 filemojicompat-ui = { module = "de.c1710:filemojicompat-ui", version.ref = "filemoji-compat" }
@@ -131,7 +128,6 @@ retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "ret
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
 xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }

@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.components.compose
 
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -89,7 +89,7 @@ class ComposeTokenizerTest(
 
     @Test
     fun tokenIndices_matchExpectations() {
-        Assert.assertEquals(expectedStartIndex, tokenizer.findTokenStart(text, text.length))
-        Assert.assertEquals(expectedEndIndex, tokenizer.findTokenEnd(text, text.length))
+        assertEquals(expectedStartIndex, tokenizer.findTokenStart(text, text.length))
+        assertEquals(expectedEndIndex, tokenizer.findTokenEnd(text, text.length))
     }
 }

@@ -42,7 +42,7 @@ import org.robolectric.annotation.Config
 import retrofit2.HttpException
 import retrofit2.Response
 
-@Config(sdk = [28])
+@Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class FilterV1Test {
 

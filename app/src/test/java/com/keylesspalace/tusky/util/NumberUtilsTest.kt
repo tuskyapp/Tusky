@@ -3,7 +3,7 @@ package com.keylesspalace.tusky.util
 import java.util.Locale
 import kotlin.math.pow
 import org.junit.AfterClass
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -65,6 +65,6 @@ class NumberUtilsTest(private val input: Long, private val want: String) {
 
     @Test
     fun test() {
-        Assert.assertEquals(want, formatNumber(input, 1000))
+        assertEquals(want, formatNumber(input, 1000))
     }
 }
