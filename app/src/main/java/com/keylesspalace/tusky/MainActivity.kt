@@ -40,6 +40,7 @@ import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -52,28 +53,20 @@ import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.MarginPageTransformer
-import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.R as materialR
-import androidx.activity.viewModels
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
-import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.NewNotificationsEvent
-import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
-import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
-import com.keylesspalace.tusky.components.account.AccountViewModel
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity
@@ -83,18 +76,11 @@ import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
-import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
-import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
-import com.keylesspalace.tusky.db.ActiveAccountDelegate
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.db.entity.AccountEntity
-import com.keylesspalace.tusky.di.ApplicationScope
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -103,8 +89,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.ActivityConstants
-import com.keylesspalace.tusky.util.ShareShortcutHelper
-import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
@@ -144,16 +128,8 @@ import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
-import hilt_aggregated_deps._dagger_hilt_android_internal_lifecycle_HiltWrapper_HiltViewModelFactory_ViewModelModule
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @OptionalInject
 @AndroidEntryPoint
@@ -913,17 +889,17 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         newSelectedId: Long,
         forward: Intent?,
     ) = lifecycleScope.launch {
-            cacheUpdater.stop()
-            accountManager.setActiveAccount(newSelectedId)
-            val intent = Intent(this@MainActivity, MainActivity::class.java)
-            if (forward != null) {
-                intent.type = forward.type
-                intent.action = forward.action
-                intent.putExtras(forward)
-            }
-            startActivity(intent)
-            finish()
+        cacheUpdater.stop()
+        accountManager.setActiveAccount(newSelectedId)
+        val intent = Intent(this@MainActivity, MainActivity::class.java)
+        if (forward != null) {
+            intent.type = forward.type
+            intent.action = forward.action
+            intent.putExtras(forward)
         }
+        startActivity(intent)
+        finish()
+    }
 
     private fun logout() {
         MaterialAlertDialogBuilder(this)
@@ -966,9 +942,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         } else {
             binding.mainToolbar
         }
-
-        println("loadDrawerAvatar ${activeToolbar.navigationIcon}")
-
 
         val navIconSize = resources.getDimensionPixelSize(R.dimen.avatar_toolbar_nav_icon_size)
 

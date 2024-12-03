@@ -37,7 +37,6 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
-
 import com.keylesspalace.tusky.components.preference.notificationpolicies.NotificationPoliciesActivity
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
@@ -329,7 +328,7 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                             copy(
                                 defaultPostPrivacy = account.source?.privacy
                                     ?: Status.Visibility.PUBLIC,
-                                defaultMediaSensitivity = account.source?.sensitive ?: false,
+                                defaultMediaSensitivity = account.source?.sensitive == true,
                                 defaultPostLanguage = language.orEmpty()
                             )
                         }

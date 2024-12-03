@@ -18,29 +18,22 @@ package com.keylesspalace.tusky
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import androidx.room.PrimaryKey
 import at.connyduck.calladapter.networkresult.fold
-import com.keylesspalace.tusky.MainActivity.Companion
 import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
-import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
 import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.di.ApplicationScope
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.Resource
 import com.keylesspalace.tusky.util.ShareShortcutHelper
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,12 +42,9 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -70,7 +60,7 @@ class MainViewModel @Inject constructor(
     private val eventHub: EventHub,
     private val accountManager: AccountManager,
     private val shareShortcutHelper: ShareShortcutHelper
-): ViewModel() {
+) : ViewModel() {
 
     private val activeAccount = accountManager.activeAccount
 
@@ -107,7 +97,6 @@ class MainViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
-
     init {
         loadAccountData()
         fetchAnnouncements()
@@ -137,7 +126,6 @@ class MainViewModel @Inject constructor(
                     Log.w(TAG, "Failed to fetch user info.", throwable)
                 }
             )
-
         }
     }
 
@@ -163,16 +151,16 @@ class MainViewModel @Inject constructor(
                         _unreadAnnouncementsCount.value--
                     }
                     is NewNotificationsEvent -> {
-                            if (event.accountId == activeAccount?.accountId) {
-                                val hasDirectMessageNotification =
-                                    event.notifications.any {
-                                        it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
-                                    }
-
-                                if (hasDirectMessageNotification) {
-                                    accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = true) }
+                        if (event.accountId == activeAccount?.accountId) {
+                            val hasDirectMessageNotification =
+                                event.notifications.any {
+                                    it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
                                 }
+
+                            if (hasDirectMessageNotification) {
+                                accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = true) }
                             }
+                        }
                     }
                     is NotificationsLoadingEvent -> {
                         if (event.accountId == activeAccount?.accountId) {

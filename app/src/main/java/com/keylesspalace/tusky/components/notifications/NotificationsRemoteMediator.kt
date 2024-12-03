@@ -140,7 +140,7 @@ class NotificationsRemoteMediator(
         notifications: List<Notification>,
         state: PagingState<Int, NotificationDataEntity>,
         activeAccount: AccountEntity
-        ): Int {
+    ): Int {
         val overlappedNotifications = if (notifications.isNotEmpty()) {
             notificationsDao.deleteRange(activeAccount.id, notifications.last().id, notifications.first().id)
         } else {

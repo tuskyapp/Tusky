@@ -22,17 +22,13 @@ import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.MainActivity.Companion.redirectIntent
 import com.keylesspalace.tusky.adapter.AccountSelectionAdapter
 import com.keylesspalace.tusky.components.login.LoginActivity
@@ -48,7 +44,6 @@ import com.keylesspalace.tusky.util.isBlack
 import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import dagger.hilt.EntryPoints
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -157,7 +152,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override val defaultViewModelProviderFactory: Factory
-        get() = viewModelProviderFactory ?:  super.defaultViewModelProviderFactory
+        get() = viewModelProviderFactory ?: super.defaultViewModelProviderFactory
 
     protected open fun requiresLogin(): Boolean = true
 
@@ -170,15 +165,15 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun redirectIfNotLoggedIn() {
-            val currentAccounts = accountManager.accounts
+        val currentAccounts = accountManager.accounts
 
-            if (currentAccounts.isEmpty()) {
-                println("redirecting to Login")
-                val intent = getIntent(this@BaseActivity, LoginActivity.MODE_DEFAULT)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
-            }
+        if (currentAccounts.isEmpty()) {
+            println("redirecting to Login")
+            val intent = getIntent(this@BaseActivity, LoginActivity.MODE_DEFAULT)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
     }
 
     fun showAccountChooserDialog(

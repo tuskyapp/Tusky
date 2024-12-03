@@ -24,25 +24,16 @@ import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.reflect.KProperty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -68,7 +59,6 @@ class AccountManager @Inject constructor(
             }
             .onCompletion {
                 Log.d(TAG, "accounts flow completed: $it")
-
             }
             .stateIn(CoroutineScope(applicationScope.coroutineContext + Dispatchers.IO))
     }
@@ -103,7 +93,7 @@ class AccountManager @Inject constructor(
         newAccount: Account
     ) = db.withTransaction {
         activeAccount?.let {
-            //it.isActive = false
+            // it.isActive = false
             Log.d(TAG, "addAccount: saving account with id " + it.id)
 
             accountDao.insertOrReplace(it.copy(isActive = false))
@@ -179,16 +169,16 @@ class AccountManager @Inject constructor(
      */
     suspend fun updateAccount(accountEntity: AccountEntity, account: Account): AccountEntity {
         val newAccount = accountEntity.copy(
-        accountId = account.id,
-        username = account.username,
-        displayName = account.name,
-        profilePictureUrl = account.avatar,
-        profileHeaderUrl = account.header,
-        defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
-        defaultPostLanguage = account.source?.language.orEmpty(),
-        defaultMediaSensitivity = account.source?.sensitive ?: false,
-        emojis = account.emojis,
-        locked = account.locked
+            accountId = account.id,
+            username = account.username,
+            displayName = account.name,
+            profilePictureUrl = account.avatar,
+            profileHeaderUrl = account.header,
+            defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
+            defaultPostLanguage = account.source?.language.orEmpty(),
+            defaultMediaSensitivity = account.source?.sensitive ?: false,
+            emojis = account.emojis,
+            locked = account.locked
         )
 
         Log.d(TAG, "updateAccount: saving account with id " + accountEntity.id)
@@ -268,7 +258,6 @@ class AccountManager @Inject constructor(
         return accounts.size > 1 // "disambiguate"
     }
 }
-
 
 class ActiveAccountDelegate(
     private val accountManager: AccountManager

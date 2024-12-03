@@ -45,7 +45,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -335,7 +334,7 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
     private fun saveTabs() {
         accountManager.activeAccount?.let {
             lifecycleScope.launch {
-                accountManager.updateAccount(it) { copy(tabPreferences = currentTabs)}
+                accountManager.updateAccount(it) { copy(tabPreferences = currentTabs) }
             }
         }
     }

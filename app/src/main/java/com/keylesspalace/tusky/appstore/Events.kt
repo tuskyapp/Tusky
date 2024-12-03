@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.appstore
 
-import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll

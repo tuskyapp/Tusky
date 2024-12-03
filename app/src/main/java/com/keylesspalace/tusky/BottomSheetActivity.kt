@@ -17,7 +17,6 @@ package com.keylesspalace.tusky
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -172,11 +171,11 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 
     private fun showQuerySheet() {
-      //  bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        //  bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun hideQuerySheet() {
-      //  bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+        //  bottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
     }
 }
 
