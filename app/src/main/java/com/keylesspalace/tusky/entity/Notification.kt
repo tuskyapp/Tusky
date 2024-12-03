@@ -26,7 +26,8 @@ data class Notification(
     val id: String,
     val account: TimelineAccount,
     val status: Status? = null,
-    val report: Report? = null
+    val report: Report? = null,
+    val filtered: Boolean = false,
 ) {
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */

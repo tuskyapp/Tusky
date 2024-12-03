@@ -15,9 +15,10 @@
 
 package com.keylesspalace.tusky.util
 
-import android.content.Context
 import android.graphics.Color
-import androidx.annotation.Px
+import android.graphics.drawable.Drawable
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.mikepenz.iconics.IconicsDrawable
@@ -25,9 +26,19 @@ import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.iconics.utils.colorInt
 import com.mikepenz.iconics.utils.sizePx
 
-fun makeIcon(context: Context, icon: GoogleMaterial.Icon, @Px iconSize: Int): IconicsDrawable {
+fun PreferenceFragmentCompat.icon(icon: GoogleMaterial.Icon): IconicsDrawable {
+    val context = requireContext()
     return IconicsDrawable(context, icon).apply {
-        sizePx = iconSize
+        sizePx = context.resources.getDimensionPixelSize(
+            R.dimen.preference_icon_size
+        )
         colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
+    }
+}
+
+fun PreferenceFragmentCompat.icon(icon: Int): Drawable? {
+    val context = requireContext()
+    return AppCompatResources.getDrawable(context, icon)?.apply {
+        setTint(MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK))
     }
 }
