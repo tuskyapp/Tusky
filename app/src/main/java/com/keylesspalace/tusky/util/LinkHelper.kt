@@ -120,7 +120,7 @@ fun setClickableText(
 }
 
 private val hashtagWithHashPattern = Pattern.compile("^#$HASHTAG_EXPRESSION$")
-private val whitespacePattern = Pattern.compile("""\s+""")
+private val whitespacePattern = Regex("""\s+""")
 
 /**
  * Find the "trailing" hashtags in spanned content
@@ -130,7 +130,7 @@ private val whitespacePattern = Pattern.compile("""\s+""")
 internal fun getTrailingHashtags(content: Spanned): Pair<Int, List<HashTag>> {
     // split() instead of lines() because we need to be able to account for the length of the removed delimiter
     val trailingContentLength = content.split('\r', '\n').asReversed().takeWhile { line ->
-        line.split(whitespacePattern).all { it.isBlank() || hashtagWithHashPattern.matcher(it).matches() }
+        line.splitToSequence(whitespacePattern).all { it.isBlank() || hashtagWithHashPattern.matcher(it).matches() }
     }.sumOf { it.length + 1 } // length + 1 to include the stripped line ending character
 
     return when (trailingContentLength) {
