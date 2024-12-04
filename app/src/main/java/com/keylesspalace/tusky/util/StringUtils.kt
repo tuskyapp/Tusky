@@ -8,8 +8,6 @@ import kotlin.random.Random
 
 private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-const val WORD_BREAK_EXPRESSION = """(^|$|[^\p{L}\p{N}_])"""
-const val WORD_BREAK_FROM_SPACE_EXPRESSION = """(^|$|\s)"""
 const val HASHTAG_EXPRESSION = "([\\w_]*[\\p{Alpha}_][\\w_]*)"
 val hashtagPattern = Pattern.compile(HASHTAG_EXPRESSION, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE)
 
