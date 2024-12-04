@@ -267,6 +267,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         lifecycleScope.launch {
             viewModel.tabs.collect(::setupTabs)
         }
+        if (showNotificationTab) {
+            val tabs = activeAccount.tabPreferences
+            val position = tabs.indexOfFirst { it.id == NOTIFICATIONS }
+            if (position != -1) {
+                binding.viewPager.setCurrentItem(position, false)
+            }
+        }
 
         lifecycleScope.launch {
             viewModel.showDirectMessagesBadge.collect { showBadge ->
@@ -500,6 +507,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         startActivity(composeIntent)
         finish()
+    }
+
+    override fun finish() {
+        super.finish()
     }
 
     private fun setupDrawer(
@@ -772,6 +783,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun setupTabs(tabs: List<TabData>) {
+        println("setup tabs")
         val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)

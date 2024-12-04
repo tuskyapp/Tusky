@@ -168,7 +168,6 @@ abstract class BaseActivity : AppCompatActivity() {
         val currentAccounts = accountManager.accounts
 
         if (currentAccounts.isEmpty()) {
-            println("redirecting to Login")
             val intent = getIntent(this@BaseActivity, LoginActivity.MODE_DEFAULT)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

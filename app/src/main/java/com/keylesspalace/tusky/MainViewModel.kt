@@ -29,18 +29,14 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
 import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.ShareShortcutHelper
-import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -54,7 +50,6 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @ApplicationScope private val externalScope: CoroutineScope,
     @ApplicationContext private val context: Context,
     private val api: MastodonApi,
     private val eventHub: EventHub,
@@ -101,7 +96,6 @@ class MainViewModel @Inject constructor(
         loadAccountData()
         fetchAnnouncements()
         collectEvents()
-        deleteStaleCachedMedia()
     }
 
     private fun loadAccountData() {
@@ -112,7 +106,7 @@ class MainViewModel @Inject constructor(
 
                     shareShortcutHelper.updateShortcuts()
 
-                    NotificationHelper.createNotificationChannelsForAccount(activeAccount!!, context)
+                    NotificationHelper.createNotificationChannelsForAccount(activeAccount, context)
 
                     if (NotificationHelper.areNotificationsEnabled(context, accountManager)) {
                         viewModelScope.launch {
@@ -174,13 +168,6 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
-        }
-    }
-
-    private fun deleteStaleCachedMedia() {
-        externalScope.launch(Dispatchers.IO) {
-            // Flush old media that was cached for sharing
-            deleteStaleCachedMedia(context.getExternalFilesDir("Tusky"))
         }
     }
 

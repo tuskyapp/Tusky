@@ -7,6 +7,8 @@ import com.keylesspalace.tusky.di.StorageModule
 import com.keylesspalace.tusky.entity.Emoji
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +26,7 @@ class MigrationsTest {
     )
 
     @Test
-    fun testMigrations() {
+    fun testMigrations() = runTest {
         /** the db name must match the one in [StorageModule.providesDatabase] */
         val db = migrationHelper.createDatabase("tuskyDB", 10)
         val moshi = Moshi.Builder().build()
@@ -73,7 +75,7 @@ class MigrationsTest {
             Converters(moshi)
         )
 
-        val account = roomDb.accountDao().loadAll().first()
+        val account = roomDb.accountDao().allAccounts().first().first()
 
         roomDb.close()
 
