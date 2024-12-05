@@ -265,6 +265,12 @@
         <item>NEWEST_FIRST</item>
     </string-array>
 
-    <string name="url_domain_notifier" translatable="false">%1$s (🔗 %2$s)</string>
+    <string name="url_domain_notifier" translatable="false">(🔗 %1$s)</string>
+
+    <string-array name="notification_policy_value">
+        <item>accept</item>
+        <item>filter</item>
+        <item>drop</item>
+    </string-array>
 
 </resources>

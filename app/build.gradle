@@ -93,7 +93,9 @@ android {
         }
     }
     sourceSets {
-        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        // workaround to have migrations available in unit tests
+        // https://github.com/robolectric/robolectric/issues/3928#issuecomment-395309991
+        debug.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     // Exclude unneeded files added by libraries
@@ -183,12 +185,8 @@ dependencies {
     testImplementation libs.bundles.mockito
     testImplementation libs.mockwebserver
     testImplementation libs.androidx.core.testing
+    testImplementation libs.androidx.room.testing
     testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.androidx.work.testing
-    testImplementation libs.truth
     testImplementation libs.turbine
-
-    androidTestImplementation libs.espresso.core
-    androidTestImplementation libs.androidx.room.testing
-    androidTestImplementation libs.androidx.test.junit
 }

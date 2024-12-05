@@ -1,0 +1,53 @@
+# When a tag is created, create a release build and upload it to Google Play
+
+name: Deploy release to Google Play
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  check-and-build:
+    uses: ./.github/workflows/check-and-build.yml
+  deploy:
+    runs-on: ubuntu-latest
+    needs: check-and-build
+    environment: Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build Blue aab
+        run: ./gradlew app:bundleBlueRelease
+
+      - uses: r0adkll/sign-android-release@f30bdd30588842ac76044ecdbd4b6d0e3e813478
+        name: Sign Tusky Blue aab
+        id: sign_aab
+        with:
+          releaseDirectory: app/build/outputs/bundle/blueRelease
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Generate whatsnew
+        id: generate-whatsnew
+        run: |
+          mkdir whatsnew
+          cp $(find fastlane/metadata/android/en-US/changelogs | sort -n -k6 -t/ | tail -n 1) whatsnew/whatsnew-en-US
+
+      - name: Upload AAB to Google Play
+        id: upload-release-asset-aab
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.keylesspalace.tusky
+          releaseFiles: ${{steps.sign_aab.outputs.signedReleaseFile}}
+          track: internal
+          whatsNewDirectory: whatsnew
+          status: completed
+          mappingFile: app/build/outputs/mapping/blueRelease/mapping.txt

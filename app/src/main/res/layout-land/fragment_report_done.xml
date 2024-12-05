@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/textReported"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressMute"
         style="@style/Widget.Material3.CircularProgressIndicator.Small"
         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/buttonMute"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBlock"
         style="@style/Widget.Material3.CircularProgressIndicator.Small"
         android:layout_width="wrap_content"

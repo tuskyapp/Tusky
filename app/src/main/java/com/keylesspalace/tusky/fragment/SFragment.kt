@@ -180,9 +180,10 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
 
     protected fun more(status: Status, view: View, position: Int, translation: Translation?) {
         val id = status.actionableId
-        val accountId = status.actionableStatus.account.id
-        val accountUsername = status.actionableStatus.account.username
-        val statusUrl = status.actionableStatus.url
+        val actionableStatus = status.actionableStatus
+        val accountId = actionableStatus.account.id
+        val accountUsername = actionableStatus.account.username
+        val statusUrl = actionableStatus.url
         var loggedInAccountId: String? = null
         val activeAccount = accountManager.activeAccount
         if (activeAccount != null) {
@@ -194,22 +195,21 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         if (statusIsByCurrentUser) {
             popup.inflate(R.menu.status_more_for_user)
             val menu = popup.menu
-            when (status.visibility) {
+            when (actionableStatus.visibility) {
                 Status.Visibility.PUBLIC, Status.Visibility.UNLISTED -> {
                     menu.add(
                         0,
                         R.id.pin,
                         1,
                         getString(
-                            if (status.pinned) R.string.unpin_action else R.string.pin_action
+                            if (actionableStatus.pinned) R.string.unpin_action else R.string.pin_action
                         )
                     )
                 }
 
                 Status.Visibility.PRIVATE -> {
-                    val reblogged = status.reblog?.reblogged ?: status.reblogged
-                    menu.findItem(R.id.status_reblog_private).isVisible = !reblogged
-                    menu.findItem(R.id.status_unreblog_private).isVisible = reblogged
+                    menu.findItem(R.id.status_reblog_private).isVisible = !actionableStatus.reblogged
+                    menu.findItem(R.id.status_unreblog_private).isVisible = actionableStatus.reblogged
                 }
 
                 else -> {}
@@ -298,7 +298,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
                 }
 
                 R.id.status_download_media -> {
-                    requestDownloadAllMedia(status)
+                    requestDownloadAllMedia(actionableStatus)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -344,7 +344,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
 
                 R.id.pin -> {
                     viewLifecycleOwner.lifecycleScope.launch {
-                        timelineCases.pin(status.id, !status.pinned)
+                        timelineCases.pin(status.actionableId, !actionableStatus.pinned)
                             .onFailure { e: Throwable ->
                                 val message = e.message
                                     ?: getString(if (status.pinned) R.string.failed_to_unpin else R.string.failed_to_pin)

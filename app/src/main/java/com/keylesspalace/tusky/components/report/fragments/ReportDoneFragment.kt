@@ -25,8 +25,6 @@ import com.keylesspalace.tusky.components.report.ReportViewModel
 import com.keylesspalace.tusky.components.report.Screen
 import com.keylesspalace.tusky.databinding.FragmentReportDoneBinding
 import com.keylesspalace.tusky.util.Loading
-import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -49,11 +47,11 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done) {
             viewModel.muteState.collect {
                 if (it == null) return@collect
                 if (it !is Loading) {
-                    binding.buttonMute.show()
-                    binding.progressMute.show()
+                    binding.buttonMute.visibility = View.VISIBLE
+                    binding.progressMute.visibility = View.GONE
                 } else {
-                    binding.buttonMute.hide()
-                    binding.progressMute.hide()
+                    binding.buttonMute.visibility = View.INVISIBLE
+                    binding.progressMute.visibility = View.VISIBLE
                 }
 
                 binding.buttonMute.setText(
@@ -69,11 +67,11 @@ class ReportDoneFragment : Fragment(R.layout.fragment_report_done) {
             viewModel.blockState.collect {
                 if (it == null) return@collect
                 if (it !is Loading) {
-                    binding.buttonBlock.show()
-                    binding.progressBlock.show()
+                    binding.buttonBlock.visibility = View.VISIBLE
+                    binding.progressBlock.visibility = View.GONE
                 } else {
-                    binding.buttonBlock.hide()
-                    binding.progressBlock.hide()
+                    binding.buttonBlock.visibility = View.INVISIBLE
+                    binding.progressBlock.visibility = View.VISIBLE
                 }
                 binding.buttonBlock.setText(
                     when (it.data) {

@@ -34,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,10 +45,12 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
+import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
@@ -65,6 +68,7 @@ import com.keylesspalace.tusky.util.StatusProvider
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -97,7 +101,8 @@ class NotificationsFragment :
 
     private val viewModel: NotificationsViewModel by viewModels()
 
-    private var adapter: NotificationsPagingAdapter? = null
+    private var notificationsAdapter: NotificationsPagingAdapter? = null
+    private var notificationsPolicyAdapter: NotificationPolicySummaryAdapter? = null
 
     private var showNotificationsFilterBar: Boolean = true
     private var readingOrder: ReadingOrder = ReadingOrder.NEWEST_FIRST
@@ -147,7 +152,7 @@ class NotificationsFragment :
             accountActionListener = this,
             statusDisplayOptions = statusDisplayOptions
         )
-        this.adapter = adapter
+        this.notificationsAdapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(
@@ -169,7 +174,12 @@ class NotificationsFragment :
             )
         )
 
-        binding.recyclerView.adapter = adapter
+        val notificationsPolicyAdapter = NotificationPolicySummaryAdapter {
+            (activity as BaseActivity).startActivityWithSlideInAnimation(NotificationRequestsActivity.newIntent(requireContext()))
+        }
+        this.notificationsPolicyAdapter = notificationsPolicyAdapter
+
+        binding.recyclerView.adapter = ConcatAdapter(notificationsPolicyAdapter, notificationsAdapter)
 
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
@@ -178,6 +188,12 @@ class NotificationsFragment :
         )
 
         readingOrder = ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
+
+        notificationsPolicyAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(0)
+            }
+        })
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh != LoadState.Loading && loadState.source.refresh != LoadState.Loading) {
@@ -257,11 +273,18 @@ class NotificationsFragment :
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.notificationPolicy.collect {
+                notificationsPolicyAdapter.updateState(it)
+            }
+        }
     }
 
     override fun onDestroyView() {
-        // Clear the adapter to prevent leaking the View
-        adapter = null
+        // Clear the adapters to prevent leaking the View
+        notificationsAdapter = null
+        notificationsPolicyAdapter = null
         super.onDestroyView()
     }
 
@@ -273,7 +296,8 @@ class NotificationsFragment :
     }
 
     override fun onRefresh() {
-        adapter?.refresh()
+        notificationsAdapter?.refresh()
+        viewModel.loadNotificationPolicy()
     }
 
     override fun onViewAccount(id: String) {
@@ -289,11 +313,11 @@ class NotificationsFragment :
     }
 
     override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
-        val notification = adapter?.peek(position) ?: return
+        val notification = notificationsAdapter?.peek(position) ?: return
         viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
     }
 
-    override fun onViewReport(reportId: String?) {
+    override fun onViewReport(reportId: String) {
         requireContext().openLink(
             "https://${accountManager.activeAccount!!.domain}/admin/reports/$reportId"
         )
@@ -304,17 +328,17 @@ class NotificationsFragment :
     }
 
     override fun onReply(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         super.reply(status.status)
     }
 
     override fun removeItem(position: Int) {
-        val notification = adapter?.peek(position) ?: return
+        val notification = notificationsAdapter?.peek(position) ?: return
         viewModel.remove(notification.id)
     }
 
     override fun onReblog(reblog: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.reblog(reblog, status)
     }
 
@@ -328,7 +352,7 @@ class NotificationsFragment :
         }
 
     private fun onTranslate(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.translate(status)
                 .onFailure {
@@ -342,32 +366,32 @@ class NotificationsFragment :
     }
 
     override fun onUntranslate(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.untranslate(status)
     }
 
     override fun onFavourite(favourite: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.favorite(favourite, status)
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.bookmark(bookmark, status)
     }
 
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.voteInPoll(choices, status)
     }
 
     override fun clearWarningAction(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.clearWarning(status)
     }
 
     override fun onMore(view: View, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         super.more(
             status.status,
             view,
@@ -377,32 +401,32 @@ class NotificationsFragment :
     }
 
     override fun onViewMedia(position: Int, attachmentIndex: Int, view: View?) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         super.viewMedia(attachmentIndex, AttachmentViewData.list(status), view)
     }
 
     override fun onViewThread(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull()?.status ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull()?.status ?: return
         super.viewThread(status.id, status.url)
     }
 
     override fun onOpenReblog(position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         super.openReblog(status.status)
     }
 
     override fun onExpandedChange(expanded: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeExpanded(expanded, status)
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentShowing(isShowing, status)
     }
 
     override fun onLoadMore(position: Int) {
-        val adapter = this.adapter
+        val adapter = this.notificationsAdapter
         val placeholder = adapter?.peek(position)?.asPlaceholderOrNull() ?: return
         loadMorePosition = position
         statusIdBelowLoadMore =
@@ -411,7 +435,7 @@ class NotificationsFragment :
     }
 
     override fun onContentCollapsedChange(isCollapsed: Boolean, position: Int) {
-        val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.changeContentCollapsed(isCollapsed, status)
     }
 
@@ -433,7 +457,7 @@ class NotificationsFragment :
         }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, notificationTypeList)
-        val window = PopupWindow(requireContext())
+        val window = PopupWindow(requireContext(), null, com.google.android.material.R.attr.listPopupWindowStyle)
         val menuBinding = NotificationsFilterBinding.inflate(LayoutInflater.from(requireContext()), binding.root as ViewGroup, false)
 
         menuBinding.buttonApply.setOnClickListener {

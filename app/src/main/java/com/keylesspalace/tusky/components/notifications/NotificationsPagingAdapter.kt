@@ -41,7 +41,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 interface NotificationActionListener {
-    fun onViewReport(reportId: String?)
+    fun onViewReport(reportId: String)
 }
 
 interface NotificationsViewHolder {

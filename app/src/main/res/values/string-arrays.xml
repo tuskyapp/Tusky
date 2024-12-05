@@ -57,4 +57,10 @@
         <item>@string/list_reply_policy_list</item>
         <item>@string/list_reply_policy_followed</item>
     </string-array>
+
+    <string-array name="notification_policy_options">
+        <item>@string/notification_policy_accept</item>
+        <item>@string/notification_policy_filter</item>
+        <item>@string/notification_policy_ignore</item>
+    </string-array>
 </resources>

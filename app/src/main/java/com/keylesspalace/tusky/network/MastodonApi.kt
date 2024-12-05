@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.network
 
 import at.connyduck.calladapter.networkresult.NetworkResult
+import com.keylesspalace.tusky.components.filters.FilterExpiration
 import com.keylesspalace.tusky.entity.AccessToken
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Announcement
@@ -35,10 +36,13 @@ import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.entity.MediaUploadResult
 import com.keylesspalace.tusky.entity.NewStatus
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationPolicy
+import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Relationship
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.entity.ScheduledStatusReply
 import com.keylesspalace.tusky.entity.SearchResult
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.StatusContext
@@ -148,7 +152,9 @@ interface MastodonApi {
         /** Maximum number of results to return. Defaults to 15, max is 30 */
         @Query("limit") limit: Int? = null,
         /** Types to excludes from the results */
-        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null
+        @Query("exclude_types[]") excludes: Set<Notification.Type>? = null,
+        /** Return only notifications received from the specified account. */
+        @Query("account_id") accountId: String? = null
     ): Response<List<Notification>>
 
     /** Fetch a single notification */
@@ -207,7 +213,7 @@ interface MastodonApi {
         @Header(DOMAIN_HEADER) domain: String,
         @Header("Idempotency-Key") idempotencyKey: String,
         @Body status: NewStatus
-    ): NetworkResult<ScheduledStatus>
+    ): NetworkResult<ScheduledStatusReply>
 
     @GET("api/v1/statuses/{id}")
     suspend fun status(@Path("id") statusId: String): NetworkResult<Status>
@@ -539,7 +545,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<FilterV1>
 
     @FormUrlEncoded
@@ -550,7 +556,7 @@ interface MastodonApi {
         @Field("context[]") context: List<String>,
         @Field("irreversible") irreversible: Boolean?,
         @Field("whole_word") wholeWord: Boolean?,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<FilterV1>
 
     @DELETE("api/v1/filters/{id}")
@@ -562,7 +568,7 @@ interface MastodonApi {
         @Field("title") title: String,
         @Field("context[]") context: List<String>,
         @Field("filter_action") filterAction: String,
-        @Field("expires_in") expiresInSeconds: Int?
+        @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<Filter>
 
     @FormUrlEncoded
@@ -572,7 +578,7 @@ interface MastodonApi {
         @Field("title") title: String? = null,
         @Field("context[]") context: List<String>? = null,
         @Field("filter_action") filterAction: String? = null,
-        @Field("expires_in") expiresInSeconds: Int? = null
+        @Field("expires_in") expires: FilterExpiration? = null
     ): NetworkResult<Filter>
 
     @DELETE("api/v2/filters/{id}")
@@ -607,9 +613,7 @@ interface MastodonApi {
     ): NetworkResult<Poll>
 
     @GET("api/v1/announcements")
-    suspend fun listAnnouncements(
-        @Query("with_dismissed") withDismissed: Boolean = true
-    ): NetworkResult<List<Announcement>>
+    suspend fun announcements(): NetworkResult<List<Announcement>>
 
     @POST("api/v1/announcements/{id}/dismiss")
     suspend fun dismissAnnouncement(@Path("id") announcementId: String): NetworkResult<Unit>
@@ -722,4 +726,31 @@ interface MastodonApi {
         @Path("id") statusId: String,
         @Field("lang") targetLanguage: String?
     ): NetworkResult<Translation>
+
+    @GET("api/v2/notifications/policy")
+    suspend fun notificationPolicy(): NetworkResult<NotificationPolicy>
+
+    @FormUrlEncoded
+    @PATCH("api/v2/notifications/policy")
+    suspend fun updateNotificationPolicy(
+        @Field("for_not_following") forNotFollowing: String?,
+        @Field("for_not_followers") forNotFollowers: String?,
+        @Field("for_new_accounts") forNewAccounts: String?,
+        @Field("for_private_mentions") forPrivateMentions: String?,
+        @Field("for_limited_accounts") forLimitedAccounts: String?
+    ): NetworkResult<NotificationPolicy>
+
+    @GET("api/v1/notifications/requests")
+    suspend fun getNotificationRequests(
+        @Query("max_id") maxId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("limit") limit: Int? = null
+    ): Response<List<NotificationRequest>>
+
+    @POST("api/v1/notifications/requests/{id}/accept")
+    suspend fun acceptNotificationRequest(@Path("id") notificationId: String): NetworkResult<Unit>
+
+    @POST("api/v1/notifications/requests/{id}/dismiss")
+    suspend fun dismissNotificationRequest(@Path("id") notificationId: String): NetworkResult<Unit>
 }

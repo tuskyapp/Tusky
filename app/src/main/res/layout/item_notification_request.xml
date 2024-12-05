@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/notificationRequestAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/avatar_default" />
+
+    <TextView
+        android:id="@+id/notificationRequestBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/badge_background"
+        android:contentDescription="@string/profile_badge_bot_text"
+        android:paddingHorizontal="8dp"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/notificationRequestAvatar"
+        app:layout_constraintEnd_toEndOf="@id/notificationRequestAvatar"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/notificationRequestDisplayName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_large"
+        android:textStyle="normal|bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/notificationRequestUsername"
+        app:layout_constraintEnd_toStartOf="@id/notificationRequestDismiss"
+        app:layout_constraintStart_toEndOf="@id/notificationRequestAvatar"
+        app:layout_constraintTop_toTopOf="@id/notificationRequestAvatar"
+        tools:text="Display name" />
+
+    <TextView
+        android:id="@+id/notificationRequestUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintBottom_toBottomOf="@id/notificationRequestAvatar"
+        app:layout_constraintEnd_toEndOf="@id/notificationRequestDisplayName"
+        app:layout_constraintStart_toStartOf="@id/notificationRequestDisplayName"
+        app:layout_constraintTop_toBottomOf="@id/notificationRequestDisplayName"
+        tools:text="\@username" />
+
+    <ImageButton
+        android:id="@+id/notificationRequestDismiss"
+        style="@style/TuskyImageButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/dismiss_notification_request"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/notificationRequestAvatar"
+        app:layout_constraintEnd_toStartOf="@id/notificationRequestAccept"
+        app:layout_constraintTop_toTopOf="@id/notificationRequestAvatar"
+        app:srcCompat="@drawable/ic_clear_24dp" />
+
+    <ImageButton
+        android:id="@+id/notificationRequestAccept"
+        style="@style/TuskyImageButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/accept_notification_request"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/notificationRequestAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notificationRequestAvatar"
+        app:srcCompat="@drawable/ic_check_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
