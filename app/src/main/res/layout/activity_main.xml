@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:orientation="horizontal"
-                app:contentInsetStart="0dp"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
+                app:contentInsetStart="0dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:navigationContentDescription="@string/action_open_drawer">
 
@@ -78,6 +78,7 @@
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorSurface"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
                 app:tabMode="scrollable"
