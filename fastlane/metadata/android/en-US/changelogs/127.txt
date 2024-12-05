@@ -1,0 +1,8 @@
+Tusky 27.0
+
+- Tusky has been redesigned with Material 3
+- Support for Notification Policies (Mastodon 4.3 feature)
+- Hashtags at the end of posts are now shown in a separate bar
+- Full support for folding devices
+
+See https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md for the full changelog

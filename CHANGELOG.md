@@ -11,9 +11,11 @@
 ### New features and other improvements
 
 - Tusky has been redesigned with Material 3 https://github.com/tuskyapp/Tusky/pull/4637 https://github.com/tuskyapp/Tusky/pull/4673
-- full support for folding devices https://github.com/tuskyapp/Tusky/pull/4689
-- improved post rendering in some edge cases https://github.com/tuskyapp/Tusky/pull/4650 https://github.com/tuskyapp/Tusky/pull/4672
-- descriptions can now be added to audio attachments https://github.com/tuskyapp/Tusky/pull/4711
+- Support for Notification Policies (Mastodon 4.3 feature) https://github.com/tuskyapp/Tusky/pull/4768
+- Hashtags at the end of posts are now shown in a separate bar https://github.com/tuskyapp/Tusky/pull/4761
+- Full support for folding devices https://github.com/tuskyapp/Tusky/pull/4689
+- Improved post rendering in some edge cases https://github.com/tuskyapp/Tusky/pull/4650 https://github.com/tuskyapp/Tusky/pull/4672 https://github.com/tuskyapp/Tusky/pull/4723
+- Descriptions can now be added to audio attachments https://github.com/tuskyapp/Tusky/pull/4711
 - The screen keyboard now pops up automatically when opening a dialog that contains a textfield https://github.com/tuskyapp/Tusky/pull/4667
 
 ### Significant bug fixes
