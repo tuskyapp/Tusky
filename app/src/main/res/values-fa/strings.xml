@@ -130,7 +130,7 @@
     <string name="visibility_public">عمومی: فرستادن به خط زمانی‌های عمومی</string>
     <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
     <string name="visibility_private">تنها دنبال‌کنندگان:پست فقط به دنبال‌کنندگان</string>
-    <string name="visibility_direct">مستقیم: فرستادن فقط برای کاربران اشاره‌شده</string>
+    <string name="visibility_direct">مستقیم: فرستادن فقط به کاربران اشاره شده</string>
     <string name="pref_title_edit_notification_settings">آگاهی‌ها</string>
     <string name="pref_title_notifications_enabled">آگاهی‌ها</string>
     <string name="pref_title_notification_alerts">هشدارها</string>
@@ -680,10 +680,10 @@
     <string name="unmuting_hashtag_success_format">ناخموش کردن برچسب #%1$s</string>
     <string name="following_hashtag_success_format">اکنون برچسب #%1$s دنبال می‌شود</string>
     <string name="unfollowing_hashtag_success_format">دیگر برچسب #%1$s دنبال نمی‌شود</string>
-    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جایند. 
-\n 
-\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و نام بردن از کاربر یا کاربرانی در متن ایجاد می‌شود. 
-\n 
+    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند، این‌جایند. \u0020
+\n \u0020
+\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و اشاره کردن کاربر یا کاربرانی در متن ایجاد می‌شود. \u0020
+\n \u0020
 \nبرای نمونه می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. \u0020</string>
     <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید. 
 \n 
@@ -724,4 +724,29 @@
     <string name="post_privacy_direct">مستقیم</string>
     <string name="pref_match_default_post_privacy">تطبیق با محرمانگی پیش‌گزیدهٔ فرسته</string>
     <string name="label_expires_after">انقضا پس از</string>
+    <string name="notification_policies_filter_out">مدیریت آگاهی‌ها از…</string>
+    <string name="notification_policies_filter_dont_follow_description">تا به طور دستی تأییدشان کنید</string>
+    <string name="notification_policies_filter_not_following_title">افرادی که پیتان نمی‌گیرند</string>
+    <string name="unknown_notification_filter_new_accounts_title">حساب‌های جدید</string>
+    <string name="unknown_notification_filter_new_accounts_description">ساخته شده در ۳۰ روز اخیر</string>
+    <string name="unknown_notification_filter_moderated_accounts">حساب‌های نظارت شده</string>
+    <string name="unknown_notification_filter_moderated_accounts_description">محدود شده به دست ناظران کارساز</string>
+    <string name="filtered_notifications">آگاهی‌های پالوده</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title">اشاره‌های خصوصی ناخواسته</string>
+    <string name="notifications_from_people_you_may_know">آگاهی‌ها از %1$d نفری که ممکن است بشناسید‬</string>
+    <string name="notification_policy_accept">پذیرش</string>
+    <string name="notification_policy_filter">پالایش</string>
+    <string name="notification_policy_ignore">چشم‌پوشی</string>
+    <string name="accept_notification_request">پذیرش درخواست آگاهی</string>
+    <string name="dismiss_notification_request">رد درخواست آگاهی</string>
+    <string name="open_settings">گشودن تنظیمات</string>
+    <string name="notifications_from">آگاهی‌ها از %1$s</string>
+    <string name="action_accept_notification_request">پذیرش</string>
+    <string name="action_dismiss_notification_request">رد کردن</string>
+    <string name="notification_policies_title">سیاست‌های آگاهی</string>
+    <string name="notification_policies_filter_dont_follow_title">افرادی که پی نمی‌گیرید</string>
+    <string name="notification_policies_not_supported">این ویژگی تنها روی کارسازهای ماستودونی که نگارش ۴٫۳ یا بالاتر را اجرا می‌کنند پشتیبانی می‌شود.</string>
+    <string name="filtered_notifications_title">آگاهی‌های پالوده</string>
+    <string name="notification_policies_filter_not_following_description">شامل افرادی که کم‌تر از ۳ روز است پیتان می‌گیرند</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description">پالوده مگر در پاسخ به اشارهٔ خودتان بوده یا فرستنده را پی گرفته باشید</string>
 </resources>
