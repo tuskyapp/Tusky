@@ -27,7 +27,7 @@ import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(ParameterizedRobolectricTestRunner::class)
-@Config(sdk = [33])
+@Config(sdk = [34])
 class StatusLengthTest(
     private val text: String,
     private val expectedLength: Int

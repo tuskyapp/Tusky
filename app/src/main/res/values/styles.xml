@@ -176,7 +176,6 @@
     </style>
 
     <style name="TuskyPreferenceTheme" parent="@style/PreferenceThemeOverlay">
-        <item name="android:tint">?iconColor</item>
         <item name="switchPreferenceCompatStyle">@style/TuskySwitchPreference</item>
     </style>
 
