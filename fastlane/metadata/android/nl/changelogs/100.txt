@@ -1,0 +1,7 @@
+Tusky 21.0
+
+- berichten bewerken is nu mogelijk
+- nieuwe instellingen ivm je favoriete leesrichting
+- grotere previews van media en een nieuwe aanduiding voor media met beschrijving
+- accounts kunnen nu meteen op hun profiel aan lijsten toegevoegd worden
+en veel meer
