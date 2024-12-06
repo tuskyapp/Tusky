@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+      android:left="2dp"
+      android:right="2dp">
+    <shape
+        android:shape="rectangle">
+      <!-- Color is assigned programmatically with the value of "tabIndicatorColor". -->
+      <solid android:color="@android:color/white"/>
+      <corners
+          android:bottomLeftRadius="3dp"
+          android:bottomRightRadius="3dp"
+          android:topLeftRadius="0dp"
+          android:topRightRadius="0dp"/>
+      <size android:height="3dp"/>
+    </shape>
+  </item>
+</layer-list>
