@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s markeerde jouw bericht als favoriet</string>
     <string name="notification_follow_format">%1$s volgt jou</string>
     <string name="report_username_format">\@%1$s rapporteren</string>
-    <string name="report_comment_hint">Extra opmerkingen\?</string>
+    <string name="report_comment_hint">Extra opmerkingen?</string>
     <string name="action_quick_reply">Snel reageren</string>
     <string name="action_reply">Reageren</string>
     <string name="action_reblog">Boosten</string>
@@ -148,7 +148,7 @@
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Volgverzoek annuleren?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
-    <string name="dialog_delete_post_warning">Dit bericht verwijderen\?</string>
+    <string name="dialog_delete_post_warning">Dit bericht verwijderen?</string>
     <string name="visibility_public">Openbaar: op openbare tijdlijnen tonen</string>
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
@@ -340,7 +340,7 @@
     <string name="hint_list_name">Naam van lijst</string>
     <string name="pick_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
-    <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
+    <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven?</string>
     <string name="notifications_clear">Verwijderen</string>
     <string name="notifications_apply_filter">Filteren</string>
     <string name="filter_apply">Toepassen</string>
@@ -467,8 +467,8 @@
     <string name="pref_title_animate_custom_emojis">Lokale emojis animeren</string>
     <string name="pref_title_gradient_for_media">Kleurverloop weergeven voor verborgen media</string>
     <string name="dialog_mute_hide_notifications">Meldingen verbergen</string>
-    <string name="dialog_mute_warning">\@%1$s negeren\?</string>
-    <string name="dialog_block_warning">\@%1$s blokkeren\?</string>
+    <string name="dialog_mute_warning">\@%1$s negeren?</string>
+    <string name="dialog_block_warning">\@%1$s blokkeren?</string>
     <string name="action_unmute_conversation">Gesprek niet meer negeren</string>
     <string name="action_mute_conversation">Gesprek negeren</string>
     <string name="action_unmute_domain">%1$s niet langer negeren</string>
@@ -482,7 +482,7 @@
     <string name="drafts_failed_loading_reply">Laden van reactie-informatie mislukt</string>
     <string name="wellbeing_hide_stats_profile">Kwantitatieve statistieken in profielen verbergen</string>
     <string name="pref_main_nav_position">Positie van de hoofdnavigatie</string>
-    <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen\?</string>
+    <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen?</string>
     <string name="action_delete_conversation">Gesprek verwijderen</string>
     <string name="follow_requests_info">Ook al heb je geen besloten account, de medewerkers van %1$s dachten dat je misschien de volgverzoeken van deze accounts handmatig zou willen controleren.</string>
     <string name="wellbeing_mode_notice">Informatie die je geestelijk welzijn kan beïnvloeden, zal worden verborgen. Het gaat om:
@@ -529,7 +529,7 @@
     <string name="action_set_focus">Centraal punt instellen</string>
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%1$s</string>
-    <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>
+    <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen?</string>
     <string name="pref_title_reading_order">Leesvolgorde</string>
     <string name="pref_reading_order_oldest_first">Oudste eerst</string>
     <string name="pref_reading_order_newest_first">Nieuwste eerst</string>
@@ -681,8 +681,8 @@
     <string name="app_theme_system_black">Systeemthema gebruiken (zwart)</string>
     <string name="pref_default_reply_privacy">Zichtbaarheid van reacties (niet met de server gesynchroniseerd)</string>
     <string name="ui_error_translate">Fout bij het vertalen: %1$s</string>
-    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen.
-\n
+    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen. 
+\n 
 \nDit gaat om <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="list_reply_policy_list">Leden van de lijst</string>
     <string name="list_reply_policy_followed">Iedereen die jij volgt</string>
