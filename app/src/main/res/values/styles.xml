@@ -110,8 +110,6 @@
         <item name="chipStyle">@style/Widget.Material3.Chip.Filter</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
-
-        <item name="licenseCardStyle">@style/Widget.Material3.CardView.Filled</item>
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
