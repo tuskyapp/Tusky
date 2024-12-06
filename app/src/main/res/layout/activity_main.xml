@@ -81,6 +81,7 @@
                 android:background="?attr/colorSurface"
                 app:tabGravity="fill"
                 app:tabIndicatorGravity="top"
+                app:tabIndicator="@drawable/tab_indicator_bottom"
                 app:tabMode="scrollable"
                 app:tabPaddingTop="0dp" />
 
