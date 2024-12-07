@@ -2,7 +2,7 @@ Tusky is een lichtgewicht app voor Mastodon, een vrij en open-source decentraal 
 
 • Material design
 • Meeste Mastodon-API's worden ondersteund
-• Support voor meerdere accounts
+• Meerdere accounts in één app
 • Donker en licht thema, met de optie om automatisch tijdens zonsop- en ondergang te wisselen
 • Concepten - schrijf berichten en bewaar ze voor later
 • Kies tussen verschillende emojistijlen 
