@@ -160,9 +160,9 @@ class MainActivityTest {
                 on { getSystemService(Context.NOTIFICATION_SERVICE) } doReturn mock<NotificationManager>()
             },
             api = api,
-        eventHub = eventHub,
-        accountManager = accountManager,
-        shareShortcutHelper = mock()
+            eventHub = eventHub,
+            accountManager = accountManager,
+            shareShortcutHelper = mock()
         )
         val testViewModelFactory = viewModelFactory {
             initializer { viewModel }
