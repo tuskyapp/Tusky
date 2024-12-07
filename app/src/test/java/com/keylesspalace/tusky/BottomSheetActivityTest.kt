@@ -296,6 +296,7 @@ class BottomSheetActivityTest {
 
         init {
             mastodonApi = api
+            bottomSheet = mock()
         }
 
         override fun openLink(url: String) {
