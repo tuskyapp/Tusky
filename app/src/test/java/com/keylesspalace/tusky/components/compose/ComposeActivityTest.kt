@@ -44,6 +44,7 @@ import com.squareup.moshi.adapter
 import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
@@ -108,6 +109,8 @@ class ComposeActivityTest {
         activity = controller.get()
 
         accountManagerMock = mock {
+            on { accounts } doReturn listOf(account)
+            on { accountsFlow } doReturn MutableStateFlow(listOf(account))
             on { activeAccount } doReturn account
         }
 
