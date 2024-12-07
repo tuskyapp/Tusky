@@ -694,7 +694,7 @@
     <string name="app_theme_system_black">Systeemthema gebruiken (zwart)</string>
     <string name="pref_default_reply_privacy">Zichtbaarheid van reacties (niet met de server gesynchroniseerd)</string>
     <string name="ui_error_translate">Fout bij het vertalen: %1$s</string>
-    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen. 
+    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen.
 \n
 \nDit gaat om <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="list_reply_policy_list">Leden van de lijst</string>
