@@ -215,7 +215,7 @@
     <string name="abbreviated_in_minutes">در %1$d دقیقه</string>
     <string name="abbreviated_in_seconds">در %1$d ثانیه</string>
     <string name="follows_you">پیگیرتان است</string>
-    <string name="pref_title_alway_show_sensitive_media">نمایش همیشگی محتوای حساس</string>
+    <string name="pref_title_alway_show_sensitive_media">نمایش همیشگی رسانهٔ حساس</string>
     <string name="title_media">رسانه</string>
     <string name="replying_to">پاسخ دادن به @%1$s</string>
     <string name="load_more_placeholder_text">بار کردن بیش‌تر</string>
