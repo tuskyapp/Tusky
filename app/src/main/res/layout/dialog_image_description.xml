@@ -36,7 +36,6 @@
             android:gravity="start"
             android:importantForAutofill="no"
             android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
-            android:lines="4"
             tools:hint="Description" />
 
     </com.google.android.material.textfield.TextInputLayout>
