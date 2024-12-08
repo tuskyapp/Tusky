@@ -30,18 +30,18 @@ class AccountPreferenceDataStore @Inject constructor(
     }
 
     override fun putBoolean(key: String, value: Boolean) {
-        when (key) {
-            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> account.alwaysShowSensitiveMedia = value
-            PrefKeys.ALWAYS_OPEN_SPOILER -> account.alwaysOpenSpoiler = value
-            PrefKeys.MEDIA_PREVIEW_ENABLED -> account.mediaPreviewEnabled = value
-            PrefKeys.TAB_FILTER_HOME_BOOSTS -> account.isShowHomeBoosts = value
-            PrefKeys.TAB_FILTER_HOME_REPLIES -> account.isShowHomeReplies = value
-            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> account.isShowHomeSelfBoosts = value
-        }
-
-        accountManager.saveAccount(account)
-
         externalScope.launch {
+            accountManager.updateAccount(account) {
+                when (key) {
+                    PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> copy(alwaysShowSensitiveMedia = value)
+                    PrefKeys.ALWAYS_OPEN_SPOILER -> copy(alwaysOpenSpoiler = value)
+                    PrefKeys.MEDIA_PREVIEW_ENABLED -> copy(mediaPreviewEnabled = value)
+                    PrefKeys.TAB_FILTER_HOME_BOOSTS -> copy(isShowHomeBoosts = value)
+                    PrefKeys.TAB_FILTER_HOME_REPLIES -> copy(isShowHomeReplies = value)
+                    PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> copy(isShowHomeSelfBoosts = value)
+                    else -> this
+                }
+            }
             eventHub.dispatch(PreferenceChangedEvent(key))
         }
     }
