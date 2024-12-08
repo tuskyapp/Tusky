@@ -31,8 +31,6 @@ import kotlin.reflect.KProperty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
@@ -54,15 +52,10 @@ class AccountManager @Inject constructor(
 
     val accountsFlow: StateFlow<List<AccountEntity>> = runBlocking {
         accountDao.allAccounts()
-            .onEach {
-                Log.d(TAG, "accounts updated: $it")
-            }
-            .onCompletion {
-                Log.d(TAG, "accounts flow completed: $it")
-            }
             .stateIn(CoroutineScope(applicationScope.coroutineContext + Dispatchers.IO))
     }
 
+    /** a list of all accounts in the database with the active account first */
     val accounts: List<AccountEntity>
         get() = accountsFlow.value
 
@@ -93,7 +86,6 @@ class AccountManager @Inject constructor(
         newAccount: Account
     ) = db.withTransaction {
         activeAccount?.let {
-            // it.isActive = false
             Log.d(TAG, "addAccount: saving account with id " + it.id)
 
             accountDao.insertOrReplace(it.copy(isActive = false))
@@ -111,7 +103,7 @@ class AccountManager @Inject constructor(
                 isActive = true
             )
         } else {
-            val maxAccountId = accounts.maxByOrNull { it.id }?.id ?: 0
+            val maxAccountId = accounts.maxOfOrNull { it.id } ?: 0
             val newAccountId = maxAccountId + 1
             AccountEntity(
                 id = newAccountId,
@@ -202,13 +194,6 @@ class AccountManager @Inject constructor(
         }
 
         accountDao.insertOrReplace(newActiveAccount.copy(isActive = true))
-    }
-
-    /**
-     * @return an immutable list of all accounts in the database with the active account first
-     */
-    fun getAllAccountsOrderedByActive(): List<AccountEntity> {
-        return accounts
     }
 
     /**

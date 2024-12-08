@@ -53,7 +53,7 @@ class NotificationFetcher @Inject constructor(
     private val eventHub: EventHub
 ) {
     suspend fun fetchAndShow() {
-        for (account in accountManager.getAllAccountsOrderedByActive()) {
+        for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
                     val notificationManager = context.getSystemService(

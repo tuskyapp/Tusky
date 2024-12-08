@@ -180,7 +180,7 @@ abstract class BaseActivity : AppCompatActivity() {
         showActiveAccount: Boolean,
         listener: AccountSelectionListener
     ) {
-        val accounts = accountManager.getAllAccountsOrderedByActive().toMutableList()
+        val accounts = accountManager.accounts.toMutableList()
         val activeAccount = accountManager.activeAccount
 
         when (accounts.size) {
@@ -217,7 +217,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val openAsText: String?
         get() {
-            val accounts = accountManager.getAllAccountsOrderedByActive()
+            val accounts = accountManager.accounts
             when (accounts.size) {
                 0, 1 -> return null
                 2 -> {
