@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="0dp">
+    android:layout_height="wrap_content"
+    android:minHeight="400dp"
+    android:orientation="vertical">
 
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/imageDescriptionView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
         android:layout_weight="1"
         android:contentDescription="@string/post_media_image" />
 
@@ -18,10 +21,10 @@
         style="@style/TuskyTextInput"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginStart="?dialogPreferredPadding"
-        android:layout_marginEnd="?dialogPreferredPadding"
         android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_weight="1"
         app:counterEnabled="false"
         app:counterTextColor="?android:textColorTertiary"
         app:hintEnabled="false">
@@ -31,9 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
-            tools:hint="Description"
             android:importantForAutofill="no"
-            android:inputType="textCapSentences|textMultiLine|textAutoCorrect" />
+            android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+            android:lines="4"
+            tools:hint="Description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
