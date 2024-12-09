@@ -1,0 +1,8 @@
+Tusky 27.0
+
+- Tusky è stato riprogettato con Material 3
+- Supporto per le Impostazioni delle notifiche (funzione di Mastodon 4.3)
+- Gli hashtag alla fine del post ora vengono mestruati in una barra separata
+- Completo supporto per i dispositivi pieghevoli
+
+Vedi https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md per la lista completa delle modifiche
