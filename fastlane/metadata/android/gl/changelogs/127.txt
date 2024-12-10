@@ -1,0 +1,8 @@
+Tusky 27.0
+
+- Redeseño da interface con Material 3
+- Compatibilidade coas Políticas de Notificación (para Mastodon >4.3)
+- Os cancelos ao final da publicación móstranse nunha barra separada
+- Compatibilidade completa con dispositivos pregables
+
+Le o rexistro completo dos cambios https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md
