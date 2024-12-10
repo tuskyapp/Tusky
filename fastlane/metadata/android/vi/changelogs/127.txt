@@ -1,0 +1,8 @@
+Tusky 27.0
+
+- Tusky được thiết kế lại với Material 3
+- Hỗ trợ chính sách thông báo (tính năng có từ Mastodon 4.3)
+- Hashtag ở cuối tút sẽ được phân chia riêng rẽ
+- Hỗ trợ thiết bị gập
+
+Xem https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md để biết chi tiết
