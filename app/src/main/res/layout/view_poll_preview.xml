@@ -4,34 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:background="@drawable/card_frame"
-    tools:padding="@dimen/poll_preview_padding"
-    tools:parentTag="android.widget.LinearLayout">
+    tools:parentTag="com.google.android.material.card.MaterialCardView">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="4dp"
-        android:gravity="center_vertical"
-        android:text="@string/create_poll_title"
-        android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_poll_24dp" />
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/poll_preview_padding_horizontal"
+        android:paddingVertical="@dimen/poll_preview_padding_vertical"
+        tools:parentTag="android.widget.LinearLayout">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pollPreviewOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:nestedScrollingEnabled="false"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="@string/create_poll_title"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_poll_24dp" />
 
-    <TextView
-        android:id="@+id/pollDurationPreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        tools:text="5 Minutes" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pollPreviewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/pollDurationPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="5 Minutes" />
+    </LinearLayout>
 
 </merge>
