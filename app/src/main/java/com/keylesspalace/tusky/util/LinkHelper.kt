@@ -105,16 +105,38 @@ fun setClickableText(
     trailingHashtagView?.visible(showHashtagBar)
 
     if (showHashtagBar) {
-        trailingHashtagView?.apply {
-            text = SpannableStringBuilder().apply {
-                tags?.forEachIndexed { index, tag ->
-                    val text = "#${tag.name}"
-                    append(text, getCustomSpanForTag(text, tags, URLSpan(tag.url), listener), 0)
-                    if (index != tags.lastIndex) {
-                        append(" ")
-                    }
-                }
-            }
+        trailingHashtagView?.apply { text = buildTrailingHashtagText(tags, trailingHashtags, listener) }
+    }
+}
+
+/**
+ * Build a spanned string containing trailing and out-of-band hashtags for the trailing hashtag view
+ * @param tagsFromServer The list of hashtags from the server
+ * @param trailingHashtagsFromContent The list of trailing hashtags scraped from the post content
+ * @param listener to notify about particular spans that are clicked
+ */
+private fun buildTrailingHashtagText(tagsFromServer: List<HashTag>?, trailingHashtagsFromContent: List<HashTag>, listener: LinkListener): SpannableStringBuilder {
+    return SpannableStringBuilder().apply {
+        // we apply the tags scraped from the content first to preserve the casing
+        // (tags from the server are often downcased)
+        val additionalTags = tagsFromServer?.let {
+            it.filter { serverTag -> trailingHashtagsFromContent.none { serverTag.name.equals(it.name, ignoreCase = true) } }
+        } ?: emptyList()
+        appendTags(trailingHashtagsFromContent.plus(additionalTags), listener)
+    }
+}
+
+/**
+ * Append space-separated url spans for a list of hashtags
+ * @param tags The tags to append
+ * @param listener to notify about particular spans that are clicked
+ */
+private fun SpannableStringBuilder.appendTags(tags: List<HashTag>, listener: LinkListener) {
+    tags.forEachIndexed { index, tag ->
+        val text = "#${tag.name}"
+        append(text, getCustomSpanForTag(text, tags, URLSpan(tag.url), listener), 0)
+        if (index != tags.lastIndex) {
+            append(" ")
         }
     }
 }

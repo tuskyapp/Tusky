@@ -285,7 +285,7 @@
     <string name="replying_to">Trả lời đến @%1$s</string>
     <string name="title_media">Media</string>
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
-    <string name="pref_title_alway_show_sensitive_media">Hiện nội dung nhạy cảm</string>
+    <string name="pref_title_alway_show_sensitive_media">Hiện media nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
     <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="abbreviated_minutes_ago">%1$dp</string>
