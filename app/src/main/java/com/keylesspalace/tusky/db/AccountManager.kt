@@ -30,7 +30,15 @@ import javax.inject.Singleton
 import kotlin.reflect.KProperty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
@@ -59,6 +67,7 @@ class AccountManager @Inject constructor(
     val accounts: List<AccountEntity>
         get() = accountsFlow.value
 
+    /** the currently active account */
     val activeAccount: AccountEntity?
         get() {
             val a = accounts.firstOrNull()
@@ -66,7 +75,16 @@ class AccountManager @Inject constructor(
             return a
         }
 
-    fun activeAccount() = ActiveAccountDelegate(this)
+    /** Returns a StateFlow for updates to the currently active account.
+     *  Note that the account will be null after it got logged out,
+     *  and that always the same account will be returned,
+     *  even if it is no longer active. */
+    fun activeAccount(scope: CoroutineScope): StateFlow<AccountEntity?> {
+        val activeAccount = activeAccount
+        return accountsFlow.map { accounts ->
+            accounts.find { account -> activeAccount?.id == account.id }
+        }.stateIn(scope, SharingStarted.Lazily, activeAccount)
+    }
 
     /**
      * Adds a new account and makes it the active account.
@@ -241,16 +259,5 @@ class AccountManager @Inject constructor(
         }
 
         return accounts.size > 1 // "disambiguate"
-    }
-}
-
-class ActiveAccountDelegate(
-    private val accountManager: AccountManager
-) {
-
-    val accountId = accountManager.activeAccount?.id
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): AccountEntity? {
-        return accountManager.accounts.find { it.id == accountId }
     }
 }

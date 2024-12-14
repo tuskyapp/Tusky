@@ -24,7 +24,6 @@ import androidx.room.withTransaction
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
@@ -36,7 +35,7 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
-    accountManager: AccountManager,
+    private val viewModel: CachedTimelineViewModel,
     private val api: MastodonApi,
     private val db: AppDatabase,
 ) : RemoteMediator<Int, HomeTimelineData>() {
@@ -46,12 +45,12 @@ class CachedTimelineRemoteMediator(
     private val timelineDao = db.timelineDao()
     private val statusDao = db.timelineStatusDao()
     private val accountDao = db.timelineAccountDao()
-    private val activeAccount = accountManager.activeAccount
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, HomeTimelineData>
     ): MediatorResult {
+        val activeAccount = viewModel.activeAccountFlow.value
         if (activeAccount == null) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -163,7 +162,7 @@ class CachedTimelineRemoteMediator(
 
             val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
-            val contentCollapsed = oldStatus?.contentCollapsed ?: true
+            val contentCollapsed = oldStatus?.contentCollapsed != false
 
             statusDao.insert(
                 status.actionableStatus.toEntity(

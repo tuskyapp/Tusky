@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
+import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -59,11 +60,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -79,19 +82,19 @@ class NotificationsViewModel @Inject constructor(
     private val notificationPolicyUsecase: NotificationPolicyUsecase
 ) : ViewModel() {
 
+    val activeAccountFlow = accountManager.activeAccount(viewModelScope)
+    private val accountId: Long = activeAccountFlow.value!!.id
+
     private val refreshTrigger = MutableStateFlow(0L)
 
-    private val _excludes = MutableStateFlow(
-        accountManager.activeAccount?.let { account -> deserialize(account.notificationsFilter) } ?: emptySet()
-    )
-    val excludes: StateFlow<Set<Notification.Type>> = _excludes.asStateFlow()
+    val excludes: StateFlow<Set<Notification.Type>> = activeAccountFlow
+        .map { account -> deserialize(account?.notificationsFilter ?: "[]" ) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, deserialize(activeAccountFlow.value?.notificationsFilter ?: "[]" ))
 
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
 
-    private val account = accountManager.activeAccount!!
-
-    private var remoteMediator = NotificationsRemoteMediator(accountManager, api, db, excludes.value)
+    private var remoteMediator = NotificationsRemoteMediator(this, accountManager, api, db)
 
     private var readingOrder: ReadingOrder =
         ReadingOrder.from(preferences.getString(PrefKeys.READING_ORDER, null))
@@ -104,7 +107,8 @@ class NotificationsViewModel @Inject constructor(
             ),
             remoteMediator = remoteMediator,
             pagingSourceFactory = {
-                db.notificationsDao().getNotifications(account.id)
+                db.notificationsDao().getNotifications(accountId)
+                EmptyPagingSource()
             }
         ).flow
             .cachedIn(viewModelScope)
@@ -149,15 +153,14 @@ class NotificationsViewModel @Inject constructor(
     }
 
     fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
-        if (newFilters != _excludes.value) {
+        val account = activeAccountFlow.value
+        if (newFilters != excludes.value && account != null) {
             viewModelScope.launch {
                 accountManager.updateAccount(account) {
                     copy(notificationsFilter = serialize(newFilters))
                 }
-                remoteMediator.excludes = newFilters
-                db.notificationsDao().cleanupNotifications(account.id, 0)
+                db.notificationsDao().cleanupNotifications(accountId, 0)
                 refreshTrigger.value++
-                _excludes.value = newFilters
             }
         }
     }
@@ -165,8 +168,9 @@ class NotificationsViewModel @Inject constructor(
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
             Notification.Type.MENTION, Notification.Type.POLL -> {
+                val account = activeAccountFlow.value
                 notificationViewData.statusViewData?.let { statusViewData ->
-                    if (statusViewData.status.account.id == account.accountId) {
+                    if (statusViewData.status.account.id == account?.accountId) {
                         return Filter.Action.NONE
                     }
                     statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
@@ -179,23 +183,23 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun respondToFollowRequest(accept: Boolean, accountId: String, notificationId: String) {
+    fun respondToFollowRequest(accept: Boolean, id: String, notificationId: String) {
         viewModelScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(accountId)
+                api.authorizeFollowRequest(id)
             } else {
-                api.rejectFollowRequest(accountId)
+                api.rejectFollowRequest(id)
             }.fold(
                 onSuccess = {
                     // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
-                    db.notificationsDao().delete(account.id, notificationId)
+                    db.notificationsDao().delete(accountId, notificationId)
                     if (accept) {
                         // refresh the notifications so the new follow notification will be loaded
                         refreshTrigger.value++
                     }
                 },
                 onFailure = { t ->
-                    Log.e(TAG, "Failed to to respond to follow request from account id $accountId.", t)
+                    Log.e(TAG, "Failed to to respond to follow request from account id $id.", t)
                 }
             )
         }
@@ -240,33 +244,33 @@ class NotificationsViewModel @Inject constructor(
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setExpanded(account.id, status.id, expanded)
+                .setExpanded(accountId, status.id, expanded)
         }
     }
 
     fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentShowing(account.id, status.id, isShowing)
+                .setContentShowing(accountId, status.id, isShowing)
         }
     }
 
     fun changeContentCollapsed(isCollapsed: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
-                .setContentCollapsed(account.id, status.id, isCollapsed)
+                .setContentCollapsed(accountId, status.id, isCollapsed)
         }
     }
 
     fun remove(notificationId: String) {
         viewModelScope.launch {
-            db.notificationsDao().delete(account.id, notificationId)
+            db.notificationsDao().delete(accountId, notificationId)
         }
     }
 
     fun clearWarning(status: StatusViewData.Concrete) {
         viewModelScope.launch {
-            db.timelineStatusDao().clearWarning(account.id, status.actionableId)
+            db.timelineStatusDao().clearWarning(accountId, status.actionableId)
         }
     }
 
@@ -274,7 +278,7 @@ class NotificationsViewModel @Inject constructor(
         viewModelScope.launch {
             api.clearNotifications().fold(
                 {
-                    db.notificationsDao().cleanupNotifications(account.id, 0)
+                    db.notificationsDao().cleanupNotifications(accountId, 0)
                 },
                 { t ->
                     Log.w(TAG, "failed to clear notifications", t)
@@ -305,13 +309,13 @@ class NotificationsViewModel @Inject constructor(
 
                 notificationsDao.insertNotification(
                     Placeholder(placeholderId, loading = true).toNotificationEntity(
-                        account.id
+                        accountId
                     )
                 )
 
                 val response = db.withTransaction {
-                    val idAbovePlaceholder = notificationsDao.getIdAbove(account.id, placeholderId)
-                    val idBelowPlaceholder = notificationsDao.getIdBelow(account.id, placeholderId)
+                    val idAbovePlaceholder = notificationsDao.getIdAbove(accountId, placeholderId)
+                    val idBelowPlaceholder = notificationsDao.getIdBelow(accountId, placeholderId)
                     when (readingOrder) {
                         // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
                         // after minId and no larger than maxId
@@ -338,15 +342,20 @@ class NotificationsViewModel @Inject constructor(
                     return@launch
                 }
 
+                val account = activeAccountFlow.value
+                if (account == null) {
+                    return@launch
+                }
+
                 val statusDao = db.timelineStatusDao()
                 val accountDao = db.timelineAccountDao()
 
                 db.withTransaction {
-                    notificationsDao.delete(account.id, placeholderId)
+                    notificationsDao.delete(accountId, placeholderId)
 
                     val overlappedNotifications = if (notifications.isNotEmpty()) {
                         notificationsDao.deleteRange(
-                            account.id,
+                            accountId,
                             notifications.last().id,
                             notifications.first().id
                         )
@@ -355,18 +364,18 @@ class NotificationsViewModel @Inject constructor(
                     }
 
                     for (notification in notifications) {
-                        accountDao.insert(notification.account.toEntity(account.id))
+                        accountDao.insert(notification.account.toEntity(accountId))
                         notification.report?.let { report ->
-                            accountDao.insert(report.targetAccount.toEntity(account.id))
-                            notificationsDao.insertReport(report.toEntity(account.id))
+                            accountDao.insert(report.targetAccount.toEntity(accountId))
+                            notificationsDao.insertReport(report.toEntity(accountId))
                         }
                         notification.status?.let { status ->
                             val statusToInsert = status.reblog ?: status
-                            accountDao.insert(statusToInsert.account.toEntity(account.id))
+                            accountDao.insert(statusToInsert.account.toEntity(accountId))
 
                             statusDao.insert(
                                 statusToInsert.toEntity(
-                                    tuskyAccountId = account.id,
+                                    tuskyAccountId = accountId,
                                     expanded = account.alwaysOpenSpoiler,
                                     contentShowing = account.alwaysShowSensitiveMedia || !status.sensitive,
                                     contentCollapsed = true
@@ -375,7 +384,7 @@ class NotificationsViewModel @Inject constructor(
                         }
                         notificationsDao.insertNotification(
                             notification.toEntity(
-                                account.id
+                                accountId
                             )
                         )
                     }
@@ -394,7 +403,7 @@ class NotificationsViewModel @Inject constructor(
                             Placeholder(
                                 idToConvert,
                                 loading = false
-                            ).toNotificationEntity(account.id)
+                            ).toNotificationEntity(accountId)
                         )
                     }
                 }

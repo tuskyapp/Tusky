@@ -86,7 +86,7 @@ class CachedTimelineViewModel @Inject constructor(
         config = PagingConfig(
             pageSize = LOAD_AT_ONCE
         ),
-        remoteMediator = CachedTimelineRemoteMediator(accountManager, api, db),
+        remoteMediator = CachedTimelineRemoteMediator(this, api, db),
         pagingSourceFactory = {
             db.timelineDao().getHomeTimeline(account.id).also { newPagingSource ->
                 this.currentPagingSource = newPagingSource
@@ -252,7 +252,7 @@ class CachedTimelineViewModel @Inject constructor(
     }
 
     private suspend fun loadMoreFailed(placeholderId: String, e: Exception) {
-        Log.w("CachedTimelineVM", "failed loading statuses", e)
+        Log.w(TAG, "failed loading statuses", e)
         val activeAccount = accountManager.activeAccount!!
         db.timelineDao()
             .insertHomeTimelineItem(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))

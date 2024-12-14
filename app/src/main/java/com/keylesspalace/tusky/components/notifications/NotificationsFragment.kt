@@ -314,7 +314,7 @@ class NotificationsFragment :
 
     override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
         val notification = notificationsAdapter?.peek(position) ?: return
-        viewModel.respondToFollowRequest(accept, accountId = id, notificationId = notification.id)
+        viewModel.respondToFollowRequest(accept, id = id, notificationId = notification.id)
     }
 
     override fun onViewReport(reportId: String) {
