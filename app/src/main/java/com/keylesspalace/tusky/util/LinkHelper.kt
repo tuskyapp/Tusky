@@ -86,13 +86,14 @@ fun setClickableText(
         trailingHashtagView == null || tags.isNullOrEmpty() -> Pair(spannableContent.length, emptyList())
         else -> getTrailingHashtags(spannableContent)
     }
-    var inlineHashtagSpanCount = 0
+    val inlineHashtags = mutableListOf<CharSequence>()
 
     view.text = spannableContent.apply {
         styleQuoteSpans(view)
         getSpans(0, endOfContent, URLSpan::class.java).forEach { span ->
-            if (get(getSpanStart(span)) == '#') {
-                inlineHashtagSpanCount += 1
+            val start = getSpanStart(span)
+            if (get(start) == '#') {
+                inlineHashtags.add(subSequence(start + 1, getSpanEnd(span)))
             }
             setClickableText(span, this, mentions, tags, listener)
         }
@@ -100,12 +101,18 @@ fun setClickableText(
 
     view.movementMethod = NoTrailingSpaceLinkMovementMethod
 
-    val showHashtagBar = (trailingHashtags.isNotEmpty() || inlineHashtagSpanCount != tags?.size)
+    val showHashtagBar = (trailingHashtags.isNotEmpty() || inlineHashtags.size != tags?.size)
     // I don't _love_ setting the visibility here, but the alternative is to duplicate the logic in other places
     trailingHashtagView?.visible(showHashtagBar)
 
     if (showHashtagBar) {
-        trailingHashtagView?.apply { text = buildTrailingHashtagText(tags, trailingHashtags, listener) }
+        trailingHashtagView?.apply {
+            text = buildTrailingHashtagText(
+                tags?.filterNot { tag -> inlineHashtags.any { it.contentEquals(tag.name, ignoreCase = true) } },
+                trailingHashtags,
+                listener,
+            )
+        }
     }
 }
 
