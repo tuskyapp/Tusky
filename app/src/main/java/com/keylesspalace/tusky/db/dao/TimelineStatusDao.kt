@@ -26,10 +26,10 @@ import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.PreviewCard
 import com.keylesspalace.tusky.entity.Status
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
@@ -81,7 +81,7 @@ AND s.tuskyAccountId = :tuskyAccountId"""
             poll = moshi.adapter<Poll?>().toJson(status.poll),
             muted = status.muted,
             pinned = status.pinned,
-            card = moshi.adapter<Card?>().toJson(status.card),
+            card = moshi.adapter<PreviewCard?>().toJson(status.card),
             language = status.language
         )
     }
