@@ -1210,7 +1210,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 int radius = context.getResources().getDimensionPixelSize(R.dimen.inner_card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();
 
-                if (card.getWidth() >= card.getHeight()) {
+                if (card.getWidth() > card.getHeight()) {
                     cardLayout.setOrientation(LinearLayout.VERTICAL);
                     cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                         .getDimensionPixelSize(R.dimen.card_image_vertical_height);
