@@ -458,8 +458,7 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s un %2$s</string>
     <string name="description_post_cw">Satura brīdinājums: %1$s</string>
-    <string name="about_project_site">Projekta vietne:
-\n https://tusky.app</string>
+    <string name="about_project_site">Projekta vietne: https://tusky.app</string>
     <string name="a11y_label_loading_thread">Ielādē pavedienu</string>
     <string name="confirmation_hashtag_unfollowed">pārtraukta sekošana #%1$s</string>
     <string name="confirmation_domain_unmuted">%1$s atcelta slēpšana</string>
@@ -619,4 +618,5 @@
     <string name="dialog_follow_warning">Sekot šim kontam?</string>
     <string name="ui_error_translate">Nevarēja iztulkot: %1$s</string>
     <string name="action_view_filter">Skatīt filtru</string>
+    <string name="label_translated">Tulkots no %1$s, izmantojot %2$s</string>
 </resources>
