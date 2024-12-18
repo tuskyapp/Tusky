@@ -211,6 +211,12 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         super.onCreate(savedInstanceState)
 
+        // make sure MainActivity doesn't hide other activities when launcher icon is clicked again
+        if ((intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            finish()
+            return
+        }
+
         // will be redirected to LoginActivity by BaseActivity
         activeAccount = accountManager.activeAccount ?: return
 
