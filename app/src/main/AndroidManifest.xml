@@ -42,6 +42,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:alwaysRetainTaskState="true"
+            android:maxRecents="1"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
