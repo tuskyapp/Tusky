@@ -212,9 +212,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         super.onCreate(savedInstanceState)
 
         // make sure MainActivity doesn't hide other activities when launcher icon is clicked again
-        if (!isTaskRoot
-            && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-            && intent.action == Intent.ACTION_MAIN) {
+        if (!isTaskRoot &&
+            intent.hasCategory(Intent.CATEGORY_LAUNCHER) &&
+            intent.action == Intent.ACTION_MAIN
+        ) {
             finish()
             return
         }
