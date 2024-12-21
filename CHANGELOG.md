@@ -20,8 +20,9 @@
 
 ### Significant bug fixes
 
-- fixes a bug where Tusky would drop your draft when switching apps https://github.com/tuskyapp/Tusky/pull/4685
+- fixes a bug where Tusky would drop your draft when switching apps https://github.com/tuskyapp/Tusky/pull/4685 https://github.com/tuskyapp/Tusky/pull/4813 https://github.com/tuskyapp/Tusky/pull/4818
 - fixes a bug where Tusky would drop media that is being added to a post https://github.com/tuskyapp/Tusky/pull/4662
+- fixes a bug that caused the login to fail in some cases https://github.com/tuskyapp/Tusky/pull/4704
 
 ## v26.2
 
