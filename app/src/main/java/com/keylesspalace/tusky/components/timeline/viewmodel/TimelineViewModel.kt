@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
@@ -48,8 +47,7 @@ abstract class TimelineViewModel(
 ) : ViewModel() {
 
     val activeAccountFlow = accountManager.activeAccount(viewModelScope)
-    protected val account: AccountEntity
-        get() = activeAccountFlow.value!!
+    protected val accountId: Long = activeAccountFlow.value!!.id
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
