@@ -688,7 +688,7 @@
     <string name="report_remote_instance">Forward to %1$s</string>
     <string name="failed_report">Failed to report</string>
     <string name="failed_fetch_posts">Failed to fetch posts</string>
-    <string name="report_description_1">The report will be sent to your server moderator. You can provide an explanation of why you are reporting this account below:</string>
+    <string name="report_description_1">The report will be sent to your server moderators. You can provide an explanation of why you are reporting this account below:</string>
     <string name="report_description_remote_instance">The account is from another server. Send an anonymized copy of the report there as well?</string>
     <string name="title_accounts">Accounts</string>
     <string name="failed_search">Failed to search</string>
@@ -890,7 +890,7 @@
     <string name="filtered_notifications_title">Filtered Notifications</string>
     <string name="accept_notification_request">Accept notification request</string>
     <string name="dismiss_notification_request">Dismiss notification request</string>
-    <string name="open_settings">Open settings</string>
+    <string name="open_settings">Open preferences</string>
     <string name="notifications_from">Notifications from %1$s</string>
     <string name="action_accept_notification_request">Accept</string>
     <string name="action_dismiss_notification_request">Dismiss</string>
