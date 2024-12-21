@@ -20,7 +20,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.systemnotifications.canEnablePushNotifications
+import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushAvailable
 import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushNotificationEnabledForAccount
 import com.keylesspalace.tusky.components.systemnotifications.updateUnifiedPushSubscription
 import com.keylesspalace.tusky.db.AccountManager
@@ -45,7 +45,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!canEnablePushNotifications(context, accountManager)) return
+        if (!isUnifiedPushAvailable(context)) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
