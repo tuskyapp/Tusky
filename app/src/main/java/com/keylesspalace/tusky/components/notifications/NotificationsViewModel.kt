@@ -88,8 +88,8 @@ class NotificationsViewModel @Inject constructor(
     private val refreshTrigger = MutableStateFlow(0L)
 
     val excludes: StateFlow<Set<Notification.Type>> = activeAccountFlow
-        .map { account -> deserialize(account?.notificationsFilter ?: "[]" ) }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, deserialize(activeAccountFlow.value?.notificationsFilter ?: "[]" ))
+        .map { account -> deserialize(account?.notificationsFilter ?: "[]") }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, deserialize(activeAccountFlow.value?.notificationsFilter ?: "[]"))
 
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
