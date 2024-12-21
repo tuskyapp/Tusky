@@ -210,10 +210,11 @@ class NotificationsDaoTest {
             fakeNotification(type = Notification.Type.SIGN_UP, id = "4", account = fakeAccount(id = "1"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "4"))),
             // will not be removed because it does not reference account 1
             fakeNotification(id = "5", account = fakeAccount(id = "5"), status = fakeStatus(id = "5", authorServerId = "100")),
+            fakeNotification(type = Notification.Type.FOLLOW, id = "6", account = fakeAccount(id = "1"), status = null)
         )
 
         db.insert(notificationsAccount1, tuskyAccountId = 1)
-        db.insert(listOf(fakeNotification(id = "6")), tuskyAccountId = 2)
+        db.insert(listOf(fakeNotification(id = "2000")), tuskyAccountId = 2)
 
         notificationsDao.removeAllByUser(1, "1")
 
@@ -227,7 +228,7 @@ class NotificationsDaoTest {
         }
         cursor.close()
 
-        val expectedNotifications = listOf("3", "4", "5", "6")
+        val expectedNotifications = listOf("2000", "3", "4", "5")
 
         assertEquals(expectedNotifications, loadedNotifications)
     }

@@ -843,12 +843,8 @@ class ComposeActivity :
                 )
             )
 
-            var oneMediaWithoutDescription = false
-            for (media in viewModel.media.value) {
-                if (media.description.isNullOrEmpty()) {
-                    oneMediaWithoutDescription = true
-                    break
-                }
+            val oneMediaWithoutDescription = viewModel.media.value.any { media ->
+                media.description.isNullOrEmpty()
             }
             binding.descriptionMissingWarningButton.visibility = if (oneMediaWithoutDescription) View.VISIBLE else View.GONE
         }
