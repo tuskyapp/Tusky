@@ -108,10 +108,10 @@ AND
      */
     @Query(
         """DELETE FROM NotificationEntity WHERE tuskyAccountId = :tuskyAccountId AND
-            statusId IN
-            (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND
-            (authorServerId == :userId OR accountId == :userId))
-            AND type != "admin.sign_up" AND type != "admin.report"
+            (accountId = :userId OR
+            statusId IN (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId = :userId)
+            )
+            AND type != "SIGN_UP" AND type != "REPORT"
         """
     )
     abstract suspend fun removeAllByUser(tuskyAccountId: Long, userId: String)
