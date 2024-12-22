@@ -17,13 +17,17 @@ package com.keylesspalace.tusky.entity
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
-data class Card(
+data class PreviewCard(
     val url: String,
     val title: String,
     val description: String = "",
-    @Json(name = "author_name") val authorName: String = "",
+    val authors: List<PreviewCardAuthor> = emptyList(),
+    @Json(name = "author_name") val authorName: String? = null,
+    @Json(name = "provider_name") val providerName: String? = null,
+    @Json(name = "published_at") val publishedAt: Date?,
     val image: String? = null,
     val type: String,
     val width: Int = 0,
@@ -35,7 +39,7 @@ data class Card(
     override fun hashCode() = url.hashCode()
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Card) {
+        if (other !is PreviewCard) {
             return false
         }
         return other.url == this.url
@@ -45,3 +49,10 @@ data class Card(
         const val TYPE_PHOTO = "photo"
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class PreviewCardAuthor(
+    val name: String,
+    val url: String,
+    val account: TimelineAccount?
+)
