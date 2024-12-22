@@ -1,0 +1,7 @@
+Tusky 27.0
+
+- Mae Tusky wedi cael dylunio yn ôl Material 3
+- Mae Tusky yn gweithio gyda Notification Policies (nodwedd Mastodon 4.3)
+- Mae hashnodau ar ddiwedd negeseuon yn cael eu dangos mewn bar eu hunain - Mae Tusky yn gweithio gyda dyfeisiau plygu
+
+Gweler https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md i ddarllen y log newid llawn
