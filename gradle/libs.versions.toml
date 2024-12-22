@@ -31,7 +31,7 @@ emoji2 = "1.4.0"
 filemoji-compat = "3.2.7"
 glide = "4.16.0"
 # Deliberate downgrade, https://github.com/tuskyapp/Tusky/issues/3631
-glide-animation-plugin = "2.23.0"
+glide-animation-plugin = "2.29.0"
 hilt = "2.54"
 kotlin = "2.0.21"
 image-cropper = "4.3.2"
