@@ -28,8 +28,8 @@
             android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="0dp"
             android:contentDescription="@string/description_post_language"
+            android:padding="0dp"
             android:textColor="?android:attr/textColorTertiary"
             android:textSize="?attr/status_text_large"
             android:textStyle="bold"
@@ -67,10 +67,10 @@
             android:layout_gravity="end"
             android:contentDescription="@string/hint_media_description_missing"
             android:padding="8dp"
-            app:srcCompat="@drawable/ic_missing_description_24dp"
-            app:tint="@color/tusky_orange_light"
-            app:tooltipText="@string/hint_media_description_missing"
-            android:visibility="invisible" />
+            app:icon="@drawable/ic_missing_description_24dp"
+            app:iconTint="@color/tusky_orange_light"
+            app:tooltipText="@string/hint_media_description_missing" />
+
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.core.widget.NestedScrollView

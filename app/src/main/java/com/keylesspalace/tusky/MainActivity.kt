@@ -211,6 +211,15 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         super.onCreate(savedInstanceState)
 
+        // make sure MainActivity doesn't hide other activities when launcher icon is clicked again
+        if (!isTaskRoot &&
+            intent.hasCategory(Intent.CATEGORY_LAUNCHER) &&
+            intent.action == Intent.ACTION_MAIN
+        ) {
+            finish()
+            return
+        }
+
         // will be redirected to LoginActivity by BaseActivity
         activeAccount = accountManager.activeAccount ?: return
 
@@ -576,7 +585,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
         }
         startActivity(composeIntent)
-        finish()
     }
 
     private fun setupDrawer(
@@ -1000,6 +1008,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             intent.action = forward.action
             intent.putExtras(forward)
         }
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         finish()
         startActivity(intent)
     }

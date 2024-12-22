@@ -1,0 +1,6 @@
+Tusky 26.1
+
+- Mae gan osodiad y cyfrif "Preifatrwydd ymateb" dau ddewis ychwanegol: "Cydweddu â phreifatrwydd rhagosodedig negeseuon", ac "Uniongyrchol".
+- Mae Tusky yn cynnwys ISRG root certificates, er mwyn gweithio gydag Android 7 a gweinyddion sydd yn defnyddio Let's Encrypt.
+- Wedi cyweirio byg am gymysgu hysbysiadau a ffrydiau rhwng cyfrifon.
+Gweler https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md i ddarllen y log newid llawn

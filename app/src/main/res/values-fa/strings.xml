@@ -739,7 +739,7 @@
     <string name="notification_policy_ignore">چشم‌پوشی</string>
     <string name="accept_notification_request">پذیرش درخواست آگاهی</string>
     <string name="dismiss_notification_request">رد درخواست آگاهی</string>
-    <string name="open_settings">گشودن تنظیمات</string>
+    <string name="open_settings">گشودن ترجیحات</string>
     <string name="notifications_from">آگاهی‌ها از %1$s</string>
     <string name="action_accept_notification_request">پذیرش</string>
     <string name="action_dismiss_notification_request">رد کردن</string>
