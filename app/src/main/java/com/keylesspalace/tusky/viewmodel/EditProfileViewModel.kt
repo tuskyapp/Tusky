@@ -25,6 +25,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.StringField
 import com.keylesspalace.tusky.network.MastodonApi
@@ -65,8 +66,11 @@ class EditProfileViewModel @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val eventHub: EventHub,
     private val application: Application,
+    private val accountManager: AccountManager,
     instanceInfoRepo: InstanceInfoRepository
 ) : ViewModel() {
+
+    private val activeAccount = accountManager.activeAccount!!
 
     private val _profileData = MutableStateFlow(null as Resource<Account>?)
     val profileData: StateFlow<Resource<Account>?> = _profileData.asStateFlow()
@@ -169,8 +173,9 @@ class EditProfileViewModel @Inject constructor(
                 diff.field4?.second?.toRequestBody(MultipartBody.FORM)
             ).fold(
                 { newAccountData ->
-                    _saveData.value = Success()
+                    accountManager.updateAccount(activeAccount, newAccountData)
                     eventHub.dispatch(ProfileEditedEvent(newAccountData))
+                    _saveData.value = Success()
                 },
                 { throwable ->
                     _saveData.value = Error(errorMessage = throwable.getServerErrorMessage())

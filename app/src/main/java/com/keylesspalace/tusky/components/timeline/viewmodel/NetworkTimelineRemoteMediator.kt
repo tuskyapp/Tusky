@@ -21,7 +21,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -29,7 +28,6 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class NetworkTimelineRemoteMediator(
-    private val accountManager: AccountManager,
     private val viewModel: NetworkTimelineViewModel
 ) : RemoteMediator<String, StatusViewData>() {
 
@@ -68,7 +66,7 @@ class NetworkTimelineRemoteMediator(
                 return MediatorResult.Error(HttpException(statusResponse))
             }
 
-            val activeAccount = accountManager.activeAccount!!
+            val activeAccount = viewModel.activeAccountFlow.value!!
 
             val data = statuses.map { status ->
 
@@ -78,7 +76,7 @@ class NetworkTimelineRemoteMediator(
 
                 val contentShowing = oldStatus?.isShowingContent ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
-                val contentCollapsed = oldStatus?.isCollapsed ?: true
+                val contentCollapsed = oldStatus?.isCollapsed != false
 
                 status.toViewData(
                     isShowingContent = contentShowing,

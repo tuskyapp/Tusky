@@ -96,7 +96,7 @@ class NetworkTimelineViewModel @Inject constructor(
                 currentSource = source
             }
         },
-        remoteMediator = NetworkTimelineRemoteMediator(accountManager, this)
+        remoteMediator = NetworkTimelineRemoteMediator(this)
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
