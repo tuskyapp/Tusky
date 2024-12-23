@@ -108,7 +108,6 @@ class NotificationsViewModel @Inject constructor(
             remoteMediator = remoteMediator,
             pagingSourceFactory = {
                 db.notificationsDao().getNotifications(accountId)
-                EmptyPagingSource()
             }
         ).flow
             .cachedIn(viewModelScope)
