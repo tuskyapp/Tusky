@@ -64,13 +64,13 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a>
-\n
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước.
-\n
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác.
-\n
-\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
+\n 
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
+\n 
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
+\n 
+\nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> \u0020</string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
     <string name="label_avatar">Ảnh đại diện</string>
@@ -324,7 +324,7 @@
     <string name="failed_search">Không thể tìm thấy</string>
     <string name="title_accounts">NGƯỜI</string>
     <string name="report_description_remote_instance">Người này thuộc máy chủ khác. Gửi luôn cho máy chủ đó\?</string>
-    <string name="report_description_1">Báo cáo này sẽ được gửi tới kiểm duyệt viên. Hãy cho biết lý do vì sao bạn báo cáo người này bên dưới:</string>
+    <string name="report_description_1">Báo cáo sẽ được gửi tới kiểm duyệt viên. Hãy cho biết lý do bạn báo cáo người này bên dưới:</string>
     <string name="failed_fetch_posts">Chưa tải được tút</string>
     <string name="failed_report">Báo cáo thất bại</string>
     <string name="report_remote_instance">Gửi cho %1$s</string>
@@ -658,11 +658,11 @@
     <string name="dialog_delete_filter_text">Xóa bộ lọc \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Xóa</string>
     <string name="dialog_save_profile_changes_message">Bạn có chắc muốn lưu thay đổi\?</string>
-    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM).
-\n
-\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó.
-\n
-\nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. </string>
+    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM). 
+\n 
+\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó. 
+\n 
+\nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. \u0020</string>
     <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể tạo nhiều danh sách riêng và thêm người dùng vào đó. 
 \n 
 \nBạn chỉ có thể thêm những người BẠN ĐANG THEO DÕI vào danh sách. 

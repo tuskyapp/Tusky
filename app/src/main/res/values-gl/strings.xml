@@ -736,7 +736,7 @@
     <string name="filtered_notifications_title">Notificacións Filtradas</string>
     <string name="accept_notification_request">Aceptar solicitude de notificación</string>
     <string name="dismiss_notification_request">Desbotar solicitude de notificación</string>
-    <string name="open_settings">Abrir os axustes</string>
+    <string name="open_settings">Abrir as preferencias</string>
     <string name="notifications_from">Notificacións de %1$s</string>
     <string name="action_accept_notification_request">Aceptar</string>
     <string name="action_dismiss_notification_request">Desbotar</string>
