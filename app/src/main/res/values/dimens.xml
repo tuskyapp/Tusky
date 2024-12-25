@@ -79,4 +79,6 @@
     <dimen name="recyclerview_bottom_padding_actionbutton">88dp</dimen>
     <dimen name="recyclerview_bottom_padding_no_actionbutton">32dp</dimen>
 
+    <dimen name="caption_dialog_inset">24dp</dimen>
+
 </resources>
