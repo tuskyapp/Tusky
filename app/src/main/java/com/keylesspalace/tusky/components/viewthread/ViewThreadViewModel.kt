@@ -117,6 +117,7 @@ class ViewThreadViewModel @Inject constructor(
                     isShowingContent = statusAndAccount.first.contentShowing,
                     isCollapsed = statusAndAccount.first.contentCollapsed,
                     isDetailed = true,
+                    // NOTE repliedToAccount is null here: this avoids showing "in reply to" over every post
                     translation = null
                 )
             } else {

@@ -44,11 +44,16 @@ rb.serverId as 'rb_serverId', rb.tuskyAccountId 'rb_tuskyAccountId',
 rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
 rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
 rb.emojis as 'rb_emojis', rb.bot as 'rb_bot',
+replied.serverId as 'replied_serverId', replied.tuskyAccountId 'replied_tuskyAccountId',
+replied.localUsername as 'replied_localUsername', replied.username as 'replied_username',
+replied.displayName as 'replied_displayName', replied.url as 'replied_url', replied.avatar as 'replied_avatar',
+replied.emojis as 'replied_emojis', replied.bot as 'replied_bot',
 h.loading
 FROM HomeTimelineEntity h
 LEFT JOIN TimelineStatusEntity s ON (h.statusId = s.serverId AND s.tuskyAccountId = :tuskyAccountId)
 LEFT JOIN TimelineAccountEntity a ON (s.authorServerId = a.serverId AND a.tuskyAccountId = :tuskyAccountId)
 LEFT JOIN TimelineAccountEntity rb ON (h.reblogAccountId = rb.serverId AND rb.tuskyAccountId = :tuskyAccountId)
+LEFT JOIN TimelineAccountEntity replied ON (s.inReplyToAccountId = replied.serverId)
 WHERE h.tuskyAccountId = :tuskyAccountId
 ORDER BY LENGTH(h.id) DESC, h.id DESC"""
     )
