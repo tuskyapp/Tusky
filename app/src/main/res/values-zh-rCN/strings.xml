@@ -738,7 +738,7 @@
     <string name="notification_policy_ignore">忽略</string>
     <string name="filtered_notifications_title">过滤了通知</string>
     <string name="accept_notification_request">接受通知请求</string>
-    <string name="open_settings">打开设置</string>
+    <string name="open_settings">打开首选项</string>
     <string name="notifications_from">来自 %1$s 的通知</string>
     <string name="action_accept_notification_request">接受</string>
     <string name="action_dismiss_notification_request">拒绝</string>

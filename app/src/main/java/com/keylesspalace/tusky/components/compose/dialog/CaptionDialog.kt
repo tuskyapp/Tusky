@@ -49,8 +49,13 @@ class CaptionDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
+        val inset = requireContext().resources.getDimensionPixelSize(R.dimen.caption_dialog_inset)
         return MaterialAlertDialogBuilder(requireContext())
             .setView(createView(savedInstanceState))
+            .setBackgroundInsetTop(inset)
+            .setBackgroundInsetEnd(inset)
+            .setBackgroundInsetBottom(inset)
+            .setBackgroundInsetStart(inset)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 listener.onUpdateDescription(localId, binding.imageDescriptionText.text.toString())
             }

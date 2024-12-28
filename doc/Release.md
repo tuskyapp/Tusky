@@ -6,7 +6,7 @@ This approach of having ~500 user on the nightly releases and ~5000 users on the
 
 ## Beta
 
-- Make sure all new features are well tested by Nightly users and all issues addressed as good as possible. Check GitHub issues, Google Play crash reports, messages on `@Tusky@mastodon.social`, emails on `tusky@connyduck.at`, #Tusky hashtag.
+- Make sure all new features are well tested by Nightly users and all issues addressed as good as possible. Check GitHub issues, Google Play crash reports, messages on `@Tusky@mastodon.social`, emails on `contact@tusky.app`, #Tusky hashtag.
 - Merge the latest Weblate translations (Weblate -> Repository maintenance -> commit all changes, then merge the automatic PRs by @nailyk-weblate on GitHub)
 - Update `versionCode` and `versionName` in `app/build.gradle`
 - Add a new short changelog under `fastlane/metadata/android/en-US/changelogs`. Use the next versionCode as the filename. This is so translators on Weblate have the duration of the beta to translate the changelog and F-Droid users will see it in their language on the release. If another beta is released, the changelogs have to be renamed. Note that changelogs shouldn't be over 500 characters or F-Droid will truncate them.

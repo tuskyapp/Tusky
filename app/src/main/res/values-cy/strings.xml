@@ -11,8 +11,8 @@
     <string name="error_compose_character_limit">Mae\'r neges yn rhy hir!</string>
     <string name="error_media_upload_type">Nid oes modd llwytho\'r math yma o ffeil.</string>
     <string name="error_media_upload_opening">Nid oedd modd agor y ffeil honno.</string>
-    <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen y cyfrwng hwn.</string>
-    <string name="error_media_download_permission">Rhaid cael caniatâd i gadw\'r cyfrwng hwn.</string>
+    <string name="error_media_upload_permission">Rhaid cael caniatâd i ddarllen cyfryngau.</string>
+    <string name="error_media_download_permission">Rhaid cael caniatâd i gadw cyfryngau.</string>
     <string name="error_media_upload_image_or_video">Ni allwch chi atodi delweddau a fideos i\'r un neges.</string>
     <string name="error_media_upload_sending">Methodd llwytho i fyny.</string>
     <string name="error_sender_account_gone">Bu gwall wrth anfon y neges.</string>
@@ -81,7 +81,7 @@
     <string name="action_mute">Tewi</string>
     <string name="action_unmute">Dad-dewi</string>
     <string name="action_mention">Crybwyll</string>
-    <string name="action_hide_media">Cuddio cyfrwng</string>
+    <string name="action_hide_media">Cuddio cyfryngau</string>
     <string name="action_open_drawer">Agor drôr</string>
     <string name="action_save">Cadw</string>
     <string name="action_edit_profile">Golygu\'ch proffil</string>
@@ -114,12 +114,12 @@
     <string name="label_header">Pennyn</string>
     <string name="link_whats_an_instance">Beth yw gweinydd\?</string>
     <string name="login_connection">Yn cysylltu…</string>
-    <string name="dialog_whats_an_instance">Gallwch chi roi cyfeiriad neu barth o unrhyw weinydd yma, fel mastodon.social, twt.cymru, social.tchncs.de, a <a href="https://instances.social">mwy!</a> \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
-\nOs nad oes gennych chi gyfrif, gallwch chi roi enw\'r gweinydd yr hoffech chi ymuno ag ef a chreu cyfrif yno. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
-\nGweinydd yw\'r man y mae\'ch gyfrif wedi\'i gynnal, ond gallwch chi gyfathrebu\'n hawdd â phobl a\'u dilyn ar weinyddion eraill fel petaech yn yr unfan. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
+    <string name="dialog_whats_an_instance">Gallwch chi roi cyfeiriad neu barth o unrhyw weinydd yma, fel mastodon.social, twt.cymru, social.tchncs.de, a <a href="https://instances.social">mwy!</a> \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
+\nOs nad oes gennych chi gyfrif, gallwch chi roi enw\'r gweinydd yr hoffech chi ymuno ag ef a chreu cyfrif yno. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
+\nGweinydd yw\'r man y mae\'ch gyfrif wedi\'i gynnal, ond gallwch chi gyfathrebu\'n hawdd â phobl a\'u dilyn ar weinyddion eraill fel petaech yn yr unfan. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
 \nRhagor o wybodaeth yn <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Yn Gorffen Llwytho\'r Cyfryngau i Fyny</string>
     <string name="dialog_message_uploading_media">Yn llwytho i fyny…</string>
@@ -221,7 +221,7 @@
     <string name="abbreviated_minutes_ago">%1$dm yn ôl</string>
     <string name="abbreviated_seconds_ago">%1$de yn ôl</string>
     <string name="follows_you">Yn eich dilyn</string>
-    <string name="pref_title_alway_show_sensitive_media">Dangos cynnwys sensitif bob tro</string>
+    <string name="pref_title_alway_show_sensitive_media">Dangos cyfryngau sensitif bob tro</string>
     <string name="title_media">Cyfryngau</string>
     <string name="replying_to">Yn ymateb i @%1$s</string>
     <string name="load_more_placeholder_text">Llwytho rhagor</string>
@@ -373,7 +373,7 @@
     <string name="title_hashtags_dialog">Hashnodau</string>
     <string name="pref_main_nav_position_option_bottom">Gwaelod</string>
     <string name="action_open_faved_by">Dangos ffefrynnau</string>
-    <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at gymedrolwr eich gweinydd. Gallwch chi esbonio pan rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
+    <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at gymedrolwyr eich gweinydd. Gallwch chi esbonio pan rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
     <string name="warning_scheduling_interval">Mae gan Mastodon egwyl amserlennu o o leiaf 5 munud.</string>
     <string name="follow_requests_info">Er nad yw eich cyfrif wedi\'i gloi, roedd staff %1$s yn meddwl efallai yr hoffech chi adolygu\'r ceisiadau i\'ch dilyn o\'r cyfrifon hyn eich hun.</string>
     <string name="delete_scheduled_post_warning">Dileu\'r neges wedi\'u hamserlennu hon\?</string>
@@ -418,7 +418,7 @@
     <string name="account_note_hint">Eich nodyn preifat ynghylch y cyfrif hwn</string>
     <string name="account_note_saved">Cadwyd!</string>
     <string name="action_subscribe_account">Tanysgrifio</string>
-    <string name="action_unsubscribe_account">Dad-danysgrifo</string>
+    <string name="action_unsubscribe_account">Dad-danysgrifio</string>
     <string name="dialog_delete_list_warning">Ydych chi wir eisiau dileu rhestr %1$s?</string>
     <string name="no_drafts">Does gennych chi ddim drafftiau.</string>
     <string name="pref_title_show_cards_in_timelines">Dangos rhagolygon dolen mewn ffrydiau</string>
@@ -469,7 +469,7 @@
     <string name="instance_rule_info">Drwy fewngofnodi rydych chi\'n cytuno i reolau %1$s.</string>
     <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu llwytho i fyny eto pan fyddwch chi\'n adfer y drafft.)</string>
     <string name="description_post_reblogged">Ailflogiwyd</string>
-    <string name="dialog_push_notification_migration_other_accounts">Rydych chi wedi mewngofnodi i\'ch cyfrif cyfredol eto i roi caniatâd tanysgrifio gwthio i Tusky. Fodd bynnag, mae gennych chi gyfrifon eraill o hyd nad ydyn nhw wedi\'u mudo fel hyn. Newidiwch atyn nhw a mewngofnodwch eto fesul un er mwyn galluogi cefnogaeth hysbysiadau UnifiedPush.</string>
+    <string name="dialog_push_notification_migration_other_accounts">Rydych chi wedi mewngofnodi i\'ch cyfrif cyfredol eto i roi caniatâd tanysgrifio gwthio i Tusky. Fodd bynnag, mae gennych chi gyfrifon eraill o hyd nad ydyn nhw wedi\'u mudo fel hyn. Newidiwch atyn nhw a mewngofnodwch eto fesul un er mwyn galluogi hysbysiadau UnifiedPush.</string>
     <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <string name="hint_media_description_missing">Dylai fod gan y cyfryngau ddisgrifiad.</string>
     <string name="description_post_cw">Rhybudd cynnwys: %1$s</string>
@@ -497,7 +497,7 @@
     <string name="pref_title_hide_top_toolbar">Cuddio teitl y bar offer uchaf</string>
     <string name="instance_rule_title">Rheolau %1$s</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
-    <string name="error_following_hashtags_unsupported">Nid yw\'r gweinydd hwn yn cefnogi\'r hashnodau canlynol.</string>
+    <string name="error_following_hashtags_unsupported">Na allwch chi ddilyn hashnodau ar y gweinydd hwn.</string>
     <string name="poll_info_closed">wedi cau</string>
     <string name="failed_fetch_posts">Wedi methu nôl negeseuon</string>
     <string name="error_muting_hashtag_format">Gwall wrth dewi #%1$s</string>
@@ -642,7 +642,7 @@
     <string name="pref_summary_http_proxy_invalid">&lt;annilys&gt;</string>
     <string name="action_browser_login">Mewngofnodi â phorwr</string>
     <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
-    <string name="description_browser_login">Gall gefnogi dulliau dilysu ychwanegol, ond mae angen porwr a gefnogir.</string>
+    <string name="description_browser_login">Efallai y bydd dulliau dilysu ychwanegol ar gael, ond mae eu hangen porwr arall.</string>
     <string name="action_post_failed_detail">Methodd eich neges â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</string>
@@ -652,7 +652,7 @@
     <string name="action_post_failed_detail_plural">Methodd eich negeseuon â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</string>
-    <string name="title_public_trending_hashtags">Hashnodau tueddiadol</string>
+    <string name="title_public_trending_hashtags">Hashnodau poblogaidd</string>
     <string name="accessibility_talking_about_tag">Mae %1$d o bobl yn siarad am hashnod %2$s</string>
     <string name="total_usage">Defnydd cyfan</string>
     <string name="total_accounts">Cyfrifon cyfan</string>
@@ -690,8 +690,8 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="post_media_image">Delwedd</string>
     <string name="select_list_manage">Rheoli rhestrau</string>
-    <string name="help_empty_home">Dyma\'ch <b>llinell amser cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rydych chi\'n eu dilyn. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
+    <string name="help_empty_home">Dyma\'ch <b>llinell amser cartref</b>. Mae\'n dangos negeseuon diweddar y cyfrifon rydych chi\'n eu dilyn. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
 \nEr mwyn archwilio cyfrifon gallwch ddod o hyd iddyn nhw o fewn un o\'r llinellau amser eraill. Er enghraifft, llinellau amser eich gweinydd [iconics gmd_group]. Neu gallwch eu chwilio yn ôl eu henw [iconics gmd_search]; er enghraifft, chwiliwch am Tusky i ddod o hyd i\'n cyfrif Mastodon.</string>
     <string name="pref_title_show_stat_inline">Dangos ystadegau negeseuon yn y ffrwd</string>
     <string name="pref_ui_text_size">Maint testun rhyngwyneb</string>
@@ -699,8 +699,8 @@
     <string name="notification_listenable_worker_description">Hysbysiadau pan fydd Tusky\'n gweithio\'n y cefndir</string>
     <string name="notification_notification_worker">Yn estyn hysbysiadau…</string>
     <string name="notification_prune_cache">Cynnal a chadw\'r cof dros dro…</string>
-    <string name="error_missing_edits">Mae eich gweinydd yn gwybod y cafodd y neges hon ei golygu, ond nid oes ganddo gopi o\'r golygiadau, felly nid oes modd eu dangos i chi. \u0020
-\n \u0020
+    <string name="error_missing_edits">Mae eich gweinydd yn gwybod y cafodd y neges hon ei golygu, ond nid oes ganddo gopi o\'r golygiadau, felly nid oes modd eu dangos i chi. \u0020 
+\n \u0020 
 \nDyma <a href="https://github.com/mastodon/mastodon/issues/25398">broblem Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Llwytho hysbysiadau diweddaraf</string>
     <string name="compose_delete_draft">Dileu\'r drafft\?</string>
@@ -721,23 +721,23 @@
     <string name="dialog_save_profile_changes_message">Hoffech chi gadw\'r newidiadau i\'ch proffil\?</string>
     <string name="label_image">Delwedd</string>
     <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
-    <string name="help_empty_conversations">Dyma\'ch <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
-\nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] neges i [iconics gmd_mail] <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
+    <string name="help_empty_conversations">Dyma\'ch <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
+\nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd [iconics gmd_public] neges i [iconics gmd_mail] <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
 \nEr enghraifft gallwch chi dechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu [iconics gmd_edit] a newid y gwelededd. \u0020</string>
     <string name="unmuting_hashtag_success_format">Yn dad-dewi hashnod #%1$s</string>
     <string name="muting_hashtag_success_format">Yn tewi hashnod #%1$s fel rhybudd</string>
     <string name="unfollowing_hashtag_success_format">Ddim yn dilyn hashnod #%1$s bellach</string>
-    <string name="title_public_trending_statuses">Negeseuon tueddiadol</string>
+    <string name="title_public_trending_statuses">Negeseuon poblogaidd</string>
     <string name="action_view_filter">Gweld hidl</string>
     <string name="following_hashtag_success_format">Nawr yn dilyn yr hashnod #%1$s</string>
     <string name="error_unblocking_domain">Wedi methu dad-dewi %1$s: %2$s</string>
     <string name="error_blocking_domain">Wedi methu tewi %1$s: %2$s</string>
-    <string name="help_empty_lists">Dyma\'ch <b>golwg rhestrau</b>. Gallwch chi diffinio nifer o restrau preifat ac yn ychwanegu cyfrifon atyn nhw. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
-\n \u0020SYLWCH y gallwch chi ychwanegu dim ond cyfrifon rydych chi\'n eu dilyn i\'ch rhestrau. \u0020 \u0020 \u0020
-\n \u0020 \u0020 \u0020
+    <string name="help_empty_lists">Dyma\'ch <b>golwg rhestrau</b>. Gallwch chi diffinio nifer o restrau preifat ac yn ychwanegu cyfrifon atyn nhw. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
+\n \u0020SYLWCH y gallwch chi ychwanegu dim ond cyfrifon rydych chi\'n eu dilyn i\'ch rhestrau. \u0020 \u0020 \u0020 
+\n \u0020 \u0020 \u0020 
 \n \u0020Gall y rhestrau hyn yn cael eu defnyddio fel tab yn newisiadau Tabiau Cyfrif [iconics gmd_account_circle] [iconics gmd_navigate_next]. \u0020</string>
     <string name="list_reply_policy_list">Aelodau\'r rhestr</string>
     <string name="list_reply_policy_followed">Unrhyw ddefnyddiwr a ddilynir</string>
@@ -778,14 +778,14 @@
     <string name="notification_policies_filter_dont_follow_title">Pobl nad ydych chi\'n eu dilyn</string>
     <string name="notification_policies_filter_dont_follow_description">Hys nes i chi eu caniatáu â law</string>
     <string name="notification_policies_filter_not_following_title">Pobl nad ydynt yn eich dilyn chi</string>
-    <string name="notification_policies_filter_not_following_description">Gan gynnwys pobl</string>
+    <string name="notification_policies_filter_not_following_description">Gan gynnwys pobl sydd wedi bod yn eich dilyn am lai na 3 diwrnod</string>
     <string name="unknown_notification_filter_new_accounts_title">Cyfrifon newydd</string>
     <string name="unknown_notification_filter_new_accounts_description">Wedi\'u creu o fewn y 30 diwrnod diwethaf</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_title">Negeseuon uniongyrchol digymell</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Wedi\'u hidlo, oni bai eu bod mewn ymateb i\'ch neges eich hunan, neu os ydych yn dilyn yr anfonwr</string>
     <string name="unknown_notification_filter_moderated_accounts">Cyfrifon wedi\'u cymedroli</string>
     <string name="unknown_notification_filter_moderated_accounts_description">Wedi\'u cyfyngu gan gymedrolwyr eich gweinydd</string>
-    <string name="notification_policies_not_supported">Dim ond ar weinyddion Mastodon sydd yn rhedeg v4.3.0 neu\'n hwyrach y cefnogir y nodwedd hon.</string>
+    <string name="notification_policies_not_supported">Dim ond ar weinyddion Mastodon sydd yn rhedeg v4.3.0 neu\'n hwyrach y mae\'r nodwedd hon yn gweithio.</string>
     <string name="filtered_notifications">Hysbysiadau wedi\'u hidlo</string>
     <string name="notifications_from_people_you_may_know">Hysbysiadau gan %1$d pobl y rydych efallai\'n eu hadnabod</string>
     <string name="notification_policy_accept">Derbyn</string>
