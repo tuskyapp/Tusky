@@ -6,6 +6,13 @@
 
 ### Significant bug fixes
 
+## v27.1
+
+### Significant bug fixes
+
+- Improves rendering of some animated custom emojis https://github.com/tuskyapp/Tusky/pull/4281
+- Fixes an issue were the input field for media descriptions was too small in some cases https://github.com/tuskyapp/Tusky/pull/4831
+
 ## v27.0
 
 ### New features and other improvements
