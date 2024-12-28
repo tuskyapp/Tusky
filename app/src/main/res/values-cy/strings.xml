@@ -373,7 +373,7 @@
     <string name="title_hashtags_dialog">Hashnodau</string>
     <string name="pref_main_nav_position_option_bottom">Gwaelod</string>
     <string name="action_open_faved_by">Dangos ffefrynnau</string>
-    <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at gymedrolwr eich gweinydd. Gallwch chi esbonio pan rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
+    <string name="report_description_1">Bydd yr adroddiad yn cael ei anfon at gymedrolwyr eich gweinydd. Gallwch chi esbonio pan rydych chi\'n adrodd ar y cyfrif hwn isod:</string>
     <string name="warning_scheduling_interval">Mae gan Mastodon egwyl amserlennu o o leiaf 5 munud.</string>
     <string name="follow_requests_info">Er nad yw eich cyfrif wedi\'i gloi, roedd staff %1$s yn meddwl efallai yr hoffech chi adolygu\'r ceisiadau i\'ch dilyn o\'r cyfrifon hyn eich hun.</string>
     <string name="delete_scheduled_post_warning">Dileu\'r neges wedi\'u hamserlennu hon\?</string>
@@ -418,7 +418,7 @@
     <string name="account_note_hint">Eich nodyn preifat ynghylch y cyfrif hwn</string>
     <string name="account_note_saved">Cadwyd!</string>
     <string name="action_subscribe_account">Tanysgrifio</string>
-    <string name="action_unsubscribe_account">Dad-danysgrifo</string>
+    <string name="action_unsubscribe_account">Dad-danysgrifio</string>
     <string name="dialog_delete_list_warning">Ydych chi wir eisiau dileu rhestr %1$s?</string>
     <string name="no_drafts">Does gennych chi ddim drafftiau.</string>
     <string name="pref_title_show_cards_in_timelines">Dangos rhagolygon dolen mewn ffrydiau</string>

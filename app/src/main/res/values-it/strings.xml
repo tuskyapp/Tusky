@@ -423,7 +423,7 @@
     <string name="report_remote_instance">Inoltra a %1$s</string>
     <string name="failed_report">Segnalazione fallita</string>
     <string name="failed_fetch_posts">Scaricamento dei post fallito</string>
-    <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perchè stai segnalando l\'utente qui sotto:</string>
+    <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perché stai segnalando l\'utente qui sotto:</string>
     <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
@@ -759,7 +759,7 @@
     <string name="notification_policy_ignore">Ignora</string>
     <string name="filtered_notifications_title">Notifiche filtrate</string>
     <string name="accept_notification_request">Accetta richieste di notifica</string>
-    <string name="open_settings">Apri impostazioni</string>
+    <string name="open_settings">Apri preferenze</string>
     <string name="notifications_from">Notifiche da %1$s</string>
     <string name="action_accept_notification_request">Accetta</string>
     <string name="action_dismiss_notification_request">Ignora</string>
