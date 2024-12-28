@@ -256,15 +256,7 @@
 
     <string name="login_connection">Connecting…</string>
 
-    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered
-        here, such as mastodon.social, icosahedron.website, social.tchncs.de, and
-        <a href="https://instances.social">more!</a>
-        \n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to
-        join and create an account there.\n\nAn instance is a single place where your account is
-        hosted, but you can easily communicate with and follow folks on other instances as though
-        you were on the same site.
-        \n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">The address or domain of any instance can be entered here, such as mastodon.social, icosahedron.website, social.tchncs.de, and <a href="https://instances.social">more!</a>\n\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.\n\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site.\n\nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Finishing Media Upload</string>
     <string name="dialog_message_uploading_media">Uploading…</string>
     <string name="dialog_download_image">Download</string>
@@ -736,12 +728,11 @@
     <string name="account_note_hint">Your private note about this account</string>
     <string name="account_note_saved">Saved!</string>
 
-    <string name="wellbeing_mode_notice">Some information that might affect your mental wellbeing will be hidden. This includes:\n\n
-        - Favorite/Boost/Follow notifications\n
-        - Favorite/Boost count on posts\n
-        - Follower/Post stats on profiles\n\n
-        Push-notifications will not be affected, but you can review your notification preferences manually.
-    </string>
+    <string name="wellbeing_mode_notice">Some information that might affect your mental wellbeing will be hidden. This includes:
+\n\n- Favorite/Boost/Follow notifications
+\n- Favorite/Boost count on posts
+\n- Follower/Post stats on profiles
+\n\nPush-notifications will not be affected, but you can review your notification preferences manually.</string>
     <string name="review_notifications">Review Notifications</string>
     <string name="limit_notifications">Limit timeline notifications</string>
     <string name="wellbeing_hide_stats_posts">Hide quantitative stats on posts</string>
@@ -835,21 +826,9 @@
     <string name="filter_edit_keyword_title">Edit keyword</string>
     <string name="filter_description_format">%1$s: %2$s</string>
 
-    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts
-        you follow.\n\nTo explore accounts you can either discover them in one of the other timelines.
-        For example the local timeline of your instance [iconics gmd_group]. Or you can search them
-        by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
-    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).
-        \n\nPrivate messages are created by setting the visibility [iconics gmd_public] of a post to [iconics gmd_mail] <i>Direct</i> and
-        mentioning one or more users in the text.
-        \n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.
-    </string>
-    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.
-        \n\n
-        NOTE that you can only add accounts you follow to your lists.
-        \n\n
-        These lists can be used as a tab in Account preferences [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs.
-    </string>
+    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts you follow.\n\nTo explore accounts you can either discover them in one of the other timelines. For example the local timeline of your instance [iconics gmd_group]. Or you can search them by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
+    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).\n\nPrivate messages are created by setting the visibility [iconics gmd_public] of a post to [iconics gmd_mail] <i>Direct</i> and mentioning one or more users in the text.\n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.</string>
+    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.\n\nNOTE that you can only add accounts you follow to your lists.\n\nThese lists can be used as a tab in Account preferences [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs.</string>
 
     <string name="load_newest_notifications">Load newest notifications</string>
     <string name="about_copy">Copy version and device information</string>
