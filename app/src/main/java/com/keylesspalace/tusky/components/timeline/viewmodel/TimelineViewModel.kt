@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 abstract class TimelineViewModel(
     protected val timelineCases: TimelineCases,
     private val eventHub: EventHub,
-    protected val accountManager: AccountManager,
+    val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
