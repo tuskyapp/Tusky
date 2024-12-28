@@ -48,7 +48,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.EmptyPagingSource
 import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
