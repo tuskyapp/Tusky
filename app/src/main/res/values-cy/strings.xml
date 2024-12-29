@@ -114,12 +114,12 @@
     <string name="label_header">Pennyn</string>
     <string name="link_whats_an_instance">Beth yw gweinydd\?</string>
     <string name="login_connection">Yn cysylltu…</string>
-    <string name="dialog_whats_an_instance">Gallwch chi roi cyfeiriad neu barth o unrhyw weinydd yma, fel mastodon.social, twt.cymru, social.tchncs.de, a <a href="https://instances.social">mwy!</a> \u0020 \u0020 \u0020 
-\n \u0020 \u0020 \u0020 
-\nOs nad oes gennych chi gyfrif, gallwch chi roi enw\'r gweinydd yr hoffech chi ymuno ag ef a chreu cyfrif yno. \u0020 \u0020 \u0020 
-\n \u0020 \u0020 \u0020 
-\nGweinydd yw\'r man y mae\'ch gyfrif wedi\'i gynnal, ond gallwch chi gyfathrebu\'n hawdd â phobl a\'u dilyn ar weinyddion eraill fel petaech yn yr unfan. \u0020 \u0020 \u0020 
-\n \u0020 \u0020 \u0020 
+    <string name="dialog_whats_an_instance">Gallwch chi roi cyfeiriad neu barth o unrhyw weinydd yma, fel mastodon.social, twt.cymru, social.tchncs.de, a <a href="https://instances.social">mwy!</a>
+\n
+\nOs nad oes gennych chi gyfrif, gallwch chi roi enw\'r gweinydd yr hoffech chi ymuno ag ef a chreu cyfrif yno.
+\n
+\nGweinydd yw\'r man y mae\'ch gyfrif wedi\'i gynnal, ond gallwch chi gyfathrebu\'n hawdd â phobl a\'u dilyn ar weinyddion eraill fel petaech yn yr unfan.
+\n
 \nRhagor o wybodaeth yn <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Yn Gorffen Llwytho\'r Cyfryngau i Fyny</string>
     <string name="dialog_message_uploading_media">Yn llwytho i fyny…</string>
