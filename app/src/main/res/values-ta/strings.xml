@@ -107,11 +107,13 @@
     <string name="label_header">தலைப்பு</string>
     <string name="link_whats_an_instance">Instance(களம்) என்றால் என்ன?</string>
     <string name="login_connection">இணைக்கபடுகிறது…</string>
-    <string name="dialog_whats_an_instance">ஏதேனும் instance-ன் முகவரியையோ அல்லது களத்தின் முகவரியையோ இங்கு உள்ளிடவும், உதாரணமாக mastodon.social, icosahedron.website, social.tchncs.de, மற்றும்
-        <a href="https://instances.social">மேலும்!</a>
-        \n\nபயனர் கணக்கு இல்லையெனில் புதிய கணக்கிற்கான instance(களம்)-னை பதிவிடவும். நீங்கள் குறிப்பிடப்படும் களத்தில் உங்கள் கணக்கு பதிவாகும்.\n\nமேலும் இங்கு குறிப்பிடப்பட்ட ஏதேனும் ஒரு களத்தில் மட்டுமே உங்களால்  கணக்கு ஆரம்பித்துக்கொள்ள இயலும் இருப்பினும் நம்மால் மற்ற களங்களில் உள்ள நண்பர்களையும் தொடர்பு கொள்ள இயலும் .
-        \n\nமேலும் தகவல்கள் அறிய <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">ஏதேனும் instance-ன் முகவரியையோ அல்லது களத்தின் முகவரியையோ இங்கு உள்ளிடவும், உதாரணமாக mastodon.social, icosahedron.website, social.tchncs.de, மற்றும் \u0020<a href="https://instances.social">மேலும்!</a> 
+\n
+\nபயனர் கணக்கு இல்லையெனில் புதிய கணக்கிற்கான instance(களம்)-னை பதிவிடவும். நீங்கள் குறிப்பிடப்படும் களத்தில் உங்கள் கணக்கு பதிவாகும்.
+\n
+\nமேலும் இங்கு குறிப்பிடப்பட்ட ஏதேனும் ஒரு களத்தில் மட்டுமே உங்களால் கணக்கு ஆரம்பித்துக்கொள்ள இயலும் இருப்பினும் நம்மால் மற்ற களங்களில் உள்ள நண்பர்களையும் தொடர்பு கொள்ள இயலும் . 
+\n
+\nமேலும் தகவல்கள் அறிய <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">மீடியா பதிவேற்றம் முடிகிறது</string>
     <string name="dialog_message_uploading_media">ஏற்றுகிறது …</string>
     <string name="dialog_download_image">பதிவிறக்க</string>

@@ -124,15 +124,13 @@
     <string name="label_header">Cabecera</string>
     <string name="link_whats_an_instance">¿Qué es una instancia?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia,
-        como mastodon.social, icosahedron.website, social.tchncs.de y
-        <a href="https://instances.social">más!</a>
-        \n\nSi todavia no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere
-        unirse y crear una cuenta allí.\n\nUna instancia es el sitio único donde su cuenta
-        está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si
-        estuvieran en la misma.
-        \n\nPuede consultar más información en <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia, \u0020como mastodon.social, icosahedron.website, social.tchncs.de y \u0020<a href="https://instances.social">más!</a> 
+\n
+\nSi todavia no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere \u0020unirse y crear una cuenta allí.
+\n
+\nUna instancia es el sitio único donde su cuenta \u0020está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si \u0020estuvieran en la misma. 
+\n
+\nPuede consultar más información en <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Terminando de subir multimedia</string>
     <string name="dialog_message_uploading_media">Subiendo…</string>
     <string name="dialog_download_image">Descargar</string>
@@ -644,8 +642,8 @@
     <string name="pref_title_show_stat_inline">Mostrar estadísticas de la entrada en la línea de tiempo</string>
     <string name="ui_error_unknown">razón desconocida</string>
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
-    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
-\n
+    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues. 
+\n 
 \nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
     <string name="ui_error_bookmark">Fallo al añadir a marcadores: %1$s</string>
     <string name="select_list_manage">Gestionar listas</string>

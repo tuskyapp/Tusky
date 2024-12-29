@@ -253,12 +253,12 @@
     <string name="dialog_download_image">Изтегляне</string>
     <string name="dialog_message_uploading_media">Качване…</string>
     <string name="dialog_title_finishing_media_upload">Завършване на мултимедийно качване</string>
-    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">други!</a>
-\n
-\nАко все още нямате акаунт, можете да въведете името на инстанцията, към която искате да се присъедините, и да създадете акаунт там.
-\n
-\nИнстанцията е единично място, където се хоства акаунтът ви, но можете лесно да комуникирате и да следвате хора в други инстанции, сякаш сте на същия сайт.
-\n
+    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">други!</a> 
+\n 
+\nАко все още нямате акаунт, можете да въведете името на инстанцията, към която искате да се присъедините, и да създадете акаунт там. 
+\n 
+\nИнстанцията е единично място, където се хоства акаунтът ви, но можете лесно да комуникирате и да следвате хора в други инстанции, сякаш сте на същия сайт. 
+\n 
 \nПовече информация можете да намерите на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Свързване…</string>
     <string name="link_whats_an_instance">Какво е инстанция\?</string>

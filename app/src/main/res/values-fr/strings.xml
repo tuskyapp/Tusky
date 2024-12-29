@@ -138,15 +138,13 @@
     <string name="label_header">Image d’en-tête</string>
     <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
     <string name="login_connection">Connexion en cours…</string>
-    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance,
-        comme mastodon.social, icosahedron.website, social.tchncs.de,
-        <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
-        \n\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre
-        et y créer un compte.\n\nUne instance est l’endroit où votre compte est
-        hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles
-        comme si vous étiez sur le même site.
-        \n\nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, \u0020comme mastodon.social, icosahedron.website, social.tchncs.de, \u0020<a href="https://instances.social">et bien d’autres encore</a> (en anglais) ! 
+\n
+\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre \u0020et y créer un compte.
+\n
+\nUne instance est l’endroit où votre compte est \u0020hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles \u0020comme si vous étiez sur le même site. 
+\n
+\nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Mise en ligne des médias</string>
     <string name="dialog_message_uploading_media">Téléversement en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
@@ -652,8 +650,8 @@
     <string name="pref_title_show_stat_inline">Montrer les statistiques des statuts dans les fils</string>
     <string name="accessibility_talking_about_tag">%1$d personnes parlent du hashtag %2$s</string>
     <string name="total_usage">utilisations</string>
-    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez.
-\n
+    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez. 
+\n 
 \nPour trouver des comptes vous pouvez soit les découvrir dans l\'un des autres fils, par exemple le fil local de votre instance [iconics gmd_group] ; soit les chercher par leur nom [iconics gmd_search], par exemple cherchez « Tusky » pour trouver notre compte Mastodon.</string>
     <string name="action_add">Ajouter</string>
     <string name="label_filter_keywords">Mots-clés ou phrases à filtrer</string>
