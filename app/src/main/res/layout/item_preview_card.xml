@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:id="@+id/status_card_view"
+    style="@style/Widget.Material3.CardView.Filled">
+
+    <LinearLayout
+        android:id="@+id/status_card_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/card_image"
+            android:layout_width="match_parent"
+            android:layout_margin="1dp"
+            android:layout_height="300dp"
+            android:importantForAccessibility="no"
+            android:scaleType="center" />
+
+        <LinearLayout
+            android:id="@+id/card_info"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/card_metadata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:lineSpacingMultiplier="1.1"
+                android:lines="1"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium" />
+
+            <TextView
+                android:id="@+id/card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="?attr/status_text_medium" />
+
+            <TextView
+                android:id="@+id/card_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_medium" />
+
+            <Button
+                android:id="@+id/card_author_button"
+                style="@style/TuskyButton.TextButton"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="more by Conny Duck"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
