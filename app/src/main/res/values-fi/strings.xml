@@ -413,12 +413,12 @@
 \n
 \nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</item>
     </plurals>
-    <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a>
-\n
-\nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin.
-\n
-\nInstanssi on yksittäinen palvelin joka sisältää sinun tilisi, mutta voit helposti kommunikoida muiden kanssa ja seurata muita toisilta instansseilta kuten he olisivat saman sivuston jäseniä.
-\n
+    <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a> 
+\n 
+\nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin. 
+\n 
+\nInstanssi on yksittäinen palvelin joka sisältää sinun tilisi, mutta voit helposti kommunikoida muiden kanssa ja seurata muita toisilta instansseilta kuten he olisivat saman sivuston jäseniä. 
+\n 
 \nVoit lukea lisää osoitteesta <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="app_theme_system_black">Seuraa laitteen teemaa (musta)</string>
     <string name="pref_show_self_username_disambiguate">Kun olet kirjautunut usealle tilille</string>
