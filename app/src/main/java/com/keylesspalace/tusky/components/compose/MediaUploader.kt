@@ -27,7 +27,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
+import com.keylesspalace.tusky.components.compose.ComposeViewModel.QueuedMedia
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.network.asRequestBody
@@ -151,7 +151,7 @@ class MediaUploader @Inject constructor(
         }
     }
 
-    fun prepareMedia(inUri: Uri, instanceInfo: InstanceInfo): PreparedMedia {
+    fun prepareMedia(inUri: Uri, instanceInfo: InstanceInfo): Result<PreparedMedia> = runCatching {
         var mediaSize = MEDIA_SIZE_UNKNOWN
         var uri = inUri
         val mimeType: String?
@@ -217,9 +217,8 @@ class MediaUploader @Inject constructor(
             Log.w(TAG, "Could not determine file size of upload")
             throw MediaTypeException()
         }
-
         if (mimeType != null) {
-            return when (mimeType.substring(0, mimeType.indexOf('/'))) {
+            when (mimeType.substring(0, mimeType.indexOf('/'))) {
                 "video" -> {
                     if (mediaSize > instanceInfo.videoSizeLimit) {
                         throw FileSizeException(instanceInfo.videoSizeLimit)
@@ -247,7 +246,7 @@ class MediaUploader @Inject constructor(
 
     private val contentResolver = context.contentResolver
 
-    private suspend fun upload(media: QueuedMedia): Flow<UploadEvent> {
+    private fun upload(media: QueuedMedia): Flow<UploadEvent> {
         return callbackFlow {
             var mimeType = contentResolver.getType(media.uri)
 

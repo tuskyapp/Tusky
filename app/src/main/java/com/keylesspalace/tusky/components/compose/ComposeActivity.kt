@@ -73,6 +73,7 @@ import com.keylesspalace.tusky.adapter.EmojiAdapter
 import com.keylesspalace.tusky.adapter.LocaleAdapter
 import com.keylesspalace.tusky.adapter.OnEmojiSelectedListener
 import com.keylesspalace.tusky.components.compose.ComposeViewModel.ConfirmationKind
+import com.keylesspalace.tusky.components.compose.ComposeViewModel.QueuedMedia
 import com.keylesspalace.tusky.components.compose.dialog.CaptionDialog
 import com.keylesspalace.tusky.components.compose.dialog.makeFocusDialog
 import com.keylesspalace.tusky.components.compose.dialog.showAddPollDialog
@@ -102,6 +103,7 @@ import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.highlightSpans
 import com.keylesspalace.tusky.util.loadAvatar
+import com.keylesspalace.tusky.util.map
 import com.keylesspalace.tusky.util.modernLanguageCode
 import com.keylesspalace.tusky.util.setDrawableTint
 import com.keylesspalace.tusky.util.show
@@ -162,7 +164,11 @@ class ComposeActivity :
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
-                pickMedia(photoUploadUri!!)
+                viewModel.pickMedia(
+                    listOf(
+                        ComposeViewModel.PickedMedia(photoUploadUri!!)
+                    )
+                )
             }
         }
     private val pickMediaFilePermissionLauncher =
@@ -194,9 +200,11 @@ class ComposeActivity :
                 Toast.LENGTH_SHORT
             ).show()
         } else {
-            uris.forEach { uri ->
-                pickMedia(uri)
-            }
+            viewModel.pickMedia(
+                uris.map { uri ->
+                    ComposeViewModel.PickedMedia(uri)
+                }
+            )
         }
     }
 
@@ -207,17 +215,15 @@ class ComposeActivity :
             viewModel.cropImageItemOld?.let { itemOld ->
                 val size = getMediaSize(contentResolver, uriNew)
 
-                lifecycleScope.launch {
-                    viewModel.addMediaToQueue(
-                        itemOld.type,
-                        uriNew,
-                        size,
-                        itemOld.description,
-                        // Intentionally reset focus when cropping
-                        null,
-                        itemOld
-                    )
-                }
+                viewModel.addMediaToQueue(
+                    type = itemOld.type,
+                    uri = uriNew,
+                    mediaSize = size,
+                    description = itemOld.description,
+                    // Intentionally reset focus when cropping
+                    focus = null,
+                    replaceItem = itemOld
+                )
             }
         } else if (result == CropImage.CancelledResult) {
             Log.w(TAG, "Edit image cancelled by user")
@@ -308,7 +314,7 @@ class ComposeActivity :
         }
 
         if (!composeOptions?.scheduledAt.isNullOrEmpty()) {
-            binding.composeScheduleView.setDateTime(composeOptions?.scheduledAt)
+            binding.composeScheduleView.setDateTime(composeOptions.scheduledAt)
         }
 
         setupLanguageSpinner(getInitialLanguages(composeOptions?.language, activeAccount))
@@ -347,14 +353,14 @@ class ComposeActivity :
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
                             intent.getParcelableExtraCompat<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
-                                pickMedia(uri)
+                                viewModel.pickMedia(listOf(ComposeViewModel.PickedMedia(uri)))
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.getParcelableArrayListExtraCompat<Uri>(Intent.EXTRA_STREAM)
-                                ?.forEach { uri ->
-                                    pickMedia(uri)
-                                }
+                                ?.map { uri ->
+                                    ComposeViewModel.PickedMedia(uri)
+                                }?.let(viewModel::pickMedia)
                         }
                     }
                 }
@@ -557,16 +563,25 @@ class ComposeActivity :
 
         lifecycleScope.launch {
             viewModel.uploadError.collect { throwable ->
-                if (throwable is UploadServerError) {
-                    displayTransientMessage(throwable.errorMessage)
-                } else {
-                    displayTransientMessage(
-                        getString(
-                            R.string.error_media_upload_sending_fmt,
-                            throwable.message
-                        )
+                val errorString = when (throwable) {
+                    is UploadServerError -> throwable.errorMessage
+                    is FileSizeException -> {
+                        val decimalFormat = DecimalFormat("0.##")
+                        val allowedSizeInMb = throwable.allowedSizeInBytes.toDouble() / (1024 * 1024)
+                        val formattedSize = decimalFormat.format(allowedSizeInMb)
+                        getString(R.string.error_multimedia_size_limit, formattedSize)
+                    }
+                    is VideoOrImageException -> getString(
+                        R.string.error_media_upload_image_or_video
+                    )
+                    is CouldNotOpenFileException -> getString(R.string.error_media_upload_opening)
+                    is MediaTypeException -> getString(R.string.error_media_upload_opening)
+                    else -> getString(
+                        R.string.error_media_upload_sending_fmt,
+                        throwable.message
                     )
                 }
+                displayTransientMessage(errorString)
             }
         }
 
@@ -1090,12 +1105,27 @@ class ComposeActivity :
         if (contentInfo.clip.description.hasMimeType("image/*")) {
             val split = contentInfo.partition { item: ClipData.Item -> item.uri != null }
             split.first?.let { content ->
-                for (i in 0 until content.clip.itemCount) {
-                    pickMedia(
-                        content.clip.getItemAt(i).uri,
-                        contentInfo.clip.description.label as String?
-                    )
+                val description = (contentInfo.clip.description.label as String?)?.let {
+                    // The Gboard android keyboard attaches this text whenever the user
+                    // pastes something from the keyboard's suggestion bar.
+                    // Due to different end user locales, the exact text may vary, but at
+                    // least in version 13.4.08, all of the translations contained the
+                    // string "Gboard".
+                    if ("Gboard" in it) {
+                        null
+                    } else {
+                        it
+                    }
                 }
+
+                viewModel.pickMedia(
+                    content.clip.map { clipItem ->
+                        ComposeViewModel.PickedMedia(
+                            uri = clipItem.uri,
+                            description = description
+                        )
+                    }
+                )
             }
             return split.second
         }
@@ -1197,45 +1227,6 @@ class ComposeActivity :
 
     private fun removeMediaFromQueue(item: QueuedMedia) {
         viewModel.removeMediaFromQueue(item)
-    }
-
-    private fun sanitizePickMediaDescription(description: String?): String? {
-        if (description == null) {
-            return null
-        }
-
-        // The Gboard android keyboard attaches this text whenever the user
-        // pastes something from the keyboard's suggestion bar.
-        // Due to different end user locales, the exact text may vary, but at
-        // least in version 13.4.08, all of the translations contained the
-        // string "Gboard".
-        if ("Gboard" in description) {
-            return null
-        }
-
-        return description
-    }
-
-    private fun pickMedia(uri: Uri, description: String? = null) {
-        val sanitizedDescription = sanitizePickMediaDescription(description)
-
-        lifecycleScope.launch {
-            viewModel.pickMedia(uri, sanitizedDescription).onFailure { throwable ->
-                val errorString = when (throwable) {
-                    is FileSizeException -> {
-                        val decimalFormat = DecimalFormat("0.##")
-                        val allowedSizeInMb = throwable.allowedSizeInBytes.toDouble() / (1024 * 1024)
-                        val formattedSize = decimalFormat.format(allowedSizeInMb)
-                        getString(R.string.error_multimedia_size_limit, formattedSize)
-                    }
-                    is VideoOrImageException -> getString(
-                        R.string.error_media_upload_image_or_video
-                    )
-                    else -> getString(R.string.error_media_upload_opening)
-                }
-                displayTransientMessage(errorString)
-            }
-        }
     }
 
     private fun showContentWarning(show: Boolean) {
@@ -1417,30 +1408,6 @@ class ComposeActivity :
             val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
             binding.emojiView.adapter = EmojiAdapter(emojiList, this@ComposeActivity, animateEmojis)
             enableButton(binding.composeEmojiButton, true, emojiList.isNotEmpty())
-        }
-    }
-
-    data class QueuedMedia(
-        val localId: Int,
-        val uri: Uri,
-        val type: Type,
-        val mediaSize: Long,
-        val uploadPercent: Int = 0,
-        val id: String? = null,
-        val description: String? = null,
-        val focus: Attachment.Focus? = null,
-        val state: State
-    ) {
-        enum class Type {
-            IMAGE,
-            VIDEO,
-            AUDIO
-        }
-        enum class State {
-            UPLOADING,
-            UNPROCESSED,
-            PROCESSED,
-            PUBLISHED
         }
     }
 

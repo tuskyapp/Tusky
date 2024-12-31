@@ -31,25 +31,25 @@ import com.keylesspalace.tusky.components.compose.view.ProgressImageView
 
 class MediaPreviewAdapter(
     context: Context,
-    private val onAddCaption: (ComposeActivity.QueuedMedia) -> Unit,
-    private val onAddFocus: (ComposeActivity.QueuedMedia) -> Unit,
-    private val onEditImage: (ComposeActivity.QueuedMedia) -> Unit,
-    private val onRemove: (ComposeActivity.QueuedMedia) -> Unit
-) : ListAdapter<ComposeActivity.QueuedMedia, MediaPreviewAdapter.PreviewViewHolder>(
-    object : DiffUtil.ItemCallback<ComposeActivity.QueuedMedia>() {
+    private val onAddCaption: (ComposeViewModel.QueuedMedia) -> Unit,
+    private val onAddFocus: (ComposeViewModel.QueuedMedia) -> Unit,
+    private val onEditImage: (ComposeViewModel.QueuedMedia) -> Unit,
+    private val onRemove: (ComposeViewModel.QueuedMedia) -> Unit
+) : ListAdapter<ComposeViewModel.QueuedMedia, MediaPreviewAdapter.PreviewViewHolder>(
+    object : DiffUtil.ItemCallback<ComposeViewModel.QueuedMedia>() {
         override fun areItemsTheSame(
-            oldItem: ComposeActivity.QueuedMedia,
-            newItem: ComposeActivity.QueuedMedia
+            oldItem: ComposeViewModel.QueuedMedia,
+            newItem: ComposeViewModel.QueuedMedia
         ) = oldItem.localId == newItem.localId
 
         override fun areContentsTheSame(
-            oldItem: ComposeActivity.QueuedMedia,
-            newItem: ComposeActivity.QueuedMedia
+            oldItem: ComposeViewModel.QueuedMedia,
+            newItem: ComposeViewModel.QueuedMedia
         ) = oldItem == newItem
     }
 ) {
 
-    private fun onMediaClick(item: ComposeActivity.QueuedMedia, view: View) {
+    private fun onMediaClick(item: ComposeViewModel.QueuedMedia, view: View) {
         val popup = PopupMenu(view.context, view)
         val addCaptionId = 1
         val addFocusId = 2
@@ -57,9 +57,9 @@ class MediaPreviewAdapter(
         val removeId = 4
 
         popup.menu.add(0, addCaptionId, 0, R.string.action_set_caption)
-        if (item.type == ComposeActivity.QueuedMedia.Type.IMAGE) {
+        if (item.type == ComposeViewModel.QueuedMedia.Type.IMAGE) {
             popup.menu.add(0, addFocusId, 0, R.string.action_set_focus)
-            if (item.state != ComposeActivity.QueuedMedia.State.PUBLISHED) {
+            if (item.state != ComposeViewModel.QueuedMedia.State.PUBLISHED) {
                 // Already-published items can't be edited
                 popup.menu.add(0, editImageId, 0, R.string.action_edit_image)
             }
@@ -88,7 +88,7 @@ class MediaPreviewAdapter(
         val item = getItem(position)
         holder.progressImageView.setChecked(!item.description.isNullOrEmpty())
         holder.progressImageView.setProgress(item.uploadPercent)
-        if (item.type == ComposeActivity.QueuedMedia.Type.AUDIO) {
+        if (item.type == ComposeViewModel.QueuedMedia.Type.AUDIO) {
             // TODO: Fancy waveform display?
             holder.progressImageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
         } else {

@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky.util
 
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -40,13 +41,17 @@ class PickMediaFiles : ActivityResultContract<Boolean, List<Uri>>() {
                 // Single media, upload it and done.
                 return listOf(intentData)
             } else if (clipData != null) {
-                val result: MutableList<Uri> = mutableListOf()
-                for (i in 0 until clipData.itemCount) {
-                    result.add(clipData.getItemAt(i).uri)
-                }
-                return result
+                return clipData.map { clipItem -> clipItem.uri }
             }
         }
         return emptyList()
     }
+}
+
+fun <T> ClipData.map(transform: (ClipData.Item) -> T): List<T> {
+    val destination = ArrayList<T>(this.itemCount)
+    for (i in 0 until this.itemCount) {
+        destination.add(transform(getItemAt(i)))
+    }
+    return destination
 }
