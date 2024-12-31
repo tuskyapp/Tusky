@@ -138,12 +138,12 @@
     <string name="label_header">Záhlaví</string>
     <string name="link_whats_an_instance">Co je to server?</string>
     <string name="login_connection">Připojuji se…</string>
-    <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv serveru, například mastodon.social, icosahedron.website, social.tchncs.de a <a href="https://instances.social">další!</a>
-\n
-\nPokud ještě nemáte účet, můžete zadat název instance, ke které se chcete připojit, a vytvořit si tam účet.
-\n
-\nServer je jedno místo, kde je hostován váš účet, můžete však jednoduše komunikovat a sledovat lidi na jiných serverech, jako by byli na stejné stránce.
-\n
+    <string name="dialog_whats_an_instance">Sem může být zadána adresa či doména jakéhokoliv serveru, například mastodon.social, icosahedron.website, social.tchncs.de a <a href="https://instances.social">další!</a> 
+\n 
+\nPokud ještě nemáte účet, můžete zadat název instance, ke které se chcete připojit, a vytvořit si tam účet. 
+\n 
+\nServer je jedno místo, kde je hostován váš účet, můžete však jednoduše komunikovat a sledovat lidi na jiných serverech, jako by byli na stejné stránce. 
+\n 
 \nDalší informace mohou být nalezeny na stránce <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Dokončuji nahrávání médií</string>
     <string name="dialog_message_uploading_media">Nahrávám…</string>
@@ -613,8 +613,8 @@
     <string name="filter_keyword_addition_title">Přidat klíčové slovo</string>
     <string name="filter_edit_keyword_title">Upravit klíčové slovo</string>
     <string name="filter_description_format">%1$s: %2$s</string>
-    <string name="help_empty_home">Toto je tvá <b>domovská timeline</b>. Ukazuje poslední posty účtů které sleduješ.
-\n
+    <string name="help_empty_home">Toto je tvá <b>domovská timeline</b>. Ukazuje poslední posty účtů které sleduješ. 
+\n 
 \nChceš-li prozkoumat účty, můžeš je objevit v jedné z dalších timelines. Například místní timeline vaší instance {{group}}. Nebo je můžete hledat podle jména [ikony gmd_search]; například vyhledejte \"Tusky\" pro náš Mastodon účet.</string>
     <string name="status_created_at_now">nyní</string>
     <string name="action_refresh">Obnovit</string>
@@ -652,8 +652,8 @@
     <string name="unfollowing_hashtag_success_format">Nyní již nesleduješ hashtag #%1$s</string>
     <string name="pref_title_confirm_follows">Zobrazit potvrzení před sledováním</string>
     <string name="status_created_info">Vytvořeno: %1$s</string>
-    <string name="error_missing_edits">Tvůj server ví, že tento post byl upraven, ale nemá kopii změn takže nemohou být zobrazeny.
-\n
+    <string name="error_missing_edits">Tvůj server ví, že tento post byl upraven, ale nemá kopii změn takže nemohou být zobrazeny. 
+\n 
 \nToto je <a href="https://github.com/mastodon/mastodon/issues/25398">chyba v Mastodonu #25398</a>.</string>
     <string name="a11y_label_loading_thread">Načítání vlákna</string>
     <string name="accessibility_talking_about_tag">%1$d lidí mluví o hashtagu %2$s</string>
@@ -671,6 +671,7 @@
         <item quantity="one">Nahrávání tvého postu selhalo a post byl uložen mezi koncepty.
 \n
 \nServer buď nemohl být kontaktován, nebo post odmítl.</item>
+        <item quantity="few"></item>
         <item quantity="other">Nahrávání tvých postuů selhalo a posty byly uloženy mezi koncepty.
 \n
 \nServer buď nemohl být kontaktován, nebo posty odmítl.</item>
@@ -738,10 +739,10 @@
     <string name="notifications_from">Upozornění od %1$s</string>
     <string name="action_accept_notification_request">Přijmout</string>
     <string name="action_dismiss_notification_request">Zrušit</string>
-    <string name="help_empty_conversations">Zde jsou tvé <b>soukromé zprávy</b>; někdy zvané konverzace nebo přímé zprávy (direct messages, DM).
-\n
-\nSoukromé zprávy se vytvoří nastavením viditelnosti {{public}} postu na {{mail}} <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu.
-\n
+    <string name="help_empty_conversations">Zde jsou tvé <b>soukromé zprávy</b>; někdy zvané konverzace nebo přímé zprávy (direct messages, DM). 
+\n 
+\nSoukromé zprávy se vytvoří nastavením viditelnosti {{public}} postu na {{mail}} <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu. 
+\n 
 \nNa příklad můžeš začít na profilu uživatele a tapnout na tlačítko vytvoření zprávy [iconics gmd_edit] a změnit viditelnost.</string>
     <string name="dialog_delete_filter_positive_action">Smazat</string>
     <string name="dialog_save_profile_changes_message">Chceš uložit změnu ve svém profilu?</string>
