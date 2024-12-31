@@ -287,6 +287,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         if (expanded) {
             CharSequence emojifiedText = CustomEmojiHelper.emojify(content, emojis, this.content, statusDisplayOptions.animateEmojis());
             LinkHelper.setClickableText(this.content, emojifiedText, mentions, tags, listener, this.trailingHashtagView);
+            if (trailingHashtagView != null && status.isCollapsible() && status.isCollapsed()) {
+                trailingHashtagView.setVisibility(View.GONE);
+            }
             for (int i = 0; i < mediaLabels.length; ++i) {
                 updateMediaLabel(i, sensitive, true);
             }
