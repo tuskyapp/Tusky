@@ -96,4 +96,15 @@
     <string name="error_media_upload_type">That type of file cannot be uploaded.</string>
     <string name="error_compose_character_limit">The post is too long!</string>
     <string name="title_home">Home</string>
+    <string name="notification_subscription_format">%1$s just posted</string>
+    <string name="action_post_failed">Upload failed</string>
+    <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.
+\n
+\nEither the server could not be contacted, or it rejected the post.</string>
+    <string name="report_comment_hint">Additional comments?</string>
+    <string name="action_quick_reply">Quick Reply</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_reply">Reply</string>
+    <string name="action_unreblog">Remove boost</string>
+    <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
 </resources>
