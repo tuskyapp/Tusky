@@ -60,7 +60,7 @@
     <string name="action_compose">Redactar</string>
     <string name="action_login">Iniciar sesión con Tusky</string>
     <string name="action_logout">Cerrar sesión</string>
-    <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s?</string>
+    <string name="action_logout_confirm">¿Seguro que quiere cerrar la sesión de %1$s? Se borrarán todos los datos almacenados localmente, borradores y preferencias incluidos.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Dejar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -124,13 +124,13 @@
     <string name="label_header">Cabecera</string>
     <string name="link_whats_an_instance">¿Qué es una instancia?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia, \u0020como mastodon.social, icosahedron.website, social.tchncs.de y \u0020<a href="https://instances.social">más!</a> 
+    <string name="dialog_whats_an_instance">Introduzca aquí dirección o dominio de cualquier instancia, como mastodon.social, icosahedron.website, social.tchncs.de y <a href="https://instances.social">más!</a>
 \n
-\nSi todavia no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere \u0020unirse y crear una cuenta allí.
+\nSi todavía no tiene una cuenta, puede indicar el nombre de la instancia a la que quiere unirse y crear una cuenta allí.
 \n
-\nUna instancia es el sitio único donde su cuenta \u0020está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si \u0020estuvieran en la misma. 
+\nUna instancia es el lugar donde su cuenta está alojada, pero puede comunicarse y seguir usuarios de otras instancias como si estuvieran en la misma.
 \n
-\nPuede consultar más información en <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
+\nPuede consultar más información en <a href="https://joinmastodon.org/es">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Terminando de subir multimedia</string>
     <string name="dialog_message_uploading_media">Subiendo…</string>
     <string name="dialog_download_image">Descargar</string>
@@ -171,10 +171,10 @@
     <string name="pref_title_http_proxy_enable">Habilitar proxy HTTP</string>
     <string name="pref_title_http_proxy_server">Servidor del proxy HTTP</string>
     <string name="pref_title_http_proxy_port">Puerto del proxy HTTP</string>
-    <string name="pref_default_post_privacy">Visibilidad por defecto</string>
-    <string name="pref_default_media_sensitivity">Marcar siempre medios como sensibles</string>
-    <string name="pref_publishing">Publicaciones</string>
-    <string name="pref_failed_to_sync">Error al sincronizar los ajustes</string>
+    <string name="pref_default_post_privacy">Visibilidad de la publicación (sincronizada con el servidor)</string>
+    <string name="pref_default_media_sensitivity">Marcar contenido como sensible siempre (sincronizado con el servidor)</string>
+    <string name="pref_publishing">Opciones por defecto para mensajes</string>
+    <string name="pref_failed_to_sync">Error al sincronizar las preferencias</string>
     <string name="post_privacy_public">Público</string>
     <string name="post_privacy_unlisted">Oculto</string>
     <string name="post_privacy_followers_only">Privado</string>
@@ -213,12 +213,9 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Sitio del proyecto:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Reporte de errores y peticiones de características:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Web del proyecto: https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Reporte de errores y peticiones de características:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil de Tusky</string>
     <string name="post_share_content">Compartir contenido</string>
     <string name="post_share_link">Compartir enlace</string>
@@ -241,7 +238,7 @@
     <string name="pref_title_alway_show_sensitive_media">Mostrar contenido NSFW</string>
     <string name="title_media">Multimedia</string>
     <string name="replying_to">Respondiendo a @%1$s</string>
-    <string name="load_more_placeholder_text">cargar más</string>
+    <string name="load_more_placeholder_text">Cargar más</string>
     <string name="add_account_name">Añadir cuenta</string>
     <string name="add_account_description">Añadir cuenta de Mastodon</string>
     <string name="action_lists">Listas</string>
@@ -323,8 +320,8 @@
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="notification_poll_name">Encuestas</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
-    <string name="action_create_list">Crear una lista</string>
-    <string name="action_rename_list">Renombrar la lista</string>
+    <string name="action_create_list">Crear lista</string>
+    <string name="action_rename_list">Renombrar lista</string>
     <string name="action_add_to_list">Añadir cuenta a la lista</string>
     <string name="action_remove_from_list">Eliminar cuenta de la lista</string>
     <string name="description_post_favourited">1Favoritos</string>
@@ -352,7 +349,7 @@
         <item quantity="many">%1$d segundos restantes</item>
         <item quantity="other">%1$d segundos restantes</item>
     </plurals>
-    <string name="poll_info_format"> <!-- 15 votos • queda 1 hora --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 votos • queda 1 hora --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s voto</item>
         <item quantity="many">%1$s votos</item>
@@ -376,9 +373,9 @@
     <string name="filter_dialog_update_button">Actualizar</string>
     <string name="filter_add_description">Frase para filtrar</string>
     <string name="error_create_list">No se pudo crear la lista</string>
-    <string name="error_rename_list">No se pudo renombrar la lista</string>
+    <string name="error_rename_list">No se pudo actualizar la lista</string>
     <string name="error_delete_list">No se pudo eliminar la lista</string>
-    <string name="action_delete_list">Eliminar la lista</string>
+    <string name="action_delete_list">Eliminar lista</string>
     <string name="hint_search_people_list">Buscar personas que sigues</string>
     <string name="description_post_media">Contenido: %1$s</string>
     <string name="description_post_cw">Aviso de contenido: %1$s</string>
@@ -419,7 +416,7 @@
     <string name="report_remote_instance">Reenviar a %1$s</string>
     <string name="failed_report">Reporte fallido</string>
     <string name="failed_fetch_posts">Fallo al obtener estados</string>
-    <string name="report_description_1">El reporte será enviado a un moderador de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
+    <string name="report_description_1">El reporte será enviado a los moderadores de tu servidor. Puedes añadir una explicación de por qué estás reportando esta cuenta a continuación:</string>
     <string name="report_description_remote_instance">La cuenta es de otro servidor. ¿Enviar una copia anónima del reporte\?</string>
     <string name="pref_title_alway_open_spoiler">Mostrar siempre publicaciones marcadas con avisos de contenido</string>
     <string name="title_accounts">Cuentas</string>
@@ -575,7 +572,7 @@
     <string name="hint_media_description_missing">El contenido debería tener una descripción.</string>
     <string name="report_category_violation">Violación de una regla</string>
     <string name="report_category_spam">Spam</string>
-    <string name="pref_default_post_language">Idioma de publicación por defecto</string>
+    <string name="pref_default_post_language">Idioma de publicación (sincronizado con el servidor)</string>
     <string name="pref_title_http_proxy_port_message">El puerto debe situarse entre %1$d y %2$d</string>
     <string name="notification_report_name">Denuncias</string>
     <string name="description_post_edited">Editado</string>
@@ -642,8 +639,8 @@
     <string name="pref_title_show_stat_inline">Mostrar estadísticas de la entrada en la línea de tiempo</string>
     <string name="ui_error_unknown">razón desconocida</string>
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
-    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues. 
-\n 
+    <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
+\n
 \nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
     <string name="ui_error_bookmark">Fallo al añadir a marcadores: %1$s</string>
     <string name="select_list_manage">Gestionar listas</string>
@@ -673,4 +670,43 @@
     <string name="notification_notification_worker">Obteniendo notificaciones…</string>
     <string name="load_newest_notifications">Cargar nuevas notificaciones</string>
     <string name="compose_delete_draft">¿Eliminar borrador\?</string>
+    <string name="action_follow_hashtag">Sigue una nueva etiqueta</string>
+    <string name="action_translate">Traducir</string>
+    <string name="action_show_original">Mostrar original</string>
+    <string name="label_image">Imagen</string>
+    <string name="dialog_follow_warning">¿Seguir esta cuenta?</string>
+    <string name="pref_default_reply_privacy">Visibilidad de la respuesta (sin sincronizar con el servidor)</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nVersión: %3$s</string>
+    <string name="pref_title_show_notifications_filter">Mostrar filtros de Notificaciones</string>
+    <string name="label_expires_after">Caduca en</string>
+    <string name="error_missing_edits">Tu servidor sabe que este mensaje fue editado, pero no tiene una copia de las ediciones, por lo que no se pueden mostrar.
+\n
+\nEsto es el <a href="https://github.com/mastodon/mastodon/issues/25398">fallo de Mastodon #25398</a>.</string>
+    <string name="ui_error_translate">No se pudo traducir: %1$s</string>
+    <string name="muting_hashtag_success_format">Silenciando etiqueta #%1$s como advertencia</string>
+    <string name="pref_default_reply_privacy_explanation">La visibilidad pre-seleccionada dependerá del mensaje al que estés contestando.</string>
+    <string name="notification_listenable_worker_name">Actividad en segundo plano</string>
+    <string name="notification_prune_cache">Mantenimiento de la caché…</string>
+    <string name="about_device_info_title">Tu dispositivo</string>
+    <string name="about_device_info">%1$s %2$s
+\nVersión de Android: %3$s
+\nVersión del SDK: %4$d</string>
+    <string name="label_translating">Traduciendo…</string>
+    <string name="label_translated">Traducido de %1$s con %2$s</string>
+    <string name="action_view_filter">Ver filtro</string>
+    <string name="unfollowing_hashtag_success_format">Dejaste de seguir la etiqueta #%1$s</string>
+    <string name="pref_title_confirm_follows">Mostrar confirmación antes de seguir</string>
+    <string name="report_category_legal">Legal</string>
+    <string name="notification_listenable_worker_description">Notificaciones cuando Tusky está funcionando en segundo plano</string>
+    <string name="error_blocking_domain">Fallo al silenciar %1$s: %2$s</string>
+    <string name="pref_title_show_self_boosts_description">Alguien impulsó su propio mensaje</string>
+    <string name="error_deleting_filter">Error al borrar el filtro \'%1$s\'</string>
+    <string name="error_saving_filter">Error al guardar el filtro \'%1$s\'</string>
+    <string name="title_public_trending_statuses">Tendencias</string>
+    <string name="url_copied">Url copiada</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' copiado/a</string>
+    <string name="reply_sending">Enviando…</string>
+    <string name="reply_sending_long">Tu respuesta se está enviando.</string>
+    <string name="about_account_info_title">Tu cuenta</string>
 </resources>
