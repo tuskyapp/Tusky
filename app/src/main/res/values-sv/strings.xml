@@ -716,4 +716,26 @@
     <string name="label_translating">Översätter…</string>
     <string name="label_translated">Översatt från %1$s med %2$s</string>
     <string name="ui_error_translate">Kunde inte översätta: %1$s</string>
+    <string name="label_expires_after">Förfaller efter</string>
+    <string name="action_follow_hashtag">Följ en ny hashtagg</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' kopierad</string>
+    <string name="url_copied">Url kopierad</string>
+    <string name="dialog_follow_warning">Följ detta konto?</string>
+    <string name="pref_default_reply_privacy">Standardinställning för svar (synkas ej med server)</string>
+    <string name="report_category_legal">Juridiskt</string>
+    <string name="notification_policies_title">Notifikationspolicy</string>
+    <string name="notification_policies_filter_out">Hantera notifikationer från…</string>
+    <string name="notification_policies_filter_dont_follow_title">Personer du inte följer</string>
+    <string name="notification_policies_filter_dont_follow_description">Tills du manuellt godkänner dem</string>
+    <string name="notification_policies_filter_not_following_title">Personer som inte följer dig</string>
+    <string name="notification_policies_filter_not_following_description">Inklusive personer du följt i mindre än 3 dagar</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nya konton</string>
+    <string name="unknown_notification_filter_new_accounts_description">Skapade inom de senaste 30 dagarna</string>
+    <string name="pref_default_reply_privacy_explanation">Den förvalda delningsnivån beror på inlägget du besvarar.</string>
+    <string name="pref_match_default_post_privacy">Matcha förvald delningsnivå för inlägg</string>
+    <string name="pref_title_confirm_follows">Visa bekräftelse innan konto följs</string>
+    <string name="unknown_notification_type">Okänd notifikationstyp</string>
+    <string name="post_privacy_direct">Direkt</string>
+    <string name="error_deleting_filter">Kunde inte radera filtret \'%1$s\'</string>
+    <string name="error_saving_filter">Kunde inte spara filtret \'%1$s\'</string>
 </resources>
