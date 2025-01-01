@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="error_generic">Et ass ee Feeler geschitt.</string>
+    <string name="error_empty">Hei muss eppes stoen.</string>
+    <string name="error_invalid_domain">Et gouf eng ongülteg Domain aginn</string>
+    <string name="error_network">Et ass een Netzwierk-Feeler geschitt. Iwwerpréif wannechgelift deng Verbindung a probéier nach eng Kéier.</string>
+    <string name="error_failed_app_registration">D\'Authentifizéierung mat dëser Instanz ass gescheitert. Wann dëse Problem weider besteet, probéier dech mam Browser unzemellen.</string>
+    <string name="error_no_web_browser_found">Et konnt keen Browser fonnt ginn.</string>
+</resources>
