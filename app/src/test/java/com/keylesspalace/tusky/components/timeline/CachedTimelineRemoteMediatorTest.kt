@@ -11,6 +11,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
+import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
@@ -19,6 +20,7 @@ import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.di.NetworkModule
 import java.io.IOException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -40,17 +42,6 @@ import retrofit2.Response
 @Config(sdk = [34])
 @RunWith(AndroidJUnit4::class)
 class CachedTimelineRemoteMediatorTest {
-
-    private val accountManager: AccountManager = mock {
-        on { activeAccount } doReturn AccountEntity(
-            id = 1,
-            domain = "mastodon.example",
-            accessToken = "token",
-            clientId = "id",
-            clientSecret = "secret",
-            isActive = true
-        )
-    }
 
     private lateinit var db: AppDatabase
 
@@ -77,7 +68,7 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should return error when network call returns error code`() = runTest {
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
@@ -95,7 +86,7 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should return error when network call fails`() = runTest {
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
@@ -112,7 +103,7 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not prepend statuses`() = runTest {
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock(),
             db = db,
         )
@@ -147,7 +138,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
                     listOf(
@@ -207,7 +198,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
                     listOf(
@@ -266,7 +257,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(limit = 3) } doReturn Response.success(
                     listOf(
@@ -317,7 +308,7 @@ class CachedTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not try to refresh already cached statuses when db is empty`() = runTest {
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(limit = 20) } doReturn Response.success(
                     listOf(
@@ -366,7 +357,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(limit = 20) } doReturn Response.success(emptyList())
 
@@ -416,7 +407,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(sinceId = "6", limit = 20) } doReturn Response.success(
                     listOf(
@@ -473,7 +464,7 @@ class CachedTimelineRemoteMediatorTest {
         db.insert(statusesAlreadyInDb)
 
         val remoteMediator = CachedTimelineRemoteMediator(
-            accountManager = accountManager,
+            viewModel = mockViewModel(),
             api = mock {
                 onBlocking { homeTimeline(maxId = "5", limit = 20) } doReturn Response.success(
                     listOf(
@@ -523,4 +514,23 @@ class CachedTimelineRemoteMediatorTest {
         ),
         leadingPlaceholderCount = 0
     )
+
+    private fun mockViewModel(): CachedTimelineViewModel {
+        val account = AccountEntity(
+            id = 1,
+            domain = "mastodon.example",
+            accessToken = "token",
+            clientId = "id",
+            clientSecret = "secret",
+            isActive = true
+        )
+        val accManager: AccountManager = mock {
+            on { activeAccount } doReturn account
+            on { accountsFlow } doReturn MutableStateFlow(listOf(account))
+        }
+        return mock {
+            on { accountManager } doReturn accManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
+        }
+    }
 }

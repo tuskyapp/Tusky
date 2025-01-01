@@ -24,8 +24,8 @@ import androidx.room.withTransaction
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
@@ -35,7 +35,7 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class CachedTimelineRemoteMediator(
-    accountManager: AccountManager,
+    private val viewModel: CachedTimelineViewModel,
     private val api: MastodonApi,
     private val db: AppDatabase,
 ) : RemoteMediator<Int, HomeTimelineData>() {
@@ -45,13 +45,13 @@ class CachedTimelineRemoteMediator(
     private val timelineDao = db.timelineDao()
     private val statusDao = db.timelineStatusDao()
     private val accountDao = db.timelineAccountDao()
-    private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, HomeTimelineData>
     ): MediatorResult {
-        if (!activeAccount.isLoggedIn()) {
+        val activeAccount = viewModel.activeAccountFlow.value
+        if (activeAccount == null) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
@@ -77,7 +77,7 @@ class CachedTimelineRemoteMediator(
                     val statuses = statusResponse.body()
                     if (statusResponse.isSuccessful && statuses != null) {
                         db.withTransaction {
-                            replaceStatusRange(statuses, state)
+                            replaceStatusRange(statuses, state, activeAccount)
                         }
                     }
                 }
@@ -104,7 +104,7 @@ class CachedTimelineRemoteMediator(
             }
 
             db.withTransaction {
-                val overlappedStatuses = replaceStatusRange(statuses, state)
+                val overlappedStatuses = replaceStatusRange(statuses, state, activeAccount)
 
                 /* In case we loaded a whole page and there was no overlap with existing statuses,
                    we insert a placeholder because there might be even more unknown statuses */
@@ -135,7 +135,8 @@ class CachedTimelineRemoteMediator(
      */
     private suspend fun replaceStatusRange(
         statuses: List<Status>,
-        state: PagingState<Int, HomeTimelineData>
+        state: PagingState<Int, HomeTimelineData>,
+        activeAccount: AccountEntity
     ): Int {
         val overlappedStatuses = if (statuses.isNotEmpty()) {
             timelineDao.deleteRange(activeAccount.id, statuses.last().id, statuses.first().id)
@@ -161,7 +162,7 @@ class CachedTimelineRemoteMediator(
 
             val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
-            val contentCollapsed = oldStatus?.contentCollapsed ?: true
+            val contentCollapsed = oldStatus?.contentCollapsed != false
 
             statusDao.insert(
                 status.actionableStatus.toEntity(

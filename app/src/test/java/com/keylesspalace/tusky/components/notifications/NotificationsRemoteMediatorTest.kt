@@ -20,6 +20,7 @@ import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.di.NetworkModule
 import java.io.IOException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -42,15 +43,18 @@ import retrofit2.Response
 @RunWith(AndroidJUnit4::class)
 class NotificationsRemoteMediatorTest {
 
+    private val account = AccountEntity(
+        id = 1,
+        domain = "mastodon.example",
+        accessToken = "token",
+        clientId = "id",
+        clientSecret = "secret",
+        isActive = true
+    )
+
     private val accountManager: AccountManager = mock {
-        on { activeAccount } doReturn AccountEntity(
-            id = 1,
-            domain = "mastodon.example",
-            accessToken = "token",
-            clientId = "id",
-            clientSecret = "secret",
-            isActive = true
-        )
+        on { activeAccount } doReturn account
+        on { accountsFlow } doReturn MutableStateFlow(listOf(account))
     }
 
     private lateinit var db: AppDatabase
@@ -78,12 +82,12 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should return error when network call returns error code`() = runTest {
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
@@ -97,12 +101,12 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should return error when network call fails`() = runTest {
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
@@ -115,10 +119,10 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not prepend notifications`() = runTest {
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock(),
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -151,6 +155,7 @@ class NotificationsRemoteMediatorTest {
         db.insert(notificationsAlreadyInDb)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(limit = 3, excludes = emptySet()) } doReturn Response.success(
@@ -168,8 +173,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -212,6 +216,7 @@ class NotificationsRemoteMediatorTest {
         db.insert(notificationsAlreadyInDb)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(
@@ -239,8 +244,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -288,6 +292,7 @@ class NotificationsRemoteMediatorTest {
         db.insert(notificationsAlreadyInDb)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(limit = 3, excludes = emptySet()) } doReturn Response.success(
@@ -305,8 +310,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -340,6 +344,7 @@ class NotificationsRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should not try to refresh already cached notifications when db is empty`() = runTest {
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(
@@ -350,8 +355,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -393,6 +397,7 @@ class NotificationsRemoteMediatorTest {
         db.timelineStatusDao().setContentCollapsed(1, "1", false)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(limit = 20, excludes = emptySet()) } doReturn Response.success(emptyList())
@@ -404,8 +409,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -449,6 +453,7 @@ class NotificationsRemoteMediatorTest {
         db.notificationsDao().insertNotification(placeholder)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(sinceId = "6", limit = 20, excludes = emptySet()) } doReturn Response.success(
@@ -465,8 +470,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -507,6 +511,7 @@ class NotificationsRemoteMediatorTest {
         db.insert(notificationsAlreadyInDb)
 
         val remoteMediator = NotificationsRemoteMediator(
+            viewModel = mockViewModel(),
             accountManager = accountManager,
             api = mock {
                 onBlocking { notifications(maxId = "5", limit = 20, excludes = emptySet()) } doReturn Response.success(
@@ -517,8 +522,7 @@ class NotificationsRemoteMediatorTest {
                     )
                 )
             },
-            db = db,
-            excludes = emptySet()
+            db = db
         )
 
         val state = state(
@@ -558,4 +562,11 @@ class NotificationsRemoteMediatorTest {
         ),
         leadingPlaceholderCount = 0
     )
+
+    private fun mockViewModel(): NotificationsViewModel {
+        return mock {
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
+            on { excludes } doReturn MutableStateFlow(emptySet())
+        }
+    }
 }
