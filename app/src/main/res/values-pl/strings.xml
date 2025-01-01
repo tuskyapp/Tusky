@@ -261,7 +261,7 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-    <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
+    <string name="error_network">Wystąpił problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
     <string name="title_direct_messages">Bezpośrednie wiadomości</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
@@ -636,4 +636,5 @@
     <string name="action_discard">Odrzuć zmiany</string>
     <string name="action_share_account_username">Udostępnij nazwę użytkownika</string>
     <string name="action_share_account_link">Udostępnij link do konta</string>
+    <string name="error_media_upload_sending_fmt">Wystąpił błąd podczas wysłania: %1$s</string>
 </resources>

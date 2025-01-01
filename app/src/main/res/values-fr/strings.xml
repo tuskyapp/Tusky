@@ -62,7 +62,7 @@
     <string name="action_compose">Écrire</string>
     <string name="action_login">Se connecter avec Tusky</string>
     <string name="action_logout">Déconnexion</string>
-    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ? Cela va vider toutes les données locales du compte, incluant brouillons et préférénces.</string>
+    <string name="action_logout_confirm">Êtes-vous certain·e· de vouloir déconnecter le compte %1$s ? Cela va vider toutes les données locales du compte, incluant brouillons et préférences.</string>
     <string name="action_follow">Suivre</string>
     <string name="action_unfollow">Ne plus suivre</string>
     <string name="action_block">Bloquer</string>
@@ -138,13 +138,13 @@
     <string name="label_header">Image d’en-tête</string>
     <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
     <string name="login_connection">Connexion en cours…</string>
-    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, \u0020comme mastodon.social, icosahedron.website, social.tchncs.de, \u0020<a href="https://instances.social">et bien d’autres encore</a> (en anglais) ! 
+    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de, <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
 \n
-\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre \u0020et y créer un compte.
+\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre et y créer un compte.
 \n
-\nUne instance est l’endroit où votre compte est \u0020hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles \u0020comme si vous étiez sur le même site. 
+\nUne instance est l’endroit où votre compte est hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site.
 \n
-\nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
+\nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Mise en ligne des médias</string>
     <string name="dialog_message_uploading_media">Téléversement en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
@@ -190,7 +190,7 @@
     <string name="pref_title_http_proxy_port">Port du proxy HTTP</string>
     <string name="pref_default_post_privacy">Confidentialité des publications (synchronisée avec le serveur)</string>
     <string name="pref_default_media_sensitivity">Toujours marquer les médias comme sensibles (synchronisée avec le serveur)</string>
-    <string name="pref_publishing">Publication (synchronisée avec le serveur)</string>
+    <string name="pref_publishing">Réglages par défaut des publications</string>
     <string name="pref_failed_to_sync">Échec de synchronisation des préférences</string>
     <string name="post_privacy_public">Public</string>
     <string name="post_privacy_unlisted">Non listé</string>
@@ -251,7 +251,7 @@
     <string name="abbreviated_minutes_ago">%1$dm</string>
     <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Vous suit</string>
-    <string name="pref_title_alway_show_sensitive_media">Toujours afficher les contenus sensibles</string>
+    <string name="pref_title_alway_show_sensitive_media">Toujours afficher les médias sensibles</string>
     <string name="title_media">Média</string>
     <string name="replying_to">Réponse à @%1$s</string>
     <string name="load_more_placeholder_text">Charger plus</string>
@@ -360,7 +360,7 @@
     <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
     <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce message \?</string>
-    <string name="poll_info_time_absolute">Termina à %1$s</string>
+    <string name="poll_info_time_absolute">Terminera à %1$s</string>
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
     <string name="notification_poll_name">Sondages</string>
@@ -389,7 +389,7 @@
     </plurals>
     <string name="pref_title_animate_gif_avatars">Activer l’animation des avatars</string>
     <string name="compose_preview_image_description">Actions pour l’image %1$s</string>
-    <string name="poll_info_format"> <!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 votes • 1 heure restante --> %1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondage auquel vous avez participé vient de se terminer</string>
     <string name="description_poll">Sondage avec des choix : %1$s, %2$s, %3$s, %4$s ; %5$s</string>
     <string name="title_domain_mutes">Domaines cachés</string>
@@ -709,4 +709,17 @@
     <string name="error_media_upload_sending_fmt">Le téléversement à échoué : %1$s</string>
     <string name="error_deleting_filter">Erreur lors de la suppresssion du filtre \'%1$s\'</string>
     <string name="error_saving_filter">Erreur lors de l\'enregistrement du filtre \'%1$s\'</string>
+    <string name="pref_default_reply_privacy">Confidentialité des réponses (non synchronisée avec le serveur)</string>
+    <string name="label_expires_after">Expire après</string>
+    <string name="ui_error_translate">Impossible de traduire : %1$s</string>
+    <string name="app_theme_system_black">Utiliser le thème système (sombre)</string>
+    <string name="notification_policies_title">Politique de notifications</string>
+    <string name="pref_default_reply_privacy_explanation">Le niveau de confidentialité pré-sélectionné dépend du pouet auquel vous souhaitez répondre.</string>
+    <string name="post_privacy_direct">Directe</string>
+    <string name="notification_listenable_worker_name">Activités d\'arrière-plan</string>
+    <string name="following_hashtag_success_format">Vous suivez désormais le hashtag #%1$s</string>
+    <string name="error_unblocking_domain">Impossible de démasquer %1$s : %2$s</string>
+    <string name="pref_title_per_timeline_preferences">Préférences par fil</string>
+    <string name="notification_policies_filter_out">Gérer les notifications issues de…</string>
+    <string name="list_reply_policy_none">Personne</string>
 </resources>

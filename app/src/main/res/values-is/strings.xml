@@ -161,7 +161,7 @@
 \n 
 \nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu. 
 \n 
-\nNánari upplýsingar má finna á <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
+\nNánari upplýsingar má finna á <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Klára innsendingu myndefnis</string>
     <string name="dialog_message_uploading_media">Sendi inn…</string>
     <string name="dialog_download_image">Sækja</string>
@@ -211,9 +211,9 @@
     <string name="pref_title_http_proxy_enable">Virkja HTTP-milliþjón</string>
     <string name="pref_title_http_proxy_server">HTTP-milliþjónn (proxy)</string>
     <string name="pref_title_http_proxy_port">Gátt HTTP milliþjóns (vefsels)</string>
-    <string name="pref_default_post_privacy">Sjálfgefin gagnaleynd færslna</string>
-    <string name="pref_default_media_sensitivity">Alltaf merkja myndefni sem viðkvæmt</string>
-    <string name="pref_publishing">Gefið út (samstillt við vefþjón)</string>
+    <string name="pref_default_post_privacy">Gagnaleynd færslna (samstillt við netþjón)</string>
+    <string name="pref_default_media_sensitivity">Alltaf merkja myndefni sem viðkvæmt (samstillt við netþjón)</string>
+    <string name="pref_publishing">Sjálfgefnar stillingar færslna</string>
     <string name="pref_failed_to_sync">Mistókst að samstilla kjörstillingar</string>
     <string name="post_privacy_public">Opinbert</string>
     <string name="post_privacy_unlisted">Óskráð</string>
@@ -270,7 +270,7 @@
     <string name="pref_title_alway_open_spoiler">Alltaf fletta út færslum sem eru með aðvörun vegna efnis</string>
     <string name="title_media">Gagnaskrár</string>
     <string name="replying_to">Svar til @%1$s</string>
-    <string name="load_more_placeholder_text">hlaða inn fleiru</string>
+    <string name="load_more_placeholder_text">Hlaða inn fleiru</string>
     <string name="pref_title_public_filter_keywords">Opinberar tímalínur</string>
     <string name="pref_title_thread_filter_keywords">Samtöl</string>
     <string name="filter_addition_title">Bæta við síu</string>
@@ -286,8 +286,8 @@
     <string name="error_rename_list">Ekki tókst að uppfæra lista</string>
     <string name="error_delete_list">Ekki tókst að eyða lista</string>
     <string name="action_create_list">Búa til lista</string>
-    <string name="action_rename_list">Uppfæra listann</string>
-    <string name="action_delete_list">Eyða listanum</string>
+    <string name="action_rename_list">Uppfæra lista</string>
+    <string name="action_delete_list">Eyða lista</string>
     <string name="hint_search_people_list">Leita að fólki sem þú fylgist með</string>
     <string name="action_add_to_list">Bæta notandaaðgangi á listann</string>
     <string name="action_remove_from_list">Fjarlægja notandaaðganginn af listanum</string>
@@ -366,7 +366,7 @@
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
     <string name="notification_clear_text">Ertu viss um að þú viljir endanlega eyða öllum tilkynningunum þínum\?</string>
     <string name="compose_preview_image_description">Aðgerðir fyrir mynd %1$s</string>
-    <string name="poll_info_format"> <!-- 15 atkvæði • 1 klukkustund eftir --> %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 atkvæði • 1 klukkustund eftir --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s atkvæði</item>
         <item quantity="other">%1$s atkvæði</item>
@@ -546,7 +546,7 @@
     <string name="failed_to_add_to_list">Mistókst að bæta notandaaðgangnum á listann</string>
     <string name="failed_to_remove_from_list">Mistókst að fjarlægja notandaaðganginn af listanum</string>
     <string name="no_lists">Þú ert ekki með neina lista.</string>
-    <string name="pref_default_post_language">Sjálfgefið tungumál færslna</string>
+    <string name="pref_default_post_language">Tungumál færslna (samstillt við netþjón)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="error_following_hashtags_unsupported">Þessi netþjónn styður ekki að fylgst sé með myllumerkjum.</string>
     <string name="title_followed_hashtags">Myllumerki sem fylgst er með</string>
@@ -679,12 +679,12 @@
 \n 
 \nEinkaskilaboð eru gerð með því að stilla sýnileika [iconics gmd_public] færslu [iconics gmd_mail] á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. 
 \n 
-\nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum. </string>
-    <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá. 
+\nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum.</string>
+    <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá.
 \n 
-\n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína. 
+\n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
 \n 
-\n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs. </string>
+\n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs.</string>
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
     <string name="title_public_trending_statuses">Færslur í umræðunni</string>
@@ -703,4 +703,10 @@
     <string name="label_translating">Þýði…</string>
     <string name="label_translated">Þýtt úr %1$s með %2$s</string>
     <string name="ui_error_translate">Tókst ekki að þýða: %1$s</string>
+    <string name="action_follow_hashtag">Fylgjast með nýju myllumerki</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' afrituð</string>
+    <string name="dialog_follow_warning">Fylgjast með þessum aðgangi?</string>
+    <string name="error_saving_filter">Villa við að vista síuna \'%1$s\'</string>
+    <string name="error_deleting_filter">Villa við að eyða síunni \'%1$s\'</string>
+    <string name="url_copied">Slóð afrituð</string>
 </resources>
