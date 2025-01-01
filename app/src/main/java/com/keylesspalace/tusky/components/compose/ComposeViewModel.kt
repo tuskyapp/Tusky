@@ -126,25 +126,27 @@ class ComposeViewModel @Inject constructor(
 
     private var setupComplete = false
 
-    fun pickMedia(mediaList: List<PickedMedia>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val instanceInfo = instanceInfo.first()
-            mediaList.map { m ->
-                async(Dispatchers.IO) { mediaUploader.prepareMedia(m.uri, instanceInfo) }
-            }.forEachIndexed { index, preparedMedia ->
-                preparedMedia.await().fold({ (type, uri, size) ->
-                    if (type != QueuedMedia.Type.IMAGE &&
-                        _media.value.firstOrNull()?.type == QueuedMedia.Type.IMAGE
-                    ) {
-                        _uploadError.emit(VideoOrImageException())
-                    } else {
-                        val pickedMedia = mediaList[index]
-                        addMediaToQueue(type, uri, size, pickedMedia.description, pickedMedia.focus)
-                    }
-                }, { error ->
-                    _uploadError.emit(error)
-                })
-            }
+    fun pickMedia(uri: Uri) {
+        pickMedia(listOf(PickedMedia(uri)))
+    }
+
+    fun pickMedia(mediaList: List<PickedMedia>) = viewModelScope.launch(Dispatchers.IO) {
+        val instanceInfo = instanceInfo.first()
+        mediaList.map { m ->
+            async(Dispatchers.IO) { mediaUploader.prepareMedia(m.uri, instanceInfo) }
+        }.forEachIndexed { index, preparedMedia ->
+            preparedMedia.await().fold({ (type, uri, size) ->
+                if (type != QueuedMedia.Type.IMAGE &&
+                    _media.value.firstOrNull()?.type == QueuedMedia.Type.IMAGE
+                ) {
+                    _uploadError.emit(VideoOrImageException())
+                } else {
+                    val pickedMedia = mediaList[index]
+                    addMediaToQueue(type, uri, size, pickedMedia.description, pickedMedia.focus)
+                }
+            }, { error ->
+                _uploadError.emit(error)
+            })
         }
     }
 
@@ -499,7 +501,7 @@ class ComposeViewModel @Inject constructor(
             // when coming from DraftActivity
             draftAttachments.map { attachment ->
                 PickedMedia(attachment.uri, attachment.description, attachment.focus)
-            }.let { pickMedia(it) }
+            }.let(::pickMedia)
         } else {
             composeOptions?.mediaAttachments?.forEach { a ->
                 // when coming from redraft or ScheduledTootActivity

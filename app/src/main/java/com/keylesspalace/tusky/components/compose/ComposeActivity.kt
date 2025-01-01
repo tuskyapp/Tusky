@@ -164,11 +164,7 @@ class ComposeActivity :
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
-                viewModel.pickMedia(
-                    listOf(
-                        ComposeViewModel.PickedMedia(photoUploadUri!!)
-                    )
-                )
+                viewModel.pickMedia(photoUploadUri!!)
             }
         }
     private val pickMediaFilePermissionLauncher =
@@ -353,7 +349,7 @@ class ComposeActivity :
                     when (intent.action) {
                         Intent.ACTION_SEND -> {
                             intent.getParcelableExtraCompat<Uri>(Intent.EXTRA_STREAM)?.let { uri ->
-                                viewModel.pickMedia(listOf(ComposeViewModel.PickedMedia(uri)))
+                                viewModel.pickMedia(uri)
                             }
                         }
                         Intent.ACTION_SEND_MULTIPLE -> {
