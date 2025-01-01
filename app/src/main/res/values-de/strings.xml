@@ -137,12 +137,12 @@
     <string name="label_header">Titelbild</string>
     <string name="link_whats_an_instance">Was ist eine Instanz?</string>
     <string name="login_connection">Wird verbunden …</string>
-    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a>
-\n
-\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten.
-\n
-\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website.
-\n
+    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a> 
+\n 
+\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten. 
+\n 
+\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website. 
+\n 
 \nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Hochladen der Datei wird abgeschlossen</string>
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
@@ -632,8 +632,8 @@
     <string name="filter_edit_keyword_title">Schlagwort bearbeiten</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
-    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst.
-\n
+    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst. 
+\n 
 \nDamit du andere Konten entdeckst, kannst du entweder andere Timelines lesen – z. B. die Lokale Timeline deiner Instanz {{group}} \u0020– oder du suchst nach Namen {{search}} – z. B. kannst du nach Tusky suchen, um unser Mastodon-Konto zu finden.</string>
     <string name="post_media_image">Bild</string>
     <string name="pref_title_show_stat_inline">Beitragsstatistiken in der Timeline anzeigen</string>
@@ -664,10 +664,10 @@
 \nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. \u0020
 \n \u0020
 \nDiese Listen können als Tab in den Kontoeinstellungen {{manage_accounts}} {{chevron_right}} Tabs festgelegt werden.</string>
-    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
-\n
-\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
-\n
+    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht). 
+\n 
+\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden. 
+\n 
 \nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit.</string>
     <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
     <string name="error_media_playback">Wiedergabe fehlgeschlagen: %1$s</string>
