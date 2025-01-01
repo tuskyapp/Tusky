@@ -79,7 +79,8 @@ internal class StatusNotificationViewHolder(
                 showNotificationContent(false)
             } else {
                 showNotificationContent(true)
-                val (_, _, account, _, _, _, _, createdAt) = statusViewData.actionable
+                val account = statusViewData.actionable.account
+                val createdAt = statusViewData.actionable.createdAt
                 setDisplayName(account.name, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)

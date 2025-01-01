@@ -67,6 +67,9 @@ data class Status(
     val actionableStatus: Status
         get() = reblog ?: this
 
+    val isReply: Boolean
+        get() = inReplyToId != null
+
     @JsonClass(generateAdapter = false)
     enum class Visibility(val int: Int) {
         UNKNOWN(0),

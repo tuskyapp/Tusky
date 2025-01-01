@@ -87,7 +87,6 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             setDisplayName(displayName, account.getEmojis(), statusDisplayOptions);
             setUsername(account.getUsername());
             setMetaData(statusViewData, statusDisplayOptions, listener);
-            setIsReply(status.getInReplyToId() != null);
             setFavourited(status.getFavourited());
             setBookmarked(status.getBookmarked());
             List<Attachment> attachments = status.getAttachments();

@@ -140,13 +140,14 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull final StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                final boolean showStatusInfo) {
         // We never collapse statuses in the detail view
         StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
             status.copyWithCollapsed(false) :
             status;
 
-        super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads);
+        super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads, showStatusInfo);
         setupCard(uncollapsedStatus, status.isExpanded(), CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
         if (payloads == null) {
             Status actionable = uncollapsedStatus.getActionable();

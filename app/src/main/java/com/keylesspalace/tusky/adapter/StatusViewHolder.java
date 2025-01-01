@@ -27,9 +27,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
-import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
 import com.keylesspalace.tusky.util.NumberUtils;
@@ -38,7 +38,8 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions;
 import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Objects;
 
 import at.connyduck.sparkbutton.helpers.Utils;
 
@@ -63,24 +64,37 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads) {
+                                @Nullable Object payloads,
+                                final boolean showStatusInfo) {
         if (payloads == null) {
-
             boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
             boolean expanded = status.isExpanded();
 
             setupCollapsedState(sensitive, expanded, status, listener);
 
-            Status reblogging = status.getRebloggingStatus();
-            if (reblogging == null || status.getFilterAction() == Filter.Action.WARN) {
+            if (!showStatusInfo || status.getFilterAction() == Filter.Action.WARN) {
                 hideStatusInfo();
             } else {
-                String rebloggedByDisplayName = reblogging.getAccount().getName();
-                setRebloggedByDisplayName(rebloggedByDisplayName,
-                        reblogging.getAccount().getEmojis(), statusDisplayOptions);
-                statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
-            }
+                Status rebloggingStatus = status.getRebloggingStatus();
+                boolean isReplyOnly = rebloggingStatus == null && status.isReply();
+                boolean isReplySelf = isReplyOnly && status.isSelfReply();
 
+                boolean hasStatusInfo = rebloggingStatus != null | isReplyOnly;
+
+                TimelineAccount statusInfoAccount = rebloggingStatus != null ? rebloggingStatus.getAccount() : status.getRepliedToAccount();
+
+                if (!hasStatusInfo) {
+                    hideStatusInfo();
+                } else {
+                    setStatusInfoContent(statusInfoAccount, isReplyOnly, isReplySelf, statusDisplayOptions);
+                }
+
+                if (isReplyOnly) {
+                    statusInfo.setOnClickListener(null);
+                } else {
+                    statusInfo.setOnClickListener(v -> listener.onOpenReblog(getBindingAdapterPosition()));
+                }
+            }
         }
 
         reblogsCountLabel.setVisibility(statusDisplayOptions.showStatsInline() ? View.VISIBLE : View.INVISIBLE);
@@ -88,23 +102,42 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         setFavouritedCount(status.getActionable().getFavouritesCount());
         setReblogsCount(status.getActionable().getReblogsCount());
 
-        super.setupWithStatus(status, listener, statusDisplayOptions, payloads);
+        super.setupWithStatus(status, listener, statusDisplayOptions, payloads, showStatusInfo);
     }
 
-    private void setRebloggedByDisplayName(final CharSequence name,
-                                           final List<Emoji> accountEmoji,
-                                           final StatusDisplayOptions statusDisplayOptions) {
+    private void setStatusInfoContent(final TimelineAccount account,
+                                      final boolean isReply,
+                                      final boolean isSelfReply,
+                                      final StatusDisplayOptions statusDisplayOptions) {
         Context context = statusInfo.getContext();
-        CharSequence wrappedName = StringUtils.unicodeWrap(name);
-        CharSequence boostedText = context.getString(R.string.post_boosted_format, wrappedName);
+        CharSequence accountName = account != null ? account.getName() : "";
+        CharSequence wrappedName = StringUtils.unicodeWrap(accountName);
+        CharSequence translatedText = "";
+
+        if (!isReply) {
+            translatedText = context.getString(R.string.post_boosted_format, wrappedName);
+        } else if (isSelfReply) {
+            translatedText = context.getString(R.string.post_replied_self);
+        } else {
+            if (account != null && accountName.length() > 0) {
+                translatedText = context.getString(R.string.post_replied_format, wrappedName);
+            } else {
+                translatedText = context.getString(R.string.post_replied);
+            }
+        }
+
         CharSequence emojifiedText = CustomEmojiHelper.emojify(
-                boostedText, accountEmoji, statusInfo, statusDisplayOptions.animateEmojis()
+            translatedText,
+            account != null ? account.getEmojis() : Collections.emptyList(),
+            statusInfo,
+            statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
         statusInfo.setVisibility(View.VISIBLE);
     }
 
-    // don't use this on the same ViewHolder as setRebloggedByDisplayName, will cause recycling issues as paddings are changed
+    // don't use this on the same ViewHolder as setStatusInfoContent, will cause recycling issues as paddings are changed
     protected void setPollInfo(final boolean ownPoll) {
         statusInfo.setText(ownPoll ? R.string.poll_ended_created : R.string.poll_ended_voted);
         statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0);

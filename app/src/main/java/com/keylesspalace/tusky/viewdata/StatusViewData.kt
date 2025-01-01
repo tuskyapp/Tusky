@@ -18,6 +18,7 @@ import android.text.Spanned
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.entity.Translation
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.shouldTrimStatus
@@ -55,6 +56,7 @@ sealed class StatusViewData {
          */
         val isCollapsed: Boolean,
         val isDetailed: Boolean = false,
+        val repliedToAccount: TimelineAccount? = null,
         val translation: TranslationViewData? = null,
     ) : StatusViewData() {
         override val id: String
@@ -104,6 +106,12 @@ sealed class StatusViewData {
 
         val rebloggingStatus: Status?
             get() = if (status.reblog != null) status else null
+
+        val isReply: Boolean
+            get() = status.inReplyToAccountId != null
+
+        val isSelfReply: Boolean
+            get() = status.inReplyToAccountId == status.account.id
 
         /** Helper for Java */
         fun copyWithCollapsed(isCollapsed: Boolean): Concrete {

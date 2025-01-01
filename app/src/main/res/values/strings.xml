@@ -86,6 +86,9 @@
 
     <string name="post_username_format">\@%1$s</string>
     <string name="post_boosted_format">%1$s boosted</string>
+    <string name="post_replied">Replied</string>
+    <string name="post_replied_format">In reply to %1$s</string>
+    <string name="post_replied_self">Continued thread</string>
     <string name="post_sensitive_media_title">Sensitive content</string>
     <string name="post_media_hidden_title">Media hidden</string>
     <string name="post_media_alt">ALT</string>

@@ -133,6 +133,7 @@ fun fakeHomeTimelineData(
                 tuskyAccountId = tuskyAccountId,
             )
         },
+        repliedToAccount = null,
         loading = false
     )
 }
@@ -144,6 +145,7 @@ fun fakePlaceholderHomeTimelineData(
     account = null,
     status = null,
     reblogAccount = null,
+    repliedToAccount = null,
     loading = false
 )
 

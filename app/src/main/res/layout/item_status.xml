@@ -24,6 +24,7 @@
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
         app:drawableStartCompat="@drawable/ic_reblog_18dp"
+        app:drawableTint="?android:textColorTertiary"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

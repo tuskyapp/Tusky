@@ -109,7 +109,7 @@ fun Status.toEntity(
 )
 
 fun TimelineStatusEntity.toStatus(
-    account: TimelineAccountEntity
+    account: TimelineAccountEntity,
 ) = Status(
     id = serverId,
     url = url,
@@ -192,6 +192,7 @@ fun HomeTimelineData.toViewData(isDetailed: Boolean = false, translation: Transl
         isShowingContent = this.status.contentShowing,
         isCollapsed = this.status.contentCollapsed,
         isDetailed = isDetailed,
+        repliedToAccount = repliedToAccount?.toAccount(),
         translation = translation,
     )
 }

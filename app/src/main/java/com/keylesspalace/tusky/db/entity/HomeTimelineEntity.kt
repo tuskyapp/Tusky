@@ -64,5 +64,6 @@ data class HomeTimelineData(
     @Embedded val status: TimelineStatusEntity?,
     @Embedded(prefix = "a_") val account: TimelineAccountEntity?,
     @Embedded(prefix = "rb_") val reblogAccount: TimelineAccountEntity?,
+    @Embedded(prefix = "replied_") val repliedToAccount: TimelineAccountEntity?,
     val loading: Boolean
 )
