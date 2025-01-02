@@ -127,13 +127,13 @@ class ComposeViewModel @Inject constructor(
     private var setupComplete = false
 
     fun pickMedia(uri: Uri) {
-        pickMedia(listOf(PickedMedia(uri)))
+        pickMedia(listOf(MediaData(uri)))
     }
 
-    fun pickMedia(mediaList: List<PickedMedia>) = viewModelScope.launch(Dispatchers.IO) {
+    fun pickMedia(mediaList: List<MediaData>) = viewModelScope.launch(Dispatchers.IO) {
         val instanceInfo = instanceInfo.first()
         mediaList.map { m ->
-            async(Dispatchers.IO) { mediaUploader.prepareMedia(m.uri, instanceInfo) }
+            async { mediaUploader.prepareMedia(m.uri, instanceInfo) }
         }.forEachIndexed { index, preparedMedia ->
             preparedMedia.await().fold({ (type, uri, size) ->
                 if (type != QueuedMedia.Type.IMAGE &&
@@ -500,7 +500,7 @@ class ComposeViewModel @Inject constructor(
         if (draftAttachments != null) {
             // when coming from DraftActivity
             draftAttachments.map { attachment ->
-                PickedMedia(attachment.uri, attachment.description, attachment.focus)
+                MediaData(attachment.uri, attachment.description, attachment.focus)
             }.let(::pickMedia)
         } else {
             composeOptions?.mediaAttachments?.forEach { a ->
@@ -605,7 +605,7 @@ class ComposeViewModel @Inject constructor(
         }
     }
 
-    data class PickedMedia(
+    data class MediaData(
         val uri: Uri,
         val description: String? = null,
         val focus: Attachment.Focus? = null

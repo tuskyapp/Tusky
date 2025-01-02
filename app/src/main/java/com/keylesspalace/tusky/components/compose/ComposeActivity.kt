@@ -198,7 +198,7 @@ class ComposeActivity :
         } else {
             viewModel.pickMedia(
                 uris.map { uri ->
-                    ComposeViewModel.PickedMedia(uri)
+                    ComposeViewModel.MediaData(uri)
                 }
             )
         }
@@ -355,7 +355,7 @@ class ComposeActivity :
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.getParcelableArrayListExtraCompat<Uri>(Intent.EXTRA_STREAM)
                                 ?.map { uri ->
-                                    ComposeViewModel.PickedMedia(uri)
+                                    ComposeViewModel.MediaData(uri)
                                 }?.let(viewModel::pickMedia)
                         }
                     }
@@ -1116,7 +1116,7 @@ class ComposeActivity :
 
                 viewModel.pickMedia(
                     content.clip.map { clipItem ->
-                        ComposeViewModel.PickedMedia(
+                        ComposeViewModel.MediaData(
                             uri = clipItem.uri,
                             description = description
                         )
