@@ -136,13 +136,13 @@
     <string name="label_header">Bakgrundsbild</string>
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges \u0020här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och \u0020<a href="https://instances.social"> mer! </a> 
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a>
 \n
-\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där. 
+\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
 \n
-\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, \u0020som om du var på samma sajt. 
+\nEn instans är den plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.
 \n
-\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
+\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
