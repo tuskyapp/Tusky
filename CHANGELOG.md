@@ -8,6 +8,10 @@
 
 ## v27.1
 
+### New features and other improvements
+
+- The width of the tab indicator has been increased https://github.com/tuskyapp/Tusky/pull/4849
+
 ### Significant bug fixes
 
 - Improves rendering of some animated custom emojis https://github.com/tuskyapp/Tusky/pull/4281
