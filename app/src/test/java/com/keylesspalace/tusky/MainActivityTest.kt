@@ -116,8 +116,7 @@ class MainActivityTest {
                     status = null,
                     report = null
                 ),
-                accountEntity,
-                true
+                accountEntity
             )
             notificationManager.notify("id", 1, notification)
         }
