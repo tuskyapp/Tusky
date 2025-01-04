@@ -93,7 +93,7 @@ fun setClickableText(
         getSpans(0, endOfContent, URLSpan::class.java).forEach { span ->
             val start = getSpanStart(span)
             if (get(start) == '#') {
-                inlineHashtags.add(subSequence(start + 1, getSpanEnd(span)))
+                inlineHashtags.add(normalizeToASCII(subSequence(start + 1, getSpanEnd(span))))
             }
             setClickableText(span, this, mentions, tags, listener)
         }
@@ -127,7 +127,11 @@ private fun buildTrailingHashtagText(tagsFromServer: List<HashTag>?, trailingHas
         // we apply the tags scraped from the content first to preserve the casing
         // (tags from the server are often downcased)
         val additionalTags = tagsFromServer?.let {
-            it.filter { serverTag -> trailingHashtagsFromContent.none { serverTag.name.equals(it.name, ignoreCase = true) } }
+            it.filter { serverTag ->
+                trailingHashtagsFromContent.none {
+                    serverTag.name.equals(normalizeToASCII(it.name), ignoreCase = true)
+                }
+            }
         } ?: emptyList()
         appendTags(trailingHashtagsFromContent.plus(additionalTags), listener)
     }
@@ -140,8 +144,7 @@ private fun buildTrailingHashtagText(tagsFromServer: List<HashTag>?, trailingHas
  */
 private fun SpannableStringBuilder.appendTags(tags: List<HashTag>, listener: LinkListener) {
     tags.forEachIndexed { index, tag ->
-        val text = "#${tag.name}"
-        append(text, getCustomSpanForTag(text, tags, URLSpan(tag.url), listener), 0)
+        append("#${tag.name}", getCustomSpanForTag(normalizeToASCII(tag.name), URLSpan(tag.url), listener), 0)
         if (index != tags.lastIndex) {
             append(" ")
         }
@@ -276,12 +279,14 @@ private fun getCustomSpanForTag(
     tags: List<HashTag>?,
     span: URLSpan,
     listener: LinkListener
-): ClickableSpan? {
-    return getTagName(text, tags)?.let {
-        object : NoUnderlineURLSpan(span.url) {
-            override fun onClick(view: View) = listener.onViewTag(it)
-        }
-    }
+) = getTagName(text, tags)?.let { getCustomSpanForTag(it, span, listener) }
+
+private fun getCustomSpanForTag(
+    tagName: String,
+    span: URLSpan,
+    listener: LinkListener
+) = object : NoUnderlineURLSpan(span.url) {
+    override fun onClick(view: View) = listener.onViewTag(tagName)
 }
 
 private fun getCustomSpanForMention(
