@@ -45,6 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabGravity="fill"
+                    app:tabIndicator="@drawable/tab_indicator_top"
+                    app:tabIndicatorFullWidth="true"
                     app:tabMaxWidth="0dp"
                     app:tabMode="scrollable" />
 
@@ -80,8 +82,9 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorSurface"
                 app:tabGravity="fill"
-                app:tabIndicatorGravity="top"
                 app:tabIndicator="@drawable/tab_indicator_bottom"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorGravity="top"
                 app:tabMode="scrollable"
                 app:tabPaddingTop="0dp" />
 
