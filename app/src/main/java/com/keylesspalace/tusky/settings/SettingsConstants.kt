@@ -91,6 +91,7 @@ object PrefKeys {
     const val MEDIA_PREVIEW_ENABLED = "mediaPreviewEnabled"
     const val ALWAYS_SHOW_SENSITIVE_MEDIA = "alwaysShowSensitiveMedia"
     const val ALWAYS_OPEN_SPOILER = "alwaysOpenSpoiler"
+    const val FILTER_BOTS = "filterBots"
 
     const val NOTIFICATIONS_ENABLED = "notificationsEnabled"
     const val NOTIFICATION_ALERT_LIGHT = "notificationAlertLight"

@@ -4,6 +4,7 @@ import android.util.Log
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.getOrElse
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
+import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.FilterV1
 import com.keylesspalace.tusky.entity.Status
@@ -21,10 +22,12 @@ import javax.inject.Inject
  */
 class FilterModel @Inject constructor(
     private val instanceInfoRepo: InstanceInfoRepository,
-    private val api: MastodonApi
+    private val api: MastodonApi,
+    private val accountManager: AccountManager,
 ) {
     private var pattern: Pattern? = null
     private var v1 = false
+    private var filterBots: Boolean = false
     private lateinit var kind: Filter.Kind
 
     /**
@@ -33,6 +36,11 @@ class FilterModel @Inject constructor(
      */
     suspend fun init(kind: Filter.Kind): Boolean {
         this.kind = kind
+        filterBots = when (kind) {
+            Filter.Kind.HOME,
+            Filter.Kind.PUBLIC -> accountManager.activeAccount?.filterBots ?: false
+            else -> false
+        }
 
         if (instanceInfoRepo.isFilterV2Supported()) {
             // nothing to do - Instance supports V2 so posts are filtered by the server
@@ -67,6 +75,10 @@ class FilterModel @Inject constructor(
     }
 
     fun shouldFilterStatus(status: Status): Filter.Action {
+        if (filterBots && status.account.bot) {
+            return Filter.Action.HIDE
+        }
+
         if (v1) {
             // Patterns are expensive and thread-safe, matchers are neither.
             val matcher = pattern?.matcher("") ?: return Filter.Action.NONE

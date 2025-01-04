@@ -284,6 +284,13 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     isSingleLineTitle = false
                     preferenceDataStore = accountPreferenceDataStore
                 }
+
+                switchPreference {
+                    key = PrefKeys.FILTER_BOTS
+                    setTitle(R.string.pref_title_filter_bots)
+                    isSingleLineTitle = false
+                    preferenceDataStore = accountPreferenceDataStore
+                }
             }
             preferenceCategory(R.string.pref_title_per_timeline_preferences) {
                 preference {

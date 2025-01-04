@@ -326,6 +326,7 @@
     <string name="pref_title_http_proxy_server">HTTP proxy server</string>
     <string name="pref_title_http_proxy_port">HTTP proxy port</string>
     <string name="pref_title_http_proxy_port_message">Port should be between %1$d and %2$d</string>
+    <string name="pref_title_filter_bots">Hide posts by bot accounts</string>
     <string name="pref_summary_http_proxy_disabled">Disabled</string>
     <string name="pref_summary_http_proxy_missing">&lt;not set></string>
     <string name="pref_summary_http_proxy_invalid">&lt;invalid></string>
