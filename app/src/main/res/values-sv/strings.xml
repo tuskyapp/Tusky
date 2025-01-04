@@ -136,14 +136,13 @@
     <string name="label_header">Bakgrundsbild</string>
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges
-		här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och
-        <a href="https://instances.social"> mer! </a>
-        \n\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
-        \n\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser,
-        som om du var på samma sajt.
-        \n\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.
-    </string>
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges \u0020här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och \u0020<a href="https://instances.social"> mer! </a> 
+\n
+\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där. 
+\n
+\nEn instans är en plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, \u0020som om du var på samma sajt. 
+\n
+\nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
@@ -643,8 +642,8 @@
     <string name="filter_description_hide">Dölj helt</string>
     <string name="action_add">Lägg till</string>
     <string name="filter_keyword_display_format">%1$s (helt ord)</string>
-    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer.
-\n
+    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer. 
+\n 
 \nFör att utforska konton kan du antingen upptäcka dem i någon av de andra tidslinjerna. Till exempel den lokala tidslinjen för din instans [iconics gmd_group]. Eller så kan du söka efter dem efter namn [ikonics gmd_search]; sök till exempel efter Tusky för att hitta vårt Mastodon-konto.</string>
     <string name="pref_ui_text_size">UI textstorlek</string>
     <string name="notification_listenable_worker_name">Bakgrundsaktivitet</string>
@@ -679,10 +678,10 @@
     <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
     <string name="dialog_delete_filter_positive_action">Radera</string>
     <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
-    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem.
-\n
-\n OBS att du bara kan lägga till konton på dina listor som du följer.
-\n
+    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem. 
+\n 
+\n OBS att du bara kan lägga till konton på dina listor som du följer. 
+\n 
 \n De här listorna kan användas som en flik i Kontospecifika inställningar [iconics gmd_account_circle] [iconics gmd_navigate_next] Flikar. </string>
     <string name="muting_hashtag_success_format">Tystar hasttaggen #%1$s som en varning</string>
     <string name="unmuting_hashtag_success_format">Slutar tysta hashtaggen #%1$s</string>
@@ -690,10 +689,10 @@
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
     <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
-    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM).
-\n
-\nMeddelanden blir privata när ett inläggs synlighet [iconics gmd_public] ändras till [iconics gmd_mail] <i>Direkt</i>, och en eller flera användare nämns i texten.
-\n
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
+\n 
+\nMeddelanden blir privata när ett inläggs synlighet [iconics gmd_public] ändras till [iconics gmd_mail] <i>Direkt</i>, och en eller flera användare nämns i texten. 
+\n 
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %1$s</string>
     <string name="title_public_trending_statuses">Populära inlägg</string>
@@ -717,4 +716,26 @@
     <string name="label_translating">Översätter…</string>
     <string name="label_translated">Översatt från %1$s med %2$s</string>
     <string name="ui_error_translate">Kunde inte översätta: %1$s</string>
+    <string name="label_expires_after">Förfaller efter</string>
+    <string name="action_follow_hashtag">Följ en ny hashtagg</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' kopierad</string>
+    <string name="url_copied">Url kopierad</string>
+    <string name="dialog_follow_warning">Följ detta konto?</string>
+    <string name="pref_default_reply_privacy">Standardinställning för svar (synkas ej med server)</string>
+    <string name="report_category_legal">Juridiskt</string>
+    <string name="notification_policies_title">Notifikationspolicy</string>
+    <string name="notification_policies_filter_out">Hantera notifikationer från…</string>
+    <string name="notification_policies_filter_dont_follow_title">Personer du inte följer</string>
+    <string name="notification_policies_filter_dont_follow_description">Tills du manuellt godkänner dem</string>
+    <string name="notification_policies_filter_not_following_title">Personer som inte följer dig</string>
+    <string name="notification_policies_filter_not_following_description">Inklusive personer du följt i mindre än 3 dagar</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nya konton</string>
+    <string name="unknown_notification_filter_new_accounts_description">Skapade inom de senaste 30 dagarna</string>
+    <string name="pref_default_reply_privacy_explanation">Den förvalda delningsnivån beror på inlägget du besvarar.</string>
+    <string name="pref_match_default_post_privacy">Matcha förvald delningsnivå för inlägg</string>
+    <string name="pref_title_confirm_follows">Visa bekräftelse innan konto följs</string>
+    <string name="unknown_notification_type">Okänd notifikationstyp</string>
+    <string name="post_privacy_direct">Direkt</string>
+    <string name="error_deleting_filter">Kunde inte radera filtret \'%1$s\'</string>
+    <string name="error_saving_filter">Kunde inte spara filtret \'%1$s\'</string>
 </resources>

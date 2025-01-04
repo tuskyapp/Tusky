@@ -8,7 +8,7 @@
     <string name="link_whats_an_instance">Mikä on instanssi\?</string>
     <string name="action_copy_link">Kopioi linkki</string>
     <string name="action_open_in_web">Avaa selaimessa</string>
-    <string name="action_login">Kirjaudu Mastodonilla</string>
+    <string name="action_login">Kirjaudu Tuskylla</string>
     <string name="title_edit_profile">Muokkaa profiilia</string>
     <string name="draft_deleted">Luonnos poistettu</string>
     <string name="poll_new_choice_hint">Vaihtoehto %1$d</string>
@@ -100,7 +100,7 @@
     <string name="pref_title_proxy_settings">Välityspalvelin</string>
     <string name="post_privacy_followers_only">Vain seuraajat</string>
     <string name="post_privacy_public">Julkinen</string>
-    <string name="pref_title_post_tabs">Välilehdet</string>
+    <string name="pref_title_post_tabs">Kotiaikajana</string>
     <string name="pref_title_language">Kieli</string>
     <string name="pref_title_browser_settings">Selain</string>
     <string name="app_theme_black">Musta</string>
@@ -173,7 +173,7 @@
     <string name="action_view_mutes">Mykistetyt tilit</string>
     <string name="notification_follow_format">%1$s seurasi sinua</string>
     <plurals name="notification_title_summary">
-        <item quantity="one">%1$d uusi kannsakäyminen</item>
+        <item quantity="one">%1$d uusi kanssakäyminen</item>
         <item quantity="other">%1$d uutta kanssakäymistä</item>
     </plurals>
     <string name="action_delete_and_redraft">Poista ja kirjoita uudelleen</string>
@@ -227,7 +227,7 @@
     <string name="action_quick_reply">Vastaa nopeasti</string>
     <string name="action_hide_reblogs">Piilota jaetut julkaisut</string>
     <string name="footer_empty">Täällä ei ole mitään. Liu\'uta alaspäin päivittääksesi!</string>
-    <string name="error_network">Verkkovirhe! Tarkista yhteytesi ja yritä uudelleen!</string>
+    <string name="error_network">Verkkovirhe. Tarkista yhteytesi ja yritä uudelleen.</string>
     <string name="action_open_media_n">Avaa media No. %1$d</string>
     <string name="error_sender_account_gone">Julkaisun lähettäminen epäonnistui.</string>
     <string name="error_empty">Tätä kenttää ei voi jättää tyhjäksi.</string>
@@ -243,7 +243,7 @@
     <string name="message_empty">Täällä ei ole mitään.</string>
     <string name="notification_sign_up_format">%1$s rekisteröityi</string>
     <string name="notification_sign_up_name">Rekisteröitymiset</string>
-    <string name="notification_sign_up_description">Ilmoitukset uusista käyttäkistä</string>
+    <string name="notification_sign_up_description">Ilmoitukset uusista käyttäjistä</string>
     <string name="title_login">Sisäänkirjautuminen</string>
     <string name="action_unbookmark">Poista kirjanmerkki</string>
     <string name="duration_90_days">90 päivää</string>
@@ -268,7 +268,7 @@
     <string name="dialog_delete_conversation_warning">Poista tämä keskustelu\?</string>
     <string name="pref_title_show_media_preview">Lataa median esikatselu</string>
     <string name="post_privacy_unlisted">Listaamaton</string>
-    <string name="pref_title_alway_show_sensitive_media">Näytä aina arkaluonteinen sisältö</string>
+    <string name="pref_title_alway_show_sensitive_media">Näytä aina arkaluonteinen media</string>
     <string name="send_post_notification_cancel_title">Lähettäminen peruutettu</string>
     <string name="description_visibility_private">Seuraajat</string>
     <string name="pref_show_self_username_always">Aina</string>
@@ -292,10 +292,10 @@
     <string name="post_text_size_medium">Keskikokoinen</string>
     <string name="post_text_size_large">Suuri</string>
     <string name="post_text_size_largest">Suurin</string>
-    <string name="post_share_link">Jaa linkki postaukseen</string>
+    <string name="post_share_link">Jaa linkki julkaisuun</string>
     <string name="post_media_attachments">Liitteet</string>
     <string name="title_media">Media</string>
-    <string name="load_more_placeholder_text">lataa lisää</string>
+    <string name="load_more_placeholder_text">Lataa lisää</string>
     <string name="pref_title_public_filter_keywords">Julkiset aikajanat</string>
     <string name="pref_title_thread_filter_keywords">Keskustelut</string>
     <string name="filter_addition_title">Lisää suodatin</string>
@@ -303,6 +303,157 @@
     <string name="description_post_cw">Sisältövaroitus: %1$s</string>
     <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>
     <string name="restart">Käynnistä uudelleen</string>
-    <string name="error_failed_app_registration">Tunnistautuminen valitsemasi instanssin kanssa epäonnistui.</string>
+    <string name="error_failed_app_registration">Tunnistautuminen valitsemasi instanssin kanssa epäonnistui. Jos tämä jatkuu, valitse valikosta Kirjaudu selaimella.</string>
     <string name="dialog_block_warning">Estä @%1$s\?</string>
+    <string name="action_follow_hashtag">Seuraa uutta aihetunnistetta</string>
+    <string name="action_translate">Käännä</string>
+    <string name="action_show_original">Näytä alkuperäinen</string>
+    <string name="send_account_link_to">Jaa tilin URL…</string>
+    <string name="send_account_username_to">Jaa tilin käyttäjätunnus…</string>
+    <string name="url_copied">URL kopioitu</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' kopioitu</string>
+    <string name="reply_sending">Lähetetään…</string>
+    <string name="reply_sending_long">Vastaustasi lähetetään.</string>
+    <string name="hint_media_description_missing">Medialla kuuluu olla kuvaus.</string>
+    <string name="label_image">Kuva</string>
+    <string name="dialog_message_cancel_follow_request">Peru seuraamispyyntö?</string>
+    <string name="dialog_redraft_post_warning">Poista ja luonnosta uudelleen?</string>
+    <string name="mute_domain_warning">Haluatko varmasi estää koko instanssin %1$s? Et tule näkemään mitään sisältöä tältä instanssilta julkisilla aikajanoilla etkä ilmoituksissasi. Kaikki seuraajasi tältä instanssilta poistetaan.</string>
+    <string name="mute_domain_warning_dialog_ok">Piilota koko domain</string>
+    <string name="visibility_unlisted">Listaamaton: Älä näytä julkisilla aikajanoilla</string>
+    <string name="visibility_private">Vain seuraajat: Näytä vain seuraajillesi</string>
+    <string name="visibility_direct">Suora: Lähetä vain mainituille käyttäjille</string>
+    <string name="pref_title_notification_alert_vibrate">Ilmoita värinällä</string>
+    <string name="pref_title_notification_alert_light">Ilmoita valolla</string>
+    <string name="pref_title_notification_filters">Ilmoita kun</string>
+    <string name="pref_title_notification_filter_reblogs">minun julkaisua buustataan</string>
+    <string name="pref_title_notification_filter_favourites">minun julkaisu merkitään suosikiksi</string>
+    <string name="pref_title_notification_filter_poll">äänestys päättyy</string>
+    <string name="pref_title_notification_filter_subscriptions">joku ketä seuraan tekee uuden julkaisun</string>
+    <string name="pref_title_notification_filter_reports">uusi ilmianto</string>
+    <string name="pref_title_per_timeline_preferences">Aikajanakohtaiset asetukset</string>
+    <string name="app_theme_auto">Automaattinen auringonlaskun mukaan</string>
+    <string name="pref_title_bot_overlay">Merkitse bottitilit</string>
+    <string name="pref_title_gradient_for_media">Näytä värikkäät väriliu\'ut piilotetun median tilalla</string>
+    <string name="pref_title_post_filter">Aikajanasuodatus</string>
+    <string name="pref_title_http_proxy_port">HTTP-välityspalvelimen portti</string>
+    <string name="pref_title_http_proxy_port_message">Portin kuuluu olla %1$d ja %2$d välillä</string>
+    <string name="pref_summary_http_proxy_disabled">Ei käytössä</string>
+    <string name="pref_summary_http_proxy_missing">&lt;ei annettu&gt;</string>
+    <string name="pref_summary_http_proxy_invalid">&lt;virheellinen&gt;</string>
+    <string name="pref_default_post_privacy">Julkaisujen oletusyksityisyys</string>
+    <string name="pref_default_post_language">Julkaisujen oletuskieli</string>
+    <string name="pref_default_reply_privacy">Vastausten oletusyksityisyys</string>
+    <string name="pref_publishing">Julkaisujen oletusasetukset</string>
+    <string name="notification_report_name">Ilmiannot</string>
+    <string name="notification_report_description">Ilmoitukset moderaatioilmiannoista</string>
+    <string name="notification_listenable_worker_name">Taustasuoritus</string>
+    <string name="state_follow_requested">Seuraaminen pyydetty</string>
+    <string name="abbreviated_in_years">%1$d v päästä</string>
+    <string name="abbreviated_in_days">%1$d pv päästä</string>
+    <string name="abbreviated_in_hours">%1$d h päästä</string>
+    <string name="abbreviated_in_minutes">%1$d m päästä</string>
+    <string name="error_delete_list">Listan poistaminen epäonnistui</string>
+    <string name="error_muting_hashtag_format">Virhe mykistäessä #%1$s</string>
+    <string name="error_unmuting_hashtag_format">Virhe lopettaessa aihetunnisteen #%1$s mykistys</string>
+    <string name="error_following_hashtags_unsupported">Tämä instanssi ei tue aihetunnisteiden seuraamista.</string>
+    <string name="pref_title_notification_alert_sound">Ilmoita äänellä</string>
+    <string name="action_post_failed">Lataaminen ylös epäonnistui</string>
+    <string name="action_post_failed_show_drafts">Näytä luonnokset</string>
+    <string name="pref_title_notification_filter_sign_ups">joku rekisteröityy</string>
+    <string name="pref_title_notification_filter_follow_requests">seuraamispyyntö</string>
+    <string name="action_dismiss">Peru</string>
+    <string name="status_created_at_now">nyt</string>
+    <string name="notification_unknown_name">Tuntematon</string>
+    <string name="action_discard">Hylkää muutokset</string>
+    <string name="send_post_content_to">Jaa julkaisu…</string>
+    <string name="dialog_message_uploading_media">Ladataan…</string>
+    <string name="status_count_one_plus">1+</string>
+    <string name="pref_title_http_proxy_enable">Käytä HTTP-välityspalvelinta</string>
+    <string name="replying_to">Vastaus käyttäjälle @%1$s</string>
+    <string name="abbreviated_seconds_ago">%1$d s</string>
+    <string name="pref_title_alway_open_spoiler">Avaa aina julkaisut sisältövaroituksilla</string>
+    <string name="error_status_source_load">Statuksen lataaminen palvelimelta epäonnistui.</string>
+    <string name="confirmation_unblocked">Käyttäjän esto poistettu</string>
+    <string name="confirmation_unmuted">Käyttäjän mykistys poistettu</string>
+    <string name="status_filtered_show_anyway">Näytä kuitenkin</string>
+    <string name="error_following_hashtag_format">Aihetunnisteen #%1$s seuraaminen epäonnistui</string>
+    <string name="error_unfollowing_hashtag_format">Virhe lopettaessa aihetunnisteen #%1$s seuraaminen</string>
+    <string name="pref_default_reply_privacy_explanation">Vastauksen oletusyksityisyysasetus riippuu julkaisusta, johon olet vastaamassa.</string>
+    <string name="pref_match_default_post_privacy">Sama kuin julkaisujen oletusyksityisyysasetus</string>
+    <string name="post_privacy_direct">Suora</string>
+    <string name="pref_post_text_size">Julkaisujen tekstikoko</string>
+    <string name="notification_mention_descriptions">Ilmoitukset uusista maininnoista</string>
+    <string name="notification_follow_request_description">Ilmoitukset seuraamispyynnöistä</string>
+    <string name="notification_follow_description">Ilmoitukset uusista seuraajista</string>
+    <string name="notification_boost_description">Ilmoitukset sinun julkaisujen buustauksista</string>
+    <string name="notification_favourite_description">Ilmoitukset kun sinun julkaisut merkitään suosikiksi</string>
+    <string name="notification_listenable_worker_description">Ilmoitukset kun Tusky toimii taustassa</string>
+    <string name="notification_notification_worker">Noudetaan ilmoituksia…</string>
+    <string name="notification_prune_cache">Välimuistin ylläpito…</string>
+    <string name="about_device_info_title">Laitteesi</string>
+    <string name="about_device_info">%1$s %2$s
+\nAndroid-versio: %3$s
+\nSDK-versio: %4$d</string>
+    <string name="about_account_info_title">Tilisi</string>
+    <string name="about_account_info">\@%1$s@%2$s
+\nVersio: %3$s</string>
+    <string name="pref_title_account_filter_keywords">Profiilit</string>
+    <string name="about_bug_feature_request_site">Bugiraportit ja ehodtukset:
+\nhttps://github.com/tuskyapp/Tusky/issues</string>
+    <string name="about_project_site">Projektin sivusto: https://tusky.app</string>
+    <string name="post_share_content">Jaa julkaisun sisältö</string>
+    <string name="post_media_image">Kuva</string>
+    <string name="status_filter_placeholder_label_format">Suodatettu: %1$s</string>
+    <string name="abbreviated_in_seconds">%1$d s päästä</string>
+    <string name="abbreviated_years_ago">%1$d v</string>
+    <string name="abbreviated_days_ago">%1$d pv</string>
+    <string name="abbreviated_hours_ago">%1$d h</string>
+    <string name="abbreviated_minutes_ago">%1$d m</string>
+    <string name="filter_dialog_whole_word">Koko sana</string>
+    <string name="error_create_list">Listan luonti epäonnistui</string>
+    <string name="error_media_upload_sending_fmt">Tiedoston lataaminen epäonnistui: %1$s</string>
+    <string name="account_username_copied">Käyttäjätunnus kopioitu</string>
+    <string name="error_multimedia_size_limit">Video- tai äänitiedoston koko ei voi ylittää %1$s Mt.</string>
+    <string name="action_post_failed_detail">Julkaisusi lähettäminen epäonnistui ja se tallennettiin luonnoksiin.
+\n
+\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</string>
+    <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a>
+\n
+\nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin.
+\n
+\nInstanssi on yksittäinen palvelin joka sisältää sinun tilisi, mutta voit helposti kommunikoida muiden kanssa ja seurata muita toisilta instansseilta kuten he olisivat saman sivuston jäseniä.
+\n
+\nVoit lukea lisää osoitteesta <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
+    <string name="app_theme_system_black">Seuraa laitteen teemaa (musta)</string>
+    <string name="pref_show_self_username_disambiguate">Kun olet kirjautunut usealle tilille</string>
+    <string name="pref_ui_text_size">Käyttöliittymän tekstikoko</string>
+    <string name="about_tusky_license">Tusky on avoimen lähdekoodin ohjelmisto, jonka lisenssi on GNU General Public License Version 3. Lue lisenssin sisältö osoitteessa https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="dialog_follow_warning">Seuraa tätä tiliä?</string>
+    <string name="error_rename_list">Listan päivittäminen epäonnistui</string>
+    <string name="pref_title_show_self_boosts">Näytä omien julkaisujen buustaukset</string>
+    <string name="pref_title_show_self_boosts_description">Joku buustaa omaa julkaisuaan</string>
+    <string name="add_account_description">Lisää Mastodon-tili</string>
+    <string name="error_deleting_filter">Suodattimen \'%1$s\' poistaminen epäonnistui</string>
+    <string name="error_saving_filter">Suodattimen \'%1$s\' tallentaminen epäonnistui</string>
+    <string name="title_public_trending_hashtags">Suositut aihetunnisteet</string>
+    <string name="title_public_trending_statuses">Suositut julkaisut</string>
+    <string name="title_followed_hashtags">Seuratut aihetunnisteet</string>
+    <string name="title_edits">Muokkaukset</string>
+    <string name="dialog_follow_hashtag_title">Seuraa aihetunnistetta</string>
+    <string name="dialog_follow_hashtag_hint">#aihetunniste</string>
+    <string name="post_edited">Muokattu %1$s</string>
+    <string name="notification_report_format">Uusi ilmianto tilille %1$s</string>
+    <string name="notification_summary_report_format">%1$s · %2$d julkaisua liitetty</string>
+    <string name="action_browser_login">Kirjaudu selaimella</string>
+    <string name="action_post_failed_detail_plural">Julkaisusi lähettäminen epäonnistui ja ne tallennettiin luonnoksiin.
+\n
+\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</string>
+    <string name="action_post_failed_do_nothing">Peru</string>
+    <string name="action_share_account_link">Jaa linkki tiliin</string>
+    <string name="action_share_account_username">Jaa tilin käyttäjätunnus</string>
+    <string name="action_continue_edit">Jatka muokkaamista</string>
+    <string name="error_authorization_unknown">Tuntematon tunnistautumisvirhe. Jos tämä jatkuu, valitse valikosta Kirjaudu selaimella.</string>
+    <string name="visibility_public">Julkinen: Näytä julkisilla aikajanoilla</string>
+    <string name="send_media_to">Jaa media…</string>
 </resources>

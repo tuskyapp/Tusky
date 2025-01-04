@@ -114,13 +114,13 @@
     <string name="label_header">سرایند</string>
     <string name="link_whats_an_instance">نمونه چیست؟</string>
     <string name="login_connection">در حال وصل شدن…</string>
-    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، چون mastodon.social, icosahedron.website, social.tchncs.de و <a href="https://instances.social">بیش‌تر!</a>. 
-\n \u0020
-\n اگر هنوز حسابی ندارید، می‌توانید نام نمونه‌ای که می‌خواهید به آن بپیوندید را وارد کرده و در آن‌جا حسابی بسازید. 
-\n \u0020
-\n نمونه جاییست که حسابتان رویش میزبانی می‌شود. به راحتی می‌توانید با افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید. 
-\n \u0020
-\nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود. \u0020</string>
+    <string name="dialog_whats_an_instance">نشانی یا دامنهٔ هر نمونه‌ای می‌تواند وارد شود، چون mastodon.social, icosahedron.website, social.tchncs.de و <a href="https://instances.social">بیش‌تر!</a>.
+\n
+\nاگر هنوز حسابی ندارید، می‌توانید نام نمونه‌ای که می‌خواهید به آن بپیوندید را وارد کرده و در آن‌جا حسابی بسازید.
+\n
+\nنمونه جاییست که حسابتان رویش میزبانی می‌شود. به راحتی می‌توانید با افراد روی نمونه‌های دیگر ارتباط داشته و دنبالشان کنید؛ انگار که روی یک پایگاه باشید.
+\n
+\nاطّلاعات بیش‌تر می‌تواند در <a href="https://joinmastodon.org">joinmastodon.org</a> پیدا شود.</string>
     <string name="dialog_title_finishing_media_upload">پایان بارگذاری رسانه</string>
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
     <string name="dialog_download_image">بارگیری</string>
@@ -484,11 +484,11 @@
     <string name="drafts_failed_loading_reply">شکست در بار کردن اطّلاعات پاسخ</string>
     <string name="wellbeing_mode_notice">برخی اطّلاعات که ممکن است روی سلامتی ذهنیتان تأثیر بگذارد، پنهان خواهند شد. همچون:
 \n
-\n - آگاهی‌های برگزیدن، تقویت و پی‌گیری
-\n - شمار برگزیدن و تقویت فرسته‌ها
-\n - آمار پی‌گیر و فرسته روی نمایه‌ها
+\n- آگاهی‌های برگزیدن، تقویت و پی‌گیری
+\n- شمار برگزیدن و تقویت فرسته‌ها
+\n- آمار پی‌گیر و فرسته روی نمایه‌ها
 \n
-\n فرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
+\nفرستادن آگاهی‌ها تأثیر نمی‌پذیرد، ولی می‌توانید ترجیحات آگاهیتان را به صورت دستی بازبینی کنید.</string>
     <string name="dialog_delete_list_warning">واقعاً می‌خواهید سیاههٔ %1$s را حذف کنید؟</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">نمی‌توانید بیش از %1$d رسانه بارگذارید.</item>
@@ -645,8 +645,8 @@
     <string name="filter_edit_keyword_title">ویرایش کلیدواژه</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_show_stat_inline">نمایش آمار فرسته‌ها در خط زمانی</string>
-    <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد. 
-\n 
+    <string name="help_empty_home">این <b>خط زمانی خانگیتان</b> است. فرسته‌های جدید را از حساب‌هایی که پی‌می‌گیرید نشان می‌دهد.
+\n
 \nبرای کاوش حساب‌ها می‌توانید آن‌ها را در دیگر خط‌های زمانی (برای نمونه خط زمانی محلّی نمونه‌تان [iconics gmd_group]) یافته یا با نام (برای نمونه Tusky برای حساب ماستودونمان) بجوییدشان [iconics gmd_search].</string>
     <string name="post_media_image">تصویر</string>
     <string name="select_list_manage">مدیریت سیاهه‌ها</string>
@@ -680,16 +680,16 @@
     <string name="unmuting_hashtag_success_format">ناخموش کردن برچسب #%1$s</string>
     <string name="following_hashtag_success_format">اکنون برچسب #%1$s دنبال می‌شود</string>
     <string name="unfollowing_hashtag_success_format">دیگر برچسب #%1$s دنبال نمی‌شود</string>
-    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند این‌جایند. 
+    <string name="help_empty_conversations"><b>پیام‌های خصوصیتان</b> که گاهی گفت‌وگوها یا پیام‌های مستقیم نامیده می‌شوند این‌جایند.
 \n
-\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و \u0020 اشاره به کاربر یا کاربرانی در متن ایجاد می‌شود. 
+\nپیام‌های خصوصی با تنظیم نمایانی [iconics gmd_public] فرسته به [iconics gmd_mail] <i>مستقیم</i> و اشاره به کاربر یا کاربرانی در متن ایجاد می‌شود.
 \n
-\nبرای نمونه می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید. \u0020</string>
-    <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید. 
-\n 
-\n به خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید. 
-\n 
-\n این سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند. \u0020</string>
+\nبرای نمونه می‌توانید در نمای نمایهٔ حسابی روی دکمهٔ ایجاد [iconics gmd_edit] زده و نمایانی را تغییر دهید.</string>
+    <string name="help_empty_lists">این <b>نمایهٔ سیاهه‌تان</b> است. می‌توانید تعدادی سیاههٔ خصوصی ایحاد کرده و حساب‌ها را بدان بیفزایید.
+\n
+\nبه خاطر داشته باشید که تنها می‌توانید افرادی را که پی می‌گیرید به سیاهه‌هایتان بیفزایید.
+\n
+\nین سیاهه‌ها می‌توانند به عنوان زبانه‌ای در زبانه‌های ترجیحات حساب [iconics gmd_account_circle] [iconics gmd_navigate_next] استفاده شوند.</string>
     <string name="error_blocking_domain">شکست در خموش کردن %1$s: %2$s</string>
     <string name="error_unblocking_domain">شکست در ناخموش کردن %1$s: %2$s</string>
     <string name="label_image">تصویر</string>
