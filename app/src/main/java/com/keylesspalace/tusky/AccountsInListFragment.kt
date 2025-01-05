@@ -73,11 +73,7 @@ class AccountsInListFragment : DialogFragment() {
         viewModel.load(listId)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return MaterialAlertDialogBuilder(requireContext())
-            .setView(createView())
-            .create()
-    }
+    override fun getTheme() = R.style.TuskyDialogOverlay
 
     override fun onStart() {
         super.onStart()
@@ -90,7 +86,7 @@ class AccountsInListFragment : DialogFragment() {
         }
     }
 
-    private fun createView(): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountsInListBinding.inflate(layoutInflater)
         val adapter = Adapter()
         val searchAdapter = SearchAdapter()
