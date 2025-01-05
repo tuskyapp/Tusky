@@ -16,7 +16,6 @@
 
 package com.keylesspalace.tusky
 
-import android.app.Dialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,7 +29,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.databinding.FragmentAccountsInListBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
@@ -86,7 +84,7 @@ class AccountsInListFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAccountsInListBinding.inflate(layoutInflater)
         val adapter = Adapter()
         val searchAdapter = SearchAdapter()
