@@ -667,7 +667,7 @@
     <string name="filter_description_format">%1$s : %2$s</string>
     <string name="pref_ui_text_size">Taille de police de l\'interface</string>
     <string name="pref_title_show_self_boosts">Afficher les auto-partages</string>
-    <string name="pref_title_show_self_boosts_description">Quelqu\'un partageant son propre message</string>
+    <string name="pref_title_show_self_boosts_description">Quelqu\'un boostant son propre message</string>
     <string name="label_image">Image</string>
     <string name="dialog_delete_filter_positive_action">Supprimer</string>
     <string name="notification_prune_cache">Maintenance du cache …</string>
