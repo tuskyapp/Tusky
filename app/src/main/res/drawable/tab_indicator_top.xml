@@ -8,10 +8,10 @@
       <!-- Color is assigned programmatically with the value of "tabIndicatorColor". -->
       <solid android:color="@android:color/white"/>
       <corners
-          android:bottomLeftRadius="3dp"
-          android:bottomRightRadius="3dp"
-          android:topLeftRadius="0dp"
-          android:topRightRadius="0dp"/>
+          android:bottomLeftRadius="0dp"
+          android:bottomRightRadius="0dp"
+          android:topLeftRadius="3dp"
+          android:topRightRadius="3dp"/>
       <size android:height="3dp"/>
     </shape>
   </item>
