@@ -16,9 +16,12 @@
 package com.keylesspalace.tusky.components.compose.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.LinearLayout
+import com.google.android.material.R as materialR
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.PreviewPollOptionsAdapter
 import com.keylesspalace.tusky.databinding.ViewPollPreviewBinding
@@ -27,23 +30,18 @@ import com.keylesspalace.tusky.entity.NewPoll
 class PollPreviewView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = materialR.attr.materialCardViewOutlinedStyle
 ) :
-    LinearLayout(context, attrs, defStyleAttr) {
+    MaterialCardView(context, attrs, defStyleAttr) {
 
     private val adapter = PreviewPollOptionsAdapter()
 
     private val binding = ViewPollPreviewBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        orientation = VERTICAL
-
-        setBackgroundResource(R.drawable.card_frame)
-
-        val padding = resources.getDimensionPixelSize(R.dimen.poll_preview_padding)
-
-        setPadding(padding, padding, padding, padding)
-
+        setStrokeColor(ColorStateList.valueOf(MaterialColors.getColor(this, materialR.attr.colorOutline)))
+        strokeWidth
+        elevation = 0f
         binding.pollPreviewOptions.adapter = adapter
     }
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -34,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
@@ -43,10 +45,11 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
-import com.keylesspalace.tusky.entity.Card;
+import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
 import com.keylesspalace.tusky.entity.Status;
+import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.entity.Translation;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
@@ -111,12 +114,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView pollDescription;
     private final Button pollButton;
 
-    private final LinearLayout cardView;
-    private final LinearLayout cardInfo;
+    private final MaterialCardView cardView;
+    private final LinearLayout cardLayout;
     private final ShapeableImageView cardImage;
     private final TextView cardTitle;
-    private final TextView cardDescription;
-    private final TextView cardUrl;
+    private final TextView cardMetadata;
+    private final TextView cardAuthor;
+    private final TextView cardAuthorButton;
+
     private final PollAdapter pollAdapter;
     protected final ConstraintLayout statusContainer;
     private final TextView translationStatusView;
@@ -169,11 +174,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollButton = itemView.findViewById(R.id.status_poll_button);
 
         cardView = itemView.findViewById(R.id.status_card_view);
-        cardInfo = itemView.findViewById(R.id.card_info);
+        cardLayout = itemView.findViewById(R.id.status_card_layout);
         cardImage = itemView.findViewById(R.id.card_image);
         cardTitle = itemView.findViewById(R.id.card_title);
-        cardDescription = itemView.findViewById(R.id.card_description);
-        cardUrl = itemView.findViewById(R.id.card_link);
+        cardMetadata = itemView.findViewById(R.id.card_metadata);
+        cardAuthor = itemView.findViewById(R.id.card_author);
+        cardAuthorButton = itemView.findViewById(R.id.card_author_button);
 
         statusContainer = itemView.findViewById(R.id.status_container);
 
@@ -830,9 +836,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 for (Object item : (List<?>) payloads) {
                     if (Key.KEY_CREATED.equals(item)) {
                         setMetaData(status, statusDisplayOptions, listener);
+                        if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
+                            // there is a preview card showing the published time, we need to refresh it as well
+                            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+                        }
                     }
                 }
-
         }
     }
 
@@ -1128,8 +1137,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             return;
         }
 
+        final Context context = cardView.getContext();
+
         final Status actionable = status.getActionable();
-        final Card card = actionable.getCard();
+        final PreviewCard card = actionable.getCard();
 
         if (cardViewMode != CardViewMode.NONE &&
             actionable.getAttachments().isEmpty() &&
@@ -1141,45 +1152,74 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             cardView.setVisibility(View.VISIBLE);
             cardTitle.setText(card.getTitle());
-            if (TextUtils.isEmpty(card.getDescription()) && TextUtils.isEmpty(card.getAuthorName())) {
-                cardDescription.setVisibility(View.GONE);
+
+            String providerName = card.getProviderName();
+            if (TextUtils.isEmpty(providerName)) {
+                providerName = Uri.parse(card.getUrl()).getHost();
+            }
+
+            if (TextUtils.isEmpty(providerName) && card.getPublishedAt() != null) {
+                cardMetadata.setVisibility(View.GONE);
             } else {
-                cardDescription.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(card.getDescription())) {
-                    cardDescription.setText(card.getAuthorName());
+                cardMetadata.setVisibility(View.VISIBLE);
+                if (card.getPublishedAt() == null) {
+                    cardMetadata.setText(providerName);
                 } else {
-                    cardDescription.setText(card.getDescription());
+                    String metadataJoiner = context.getString(R.string.metadata_joiner);
+                    cardMetadata.setText(providerName + metadataJoiner + TimestampUtils.getRelativeTimeSpanString(context, card.getPublishedAt().getTime(), System.currentTimeMillis()));
                 }
             }
 
-            cardUrl.setText(card.getUrl());
+            String cardAuthorName;
+            final TimelineAccount cardAuthorAccount;
+            if (card.getAuthors().isEmpty()) {
+                cardAuthorAccount = null;
+                cardAuthorName = card.getAuthorName();
+            } else {
+                cardAuthorName = card.getAuthors().get(0).getName();
+                cardAuthorAccount = card.getAuthors().get(0).getAccount();
+                if (cardAuthorAccount != null) {
+                    cardAuthorName = cardAuthorAccount.getName();
+                }
+            }
+
+            if (TextUtils.isEmpty(cardAuthorName)) {
+                cardAuthor.setVisibility(View.VISIBLE);
+                cardAuthor.setText(card.getDescription());
+                cardAuthorButton.setVisibility(View.GONE);
+            } else if (cardAuthorAccount == null) {
+                cardAuthor.setVisibility(View.VISIBLE);
+                cardAuthor.setText(context.getString(R.string.preview_card_by_author, cardAuthorName));
+                cardAuthorButton.setVisibility(View.GONE);
+            } else {
+                cardAuthorButton.setVisibility(View.VISIBLE);
+                final String buttonText = context.getString(R.string.preview_card_more_by_author, cardAuthorName);
+                final CharSequence emojifiedButtonText = CustomEmojiHelper.emojify(buttonText, cardAuthorAccount.getEmojis(), cardAuthorButton, statusDisplayOptions.animateEmojis());
+                cardAuthorButton.setText(emojifiedButtonText);
+                cardAuthorButton.setOnClickListener(v-> listener.onViewAccount(cardAuthorAccount.getId()));
+                cardAuthor.setVisibility(View.GONE);
+            }
 
             // Statuses from other activitypub sources can be marked sensitive even if there's no media,
             // so let's blur the preview in that case
             // If media previews are disabled, show placeholder for cards as well
             if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
-                int radius = cardImage.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.card_radius);
+                int radius = context.getResources().getDimensionPixelSize(R.dimen.inner_card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();
 
                 if (card.getWidth() > card.getHeight()) {
-                    cardView.setOrientation(LinearLayout.VERTICAL);
-
+                    cardLayout.setOrientation(LinearLayout.VERTICAL);
                     cardImage.getLayoutParams().height = cardImage.getContext().getResources()
                         .getDimensionPixelSize(R.dimen.card_image_vertical_height);
                     cardImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
                     cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
                     cardImageShape.setTopRightCorner(CornerFamily.ROUNDED, radius);
                 } else {
-                    cardView.setOrientation(LinearLayout.HORIZONTAL);
+                    cardLayout.setOrientation(LinearLayout.HORIZONTAL);
                     cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                     cardImage.getLayoutParams().width = cardImage.getContext().getResources()
                         .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                    cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                     cardImageShape.setTopLeftCorner(CornerFamily.ROUNDED, radius);
                     cardImageShape.setBottomLeftCorner(CornerFamily.ROUNDED, radius);
                 }
@@ -1197,14 +1237,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                   .into(cardImage);
             } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                 int radius = cardImage.getContext().getResources()
-                    .getDimensionPixelSize(R.dimen.card_radius);
+                    .getDimensionPixelSize(R.dimen.inner_card_radius);
 
-                cardView.setOrientation(LinearLayout.HORIZONTAL);
+                cardLayout.setOrientation(LinearLayout.HORIZONTAL);
                 cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 cardImage.getLayoutParams().width = cardImage.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
                 ShapeAppearanceModel cardImageShape = ShapeAppearanceModel.builder()
                     .setTopLeftCorner(CornerFamily.ROUNDED, radius)
@@ -1218,12 +1256,10 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     .load(decodeBlurHash(card.getBlurhash()))
                     .into(cardImage);
             } else {
-                cardView.setOrientation(LinearLayout.HORIZONTAL);
+                cardLayout.setOrientation(LinearLayout.HORIZONTAL);
                 cardImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 cardImage.getLayoutParams().width = cardImage.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.card_image_horizontal_width);
-                cardInfo.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                cardInfo.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 
                 cardImage.setShapeAppearanceModel(new ShapeAppearanceModel());
 
@@ -1238,11 +1274,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
             cardView.setOnClickListener(visitLink);
             // View embedded photos in our image viewer instead of opening the browser
-            cardImage.setOnClickListener(card.getType().equals(Card.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbedUrl()) ?
+            cardImage.setOnClickListener(card.getType().equals(PreviewCard.TYPE_PHOTO) && !TextUtils.isEmpty(card.getEmbedUrl()) ?
                 v -> cardView.getContext().startActivity(ViewMediaActivity.newSingleImageIntent(cardView.getContext(), card.getEmbedUrl())) :
                 visitLink);
-
-            cardView.setClipToOutline(true);
         } else {
             cardView.setVisibility(View.GONE);
         }
