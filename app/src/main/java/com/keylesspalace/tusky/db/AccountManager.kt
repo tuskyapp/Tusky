@@ -36,8 +36,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
 
 /**
- * This class caches the account database and handles all account related operations
- * @author ConnyDuck
+ * This class is the main interface to all account related operations.
  */
 
 private const val TAG = "AccountManager"
@@ -51,27 +50,27 @@ class AccountManager @Inject constructor(
 
     private val accountDao: AccountDao = db.accountDao()
 
+    /** A StateFlow that will update everytime an account in the database changes, is added or removed.
+     *  The first account is the currently active one.
+     */
     val accountsFlow: StateFlow<List<AccountEntity>> = runBlocking {
         accountDao.allAccounts()
             .stateIn(CoroutineScope(applicationScope.coroutineContext + Dispatchers.IO))
     }
 
-    /** a list of all accounts in the database with the active account first */
+    /** A list of all accounts in the database with the active account first */
     val accounts: List<AccountEntity>
         get() = accountsFlow.value
 
-    /** the currently active account */
+    /** The currently active account, if there is one */
     val activeAccount: AccountEntity?
-        get() {
-            val a = accounts.firstOrNull()
-            Log.d(TAG, "returning active account with id ${a?.id}")
-            return a
-        }
+        get() = accounts.firstOrNull()
 
     /** Returns a StateFlow for updates to the currently active account.
-     *  Note that the account will be null after it got logged out,
-     *  and that always the same account will be returned,
-     *  even if it is no longer active. */
+     *  Note that always the same account will be emitted,
+     *  even if it is no longer active and that it will emit null when the account got removed.
+     *  @param scope the [CoroutineScope] this flow will be active in.
+     */
     fun activeAccount(scope: CoroutineScope): StateFlow<AccountEntity?> {
         val activeAccount = activeAccount
         return accountsFlow.map { accounts ->
@@ -133,33 +132,13 @@ class AccountManager @Inject constructor(
     /**
      * Saves an already known account to the database.
      * New accounts must be created with [addAccount]
-     * @param account the account to save
+     * @param account The account to save
+     * @param changer make the changes to save here - this is to make sure no stale data gets re-saved to the database
      */
     suspend fun updateAccount(account: AccountEntity, changer: AccountEntity.() -> AccountEntity) {
-        if (account.id != 0L) {
-            // get the newest version of the account to make sure no stale data gets re-saved to db
-            val acc = accounts.find { it.id == account.id } ?: return
+        accounts.find { it.id == account.id }?.let { acc ->
+            Log.d(TAG, "updateAccount: saving account with id " + acc.id)
             accountDao.insertOrReplace(changer(acc))
-        }
-    }
-
-    /**
-     * Logs an account out by deleting all its data.
-     * @return the new active account, or null if no other account was found
-     */
-    suspend fun logout(account: AccountEntity): AccountEntity? = db.withTransaction {
-        accountDao.delete(account)
-
-        val otherAccount = accounts.find { it.id != account.id }
-        if (otherAccount != null) {
-            val otherAccountActive = otherAccount.copy(
-                isActive = true
-            )
-            Log.d(TAG, "logActiveAccountOut: saving account with id " + otherAccountActive.id)
-            accountDao.insertOrReplace(otherAccountActive)
-            otherAccountActive
-        } else {
-            null
         }
     }
 
@@ -168,29 +147,44 @@ class AccountManager @Inject constructor(
      * and saves it in the database.
      * @param accountEntity the [AccountEntity] to update
      * @param account the [Account] object which the newest data from the api
-     * @return the updated [AccountEntity]
      */
-    suspend fun updateAccount(accountEntity: AccountEntity, account: Account): AccountEntity {
-        val newAccount = accountEntity.copy(
-            accountId = account.id,
-            username = account.username,
-            displayName = account.name,
-            profilePictureUrl = account.avatar,
-            profileHeaderUrl = account.header,
-            defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
-            defaultPostLanguage = account.source?.language.orEmpty(),
-            defaultMediaSensitivity = account.source?.sensitive ?: false,
-            emojis = account.emojis,
-            locked = account.locked
-        )
-
-        Log.d(TAG, "updateAccount: saving account with id " + accountEntity.id)
-        accountDao.insertOrReplace(newAccount)
-        return newAccount
+    suspend fun updateAccount(accountEntity: AccountEntity, account: Account) {
+        updateAccount (accountEntity) {
+            copy(
+                accountId = account.id,
+                username = account.username,
+                displayName = account.name,
+                profilePictureUrl = account.avatar,
+                profileHeaderUrl = account.header,
+                defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
+                defaultPostLanguage = account.source?.language.orEmpty(),
+                defaultMediaSensitivity = account.source?.sensitive == true,
+                emojis = account.emojis,
+                locked = account.locked
+            )
+        }
     }
 
     /**
-     * changes the active account
+     * Removes an account from the database.
+     * @return the new active account, or null if no other account was found
+     */
+    suspend fun remove(account: AccountEntity): AccountEntity? = db.withTransaction {
+        Log.d(TAG, "remove: deleting account with id " + account.id)
+        accountDao.delete(account)
+
+        accounts.find { it.id != account.id }?.let{ otherAccount ->
+            val otherAccountActive = otherAccount.copy(
+                isActive = true
+            )
+            Log.d(TAG, "remove: saving account with id " + otherAccountActive.id)
+            accountDao.insertOrReplace(otherAccountActive)
+            otherAccountActive
+        }
+    }
+
+    /**
+     * Changes the active account
      * @param accountId the database id of the new active account
      */
     suspend fun setActiveAccount(accountId: Long) = db.withTransaction {
