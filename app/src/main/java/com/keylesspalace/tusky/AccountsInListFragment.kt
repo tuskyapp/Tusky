@@ -62,6 +62,10 @@ class AccountsInListFragment : DialogFragment() {
 
     private val radius by unsafeLazy { resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp) }
 
+    private val animateAvatar by unsafeLazy { preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false) }
+    private val animateEmojis by unsafeLazy { preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false) }
+    private val showBotOverlay by unsafeLazy { preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = requireArguments()
@@ -202,9 +206,6 @@ class AccountsInListFragment : DialogFragment() {
             position: Int
         ) {
             val account = getItem(position)
-            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-            val showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, false)
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
             holder.binding.avatarBadge.visible(showBotOverlay && account.bot)
@@ -257,11 +258,9 @@ class AccountsInListFragment : DialogFragment() {
         ) {
             val (account, inAList) = getItem(position)
 
-            val animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
-            val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-
             holder.binding.displayNameTextView.text = account.name.emojify(account.emojis, holder.binding.displayNameTextView, animateEmojis)
             holder.binding.usernameTextView.text = account.username
+            holder.binding.avatarBadge.visible(showBotOverlay && account.bot)
             loadAvatar(account.avatar, holder.binding.avatar, radius, animateAvatar)
 
             holder.binding.rejectButton.apply {
