@@ -6,6 +6,19 @@
 
 ### Significant bug fixes
 
+## v27.1
+
+### New features and other improvements
+
+- The width of the tab indicator has been increased https://github.com/tuskyapp/Tusky/pull/4849
+
+### Significant bug fixes
+
+- Improves rendering of some animated custom emojis https://github.com/tuskyapp/Tusky/pull/4281
+- Fixes an issue where the input field for media descriptions was too small in some cases https://github.com/tuskyapp/Tusky/pull/4831
+- Fixes an issue where hashtags at the end of posts were duplicated https://github.com/tuskyapp/Tusky/pull/4845
+- Fixes an issue that prevented lists from being edited https://github.com/tuskyapp/Tusky/pull/4851
+
 ## v27.0
 
 ### New features and other improvements
