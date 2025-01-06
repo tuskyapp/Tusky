@@ -59,7 +59,7 @@ class ThreadAdapter(
         if (viewHolder is FilteredStatusViewHolder) {
             viewHolder.bind(status)
         } else if (viewHolder is StatusBaseViewHolder) {
-            viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions)
+            viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions, null, false)
         }
     }
 

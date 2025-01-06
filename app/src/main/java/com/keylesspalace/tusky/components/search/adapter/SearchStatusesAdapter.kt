@@ -38,7 +38,7 @@ class SearchStatusesAdapter(
 
     override fun onBindViewHolder(holder: StatusViewHolder, position: Int) {
         getItem(position)?.let { item ->
-            holder.setupWithStatus(item, statusListener, statusDisplayOptions)
+            holder.setupWithStatus(item, statusListener, statusDisplayOptions, null, true)
         }
     }
 
