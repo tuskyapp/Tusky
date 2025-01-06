@@ -444,6 +444,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="center"
+                app:tabIndicatorHeight="4dp"
+                app:tabIndicator="@drawable/tab_indicator_top"
+                app:tabIndicatorFullWidth="true"
                 app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>

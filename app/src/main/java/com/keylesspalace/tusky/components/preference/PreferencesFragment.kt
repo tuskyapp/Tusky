@@ -148,7 +148,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.SHOW_SELF_USERNAME
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_show_self_username)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
@@ -161,21 +160,18 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setDefaultValue(true)
                     key = PrefKeys.SHOW_NOTIFICATIONS_FILTER
                     setTitle(R.string.pref_title_show_notifications_filter)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.ABSOLUTE_TIME_VIEW
                     setTitle(R.string.pref_title_absolute_time)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.SHOW_BOT_OVERLAY
                     setTitle(R.string.pref_title_bot_overlay)
-                    isSingleLineTitle = false
                     icon = icon(R.drawable.ic_bot_24dp)
                 }
 
@@ -183,63 +179,54 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setDefaultValue(false)
                     key = PrefKeys.ANIMATE_GIF_AVATARS
                     setTitle(R.string.pref_title_animate_gif_avatars)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.ANIMATE_CUSTOM_EMOJIS
                     setTitle(R.string.pref_title_animate_custom_emojis)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.USE_BLURHASH
                     setTitle(R.string.pref_title_gradient_for_media)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.SHOW_CARDS_IN_TIMELINES
                     setTitle(R.string.pref_title_show_cards_in_timelines)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.CONFIRM_REBLOGS
                     setTitle(R.string.pref_title_confirm_reblogs)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.CONFIRM_FAVOURITES
                     setTitle(R.string.pref_title_confirm_favourites)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.CONFIRM_FOLLOWS
                     setTitle(R.string.pref_title_confirm_follows)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(true)
                     key = PrefKeys.ENABLE_SWIPE_FOR_TABS
                     setTitle(R.string.pref_title_enable_swipe_for_tabs)
-                    isSingleLineTitle = false
                 }
 
                 switchPreference {
                     setDefaultValue(false)
                     key = PrefKeys.SHOW_STATS_INLINE
                     setTitle(R.string.pref_title_show_stat_inline)
-                    isSingleLineTitle = false
                 }
             }
 
@@ -248,7 +235,6 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     setDefaultValue(false)
                     key = PrefKeys.CUSTOM_TABS
                     setTitle(R.string.pref_title_custom_tabs)
-                    isSingleLineTitle = false
                 }
             }
 

@@ -47,7 +47,8 @@ internal class StatusViewHolder(
                 statusViewData,
                 statusActionListener,
                 statusDisplayOptions,
-                payloads.firstOrNull()
+                payloads.firstOrNull(),
+                false
             )
         }
         if (viewData.type == Notification.Type.POLL) {

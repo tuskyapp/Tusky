@@ -159,7 +159,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setEntries(R.array.post_privacy_names)
                     setEntryValues(R.array.post_privacy_values)
                     key = PrefKeys.DEFAULT_POST_PRIVACY
-                    isSingleLineTitle = false
                     setSummaryProvider { entry }
                     val visibility = accountManager.activeAccount?.defaultPostPrivacy ?: Status.Visibility.PUBLIC
                     value = visibility.stringValue
@@ -182,7 +181,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         setEntries(R.array.reply_privacy_names)
                         setEntryValues(R.array.reply_privacy_values)
                         key = PrefKeys.DEFAULT_REPLY_PRIVACY
-                        isSingleLineTitle = false
                         setSummaryProvider { entry }
                         val visibility = activeAccount.defaultReplyPrivacy
                         value = visibility.stringValue
@@ -219,7 +217,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         ).toTypedArray()
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
-                    isSingleLineTitle = false
                     icon = icon(GoogleMaterial.Icon.gmd_translate)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
@@ -235,7 +232,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                     setTitle(R.string.pref_default_media_sensitivity)
                     icon = icon(R.drawable.ic_eye_24dp)
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
-                    isSingleLineTitle = false
                     val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity == true
                     setDefaultValue(sensitivity)
                     icon = getIconForSensitivity(sensitivity)
@@ -254,21 +250,18 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                 switchPreference {
                     key = PrefKeys.MEDIA_PREVIEW_ENABLED
                     setTitle(R.string.pref_title_show_media_preview)
-                    isSingleLineTitle = false
                     preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA
                     setTitle(R.string.pref_title_alway_show_sensitive_media)
-                    isSingleLineTitle = false
                     preferenceDataStore = accountPreferenceDataStore
                 }
 
                 switchPreference {
                     key = PrefKeys.ALWAYS_OPEN_SPOILER
                     setTitle(R.string.pref_title_alway_open_spoiler)
-                    isSingleLineTitle = false
                     preferenceDataStore = accountPreferenceDataStore
                 }
             }

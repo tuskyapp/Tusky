@@ -110,8 +110,6 @@
         <item name="chipStyle">@style/Widget.Material3.Chip.Filter</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
-
-        <item name="licenseCardStyle">@style/Widget.Material3.CardView.Filled</item>
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
@@ -178,10 +176,16 @@
 
     <style name="TuskyPreferenceTheme" parent="@style/PreferenceThemeOverlay">
         <item name="switchPreferenceCompatStyle">@style/TuskySwitchPreference</item>
+        <item name="dialogPreferenceStyle">@style/TuskyDialogPreference</item>
+    </style>
+
+    <style name="TuskyDialogPreference" parent="@style/Preference.DialogPreference.Material">
+        <item name="singleLineTitle">false</item>
     </style>
 
     <style name="TuskySwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_material_switch</item>
+        <item name="singleLineTitle">false</item>
     </style>
 
     <style name="TuskyImageButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">

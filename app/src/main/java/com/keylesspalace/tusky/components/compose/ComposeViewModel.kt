@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.connyduck.calladapter.networkresult.fold
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeKind
-import com.keylesspalace.tusky.components.compose.ComposeActivity.QueuedMedia
 import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter.AutocompleteResult
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfo
@@ -41,6 +40,7 @@ import com.keylesspalace.tusky.util.randomAlphanumericString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,7 +55,6 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class ComposeViewModel @Inject constructor(
@@ -92,7 +91,7 @@ class ComposeViewModel @Inject constructor(
         .shareIn(viewModelScope, SharingStarted.Eagerly, replay = 1)
 
     private val _markMediaAsSensitive =
-        MutableStateFlow(accountManager.activeAccount?.defaultMediaSensitivity ?: false)
+        MutableStateFlow(accountManager.activeAccount?.defaultMediaSensitivity == true)
     val markMediaAsSensitive: StateFlow<Boolean> = _markMediaAsSensitive.asStateFlow()
 
     private val _statusVisibility = MutableStateFlow(Status.Visibility.UNKNOWN)
@@ -127,31 +126,31 @@ class ComposeViewModel @Inject constructor(
 
     private var setupComplete = false
 
-    suspend fun pickMedia(
-        mediaUri: Uri,
-        description: String? = null,
-        focus: Attachment.Focus? = null
-    ): Result<QueuedMedia> = withContext(
-        Dispatchers.IO
-    ) {
-        try {
-            val (type, uri, size) = mediaUploader.prepareMedia(mediaUri, instanceInfo.first())
-            val mediaItems = _media.value
-            if (type != QueuedMedia.Type.IMAGE &&
-                mediaItems.isNotEmpty() &&
-                mediaItems[0].type == QueuedMedia.Type.IMAGE
-            ) {
-                Result.failure(VideoOrImageException())
-            } else {
-                val queuedMedia = addMediaToQueue(type, uri, size, description, focus)
-                Result.success(queuedMedia)
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
+    fun pickMedia(uri: Uri) {
+        pickMedia(listOf(MediaData(uri)))
+    }
+
+    fun pickMedia(mediaList: List<MediaData>) = viewModelScope.launch(Dispatchers.IO) {
+        val instanceInfo = instanceInfo.first()
+        mediaList.map { m ->
+            async { mediaUploader.prepareMedia(m.uri, instanceInfo) }
+        }.forEachIndexed { index, preparedMedia ->
+            preparedMedia.await().fold({ (type, uri, size) ->
+                if (type != QueuedMedia.Type.IMAGE &&
+                    _media.value.firstOrNull()?.type == QueuedMedia.Type.IMAGE
+                ) {
+                    _uploadError.emit(VideoOrImageException())
+                } else {
+                    val pickedMedia = mediaList[index]
+                    addMediaToQueue(type, uri, size, pickedMedia.description, pickedMedia.focus)
+                }
+            }, { error ->
+                _uploadError.emit(error)
+            })
         }
     }
 
-    suspend fun addMediaToQueue(
+    fun addMediaToQueue(
         type: QueuedMedia.Type,
         uri: Uri,
         mediaSize: Long,
@@ -159,20 +158,17 @@ class ComposeViewModel @Inject constructor(
         focus: Attachment.Focus? = null,
         replaceItem: QueuedMedia? = null
     ): QueuedMedia {
-        var stashMediaItem: QueuedMedia? = null
+        val mediaItem = QueuedMedia(
+            localId = mediaUploader.getNewLocalMediaId(),
+            uri = uri,
+            type = type,
+            mediaSize = mediaSize,
+            description = description,
+            focus = focus,
+            state = QueuedMedia.State.UPLOADING
+        )
 
         _media.update { mediaList ->
-            val mediaItem = QueuedMedia(
-                localId = mediaUploader.getNewLocalMediaId(),
-                uri = uri,
-                type = type,
-                mediaSize = mediaSize,
-                description = description,
-                focus = focus,
-                state = QueuedMedia.State.UPLOADING
-            )
-            stashMediaItem = mediaItem
-
             if (replaceItem != null) {
                 mediaUploader.cancelUploadScope(replaceItem.localId)
                 mediaList.map {
@@ -182,8 +178,6 @@ class ComposeViewModel @Inject constructor(
                 mediaList + mediaItem
             }
         }
-        val mediaItem =
-            stashMediaItem!! // stashMediaItem is always non-null and uncaptured at this point, but Kotlin doesn't know that
 
         viewModelScope.launch {
             mediaUploader
@@ -505,11 +499,9 @@ class ComposeViewModel @Inject constructor(
         val draftAttachments = composeOptions?.draftAttachments
         if (draftAttachments != null) {
             // when coming from DraftActivity
-            viewModelScope.launch {
-                draftAttachments.forEach { attachment ->
-                    pickMedia(attachment.uri, attachment.description, attachment.focus)
-                }
-            }
+            draftAttachments.map { attachment ->
+                MediaData(attachment.uri, attachment.description, attachment.focus)
+            }.let(::pickMedia)
         } else {
             composeOptions?.mediaAttachments?.forEach { a ->
                 // when coming from redraft or ScheduledTootActivity
@@ -588,6 +580,36 @@ class ComposeViewModel @Inject constructor(
         CONTINUE_EDITING_OR_DISCARD_CHANGES, // editing post
         CONTINUE_EDITING_OR_DISCARD_DRAFT // edit draft
     }
+
+    data class QueuedMedia(
+        val localId: Int,
+        val uri: Uri,
+        val type: Type,
+        val mediaSize: Long,
+        val uploadPercent: Int = 0,
+        val id: String? = null,
+        val description: String? = null,
+        val focus: Attachment.Focus? = null,
+        val state: State
+    ) {
+        enum class Type {
+            IMAGE,
+            VIDEO,
+            AUDIO
+        }
+        enum class State {
+            UPLOADING,
+            UNPROCESSED,
+            PROCESSED,
+            PUBLISHED
+        }
+    }
+
+    data class MediaData(
+        val uri: Uri,
+        val description: String? = null,
+        val focus: Attachment.Focus? = null
+    )
 }
 
 /**

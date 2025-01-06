@@ -79,7 +79,8 @@ internal class StatusNotificationViewHolder(
                 showNotificationContent(false)
             } else {
                 showNotificationContent(true)
-                val (_, _, account, _, _, _, _, createdAt) = statusViewData.actionable
+                val account = statusViewData.actionable.account
+                val createdAt = statusViewData.actionable.createdAt
                 setDisplayName(account.name, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)
@@ -100,12 +101,15 @@ internal class StatusNotificationViewHolder(
                     )
                 }
 
-                binding.notificationContainer.setOnClickListener {
-                    statusActionListener.onViewThread(bindingAdapterPosition)
+                val viewThreadListener = View.OnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        statusActionListener.onViewThread(position)
+                    }
                 }
-                binding.notificationContent.setOnClickListener {
-                    statusActionListener.onViewThread(bindingAdapterPosition)
-                }
+
+                binding.notificationContainer.setOnClickListener(viewThreadListener)
+                binding.notificationContent.setOnClickListener(viewThreadListener)
                 binding.notificationTopText.setOnClickListener {
                     statusActionListener.onViewAccount(viewData.account.id)
                 }

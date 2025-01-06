@@ -111,12 +111,12 @@
     <string name="label_header">Nagłówek</string>
     <string name="link_whats_an_instance">Czym jest instancja?</string>
     <string name="login_connection">Łączenie…</string>
-    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a>
-\n
-\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
-\n
-\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie.
-\n
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> 
+\n 
+\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować. 
+\n 
+\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie. 
+\n 
 \nWięcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
@@ -261,7 +261,7 @@
     <string name="profile_metadata_add">dodaj dane</string>
     <string name="profile_metadata_label_label">Nazwa</string>
     <string name="profile_metadata_content_label">Zawartość</string>
-    <string name="error_network">Wystąpił problem z łącznością! Sprawdź swoje połączenie internetowe i spróbuj ponownie!</string>
+    <string name="error_network">Wystąpił problem z łącznością. Sprawdź swoje połączenie internetowe i spróbuj ponownie.</string>
     <string name="title_direct_messages">Bezpośrednie wiadomości</string>
     <string name="title_posts_pinned">Przypięte</string>
     <string name="post_content_show_more">Rozwiń</string>
@@ -636,4 +636,5 @@
     <string name="action_discard">Odrzuć zmiany</string>
     <string name="action_share_account_username">Udostępnij nazwę użytkownika</string>
     <string name="action_share_account_link">Udostępnij link do konta</string>
+    <string name="error_media_upload_sending_fmt">Wystąpił błąd podczas wysłania: %1$s</string>
 </resources>

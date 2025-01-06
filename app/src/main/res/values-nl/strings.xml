@@ -136,12 +136,12 @@
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een server?</string>
     <string name="login_connection">Aan het verbinden…</string>
-    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> 
-\n 
-\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. 
-\n 
-\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. 
-\n 
+    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> \u0020
+\n \u0020
+\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. \u0020
+\n \u0020
+\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. \u0020
+\n \u0020
 \n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
@@ -657,20 +657,20 @@
     <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
     <string name="notification_policies_title">Meldingsbeleid</string>
     <string name="label_translated">Uit het %1$s met %2$s vertaald</string>
-    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. 
-\n 
-\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. 
-\n 
+    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020
+\n \u0020
+\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020
+\n \u0020
 \nJe kunt je lijsten als tabbladen toevoegen in je account-instellingen [iconics gmd_account_circle] [iconics gmd_navigate_next] tabs. \u0020</string>
     <string name="notification_policies_filter_not_following_description">Inclusief accounts die jou korter dan 3 dagen volgen</string>
-    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. 
-\n
+    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020
+\n 
 \nOm andere accounts te ontdekken, kan je andere tijdlijnen bekijken, bijvoorbeeld je lokale tijdlijn van jouw server [iconics gmd_group]. Of je kan zoeken op naam [iconics gmd_search], bijvoorbeeld typ \"tusky\" in het zoekveld om onze Mastodonaccount te vinden.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Gefilterd, tenzij het een reactie is op je eigen vermelding, of als je het account volgt</string>
-    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM).
-\n
-\nPrivé berichten maak je door het zichtbaarheidsinstellingen [iconics gmd_public] van een bericht op [iconics gmd_mail] <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. 
-\n
+    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). 
+\n 
+\nPrivé berichten maak je door het zichtbaarheidsinstellingen [iconics gmd_public] van een bericht op [iconics gmd_mail] <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020
+\n 
 \nBijvoorbeeld: je kan op het profiel van een account op de toot-knop [iconics gmd_edit] klikken en dan de zichtbaarheid veranderen. \u0020</string>
     <string name="post_privacy_direct">Direct</string>
     <string name="pref_default_reply_privacy_explanation">De gekozen zichtbaarheid hangt af van het bericht waarop je reageert.</string>

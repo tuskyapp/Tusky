@@ -21,11 +21,11 @@ import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.Attachment
-import com.keylesspalace.tusky.entity.Card
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
 import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
+import com.keylesspalace.tusky.entity.PreviewCard
 import com.keylesspalace.tusky.entity.Status
 
 /**
@@ -81,7 +81,7 @@ data class TimelineStatusEntity(
     val contentCollapsed: Boolean,
     val contentShowing: Boolean,
     val pinned: Boolean,
-    val card: Card?,
+    val card: PreviewCard?,
     val language: String?,
     val filtered: List<FilterResult>
 )
