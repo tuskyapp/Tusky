@@ -58,11 +58,11 @@ class AccountManager @Inject constructor(
             .stateIn(CoroutineScope(applicationScope.coroutineContext + Dispatchers.IO))
     }
 
-    /** A list of all accounts in the database with the active account first */
+    /** A snapshot of all accounts in the database with the active account first */
     val accounts: List<AccountEntity>
         get() = accountsFlow.value
 
-    /** The currently active account, if there is one */
+    /** A snapshot currently active account, if there is one */
     val activeAccount: AccountEntity?
         get() = accounts.firstOrNull()
 
@@ -97,15 +97,14 @@ class AccountManager @Inject constructor(
     ) = db.withTransaction {
         activeAccount?.let {
             Log.d(TAG, "addAccount: saving account with id " + it.id)
-
             accountDao.insertOrReplace(it.copy(isActive = false))
         }
         // check if this is a relogin with an existing account, if yes update it, otherwise create a new one
-        val existingAccountIndex = accounts.indexOfFirst { account ->
+        val existingAccount = accounts.find { account ->
             domain == account.domain && newAccount.id == account.accountId
         }
-        val newAccountEntity = if (existingAccountIndex != -1) {
-            accounts[existingAccountIndex].copy(
+        val newAccountEntity = if (existingAccount != null) {
+            existingAccount.copy(
                 accessToken = accessToken,
                 clientId = clientId,
                 clientSecret = clientSecret,
@@ -149,20 +148,24 @@ class AccountManager @Inject constructor(
      * @param account the [Account] object which the newest data from the api
      */
     suspend fun updateAccount(accountEntity: AccountEntity, account: Account) {
-        updateAccount (accountEntity) {
-            copy(
-                accountId = account.id,
-                username = account.username,
-                displayName = account.name,
-                profilePictureUrl = account.avatar,
-                profileHeaderUrl = account.header,
-                defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
-                defaultPostLanguage = account.source?.language.orEmpty(),
-                defaultMediaSensitivity = account.source?.sensitive == true,
-                emojis = account.emojis,
-                locked = account.locked
-            )
-        }
+        // make sure no stale data gets re-saved to the database
+        val accountToUpdate = accounts.find { it.id == accountEntity.id } ?: accountEntity
+
+        val newAccount = accountToUpdate.copy(
+            accountId = account.id,
+            username = account.username,
+            displayName = account.name,
+            profilePictureUrl = account.avatar,
+            profileHeaderUrl = account.header,
+            defaultPostPrivacy = account.source?.privacy ?: Status.Visibility.PUBLIC,
+            defaultPostLanguage = account.source?.language.orEmpty(),
+            defaultMediaSensitivity = account.source?.sensitive == true,
+            emojis = account.emojis,
+            locked = account.locked
+        )
+
+        Log.d(TAG, "updateAccount: saving account with id " + accountToUpdate.id)
+        accountDao.insertOrReplace(newAccount)
     }
 
     /**

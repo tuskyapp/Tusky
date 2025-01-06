@@ -57,16 +57,14 @@ class MainViewModel @Inject constructor(
     private val shareShortcutHelper: ShareShortcutHelper
 ) : ViewModel() {
 
-    private val activeAccount = accountManager.activeAccount
+    private val activeAccount = accountManager.activeAccount!!
 
     val accounts: StateFlow<List<AccountViewData>> = accountManager.accountsFlow
         .map { accounts ->
             accounts.map { account ->
                 AccountViewData(
                     id = account.id,
-                    isActive = account.isActive,
                     domain = account.domain,
-                    accountId = account.accountId,
                     username = account.username,
                     displayName = account.displayName,
                     profilePictureUrl = account.profilePictureUrl,
@@ -79,7 +77,7 @@ class MainViewModel @Inject constructor(
 
     val tabs: Flow<List<TabData>> = accountManager.accountsFlow
         .mapNotNull { accounts ->
-            accounts.find { activeAccount?.id == it.id }?.tabPreferences
+            accounts.find { activeAccount.id == it.id }?.tabPreferences
         }
         .distinctUntilChanged()
 
@@ -88,7 +86,7 @@ class MainViewModel @Inject constructor(
 
     val showDirectMessagesBadge: StateFlow<Boolean> = accountManager.accountsFlow
         .map { accounts ->
-            accounts.find { activeAccount?.id == it.id }?.hasDirectMessageBadge == true
+            accounts.find { activeAccount.id == it.id }?.hasDirectMessageBadge == true
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
@@ -102,7 +100,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             api.accountVerifyCredentials().fold(
                 { userInfo ->
-                    accountManager.updateAccount(activeAccount!!, userInfo)
+                    accountManager.updateAccount(activeAccount, userInfo)
 
                     shareShortcutHelper.updateShortcuts()
 
@@ -145,7 +143,7 @@ class MainViewModel @Inject constructor(
                         _unreadAnnouncementsCount.value--
                     }
                     is NewNotificationsEvent -> {
-                        if (event.accountId == activeAccount?.accountId) {
+                        if (event.accountId == activeAccount.accountId) {
                             val hasDirectMessageNotification =
                                 event.notifications.any {
                                     it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
@@ -157,12 +155,12 @@ class MainViewModel @Inject constructor(
                         }
                     }
                     is NotificationsLoadingEvent -> {
-                        if (event.accountId == activeAccount?.accountId) {
+                        if (event.accountId == activeAccount.accountId) {
                             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
                         }
                     }
                     is ConversationsLoadingEvent -> {
-                        if (event.accountId == activeAccount?.accountId) {
+                        if (event.accountId == activeAccount.accountId) {
                             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
                         }
                     }
@@ -173,7 +171,7 @@ class MainViewModel @Inject constructor(
 
     fun dismissDirectMessagesBadge() {
         viewModelScope.launch {
-            accountManager.updateAccount(activeAccount!!) { copy(hasDirectMessageBadge = false) }
+            accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
         }
     }
 
@@ -184,9 +182,7 @@ class MainViewModel @Inject constructor(
 
 data class AccountViewData(
     val id: Long,
-    val isActive: Boolean,
     val domain: String,
-    val accountId: String,
     val username: String,
     val displayName: String,
     val profilePictureUrl: String,
