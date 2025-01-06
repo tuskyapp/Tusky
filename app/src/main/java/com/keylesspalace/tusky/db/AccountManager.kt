@@ -176,7 +176,7 @@ class AccountManager @Inject constructor(
         Log.d(TAG, "remove: deleting account with id " + account.id)
         accountDao.delete(account)
 
-        accounts.find { it.id != account.id }?.let{ otherAccount ->
+        accounts.find { it.id != account.id }?.let { otherAccount ->
             val otherAccountActive = otherAccount.copy(
                 isActive = true
             )
