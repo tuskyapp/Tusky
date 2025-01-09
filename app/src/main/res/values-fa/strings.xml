@@ -749,4 +749,7 @@
     <string name="filtered_notifications_title">آگاهی‌های پالوده</string>
     <string name="notification_policies_filter_not_following_description">شامل افرادی که کم‌تر از ۳ روز است پیتان می‌گیرند</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">پالوده مگر در پاسخ به اشارهٔ خودتان بوده یا فرستنده را پی گرفته باشید</string>
+    <string name="post_replied">پاسخ داده</string>
+    <string name="post_replied_format">در پاسخ به %1$s</string>
+    <string name="post_replied_self">رشتهٔ دنباله‌دار</string>
 </resources>

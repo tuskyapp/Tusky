@@ -402,12 +402,12 @@
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_title_finishing_media_upload">Rematando o envío de multimedia</string>
-    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.social, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
-\n \u0020
-\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. \u0020
-\n \u0020
-\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
+\n 
+\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. \u0020 
+\n \u0020 
+\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí. \u0020 
+\n \u0020 
 \nPodes atopar máis información en <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="login_connection">Conectando…</string>
     <string name="link_whats_an_instance">Que é unha instancia\?</string>
@@ -607,7 +607,7 @@
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
     <string name="dialog_follow_hashtag_hint">#cancelo</string>
-    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
+    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues. 
 \n 
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia [iconics gmd_group]. Ou buscalas polo seu nome [iconics gmd_search]; por exemplo busca Tusky para atopar a nosa conta en Mastodon.</string>
     <string name="post_media_image">Imaxe</string>
@@ -668,9 +668,9 @@
     <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'\?</string>
     <string name="error_media_playback">Produciuse un fallo ao reproducir: %1$s</string>
     <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); 
-\n \u0020
-\nAs mensaxes privadas créanse establecendo a visibilidade [iconics gmd_public] da publicación como [iconics gmd_mail] <i>Directa</i> e mencionando a unha ou máis usuarias no texto. \u0020
-\n \u0020
+\n \u0020 
+\nAs mensaxes privadas créanse establecendo a visibilidade [iconics gmd_public] da publicación como [iconics gmd_mail] <i>Directa</i> e mencionando a unha ou máis usuarias no texto. \u0020 
+\n \u0020 
 \nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir [iconics gmd_edit] e cambiar a visibilidade.</string>
     <string name="muting_hashtag_success_format">Acalar o cancelo #%1$s cun aviso</string>
     <string name="unmuting_hashtag_success_format">Reactivar o cancelo #%1$s</string>
@@ -678,10 +678,10 @@
     <string name="following_hashtag_success_format">Agora segues o cancelo #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%1$s</string>
     <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
-    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. \u0020 
-\n 
-\n \u0020TEN EN CONTA que só podes engadir contas que estás a seguir. \u0020 
-\n 
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. 
+\n \u0020
+\n \u0020TEN EN CONTA que só podes engadir contas que estás a seguir. \u0020 \u0020
+\n \u0020
 \n \u0020Estas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
@@ -742,4 +742,7 @@
     <string name="action_dismiss_notification_request">Desbotar</string>
     <string name="notification_policies_not_supported">Esta ferramenta só é compatible con servidores Mastodon 4.3.0 ou superior.</string>
     <string name="notification_policies_filter_not_following_description">Incluíndo as persoas que te seguen desde fai menos de 3 días</string>
+    <string name="post_replied">Con resposta</string>
+    <string name="post_replied_format">Como resposta a %1$s</string>
+    <string name="post_replied_self">Continuación do fío</string>
 </resources>
