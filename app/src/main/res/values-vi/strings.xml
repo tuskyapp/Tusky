@@ -732,4 +732,7 @@
     <string name="action_dismiss_notification_request">Bỏ qua</string>
     <string name="notification_policies_not_supported">Tính năng này chỉ được hỗ trợ trên máy chủ Mastodon chạy phiên bản 4.3.0 trở lên.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_title">Lượt nhắn riêng không mong muốn</string>
+    <string name="post_replied_format">Trả lời đến %1$s</string>
+    <string name="post_replied_self">Tiếp tục chủ đề</string>
+    <string name="post_replied">Trả lời</string>
 </resources>
