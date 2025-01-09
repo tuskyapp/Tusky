@@ -144,6 +144,11 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
+    <style name="TuskyDialogFragment" parent="@style/ThemeOverlay.Material3.Dialog">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
     <style name="TuskyDialogOverlay" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/TuskyDialog</item>
         <item name="android:backgroundDimAmount">0.5</item>
