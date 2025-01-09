@@ -674,13 +674,13 @@
     <string name="a11y_label_loading_thread">Načítání vlákna</string>
     <string name="accessibility_talking_about_tag">%1$d lidí mluví o hashtagu %2$s</string>
     <string name="total_usage">Celkově použito</string>
-    <string name="title_public_trending_statuses">Trending posty</string>
+    <string name="title_public_trending_statuses">Populární příspěvky</string>
     <string name="list_exclusive_label">Skrýt z domovské timeline</string>
     <string name="action_add">Přidat</string>
     <string name="label_filter_keywords">Klíčová slova nebo fráze k filtrování</string>
     <string name="error_blocking_domain">Nezdařilo se ztlumení %1$s: %2$s</string>
     <string name="error_unblocking_domain">Nezdařilo se zrušit ztlumení %1$s: %2$s</string>
-    <string name="title_public_trending_hashtags">Trending hashtagy</string>
+    <string name="title_public_trending_hashtags">Populární hashtagy</string>
     <string name="error_media_upload_sending_fmt">Nahrávání selhalo: %1$s</string>
     <string name="title_followed_hashtags">Sledované hashtagy</string>
     <string name="action_post_failed_detail_plural">Nahrávání tvých postuů selhalo a posty byly uloženy mezi koncepty.
@@ -764,4 +764,7 @@
     <string name="error_media_playback">Přehrávání selhalo: %1$s</string>
     <string name="list_reply_policy_none">Nikdo</string>
     <string name="list_reply_policy_list">Členové seznamu</string>
+    <string name="preview_card_by_author">Od %1$s</string>
+    <string name="preview_card_more_by_author">Více od %1$s</string>
+    <string name="post_replied_self">Pokračování vlákna</string>
 </resources>
