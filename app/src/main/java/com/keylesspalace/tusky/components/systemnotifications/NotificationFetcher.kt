@@ -1,9 +1,13 @@
 package com.keylesspalace.tusky.components.systemnotifications
 
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.filterNotification
@@ -16,8 +20,6 @@ import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.delay
 
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?) {
@@ -52,12 +54,18 @@ class NotificationFetcher @Inject constructor(
     private val eventHub: EventHub
 ) {
     suspend fun fetchAndShow() {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
         for (account in accountManager.getAllAccountsOrderedByActive()) {
             if (account.notificationsEnabled) {
                 try {
                     val notificationManager = context.getSystemService(
                         Context.NOTIFICATION_SERVICE
                     ) as NotificationManager
+
+                    val notificationManagerCompat = NotificationManagerCompat.from(context)
 
                     // Create sorted list of new notifications
                     val notifications = fetchNewNotifications(account)
@@ -70,36 +78,37 @@ class NotificationFetcher @Inject constructor(
                     //   (and should therefore adhere to the notification config).
                     eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
-                    val notificationsByType: Map<Notification.Type, List<Notification>> = notifications.groupBy { it.type }
+                    val newNotifications = ArrayList<NotificationManagerCompat.NotificationWithIdAndTag>()
 
+                    val notificationsByType: Map<Notification.Type, List<Notification>> = notifications.groupBy { it.type }
                     notificationsByType.forEach { notificationsGroup: Map.Entry<Notification.Type, List<Notification>> ->
-                        // NOTE: Enqueue the summary first: Only this way one can avoid running into notification rate limits;
-                        //   which also would prohibit the group summary to be shown and thus proper grouping!
-                        NotificationHelper.showSummaryNotification(
-                            context,
-                            notificationManager,
-                            account,
-                            notificationsGroup.key,
-                            notificationsGroup.value
+                        // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
+                        //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
+                        //   takes place.
+                        newNotifications.add(
+                            NotificationHelper.makeSummaryNotification(
+                                context,
+                                notificationManager,
+                                account,
+                                notificationsGroup.key,
+                                notificationsGroup.value
+                            )
                         )
 
                         notificationsGroup.value.forEach { notification ->
-                            val androidNotification = NotificationHelper.make(
-                                context,
-                                notificationManager,
-                                notification,
-                                account
-                            )
-                            notificationManager.notify(
-                                notification.id,
-                                account.id.toInt(),
-                                androidNotification
+                            newNotifications.add(
+                                NotificationHelper.make(
+                                    context,
+                                    notificationManager,
+                                    notification,
+                                    account
+                                )
                             )
                         }
-
-                        // NOTE this can schedule multiple (summary) notifications in short succession (normally 1-3).
-                        //   They can "collapse" to only one audible one if fast enough.
                     }
+
+                    // NOTE having multiple summary notifications this here should still collapse them in only one occurrence
+                    notificationManagerCompat.notify(newNotifications)
 
                     accountManager.saveAccount(account)
                 } catch (e: Exception) {
@@ -152,8 +161,6 @@ class NotificationFetcher @Inject constructor(
         Log.d(TAG, "  remoteMarkerId: $remoteMarkerId")
         Log.d(TAG, "  localMarkerId: $localMarkerId")
         Log.d(TAG, "  readingPosition: $readingPosition")
-
-        minId = "1405569"
 
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
 

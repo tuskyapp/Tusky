@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.work.Constraints;
@@ -147,7 +148,16 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account) {
+    public static NotificationManagerCompat.NotificationWithIdAndTag make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account) {
+        return new NotificationManagerCompat.NotificationWithIdAndTag(
+            body.getId(),
+            (int)account.getId(),
+            NotificationHelper.makeBaseNotification(context, notificationManager, body, account)
+        );
+    }
+
+        @NonNull
+    public static android.app.Notification makeBaseNotification(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -242,7 +252,7 @@ public class NotificationHelper {
     }
 
     /**
-     * Updates the summary notifications for each notification type.
+     * Creates the summary notifications for a notification type.
      * <p>
      * Notifications are sent to channels. Within each channel they are grouped and the group has a summary.
      * <p>
@@ -255,13 +265,13 @@ public class NotificationHelper {
      * @see <a href="https://developer.android.com/develop/ui/views/notifications/group">Create a
      * notification group</a>
      */
-    public static void showSummaryNotification(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account, @NonNull Notification.Type type, @NonNull List<Notification> additionalNotifications) {
+    public static NotificationManagerCompat.NotificationWithIdAndTag makeSummaryNotification(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account, @NonNull Notification.Type type, @NonNull List<Notification> additionalNotifications) {
         int accountId = (int) account.getId();
 
         String typeChannelId = getChannelId(account, type);
 
         if (typeChannelId == null) {
-            return;
+            return null;
         }
 
         // Create a notification that summarises the other notifications in this group
@@ -304,7 +314,8 @@ public class NotificationHelper {
         setSoundVibrationLight(account, summaryBuilder);
 
         String summaryTag = GROUP_SUMMARY_TAG + "." + typeChannelId;
-        notificationManager.notify(summaryTag, accountId, summaryBuilder.build());
+
+        return new NotificationManagerCompat.NotificationWithIdAndTag(summaryTag, accountId, summaryBuilder.build());
     }
 
     private static List<StatusBarNotification> getActiveNotifications(StatusBarNotification[] allNotifications, int accountId, String typeChannelId) {
