@@ -351,7 +351,7 @@
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
     <string name="compose_shortcut_long_label">Componi post</string>
-    <string name="edit_hashtag_hint">Hashtag senza #</string>
+    <string name="pick_hashtag_hint">Hashtag senza #</string>
     <string name="compose_shortcut_short_label">Componi</string>
     <string name="notifications_clear">Cancella</string>
     <string name="notifications_apply_filter">Filtra</string>

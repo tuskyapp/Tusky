@@ -342,7 +342,7 @@
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
     <string name="action_remove_from_list">Account uit de lijst verwijderen</string>
     <string name="hint_list_name">Naam van lijst</string>
-    <string name="edit_hashtag_hint">Hashtag zonder #</string>
+    <string name="pick_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
     <string name="notifications_clear">Verwijderen</string>
@@ -664,13 +664,13 @@
 \nJe kunt je lijsten als tabbladen toevoegen in je account-instellingen [iconics gmd_account_circle] [iconics gmd_navigate_next] tabs. \u0020</string>
     <string name="notification_policies_filter_not_following_description">Inclusief accounts die jou korter dan 3 dagen volgen</string>
     <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020
-\n 
+\n
 \nOm andere accounts te ontdekken, kan je andere tijdlijnen bekijken, bijvoorbeeld je lokale tijdlijn van jouw server [iconics gmd_group]. Of je kan zoeken op naam [iconics gmd_search], bijvoorbeeld typ \"tusky\" in het zoekveld om onze Mastodonaccount te vinden.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Gefilterd, tenzij het een reactie is op je eigen vermelding, of als je het account volgt</string>
-    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). 
-\n 
+    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM).
+\n
 \nPrivé berichten maak je door het zichtbaarheidsinstellingen [iconics gmd_public] van een bericht op [iconics gmd_mail] <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020
-\n 
+\n
 \nBijvoorbeeld: je kan op het profiel van een account op de toot-knop [iconics gmd_edit] klikken en dan de zichtbaarheid veranderen. \u0020</string>
     <string name="post_privacy_direct">Direct</string>
     <string name="pref_default_reply_privacy_explanation">De gekozen zichtbaarheid hangt af van het bericht waarop je reageert.</string>

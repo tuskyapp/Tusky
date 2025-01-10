@@ -348,7 +348,7 @@
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
-    <string name="edit_hashtag_hint">Hashtag utan #</string>
+    <string name="pick_hashtag_hint">Hashtag utan #</string>
     <string name="compose_shortcut_long_label">Skriv inlägg</string>
     <string name="compose_shortcut_short_label">Skriv</string>
     <string name="notifications_clear">Radera</string>
@@ -642,8 +642,8 @@
     <string name="filter_description_hide">Dölj helt</string>
     <string name="action_add">Lägg till</string>
     <string name="filter_keyword_display_format">%1$s (helt ord)</string>
-    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer. 
-\n 
+    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer.
+\n
 \nFör att utforska konton kan du antingen upptäcka dem i någon av de andra tidslinjerna. Till exempel den lokala tidslinjen för din instans [iconics gmd_group]. Eller så kan du söka efter dem efter namn [ikonics gmd_search]; sök till exempel efter Tusky för att hitta vårt Mastodon-konto.</string>
     <string name="pref_ui_text_size">UI textstorlek</string>
     <string name="notification_listenable_worker_name">Bakgrundsaktivitet</string>
@@ -678,10 +678,10 @@
     <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
     <string name="dialog_delete_filter_positive_action">Radera</string>
     <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
-    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem. 
-\n 
-\n OBS att du bara kan lägga till konton på dina listor som du följer. 
-\n 
+    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem.
+\n
+\n OBS att du bara kan lägga till konton på dina listor som du följer.
+\n
 \n De här listorna kan användas som en flik i Kontospecifika inställningar [iconics gmd_account_circle] [iconics gmd_navigate_next] Flikar. </string>
     <string name="muting_hashtag_success_format">Tystar hasttaggen #%1$s som en varning</string>
     <string name="unmuting_hashtag_success_format">Slutar tysta hashtaggen #%1$s</string>
@@ -689,10 +689,10 @@
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
     <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
-    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
-\n 
-\nMeddelanden blir privata när ett inläggs synlighet [iconics gmd_public] ändras till [iconics gmd_mail] <i>Direkt</i>, och en eller flera användare nämns i texten. 
-\n 
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM).
+\n
+\nMeddelanden blir privata när ett inläggs synlighet [iconics gmd_public] ändras till [iconics gmd_mail] <i>Direkt</i>, och en eller flera användare nämns i texten.
+\n
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %1$s</string>
     <string name="title_public_trending_statuses">Populära inlägg</string>

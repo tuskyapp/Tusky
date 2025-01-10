@@ -179,12 +179,12 @@
         <item quantity="other">%1$d новых узаемадзеянняў</item>
     </plurals>
     <string name="description_account_locked">Заблакаваны ўліковы запіс</string>
-    <string name="dialog_whats_an_instance">Сюды можна ўвесці адрас або дамен любога сервера, напрыклад mastodon.social, icosahedron.website, social.tchncs.de ды <a href="https://instances.social">больш!</a> 
-\n 
-\nКалі ў вас яшчэ няма ўліковага запісу, вы можаце ўвесці назву сервера, да якога вы жадаеце далучыцца, і стварыць там уліковы запіс. 
-\n 
-\nСервер — гэта месца, дзе размяшчаецца ваш уліковы запіс, але вы можаце лёгка размаўляць з людзьмі і падпісвацца на іх на іншых серверах, нібыта вы знаходзіцеся на тым жа сайце. 
-\n 
+    <string name="dialog_whats_an_instance">Сюды можна ўвесці адрас або дамен любога сервера, напрыклад mastodon.social, icosahedron.website, social.tchncs.de ды <a href="https://instances.social">больш!</a>
+\n
+\nКалі ў вас яшчэ няма ўліковага запісу, вы можаце ўвесці назву сервера, да якога вы жадаеце далучыцца, і стварыць там уліковы запіс.
+\n
+\nСервер — гэта месца, дзе размяшчаецца ваш уліковы запіс, але вы можаце лёгка размаўляць з людзьмі і падпісвацца на іх на іншых серверах, нібыта вы знаходзіцеся на тым жа сайце.
+\n
 \nПадрабязней на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="action_unbookmark">Выдаліць з закладак</string>
     <string name="action_more">Разгарнуць</string>
@@ -453,7 +453,7 @@
     <string name="add_hashtag_title">Дадаць хэштэг</string>
     <string name="description_post_reblogged">Пашырана</string>
     <string name="description_poll">Апытанне з варыянтамі: %1$s, %2$s, %3$s, %4$s; %5$s</string>
-    <string name="edit_hashtag_hint">Хэштэг без #</string>
+    <string name="pick_hashtag_hint">Хэштэг без #</string>
     <string name="description_post_edited">Зменена</string>
     <string name="description_post_bookmarked">Дададзена ў закладкі</string>
     <string name="description_post_favourited">Упадабана</string>

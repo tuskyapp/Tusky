@@ -350,7 +350,7 @@
     </string>
     <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
-    <string name="edit_hashtag_hint">Hashtag sans #</string>
+    <string name="pick_hashtag_hint">Hashtag sans #</string>
     <string name="notifications_clear">Supprimer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
@@ -650,8 +650,8 @@
     <string name="pref_title_show_stat_inline">Montrer les statistiques des statuts dans les fils</string>
     <string name="accessibility_talking_about_tag">%1$d personnes parlent du hashtag %2$s</string>
     <string name="total_usage">utilisations</string>
-    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez. 
-\n 
+    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez.
+\n
 \nPour trouver des comptes vous pouvez soit les découvrir dans l\'un des autres fils, par exemple le fil local de votre instance [iconics gmd_group] ; soit les chercher par leur nom [iconics gmd_search], par exemple cherchez « Tusky » pour trouver notre compte Mastodon.</string>
     <string name="action_add">Ajouter</string>
     <string name="label_filter_keywords">Mots-clés ou phrases à filtrer</string>

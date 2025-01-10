@@ -111,12 +111,12 @@
     <string name="label_header">Nagłówek</string>
     <string name="link_whats_an_instance">Czym jest instancja?</string>
     <string name="login_connection">Łączenie…</string>
-    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> 
-\n 
-\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować. 
-\n 
-\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie. 
-\n 
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a>
+\n
+\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować.
+\n
+\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie.
+\n
 \nWięcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
@@ -375,7 +375,7 @@
     <string name="description_visibility_direct">Bezpośrednio</string>
     <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Nazwa listy</string>
-    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="pick_hashtag_hint">Hashtag bez #</string>
     <string name="notifications_clear">Wyczyść</string>
     <string name="notifications_apply_filter">Filtr</string>
     <string name="filter_apply">Zastosuj</string>

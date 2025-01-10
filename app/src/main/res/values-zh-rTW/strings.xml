@@ -139,12 +139,12 @@
     <string name="label_header">標題</string>
     <string name="link_whats_an_instance">什麼是站點？</string>
     <string name="login_connection">正在連線…</string>
-    <string name="dialog_whats_an_instance">輸入你帳號所在的 Mastodon 站點的域名或地址，譬如 mastodon.social、icosahedron.website、social.tchncs.de 和 <a href="https://instances.social">更多</a> 
-\n 
-\n如果你還沒有帳號，你可以輸入你想要加入的域名並在此建立新帳號。 
-\n 
-\n一個站點是一個託管你的帳號的地方，但是你可以很容易的跟不同站台的人們交流，就像是在同一個站台一樣。 
-\n 
+    <string name="dialog_whats_an_instance">輸入你帳號所在的 Mastodon 站點的域名或地址，譬如 mastodon.social、icosahedron.website、social.tchncs.de 和 <a href="https://instances.social">更多</a>
+\n
+\n如果你還沒有帳號，你可以輸入你想要加入的域名並在此建立新帳號。
+\n
+\n一個站點是一個託管你的帳號的地方，但是你可以很容易的跟不同站台的人們交流，就像是在同一個站台一樣。
+\n
 \n更多資訊可以在 <a href="https://joinmastodon.org">joinmastodon.org</a> 查看。 </string>
     <string name="dialog_title_finishing_media_upload">正在完成上傳</string>
     <string name="dialog_message_uploading_media">正在上傳…</string>
@@ -365,7 +365,7 @@
         私信
     </string>
     <string name="hint_list_name">列表名</string>
-    <string name="edit_hashtag_hint">話題名（不含前面的 # 號）</string>
+    <string name="pick_hashtag_hint">話題名（不含前面的 # 號）</string>
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分類</string>
     <string name="filter_apply">應用</string>

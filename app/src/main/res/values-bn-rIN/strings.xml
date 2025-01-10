@@ -139,12 +139,12 @@
     <string name="label_header">হেডার</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
-    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a> 
-\n 
-\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন। 
-\n 
-\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন। 
-\n 
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং <a href="https://instances.social"> আরও! </a>
+\n
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
+\n
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
+\n
 \nআরো তথ্য <a href="https://joinmastodon.org"> joinmastodon.org </a> এ পাওয়া যেতে পারে। </string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
@@ -351,7 +351,7 @@
     <string name="description_visibility_direct">সরাসরি</string>
     <string name="description_poll">পছন্দগুলি সহ নর্বাচন: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">নামের তালিকা</string>
-    <string name="edit_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>
+    <string name="pick_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>
     <string name="notifications_clear">পরিষ্কার</string>
     <string name="notifications_apply_filter">ফিল্টার</string>
     <string name="filter_apply">প্রয়োগ</string>

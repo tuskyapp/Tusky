@@ -138,12 +138,12 @@
     <string name="label_header">Fonbildo</string>
     <string name="link_whats_an_instance">Kio estas nodo?</string>
     <string name="login_connection">Konektado…</string>
-    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetita ĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj <a href="https://instances.social">pli!</a> 
-\n 
-\nSe vi ankoraŭ ne havas konton, vi povas enmeti la nomon de la nodo, al kiu vi volas aliĝi, kaj krei konton tie. 
-\n 
-\nNodo estas unika loko tie, kie via konto estas gastigita, sed vi povas facile komuniki kun homoj, kaj sekvi ilin ĉe aliaj nodoj, kvazaŭ vi estus samreteje. 
-\n 
+    <string name="dialog_whats_an_instance">La adreso aŭ domajno de iu ajn nodo povas esti enmetita ĉi tie, kiel mastodon.social, icosahedron.website, social.tchncs.de, kaj <a href="https://instances.social">pli!</a>
+\n
+\nSe vi ankoraŭ ne havas konton, vi povas enmeti la nomon de la nodo, al kiu vi volas aliĝi, kaj krei konton tie.
+\n
+\nNodo estas unika loko tie, kie via konto estas gastigita, sed vi povas facile komuniki kun homoj, kaj sekvi ilin ĉe aliaj nodoj, kvazaŭ vi estus samreteje.
+\n
 \nPliaj informoj troviĝas ĉe <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Finante alŝuto de aŭdovidaĵojn</string>
     <string name="dialog_message_uploading_media">Alŝutado…</string>
@@ -360,7 +360,7 @@
     <string name="pref_title_animate_gif_avatars">Ebligi GIF-profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj, kiuj finiĝis</string>
-    <string name="edit_hashtag_hint">Kradvorto sen #</string>
+    <string name="pick_hashtag_hint">Kradvorto sen #</string>
     <string name="notifications_clear">Viŝi</string>
     <string name="notifications_apply_filter">Filtri</string>
     <string name="filter_apply">Apliki</string>

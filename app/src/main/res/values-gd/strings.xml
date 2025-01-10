@@ -171,7 +171,7 @@
     <string name="notifications_clear">Sguab às</string>
     <string name="list">Liosta</string>
     <string name="select_list_title">Tagh liosta</string>
-    <string name="edit_hashtag_hint">Taga hais gun #</string>
+    <string name="pick_hashtag_hint">Taga hais gun #</string>
     <string name="add_hashtag_title">Cuir taga hais ris</string>
     <string name="hint_list_name">Ainm na liosta</string>
     <string name="description_poll">Cunntas-bheachd le roghainnean: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -662,8 +662,8 @@
     <string name="filter_keyword_addition_title">Cuir facal-luirg ris</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="label_filter_title">Tiotal</string>
-    <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu. 
-\n 
+    <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu.
+\n
 \nAirson cunntasan a rùrachadh, lorg iad air tè dhe na loidhnichean-ama eile; mar eisimpleir, loidhne-ama ionadail an ionstans agad [iconics gmd_group]. Air neo lorg cunntasan a-rèir ainm [iconics gmd_search]; mar eisimpleir, lorg “Tusky” ach am faigh thu grèim air a’ chunntas againne air Mastodon.</string>
     <string name="compose_delete_draft">A bheil thu airson an dreachd a sguabadh às\?</string>
     <string name="load_newest_notifications">Luchdaich na brathan as ùire</string>
@@ -705,14 +705,14 @@
     <string name="reply_sending_long">Tha an fhreagairt agad ’ga cur.</string>
     <string name="pref_default_reply_privacy">Prìobhaideachd nam freagairtean (gun sioncronachadh leis an fhrithealaiche)</string>
     <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. \u0020
-\n 
+\n
 \nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd [iconics gmd_public] puist air [iconics gmd_mail] <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. \u0020
-\n 
+\n
 \nMar eisimpleir, ’s urrainn dhut tòiseachadh air sealladh pròifil cunntais agus gnogag a thoirt air putan a’ chruthachaidh [iconics gmd_edit] agus an fhaicsinneachd atharrachadh. \u0020</string>
     <string name="help_empty_lists">Seo <b>sealladh nan liostaichean</b> agad. ’S urrainn dhut iomadh liosta phrìobhaideach a chruthachadh ’s cunntasan a chur riutha. \u0020
-\n 
+\n
 \n \u0020THOIR AN AIRE nach urrainn dhut ach cunntasan a leanas tu a chur ris na liostaichean agad. \u0020
-\n 
+\n
 \n \u0020’S urrainn dhut na liostaichean seo a chleachdadh ’nan tabaichean ann an “Roghainnean a’ chunntais” [iconics gmd_account_circle] [iconics gmd_navigate_next] “Tabaichean”. \u0020</string>
     <string name="list_reply_policy_list">Buill na liosta</string>
     <string name="list_reply_policy_followed">Cleachdaiche sam bith a leanas mi</string>

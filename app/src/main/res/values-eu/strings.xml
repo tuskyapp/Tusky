@@ -117,7 +117,7 @@
     <string name="login_connection">Konektatzen…</string>
     <string name="dialog_whats_an_instance">Edozein instantziaren helbidea edo domeinua hemen sar daiteke, hala nola mastodon.eus, mastodon.jalgi.eus, mastodon.social eta <a href="https://instances.social">gehiago!</a>, \u0020
 \n \u0020
-\nOraindik konturik ez baduzu, sartu nahi duzun instantziaren izena sar dezakezu eta bertan sortu kontua. 
+\nOraindik konturik ez baduzu, sartu nahi duzun instantziaren izena sar dezakezu eta bertan sortu kontua.
 \n \u0020
 \nInstantzia zure kontua ostatatzen den leku bakarra da, baina beste instantzia batzuetako jendearekin erraz komunikatu eta jarrai dezakezu gune berean egongo bazina bezala. \u0020
 \n \u0020
@@ -367,7 +367,7 @@
     <string name="description_visibility_direct">Zuzena</string>
     <string name="description_poll">Inkesta aukerekin: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Zerrendaren izena</string>
-    <string name="edit_hashtag_hint">Traola # gabe</string>
+    <string name="pick_hashtag_hint">Traola # gabe</string>
     <string name="notifications_clear">Garbitu</string>
     <string name="notifications_apply_filter">Iragazi</string>
     <string name="filter_apply">Aplikatu</string>

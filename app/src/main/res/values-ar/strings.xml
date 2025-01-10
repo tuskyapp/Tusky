@@ -134,12 +134,12 @@
     <string name="label_header">صورة رأس الصفحة</string>
     <string name="link_whats_an_instance">ماذا نعني بمثيل الخادم؟</string>
     <string name="login_connection">الإتصال جارٍ…</string>
-    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a> 
-\n 
-\n إن كنت لا تملك حسابا بإمكانك إدخال اسم مثيل خادوم تريد الانضمام إليه قصد إنشاء حسابك عليه. 
-\n 
-\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى. 
-\n 
+    <string name="dialog_whats_an_instance">بإمكانك إدخال عنوان أي مثيل خادوم ماستدون هنا. على سبيل المثال mastodon.social أو icosahedron.website أو social.tchncs.de أوالإطلاع على <a href="https://instances.social">لاكتشاف المزيد !</a>
+\n
+\n إن كنت لا تملك حسابا بإمكانك إدخال اسم مثيل خادوم تريد الانضمام إليه قصد إنشاء حسابك عليه.
+\n
+\n نعني بمثيل الخادوم المكان الذي استُضِيف فيه حسابك و يمكنك التواصل مع أصدقائك و متابعيك و كأنكم على موقع واحد و ذلك حتى و إن كانت حساباتهم مُستضافة على مثيلات خوادم أخرى.
+\n
 \n للمزيد مِن التفاصيل إطّلع على <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">تتمة رفع الوسائط</string>
     <string name="dialog_message_uploading_media">الإرسال جارٍ…</string>
@@ -350,7 +350,7 @@
     <string name="downloading_media">جارٍ تنزيل الوسائط</string>
     <string name="dialog_redraft_post_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
     <string name="description_post_favourited">تم تفضيله</string>
-    <string name="edit_hashtag_hint">وسم بدون #</string>
+    <string name="pick_hashtag_hint">وسم بدون #</string>
     <string name="notifications_clear">مسح</string>
     <string name="notifications_apply_filter">عامل تصفية</string>
     <string name="filter_apply">طَبِّق</string>

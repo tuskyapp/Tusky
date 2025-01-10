@@ -139,10 +139,10 @@
     <string name="label_header">标题</string>
     <string name="link_whats_an_instance">需要帮助？</string>
     <string name="login_connection">正在连接…</string>
-    <string name="dialog_whats_an_instance">请输入你账号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。 
-\n 
-\n还没有 Mastodon 账号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的账号并授权 Tusky 登入。 
-\n 
+    <string name="dialog_whats_an_instance">请输入你账号所在的 Mastodon 站点的域名，比如 pawoo.net，acg.mn，wxw.moe，<a href="https://instances.social">等等</a> 。
+\n
+\n还没有 Mastodon 账号？你也可以输入想注册的 Mastodon 站点的域名，然后在该服务器创建新的账号并授权 Tusky 登入。
+\n
 \n在 Mastodon 里，跨站互动和站内互动一样简单。可以前往 <a href="https://joinmastodon.org">https://joinmastodon.org</a> 了解更多信息。 </string>
     <string name="dialog_title_finishing_media_upload">正在结束上传…</string>
     <string name="dialog_message_uploading_media">正在上传…</string>
@@ -361,7 +361,7 @@
         私信
     </string>
     <string name="hint_list_name">列表名</string>
-    <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
+    <string name="pick_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>

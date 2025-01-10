@@ -203,12 +203,12 @@
     <string name="dialog_download_image">داگرتن</string>
     <string name="dialog_message_uploading_media">بارکردن…</string>
     <string name="dialog_title_finishing_media_upload">تەواوکردنی بارکردنی میدیا</string>
-    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a> 
-\n 
-\nئەگەر هێشتا ئەژمێرێکت نیە، دەتوانیت ناوی ئەو نمونەیە داخڵ بکەیت کە دەتەوێت بیبەستیت و ئەژمێرێک دروست بکەیت لەوێ. 
-\n 
-\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت. 
-\n 
+    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a>
+\n
+\nئەگەر هێشتا ئەژمێرێکت نیە، دەتوانیت ناوی ئەو نمونەیە داخڵ بکەیت کە دەتەوێت بیبەستیت و ئەژمێرێک دروست بکەیت لەوێ.
+\n
+\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت.
+\n
 \nزانیاری زیاتر دەتوانرێت بدۆزرێتەوە لە <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">گرێدان…</string>
     <string name="link_whats_an_instance">نموونەیەک چییە؟</string>
@@ -306,7 +306,7 @@
     <string name="list">لیست</string>
     <string name="select_list_title">دیاریکردنی لیست</string>
     <string name="hashtags">هاشتاگی</string>
-    <string name="edit_hashtag_hint">هاشتاگی بێ #</string>
+    <string name="pick_hashtag_hint">هاشتاگی بێ #</string>
     <string name="add_hashtag_title">هاشتاگی زیاد بکە</string>
     <string name="hint_list_name">ناوی لیست</string>
     <string name="description_poll">ڕاپرسی لەگەڵ هەڵبژاردنەکان: %1$s, %2$s, %3$s, %4$s; %5$s</string>

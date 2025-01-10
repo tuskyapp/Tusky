@@ -64,12 +64,12 @@
     <string name="dialog_download_image">Tải về</string>
     <string name="dialog_message_uploading_media">Đang tải…</string>
     <string name="dialog_title_finishing_media_upload">Đã tải xong tập tin</string>
-    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a> 
-\n 
-\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước. 
-\n 
-\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác. 
-\n 
+    <string name="dialog_whats_an_instance">Bạn phải nhập một tên miền. Ví dụ mastodon.social, icosahedron.website, social.tchncs.de và <a href="https://instances.social">vô số khác!</a>
+\n
+\nNếu chưa có tài khoản, bạn phải tạo tài khoản ở đó trước.
+\n
+\nMáy chủ, nói cách khác là một cộng đồng nơi mà bạn đăng ký tài khoản trên đó, nhưng bạn vẫn có thể dễ dàng giao tiếp và theo dõi mọi người trên các máy chủ khác.
+\n
 \nTham khảo <a href="https://joinmastodon.org">joinmastodon.org</a> \u0020</string>
     <string name="login_connection">Đang kết nối…</string>
     <string name="label_header">Ảnh bìa</string>
@@ -363,7 +363,7 @@
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
     <string name="hashtags">Hashtag</string>
-    <string name="edit_hashtag_hint">Không cần dấu #</string>
+    <string name="pick_hashtag_hint">Không cần dấu #</string>
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
     <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -628,8 +628,8 @@
     <string name="filter_edit_keyword_title">Sửa từ</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_show_stat_inline">Hiện số tương tác tút</string>
-    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện tút gần đây từ những người bạn theo dõi. 
-\n 
+    <string name="help_empty_home">Đây là <b>bảng tin của bạn</b>. Nó sẽ hiện tút gần đây từ những người bạn theo dõi.
+\n
 \nĐể khám phá mọi người, bạn có thể xem qua ở các bảng tin khác. Ví dụ: [iconics gmd_group] Bảng tin máy chủ của bạn. Hoặc bạn cũng có thể [iconics gmd_search] tìm theo tên người dùng; ví dụ như Tusky.</string>
     <string name="post_media_image">Hình ảnh</string>
     <string name="select_list_manage">Quản lý danh sách</string>
@@ -658,10 +658,10 @@
     <string name="dialog_delete_filter_text">Xóa bộ lọc \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Xóa</string>
     <string name="dialog_save_profile_changes_message">Bạn có chắc muốn lưu thay đổi\?</string>
-    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM). 
-\n 
-\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó. 
-\n 
+    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM).
+\n
+\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút [iconics gmd_public] thành [iconics gmd_mail] <i>Nhắn riêng</i> và có nhắc đến một người nào đó.
+\n
 \nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. \u0020</string>
     <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể tạo nhiều danh sách riêng tư và thêm người dùng vào đó.
 \n

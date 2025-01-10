@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.components.followedtags
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -11,14 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.calladapter.networkresult.fold
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
-import com.keylesspalace.tusky.components.compose.ComposeAutoCompleteAdapter
 import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
-import com.keylesspalace.tusky.databinding.DialogFollowHashtagBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.copyToClipboard
@@ -26,6 +22,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.view.showHashtagPickerDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -34,8 +31,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class FollowedTagsActivity :
     BaseActivity(),
-    HashtagActionListener,
-    ComposeAutoCompleteAdapter.AutocompletionProvider {
+    HashtagActionListener {
+
     @Inject
     lateinit var api: MastodonApi
 
@@ -105,7 +102,7 @@ class FollowedTagsActivity :
 
     private fun follow(tagName: String, position: Int = -1) {
         lifecycleScope.launch {
-            api.followTag(tagName).fold(
+            val snackbarText = api.followTag(tagName).fold(
                 {
                     if (position == -1) {
                         viewModel.tags.add(it)
@@ -113,17 +110,20 @@ class FollowedTagsActivity :
                         viewModel.tags.add(position, it)
                     }
                     viewModel.currentSource?.invalidate()
+                    getString(R.string.follow_hashtag_success, tagName)
                 },
-                {
-                    Snackbar.make(
-                        this@FollowedTagsActivity,
-                        binding.followedTagsView,
-                        getString(R.string.error_following_hashtag_format, tagName),
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .show()
+                { t ->
+                    Log.w(TAG, "failed to follow hashtag $tagName", t)
+                    getString(R.string.error_following_hashtag_format, tagName)
                 }
             )
+            Snackbar.make(
+                this@FollowedTagsActivity,
+                binding.followedTagsView,
+                snackbarText,
+                Snackbar.LENGTH_SHORT
+            )
+                .show()
         }
     }
 
@@ -160,10 +160,6 @@ class FollowedTagsActivity :
         }
     }
 
-    override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-        return viewModel.searchAutocompleteSuggestions(token)
-    }
-
     override fun viewTag(tagName: String) {
         startActivity(StatusListActivity.newHashtagIntent(this, tagName))
     }
@@ -176,30 +172,9 @@ class FollowedTagsActivity :
     }
 
     private fun showDialog() {
-        val dialogBinding = DialogFollowHashtagBinding.inflate(layoutInflater)
-        dialogBinding.hashtagAutoCompleteTextView.setAdapter(
-            ComposeAutoCompleteAdapter(
-                this,
-                animateAvatar = false,
-                animateEmojis = false,
-                showBotBadge = false
-            )
-        )
-        dialogBinding.hashtagAutoCompleteTextView.requestFocus()
-        dialogBinding.hashtagAutoCompleteTextView.setSelection(dialogBinding.hashtagAutoCompleteTextView.length())
-
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.dialog_follow_hashtag_title)
-            .setView(dialogBinding.root)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                follow(
-                    dialogBinding.hashtagAutoCompleteTextView.text.toString().removePrefix("#")
-                )
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        dialog.show()
+        showHashtagPickerDialog(api, R.string.dialog_follow_hashtag_title) { hashtag ->
+            follow(hashtag)
+        }
     }
 
     companion object {

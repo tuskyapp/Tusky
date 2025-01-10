@@ -127,12 +127,12 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a> のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
-\n 
-\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで そのインスタンスにアカウントを作成できます。 
-\n 
-\nインスタンスはあなたのアカウントが提供される単独の場所ですが、他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
-\n 
+    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a> のような、あらゆるインスタンスのアドレスやドメインを入力できます。
+\n
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで そのインスタンスにアカウントを作成できます。
+\n
+\nインスタンスはあなたのアカウントが提供される単独の場所ですが、他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。
+\n
 \nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。 </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
@@ -432,7 +432,7 @@
     <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
     <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
     <string name="pref_title_confirm_reblogs">ブーストする前に確認を表示</string>
-    <string name="edit_hashtag_hint">ハッシュタグ (#をつけない)</string>
+    <string name="pick_hashtag_hint">ハッシュタグ (#をつけない)</string>
     <string name="select_list_title">リストを選択</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="poll_info_time_absolute">%1$sに終了</string>

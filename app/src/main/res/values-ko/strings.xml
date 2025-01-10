@@ -142,12 +142,12 @@
     <string name="label_header">헤더</string>
     <string name="link_whats_an_instance">인스턴스가 무엇인가요\?</string>
     <string name="login_connection">연결 중...</string>
-    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다! 
-\n 
-\n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다. 
-\n 
-\n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다. 
-\n 
+    <string name="dialog_whats_an_instance">인스턴스의 도메인 주소나 IP주소를 입력하실 수 있습니다. mastodon.social, icosahedron.website, social.tchncs.de 등이 있으며, 그 외에도 <a href="https://instances.social">더 많은 인스턴스</a>가 당신을 기다리고 있습니다!
+\n
+\n만약 계정이 없으시다면, 인스턴스 주소를 입력하신 후에 계정을 만드실 수 있습니다.
+\n
+\n여러분이 어느 인스턴스에 가입하시더라도, 다른 인스턴스에 있는 유저들과 문제 없이 소통하실 수 있습니다.
+\n
 \n자세한 사항은 <a href="https://joinmastodon.org">joinmastodon.org</a>을 참조하세요. </string>
     <string name="dialog_title_finishing_media_upload">미디어 업로드 완료</string>
     <string name="dialog_message_uploading_media">업로드 중...</string>
@@ -356,7 +356,7 @@
     <string name="description_visibility_direct">다이렉트</string>
     <string name="description_poll">투표 선택지: %1$s, %2$s, %3$s, %4$s, %5$s</string>
     <string name="hint_list_name">리스트 이름</string>
-    <string name="edit_hashtag_hint">#를 제외한 해시태그</string>
+    <string name="pick_hashtag_hint">#를 제외한 해시태그</string>
     <string name="notifications_clear">알림 지우기</string>
     <string name="notifications_apply_filter">필터</string>
     <string name="filter_apply">적용</string>

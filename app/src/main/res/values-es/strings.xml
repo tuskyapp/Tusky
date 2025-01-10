@@ -382,7 +382,7 @@
     <string name="description_visibility_unlisted">Sin listar</string>
     <string name="description_visibility_direct">Directo</string>
     <string name="hint_list_name">Nombre de la lista</string>
-    <string name="edit_hashtag_hint">Etiqueta sin #</string>
+    <string name="pick_hashtag_hint">Etiqueta sin #</string>
     <string name="notifications_clear">Limpiar</string>
     <string name="notifications_apply_filter">Filtro</string>
     <string name="compose_shortcut_long_label">Escribir publicación</string>

@@ -359,7 +359,7 @@
     <string name="description_visibility_direct">Közvetlen</string>
     <string name="description_poll">Szavazás válaszokkal: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Lista neve</string>
-    <string name="edit_hashtag_hint">Hashtag # nélkül</string>
+    <string name="pick_hashtag_hint">Hashtag # nélkül</string>
     <string name="notifications_clear">Törlés</string>
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>
@@ -657,8 +657,8 @@
     <string name="notification_prune_cache">Gyorsítótár karbantartása…</string>
     <string name="load_newest_notifications">Legújabb értesítések betöltése</string>
     <string name="compose_delete_draft">Töröljük a vázlatot\?</string>
-    <string name="error_missing_edits">A kiszolgálód tudja, hogy ezt a bejegyzést szerkesztették, de nincs másolata a szekesztésekről, így ezeket nem tudja megjeleníteni. 
-\n 
+    <string name="error_missing_edits">A kiszolgálód tudja, hogy ezt a bejegyzést szerkesztették, de nincs másolata a szekesztésekről, így ezeket nem tudja megjeleníteni.
+\n
 \nEz egy ismert probléma: <a href="https://github.com/mastodon/mastodon/issues/25398">#25398-as számú Mastodon jegy</a>.</string>
     <string name="reply_sending">Küldés…</string>
     <string name="reply_sending_long">A válaszodat épp elküldjük.</string>

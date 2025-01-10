@@ -56,7 +56,7 @@
     <string name="list">รายการ</string>
     <string name="select_list_title">เลือกรายการ</string>
     <string name="hashtags">แฮชแท็ก</string>
-    <string name="edit_hashtag_hint">แฮชแท็กโดยไม่มี #</string>
+    <string name="pick_hashtag_hint">แฮชแท็กโดยไม่มี #</string>
     <string name="add_hashtag_title">เพิ่มแฮชแท็ก</string>
     <string name="hint_list_name">ชื่อรายการ</string>
     <string name="description_poll">โพลกับตัวเลือก: %1$s, %2$s, %3$s, %4$s; %5$s</string>
@@ -263,12 +263,12 @@
     <string name="dialog_download_image">ดาวน์โหลด</string>
     <string name="dialog_message_uploading_media">กำลังอัปโหลด…</string>
     <string name="dialog_title_finishing_media_upload">กำลังอัปโหลดสื่อใกล้เสร็จ</string>
-    <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a> 
-\n 
-\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น 
-\n 
-\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน 
-\n 
+    <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a>
+\n
+\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น
+\n
+\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน
+\n
 \nพบข้อมูลเพิ่มเติมได้ที่ <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="label_header">ภาพหัวบน</string>
     <string name="login_connection">กำลังเชื่อมต่อ…</string>

@@ -356,7 +356,7 @@
     <string name="description_visibility_direct">Beint</string>
     <string name="description_poll">Könnun með valkostunum: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Heiti á lista</string>
-    <string name="edit_hashtag_hint">Myllumerki án #</string>
+    <string name="pick_hashtag_hint">Myllumerki án #</string>
     <string name="select_list_title">Veldu lista</string>
     <string name="list">Listi</string>
     <string name="notifications_clear">Eyða</string>
