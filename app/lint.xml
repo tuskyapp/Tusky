@@ -71,6 +71,12 @@
     <issue id="Recycle" severity="error" />
     <issue id="KeyboardInaccessibleWidget" severity="error" />
 
+    <!-- these three don't work with Kotlin 2.1 for some reason
+         https://github.com/tuskyapp/Tusky/pull/4774 -->
+    <issue id="StateFlowValueCalledInComposition" severity="ignore" />
+    <issue id="CoroutineCreationDuringComposition" severity="ignore" />
+    <issue id="FlowOperatorInvokedInComposition" severity="ignore" />
+
     <!-- Mark all other lint issues as warnings -->
     <issue id="all" severity="warning" />
 </lint>
