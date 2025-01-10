@@ -30,7 +30,7 @@ class ComposeTokenizerTest(
     companion object {
         @Parameterized.Parameters(name = "{0}")
         @JvmStatic
-        fun data(): Iterable<Any> {
+        fun data(): Iterable<Array<Any>> {
             return listOf(
                 arrayOf("@mention", 0, 8),
                 arrayOf("@ment10n", 0, 8),

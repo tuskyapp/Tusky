@@ -35,7 +35,7 @@ class NumberUtilsTest(private val input: Long, private val want: String) {
 
         @Parameterized.Parameters(name = "formatNumber_{0}")
         @JvmStatic
-        fun data(): Iterable<Any> {
+        fun data(): Iterable<Array<Any>> {
             return listOf(
                 arrayOf(0, "0"),
                 arrayOf(1, "1"),
