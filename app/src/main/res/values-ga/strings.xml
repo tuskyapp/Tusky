@@ -251,12 +251,12 @@
     <string name="action_mute_conversation">Comhrá tost</string>
     <string name="action_hashtags">Clibeanna hash</string>
     <string name="title_hashtags_dialog">Hashtags</string>
-    <string name="dialog_whats_an_instance">Is féidir an seoladh nó fearann a ghabhann le hásc ar bith a chur isteach anseo, mar shampla mastodon.social, icosahedron.website, social.tchncs.de, agus <a href="https://instances.social">níos mó!</a>
-\n
-\nMuna bhfuil cuntas agat fós, is féidir leat ainm an áisc ar mhaith leat a bheith páirteach ann a chur isteach, agus cuntas a chruthú ann.
-\n
-\nIs éard atá i gceist le hásc na láthair amháin ina ndéantar do chuntas a óstáil, ach is féidir leat cumarsáid a dhéanamh go héasca le daoine eile agus iad a leanúint ar áisc eile mar a bheadh sibh ar an suíomh céanna.
-\n
+    <string name="dialog_whats_an_instance">Is féidir an seoladh nó fearann a ghabhann le hásc ar bith a chur isteach anseo, mar shampla mastodon.social, icosahedron.website, social.tchncs.de, agus <a href="https://instances.social">níos mó!</a> 
+\n 
+\nMuna bhfuil cuntas agat fós, is féidir leat ainm an áisc ar mhaith leat a bheith páirteach ann a chur isteach, agus cuntas a chruthú ann. 
+\n 
+\nIs éard atá i gceist le hásc na láthair amháin ina ndéantar do chuntas a óstáil, ach is féidir leat cumarsáid a dhéanamh go héasca le daoine eile agus iad a leanúint ar áisc eile mar a bheadh sibh ar an suíomh céanna. 
+\n 
 \nIs féidir tuilleadh faisnéise a fháil ag <a href="https://joinmastodon.org"> joinmastodon.org </a>. </string>
     <string name="about_project_site">Suíomh Gréasáin an tionscadail:
 \n https://tusky.app</string>

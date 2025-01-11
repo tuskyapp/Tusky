@@ -98,11 +98,11 @@
     <string name="label_header">Capçalera</string>
     <string name="link_whats_an_instance">Què és una instància?</string>
     <string name="login_connection">S\'està connectant…</string>
-    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància, \u0020com ara mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">molts més!</a>
+    <string name="dialog_whats_an_instance">Aquí pots introduir l\'adreça o domini de qualsevol instància, \u0020com ara mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">molts més!</a> 
 \n
 \nSi encara no tens cap copte, pots introduir el nom de la instància on t\'agradaria \u0020unir-te i crear un compte allà.
 \n
-\nUna instànica és un únic lloc on el teu compte s\'hostatja \u0020, però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc.
+\nUna instànica és un únic lloc on el teu compte s\'hostatja \u0020, però pots comunicar-te fàcilment i seguir amics d\'altres instàncies com si fossiu en el mateix lloc. 
 \n
 \nTens més informació a <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">S\'està finalitzant la pujada de material multimèdia</string>

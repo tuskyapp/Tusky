@@ -137,12 +137,12 @@
     <string name="confirmation_unmuted">Prekinjeno utišanje uporabnika</string>
     <string name="hint_domain">Katero vozlišče\?</string>
     <string name="link_whats_an_instance">Kaj je instanca\?</string>
-    <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a>
-\n
-\nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun.
-\n
-\nVozlišče je ena lokacija, kjer je gostovanje vašega računa, vendar lahko preprosto komunicirate in sledite ljudem na drugih vozliščih, kot da bi bili na isti lokaciji.
-\n
+    <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a> 
+\n 
+\nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun. 
+\n 
+\nVozlišče je ena lokacija, kjer je gostovanje vašega računa, vendar lahko preprosto komunicirate in sledite ljudem na drugih vozliščih, kot da bi bili na isti lokaciji. 
+\n 
 \nVeč informacij najdete na naslovu <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Dokončanje pošiljanja medija</string>
     <string name="dialog_message_uploading_media">Pošiljanje…</string>

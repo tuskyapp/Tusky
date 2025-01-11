@@ -174,22 +174,22 @@
     <string name="dialog_download_image">ডাউনলোড</string>
     <string name="dialog_message_uploading_media">আপলোড হচ্ছে …</string>
     <string name="dialog_title_finishing_media_upload">মিডিয়া আপলোড সমাপ্ত করা হচ্ছে</string>
-    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &lt;a href=\"https://instances.social\"&gt; আরও! &lt;/a&gt;
-\n
-\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন।
-\n
-\n
-\n
-\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন।
-\n
-\n
-\n
-\nআরো তথ্য &lt;a href=\"https://joinmastodon.org\"&gt; joinmastodon.org &lt;/a&gt; এ পাওয়া যেতে পারে। <a href="https://instances.social">more!</a>
-\n
-\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there.
-\n
-\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site.
-\n
+    <string name="dialog_whats_an_instance">কোনও উদাহরণের ঠিকানা বা ডোমেন এখানে প্রবেশ করা যেতে পারে যেমন mastodon.social, icosahedron.website, social.tchncs.de, এবং &lt;a href=\"https://instances.social\"&gt; আরও! &lt;/a&gt; 
+\n 
+\nআপনার যদি এখনো অ্যাকাউন্ট না থাকে তবে আপনি যে ইনস্ট্যান্সটিতে যোগ দিতে চান সেটির নামটি প্রবেশ করতে এবং সেখানে একটি অ্যাকাউন্ট তৈরি করতে পারেন। 
+\n 
+\n 
+\n 
+\nএকটি ইনস্ট্যান্স একটি একক স্থান যেখানে আপনার অ্যাকাউন্ট হোস্ট করা হয়, তবে আপনি সহজেই যোগাযোগ করতে পারেন এবং অন্যান্য ক্ষেত্রে যেমন আপনি একই সাইটে ছিলেন তা অনুসরণ করতে পারেন। 
+\n 
+\n 
+\n 
+\nআরো তথ্য &lt;a href=\"https://joinmastodon.org\"&gt; joinmastodon.org &lt;/a&gt; এ পাওয়া যেতে পারে। <a href="https://instances.social">more!</a> 
+\n 
+\nIf you don\'t yet have an account, you can enter the name of the instance you\'d like to join and create an account there. 
+\n 
+\nAn instance is a single place where your account is hosted, but you can easily communicate with and follow folks on other instances as though you were on the same site. 
+\n 
 \nMore info can be found at <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">সংযুক্ত হচ্ছে …</string>
     <string name="link_whats_an_instance">ইনস্ট্যান্স কি\?</string>

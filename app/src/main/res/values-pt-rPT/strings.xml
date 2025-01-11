@@ -171,7 +171,7 @@
     <string name="label_header">Cabeçalho</string>
     <string name="link_whats_an_instance">O que é uma instância\?</string>
     <string name="login_connection">A ligar…</string>
-    <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a>
+    <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a> 
 \n
 \nSe ainda não tens uma conta, insere o nome da instância onde pretendes participar e cria uma conta lá.
 \n
@@ -676,7 +676,7 @@
     <string name="following_hashtag_success_format">Agora segues a hashtag #%1$s</string>
     <string name="load_newest_notifications">Carregar as notificações mais recentes</string>
     <string name="error_missing_edits">O teu servidor sabe que esta publicação foi editada, mas não a consegue mostrar porque não tem uma cópia da edição.
-\n
+\n 
 \nIsto é <a href="https://github.com/mastodon/mastodon/issues/25398"> o problema #25398 do Mastodon </a>.</string>
     <string name="list_reply_policy_none">Ninguém</string>
     <string name="list_reply_policy_list">Membros da lista</string>

@@ -138,12 +138,12 @@
     <string name="label_header">Overskrift</string>
     <string name="link_whats_an_instance">Hva er en instans\?</string>
     <string name="login_connection">Kobler til…</string>
-    <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a>
-\n
-\nHvis du ikke har en konto kan du oppgi navnet på instansen du vil bli medlem av, og lage en konto der.
-\n
-\nEn instans der hvor du har kontoen din, men du kan lett kommunisere med og følge andre personer på andre instanser, som om du var på den samme nettsiden.
-\n
+    <string name="dialog_whats_an_instance">Addressen eller domenet til enhver instans kan legges til her, f. eks. mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">mer!</a> 
+\n 
+\nHvis du ikke har en konto kan du oppgi navnet på instansen du vil bli medlem av, og lage en konto der. 
+\n 
+\nEn instans der hvor du har kontoen din, men du kan lett kommunisere med og følge andre personer på andre instanser, som om du var på den samme nettsiden. 
+\n 
 \nDu kan finne mer info på <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Opplasting av media er ferdig</string>
     <string name="dialog_message_uploading_media">Laster opp…</string>
@@ -568,8 +568,8 @@
     <string name="action_unfollow_hashtag_format">Slutte å følge #%1$s\?</string>
     <string name="confirmation_hashtag_unfollowed">Sluttet å følge #%1$s</string>
     <string name="a11y_label_loading_thread">Laster tråd</string>
-    <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger.
-\n
+    <string name="help_empty_home">Dette er <b>Hjemmetidslinjen</b>din. Den viser de nyeste innleggene av kontoer du følger. 
+\n 
 \nFor å utforske kontoer kan du enten oppdage dem i en av tidslinjene dine, for eksempel den lokale tidslinjen for instansen din [iconics gmd_group], eller du kan søke etter navnet deres [iconics gmd_search]; søk for eksempel etter Tusky før å finne Mastodonkonten vår.</string>
     <string name="pref_title_reading_order">Leserekkefølge</string>
     <string name="pref_reading_order_oldest_first">Eldste først</string>
