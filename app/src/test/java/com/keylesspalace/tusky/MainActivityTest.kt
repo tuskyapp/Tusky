@@ -98,7 +98,7 @@ class MainActivityTest {
         NotificationHelper.createNotificationChannelsForAccount(accountEntity, context)
 
         runInBackground {
-            val notification = NotificationHelper.make(
+            val notification = NotificationHelper.makeBaseNotification(
                 context,
                 notificationManager,
                 Notification(
@@ -116,8 +116,7 @@ class MainActivityTest {
                     status = null,
                     report = null
                 ),
-                accountEntity,
-                true
+                accountEntity
             )
             notificationManager.notify("id", 1, notification)
         }
