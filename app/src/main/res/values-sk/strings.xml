@@ -156,6 +156,7 @@
         <item quantity="one">Váš príspevok sa nepodarilo nahrať a bol uložený medzi koncepty.
 \n
 \nServer sa buď nepodarilo kontaktovať, alebo príspevok odmietol.</item>
+        <item quantity="few"></item>
         <item quantity="other">Váše príspevky sa nepodarilo nahrať a boli uložené medzi koncepty.
 \n
 \nServer sa buď nepodarilo kontaktovať, alebo príspevky odmietol.</item>
