@@ -155,12 +155,12 @@
     <string name="label_avatar">Auðkennismynd</string>
     <string name="label_header">Haus</string>
     <string name="login_connection">Tengist…</string>
-    <string name="dialog_whats_an_instance">Hægt er að setja hér inn vistfang eða lén á hvaða tilviki sem er, svo sem mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">fleiri!</a> 
-\n 
-\nEf þú ert ekki ennþá með notandaaðgang, geturðu sett inn nafnið á því tilviki sem þú vilt tilheyra og búið til aðgang þar. 
-\n 
-\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu. 
-\n 
+    <string name="dialog_whats_an_instance">Hægt er að setja hér inn vistfang eða lén á hvaða tilviki sem er, svo sem mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">fleiri!</a>
+\n
+\nEf þú ert ekki ennþá með notandaaðgang, geturðu sett inn nafnið á því tilviki sem þú vilt tilheyra og búið til aðgang þar.
+\n
+\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu.
+\n
 \nNánari upplýsingar má finna á <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Klára innsendingu myndefnis</string>
     <string name="dialog_message_uploading_media">Sendi inn…</string>
@@ -519,7 +519,7 @@
     <string name="action_edit_image">Breyta mynd</string>
     <string name="saving_draft">Vista drög…</string>
     <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>
-    <string name="action_dismiss">Hunsa</string>
+    <string name="action_dismiss">Afgreiða</string>
     <string name="action_details">Nánar</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="error_multimedia_size_limit">Myndskeiða- og hljóðskrár geta ekki verið stærri en %1$s MB.</string>
@@ -640,8 +640,8 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="post_media_image">Mynd</string>
     <string name="select_list_manage">Sýsla með lista</string>
-    <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með. 
-\n 
+    <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með.
+\n
 \nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns [iconics gmd_group]. Eða að þú leitar að þeim eftir nafni [iconics gmd_search]; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
     <string name="pref_ui_text_size">Textastærð viðmóts</string>
     <string name="notification_listenable_worker_name">Bakgrunnsvirkni</string>
@@ -675,16 +675,16 @@
     <string name="error_blocking_domain">Mistókst að þagga niður í %1$s: %2$s</string>
     <string name="error_unblocking_domain">Mistókst að hætta að þagga niður í %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">Innsendingin mistókst: %1$s</string>
-    <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM). 
-\n 
-\nEinkaskilaboð eru gerð með því að stilla sýnileika [iconics gmd_public] færslu [iconics gmd_mail] á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. 
-\n 
+    <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM).
+\n
+\nEinkaskilaboð eru gerð með því að stilla sýnileika [iconics gmd_public] færslu [iconics gmd_mail] á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum.
+\n
 \nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum.</string>
     <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá.
-\n 
-\n ATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
-\n 
-\n Þessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs.</string>
+\n
+\nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
+\n
+\nÞessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs.</string>
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
     <string name="title_public_trending_statuses">Færslur í umræðunni</string>
@@ -709,4 +709,17 @@
     <string name="error_saving_filter">Villa við að vista síuna \'%1$s\'</string>
     <string name="error_deleting_filter">Villa við að eyða síunni \'%1$s\'</string>
     <string name="url_copied">Slóð afrituð</string>
+    <string name="label_expires_after">Rennur út eftir</string>
+    <string name="notification_policy_accept">Samþykkja</string>
+    <string name="post_privacy_direct">Beint</string>
+    <string name="notification_policies_filter_dont_follow_title">Fólk sem þú fylgist ekki með</string>
+    <string name="notification_policies_filter_not_following_title">Fólk sem fylgist ekki með þér</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nýir aðgangar</string>
+    <string name="notification_policy_filter">Sía</string>
+    <string name="notification_policy_ignore">Hunsa</string>
+    <string name="post_replied">Svaraði</string>
+    <string name="post_replied_format">Í svari til %1$s</string>
+    <string name="post_replied_self">Samtal heldur áfram</string>
+    <string name="action_dismiss_notification_request">Afgreiða</string>
+    <string name="report_category_legal">Lögformlegt</string>
 </resources>

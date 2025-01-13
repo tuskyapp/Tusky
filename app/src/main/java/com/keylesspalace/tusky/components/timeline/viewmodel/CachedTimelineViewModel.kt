@@ -157,25 +157,25 @@ class CachedTimelineViewModel @Inject constructor(
                     Placeholder(placeholderId, loading = true).toEntity(tuskyAccountId = accountId)
                 )
 
-                val response = db.withTransaction {
-                    val idAbovePlaceholder = timelineDao.getIdAbove(accountId, placeholderId)
-                    val idBelowPlaceholder = timelineDao.getIdBelow(accountId, placeholderId)
-                    when (readingOrder) {
-                        // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
-                        // after minId and no larger than maxId
-                        OLDEST_FIRST -> api.homeTimeline(
-                            maxId = idAbovePlaceholder,
-                            minId = idBelowPlaceholder,
-                            limit = LOAD_AT_ONCE
-                        )
-                        // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
-                        // maxId, and no smaller than minId.
-                        NEWEST_FIRST -> api.homeTimeline(
-                            maxId = idAbovePlaceholder,
-                            sinceId = idBelowPlaceholder,
-                            limit = LOAD_AT_ONCE
-                        )
-                    }
+                val (idAbovePlaceholder, idBelowPlaceholder) = db.withTransaction {
+                    timelineDao.getIdAbove(accountId, placeholderId) to
+                        timelineDao.getIdBelow(accountId, placeholderId)
+                }
+                val response = when (readingOrder) {
+                    // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
+                    // after minId and no larger than maxId
+                    OLDEST_FIRST -> api.homeTimeline(
+                        maxId = idAbovePlaceholder,
+                        minId = idBelowPlaceholder,
+                        limit = LOAD_AT_ONCE
+                    )
+                    // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
+                    // maxId, and no smaller than minId.
+                    NEWEST_FIRST -> api.homeTimeline(
+                        maxId = idAbovePlaceholder,
+                        sinceId = idBelowPlaceholder,
+                        limit = LOAD_AT_ONCE
+                    )
                 }
 
                 val statuses = response.body()

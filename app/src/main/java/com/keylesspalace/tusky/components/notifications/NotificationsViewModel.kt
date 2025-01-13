@@ -311,27 +311,27 @@ class NotificationsViewModel @Inject constructor(
                     )
                 )
 
-                val response = db.withTransaction {
-                    val idAbovePlaceholder = notificationsDao.getIdAbove(accountId, placeholderId)
-                    val idBelowPlaceholder = notificationsDao.getIdBelow(accountId, placeholderId)
-                    when (readingOrder) {
-                        // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
-                        // after minId and no larger than maxId
-                        ReadingOrder.OLDEST_FIRST -> api.notifications(
-                            maxId = idAbovePlaceholder,
-                            minId = idBelowPlaceholder,
-                            limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value
-                        )
-                        // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
-                        // maxId, and no smaller than minId.
-                        ReadingOrder.NEWEST_FIRST -> api.notifications(
-                            maxId = idAbovePlaceholder,
-                            sinceId = idBelowPlaceholder,
-                            limit = TimelineViewModel.LOAD_AT_ONCE,
-                            excludes = excludes.value
-                        )
-                    }
+                val (idAbovePlaceholder, idBelowPlaceholder) = db.withTransaction {
+                    notificationsDao.getIdAbove(accountId, placeholderId) to
+                        notificationsDao.getIdBelow(accountId, placeholderId)
+                }
+                val response = when (readingOrder) {
+                    // Using minId, loads up to LOAD_AT_ONCE statuses with IDs immediately
+                    // after minId and no larger than maxId
+                    ReadingOrder.OLDEST_FIRST -> api.notifications(
+                        maxId = idAbovePlaceholder,
+                        minId = idBelowPlaceholder,
+                        limit = TimelineViewModel.LOAD_AT_ONCE,
+                        excludes = excludes.value
+                    )
+                    // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
+                    // maxId, and no smaller than minId.
+                    ReadingOrder.NEWEST_FIRST -> api.notifications(
+                        maxId = idAbovePlaceholder,
+                        sinceId = idBelowPlaceholder,
+                        limit = TimelineViewModel.LOAD_AT_ONCE,
+                        excludes = excludes.value
+                    )
                 }
 
                 val notifications = response.body()

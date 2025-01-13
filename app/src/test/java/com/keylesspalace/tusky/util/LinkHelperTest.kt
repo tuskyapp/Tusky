@@ -403,7 +403,7 @@ class LinkHelperTest {
         companion object {
             @Parameterized.Parameters(name = "match_{0}")
             @JvmStatic
-            fun data(): Iterable<Any> {
+            fun data(): Iterable<Array<Any>> {
                 return listOf(
                     arrayOf("https://mastodon.foo.bar/@User", true),
                     arrayOf("http://mastodon.foo.bar/@abc123", true),

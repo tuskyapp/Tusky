@@ -1,9 +1,13 @@
 package com.keylesspalace.tusky.components.systemnotifications
 
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.filterNotification
@@ -16,9 +20,6 @@ import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import kotlin.math.min
-import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.delay
 
 /** Models next/prev links from the "Links" header in an API response */
 data class Links(val next: String?, val prev: String?) {
@@ -53,6 +54,10 @@ class NotificationFetcher @Inject constructor(
     private val eventHub: EventHub
 ) {
     suspend fun fetchAndShow() {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
         for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
@@ -60,80 +65,50 @@ class NotificationFetcher @Inject constructor(
                         Context.NOTIFICATION_SERVICE
                     ) as NotificationManager
 
+                    val notificationManagerCompat = NotificationManagerCompat.from(context)
+
                     // Create sorted list of new notifications
                     val notifications = fetchNewNotifications(account)
                         .filter { filterNotification(notificationManager, account, it) }
                         .sortedWith(
                             compareBy({ it.id.length }, { it.id })
                         ) // oldest notifications first
-                        .toMutableList()
 
                     // TODO do this before filter above? But one could argue that (for example) a tab badge is also a notification
                     //   (and should therefore adhere to the notification config).
                     eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
-                    // There's a maximum limit on the number of notifications an Android app
-                    // can display. If the total number of notifications (current notifications,
-                    // plus new ones) exceeds this then some newer notifications will be dropped.
-                    //
-                    // Err on the side of removing *older* notifications to make room for newer
-                    // notifications.
-                    val currentAndroidNotifications = notificationManager.activeNotifications
-                        .sortedWith(
-                            compareBy({ it.tag.length }, { it.tag })
-                        ) // oldest notifications first
+                    val newNotifications = ArrayList<NotificationManagerCompat.NotificationWithIdAndTag>()
 
-                    // Check to see if any notifications need to be removed
-                    val toRemove = currentAndroidNotifications.size + notifications.size - MAX_NOTIFICATIONS
-                    if (toRemove > 0) {
-                        // Prefer to cancel old notifications first
-                        currentAndroidNotifications.subList(
-                            0,
-                            min(toRemove, currentAndroidNotifications.size)
-                        )
-                            .forEach { notificationManager.cancel(it.tag, it.id) }
-
-                        // Still got notifications to remove? Trim the list of new notifications,
-                        // starting with the oldest.
-                        while (notifications.size > MAX_NOTIFICATIONS) {
-                            notifications.removeAt(0)
-                        }
-                    }
-
-                    val notificationsByType = notifications.groupBy { it.type }
-
-                    // Make and send the new notifications
-                    // TODO: Use the batch notification API available in NotificationManagerCompat
-                    // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
-                    // when it is released.
-
-                    notificationsByType.forEach { notificationsGroup ->
-                        notificationsGroup.value.forEach { notification ->
-                            val androidNotification = NotificationHelper.make(
+                    val notificationsByType: Map<Notification.Type, List<Notification>> = notifications.groupBy { it.type }
+                    notificationsByType.forEach { notificationsGroup: Map.Entry<Notification.Type, List<Notification>> ->
+                        // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
+                        //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
+                        //   takes place.
+                        newNotifications.add(
+                            NotificationHelper.makeSummaryNotification(
                                 context,
                                 notificationManager,
-                                notification,
                                 account,
-                                notificationsGroup.value.size == 1
+                                notificationsGroup.key,
+                                notificationsGroup.value
                             )
-                            notificationManager.notify(
-                                notification.id,
-                                account.id.toInt(),
-                                androidNotification
-                            )
+                        )
 
-                            // Android will rate limit / drop notifications if they're posted too
-                            // quickly. There is no indication to the user that this happened.
-                            // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-                            delay(1000.milliseconds)
+                        notificationsGroup.value.forEach { notification ->
+                            newNotifications.add(
+                                NotificationHelper.make(
+                                    context,
+                                    notificationManager,
+                                    notification,
+                                    account
+                                )
+                            )
                         }
                     }
 
-                    NotificationHelper.updateSummaryNotifications(
-                        context,
-                        notificationManager,
-                        account
-                    )
+                    // NOTE having multiple summary notifications this here should still collapse them in only one occurrence
+                    notificationManagerCompat.notify(newNotifications)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error while fetching notifications", e)
                 }
@@ -243,12 +218,5 @@ class NotificationFetcher @Inject constructor(
 
     companion object {
         private const val TAG = "NotificationFetcher"
-
-        // There's a system limit on the maximum number of notifications an app
-        // can show, NotificationManagerService.MAX_PACKAGE_NOTIFICATIONS. Unfortunately
-        // that's not available to client code or via the NotificationManager API.
-        // The current value in the Android source code is 50, set 40 here to both
-        // be conservative, and allow some headroom for summary notifications.
-        private const val MAX_NOTIFICATIONS = 40
     }
 }

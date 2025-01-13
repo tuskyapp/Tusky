@@ -35,7 +35,7 @@ class StatusLengthTest(
     companion object {
         @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
         @JvmStatic
-        fun data(): Iterable<Any> {
+        fun data(): Iterable<Array<Any>> {
             return listOf(
                 arrayOf("", 0),
                 arrayOf(" ", 1),

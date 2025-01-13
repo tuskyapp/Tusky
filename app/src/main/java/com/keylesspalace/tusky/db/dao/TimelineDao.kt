@@ -53,7 +53,7 @@ FROM HomeTimelineEntity h
 LEFT JOIN TimelineStatusEntity s ON (h.statusId = s.serverId AND s.tuskyAccountId = :tuskyAccountId)
 LEFT JOIN TimelineAccountEntity a ON (s.authorServerId = a.serverId AND a.tuskyAccountId = :tuskyAccountId)
 LEFT JOIN TimelineAccountEntity rb ON (h.reblogAccountId = rb.serverId AND rb.tuskyAccountId = :tuskyAccountId)
-LEFT JOIN TimelineAccountEntity replied ON (s.inReplyToAccountId = replied.serverId)
+LEFT JOIN TimelineAccountEntity replied ON (s.inReplyToAccountId = replied.serverId AND replied.tuskyAccountId = :tuskyAccountId)
 WHERE h.tuskyAccountId = :tuskyAccountId
 ORDER BY LENGTH(h.id) DESC, h.id DESC"""
     )

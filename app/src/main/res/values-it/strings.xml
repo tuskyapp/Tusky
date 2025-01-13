@@ -764,4 +764,7 @@
     <string name="action_accept_notification_request">Accetta</string>
     <string name="action_dismiss_notification_request">Ignora</string>
     <string name="dismiss_notification_request">Ignora richiesta di notifica</string>
+    <string name="post_replied_format">In risposta a %1$s</string>
+    <string name="post_replied">Con risposta</string>
+    <string name="post_replied_self">Thread continuato</string>
 </resources>

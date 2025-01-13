@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.work.Constraints;
@@ -68,10 +69,8 @@ import com.keylesspalace.tusky.worker.NotificationWorker;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -149,7 +148,16 @@ public class NotificationHelper {
      * @return the new notification
      */
     @NonNull
-    public static android.app.Notification make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account, boolean isOnlyOneInGroup) {
+    public static NotificationManagerCompat.NotificationWithIdAndTag make(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account) {
+        return new NotificationManagerCompat.NotificationWithIdAndTag(
+            body.getId(),
+            (int)account.getId(),
+            NotificationHelper.makeBaseNotification(context, notificationManager, body, account)
+        );
+    }
+
+        @NonNull
+    public static android.app.Notification makeBaseNotification(final @NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull Notification body, @NonNull AccountEntity account) {
         body = body.rewriteToStatusTypeIfNeeded(account.getAccountId());
         String mastodonNotificationId = body.getId();
         int accountId = (int) account.getId();
@@ -162,9 +170,6 @@ public class NotificationHelper {
                 existingAndroidNotification = androidNotification.getNotification();
             }
         }
-
-        // Notification group member
-        // =========================
 
         notificationId++;
         // Create the notification -- either create a new one, or use the existing one.
@@ -240,128 +245,103 @@ public class NotificationHelper {
         extras.putString(EXTRA_NOTIFICATION_TYPE, body.getType().name());
         builder.addExtras(extras);
 
-        // Only alert for the first notification of a batch to avoid multiple alerts at once
-        if(!isOnlyOneInGroup) {
-            builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
-        }
+        // Only ever alert for the summary notification
+        builder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY);
 
         return builder.build();
     }
 
     /**
-     * Updates the summary notifications for each notification group.
+     * Creates the summary notifications for a notification type.
      * <p>
-     * Notifications are sent to channels. Within each channel they may be grouped, and the group
-     * may have a summary.
+     * Notifications are sent to channels. Within each channel they are grouped and the group has a summary.
      * <p>
      * Tusky uses N notification channels for each account, each channel corresponds to a type
-     * of notification (follow, reblog, mention, etc). Therefore each channel also has exactly
-     * 0 or 1 summary notifications along with its regular notifications.
+     * of notification (follow, reblog, mention, etc). Each channel also has a
+     * summary notifications along with its regular notifications.
      * <p>
      * The group key is the same as the channel ID.
-     * <p>
-     * Regnerates the summary notifications for all active Tusky notifications for `account`.
-     * This may delete the summary notification if there are no active notifications for that
-     * account in a group.
      *
      * @see <a href="https://developer.android.com/develop/ui/views/notifications/group">Create a
      * notification group</a>
-     * @param context to access application preferences and services
-     * @param notificationManager the system's NotificationManager
-     * @param account the account for which the notification should be shown
      */
-    public static void updateSummaryNotifications(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account) {
-        // Map from the channel ID to a list of notifications in that channel. Those are the
-        // notifications that will be summarised.
-        Map<String, List<StatusBarNotification>> channelGroups = new HashMap<>();
+    public static NotificationManagerCompat.NotificationWithIdAndTag makeSummaryNotification(@NonNull Context context, @NonNull NotificationManager notificationManager, @NonNull AccountEntity account, @NonNull Notification.Type type, @NonNull List<Notification> additionalNotifications) {
         int accountId = (int) account.getId();
 
-        // Initialise the map with all channel IDs.
-        for (Notification.Type ty : Notification.Type.getEntries()) {
-            channelGroups.put(getChannelId(account, ty), new ArrayList<>());
+        String typeChannelId = getChannelId(account, type);
+
+        if (typeChannelId == null) {
+            return null;
         }
 
-        // Fetch all existing notifications. Add them to the map, ignoring notifications that:
-        // - belong to a different account
-        // - are summary notifications
-        for (StatusBarNotification sn : notificationManager.getActiveNotifications()) {
-            if (sn.getId() != accountId) continue;
+        // Create a notification that summarises the other notifications in this group
+        //
+        // NOTE: We always create a summary notification (even for activeNotificationsForType.size() == 1):
+        //   - No need to especially track the grouping
+        //   - No need to change an existing single notification when there arrives another one of its group
+        //   - Only the summary one will get announced
+        TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
+        summaryStackBuilder.addParentStack(MainActivity.class);
+        Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, type);
+        summaryStackBuilder.addNextIntent(summaryResultIntent);
 
-            String channelId = sn.getNotification().getGroup();
-            String summaryTag = GROUP_SUMMARY_TAG + "." + channelId;
-            if (summaryTag.equals(sn.getTag())) continue;
+        PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent((int) (notificationId + account.getId() * 10000),
+            pendingIntentFlags(false));
 
-            // TODO: API 26 supports getting the channel ID directly (sn.getNotification().getChannelId()).
-            // This works here because the channelId and the groupKey are the same.
-            List<StatusBarNotification> members = channelGroups.get(channelId);
-            if (members == null) { // can't happen, but just in case...
-                Log.e(TAG, "members == null for channel ID " + channelId);
-                continue;
-            }
-            members.add(sn);
-        }
+        List<StatusBarNotification> activeNotifications = getActiveNotifications(notificationManager.getActiveNotifications(), accountId, typeChannelId);
 
-        // Create, update, or cancel the summary notifications for each group.
-        for (Map.Entry<String, List<StatusBarNotification>> channelGroup : channelGroups.entrySet()) {
-            String channelId = channelGroup.getKey();
-            List<StatusBarNotification> members = channelGroup.getValue();
-            String summaryTag = GROUP_SUMMARY_TAG + "." + channelId;
+        int notificationCount = activeNotifications.size() + additionalNotifications.size();
 
-            // If there are 0-1 notifications in this group then the additional summary
-            // notification is not needed and can be cancelled.
-            if (members.size() <= 1) {
-                notificationManager.cancel(summaryTag, accountId);
-                continue;
-            }
+        String title = context.getResources().getQuantityString(R.plurals.notification_title_summary, notificationCount, notificationCount);
+        String text = joinNames(context, activeNotifications, additionalNotifications);
 
-            // Create a notification that summarises the other notifications in this group
+        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context, typeChannelId)
+            .setSmallIcon(R.drawable.ic_notify)
+            .setContentIntent(summaryResultPendingIntent)
+            .setColor(context.getColor(R.color.notification_color))
+            .setAutoCancel(true)
+            .setShortcutId(Long.toString(account.getId()))
+            .setContentTitle(title)
+            .setContentText(text)
+            .setSubText(account.getFullName())
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+            .setCategory(NotificationCompat.CATEGORY_SOCIAL)
+            .setGroup(typeChannelId)
+            .setGroupSummary(true)
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+            ;
 
-            // All notifications in this group have the same type, so get it from the first.
-            String typeName = members.get(0).getNotification().extras.getString(EXTRA_NOTIFICATION_TYPE, Notification.Type.UNKNOWN.name());
-            Notification.Type notificationType = Notification.Type.valueOf(typeName);
+        setSoundVibrationLight(account, summaryBuilder);
 
-            Intent summaryResultIntent = MainActivity.openNotificationIntent(context, accountId, notificationType);
+        String summaryTag = GROUP_SUMMARY_TAG + "." + typeChannelId;
 
-            TaskStackBuilder summaryStackBuilder = TaskStackBuilder.create(context);
-            summaryStackBuilder.addParentStack(MainActivity.class);
-            summaryStackBuilder.addNextIntent(summaryResultIntent);
-
-            PendingIntent summaryResultPendingIntent = summaryStackBuilder.getPendingIntent((int) (notificationId + account.getId() * 10000),
-                pendingIntentFlags(false));
-
-            String title = context.getResources().getQuantityString(R.plurals.notification_title_summary, members.size(), members.size());
-            String text = joinNames(context, members);
-
-            NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notify)
-                .setContentIntent(summaryResultPendingIntent)
-                .setColor(context.getColor(R.color.notification_color))
-                .setAutoCancel(true)
-                .setShortcutId(Long.toString(account.getId()))
-                .setDefaults(0) // So it doesn't ring twice, notify only in Target callback
-                .setContentTitle(title)
-                .setContentText(text)
-                .setSubText(account.getFullName())
-                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-                .setCategory(NotificationCompat.CATEGORY_SOCIAL)
-                .setOnlyAlertOnce(true)
-                .setGroup(channelId)
-                .setGroupSummary(true);
-
-            setSoundVibrationLight(account, summaryBuilder);
-
-            // TODO: Use the batch notification API available in NotificationManagerCompat
-            // 1.11 and up (https://developer.android.com/jetpack/androidx/releases/core#1.11.0-alpha01)
-            // when it is released.
-            notificationManager.notify(summaryTag, accountId, summaryBuilder.build());
-
-            // Android will rate limit / drop notifications if they're posted too
-            // quickly. There is no indication to the user that this happened.
-            // See https://github.com/tuskyapp/Tusky/pull/3626#discussion_r1192963664
-            try { Thread.sleep(1000); } catch (InterruptedException ignored) { }
-        }
+        return new NotificationManagerCompat.NotificationWithIdAndTag(summaryTag, accountId, summaryBuilder.build());
     }
 
+    private static List<StatusBarNotification> getActiveNotifications(StatusBarNotification[] allNotifications, int accountId, String typeChannelId) {
+        // Return all active notifications, ignoring notifications that:
+        // - belong to a different account
+        // - belong to a different type
+        // - are summary notifications
+        List<StatusBarNotification> activeNotificationsForType = new ArrayList<>();
+        for (StatusBarNotification sn : allNotifications) {
+            if (sn.getId() != accountId)
+                continue;
+
+            String channelId = sn.getNotification().getGroup();
+
+            if (!channelId.equals(typeChannelId))
+                continue;
+
+            String summaryTag = GROUP_SUMMARY_TAG + "." + channelId;
+            if (summaryTag.equals(sn.getTag()))
+                continue;
+
+            activeNotificationsForType.add(sn);
+        }
+
+        return activeNotificationsForType;
+    }
 
     private static NotificationCompat.Builder newAndroidNotification(Context context, Notification body, AccountEntity account) {
 
@@ -747,29 +727,41 @@ public class NotificationHelper {
         }
     }
 
-    private static String wrapItemAt(StatusBarNotification notification) {
-        return StringUtils.unicodeWrap(notification.getNotification().extras.getString(EXTRA_ACCOUNT_NAME));//getAccount().getName());
+    private static String joinNames(Context context, List<StatusBarNotification> notifications1, List<Notification> notifications2) {
+        List<String> names = new ArrayList<>(notifications1.size() + notifications2.size());
+
+        for (StatusBarNotification notification: notifications1) {
+            names.add(notification.getNotification().extras.getString(EXTRA_ACCOUNT_NAME));
+        }
+
+        for (Notification notification : notifications2) {
+            names.add(notification.getAccount().getName());
+        }
+
+        return joinNames(context, names);
     }
 
     @Nullable
-    private static String joinNames(Context context, List<StatusBarNotification> notifications) {
-        if (notifications.size() > 3) {
-            int length = notifications.size();
-            //notifications.get(0).getNotification().extras.getString(EXTRA_ACCOUNT_NAME);
-            return String.format(context.getString(R.string.notification_summary_large),
-                    wrapItemAt(notifications.get(length - 1)),
-                    wrapItemAt(notifications.get(length - 2)),
-                    wrapItemAt(notifications.get(length - 3)),
-                    length - 3);
-        } else if (notifications.size() == 3) {
-            return String.format(context.getString(R.string.notification_summary_medium),
-                    wrapItemAt(notifications.get(2)),
-                    wrapItemAt(notifications.get(1)),
-                    wrapItemAt(notifications.get(0)));
-        } else if (notifications.size() == 2) {
-            return String.format(context.getString(R.string.notification_summary_small),
-                    wrapItemAt(notifications.get(1)),
-                    wrapItemAt(notifications.get(0)));
+    private static String joinNames(Context context, List<String> names) {
+        if (names.size() > 3) {
+            int length = names.size();
+            return context.getString(R.string.notification_summary_large,
+                StringUtils.unicodeWrap(names.get(length - 1)),
+                StringUtils.unicodeWrap(names.get(length - 2)),
+                StringUtils.unicodeWrap(names.get(length - 3)),
+                length - 3
+            );
+        } else if (names.size() == 3) {
+            return context.getString(R.string.notification_summary_medium,
+                StringUtils.unicodeWrap(names.get(2)),
+                StringUtils.unicodeWrap(names.get(1)),
+                StringUtils.unicodeWrap(names.get(0))
+            );
+        } else if (names.size() == 2) {
+            return context.getString(R.string.notification_summary_small,
+                StringUtils.unicodeWrap(names.get(1)),
+                StringUtils.unicodeWrap(names.get(0))
+            );
         }
 
         return null;
@@ -780,23 +772,17 @@ public class NotificationHelper {
         String accountName = StringUtils.unicodeWrap(notification.getAccount().getName());
         switch (notification.getType()) {
             case MENTION:
-                return String.format(context.getString(R.string.notification_mention_format),
-                        accountName);
+                return context.getString(R.string.notification_mention_format, accountName);
             case STATUS:
-                return String.format(context.getString(R.string.notification_subscription_format),
-                        accountName);
+                return context.getString(R.string.notification_subscription_format, accountName);
             case FOLLOW:
-                return String.format(context.getString(R.string.notification_follow_format),
-                        accountName);
+                return context.getString(R.string.notification_follow_format, accountName);
             case FOLLOW_REQUEST:
-                return String.format(context.getString(R.string.notification_follow_request_format),
-                        accountName);
+                return context.getString(R.string.notification_follow_request_format, accountName);
             case FAVOURITE:
-                return String.format(context.getString(R.string.notification_favourite_format),
-                        accountName);
+                return context.getString(R.string.notification_favourite_format, accountName);
             case REBLOG:
-                return String.format(context.getString(R.string.notification_reblog_format),
-                        accountName);
+                return context.getString(R.string.notification_reblog_format, accountName);
             case POLL:
                 if(notification.getStatus().getAccount().getId().equals(account.getAccountId())) {
                     return context.getString(R.string.poll_ended_created);
@@ -804,9 +790,9 @@ public class NotificationHelper {
                     return context.getString(R.string.poll_ended_voted);
                 }
             case SIGN_UP:
-                return String.format(context.getString(R.string.notification_sign_up_format), accountName);
+                return context.getString(R.string.notification_sign_up_format, accountName);
             case UPDATE:
-                return String.format(context.getString(R.string.notification_update_format), accountName);
+                return context.getString(R.string.notification_update_format, accountName);
             case REPORT:
                 return context.getString(R.string.notification_report_format, account.getDomain());
         }
