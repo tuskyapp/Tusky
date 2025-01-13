@@ -722,4 +722,11 @@
     <string name="pref_title_per_timeline_preferences">Préférences par fil</string>
     <string name="notification_policies_filter_out">Gérer les notifications issues de…</string>
     <string name="list_reply_policy_none">Personne</string>
+    <string name="post_replied">Répondu</string>
+    <string name="unfollowing_hashtag_success_format">Arrêt du suivi du hashtag #%1$s</string>
+    <string name="muting_hashtag_success_format">Cacher le hashtag #%1$s en guise d\'avertissement</string>
+    <string name="list_exclusive_label">Caché depuis la timeline principale</string>
+    <string name="pref_title_show_notifications_filter">Afficher les filtres de notifications</string>
+    <string name="post_replied_format">En réponse à %1$s</string>
+    <string name="post_replied_self">Suite du fil</string>
 </resources>
