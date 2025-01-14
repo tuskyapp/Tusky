@@ -614,7 +614,6 @@
     <string name="total_usage">Insg. verwendet</string>
     <string name="total_accounts">Konten insg.</string>
     <string name="dialog_follow_hashtag_title">Hashtag folgen</string>
-    <string name="dialog_follow_hashtag_hint">#Hashtag</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="socket_timeout_exception">Kontaktaufnahme mit dem Server dauerte zu lange</string>
     <string name="ui_error_bookmark">Beitrag konnte nicht als Lesezeichen gespeichert werden: %1$s</string>

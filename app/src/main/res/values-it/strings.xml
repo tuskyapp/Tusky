@@ -624,7 +624,6 @@
     <string name="send_account_link_to">Condividi URL account a…</string>
     <string name="account_username_copied">Nome utente copiato</string>
     <string name="dialog_follow_hashtag_title">Segui hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="accessibility_talking_about_tag">%1$d persone parlano dell\'hashtag %2$s</string>
     <string name="total_usage">Utilizzo totale</string>
     <string name="total_accounts">Account totali</string>

@@ -573,7 +573,6 @@
     <string name="total_usage">Kopējais lietojums</string>
     <string name="total_accounts">Konti kopā</string>
     <string name="dialog_follow_hashtag_title">Sekot tēmturim</string>
-    <string name="dialog_follow_hashtag_hint">#tēmturis</string>
     <string name="action_refresh">Atsvaizdināt</string>
     <string name="ui_error_unknown">nezināms iemesls</string>
     <string name="title_public_trending_hashtags">Tendenču tēmturi</string>

@@ -245,7 +245,6 @@
     <string name="title_followed_hashtags">Sledované hashtagy</string>
     <string name="title_edits">Úpravy</string>
     <string name="dialog_follow_hashtag_title">Sledovať hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="post_boosted_format">%1$s boostol/boostla</string>
     <string name="post_media_hidden_title">Skryté média</string>
     <string name="post_media_alt">ALT</string>
@@ -500,7 +499,6 @@
     <string name="description_post_bookmarked">Uložené do záložiek</string>
     <string name="description_post_language">Jazyk príspevku</string>
     <string name="add_hashtag_title">Pridať hashtag</string>
-    <string name="edit_hashtag_hint">Hashtag bez #</string>
     <string name="select_list_title">Vybrať zoznam</string>
     <string name="select_list_manage">Spravovať zoznamy</string>
     <string name="list">Zoznam</string>

@@ -655,7 +655,6 @@
     <string name="socket_timeout_exception">طال الاتصال بخادمك كثيرًا</string>
     <string name="action_add">إضافة</string>
     <string name="dialog_follow_hashtag_title">تابِع الوسم</string>
-    <string name="dialog_follow_hashtag_hint">#وسم</string>
     <string name="pref_ui_text_size">حجم خط واجهة المستخدم</string>
     <string name="label_image">صورة</string>
     <string name="about_account_info_title">حسابُك</string>

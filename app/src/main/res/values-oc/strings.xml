@@ -610,7 +610,6 @@
     <string name="description_browser_login">Poiriá prendre en carga de metòdes d’autentificacions suplementaris, mas requerís un navigador compatible.</string>
     <string name="description_login">Fonciona los tres quarts del temps. Cap de donadas pèrdon pas per las autras aplicacions.</string>
     <string name="dialog_follow_hashtag_title">Seguir lo hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="accessibility_talking_about_tag">%1$d personas parlan d’aqueste hashtag %2$s</string>
     <string name="total_usage">Utilizacion totala</string>
     <string name="total_accounts">Total de comptes</string>

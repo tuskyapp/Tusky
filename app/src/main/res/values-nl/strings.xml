@@ -579,7 +579,6 @@
     <string name="confirmation_hashtag_unfollowed">#%1$s ontvolgd</string>
     <string name="title_followed_hashtags">Gevolgde hashtags</string>
     <string name="dialog_follow_hashtag_title">Hashtag volgen</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_post_failed">Upload mislukt</string>
     <string name="action_post_failed_detail">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
 \n

@@ -581,7 +581,6 @@
     <string name="filter_keyword_addition_title">Gehitu gako-hitza</string>
     <string name="filter_edit_keyword_title">Editatu gako-hitza</string>
     <string name="dialog_follow_hashtag_title">Jarraitu traola</string>
-    <string name="dialog_follow_hashtag_hint">#traola</string>
     <string name="action_continue_edit">Jarraitu editatzen</string>
     <string name="url_copied">URLa kopiatuta</string>
     <string name="duration_180_days">180 egun</string>

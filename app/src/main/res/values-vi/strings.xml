@@ -596,7 +596,6 @@
     <string name="total_usage">lượt dùng</string>
     <string name="total_accounts">người dùng</string>
     <string name="dialog_follow_hashtag_title">Theo dõi hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_refresh">Làm mới</string>
     <string name="notification_unknown_name">Chưa biết</string>
     <string name="socket_timeout_exception">Mất thời gian kết nối quá lâu</string>

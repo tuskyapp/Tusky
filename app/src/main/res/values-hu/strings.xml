@@ -613,7 +613,6 @@
     <string name="total_usage">Összes használat</string>
     <string name="total_accounts">Összes fiók</string>
     <string name="dialog_follow_hashtag_title">Hashtag követése</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_refresh">Frissítés</string>
     <string name="notification_unknown_name">Ismeretlen</string>
     <string name="ui_error_favourite">Bejegyzés kedvencnek jelölése sikertelen: %1$s</string>
