@@ -277,8 +277,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             viewModel.tabs.collect(::setupTabs)
         }
         if (showNotificationTab) {
-            val tabs = activeAccount.tabPreferences
-            val position = tabs.indexOfFirst { it.id == NOTIFICATIONS }
+            val position = viewModel.tabs.value.indexOfFirst { it.id == NOTIFICATIONS }
             if (position != -1) {
                 binding.viewPager.setCurrentItem(position, false)
             }

@@ -75,9 +75,9 @@ class MainViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    val tabs: Flow<List<TabData>> = accountManager.activeAccount(viewModelScope)
+    val tabs: StateFlow<List<TabData>> = accountManager.activeAccount(viewModelScope)
         .mapNotNull { account -> account?.tabPreferences }
-        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, activeAccount.tabPreferences)
 
     private val _unreadAnnouncementsCount = MutableStateFlow(0)
     val unreadAnnouncementsCount: StateFlow<Int> = _unreadAnnouncementsCount.asStateFlow()
