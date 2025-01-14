@@ -198,39 +198,43 @@ abstract class TimelineViewModel(
     }
 
     private fun onPreferenceChanged(key: String) {
-        val activeAccount = activeAccountFlow.value
-        when (key) {
-            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = activeAccount?.isShowHomeReplies != false
-                val oldRemoveReplies = filterRemoveReplies
-                filterRemoveReplies = kind == Kind.HOME && !filter
-                if (oldRemoveReplies != filterRemoveReplies) {
-                    fullReload()
+        activeAccountFlow.value?.let { activeAccount ->
+            when (key) {
+                PrefKeys.TAB_FILTER_HOME_REPLIES -> {
+                    val filter = !activeAccount.isShowHomeReplies
+                    val oldRemoveReplies = filterRemoveReplies
+                    filterRemoveReplies = kind == Kind.HOME && !filter
+                    if (oldRemoveReplies != filterRemoveReplies) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = activeAccount?.isShowHomeBoosts != false
-                val oldRemoveReblogs = filterRemoveReblogs
-                filterRemoveReblogs = kind == Kind.HOME && !filter
-                if (oldRemoveReblogs != filterRemoveReblogs) {
-                    fullReload()
+
+                PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
+                    val filter = !activeAccount.isShowHomeBoosts
+                    val oldRemoveReblogs = filterRemoveReblogs
+                    filterRemoveReblogs = kind == Kind.HOME && !filter
+                    if (oldRemoveReblogs != filterRemoveReblogs) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
-                val filter = activeAccount?.isShowHomeSelfBoosts != false
-                val oldRemoveSelfReblogs = filterRemoveSelfReblogs
-                filterRemoveSelfReblogs = kind == Kind.HOME && !filter
-                if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
-                    fullReload()
+
+                PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
+                    val filter = !activeAccount.isShowHomeSelfBoosts
+                    val oldRemoveSelfReblogs = filterRemoveSelfReblogs
+                    filterRemoveSelfReblogs = kind == Kind.HOME && !filter
+                    if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
-                // it is ok if only newly loaded statuses are affected, no need to fully refresh
-                alwaysShowSensitiveMedia =
-                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
-            }
-            PrefKeys.READING_ORDER -> {
-                readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+
+                PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
+                    // it is ok if only newly loaded statuses are affected, no need to fully refresh
+                    alwaysShowSensitiveMedia = activeAccount.alwaysShowSensitiveMedia
+                }
+
+                PrefKeys.READING_ORDER -> {
+                    readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+                }
             }
         }
     }

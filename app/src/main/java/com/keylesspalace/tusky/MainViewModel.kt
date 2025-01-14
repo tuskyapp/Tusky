@@ -75,19 +75,15 @@ class MainViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    val tabs: Flow<List<TabData>> = accountManager.accountsFlow
-        .mapNotNull { accounts ->
-            accounts.find { activeAccount.id == it.id }?.tabPreferences
-        }
+    val tabs: Flow<List<TabData>> = accountManager.activeAccount(viewModelScope)
+        .mapNotNull { account -> account?.tabPreferences }
         .distinctUntilChanged()
 
     private val _unreadAnnouncementsCount = MutableStateFlow(0)
     val unreadAnnouncementsCount: StateFlow<Int> = _unreadAnnouncementsCount.asStateFlow()
 
-    val showDirectMessagesBadge: StateFlow<Boolean> = accountManager.accountsFlow
-        .map { accounts ->
-            accounts.find { activeAccount.id == it.id }?.hasDirectMessageBadge == true
-        }
+    val showDirectMessagesBadge: StateFlow<Boolean> = accountManager.activeAccount(viewModelScope)
+        .map { account -> account?.hasDirectMessageBadge == true }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     init {

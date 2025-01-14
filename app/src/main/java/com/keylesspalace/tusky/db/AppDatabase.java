@@ -71,7 +71,7 @@ import java.io.File;
         @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
         @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
         @AutoMigration(from = 62, to = 64), // filterV2Available in InstanceEntity
-        @AutoMigration(from = 64, to = 66) // added profileHeaderUrl to AccountEntity
+        @AutoMigration(from = 64, to = 66), // added profileHeaderUrl to AccountEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {

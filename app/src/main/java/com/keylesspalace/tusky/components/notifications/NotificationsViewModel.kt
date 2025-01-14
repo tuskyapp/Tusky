@@ -181,12 +181,12 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun respondToFollowRequest(accept: Boolean, id: String, notificationId: String) {
+    fun respondToFollowRequest(accept: Boolean, accountIdRequestingFollow: String, notificationId: String) {
         viewModelScope.launch {
             if (accept) {
-                api.authorizeFollowRequest(id)
+                api.authorizeFollowRequest(accountIdRequestingFollow)
             } else {
-                api.rejectFollowRequest(id)
+                api.rejectFollowRequest(accountIdRequestingFollow)
             }.fold(
                 onSuccess = {
                     // since the follow request has been responded, the notification can be deleted. The Ui will update automatically.
@@ -197,7 +197,7 @@ class NotificationsViewModel @Inject constructor(
                     }
                 },
                 onFailure = { t ->
-                    Log.e(TAG, "Failed to to respond to follow request from account id $id.", t)
+                    Log.e(TAG, "Failed to to respond to follow request from account id $accountIdRequestingFollow.", t)
                 }
             )
         }

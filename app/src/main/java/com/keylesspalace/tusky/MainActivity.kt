@@ -517,10 +517,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         startActivity(composeIntent)
     }
 
-    override fun finish() {
-        super.finish()
-    }
-
     private fun setupDrawer(
         savedInstanceState: Bundle?,
         addSearchButton: Boolean,
@@ -791,7 +787,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     }
 
     private fun setupTabs(tabs: List<TabData>) {
-        println("setup tabs")
         val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
@@ -832,15 +827,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }.also { it.attach() }
         updateDirectMessageBadge(viewModel.showDirectMessagesBadge.value)
 
-        // Selected tab is either
-        // - Notification tab (if appropriate)
-        // - The previously selected tab (if it hasn't been removed)
-        // - Left-most tab
-        val position = if (false) {
-            tabs.indexOfFirst { it.id == NOTIFICATIONS }
-        } else {
-            previousTab?.let { tabs.indexOfFirst { it == previousTab } }
-        }.takeIf { it != -1 } ?: 0
+        val position = previousTab?.let { tabs.indexOfFirst { it == previousTab } }
+            .takeIf { it != -1 } ?: 0
         binding.viewPager.setCurrentItem(position, false)
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
