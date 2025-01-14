@@ -374,7 +374,7 @@
     <string name="description_visibility_private">Подписчики</string>
     <string name="description_visibility_direct">Личное упоминание</string>
     <string name="hint_list_name">Название списка</string>
-    <string name="edit_hashtag_hint">Хэштег без #</string>
+    <string name="pick_hashtag_hint">Хэштег без #</string>
     <string name="notifications_clear">Очистить</string>
     <string name="notifications_apply_filter">Фильтр</string>
     <string name="filter_apply">Применить</string>

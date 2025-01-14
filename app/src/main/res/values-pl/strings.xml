@@ -375,7 +375,7 @@
     <string name="description_visibility_direct">Bezpośrednio</string>
     <string name="description_poll">Głosowanie z opcjami: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Nazwa listy</string>
-    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="pick_hashtag_hint">Hashtag bez #</string>
     <string name="notifications_clear">Wyczyść</string>
     <string name="notifications_apply_filter">Filtr</string>
     <string name="filter_apply">Zastosuj</string>

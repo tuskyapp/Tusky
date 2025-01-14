@@ -379,7 +379,7 @@
     <string name="delete_scheduled_post_warning">Dileu\'r neges wedi\'u hamserlennu hon\?</string>
     <string name="description_post_media_no_description_placeholder">Dim disgrifiad</string>
     <string name="hint_list_name">Enw\'r rhestr</string>
-    <string name="edit_hashtag_hint">Hashnod heb #</string>
+    <string name="pick_hashtag_hint">Hashnod heb #</string>
     <string name="report_remote_instance">Anfon ymlaen at %1$s</string>
     <string name="report_description_remote_instance">Daw\'r cyfrif o weinydd arall. Ydych chi am anfon copi dienw o\'r adroddiad i\'r gweinydd hwnnw hefyd\?</string>
     <string name="duration_1_hour">Awr</string>

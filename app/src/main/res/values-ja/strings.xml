@@ -432,7 +432,7 @@
     <string name="pref_title_enable_swipe_for_tabs">タブ間の切り替えにスワイプのジェスチャーを有効化</string>
     <string name="pref_title_show_cards_in_timelines">リンクのプレビューをタイムラインに表示</string>
     <string name="pref_title_confirm_reblogs">ブーストする前に確認を表示</string>
-    <string name="edit_hashtag_hint">ハッシュタグ (#をつけない)</string>
+    <string name="pick_hashtag_hint">ハッシュタグ (#をつけない)</string>
     <string name="select_list_title">リストを選択</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="poll_info_time_absolute">%1$sに終了</string>

@@ -347,7 +347,7 @@
     <string name="description_visibility_private">Seguidors</string>
     <string name="description_visibility_direct">Directe</string>
     <string name="hint_list_name">Nom de la llista</string>
-    <string name="edit_hashtag_hint">Hashtag sense #</string>
+    <string name="pick_hashtag_hint">Hashtag sense #</string>
     <string name="notifications_clear">Netejar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>

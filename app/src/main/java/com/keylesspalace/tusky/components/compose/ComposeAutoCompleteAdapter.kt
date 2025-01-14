@@ -37,7 +37,9 @@ class ComposeAutoCompleteAdapter(
     private val autocompletionProvider: AutocompletionProvider,
     private val animateAvatar: Boolean,
     private val animateEmojis: Boolean,
-    private val showBotBadge: Boolean
+    private val showBotBadge: Boolean,
+    // if true, @ # : are returned in the result, otherwise only the raw value
+    private val withDecoration: Boolean = true,
 ) : BaseAdapter(), Filterable {
 
     private var resultList: List<AutocompleteResult> = emptyList()
@@ -52,37 +54,35 @@ class ComposeAutoCompleteAdapter(
         return position.toLong()
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
+    override fun getFilter() = object : Filter() {
 
-            override fun convertResultToString(resultValue: Any): CharSequence {
-                return when (resultValue) {
-                    is AutocompleteResult.AccountResult -> "@${resultValue.account.username}"
-                    is AutocompleteResult.HashtagResult -> "#${resultValue.hashtag}"
-                    is AutocompleteResult.EmojiResult -> ":${resultValue.emoji.shortcode}:"
-                    else -> ""
-                }
+        override fun convertResultToString(resultValue: Any): CharSequence {
+            return when (resultValue) {
+                is AutocompleteResult.AccountResult -> if (withDecoration) "@${resultValue.account.username}" else resultValue.account.username
+                is AutocompleteResult.HashtagResult -> if (withDecoration) "#${resultValue.hashtag}" else resultValue.hashtag
+                is AutocompleteResult.EmojiResult -> if (withDecoration) ":${resultValue.emoji.shortcode}:" else resultValue.emoji.shortcode
+                else -> ""
             }
+        }
 
-            @WorkerThread
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filterResults = FilterResults()
-                if (constraint != null) {
-                    val results = autocompletionProvider.search(constraint.toString())
-                    filterResults.values = results
-                    filterResults.count = results.size
-                }
-                return filterResults
+        @WorkerThread
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filterResults = FilterResults()
+            if (constraint != null) {
+                val results = autocompletionProvider.search(constraint.toString())
+                filterResults.values = results
+                filterResults.count = results.size
             }
+            return filterResults
+        }
 
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-                if (results.count > 0) {
-                    resultList = results.values as List<AutocompleteResult>
-                    notifyDataSetChanged()
-                } else {
-                    notifyDataSetInvalidated()
-                }
+        @Suppress("UNCHECKED_CAST")
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            if (results.count > 0) {
+                resultList = results.values as List<AutocompleteResult>
+                notifyDataSetChanged()
+            } else {
+                notifyDataSetInvalidated()
             }
         }
     }

@@ -217,7 +217,7 @@
 \n(enintään %1$d merkkiä)</item>
         <item quantity="other"/>
     </plurals>
-    <string name="edit_hashtag_hint">Aihetunniste ilman #-merkkiä</string>
+    <string name="pick_hashtag_hint">Aihetunniste ilman #-merkkiä</string>
     <string name="title_domain_mutes">Piilotetus verkkonimet</string>
     <string name="action_share_as">Jaa…</string>
     <string name="error_no_web_browser_found">Verkkoselainta ei löytynyt.</string>

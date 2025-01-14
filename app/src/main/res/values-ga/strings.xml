@@ -376,7 +376,7 @@
     <string name="description_visibility_direct">Díreach</string>
     <string name="hint_list_name">Ainm liosta</string>
     <string name="add_hashtag_title">Cuir hashtag leis</string>
-    <string name="edit_hashtag_hint">Hashtag gan #</string>
+    <string name="pick_hashtag_hint">Hashtag gan #</string>
     <string name="select_list_title">Roghnaigh liosta</string>
     <string name="notifications_clear">Glan</string>
     <string name="notifications_apply_filter">Scagaire</string>

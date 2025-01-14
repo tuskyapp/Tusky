@@ -464,9 +464,9 @@ class ComposeActivity :
         binding.composeEditField.setAdapter(
             ComposeAutoCompleteAdapter(
                 this,
-                preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-                preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
-                preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
+                animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+                animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
+                showBotBadge = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true)
             )
         )
         binding.composeEditField.setTokenizer(ComposeTokenizer())

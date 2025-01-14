@@ -350,7 +350,7 @@
     <string name="downloading_media">جارٍ تنزيل الوسائط</string>
     <string name="dialog_redraft_post_warning">هل تريد حذف وإعادة صياغة هذا التبويق؟</string>
     <string name="description_post_favourited">تم تفضيله</string>
-    <string name="edit_hashtag_hint">وسم بدون #</string>
+    <string name="pick_hashtag_hint">وسم بدون #</string>
     <string name="notifications_clear">مسح</string>
     <string name="notifications_apply_filter">عامل تصفية</string>
     <string name="filter_apply">طَبِّق</string>

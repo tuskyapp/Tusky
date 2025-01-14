@@ -359,7 +359,7 @@
     <string name="description_visibility_direct">Közvetlen</string>
     <string name="description_poll">Szavazás válaszokkal: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Lista neve</string>
-    <string name="edit_hashtag_hint">Hashtag # nélkül</string>
+    <string name="pick_hashtag_hint">Hashtag # nélkül</string>
     <string name="notifications_clear">Törlés</string>
     <string name="notifications_apply_filter">Szűrés</string>
     <string name="filter_apply">Alkalmaz</string>

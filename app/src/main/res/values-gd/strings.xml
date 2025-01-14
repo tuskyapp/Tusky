@@ -171,7 +171,7 @@
     <string name="notifications_clear">Sguab às</string>
     <string name="list">Liosta</string>
     <string name="select_list_title">Tagh liosta</string>
-    <string name="edit_hashtag_hint">Taga hais gun #</string>
+    <string name="pick_hashtag_hint">Taga hais gun #</string>
     <string name="add_hashtag_title">Cuir taga hais ris</string>
     <string name="hint_list_name">Ainm na liosta</string>
     <string name="description_poll">Cunntas-bheachd le roghainnean: %1$s, %2$s, %3$s, %4$s; %5$s</string>

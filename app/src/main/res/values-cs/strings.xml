@@ -351,7 +351,7 @@
     <string name="description_visibility_private">Pro sledující</string>
     <string name="description_visibility_direct">Přímý</string>
     <string name="hint_list_name">Název seznamu</string>
-    <string name="edit_hashtag_hint">Hashtag bez #</string>
+    <string name="pick_hashtag_hint">Hashtag bez #</string>
     <string name="compose_shortcut_long_label">Napsat příspěvek</string>
     <string name="compose_shortcut_short_label">Napsat</string>
     <string name="notifications_clear">Vyčistit</string>

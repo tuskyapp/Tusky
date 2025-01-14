@@ -342,7 +342,7 @@
     <string name="action_add_to_list">Account aan de lijst toevoegen</string>
     <string name="action_remove_from_list">Account uit de lijst verwijderen</string>
     <string name="hint_list_name">Naam van lijst</string>
-    <string name="edit_hashtag_hint">Hashtag zonder #</string>
+    <string name="pick_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
     <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
     <string name="notifications_clear">Verwijderen</string>

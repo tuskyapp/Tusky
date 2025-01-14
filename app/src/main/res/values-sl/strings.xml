@@ -319,7 +319,7 @@
     <string name="description_visibility_private">Sledilci</string>
     <string name="description_visibility_direct">Neposredno</string>
     <string name="hint_list_name">Ime seznama</string>
-    <string name="edit_hashtag_hint">Ključnik brez #</string>
+    <string name="pick_hashtag_hint">Ključnik brez #</string>
     <string name="notifications_clear">Počisti</string>
     <string name="notifications_apply_filter">Filter</string>
     <string name="filter_apply">Uporabi</string>

@@ -56,7 +56,7 @@
     <string name="list">รายการ</string>
     <string name="select_list_title">เลือกรายการ</string>
     <string name="hashtags">แฮชแท็ก</string>
-    <string name="edit_hashtag_hint">แฮชแท็กโดยไม่มี #</string>
+    <string name="pick_hashtag_hint">แฮชแท็กโดยไม่มี #</string>
     <string name="add_hashtag_title">เพิ่มแฮชแท็ก</string>
     <string name="hint_list_name">ชื่อรายการ</string>
     <string name="description_poll">โพลกับตัวเลือก: %1$s, %2$s, %3$s, %4$s; %5$s</string>
