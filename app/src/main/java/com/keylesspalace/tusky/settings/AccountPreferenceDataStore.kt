@@ -25,6 +25,7 @@ class AccountPreferenceDataStore @Inject constructor(
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> account.isShowHomeBoosts
             PrefKeys.TAB_FILTER_HOME_REPLIES -> account.isShowHomeReplies
             PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> account.isShowHomeSelfBoosts
+            PrefKeys.FILTER_BOTS -> account.filterBots
             else -> defValue
         }
     }
@@ -37,6 +38,7 @@ class AccountPreferenceDataStore @Inject constructor(
             PrefKeys.TAB_FILTER_HOME_BOOSTS -> account.isShowHomeBoosts = value
             PrefKeys.TAB_FILTER_HOME_REPLIES -> account.isShowHomeReplies = value
             PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> account.isShowHomeSelfBoosts = value
+            PrefKeys.FILTER_BOTS -> account.filterBots = value
         }
 
         accountManager.saveAccount(account)

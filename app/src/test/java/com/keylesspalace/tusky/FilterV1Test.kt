@@ -119,7 +119,7 @@ class FilterV1Test {
             onBlocking { isFilterV2Supported() } doReturn false
         }
 
-        filterModel = FilterModel(instanceInfoRepo, api)
+        filterModel = FilterModel(instanceInfoRepo, api, mock())
         runBlocking {
             filterModel.init(Filter.Kind.HOME)
         }

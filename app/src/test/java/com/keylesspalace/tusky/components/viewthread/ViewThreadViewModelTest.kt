@@ -86,7 +86,7 @@ class ViewThreadViewModelTest {
             onBlocking { isFilterV2Supported() } doReturn false
         }
         eventHub = EventHub()
-        val filterModel = FilterModel(instanceInfoRepo, api)
+        val filterModel = FilterModel(instanceInfoRepo, api, mock())
         val timelineCases = TimelineCases(api, eventHub)
         val accountManager: AccountManager = mock {
             on { activeAccount } doReturn AccountEntity(
