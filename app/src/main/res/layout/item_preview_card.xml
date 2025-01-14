@@ -11,7 +11,7 @@
         android:id="@+id/status_card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
+        android:minHeight="@dimen/card_image_horizontal_width"
         android:gravity="center"
         android:orientation="vertical">
 
