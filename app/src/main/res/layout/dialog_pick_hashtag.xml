@@ -8,17 +8,20 @@
     android:paddingRight="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addHashtagInputLayout"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:id="@+id/pickHashtagInputLayout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_hashtag_hint"
+        android:hint="@string/pick_hashtag_hint"
         app:endIconMode="none">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addHashtagEditText"
+        <!-- textNoSuggestions is to disable spell check, it will auto-complete -->
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/pickHashtagEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:completionThreshold="2"
+            android:imeOptions="actionDone"
             android:inputType="textNoSuggestions"
             android:lines="1" />
 

@@ -360,7 +360,7 @@
     <string name="pref_title_animate_gif_avatars">Ebligi GIF-profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
     <string name="notification_poll_description">Sciigoj pri enketoj, kiuj finiĝis</string>
-    <string name="edit_hashtag_hint">Kradvorto sen #</string>
+    <string name="pick_hashtag_hint">Kradvorto sen #</string>
     <string name="notifications_clear">Viŝi</string>
     <string name="notifications_apply_filter">Filtri</string>
     <string name="filter_apply">Apliki</string>

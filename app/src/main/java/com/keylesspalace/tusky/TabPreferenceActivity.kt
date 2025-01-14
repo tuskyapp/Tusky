@@ -18,17 +18,13 @@ package com.keylesspalace.tusky
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
@@ -36,13 +32,13 @@ import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
-import com.keylesspalace.tusky.databinding.DialogAddHashtagBinding
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.hashtagPattern
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
+import com.keylesspalace.tusky.view.showHashtagPickerDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -220,39 +216,21 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
     }
 
     private fun showAddHashtagDialog(tab: TabData? = null, tabPosition: Int = 0) {
-        val dialogBinding = DialogAddHashtagBinding.inflate(layoutInflater)
-        val editText = dialogBinding.addHashtagEditText
+        showHashtagPickerDialog(mastodonApi, R.string.add_hashtag_title) { hashtag ->
+            if (tab == null) {
+                val newTab = createTabDataFromId(HASHTAG, listOf(hashtag))
+                currentTabs.add(newTab)
+                currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
+            } else {
+                val newTab = tab.copy(arguments = tab.arguments + hashtag)
+                currentTabs[tabPosition] = newTab
 
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.add_hashtag_title)
-            .setView(dialogBinding.root)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.action_save) { _, _ ->
-                val input = editText.text.toString().trim()
-                if (tab == null) {
-                    val newTab = createTabDataFromId(HASHTAG, listOf(input))
-                    currentTabs.add(newTab)
-                    currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
-                } else {
-                    val newTab = tab.copy(arguments = tab.arguments + input)
-                    currentTabs[tabPosition] = newTab
-
-                    currentTabsAdapter.notifyItemChanged(tabPosition)
-                }
-
-                updateAvailableTabs()
-                saveTabs()
+                currentTabsAdapter.notifyItemChanged(tabPosition)
             }
-            .create()
 
-        editText.doOnTextChanged { s, _, _, _ ->
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(s)
+            updateAvailableTabs()
+            saveTabs()
         }
-
-        dialog.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = validateHashtag(editText.text)
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        editText.requestFocus()
     }
 
     private var listSelectDialog: ListSelectionFragment? = null

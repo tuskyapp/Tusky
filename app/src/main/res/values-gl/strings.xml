@@ -180,7 +180,7 @@
     <string name="list">Lista</string>
     <string name="select_list_title">Escoller lista</string>
     <string name="hashtags">Cancelos</string>
-    <string name="edit_hashtag_hint">Cancelo sen #</string>
+    <string name="pick_hashtag_hint">Cancelo sen #</string>
     <string name="add_hashtag_title">Engadir cancelo</string>
     <string name="hint_list_name">Nome da lista</string>
     <string name="description_poll">Enquisa con opcións: %1$s, %2$s, %3$s, %4$s; %5$s</string>

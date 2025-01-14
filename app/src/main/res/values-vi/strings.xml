@@ -363,7 +363,7 @@
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
     <string name="hashtags">Hashtag</string>
-    <string name="edit_hashtag_hint">Không cần dấu #</string>
+    <string name="pick_hashtag_hint">Không cần dấu #</string>
     <string name="add_hashtag_title">Thêm hashtag</string>
     <string name="hint_list_name">Tên danh sách</string>
     <string name="description_poll">Lượt bình chọn: %1$s, %2$s, %3$s, %4$s; %5$s</string>

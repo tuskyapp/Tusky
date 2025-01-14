@@ -61,7 +61,7 @@
     <string name="list">Списък</string>
     <string name="select_list_title">Избиране на списък</string>
     <string name="hashtags">Хаштагове</string>
-    <string name="edit_hashtag_hint">Хаштаг без #</string>
+    <string name="pick_hashtag_hint">Хаштаг без #</string>
     <string name="add_hashtag_title">Добавяне на хаштаг</string>
     <string name="hint_list_name">Име на списък</string>
     <string name="description_poll">Анкета с избори: %1$s, %2$s, %3$s, %4$s; %5$s</string>

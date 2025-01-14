@@ -383,7 +383,7 @@
     <string name="filter_apply">প্রয়োগ</string>
     <string name="notifications_apply_filter">ফিল্টার</string>
     <string name="notifications_clear">পরিষ্কার</string>
-    <string name="edit_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>
+    <string name="pick_hashtag_hint"># ছাড়া হ্যাশট্যাগ</string>
     <string name="hint_list_name">নামের তালিকা</string>
     <string name="title_favourites">প্রিয়গুলো</string>
     <string name="title_followers">অনুগামিবৃন্দ</string>

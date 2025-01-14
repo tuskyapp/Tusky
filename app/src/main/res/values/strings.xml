@@ -81,7 +81,7 @@
     <string name="title_edits">Edits</string>
 
     <string name="dialog_follow_hashtag_title">Follow hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
+    <string name="follow_hashtag_success">Followed hashtag %1$s</string>
 
     <string name="post_username_format">\@%1$s</string>
     <string name="post_boosted_format">%1$s boosted</string>
@@ -615,7 +615,7 @@
     <string name="hint_list_name">List name</string>
 
     <string name="add_hashtag_title">Add hashtag</string>
-    <string name="edit_hashtag_hint">Hashtag without #</string>
+    <string name="pick_hashtag_hint">Hashtag without #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Select list</string>
     <string name="select_list_manage">Manage lists</string>

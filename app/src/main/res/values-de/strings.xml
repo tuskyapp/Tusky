@@ -319,7 +319,7 @@
     <string name="error_delete_list">Liste konnte nicht gelöscht werden</string>
     <string name="hint_search_people_list">Suche nach Leuten, denen du folgst</string>
     <string name="action_remove_from_list">Konto aus der Liste entfernen</string>
-    <string name="edit_hashtag_hint">Hashtag ohne #</string>
+    <string name="pick_hashtag_hint">Hashtag ohne #</string>
     <string name="action_open_reblogger">Autor*in des geteilten Beitrags öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Timelines</string>
     <plurals name="favs">

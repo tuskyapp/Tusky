@@ -531,7 +531,7 @@
     <string name="action_post_failed">Augšupielāde neizdevās</string>
     <string name="action_post_failed_show_drafts">Rādīt melnrakstus</string>
     <string name="action_post_failed_do_nothing">Aizvākt</string>
-    <string name="edit_hashtag_hint">Tēmturis bez #</string>
+    <string name="pick_hashtag_hint">Tēmturis bez #</string>
     <string name="status_edit_info">%1$s laboja</string>
     <string name="action_browser_login">Pieslēgties ar pārlūku</string>
     <string name="description_login">Strādā vairumā gadījumu. Dati netiek nopludināti uz citām lietotnēm.</string>

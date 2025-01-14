@@ -94,9 +94,9 @@
         <item name="snackbarButtonStyle">@style/TuskyButton.TextButton</item>
 
         <!-- for dialogs created with MaterialALertDialogBuilder -->
-        <item name="materialAlertDialogTheme">@style/TuskyDialogOverlay</item>
+        <item name="materialAlertDialogTheme">@style/TuskyMaterialDialogOverlay</item>
         <!-- for dialogs opened from preferences -->
-        <item name="alertDialogTheme">@style/TuskyDialogOverlay</item>
+        <item name="alertDialogTheme">@style/TuskyAlertDialog</item>
         <item name="dialogCornerRadius">16dp</item>
 
         <item name="materialTimePickerTheme">@style/TuskyTimePickerOverlay</item>
@@ -144,12 +144,22 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
-    <style name="TuskyDialogOverlay" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="alertDialogStyle">@style/TuskyDialog</item>
+    <style name="TuskyDialogFragment" parent="@style/ThemeOverlay.Material3.Dialog">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
-    <style name="TuskyDialog" parent="@style/MaterialAlertDialog.Material3">
+    <style name="TuskyAlertDialog" parent="@style/ThemeOverlay.Material3.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="TuskyMaterialDialogOverlay" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/TuskyMaterialDialog</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="TuskyMaterialDialog" parent="@style/MaterialAlertDialog.Material3">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
         <item name="backgroundTint">@color/colorBackground</item>
     </style>

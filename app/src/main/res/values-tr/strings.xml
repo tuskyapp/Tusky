@@ -346,7 +346,7 @@
     <string name="description_visibility_direct">Doğrudan</string>
     <string name="description_poll">Seçenekli anket: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Liste adı</string>
-    <string name="edit_hashtag_hint"># Etiket olmadan</string>
+    <string name="pick_hashtag_hint"># Etiket olmadan</string>
     <string name="notifications_clear">Sil</string>
     <string name="notifications_apply_filter">Süzgeçle</string>
     <string name="filter_apply">Uygula</string>

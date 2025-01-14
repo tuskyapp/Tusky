@@ -427,7 +427,7 @@
     <string name="list">सूचिः</string>
     <string name="select_list_title">सूचिरवचीयताम्</string>
     <string name="hashtags">निश्रेणिचिह्नशीर्षकाः</string>
-    <string name="edit_hashtag_hint"># चिह्नं विना प्रचलितम्</string>
+    <string name="pick_hashtag_hint"># चिह्नं विना प्रचलितम्</string>
     <string name="add_hashtag_title">प्रचलितं युज्यताम्</string>
     <string name="hint_list_name">सूचिनाम</string>
     <string name="description_poll">मतदाने मतानि- %1$s, %2$s, %3$s, %4$s; %5$s</string>

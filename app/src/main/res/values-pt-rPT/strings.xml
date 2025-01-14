@@ -396,7 +396,7 @@
     <string name="description_poll">Votação com as opções: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="hint_list_name">Nome da lista</string>
     <string name="add_hashtag_title">Adicionar hashtag</string>
-    <string name="edit_hashtag_hint">Hashtag sem #</string>
+    <string name="pick_hashtag_hint">Hashtag sem #</string>
     <string name="hashtags">Hashtags</string>
     <string name="select_list_title">Selecionar lista</string>
     <string name="list">Lista</string>

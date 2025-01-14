@@ -351,7 +351,7 @@
     <string name="description_visibility_unlisted">Não-listado</string>
     <string name="description_visibility_direct">Direto</string>
     <string name="hint_list_name">Nome da lista</string>
-    <string name="edit_hashtag_hint">Hashtag sem #</string>
+    <string name="pick_hashtag_hint">Hashtag sem #</string>
     <string name="notifications_clear">Excluir notificações</string>
     <string name="notifications_apply_filter">Filtrar notificações</string>
     <string name="filter_apply">Salvar</string>

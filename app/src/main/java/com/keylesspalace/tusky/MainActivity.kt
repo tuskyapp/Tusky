@@ -813,10 +813,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
                 tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
-            tab.contentDescription = when (tabs[position].id) {
-                LIST -> tabs[position].arguments[1]
-                else -> getString(tabs[position].text)
-            }
+            tab.contentDescription = tabs[position].title(this)
             if (tabs[position].id == DIRECT) {
                 val badge = tab.orCreateBadge
                 badge.isVisible = activeAccount.hasDirectMessageBadge

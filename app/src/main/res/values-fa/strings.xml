@@ -357,7 +357,7 @@
     <string name="description_visibility_direct">مستقیم</string>
     <string name="description_poll">نظرسنجی با گزینه‌ها: %1$s، %2$s، %3$s، %4$s؛ %5$s</string>
     <string name="hint_list_name">نام سیاهه</string>
-    <string name="edit_hashtag_hint">برچسب بدون #</string>
+    <string name="pick_hashtag_hint">برچسب بدون #</string>
     <string name="notifications_clear">حذف</string>
     <string name="notifications_apply_filter">پالایش</string>
     <string name="filter_apply">اعمال</string>

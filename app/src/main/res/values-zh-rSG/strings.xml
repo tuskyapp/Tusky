@@ -361,7 +361,7 @@
         私信
     </string>
     <string name="hint_list_name">列表名</string>
-    <string name="edit_hashtag_hint">话题名（不含前面的 # 号）</string>
+    <string name="pick_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="notifications_clear">清空</string>
     <string name="notifications_apply_filter">分类</string>
     <string name="filter_apply">应用</string>

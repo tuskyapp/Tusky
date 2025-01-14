@@ -306,7 +306,7 @@
     <string name="list">لیست</string>
     <string name="select_list_title">دیاریکردنی لیست</string>
     <string name="hashtags">هاشتاگی</string>
-    <string name="edit_hashtag_hint">هاشتاگی بێ #</string>
+    <string name="pick_hashtag_hint">هاشتاگی بێ #</string>
     <string name="add_hashtag_title">هاشتاگی زیاد بکە</string>
     <string name="hint_list_name">ناوی لیست</string>
     <string name="description_poll">ڕاپرسی لەگەڵ هەڵبژاردنەکان: %1$s, %2$s, %3$s, %4$s; %5$s</string>

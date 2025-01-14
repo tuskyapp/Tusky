@@ -350,7 +350,7 @@
     </string>
     <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
-    <string name="edit_hashtag_hint">Hashtag sans #</string>
+    <string name="pick_hashtag_hint">Hashtag sans #</string>
     <string name="notifications_clear">Supprimer</string>
     <string name="notifications_apply_filter">Filtrer</string>
     <string name="filter_apply">Appliquer</string>
