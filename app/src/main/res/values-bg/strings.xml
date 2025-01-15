@@ -490,7 +490,6 @@
     <string name="error_image_edit_failed">Изображението не може да бъде редактирано.</string>
     <string name="a11y_label_loading_thread">Зареждане на нишка</string>
     <string name="pref_ui_text_size">Размер на текста на интерфейса</string>
-    <string name="dialog_follow_hashtag_hint">#хаштаг</string>
     <string name="dialog_follow_hashtag_title">Последване на хаштаг</string>
     <string name="label_image">Изображение</string>
     <string name="hint_media_description_missing">Мултимедията трябва да има описание.</string>

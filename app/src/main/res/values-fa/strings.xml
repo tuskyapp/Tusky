@@ -613,7 +613,6 @@
     <string name="total_usage">استفادهٔ کل</string>
     <string name="total_accounts">مجموع حساب‌ها</string>
     <string name="dialog_follow_hashtag_title">پی‌گیری برچسب</string>
-    <string name="dialog_follow_hashtag_hint">#برچسب</string>
     <string name="action_refresh">نوسازی</string>
     <string name="notification_unknown_name">ناشناخته</string>
     <string name="socket_timeout_exception">تماس با کارسازتان بیش از حد طول کشید</string>

@@ -555,7 +555,6 @@
     <string name="mute_notifications_switch">Скрыть из уведомлений</string>
     <string name="dialog_follow_hashtag_title">Подписаться на хэштег</string>
     <string name="notification_update_format">%1$s изменил(а) свой пост</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="pref_summary_http_proxy_disabled">Отключено</string>
     <string name="pref_summary_http_proxy_missing">&lt;не задано&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;недействителен&gt;</string>

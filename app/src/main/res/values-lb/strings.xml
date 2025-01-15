@@ -64,7 +64,6 @@
     <string name="title_licenses">Lizenzen</string>
     <string name="title_followed_hashtags">Verfollegt Hashtags</string>
     <string name="title_edits">Beaarbechtungen</string>
-    <string name="dialog_follow_hashtag_hint">#Hashtag</string>
     <string name="post_username_format">\@%1$s</string>
     <string name="post_boosted_format">%1$s huet gedeelt</string>
     <string name="post_sensitive_media_title">Inhaltswarnung</string>

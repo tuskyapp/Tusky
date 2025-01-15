@@ -613,7 +613,6 @@
     <string name="pref_reading_order_oldest_first">Äldsta först</string>
     <string name="pref_reading_order_newest_first">Nyaste först</string>
     <string name="dialog_follow_hashtag_title">Följ hashtagg</string>
-    <string name="dialog_follow_hashtag_hint">#hashtagg</string>
     <string name="accessibility_talking_about_tag">%1$d personer pratar om hashtagg %2$s</string>
     <string name="total_usage">Total användning</string>
     <string name="total_accounts">Totala konton</string>

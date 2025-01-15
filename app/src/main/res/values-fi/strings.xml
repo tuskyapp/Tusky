@@ -441,7 +441,6 @@
     <string name="title_followed_hashtags">Seuratut aihetunnisteet</string>
     <string name="title_edits">Muokkaukset</string>
     <string name="dialog_follow_hashtag_title">Seuraa aihetunnistetta</string>
-    <string name="dialog_follow_hashtag_hint">#aihetunniste</string>
     <string name="post_edited">Muokattu %1$s</string>
     <string name="notification_report_format">Uusi ilmianto tilille %1$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d julkaisua liitetty</string>

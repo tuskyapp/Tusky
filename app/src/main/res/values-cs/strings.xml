@@ -708,7 +708,6 @@
     <string name="error_saving_filter">Chyba při ukládání filtru \'%1$s\'</string>
     <string name="title_edits">Změny</string>
     <string name="dialog_follow_hashtag_title">Sleduj hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="notification_report_format">Nové hlášení z %1$s</string>
     <string name="notification_header_report_format">%1$s nahlášeno %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d postů připojeno</string>

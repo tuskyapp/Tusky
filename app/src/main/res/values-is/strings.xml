@@ -606,7 +606,6 @@
     <string name="total_usage">Heildarnotkun</string>
     <string name="total_accounts">Aðgangar alls</string>
     <string name="dialog_follow_hashtag_title">Fylgjast með myllumerki</string>
-    <string name="dialog_follow_hashtag_hint">#myllumerki</string>
     <string name="notification_unknown_name">Óþekkt</string>
     <string name="action_refresh">Endurlesa</string>
     <string name="status_filtered_show_anyway">Birta samt</string>

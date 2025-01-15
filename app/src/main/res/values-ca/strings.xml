@@ -617,7 +617,6 @@
     <string name="total_usage">Ús total</string>
     <string name="total_accounts">Total de comptes</string>
     <string name="dialog_follow_hashtag_title">Segueix hashtag</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="action_refresh">Actualitzar</string>
     <string name="notification_unknown_name">Desconegut</string>
     <string name="status_filter_placeholder_label_format">Filtrat: %1$s</string>

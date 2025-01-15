@@ -609,7 +609,6 @@
     <string name="title_public_trending_hashtags">热门话题标签</string>
     <string name="total_usage">总使用</string>
     <string name="total_accounts">总账户</string>
-    <string name="dialog_follow_hashtag_hint">#hashtag</string>
     <string name="dialog_follow_hashtag_title">关注话题标签</string>
     <string name="action_refresh">刷新</string>
     <string name="notification_unknown_name">未知</string>
