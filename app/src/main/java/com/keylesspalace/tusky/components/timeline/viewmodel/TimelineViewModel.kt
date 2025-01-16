@@ -181,16 +181,16 @@ abstract class TimelineViewModel(
 
     protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
-        if (status.actionableStatus.account.id == account.accountId) {
-            // never filter own posts
-            return Filter.Action.NONE
-        }
+
         return if (
-            (status.inReplyToId != null && filterRemoveReplies) ||
+            (status.isReply && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs) ||
-            ((status.account.id == status.reblog?.account?.id) && filterRemoveSelfReblogs)
+            (status.account.id == status.reblog?.account?.id && filterRemoveSelfReblogs)
         ) {
-            return Filter.Action.HIDE
+            Filter.Action.HIDE
+        } else if (status.actionableStatus.account.id == account.accountId) {
+            // Mastodon filters don't apply for own posts
+            Filter.Action.NONE
         } else {
             statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
             statusViewData.filterAction
