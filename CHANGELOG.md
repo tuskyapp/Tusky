@@ -6,6 +6,14 @@
 
 ### Significant bug fixes
 
+## v27.2
+
+### Significant bug fixes
+
+- The title of a hashtag tab now shows the actual hashtags again (instead of just "Hashtags") https://github.com/tuskyapp/Tusky/pull/4868
+- Makes sure the background color of a dialogs is correct https://github.com/tuskyapp/Tusky/pull/4864
+- Fixes an issue where Tusky would freeze while loading a timeline gap https://github.com/tuskyapp/Tusky/pull/4865
+
 ## v27.1
 
 ### New features and other improvements
