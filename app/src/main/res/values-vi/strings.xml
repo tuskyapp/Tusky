@@ -734,4 +734,7 @@
     <string name="post_replied_format">Trả lời đến %1$s</string>
     <string name="post_replied_self">Tiếp tục chủ đề</string>
     <string name="post_replied">Trả lời</string>
+    <string name="preview_card_by_author">Bởi %1$s</string>
+    <string name="preview_card_more_by_author">Bài khác bởi %1$s</string>
+    <string name="follow_hashtag_success">Đã theo dõi hashtag %1$s</string>
 </resources>
