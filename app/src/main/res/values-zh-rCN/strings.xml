@@ -748,4 +748,7 @@
     <string name="post_replied_self">持续的帖子</string>
     <string name="post_replied">已回复</string>
     <string name="post_replied_format">回复%1$s</string>
+    <string name="preview_card_by_author">%1$s 的</string>
+    <string name="preview_card_more_by_author">更多来自 %1$s 的</string>
+    <string name="follow_hashtag_success">关注了 %1$s 话题标签</string>
 </resources>
