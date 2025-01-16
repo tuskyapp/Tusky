@@ -435,7 +435,7 @@
     <string name="send_post_content_to">Поділитися дописом з…</string>
     <string name="send_post_link_to">Поділитися URL-адресою допису з…</string>
     <string name="downloading_media">Завантаження медіа</string>
-    <string name="download_media">Завантажити медіа</string>
+    <string name="download_media">Зберегти медіа</string>
     <string name="action_open_media_n">Відкрити медіа #%1$d</string>
     <string name="hashtags">Хештеги</string>
     <string name="action_hashtags">Хештеги</string>
