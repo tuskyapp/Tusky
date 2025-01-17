@@ -62,7 +62,7 @@ import java.io.File;
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 64,
+    version = 66,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
@@ -70,7 +70,8 @@ import java.io.File;
         @AutoMigration(from = 51, to = 52),
         @AutoMigration(from = 53, to = 54), // hasDirectMessageBadge in AccountEntity
         @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
-        @AutoMigration(from = 62, to = 64) // filterV2Available in InstanceEntity
+        @AutoMigration(from = 62, to = 64), // filterV2Available in InstanceEntity
+        @AutoMigration(from = 64, to = 66), // added profileHeaderUrl to AccountEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {

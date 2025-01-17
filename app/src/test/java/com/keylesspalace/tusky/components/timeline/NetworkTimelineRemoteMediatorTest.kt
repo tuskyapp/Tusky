@@ -14,6 +14,7 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import java.io.IOException
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -34,15 +35,17 @@ import retrofit2.Response
 @RunWith(AndroidJUnit4::class)
 class NetworkTimelineRemoteMediatorTest {
 
+    private val account = AccountEntity(
+        id = 1,
+        domain = "mastodon.example",
+        accessToken = "token",
+        clientId = "id",
+        clientSecret = "secret",
+        isActive = true
+    )
+
     private val accountManager: AccountManager = mock {
-        on { activeAccount } doReturn AccountEntity(
-            id = 1,
-            domain = "mastodon.example",
-            accessToken = "token",
-            clientId = "id",
-            clientSecret = "secret",
-            isActive = true
-        )
+        on { activeAccount } doReturn account
     }
 
     @Test
@@ -53,7 +56,7 @@ class NetworkTimelineRemoteMediatorTest {
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn Response.error(500, "".toResponseBody())
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
 
@@ -66,11 +69,13 @@ class NetworkTimelineRemoteMediatorTest {
     @ExperimentalPagingApi
     fun `should return error when network call fails`() = runTest {
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn mutableListOf()
             onBlocking { fetchStatusesForKind(anyOrNull(), anyOrNull(), anyOrNull()) } doThrow IOException()
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val result = remoteMediator.load(LoadType.REFRESH, state())
 
@@ -84,6 +89,9 @@ class NetworkTimelineRemoteMediatorTest {
         val statuses: MutableList<StatusViewData> = mutableListOf()
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn null
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
@@ -99,7 +107,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -135,6 +143,8 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "0"
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
@@ -146,7 +156,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -187,6 +197,8 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "0"
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
@@ -198,7 +210,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -240,6 +252,8 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "3"
             onBlocking { fetchStatusesForKind("3", null, 20) } doReturn Response.success(
@@ -251,7 +265,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -293,6 +307,8 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "3"
             onBlocking { fetchStatusesForKind("3", null, 20) } doReturn Response.success(
@@ -308,7 +324,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -350,11 +366,13 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn null
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(
@@ -393,6 +411,8 @@ class NetworkTimelineRemoteMediatorTest {
         )
 
         val timelineViewModel: NetworkTimelineViewModel = mock {
+            on { accountManager } doReturn accountManager
+            on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "3"
             on { kind } doReturn TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
@@ -409,7 +429,7 @@ class NetworkTimelineRemoteMediatorTest {
             )
         }
 
-        val remoteMediator = NetworkTimelineRemoteMediator(accountManager, timelineViewModel)
+        val remoteMediator = NetworkTimelineRemoteMediator(timelineViewModel)
 
         val state = state(
             listOf(

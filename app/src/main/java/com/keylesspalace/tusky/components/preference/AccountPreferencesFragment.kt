@@ -37,9 +37,7 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.domainblocks.DomainBlocksActivity
 import com.keylesspalace.tusky.components.filters.FiltersActivity
 import com.keylesspalace.tusky.components.followedtags.FollowedTagsActivity
-import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.preference.notificationpolicies.NotificationPoliciesActivity
-import com.keylesspalace.tusky.components.systemnotifications.currentAccountNeedsMigration
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Status
@@ -146,18 +144,6 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                 }
             }
 
-            if (currentAccountNeedsMigration(accountManager)) {
-                preference {
-                    setTitle(R.string.title_migration_relogin)
-                    icon = icon(R.drawable.ic_logout)
-                    setOnPreferenceClickListener {
-                        val intent = LoginActivity.getIntent(context, LoginActivity.MODE_MIGRATION)
-                        activity?.startActivityWithSlideInAnimation(intent)
-                        true
-                    }
-                }
-            }
-
             preference {
                 setTitle(R.string.pref_title_timeline_filters)
                 icon = icon(R.drawable.ic_filter_24dp)
@@ -202,10 +188,11 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
                         isPersistent = false // its saved to the account and shouldn't be in shared preferences
                         setOnPreferenceChangeListener { _, newValue ->
                             val newVisibility = DefaultReplyVisibility.fromStringValue(newValue as String)
+
                             icon = getIconForVisibility(newVisibility.toVisibilityOr(activeAccount.defaultPostPrivacy))
-                            activeAccount.defaultReplyPrivacy = newVisibility
-                            accountManager.saveAccount(activeAccount)
+
                             viewLifecycleOwner.lifecycleScope.launch {
+                                accountManager.updateAccount(activeAccount) { copy(defaultReplyPrivacy = newVisibility) }
                                 eventHub.dispatch(PreferenceChangedEvent(key))
                             }
                             true
@@ -330,11 +317,14 @@ class AccountPreferencesFragment : PreferenceFragmentCompat() {
             mastodonApi.accountUpdateSource(visibility, sensitive, language)
                 .fold({ account: Account ->
                     accountManager.activeAccount?.let {
-                        it.defaultPostPrivacy = account.source?.privacy
-                            ?: Status.Visibility.PUBLIC
-                        it.defaultMediaSensitivity = account.source?.sensitive ?: false
-                        it.defaultPostLanguage = language.orEmpty()
-                        accountManager.saveAccount(it)
+                        accountManager.updateAccount(it) {
+                            copy(
+                                defaultPostPrivacy = account.source?.privacy
+                                    ?: Status.Visibility.PUBLIC,
+                                defaultMediaSensitivity = account.source?.sensitive == true,
+                                defaultPostLanguage = language.orEmpty()
+                            )
+                        }
                     }
                 }, { t ->
                     Log.e("AccountPreferences", "failed updating settings on server", t)

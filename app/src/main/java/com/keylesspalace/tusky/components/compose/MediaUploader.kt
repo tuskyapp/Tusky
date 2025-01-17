@@ -156,8 +156,6 @@ class MediaUploader @Inject constructor(
         var uri = inUri
         val mimeType: String?
 
-        println("preparing media on thread ${Thread.currentThread().name}")
-
         try {
             when (inUri.scheme) {
                 ContentResolver.SCHEME_CONTENT -> {

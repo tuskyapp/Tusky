@@ -751,4 +751,7 @@
     <string name="post_replied">پاسخ داده</string>
     <string name="post_replied_format">در پاسخ به %1$s</string>
     <string name="post_replied_self">رشتهٔ دنباله‌دار</string>
+    <string name="follow_hashtag_success">برچسب دنبال شدهٔ %1$s</string>
+    <string name="preview_card_by_author">از %1$s</string>
+    <string name="preview_card_more_by_author">بیش‌تر از %1$s</string>
 </resources>

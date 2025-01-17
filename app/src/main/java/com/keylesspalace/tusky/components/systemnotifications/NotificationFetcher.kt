@@ -58,7 +58,7 @@ class NotificationFetcher @Inject constructor(
             return
         }
 
-        for (account in accountManager.getAllAccountsOrderedByActive()) {
+        for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
                     val notificationManager = context.getSystemService(
@@ -109,8 +109,6 @@ class NotificationFetcher @Inject constructor(
 
                     // NOTE having multiple summary notifications this here should still collapse them in only one occurrence
                     notificationManagerCompat.notify(newNotifications)
-
-                    accountManager.saveAccount(account)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error while fetching notifications", e)
                 }
@@ -196,8 +194,7 @@ class NotificationFetcher @Inject constructor(
                 domain = account.domain,
                 notificationsLastReadId = newMarkerId
             )
-            account.notificationMarkerId = newMarkerId
-            accountManager.saveAccount(account)
+            accountManager.updateAccount(account) { copy(notificationMarkerId = newMarkerId) }
         }
 
         return notifications

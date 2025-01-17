@@ -1158,7 +1158,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 providerName = Uri.parse(card.getUrl()).getHost();
             }
 
-            if (TextUtils.isEmpty(providerName) && card.getPublishedAt() != null) {
+            if (TextUtils.isEmpty(providerName)) {
                 cardMetadata.setVisibility(View.GONE);
             } else {
                 cardMetadata.setVisibility(View.VISIBLE);
@@ -1183,7 +1183,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 }
             }
 
-            if (TextUtils.isEmpty(cardAuthorName)) {
+            final boolean hasNoAuthorName = TextUtils.isEmpty(cardAuthorName);
+
+            if (hasNoAuthorName && TextUtils.isEmpty(card.getDescription())) {
+                cardAuthor.setVisibility(View.GONE);
+                cardAuthorButton.setVisibility(View.GONE);
+            } else if (hasNoAuthorName) {
                 cardAuthor.setVisibility(View.VISIBLE);
                 cardAuthor.setText(card.getDescription());
                 cardAuthorButton.setVisibility(View.GONE);

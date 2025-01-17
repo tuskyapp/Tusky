@@ -766,4 +766,7 @@
     <string name="post_replied_format">In risposta a %1$s</string>
     <string name="post_replied">Con risposta</string>
     <string name="post_replied_self">Thread continuato</string>
+    <string name="follow_hashtag_success">Hashtag %1$s seguito</string>
+    <string name="preview_card_by_author">Da %1$s</string>
+    <string name="preview_card_more_by_author">Altro da %1$s</string>
 </resources>

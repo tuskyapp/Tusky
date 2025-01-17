@@ -5,7 +5,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
@@ -15,19 +14,22 @@ import retrofit2.HttpException
 class ConversationsRemoteMediator(
     private val api: MastodonApi,
     private val db: AppDatabase,
-    accountManager: AccountManager
+    private val viewModel: ConversationsViewModel
 ) : RemoteMediator<Int, ConversationEntity>() {
 
     private var nextKey: String? = null
 
     private var order: Int = 0
 
-    private val activeAccount = accountManager.activeAccount!!
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ConversationEntity>
     ): MediatorResult {
+        val activeAccount = viewModel.activeAccountFlow.value
+        if (activeAccount == null) {
+            return MediatorResult.Success(endOfPaginationReached = true)
+        }
+
         if (loadType == LoadType.PREPEND) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }

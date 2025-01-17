@@ -50,7 +50,7 @@ class LogoutUsecase @Inject constructor(
         NotificationHelper.deleteNotificationChannelsForAccount(account, context)
 
         // remove account from local AccountManager
-        val otherAccountAvailable = accountManager.logout(account) != null
+        val otherAccountAvailable = accountManager.remove(account) != null
 
         // clear the database - this could trigger network calls so do it last when all tokens are gone
         databaseCleaner.cleanupEverything(account.id)

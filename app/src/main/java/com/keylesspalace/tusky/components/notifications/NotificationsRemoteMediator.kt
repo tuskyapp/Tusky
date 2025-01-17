@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
 import com.keylesspalace.tusky.entity.Notification
@@ -35,10 +36,10 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class NotificationsRemoteMediator(
+    private val viewModel: NotificationsViewModel,
     private val accountManager: AccountManager,
     private val api: MastodonApi,
-    private val db: AppDatabase,
-    var excludes: Set<Notification.Type>
+    private val db: AppDatabase
 ) : RemoteMediator<Int, NotificationDataEntity>() {
 
     private var initialRefresh = false
@@ -46,15 +47,17 @@ class NotificationsRemoteMediator(
     private val notificationsDao = db.notificationsDao()
     private val accountDao = db.timelineAccountDao()
     private val statusDao = db.timelineStatusDao()
-    private val activeAccount = accountManager.activeAccount!!
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NotificationDataEntity>
     ): MediatorResult {
-        if (!activeAccount.isLoggedIn()) {
+        val activeAccount = viewModel.activeAccountFlow.value
+        if (activeAccount == null) {
             return MediatorResult.Success(endOfPaginationReached = true)
         }
+
+        val excludes = viewModel.excludes.value
 
         try {
             var dbEmpty = false
@@ -79,7 +82,7 @@ class NotificationsRemoteMediator(
                     val notifications = notificationResponse.body()
                     if (notificationResponse.isSuccessful && notifications != null) {
                         db.withTransaction {
-                            replaceNotificationRange(notifications, state)
+                            replaceNotificationRange(notifications, state, activeAccount)
                         }
                     }
                 }
@@ -106,7 +109,7 @@ class NotificationsRemoteMediator(
             }
 
             db.withTransaction {
-                val overlappedNotifications = replaceNotificationRange(notifications, state)
+                val overlappedNotifications = replaceNotificationRange(notifications, state, activeAccount)
 
                 /* In case we loaded a whole page and there was no overlap with existing statuses,
                    we insert a placeholder because there might be even more unknown statuses */
@@ -135,7 +138,11 @@ class NotificationsRemoteMediator(
      * @param notifications the new notifications
      * @return the number of old notifications that have been cleared from the database
      */
-    private suspend fun replaceNotificationRange(notifications: List<Notification>, state: PagingState<Int, NotificationDataEntity>): Int {
+    private suspend fun replaceNotificationRange(
+        notifications: List<Notification>,
+        state: PagingState<Int, NotificationDataEntity>,
+        activeAccount: AccountEntity
+    ): Int {
         val overlappedNotifications = if (notifications.isNotEmpty()) {
             notificationsDao.deleteRange(activeAccount.id, notifications.last().id, notifications.first().id)
         } else {
@@ -188,16 +195,13 @@ class NotificationsRemoteMediator(
         return overlappedNotifications
     }
 
-    private fun saveNewestNotificationId(notification: Notification) {
-        val account = accountManager.activeAccount
-        // make sure the account we are currently working with is still active
-        if (account == activeAccount) {
+    private suspend fun saveNewestNotificationId(notification: Notification) {
+        viewModel.activeAccountFlow.value?.let { activeAccount ->
             val lastNotificationId: String = activeAccount.lastNotificationId
             val newestNotificationId = notification.id
             if (lastNotificationId.isLessThan(newestNotificationId)) {
-                Log.d(TAG, "saving newest noti id: $lastNotificationId for account ${account.id}")
-                account.lastNotificationId = newestNotificationId
-                accountManager.saveAccount(account)
+                Log.d(TAG, "saving newest noti id: $lastNotificationId for account ${activeAccount.id}")
+                accountManager.updateAccount(activeAccount) { copy(lastNotificationId = newestNotificationId) }
             }
         }
     }

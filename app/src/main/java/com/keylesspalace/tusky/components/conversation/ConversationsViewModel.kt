@@ -28,7 +28,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.EmptyPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
@@ -38,23 +37,21 @@ import kotlinx.coroutines.launch
 class ConversationsViewModel @Inject constructor(
     private val timelineCases: TimelineCases,
     private val database: AppDatabase,
-    private val accountManager: AccountManager,
-    private val api: MastodonApi
+    private val api: MastodonApi,
+    accountManager: AccountManager
 ) : ViewModel() {
+
+    val activeAccountFlow = accountManager.activeAccount(viewModelScope)
+    private val accountId: Long = activeAccountFlow.value!!.id
 
     @OptIn(ExperimentalPagingApi::class)
     val conversationFlow = Pager(
         config = PagingConfig(
             pageSize = 30
         ),
-        remoteMediator = ConversationsRemoteMediator(api, database, accountManager),
+        remoteMediator = ConversationsRemoteMediator(api, database, this),
         pagingSourceFactory = {
-            val activeAccount = accountManager.activeAccount
-            if (activeAccount == null) {
-                EmptyPagingSource()
-            } else {
-                database.conversationDao().conversationsForAccount(activeAccount.id)
-            }
+            database.conversationDao().conversationsForAccount(accountId)
         }
     )
         .flow
@@ -67,7 +64,7 @@ class ConversationsViewModel @Inject constructor(
         viewModelScope.launch {
             timelineCases.favourite(conversation.lastStatus.id, favourite).fold({
                 val newConversation = conversation.toEntity(
-                    accountId = accountManager.activeAccount!!.id,
+                    accountId = accountId,
                     favourited = favourite
                 )
 
@@ -82,7 +79,7 @@ class ConversationsViewModel @Inject constructor(
         viewModelScope.launch {
             timelineCases.bookmark(conversation.lastStatus.id, bookmark).fold({
                 val newConversation = conversation.toEntity(
-                    accountId = accountManager.activeAccount!!.id,
+                    accountId = accountId,
                     bookmarked = bookmark
                 )
 
@@ -102,7 +99,7 @@ class ConversationsViewModel @Inject constructor(
             )
                 .fold({ poll ->
                     val newConversation = conversation.toEntity(
-                        accountId = accountManager.activeAccount!!.id,
+                        accountId = accountId,
                         poll = poll
                     )
 
@@ -116,7 +113,7 @@ class ConversationsViewModel @Inject constructor(
     fun expandHiddenStatus(expanded: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             val newConversation = conversation.toEntity(
-                accountId = accountManager.activeAccount!!.id,
+                accountId = accountId,
                 expanded = expanded
             )
             saveConversationToDb(newConversation)
@@ -126,7 +123,7 @@ class ConversationsViewModel @Inject constructor(
     fun collapseLongStatus(collapsed: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             val newConversation = conversation.toEntity(
-                accountId = accountManager.activeAccount!!.id,
+                accountId = accountId,
                 collapsed = collapsed
             )
             saveConversationToDb(newConversation)
@@ -136,7 +133,7 @@ class ConversationsViewModel @Inject constructor(
     fun showContent(showing: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             val newConversation = conversation.toEntity(
-                accountId = accountManager.activeAccount!!.id,
+                accountId = accountId,
                 showingHiddenContent = showing
             )
             saveConversationToDb(newConversation)
@@ -150,7 +147,7 @@ class ConversationsViewModel @Inject constructor(
 
                 database.conversationDao().delete(
                     id = conversation.id,
-                    accountId = accountManager.activeAccount!!.id
+                    accountId = accountId
                 )
             } catch (e: Exception) {
                 Log.w(TAG, "failed to delete conversation", e)
@@ -167,7 +164,7 @@ class ConversationsViewModel @Inject constructor(
                 )
 
                 val newConversation = conversation.toEntity(
-                    accountId = accountManager.activeAccount!!.id,
+                    accountId = accountId,
                     muted = !conversation.lastStatus.status.muted
                 )
 
