@@ -75,7 +75,7 @@ class AccountsInListFragment : DialogFragment() {
         viewModel.load(listId)
     }
 
-    override fun getTheme() = R.style.TuskyDialogOverlay
+    override fun getTheme() = R.style.TuskyDialogFragment
 
     override fun onStart() {
         super.onStart()
