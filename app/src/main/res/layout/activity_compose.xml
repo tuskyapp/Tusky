@@ -378,7 +378,8 @@
             android:layout_width="@dimen/toot_button_width"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_medium"
+            app:iconGravity="textStart" />
 
     </LinearLayout>
 
