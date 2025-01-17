@@ -41,12 +41,13 @@ import kotlinx.coroutines.launch
 abstract class TimelineViewModel(
     protected val timelineCases: TimelineCases,
     private val eventHub: EventHub,
-    protected val accountManager: AccountManager,
+    val accountManager: AccountManager,
     private val sharedPreferences: SharedPreferences,
     private val filterModel: FilterModel
 ) : ViewModel() {
 
-    protected val account = accountManager.activeAccount!!
+    val activeAccountFlow = accountManager.activeAccount(viewModelScope)
+    protected val accountId: Long = activeAccountFlow.value!!.id
 
     abstract val statuses: Flow<PagingData<StatusViewData>>
 
@@ -69,19 +70,18 @@ abstract class TimelineViewModel(
         this.id = id
         this.tags = tags
 
+        val activeAccount = activeAccountFlow.value!!
+
         if (kind == Kind.HOME) {
             // Note the variable is "true if filter" but the underlying preference/settings text is "true if show"
-            filterRemoveReplies =
-                !(accountManager.activeAccount?.isShowHomeReplies ?: true)
-            filterRemoveReblogs =
-                !(accountManager.activeAccount?.isShowHomeBoosts ?: true)
-            filterRemoveSelfReblogs =
-                !(accountManager.activeAccount?.isShowHomeSelfBoosts ?: true)
+            filterRemoveReplies = !activeAccount.isShowHomeReplies
+            filterRemoveReblogs = !activeAccount.isShowHomeBoosts
+            filterRemoveSelfReblogs = !activeAccount.isShowHomeSelfBoosts
         }
         readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
 
-        this.alwaysShowSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia
-        this.alwaysOpenSpoilers = accountManager.activeAccount!!.alwaysOpenSpoiler
+        this.alwaysShowSensitiveMedia = activeAccount.alwaysShowSensitiveMedia
+        this.alwaysOpenSpoilers = activeAccount.alwaysOpenSpoiler
 
         viewModelScope.launch {
             eventHub.events
@@ -181,7 +181,7 @@ abstract class TimelineViewModel(
 
     protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
         val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
-        if (status.actionableStatus.account.id == account.accountId) {
+        if (status.actionableStatus.account.id == activeAccountFlow.value?.accountId) {
             // never filter own posts
             return Filter.Action.NONE
         }
@@ -198,38 +198,43 @@ abstract class TimelineViewModel(
     }
 
     private fun onPreferenceChanged(key: String) {
-        when (key) {
-            PrefKeys.TAB_FILTER_HOME_REPLIES -> {
-                val filter = accountManager.activeAccount?.isShowHomeReplies ?: true
-                val oldRemoveReplies = filterRemoveReplies
-                filterRemoveReplies = kind == Kind.HOME && !filter
-                if (oldRemoveReplies != filterRemoveReplies) {
-                    fullReload()
+        activeAccountFlow.value?.let { activeAccount ->
+            when (key) {
+                PrefKeys.TAB_FILTER_HOME_REPLIES -> {
+                    val filter = !activeAccount.isShowHomeReplies
+                    val oldRemoveReplies = filterRemoveReplies
+                    filterRemoveReplies = kind == Kind.HOME && !filter
+                    if (oldRemoveReplies != filterRemoveReplies) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
-                val filter = accountManager.activeAccount?.isShowHomeBoosts ?: true
-                val oldRemoveReblogs = filterRemoveReblogs
-                filterRemoveReblogs = kind == Kind.HOME && !filter
-                if (oldRemoveReblogs != filterRemoveReblogs) {
-                    fullReload()
+
+                PrefKeys.TAB_FILTER_HOME_BOOSTS -> {
+                    val filter = !activeAccount.isShowHomeBoosts
+                    val oldRemoveReblogs = filterRemoveReblogs
+                    filterRemoveReblogs = kind == Kind.HOME && !filter
+                    if (oldRemoveReblogs != filterRemoveReblogs) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
-                val filter = accountManager.activeAccount?.isShowHomeSelfBoosts ?: true
-                val oldRemoveSelfReblogs = filterRemoveSelfReblogs
-                filterRemoveSelfReblogs = kind == Kind.HOME && !filter
-                if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
-                    fullReload()
+
+                PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS -> {
+                    val filter = !activeAccount.isShowHomeSelfBoosts
+                    val oldRemoveSelfReblogs = filterRemoveSelfReblogs
+                    filterRemoveSelfReblogs = kind == Kind.HOME && !filter
+                    if (oldRemoveSelfReblogs != filterRemoveSelfReblogs) {
+                        fullReload()
+                    }
                 }
-            }
-            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
-                // it is ok if only newly loaded statuses are affected, no need to fully refresh
-                alwaysShowSensitiveMedia =
-                    accountManager.activeAccount!!.alwaysShowSensitiveMedia
-            }
-            PrefKeys.READING_ORDER -> {
-                readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+
+                PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> {
+                    // it is ok if only newly loaded statuses are affected, no need to fully refresh
+                    alwaysShowSensitiveMedia = activeAccount.alwaysShowSensitiveMedia
+                }
+
+                PrefKeys.READING_ORDER -> {
+                    readingOrder = ReadingOrder.from(sharedPreferences.getString(PrefKeys.READING_ORDER, null))
+                }
             }
         }
     }

@@ -21,15 +21,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.keylesspalace.tusky.db.entity.AccountEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrReplace(account: AccountEntity): Long
+    suspend fun insertOrReplace(account: AccountEntity): Long
 
     @Delete
-    fun delete(account: AccountEntity)
+    suspend fun delete(account: AccountEntity)
 
-    @Query("SELECT * FROM AccountEntity ORDER BY id ASC")
-    fun loadAll(): List<AccountEntity>
+    @Query("SELECT * FROM AccountEntity ORDER BY isActive DESC")
+    fun allAccounts(): Flow<List<AccountEntity>>
 }

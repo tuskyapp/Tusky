@@ -30,7 +30,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.keylesspalace.tusky.adapter.ItemInteractionListener
 import com.keylesspalace.tusky.adapter.TabAdapter
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
 import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.entity.MastoList
@@ -42,7 +41,6 @@ import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.view.showHashtagPickerDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -60,8 +58,6 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
     private lateinit var currentTabsAdapter: TabAdapter
     private lateinit var touchHelper: ItemTouchHelper
     private lateinit var addTabAdapter: TabAdapter
-
-    private var tabsChanged = false
 
     private val selectedItemElevation by unsafeLazy {
         resources.getDimension(R.dimen.selected_drag_item_elevation)
@@ -315,19 +311,8 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
     private fun saveTabs() {
         accountManager.activeAccount?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                it.tabPreferences = currentTabs
-                accountManager.saveAccount(it)
-            }
-        }
-        tabsChanged = true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (tabsChanged) {
             lifecycleScope.launch {
-                eventHub.dispatch(MainTabsChangedEvent(currentTabs))
+                accountManager.updateAccount(it) { copy(tabPreferences = currentTabs) }
             }
         }
     }

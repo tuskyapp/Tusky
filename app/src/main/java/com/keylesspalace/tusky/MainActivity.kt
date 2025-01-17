@@ -40,6 +40,7 @@ import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -52,7 +53,6 @@ import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.MarginPageTransformer
-import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
@@ -64,14 +64,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.keylesspalace.tusky.appstore.AnnouncementReadEvent
 import com.keylesspalace.tusky.appstore.CacheUpdater
-import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
-import com.keylesspalace.tusky.appstore.MainTabsChangedEvent
-import com.keylesspalace.tusky.appstore.NewNotificationsEvent
-import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
-import com.keylesspalace.tusky.appstore.ProfileEditedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.announcements.AnnouncementsActivity
@@ -82,29 +76,19 @@ import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
-import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
-import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
-import com.keylesspalace.tusky.components.systemnotifications.showMigrationNoticeIfNecessary
 import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.db.entity.AccountEntity
-import com.keylesspalace.tusky.di.ApplicationScope
-import com.keylesspalace.tusky.entity.Account
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.AccountSelectionListener
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
-import com.keylesspalace.tusky.interfaces.FabFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.ActivityConstants
-import com.keylesspalace.tusky.util.ShareShortcutHelper
-import com.keylesspalace.tusky.util.deleteStaleCachedMedia
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
@@ -145,8 +129,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
 import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptionalInject
@@ -168,12 +150,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     @Inject
     lateinit var developerToolsUseCase: DeveloperToolsUseCase
 
-    @Inject
-    lateinit var shareShortcutHelper: ShareShortcutHelper
-
-    @Inject
-    @ApplicationScope
-    lateinit var externalScope: CoroutineScope
+    private val viewModel: MainViewModel by viewModels()
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
 
@@ -182,8 +159,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private lateinit var header: AccountHeaderView
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
-
-    private var unreadAnnouncementsCount = 0
 
     // We need to know if the emoji pack has been changed
     private var selectedEmojiPack: String? = null
@@ -231,6 +206,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             )
         }
 
+        selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
+
         var showNotificationTab = false
 
         // check for savedInstanceState in order to not handle intent events more than once
@@ -266,8 +243,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             binding.mainToolbar.show()
         }
 
-        loadDrawerAvatar(activeAccount.profilePictureUrl, true)
-
         addMenuProvider(this)
 
         binding.viewPager.reduceSwipeSensitivity()
@@ -283,88 +258,52 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             )
         )
 
-        /* Fetch user info while we're doing other things. This has to be done after setting up the
-         * drawer, though, because its callback touches the header in the drawer. */
-        fetchUserInfo()
+        lifecycleScope.launch {
+            viewModel.accounts.collect(::updateProfiles)
+        }
 
-        fetchAnnouncements()
+        lifecycleScope.launch {
+            viewModel.unreadAnnouncementsCount.collect(::updateAnnouncementsBadge)
+        }
 
         // Initialise the tab adapter and set to viewpager. Fragments appear to be leaked if the
         // adapter changes over the life of the viewPager (the adapter, not its contents), so set
         // the initial list of tabs to empty, and set the full list later in setupTabs(). See
         // https://github.com/tuskyapp/Tusky/issues/3251 for details.
-        tabAdapter = MainPagerAdapter(emptyList(), this)
+        tabAdapter = MainPagerAdapter(emptyList(), this@MainActivity)
         binding.viewPager.adapter = tabAdapter
 
-        setupTabs(showNotificationTab)
-
         lifecycleScope.launch {
-            eventHub.events.collect { event ->
-                when (event) {
-                    is ProfileEditedEvent -> onFetchUserInfoSuccess(event.newProfileData)
-                    is MainTabsChangedEvent -> {
-                        refreshMainDrawerItems(
-                            addSearchButton = hideTopToolbar,
-                            addTrendingTagsButton = !event.newTabs.hasTab(TRENDING_TAGS),
-                            addTrendingStatusesButton = !event.newTabs.hasTab(TRENDING_STATUSES)
-                        )
-
-                        setupTabs(false)
-                    }
-                    is AnnouncementReadEvent -> {
-                        unreadAnnouncementsCount--
-                        updateAnnouncementsBadge()
-                    }
-                    is NewNotificationsEvent -> {
-                        directMessageTab?.let {
-                            if (event.accountId == activeAccount.accountId) {
-                                val hasDirectMessageNotification =
-                                    event.notifications.any {
-                                        it.type == Notification.Type.MENTION && it.status?.visibility == Status.Visibility.DIRECT
-                                    }
-
-                                if (hasDirectMessageNotification) {
-                                    showDirectMessageBadge(true)
-                                }
-                            }
-                        }
-                    }
-                    is NotificationsLoadingEvent -> {
-                        if (event.accountId == activeAccount.accountId) {
-                            showDirectMessageBadge(false)
-                        }
-                    }
-                    is ConversationsLoadingEvent -> {
-                        if (event.accountId == activeAccount.accountId) {
-                            showDirectMessageBadge(false)
-                        }
-                    }
-                }
+            viewModel.tabs.collect(::setupTabs)
+        }
+        if (showNotificationTab) {
+            val position = viewModel.tabs.value.indexOfFirst { it.id == NOTIFICATIONS }
+            if (position != -1) {
+                binding.viewPager.setCurrentItem(position, false)
             }
         }
 
-        externalScope.launch(Dispatchers.IO) {
-            // Flush old media that was cached for sharing
-            deleteStaleCachedMedia(applicationContext.getExternalFilesDir("Tusky"))
+        lifecycleScope.launch {
+            viewModel.showDirectMessagesBadge.collect { showBadge ->
+                updateDirectMessageBadge(showBadge)
+            }
         }
 
-        selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
-
-        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        onBackPressedDispatcher.addCallback(this@MainActivity, onBackPressedCallback)
 
         if (
             Build.VERSION.SDK_INT >= 33 &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this,
+                this@MainActivity,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 1
             )
         }
 
         // "Post failed" dialog should display in this activity
-        draftsAlert.observeInContext(this, true)
+        draftsAlert.observeInContext(this@MainActivity, true)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -460,18 +399,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         return false
     }
 
-    private fun showDirectMessageBadge(showBadge: Boolean) {
-        directMessageTab?.let { tab ->
-            tab.badge?.isVisible = showBadge
-
-            // TODO a bit cumbersome (also for resetting)
-            lifecycleScope.launch(Dispatchers.IO) {
-                if (activeAccount.hasDirectMessageBadge != showBadge) {
-                    activeAccount.hasDirectMessageBadge = showBadge
-                    accountManager.saveAccount(activeAccount)
-                }
-            }
-        }
+    private fun updateDirectMessageBadge(showBadge: Boolean) {
+        directMessageTab?.badge?.isVisible = showBadge
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -824,14 +753,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     isEnabled = true
                     iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
                     onClick = {
-                        buildDeveloperToolsDialog().show()
+                        showDeveloperToolsDialog()
                     }
                 }
             )
         }
     }
 
-    private fun buildDeveloperToolsDialog(): AlertDialog {
+    private fun showDeveloperToolsDialog(): AlertDialog {
         return MaterialAlertDialogBuilder(this)
             .setTitle("Developer Tools")
             .setItems(
@@ -849,14 +778,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     }
                 }
             }
-            .create()
+            .show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(binding.mainDrawer.saveInstanceState(outState))
     }
 
-    private fun setupTabs(selectNotificationTab: Boolean) {
+    private fun setupTabs(tabs: List<TabData>) {
         val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
             val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
             val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
@@ -872,8 +801,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
         // Save the previous tab so it can be restored later
         val previousTab = tabAdapter.tabs.getOrNull(binding.viewPager.currentItem)
-
-        val tabs = activeAccount.tabPreferences
 
         // Detach any existing mediator before changing tab contents and attaching a new mediator
         tabLayoutMediator?.detach()
@@ -894,16 +821,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 directMessageTab = tab
             }
         }.also { it.attach() }
+        updateDirectMessageBadge(viewModel.showDirectMessagesBadge.value)
 
-        // Selected tab is either
-        // - Notification tab (if appropriate)
-        // - The previously selected tab (if it hasn't been removed)
-        // - Left-most tab
-        val position = if (selectNotificationTab) {
-            tabs.indexOfFirst { it.id == NOTIFICATIONS }
-        } else {
-            previousTab?.let { tabs.indexOfFirst { it == previousTab } }
-        }.takeIf { it != -1 } ?: 0
+        val position = previousTab?.let { tabs.indexOfFirst { it == previousTab } }
+            .takeIf { it != -1 } ?: 0
         binding.viewPager.setCurrentItem(position, false)
 
         val pageMargin = resources.getDimensionPixelSize(R.dimen.tab_page_margin)
@@ -922,15 +843,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
                 binding.mainToolbar.title = tab.contentDescription
 
-                refreshComposeButtonState(tabAdapter, tab.position)
-
                 if (tab == directMessageTab) {
-                    tab.badge?.isVisible = false
-
-                    if (activeAccount.hasDirectMessageBadge) {
-                        activeAccount.hasDirectMessageBadge = false
-                        accountManager.saveAccount(activeAccount)
-                    }
+                    viewModel.dismissDirectMessagesBadge()
                 }
             }
 
@@ -939,10 +853,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             override fun onTabReselected(tab: TabLayout.Tab) {
                 val fragment = tabAdapter.getFragment(tab.position)
                 if (fragment is ReselectableFragment) {
-                    (fragment as ReselectableFragment).onReselect()
+                    fragment.onReselect()
                 }
-
-                refreshComposeButtonState(tabAdapter, tab.position)
             }
         }.also {
             activeTabLayout.addOnTabSelectedListener(it)
@@ -955,22 +867,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     activeTabLayout.selectedTabPosition
                 ) as? ReselectableFragment
                 )?.onReselect()
-        }
-
-        updateProfiles()
-    }
-
-    private fun refreshComposeButtonState(adapter: MainPagerAdapter, tabPosition: Int) {
-        adapter.getFragment(tabPosition)?.also { fragment ->
-            if (fragment is FabFragment) {
-                if (fragment.isFabVisible()) {
-                    binding.composeButton.show()
-                } else {
-                    binding.composeButton.hide()
-                }
-            } else {
-                binding.composeButton.show()
-            }
         }
     }
 
@@ -996,18 +892,18 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private fun changeAccount(
         newSelectedId: Long,
         forward: Intent?,
-    ) {
+    ) = lifecycleScope.launch {
         cacheUpdater.stop()
         accountManager.setActiveAccount(newSelectedId)
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this@MainActivity, MainActivity::class.java)
         if (forward != null) {
             intent.type = forward.type
             intent.action = forward.action
             intent.putExtras(forward)
         }
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        finish()
         startActivity(intent)
+        finish()
     }
 
     private fun logout() {
@@ -1036,49 +932,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             .show()
     }
 
-    private fun fetchUserInfo() = lifecycleScope.launch {
-        mastodonApi.accountVerifyCredentials().fold(
-            { userInfo ->
-                onFetchUserInfoSuccess(userInfo)
-            },
-            { throwable ->
-                Log.e(TAG, "Failed to fetch user info. " + throwable.message)
-            }
-        )
-    }
-
-    private fun onFetchUserInfoSuccess(me: Account) {
-        Glide.with(header.accountHeaderBackground)
-            .asBitmap()
-            .load(me.header)
-            .into(header.accountHeaderBackground)
-
-        loadDrawerAvatar(me.avatar, false)
-
-        accountManager.updateAccount(activeAccount, me)
-        NotificationHelper.createNotificationChannelsForAccount(activeAccount, this)
-
-        // Setup push notifications
-        showMigrationNoticeIfNecessary(
-            this,
-            binding.mainCoordinatorLayout,
-            binding.composeButton,
-            accountManager
-        )
-        if (NotificationHelper.areNotificationsEnabled(this, accountManager)) {
-            lifecycleScope.launch {
-                enablePushNotificationsWithFallback(this@MainActivity, mastodonApi, accountManager)
-            }
-        } else {
-            disableAllNotifications(this, accountManager)
-        }
-
-        updateProfiles()
-        shareShortcutHelper.updateShortcuts()
-    }
-
     @SuppressLint("CheckResult")
-    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean) {
+    private fun loadDrawerAvatar(avatarUrl: String, showPlaceholder: Boolean = true) {
         val hideTopToolbar = preferences.getBoolean(PrefKeys.HIDE_TOP_TOOLBAR, false)
         val animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false)
 
@@ -1164,22 +1019,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
-    private fun fetchAnnouncements() {
-        lifecycleScope.launch {
-            mastodonApi.announcements()
-                .fold(
-                    { announcements ->
-                        unreadAnnouncementsCount = announcements.count { !it.read }
-                        updateAnnouncementsBadge()
-                    },
-                    { throwable ->
-                        Log.w(TAG, "Failed to fetch announcements.", throwable)
-                    }
-                )
-        }
-    }
-
-    private fun updateAnnouncementsBadge() {
+    private fun updateAnnouncementsBadge(unreadAnnouncementsCount: Int) {
         binding.mainDrawer.updateBadge(
             DRAWER_ITEM_ANNOUNCEMENTS,
             StringHolder(
@@ -1188,12 +1028,24 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         )
     }
 
-    private fun updateProfiles() {
+    private fun updateProfiles(accounts: List<AccountViewData>) {
+        if (accounts.isEmpty()) {
+            return
+        }
+        val activeProfile = accounts.first()
+
+        loadDrawerAvatar(activeProfile.profilePictureUrl)
+
+        Glide.with(header.accountHeaderBackground)
+            .asBitmap()
+            .load(activeProfile.profileHeaderUrl)
+            .into(header.accountHeaderBackground)
+
         val animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
         val profiles: MutableList<IProfile> =
-            accountManager.getAllAccountsOrderedByActive().map { acc ->
+            accounts.map { acc ->
                 ProfileDrawerItem().apply {
-                    isSelected = acc.isActive
+                    isSelected = acc == activeProfile
                     nameText = acc.displayName.emojify(acc.emojis, header, animateEmojis)
                     iconUrl = acc.profilePictureUrl
                     isNameShown = true
@@ -1211,9 +1063,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
         header.clear()
         header.profiles = profiles
-        header.setActiveProfile(activeAccount.id)
+        header.setActiveProfile(activeProfile.id)
         binding.mainToolbar.subtitle = if (accountManager.shouldDisplaySelfUsername()) {
-            activeAccount.fullName
+            activeProfile.fullName
         } else {
             null
         }
