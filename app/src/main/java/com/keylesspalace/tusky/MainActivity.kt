@@ -76,6 +76,7 @@ import com.keylesspalace.tusky.components.login.LoginActivity
 import com.keylesspalace.tusky.components.preference.PreferencesActivity
 import com.keylesspalace.tusky.components.scheduled.ScheduledStatusActivity
 import com.keylesspalace.tusky.components.search.SearchActivity
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.components.trending.TrendingActivity
 import com.keylesspalace.tusky.databinding.ActivityMainBinding
 import com.keylesspalace.tusky.db.DraftsAlert
@@ -137,6 +138,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var notificationService: NotificationService
 
     @Inject
     lateinit var cacheUpdater: CacheUpdater

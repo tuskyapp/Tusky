@@ -25,7 +25,7 @@ import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
 import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.db.AccountManager
@@ -52,7 +52,8 @@ class MainViewModel @Inject constructor(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     private val accountManager: AccountManager,
-    private val shareShortcutHelper: ShareShortcutHelper
+    private val shareShortcutHelper: ShareShortcutHelper,
+    private val notificationService: NotificationService,
 ) : ViewModel() {
 
     private val activeAccount = accountManager.activeAccount!!
@@ -98,14 +99,14 @@ class MainViewModel @Inject constructor(
 
                     shareShortcutHelper.updateShortcuts()
 
-                    NotificationHelper.createNotificationChannelsForAccount(activeAccount, context)
+                    notificationService.createNotificationChannelsForAccount(activeAccount)
 
-                    if (NotificationHelper.areNotificationsEnabled(context, accountManager)) {
+                    if (notificationService.areNotificationsEnabled()) {
                         viewModelScope.launch {
-                            enablePushNotificationsWithFallback(context, api, accountManager)
+                            enablePushNotificationsWithFallback(context, api, accountManager, notificationService)
                         }
                     } else {
-                        disableAllNotifications(context, accountManager)
+                        disableAllNotifications(context, accountManager, notificationService)
                     }
                 },
                 { throwable ->

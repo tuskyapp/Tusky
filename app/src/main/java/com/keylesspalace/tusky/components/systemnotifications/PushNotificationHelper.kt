@@ -70,11 +70,12 @@ fun isUnifiedPushAvailable(context: Context): Boolean =
 suspend fun enablePushNotificationsWithFallback(
     context: Context,
     api: MastodonApi,
-    accountManager: AccountManager
+    accountManager: AccountManager,
+    notificationService: NotificationService,
 ) {
     if (!isUnifiedPushAvailable(context)) {
         // No UP distributors
-        NotificationHelper.enablePullNotifications(context)
+        notificationService.enablePullNotifications(context)
         return
     }
 
@@ -99,9 +100,9 @@ private fun disablePushNotifications(context: Context, accountManager: AccountMa
     }
 }
 
-fun disableAllNotifications(context: Context, accountManager: AccountManager) {
+fun disableAllNotifications(context: Context, accountManager: AccountManager, notificationService: NotificationService) {
     disablePushNotifications(context, accountManager)
-    NotificationHelper.disablePullNotifications(context)
+    notificationService.disablePullNotifications(context)
 }
 
 private fun buildSubscriptionData(context: Context, account: AccountEntity): Map<String, Boolean> =

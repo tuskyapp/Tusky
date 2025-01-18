@@ -16,6 +16,7 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
@@ -24,7 +25,6 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.NEW_INSTALL_SCHEMA_VERSION
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -75,6 +75,7 @@ class TuskyApplication : Application(), Configuration.Provider {
             NEW_INSTALL_SCHEMA_VERSION
         )
         if (oldVersion != SCHEMA_VERSION) {
+            // TODO SCHEMA_VERSION is outdated / not updated in code
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
 
@@ -88,8 +89,6 @@ class TuskyApplication : Application(), Configuration.Provider {
         setAppNightMode(theme)
 
         localeManager.setLocale()
-
-        NotificationHelper.createWorkerNotificationChannel(this)
 
         // Prune the database every ~ 12 hours when the device is idle.
         val pruneCacheWorker = PeriodicWorkRequestBuilder<PruneCacheWorker>(12, TimeUnit.HOURS)

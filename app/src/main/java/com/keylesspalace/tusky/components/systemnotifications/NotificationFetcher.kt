@@ -1,16 +1,10 @@
 package com.keylesspalace.tusky.components.systemnotifications
 
-import android.Manifest
-import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.WorkerThread
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper.filterNotification
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Marker
@@ -51,25 +45,15 @@ class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
     @ApplicationContext private val context: Context,
-    private val eventHub: EventHub
+    private val eventHub: EventHub,
+    private val notificationService: NotificationService,
 ) {
     suspend fun fetchAndShow() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-
         for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
-                    val notificationManager = context.getSystemService(
-                        Context.NOTIFICATION_SERVICE
-                    ) as NotificationManager
-
-                    val notificationManagerCompat = NotificationManagerCompat.from(context)
-
-                    // Create sorted list of new notifications
                     val notifications = fetchNewNotifications(account)
-                        .filter { filterNotification(notificationManager, account, it) }
+                        .filter { notificationService.filterNotification(account, it.type) }
                         .sortedWith(
                             compareBy({ it.id.length }, { it.id })
                         ) // oldest notifications first
@@ -78,37 +62,7 @@ class NotificationFetcher @Inject constructor(
                     //   (and should therefore adhere to the notification config).
                     eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
-                    val newNotifications = ArrayList<NotificationManagerCompat.NotificationWithIdAndTag>()
-
-                    val notificationsByType: Map<Notification.Type, List<Notification>> = notifications.groupBy { it.type }
-                    notificationsByType.forEach { notificationsGroup: Map.Entry<Notification.Type, List<Notification>> ->
-                        // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
-                        //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
-                        //   takes place.
-                        newNotifications.add(
-                            NotificationHelper.makeSummaryNotification(
-                                context,
-                                notificationManager,
-                                account,
-                                notificationsGroup.key,
-                                notificationsGroup.value
-                            )
-                        )
-
-                        notificationsGroup.value.forEach { notification ->
-                            newNotifications.add(
-                                NotificationHelper.make(
-                                    context,
-                                    notificationManager,
-                                    notification,
-                                    account
-                                )
-                            )
-                        }
-                    }
-
-                    // NOTE having multiple summary notifications this here should still collapse them in only one occurrence
-                    notificationManagerCompat.notify(newNotifications)
+                    notificationService.show(account, notifications)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error while fetching notifications", e)
                 }
@@ -163,7 +117,7 @@ class NotificationFetcher @Inject constructor(
         Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
 
         // Fetch all outstanding notifications
-        val notifications = buildList {
+        val notifications: List<Notification> = buildList {
             while (minId != null) {
                 val response = mastodonApi.notificationsWithAuth(
                     authHeader,
@@ -196,6 +150,8 @@ class NotificationFetcher @Inject constructor(
             )
             accountManager.updateAccount(account) { copy(notificationMarkerId = newMarkerId) }
         }
+
+        Log.d(TAG, "got ${notifications.size} Notifications")
 
         return notifications
     }
