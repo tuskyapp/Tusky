@@ -26,8 +26,6 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
-import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
-import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
@@ -167,10 +165,10 @@ class MainViewModel @Inject constructor(
 
         if (notificationService.areNotificationsEnabled()) {
             viewModelScope.launch {
-                enablePushNotificationsWithFallback(context, api, accountManager, notificationService)
+                notificationService.enablePushNotificationsWithFallback()
             }
         } else {
-            disableAllNotifications(context, accountManager, notificationService)
+            notificationService.disableAllNotifications()
         }
     }
 

@@ -29,6 +29,8 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.calladapter.networkresult.onSuccess
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.keylesspalace.tusky.BuildConfig
@@ -41,7 +43,9 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
+import com.keylesspalace.tusky.util.CryptoUtil
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.buildDescription
@@ -52,11 +56,15 @@ import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.unifiedpush.android.connector.UnifiedPush
 
 @Singleton
 class NotificationService @Inject constructor(
     private val notificationManager: NotificationManager,
     private val accountManager: AccountManager,
+    private val api: MastodonApi,
     @ApplicationContext private val context: Context,
 ) {
     private var notificationId:Int = NOTIFICATION_ID_PRUNE_CACHE + 1
@@ -173,7 +181,7 @@ class NotificationService @Inject constructor(
         }
     }
 
-    fun enablePullNotifications(context: Context) {
+    fun enablePullNotifications() {
         val workManager = WorkManager.getInstance(context)
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
 
@@ -201,7 +209,7 @@ class NotificationService @Inject constructor(
         Log.d(TAG, "Enabled pull checks with " + PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval.")
     }
 
-    fun disablePullNotifications(context: Context) {
+    fun disablePullNotifications() {
         WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
         Log.d(TAG, "Disabled pull checks.")
     }
@@ -638,8 +646,8 @@ class NotificationService @Inject constructor(
         return null
     }
 
-    private fun getStatusReplyIntent(body: Notification, account: AccountEntity, requestCode: Int): PendingIntent {
-        val status = checkNotNull(body.status)
+    private fun getStatusReplyIntent(apiNotification: Notification, account: AccountEntity, requestCode: Int): PendingIntent {
+        val status = checkNotNull(apiNotification.status)
 
         val inReplyToId = status.id
         val actionableStatus = status.actionableStatus
@@ -660,7 +668,7 @@ class NotificationService @Inject constructor(
             .putExtra(KEY_SENDER_ACCOUNT_ID, account.id)
             .putExtra(KEY_SENDER_ACCOUNT_IDENTIFIER, account.identifier)
             .putExtra(KEY_SENDER_ACCOUNT_FULL_NAME, account.fullName)
-            .putExtra(KEY_SERVER_NOTIFICATION_ID, body.id)
+            .putExtra(KEY_SERVER_NOTIFICATION_ID, apiNotification.id)
             .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
             .putExtra(KEY_VISIBILITY, replyVisibility)
             .putExtra(KEY_SPOILER, contentWarning)
@@ -674,8 +682,8 @@ class NotificationService @Inject constructor(
         )
     }
 
-    private fun getStatusComposeIntent(body: Notification, account: AccountEntity, requestCode: Int): PendingIntent {
-        val status = checkNotNull(body.status)
+    private fun getStatusComposeIntent(apiNotification: Notification, account: AccountEntity, requestCode: Int): PendingIntent {
+        val status = checkNotNull(apiNotification.status)
 
         val citedLocalAuthor = status.account.localUsername
         val citedText = status.content.parseAsMastodonHtml().toString()
@@ -704,7 +712,7 @@ class NotificationService @Inject constructor(
         composeOptions.language = actionableStatus.language
         composeOptions.kind = ComposeActivity.ComposeKind.NEW
 
-        val composeIntent = composeIntent(context, composeOptions, account.id, body.id, account.id.toInt())
+        val composeIntent = composeIntent(context, composeOptions, account.id, apiNotification.id, account.id.toInt())
 
         // make sure a new instance of MainActivity is started and old ones get destroyed
         composeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -724,6 +732,155 @@ class NotificationService @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         }
     }
+
+    fun disableAllNotifications() {
+        disablePushNotificationsForAllAccounts()
+        disablePullNotifications()
+    }
+
+
+    //
+    // Push notification section
+    //
+
+    fun isUnifiedPushAvailable(context: Context): Boolean =
+        UnifiedPush.getDistributors(context).isNotEmpty()
+
+    suspend fun enablePushNotificationsWithFallback() {
+        if (!isUnifiedPushAvailable(context)) {
+            // No distributors
+            enablePullNotifications()
+            return
+        }
+
+        accountManager.accounts.forEach {
+            val notificationGroupEnabled = Build.VERSION.SDK_INT < 28 ||
+                notificationManager.getNotificationChannelGroup(it.identifier)?.isBlocked == false
+            val shouldEnable = it.notificationsEnabled && notificationGroupEnabled
+
+            if (shouldEnable) {
+                enableUnifiedPushNotificationsForAccount(it)
+            } else {
+                disableUnifiedPushNotificationsForAccount(it)
+            }
+        }
+    }
+
+    private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+        if (account.isPushNotificationsEnabled()) {
+            // Already registered, update the subscription to match notification settings
+            updateUnifiedPushSubscription(account)
+        } else {
+            UnifiedPush.registerAppWithDialog(
+                context,
+                account.id.toString(),
+                features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE)
+            )
+        }
+    }
+
+    private fun disablePushNotificationsForAllAccounts() {
+        accountManager.accounts.forEach {
+            disableUnifiedPushNotificationsForAccount(it)
+        }
+    }
+
+    fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+        if (!account.isPushNotificationsEnabled()) {
+            // Not registered
+            return
+        }
+
+        UnifiedPush.unregisterApp(context, account.id.toString())
+    }
+
+    private fun buildSubscriptionData(account: AccountEntity): Map<String, Boolean> =
+        buildMap {
+            Notification.Type.visibleTypes.forEach {
+                put(
+                    "data[alerts][${it.presentation}]",
+                    filterNotification(account, it)
+                )
+            }
+        }
+
+    // Called by UnifiedPush callback in UnifiedPushBroadcastReceiver
+    suspend fun registerUnifiedPushEndpoint(
+        account: AccountEntity,
+        endpoint: String
+    ) = withContext(Dispatchers.IO) {
+        // Generate a prime256v1 key pair for WebPush
+        // Decryption is unimplemented for now, since Mastodon uses an old WebPush
+        // standard which does not send needed information for decryption in the payload
+        // This makes it not directly compatible with UnifiedPush
+        // As of now, we use it purely as a way to trigger a pull
+        // TODO that is still correct?
+        val keyPair = CryptoUtil.generateECKeyPair(CryptoUtil.CURVE_PRIME256_V1)
+        val auth = CryptoUtil.secureRandomBytesEncoded(16)
+
+        api.subscribePushNotifications(
+            "Bearer ${account.accessToken}",
+            account.domain,
+            endpoint,
+            keyPair.pubkey,
+            auth,
+            buildSubscriptionData(account)
+        ).onFailure { throwable ->
+            Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
+            disableUnifiedPushNotificationsForAccount(account)
+        }.onSuccess {
+            Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
+
+            accountManager.updateAccount(account) {
+                copy(
+                    pushPubKey = keyPair.pubkey,
+                    pushPrivKey = keyPair.privKey,
+                    pushAuth = auth,
+                    pushServerKey = it.serverKey,
+                    unifiedPushUrl = endpoint
+                )
+            }
+        }
+    }
+
+    // Synchronize the enabled / disabled state of notifications with server-side subscription
+    suspend fun updateUnifiedPushSubscription(account: AccountEntity) {
+        withContext(Dispatchers.IO) {
+            api.updatePushNotificationSubscription(
+                "Bearer ${account.accessToken}",
+                account.domain,
+                buildSubscriptionData(account)
+            ).onSuccess {
+                Log.d(TAG, "UnifiedPush subscription updated for account ${account.id}")
+                accountManager.updateAccount(account) {
+                    copy(pushServerKey = it.serverKey)
+                }
+            }
+        }
+    }
+
+    suspend fun unregisterUnifiedPushEndpoint(account: AccountEntity) {
+        withContext(Dispatchers.IO) {
+            api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
+                .onFailure { throwable ->
+                    Log.w(TAG, "Error unregistering push endpoint for account " + account.id, throwable)
+                }
+                .onSuccess {
+                    Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)
+                    // Clear the URL in database
+                    accountManager.updateAccount(account) {
+                        copy(
+                            pushPubKey = "",
+                            pushPrivKey = "",
+                            pushAuth = "",
+                            pushServerKey = "",
+                            unifiedPushUrl = ""
+                        )
+                    }
+                }
+        }
+    }
+
 
     companion object {
         const val TAG = "NotificationService"

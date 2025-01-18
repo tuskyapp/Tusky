@@ -105,7 +105,8 @@ class MainActivityTest {
             mock {
                 on { areNotificationsEnabled() } doReturn true
             },
-            context
+            mock(),
+            context,
         )
 
         notificationService.createNotificationChannelsForAccount(accountEntity)

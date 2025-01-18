@@ -20,9 +20,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushAvailable
-import com.keylesspalace.tusky.components.systemnotifications.isUnifiedPushNotificationEnabledForAccount
-import com.keylesspalace.tusky.components.systemnotifications.updateUnifiedPushSubscription
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
@@ -40,12 +38,15 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     lateinit var accountManager: AccountManager
 
     @Inject
+    lateinit var notificationService: NotificationService
+
+    @Inject
     @ApplicationScope
     lateinit var externalScope: CoroutineScope
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!isUnifiedPushAvailable(context)) return
+        if (!notificationService.isUnifiedPushAvailable(context)) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -61,15 +62,9 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         } ?: return
 
         accountManager.getAccountByIdentifier(gid)?.let { account ->
-            if (isUnifiedPushNotificationEnabledForAccount(account)) {
-                // Update UnifiedPush notification subscription
+            if (account.isPushNotificationsEnabled()) {
                 externalScope.launch {
-                    updateUnifiedPushSubscription(
-                        context,
-                        mastodonApi,
-                        accountManager,
-                        account
-                    )
+                    notificationService.updateUnifiedPushSubscription(account)
                 }
             }
         }

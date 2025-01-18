@@ -3,7 +3,6 @@ package com.keylesspalace.tusky.usecase
 import android.content.Context
 import com.keylesspalace.tusky.components.drafts.DraftHelper
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
-import com.keylesspalace.tusky.components.systemnotifications.disableUnifiedPushNotificationsForAccount
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.db.entity.AccountEntity
@@ -40,12 +39,12 @@ class LogoutUsecase @Inject constructor(
         }
 
         // disable push notifications
-        disableUnifiedPushNotificationsForAccount(context, account)
+        notificationService.disableUnifiedPushNotificationsForAccount(account)
 
         // disable pull notifications
         if (!notificationService.areNotificationsEnabled()) {
             // TODO this is working very wrong
-            notificationService.disablePullNotifications(context)
+            notificationService.disablePullNotifications()
         }
 
         // clear notification channels

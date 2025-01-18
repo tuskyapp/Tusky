@@ -51,9 +51,9 @@ class NotificationPreferencesFragment : PreferenceFragmentCompat() {
                 setOnPreferenceChangeListener { _, newValue ->
                     updateAccount { copy(notificationsEnabled = newValue as Boolean) }
                     if (notificationService.areNotificationsEnabled()) {
-                        notificationService.enablePullNotifications(context)
+                        notificationService.enablePullNotifications()
                     } else {
-                        notificationService.disablePullNotifications(context)
+                        notificationService.disablePullNotifications()
                     }
                     true
                 }
