@@ -71,6 +71,5 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
 
     companion object {
         const val TAG = "UnifiedPush"
-
     }
 }

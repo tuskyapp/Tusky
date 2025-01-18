@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory

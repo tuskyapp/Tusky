@@ -67,7 +67,7 @@ class NotificationService @Inject constructor(
     private val api: MastodonApi,
     @ApplicationContext private val context: Context,
 ) {
-    private var notificationId:Int = NOTIFICATION_ID_PRUNE_CACHE + 1
+    private var notificationId: Int = NOTIFICATION_ID_PRUNE_CACHE + 1
 
     init {
         createWorkerNotificationChannel()
@@ -196,8 +196,10 @@ class NotificationService @Inject constructor(
 
         val workRequest: WorkRequest = PeriodicWorkRequest.Builder(
             NotificationWorker::class.java,
-            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
-            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS
+            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+            TimeUnit.MILLISECONDS,
+            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
+            TimeUnit.MILLISECONDS,
         )
             .addTag(NOTIFICATION_PULL_TAG)
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
@@ -372,11 +374,13 @@ class NotificationService @Inject constructor(
             builder.addAction(composeAction)
         }
 
-        builder.addExtras(Bundle().apply {
-            // Add the sending account's name, so it can be used also later when summarising this notification
-            putString(EXTRA_ACCOUNT_NAME, body.account.name)
-            putString(EXTRA_NOTIFICATION_TYPE, body.type.name)
-        })
+        builder.addExtras(
+            Bundle().apply {
+                // Add the sending account's name, so it can be used also later when summarising this notification
+                putString(EXTRA_ACCOUNT_NAME, body.account.name)
+                putString(EXTRA_NOTIFICATION_TYPE, body.type.name)
+            }
+        )
 
         return builder.build()
     }
@@ -738,7 +742,6 @@ class NotificationService @Inject constructor(
         disablePullNotifications()
     }
 
-
     //
     // Push notification section
     //
@@ -880,7 +883,6 @@ class NotificationService @Inject constructor(
                 }
         }
     }
-
 
     companion object {
         const val TAG = "NotificationService"
