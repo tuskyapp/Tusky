@@ -39,7 +39,7 @@ class PruneCacheWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager,
-    private val notificationService: NotificationService,
+    val notificationService: NotificationService,
 ) : CoroutineWorker(appContext, workerParams) {
     val notification: Notification = notificationService.createWorkerNotification(
         R.string.notification_prune_cache

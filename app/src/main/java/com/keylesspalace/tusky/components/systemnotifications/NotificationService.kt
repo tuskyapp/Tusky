@@ -8,7 +8,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -153,20 +152,15 @@ class NotificationService @Inject constructor(
             val channelGroup = NotificationChannelGroup(account.identifier, account.fullName)
             notificationManager.createNotificationChannelGroup(channelGroup)
 
-            val channels: MutableList<NotificationChannel> = ArrayList(12)
-            channelData.forEach {
-                val name = context.getString(it.name)
-                val description = context.getString(it.description)
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel = NotificationChannel(it.id, name, importance)
-
-                channel.description = description
-                channel.enableLights(true)
-                channel.lightColor = -0xd46f27
-                channel.enableVibration(true)
-                channel.setShowBadge(true)
-                channel.group = account.identifier
-                channels.add(channel)
+            val channels = channelData.map {
+                NotificationChannel(it.id, context.getString(it.name), NotificationManager.IMPORTANCE_DEFAULT).apply {
+                    description = context.getString(it.description)
+                    enableLights(true)
+                    lightColor = -0xd46f27
+                    enableVibration(true)
+                    setShowBadge(true)
+                    group = account.identifier
+                }
             }
 
             notificationManager.createNotificationChannels(channels)
@@ -270,26 +264,6 @@ class NotificationService @Inject constructor(
                 newNotifications.add(single)
             }
         }
-//        notificationsByType.forEach { notificationsGroup: Map.Entry<Notification.Type, List<Notification>> ->
-//            val summary = createSummaryNotification(
-//                account,
-//                notificationsGroup.key,
-//                notificationsGroup.value
-//            ) ?: return@forEach // This is a "continue"
-//
-//            // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
-//            //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
-//            //   takes place.
-//            newNotifications.add(summary)
-//
-//            notificationsGroup.value.forEach { notification ->
-//                val single = createNotification(notification, account)
-//
-//                if (single != null) {
-//                    newNotifications.add(single)
-//                }
-//            }
-//        }
 
         val notificationManagerCompat = NotificationManagerCompat.from(context)
         // NOTE having multiple summary notifications: this here should still collapse them in only one occurrence
@@ -340,21 +314,19 @@ class NotificationService @Inject constructor(
             )
         }
 
-        var accountAvatar: Bitmap?
-        try {
-            val target = Glide.with(context)
+        val accountAvatar = try {
+            Glide.with(context)
                 .asBitmap()
                 .load(body.account.avatar)
                 .transform(RoundedCorners(20))
                 .submit()
-
-            accountAvatar = target.get()
+                .get()
         } catch (e: ExecutionException) {
             Log.d(TAG, "Error loading account avatar", e)
-            accountAvatar = BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
+            BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
         } catch (e: InterruptedException) {
             Log.d(TAG, "Error loading account avatar", e)
-            accountAvatar = BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
+            BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
         }
 
         builder.setLargeIcon(accountAvatar)
@@ -484,21 +456,10 @@ class NotificationService @Inject constructor(
      * - are summary notifications
      */
     private fun getActiveNotifications(accountId: Long, typeChannelId: String): List<StatusBarNotification> {
-        val activeNotificationsForType: MutableList<StatusBarNotification> = java.util.ArrayList()
-        for (sn in notificationManager.activeNotifications) {
-            if (sn.id != accountId.toInt()) continue
-
-            val channelId = sn.notification.group
-
-            if (channelId != typeChannelId) continue
-
-            val summaryTag = "$GROUP_SUMMARY_TAG.$channelId"
-            if (summaryTag == sn.tag) continue
-
-            activeNotificationsForType.add(sn)
+        return notificationManager.activeNotifications.filter {
+            val channelId = it.notification.group
+            it.id == accountId.toInt() && channelId == typeChannelId && it.tag != "$GROUP_SUMMARY_TAG.$channelId"
         }
-
-        return activeNotificationsForType
     }
 
     private fun getNotificationBuilder(notificationType: Notification.Type, account: AccountEntity, channelId: String): NotificationCompat.Builder {
@@ -563,7 +524,7 @@ class NotificationService @Inject constructor(
 
         when (notification.type) {
             Notification.Type.FOLLOW, Notification.Type.FOLLOW_REQUEST, Notification.Type.SIGN_UP -> return "@" + notification.account.username
-            Notification.Type.MENTION, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.STATUS -> return if (!TextUtils.isEmpty(notification.status!!.spoilerText) && !alwaysOpenSpoiler) {
+            Notification.Type.MENTION, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.STATUS -> return if (!TextUtils.isEmpty(notification.status.spoilerText) && !alwaysOpenSpoiler) {
                 notification.status.spoilerText
             } else {
                 notification.status.content.parseAsMastodonHtml().toString()
@@ -576,10 +537,7 @@ class NotificationService @Inject constructor(
                 val builder = StringBuilder(notification.status.content.parseAsMastodonHtml())
                 builder.append('\n')
 
-                val options = poll.options
-                var i = 0
-                while (i < options.size) {
-                    val option = options[i]
+                poll.options.forEachIndexed { i, option ->
                     builder.append(
                         buildDescription(
                             option.title,
@@ -589,8 +547,8 @@ class NotificationService @Inject constructor(
                         )
                     )
                     builder.append('\n')
-                    ++i
                 }
+
                 return builder.toString()
             }
             Notification.Type.REPORT -> return context.getString(
@@ -688,13 +646,14 @@ class NotificationService @Inject constructor(
         val replyVisibility = actionableStatus.visibility
         val contentWarning = actionableStatus.spoilerText
         val mentions = actionableStatus.mentions
-        var mentionedUsernames: MutableList<String?> = java.util.ArrayList()
-        mentionedUsernames.add(actionableStatus.account.username)
-        for (mention in mentions) {
-            mentionedUsernames.add(mention.username)
+
+        val mentionedUsernames = buildSet {
+            add(actionableStatus.account.username)
+            for (mention in mentions) {
+                add(mention.username)
+            }
+            remove(account.username)
         }
-        mentionedUsernames.removeAll(setOf(account.username))
-        mentionedUsernames = java.util.ArrayList(LinkedHashSet(mentionedUsernames))
 
         val replyIntent = Intent(context, SendStatusBroadcastReceiver::class.java)
             .setAction(REPLY_ACTION)
@@ -725,12 +684,13 @@ class NotificationService @Inject constructor(
         val replyVisibility = actionableStatus.visibility
         val contentWarning = actionableStatus.spoilerText
         val mentions = actionableStatus.mentions
-        val mentionedUsernames: MutableSet<String> = LinkedHashSet()
-        mentionedUsernames.add(actionableStatus.account.username)
-        for (mention in mentions) {
-            if (mention.username != account.username) {
-                mentionedUsernames.add(mention.username)
+
+        val mentionedUsernames = buildSet {
+            add(actionableStatus.account.username)
+            for (mention in mentions) {
+                add(mention.username)
             }
+            remove(account.username)
         }
 
         val composeOptions = ComposeOptions()
