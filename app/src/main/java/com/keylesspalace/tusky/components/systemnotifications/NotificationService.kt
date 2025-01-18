@@ -743,11 +743,11 @@ class NotificationService @Inject constructor(
     // Push notification section
     //
 
-    fun isUnifiedPushAvailable(context: Context): Boolean =
+    fun isUnifiedPushAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
     suspend fun enablePushNotificationsWithFallback() {
-        if (!isUnifiedPushAvailable(context)) {
+        if (!isUnifiedPushAvailable()) {
             // No distributors
             enablePullNotifications()
             return

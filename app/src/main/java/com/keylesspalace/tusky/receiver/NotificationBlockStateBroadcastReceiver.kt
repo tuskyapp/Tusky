@@ -46,7 +46,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!notificationService.isUnifiedPushAvailable(context)) return
+        if (!notificationService.isUnifiedPushAvailable()) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
