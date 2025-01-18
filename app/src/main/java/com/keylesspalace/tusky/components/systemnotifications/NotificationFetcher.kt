@@ -49,10 +49,6 @@ class NotificationFetcher @Inject constructor(
         for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
-                    // TODO one could do a checkSelfPermission here every time. It is possible that we got
-                    //   notification permissions in the meantime. There are no "positive" broadcasts on changes.
-                    //   see https://stackoverflow.com/questions/32718933/broadcast-action-on-permission-change-in-android-m
-
                     val notifications = fetchNewNotifications(account)
                         .filter { notificationService.filterNotification(account, it.type) }
                         .sortedWith(

@@ -58,6 +58,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.R as materialR
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -180,6 +181,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
+    private val requestNotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                viewModel.setupNotifications()
+            }
+        }
+
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         // Newer Android versions don't need to install the compat Splash Screen
@@ -204,11 +212,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                ALLOW_NOTIFICATIONS_REQUEST_CODE
-            )
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
         if (explodeAnimationWasRequested()) {
@@ -306,26 +310,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
         // "Post failed" dialog should display in this activity
         draftsAlert.observeInContext(this@MainActivity, true)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            return
-        }
-
-        if (requestCode != ALLOW_NOTIFICATIONS_REQUEST_CODE) {
-            return
-        }
-
-        val idx = permissions.indexOfFirst { it == Manifest.permission.POST_NOTIFICATIONS }
-
-        if (idx < 0 || grantResults[idx] != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-
-        viewModel.setupNotifications()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -1100,7 +1084,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     override fun getActionButton() = binding.composeButton
 
     companion object {
-        const val ALLOW_NOTIFICATIONS_REQUEST_CODE = 2389668
         const val OPEN_WITH_EXPLODE_ANIMATION = "explode"
 
         private const val TAG = "MainActivity" // logging tag
