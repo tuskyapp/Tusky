@@ -1,6 +1,5 @@
 package com.keylesspalace.tusky.components.systemnotifications
 
-import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
 import com.keylesspalace.tusky.appstore.EventHub
@@ -12,7 +11,6 @@ import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.isLessThan
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /** Models next/prev links from the "Links" header in an API response */
@@ -44,7 +42,6 @@ data class Links(val next: String?, val prev: String?) {
 class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
-    @ApplicationContext private val context: Context,
     private val eventHub: EventHub,
     private val notificationService: NotificationService,
 ) {
@@ -52,14 +49,16 @@ class NotificationFetcher @Inject constructor(
         for (account in accountManager.accounts) {
             if (account.notificationsEnabled) {
                 try {
+                    // TODO one could do a checkSelfPermission here every time. It is possible that we got
+                    //   notification permissions in the meantime. There are no "positive" broadcasts on changes.
+                    //   see https://stackoverflow.com/questions/32718933/broadcast-action-on-permission-change-in-android-m
+
                     val notifications = fetchNewNotifications(account)
                         .filter { notificationService.filterNotification(account, it.type) }
                         .sortedWith(
                             compareBy({ it.id.length }, { it.id })
                         ) // oldest notifications first
 
-                    // TODO do this before filter above? But one could argue that (for example) a tab badge is also a notification
-                    //   (and should therefore adhere to the notification config).
                     eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
                     notificationService.show(account, notifications)
@@ -96,7 +95,7 @@ class NotificationFetcher @Inject constructor(
         // - The Mastodon marker API (if the server supports it)
         // - account.notificationMarkerId
         // - account.lastNotificationId
-        Log.d(TAG, "getting notification marker for ${account.fullName}")
+        Log.d(TAG, "Getting notification marker for ${account.fullName}.")
         val remoteMarkerId = fetchMarker(authHeader, account)?.lastReadId ?: "0"
         val localMarkerId = account.notificationMarkerId
         val markerId = if (remoteMarkerId.isLessThan(
@@ -114,7 +113,7 @@ class NotificationFetcher @Inject constructor(
         Log.d(TAG, "  localMarkerId: $localMarkerId")
         Log.d(TAG, "  readingPosition: $readingPosition")
 
-        Log.d(TAG, "getting Notifications for ${account.fullName}, min_id: $minId")
+        Log.d(TAG, "Getting Notifications for ${account.fullName}, min_id: $minId.")
 
         // Fetch all outstanding notifications
         val notifications: List<Notification> = buildList {
@@ -151,7 +150,7 @@ class NotificationFetcher @Inject constructor(
             accountManager.updateAccount(account) { copy(notificationMarkerId = newMarkerId) }
         }
 
-        Log.d(TAG, "got ${notifications.size} Notifications")
+        Log.d(TAG, "Got ${notifications.size} Notifications.")
 
         return notifications
     }

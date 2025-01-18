@@ -99,15 +99,7 @@ class MainViewModel @Inject constructor(
 
                     shareShortcutHelper.updateShortcuts()
 
-                    notificationService.createNotificationChannelsForAccount(activeAccount)
-
-                    if (notificationService.areNotificationsEnabled()) {
-                        viewModelScope.launch {
-                            enablePushNotificationsWithFallback(context, api, accountManager, notificationService)
-                        }
-                    } else {
-                        disableAllNotifications(context, accountManager, notificationService)
-                    }
+                    setupNotifications()
                 },
                 { throwable ->
                     Log.w(TAG, "Failed to fetch user info.", throwable)
@@ -167,6 +159,18 @@ class MainViewModel @Inject constructor(
     fun dismissDirectMessagesBadge() {
         viewModelScope.launch {
             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
+        }
+    }
+
+    fun setupNotifications() {
+        notificationService.createNotificationChannelsForAccount(activeAccount)
+
+        if (notificationService.areNotificationsEnabled()) {
+            viewModelScope.launch {
+                enablePushNotificationsWithFallback(context, api, accountManager, notificationService)
+            }
+        } else {
+            disableAllNotifications(context, accountManager, notificationService)
         }
     }
 
