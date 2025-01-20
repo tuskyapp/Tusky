@@ -536,10 +536,6 @@
     <string name="saving_draft">Збереження чернетки…</string>
     <string name="action_dismiss">Відхилити</string>
     <string name="action_details">Подробиці</string>
-    <string name="title_migration_relogin">Увійдіть повторно, щоб отримувати push-сповіщення</string>
-    <string name="tips_push_notification_migration">Увійдіть повторно до всіх облікових записів, щоб увімкнути підтримку push-сповіщень.</string>
-    <string name="dialog_push_notification_migration">Щоб використовувати push-сповіщення через UnifiedPush, Tusky потребує дозволу стежити за сповіщеннями на вашому сервері Mastodon. Це вимагає повторного входу, щоб змінити області OAuth, надані Tusky. Використання параметра повторного входу тут або в налаштуваннях облікового запису збереже всі ваші локальні чернетки та кеш.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Ви повторно увійшли до свого поточного облікового запису, щоб надати дозвіл на стеження Tusky. Однак у вас все ще є інші облікові записи, які не мігрували таким чином. Перейдіть до них і повторно увійдіть до них по одному, щоб забезпечити підтримку UnifiedPush сповіщень.</string>
     <string name="account_date_joined">Приєднується %1$s</string>
     <string name="action_edit_image">Редагувати зображення</string>
     <string name="status_count_one_plus">1+</string>

@@ -500,11 +500,9 @@
 \n
 \nPushmeldingen worden hierdoor niet beïnvloed, maar je kunt de voorkeuren voor meldingen handmatig wijzigen.</string>
     <string name="notification_sign_up_format">%1$s heeft zich geregistreerd</string>
-    <string name="tips_push_notification_migration">Alle accounts opnieuw inloggen i.v.m. ondersteuning pushmeldingen.</string>
     <string name="error_multimedia_size_limit">Afbeeldingen en video\'s mogen niet groter zijn dan %1$s MB.</string>
     <string name="error_image_edit_failed">Deze afbeelding kon niet worden bewerkt.</string>
     <string name="title_login">Inloggen</string>
-    <string name="title_migration_relogin">Opnieuw inloggen i.v.m. pushmeldingen</string>
     <string name="notification_update_format">%1$s heeft diens bericht bewerkt</string>
     <string name="action_unbookmark">Bladwijzer verwijderen</string>
     <string name="action_dismiss">Afwijzen</string>
@@ -533,8 +531,6 @@
     <string name="duration_no_change">(geen verandering)</string>
     <string name="pref_title_show_self_username">Gebruikersnaam op werkbalken tonen</string>
     <string name="set_focus_description">Tik of sleep de cirkel naar een centraal punt dat op elke miniatuur zichtbaar moet blijven.</string>
-    <string name="dialog_push_notification_migration">Om pushmeldingen via UnifiedPush te kunnen gebruiken, moet Tusky zich op meldingen van jouw Mastodon-server abonneren. Dit betekent dat je opnieuw moet inloggen om de OAuth-toestemmingen voor Tusky te wijzigen. Als je opnieuw inlogt via de optie hieronder of via de optie in accountvoorkeuren, dan blijven al je concepten en cache behouden.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Je hebt opnieuw op jouw huidige account ingelogd om toestemming voor pushmeldingen aan Tusky te verlenen. Je hebt echter nog andere accounts die nog niet op deze manier zijn overgezet. Ga naar deze accounts en log één voor één opnieuw in om UnifiedPush-meldingen ook daar in te schakelen.</string>
     <string name="pref_show_self_username_always">Altijd</string>
     <string name="pref_show_self_username_disambiguate">Wanneer meerdere accounts zijn ingelogd</string>
     <string name="pref_show_self_username_never">Nooit</string>

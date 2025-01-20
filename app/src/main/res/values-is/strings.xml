@@ -509,16 +509,12 @@
     <string name="notification_sign_up_description">Tilkynningar um nýja notendur</string>
     <string name="notification_update_name">Breytingar á færslum</string>
     <string name="notification_update_description">Tilkynningar þegar færslum sem þú hefur átt við er breytt</string>
-    <string name="dialog_push_notification_migration_other_accounts">Þú hefur skráð þig aftur inn í fyrirliggjandi aðganginn þinn til þess að veita heimild fyrir áskrift að ýti-tilkynningum í Tusky. Aftur á móti ertu með aðra aðganga sem ekki hafa verið yfirfærðir á þennan hátt. Skiptu yfir í þá og skráðu þig þar inn aftur til að virkja stuðning við tilkynningar í gegnum UnifiedPush.</string>
     <string name="account_date_joined">Skráði sig %1$s</string>
-    <string name="tips_push_notification_migration">Skrá aftur inn alla aðganga til að virkja stuðning við ýti-tilkynningar.</string>
-    <string name="dialog_push_notification_migration">Til þess að geta sent ýti-tilkynningar í gegnum UnifiedPush, þarf Tusky heimild til að gerast áskrifandi að tilkynningum á Mastodon-netþjóninum þínum. Þetta krefst þess að skráð sé inn aftur til að breyta vægi OAuth-heimilda sem Tusky er úthlutað. Notaðu endurinnskráninguna hérna eða í kjörstillingum aðgangsins þíns til að varðveita öll drögin þín og skyndiminni á tækinu.</string>
     <string name="title_login">Skrá inn</string>
     <string name="status_count_one_plus">1+</string>
     <string name="error_could_not_load_login_page">Gat ekki lesið innskráningarsíðuna.</string>
     <string name="action_edit_image">Breyta mynd</string>
     <string name="saving_draft">Vista drög…</string>
-    <string name="title_migration_relogin">Skráðu aftur inn fyrir ýti-tilkynningar</string>
     <string name="action_dismiss">Afgreiða</string>
     <string name="action_details">Nánar</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>

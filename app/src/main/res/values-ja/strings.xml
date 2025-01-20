@@ -495,7 +495,6 @@
     <string name="error_following_hashtags_unsupported">このインスタンスはハッシュタグのフォローに対応していません。</string>
     <string name="title_followed_hashtags">フォローしたハッシュタグ</string>
     <string name="confirmation_domain_unmuted">%1$s のミュートが解除されました</string>
-    <string name="dialog_push_notification_migration_other_accounts">プッシュ通知の購読許可を Tusky に与えるための現在のアカウントへの再ログインが完了しました。しかし、まだ他のアカウントはマイグレーションができていません。UnifiedPush 通知ｗ有効にするには、他のアカウントにも切り替えて、それぞれ再ログインをしてください。</string>
     <string name="action_unfollow_hashtag_format">#%1$s をフォロー解除しますか？</string>
     <string name="notification_sign_up_description">新規ユーザーに関する通知</string>
     <string name="notification_update_name">投稿の編集</string>
@@ -543,14 +542,11 @@
 \n プッシュ通知には影響ありませんが、通知設定は手動で確認できます。</string>
     <string name="review_notifications">通知の確認</string>
     <string name="action_unsubscribe_account">購読の解除</string>
-    <string name="tips_push_notification_migration">プッシュ通知のサポートを有効にするにはすべてのアカウントで再ログインしてください。</string>
     <string name="report_category_violation">ルール違反</string>
     <string name="report_category_spam">スパム</string>
     <string name="report_category_other">その他</string>
     <string name="tusky_compose_post_quicksetting_label">投稿する</string>
-    <string name="dialog_push_notification_migration">UnifiedPush 経由でプッシュ通知を使用するには、Tusky に Mastodon サーバー上での購読許可が必要です。そのため、Tusky に与えられた OAuth スコープを変更するための再ログインが必要になります。ここかアカウント設定で再ログインのオプションを選んでも、ローカルの下書きとキャッシュは保存されます。</string>
     <string name="error_following_hashtag_format">#%1$s のフォローエラー</string>
-    <string name="title_migration_relogin">プッシュ通知受け取るには再ログインしてください</string>
     <string name="error_unfollowing_hashtag_format">#%1$s のフォロー解除エラー</string>
     <string name="error_could_not_load_login_page">ログインページが読み込めませんでした。</string>
     <string name="error_loading_account_details">アカウントの詳細情報の読み込みに失敗しました</string>

@@ -344,7 +344,6 @@
     <string name="notification_sign_up_format">Cofrestrodd %1$s</string>
     <string name="action_unbookmark">Tynnu\'r tudalnod</string>
     <string name="action_unmute_desc">Dad-dewi %1$s</string>
-    <string name="title_migration_relogin">Mewngofnodwch eto i gael hysbysiadau gwthio</string>
     <string name="title_announcements">Cyhoeddiadau</string>
     <string name="error_could_not_load_login_page">Methu llwytho\'r dudalen mewngofnodi.</string>
     <string name="title_scheduled_posts">Negeseuon wedi\'u hamserlennu</string>
@@ -450,8 +449,6 @@
     <string name="compose_shortcut_long_label">Ysgrifennu neges</string>
     <string name="drafts_post_failed_to_send">Methodd anfon y neges hon!</string>
     <string name="tusky_compose_post_quicksetting_label">Ysgrifennu Neges</string>
-    <string name="tips_push_notification_migration">Mewngofnodwch i\'ch gyfrifon eto er mwyn galluogi hysbysiadau i\'ch ffôn.</string>
-    <string name="dialog_push_notification_migration">Er mwyn derbyn hysbysiadau i\'ch ffôn drwy UnifiedPush, mae angen caniatâd ar Tusky i danysgrifio i hysbysiadau ar eich gweinydd Mastodon. Bydd rhaid i chi mewngofnodi eto i newid y sgôp OAuth sy\'n cael ei roi i Tusky. Bydd defnyddio\'r opsiwn ail-fewngofnodi yma neu yn Newisiadau cyfrif yn cadw eich holl ddrafftiau lleol a\'ch cof dros dro.</string>
     <string name="mute_domain_warning">Ydych chi\'n siŵr eich bod am rwystro %1$s gyfan? Fyddwch chi ddim yn gweld dim cynnwys o\'r parth hwnnw mewn unrhyw ffrwd gyhoeddus na chwaith yn eich hysbysiadau. Bydd eich dilynwyr o\'r parth hwnnw yn cael eu dileu.</string>
     <string name="duration_indefinite">Dim diwedd</string>
     <plurals name="favs">
@@ -469,7 +466,6 @@
     <string name="instance_rule_info">Drwy fewngofnodi rydych chi\'n cytuno i reolau %1$s.</string>
     <string name="compose_save_draft_loses_media">Cadw drafft\? (Bydd atodiadau\'n cael eu llwytho i fyny eto pan fyddwch chi\'n adfer y drafft.)</string>
     <string name="description_post_reblogged">Ailflogiwyd</string>
-    <string name="dialog_push_notification_migration_other_accounts">Rydych chi wedi mewngofnodi i\'ch cyfrif cyfredol eto i roi caniatâd tanysgrifio gwthio i Tusky. Fodd bynnag, mae gennych chi gyfrifon eraill o hyd nad ydyn nhw wedi\'u mudo fel hyn. Newidiwch atyn nhw a mewngofnodwch eto fesul un er mwyn galluogi hysbysiadau UnifiedPush.</string>
     <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <string name="hint_media_description_missing">Dylai fod gan y cyfryngau ddisgrifiad.</string>
     <string name="description_post_cw">Rhybudd cynnwys: %1$s</string>

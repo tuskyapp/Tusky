@@ -238,7 +238,6 @@
     <string name="title_posts">Príspevky</string>
     <string name="title_follows">Sledovaní</string>
     <string name="title_blocks">Blokovaní užívatelia</string>
-    <string name="title_migration_relogin">Prihláste sa znova pre push oznámenia</string>
     <string name="title_follow_requests">Žiadosti o sledovanie</string>
     <string name="title_edit_profile">Upraviť váš profil</string>
     <string name="title_announcements">Oznamy</string>

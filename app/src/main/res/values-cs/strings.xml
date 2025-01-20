@@ -467,7 +467,6 @@
     <string name="title_announcements">Oznámení</string>
     <string name="title_login">Přihlášení</string>
     <string name="notification_sign_up_format">%1$s se zaregistroval/a</string>
-    <string name="title_migration_relogin">Přihlaste se znovu pro push oznámení</string>
     <string name="error_could_not_load_login_page">Nepodařilo se načíst přihlášovací stránku.</string>
     <string name="drafts_post_failed_to_send">Tento příspěvek se nepodařilo odeslat!</string>
     <string name="error_loading_account_details">Nepodařilo se načíst detaily účtu</string>
@@ -499,7 +498,6 @@
 \n- Statistiky sledujících a příspěvků na profilech
 \n
 \nPush oznámení nebudou ovlivněna, ale můžete si zkontrolovat jejich nastavení manuálně.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Znovu jste se přihlásili ke svému aktuálnímu účtu, abyste aplikaci Tusky udělili oprávnění k odběru push. Stále však máte další účty, které tímto způsobem migrovány nebyly. Přepněte se na ně a znovu se přihlaste na jednom po druhém, abyste povolili podporu oznámení UnifiedPush.</string>
     <string name="compose_save_draft_loses_media">Uložit koncept\? (Přílohy budou znovu nahrány, když obnovíte koncept.)</string>
     <string name="set_focus_description">Klepnutím nebo přetažením kruhu vyberte ohnisko, které bude vždy viditelné v miniaturách.</string>
     <string name="pref_title_confirm_favourites">Zobrazit potvrzení při oblíbení</string>
@@ -522,8 +520,6 @@
     <string name="duration_30_days">30 dní</string>
     <string name="drafts_post_reply_removed">Příspěvek, na který jste připravili odpověď, byl odstraněn</string>
     <string name="action_set_focus">Nastavit bod zaostření</string>
-    <string name="tips_push_notification_migration">Znovu se přihlaste ke všem účtům, abyste povolili podporu push oznámení.</string>
-    <string name="dialog_push_notification_migration">Aby bylo možné používat push oznámení prostřednictvím UnifiedPush, Tusky potřebuje oprávnění k odběru oznámení na vašem serveru Mastodon. To vyžaduje opětovné přihlášení ke změně rozsahů OAuth udělených aplikaci Tusky. Použitím možnosti opětovného přihlášení zde nebo v předvolbách účtu zachováte všechny vaše místní koncepty a mezipaměť.</string>
     <string name="action_add_reaction">přidat reakci</string>
     <string name="pref_title_notification_filter_updates">příspěvek, se kterým jsem interagoval/a, je upraven</string>
     <string name="pref_title_notification_filter_sign_ups">někdo se zaregistroval</string>

@@ -542,12 +542,9 @@
     <string name="set_focus_description">Toque ou arraste o círculo para escolher o ponto focal que estará sempre visível nas miniaturas.</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="action_add_or_remove_from_list">Adicionar ou remover da lista</string>
-    <string name="dialog_push_notification_migration_other_accounts">Você se conectou novamente à sua conta atual para conceder permissão de assinatura push à Tusky. No entanto, você ainda tem outras contas que não foram migradas dessa forma. Alterne para elas e faça login novamente uma por uma para habilitar o suporte a notificações UnifiedPush.</string>
-    <string name="dialog_push_notification_migration">Para usar notificações push via UnifiedPush, Tusky precisa de permissão para assinar notificações em seu servidor Mastodon. Isso requer um novo login para alterar os escopos OAuth concedidos à Tusky. Usar a opção de novo login aqui ou nas preferências da conta preservará todos os seus rascunhos e cache locais.</string>
     <string name="failed_to_pin">Falha ao fixar</string>
     <string name="failed_to_unpin">Falha ao desafixar</string>
     <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
-    <string name="tips_push_notification_migration">Faça login novamente em todas as contas para habilitar o suporte de notificação push.</string>
     <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
