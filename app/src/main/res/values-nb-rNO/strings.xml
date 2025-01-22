@@ -514,13 +514,9 @@
     <string name="notification_update_description">Varslinger når et innlegg du har interagert med er redigert</string>
     <string name="title_login">Logg inn</string>
     <string name="error_could_not_load_login_page">Klarte ikke å laste innloggingssiden.</string>
-    <string name="title_migration_relogin">Logg inn på nytt for pushvarsler</string>
     <string name="action_dismiss">Avvis</string>
     <string name="action_details">Detaljer</string>
     <string name="account_date_joined">Ble med %1$s</string>
-    <string name="tips_push_notification_migration">Logg inn all konti på nytt for å skru på pushvarsler.</string>
-    <string name="dialog_push_notification_migration">For å kunne sende pushvarsler via UnifiedPush trenger Tusky tillatelse til å abonnere på varsler på Mastodon-serveren. Dette krever at du logger inn på nytt. Ved å bruke muligheten til å logge inn på nytt her eller i kontoinstillinger vil alle lokale utkast være tilgjengelig også etter at du har logget inn på nytt.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Du har logget inn på nytt for å tillate Tusky til å sende pushvarsler, men du har fortsatt andre konti som ikke har fått den nødvendige tillatelsen. Bytt til dem og logg inn på nytt på samme måte for å skru på støtte for pushvarsler via UnifiedPush.</string>
     <string name="saving_draft">Lagrer utkast…</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Rediger bilde</string>

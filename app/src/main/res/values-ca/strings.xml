@@ -558,10 +558,8 @@
     <string name="title_followed_hashtags">Hashtags seguits</string>
     <string name="notification_sign_up_description">Notificacions sobre nous usuaris</string>
     <string name="title_login">Iniciar Sessió</string>
-    <string name="title_migration_relogin">Torneu a iniciar sessió per rebre notificacions push</string>
     <string name="a11y_label_loading_thread">S\'està carregant el fil</string>
     <string name="compose_save_draft_loses_media">Guardar l\'esborrany\? (Els fitxers adjunts es tornaran a penjar quan recupereu l\'esborrany.)</string>
-    <string name="dialog_push_notification_migration_other_accounts">Heu tornat a iniciar sessió al vostre compte actual per concedir permís de subscripció push a Tusky. Tanmateix, encara teniu altres comptes que no s\'han migrat d\'aquesta manera. Canvieu-los i torneu a iniciar sessió un per un per activar el suport de notificacions UnifiedPush.</string>
     <string name="instance_rule_info">En iniciar sessió, accepteu les regles de %1$s.</string>
     <string name="action_edit_image">Edita la imatge</string>
     <string name="failed_to_pin">No s\'ha pogut fixar</string>
@@ -603,8 +601,6 @@
 \n Les notificacions push no es veuran afectades, però podeu revisar les vostres preferències de notificació manualment.</string>
     <string name="account_date_joined">S\'ha unit el %1$s</string>
     <string name="saving_draft">Desant l\'esborrany…</string>
-    <string name="dialog_push_notification_migration">Per utilitzar les notificacions push mitjançant UnifiedPush, Tusky necessita permís per subscriure\'s a les notificacions al vostre servidor Mastodon. Això requereix un nou inici de sessió per canviar els àmbits d\'OAuth concedits a Tusky. Si feu servir l\'opció de tornar a iniciar sessió aquí o a les preferències del compte, es conservaran tots els esborranys locals i la memòria cau.</string>
-    <string name="tips_push_notification_migration">Torneu a iniciar sessió a tots els comptes per activar el suport de notificacions push.</string>
     <string name="description_post_edited">Editat</string>
     <string name="status_edit_info">%1$s ha editat</string>
     <string name="action_subscribe_account">Subscriu-te</string>

@@ -485,7 +485,6 @@
     <string name="notification_summary_report_format">%1$s · %2$d ekli gönderiler</string>
     <string name="post_edited">Düzenleme %1$s</string>
     <string name="account_note_hint">Bu hesap hakkındaki özel notun</string>
-    <string name="title_migration_relogin">Bildirim beslemesi için yeniden giriş yapın</string>
     <string name="title_followed_hashtags">Takip edilen etiketler</string>
     <string name="notification_sign_up_format">%1$s kaydol</string>
     <string name="action_unbookmark">Yerimini kaldır</string>
@@ -548,7 +547,6 @@
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Kural ihlali</string>
     <string name="description_post_language">Gönderi dili</string>
-    <string name="dialog_push_notification_migration">Birleşik itme aracılığıyla, itme bildirimlerini kullanmak için Tusky\'nin Mastodon sunucundaki bildirimlere abone olma iznine ihtiyacı var. Bu, Tusky\'ye verilen OAuth kapsamlarını değiştirmek için yeniden oturum açmayı gerektirir. Burada veya Hesap tercihleri bölümünde yeniden giriş yapma seçeneğini kullanman tüm yerel taslaklarını ve önbelleğini koruyacaktır.</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s takip edilmeyenler</string>
     <string name="action_subscribe_account">Abone Ol</string>
     <string name="follow_requests_info">Hesabınız kilitli olmasa da, %1$s kadro bu hesaplardan gelen takip isteklerini elle gözden geçirmek isteyebileceğinizi düşündü.</string>
@@ -565,7 +563,6 @@
     <string name="duration_indefinite">Tanımsız</string>
     <string name="description_post_edited">Düzenlendi</string>
     <string name="action_unsubscribe_account">Abonelikten Çık</string>
-    <string name="dialog_push_notification_migration_other_accounts">Tusky\'ye bildirim aboneliği izni vermek için mevcut hesabınıza yeniden giriş yaptınız. Ancak, yine de bu şekilde geçirilmemiş başka hesaplarınız var. UnifiedPush bildirimleri desteğini etkinleştirmek için bunlara geçin ve tek tek yeniden giriş yapın.</string>
     <string name="error_following_hashtags_unsupported">Bu sunucu aşağıdaki etiketleri desteklemez.</string>
     <string name="notification_subscription_format">%1$s az önce paylaşım yaptı</string>
     <string name="notification_update_format">%1$s gönderilerini düzenledi</string>
@@ -573,7 +570,6 @@
     <string name="error_unfollowing_hashtag_format">Takip etmeyi bırakırken hata #%1$s</string>
     <string name="status_count_one_plus">1+</string>
     <string name="label_duration">Süre</string>
-    <string name="tips_push_notification_migration">Bildirim besleme desteğini etkinleştirmek için tüm hesaplara yeniden giriş yapın.</string>
     <string name="error_status_source_load">Sunucudan kaynak durumu yüklenemedi.</string>
     <string name="pref_title_http_proxy_port_message">Bağlantı noktası %1$d ile %2$d arasında olmalıdır</string>
     <string name="post_media_alt">Alternatif metin</string>

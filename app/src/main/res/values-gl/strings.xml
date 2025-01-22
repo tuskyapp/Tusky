@@ -508,12 +508,8 @@
     <string name="pref_title_notification_filter_updates">Foi editada unha publicación coa que interactuei</string>
     <string name="notification_update_name">Edicións da publicación</string>
     <string name="account_date_joined">Creada %1$s</string>
-    <string name="tips_push_notification_migration">Volve acceder con tódalas contas para activar as notificacións push.</string>
     <string name="title_login">Acceder</string>
     <string name="notification_update_description">Notificacións cando son editadas publicacións coas que interactuaches</string>
-    <string name="dialog_push_notification_migration">Para poder usar as notificacións push vía UnifiedPush, Tusky require o permiso para subscribirse ás notificacións do teu servidor Mastodon. É necesario volver acceder para cambiar os ámbitos OAuth concedidos a Tusky. Usando aquí, ou nas preferencias da Conta, a opción de volver a acceder conservarás os borradores locais e caché.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Volveches a acceder para obter as notificacións push en Tusky. Aínda así tes algunha outra conta que non foi migrada a este modo. Cambia a esas contas e volve conectar unha a unha para activar o soporte para notificacións de UnifiedPush.</string>
-    <string name="title_migration_relogin">Volve a acceder para ter notificacións push</string>
     <string name="notification_update_format">%1$s editou a publicación</string>
     <string name="action_dismiss">Desbotar</string>
     <string name="action_details">Detalles</string>

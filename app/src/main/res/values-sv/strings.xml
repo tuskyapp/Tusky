@@ -496,11 +496,9 @@
     <string name="error_unfollowing_hashtag_format">Kunde inte avfölja #%1$s</string>
     <string name="dialog_delete_conversation_warning">Radera denna konversation\?</string>
     <string name="pref_show_self_username_always">Alltid</string>
-    <string name="dialog_push_notification_migration">För att använda pushnotiser via UnifiedPush behöver Tusky din tillåtelse att prenumerera på notiser på din Mastodon-server. Detta kräver att du loggar in igen för att ändra vilka OAuth-scopes Tusky har tillgång till. Genom använda alternativet logga in igen här eller i Kontoinställningarna behåller du alla dina lokala utkast och data i cache.</string>
     <string name="set_focus_description">Tryck eller dra cirkeln för att välja fokuspunkten som alltid kommer synas i miniatyrbilder.</string>
     <string name="label_duration">Varaktighet</string>
     <string name="duration_indefinite">Oändligt</string>
-    <string name="dialog_push_notification_migration_other_accounts">Du har loggat in igen på ditt konto för att ge Tusky tillgång till push-prenumeration. Dock har du andra konton som inte har migrerats såhär ännu. Växla till dem och logga in igen för att aktivera stöd för UnifiedPush-notiser.</string>
     <string name="action_unsubscribe_account">Sluta prenumerera</string>
     <string name="description_post_language">Inläggsspråk</string>
     <string name="pref_show_self_username_disambiguate">När flera konton är inloggade</string>
@@ -528,7 +526,6 @@
     <string name="tusky_compose_post_quicksetting_label">Skriv inlägg</string>
     <string name="account_date_joined">Gick med i %1$s</string>
     <string name="saving_draft">Sparar utkast…</string>
-    <string name="tips_push_notification_migration">Logga in igen på alla konton för att tillåta pushnotiser.</string>
     <string name="error_multimedia_size_limit">Video- och ljudfiler kan inte överskrida %1$s MB i storlek.</string>
     <string name="error_image_edit_failed">Bilden kunde inte redigeras.</string>
     <string name="duration_365_days">365 dagar</string>
@@ -545,7 +542,6 @@
     <string name="post_media_audio">Ljud</string>
     <string name="post_media_attachments">Bilagor</string>
     <string name="status_count_one_plus">1+</string>
-    <string name="title_migration_relogin">Logga in igen för pushnotiser</string>
     <string name="action_dismiss">Avvisa</string>
     <string name="action_details">Detaljer</string>
     <string name="error_loading_account_details">Kunde inte ladda kontodetaljer</string>

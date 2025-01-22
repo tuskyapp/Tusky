@@ -525,7 +525,6 @@
     <string name="error_following_hashtag_format">Error al seguir #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Error dejando de seguir #%1$s</string>
     <string name="title_login">Ingreso</string>
-    <string name="title_migration_relogin">Reingresa para activar notificaciones push</string>
     <string name="notification_sign_up_format">%1$s se registró</string>
     <string name="notification_update_format">%1$s editó su publicación</string>
     <string name="action_dismiss">Descartar</string>
@@ -539,8 +538,6 @@
     <string name="account_date_joined">Se unió %1$s</string>
     <string name="duration_14_days">14 días</string>
     <string name="duration_365_days">365 días</string>
-    <string name="tips_push_notification_migration">Inicia sesión de nuevo en todas las cuentas para activar las notificaciones push.</string>
-    <string name="dialog_push_notification_migration">Para poder usar las notificaciones push con UnifiedPush, Tusky necesita permiso para suscribirse a las notificaciones de tu servidor de Mastodon. Es necesario volver a acceder para cambiar los parámetros OAuth concedidos a Tusky. Usar aquí, o en las Preferencias de la cuenta, la opción de volver a acceder conservará los borradores y la caché.</string>
     <string name="failed_to_pin">Fallo al fijar</string>
     <string name="failed_to_unpin">Fallo al quitarlo</string>
     <string name="pref_show_self_username_disambiguate">Cuando hay varias cuentas ingresadas</string>
@@ -558,7 +555,6 @@
     <string name="duration_no_change">(Sin cambios)</string>
     <string name="tusky_compose_post_quicksetting_label">Escribir publicación</string>
     <string name="saving_draft">Guardando borrador…</string>
-    <string name="dialog_push_notification_migration_other_accounts">Has vuelto a iniciar sesión en esta cuenta para dar permiso de notificaciones push a Tusky. Sin embargo, aún hay otras cuentas que no tienen este permiso. Cambia a estas cuentas y vuelve a iniciar sesión, una a una, para activar el soporte de notificaciones de UnifiedPush.</string>
     <string name="instance_rule_info">Al iniciar sesión aceptas las normas de %1$s.</string>
     <string name="instance_rule_title">Normas de %1$s</string>
     <string name="notification_sign_up_name">Creación de cuentas</string>

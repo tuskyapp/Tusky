@@ -516,13 +516,9 @@
     <string name="notification_update_description">当你进行过互动的嘟文被编辑时发出通知</string>
     <string name="error_could_not_load_login_page">无法加载登录页。</string>
     <string name="saving_draft">正在保存草稿…</string>
-    <string name="title_migration_relogin">重新登陆以启用通知推送</string>
     <string name="action_dismiss">不理会</string>
     <string name="action_details">详情</string>
-    <string name="dialog_push_notification_migration_other_accounts">你已重新登录当前账户，向 Tusky 授予推送订阅权限。但是，你仍然有其他没有以这种方式迁移的账户。切换到它们，逐个重新登录，以启用 UnifiedPush 通知支持。</string>
     <string name="account_date_joined">加入于%1$s</string>
-    <string name="tips_push_notification_migration">重新登录所有账户来启用推送通知支持。</string>
-    <string name="dialog_push_notification_migration">为了通过 UnifiedPush 使用推送通知，Tusky 需要订阅你 Mastodon 服务器通知的权限。这需要重新登录来更改授予 Tusky 的 OAuth 作用域。使用此处或账户首选项中“重新登录”选项将保留你所有的本地草稿和缓存。</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">编辑图片</string>
     <string name="error_image_edit_failed">无法编辑图片。</string>

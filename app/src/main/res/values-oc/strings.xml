@@ -530,7 +530,6 @@
     <string name="pref_title_show_self_username">Mostrar lo nom d’utilizaire dins la barra d’aisinas</string>
     <string name="pref_show_self_username_disambiguate">Quand mai d’un compte es connectat</string>
     <string name="action_set_focus">Posicionar lo punt focal</string>
-    <string name="title_migration_relogin">Se tornar connectar per recebre las notificacions instantanèas</string>
     <string name="pref_title_confirm_favourites">Demandar confirmacion abans d’apondre en favorit</string>
     <string name="error_following_hashtags_unsupported">Aquesta instància pren pas en carga l’abonament a las etiquetas.</string>
     <string name="title_followed_hashtags">Etiquetas seguidas</string>
@@ -553,11 +552,8 @@
     <string name="notification_sign_up_description">Notificacions quand qualqu’un crèa un compte novèl</string>
     <string name="notification_report_description">Notificacions a prepaus dels senhalament a la moderacion</string>
     <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>
-    <string name="tips_push_notification_migration">Reconnectatz-vos a vòstres comptes per activar las notificacions instantanèas.</string>
     <string name="follow_requests_info">Malgrat que vòstre compte siá pas verrolhat, l\'equipa de %1$s a pensat que volriatz validar manualament las demandas de d\'abonament provenent d\'aqueles comptes.</string>
-    <string name="dialog_push_notification_migration">Per tal de recebre las notificacions per UnifiedPush, Tusky deu demandar a vòstre servidor Mastodon la permission de s\'inscriure a las notificacions. Aquò necessita una reconnexion de vòstres comptes per tal de cambiar los dreches OAuth acordats a Tusky. En utilizant l\'opcion de reconnexion aicí o dins las preferéncias de compte, vòstres borrolhons e l\'escondon seràn preservats.</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar lo limpament per se desplaçar demest los onglets</string>
-    <string name="dialog_push_notification_migration_other_accounts">Tusky pòt ara recebre las notificacions instantanèas d\'aquel compte. Pasmens, d\'autres de vòstres comptes an pas encara accèsses a las notificacions instantanèas. Basculatz sus cadun de vòstres comptes e reconnectatz-los per tal de recebre las notificacions amb UnifiedPush.</string>
     <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon \? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
     <string name="pref_default_post_language">Lenga de publicacion (alinhat sul servidor)</string>
     <string name="report_category_spam">Messatge indesirable</string>
