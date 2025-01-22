@@ -41,7 +41,6 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases

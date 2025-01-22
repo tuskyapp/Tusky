@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
-import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
