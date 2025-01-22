@@ -27,8 +27,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.core.content.res.use
 import com.google.android.material.R as materialR
+import android.text.TextUtils
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
+import java.util.Locale
 import kotlin.math.max
 
 class GraphView @JvmOverloads constructor(
@@ -68,63 +70,40 @@ class GraphView @JvmOverloads constructor(
     private var primaryLinePath: Path = Path()
     private var secondaryLinePath: Path = Path()
 
+    private var isRtlLayout: Boolean = false
+
     var maxTrendingValue: Long = 300
     var primaryLineData: List<Long> = if (isInEditMode) {
-        listOf(
-            30,
-            60,
-            70,
-            80,
-            130,
-            190,
-            80
-        )
+        listOf(30, 60, 70, 80, 130, 190, 80)
     } else {
-        listOf(
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1
-        )
+        listOf(1, 1, 1, 1, 1, 1, 1)
     }
         set(value) {
             field = value.map { max(1, it) }
+            if (isRtlLayout) {
+                field = field.reversed()
+            }
             primaryLinePath.reset()
             invalidate()
         }
 
     var secondaryLineData: List<Long> = if (isInEditMode) {
-        listOf(
-            10,
-            20,
-            40,
-            60,
-            100,
-            132,
-            20
-        )
+        listOf(10, 20, 40, 60, 100, 132, 20)
     } else {
-        listOf(
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1
-        )
+        listOf(1, 1, 1, 1, 1, 1, 1)
     }
         set(value) {
             field = value.map { max(1, it) }
+            if (isRtlLayout) {
+                field = field.reversed()
+            }
             secondaryLinePath.reset()
             invalidate()
         }
 
     init {
         initFromXML(attrs)
+        isRtlLayout = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL
     }
 
     private fun initFromXML(attr: AttributeSet?) {
@@ -286,12 +265,14 @@ class GraphView @JvmOverloads constructor(
             drawLine(0f, height.toFloat(), width.toFloat(), height.toFloat(), metaPaint)
 
             // Data lines
+
             drawLine(
                 canvas = canvas,
                 linePath = secondaryLinePath,
                 linePaint = secondaryLinePaint,
                 circlePaint = secondaryCirclePaint,
-                lineThickness = lineWidth
+                lineThickness = lineWidth,
+
             )
             drawLine(
                 canvas = canvas,
@@ -317,8 +298,11 @@ class GraphView @JvmOverloads constructor(
             )
 
             val pm = PathMeasure(linePath, false)
+
+            val dotPosition = if (isRtlLayout) 0f else pm.length
+
             val coord = floatArrayOf(0f, 0f)
-            pm.getPosTan(pm.length * 1f, coord, null)
+            pm.getPosTan(dotPosition, coord, null)
 
             drawCircle(coord[0], coord[1], lineThickness * 2f, circlePaint)
         }
