@@ -265,14 +265,12 @@ class GraphView @JvmOverloads constructor(
             drawLine(0f, height.toFloat(), width.toFloat(), height.toFloat(), metaPaint)
 
             // Data lines
-
             drawLine(
                 canvas = canvas,
                 linePath = secondaryLinePath,
                 linePaint = secondaryLinePaint,
                 circlePaint = secondaryCirclePaint,
                 lineThickness = lineWidth,
-
             )
             drawLine(
                 canvas = canvas,
