@@ -145,9 +145,6 @@ abstract class TimelineViewModel(
                 return@launch
             }
 
-            val votedPoll = poll.votedCopy(choices)
-            updatePoll(votedPoll, status)
-
             try {
                 timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
             } catch (t: Exception) {
@@ -156,8 +153,6 @@ abstract class TimelineViewModel(
                 }
             }
         }
-
-    abstract fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete)
 
     abstract fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete)
 

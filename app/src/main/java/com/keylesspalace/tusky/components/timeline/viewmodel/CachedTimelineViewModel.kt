@@ -111,10 +111,6 @@ class CachedTimelineViewModel @Inject constructor(
         }
         .flowOn(Dispatchers.Default)
 
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
-        // handled by CacheUpdater
-    }
-
     override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()
