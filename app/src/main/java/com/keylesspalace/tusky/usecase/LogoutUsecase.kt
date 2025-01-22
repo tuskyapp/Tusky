@@ -2,8 +2,7 @@ package com.keylesspalace.tusky.usecase
 
 import android.content.Context
 import com.keylesspalace.tusky.components.drafts.DraftHelper
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
-import com.keylesspalace.tusky.components.systemnotifications.disableUnifiedPushNotificationsForAccount
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.db.entity.AccountEntity
@@ -18,7 +17,8 @@ class LogoutUsecase @Inject constructor(
     private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager,
     private val draftHelper: DraftHelper,
-    private val shareShortcutHelper: ShareShortcutHelper
+    private val shareShortcutHelper: ShareShortcutHelper,
+    private val notificationService: NotificationService,
 ) {
 
     /**
@@ -39,15 +39,16 @@ class LogoutUsecase @Inject constructor(
         }
 
         // disable push notifications
-        disableUnifiedPushNotificationsForAccount(context, account)
+        notificationService.disableUnifiedPushNotificationsForAccount(account)
 
         // disable pull notifications
-        if (!NotificationHelper.areNotificationsEnabled(context, accountManager)) {
-            NotificationHelper.disablePullNotifications(context)
+        if (!notificationService.areNotificationsEnabled()) {
+            // TODO this is working very wrong
+            notificationService.disablePullNotifications()
         }
 
         // clear notification channels
-        NotificationHelper.deleteNotificationChannelsForAccount(account, context)
+        notificationService.deleteNotificationChannelsForAccount(account)
 
         // remove account from local AccountManager
         val otherAccountAvailable = accountManager.remove(account) != null

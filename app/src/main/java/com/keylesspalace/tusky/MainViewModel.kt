@@ -25,9 +25,7 @@ import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
-import com.keylesspalace.tusky.components.systemnotifications.disableAllNotifications
-import com.keylesspalace.tusky.components.systemnotifications.enablePushNotificationsWithFallback
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
@@ -52,7 +50,8 @@ class MainViewModel @Inject constructor(
     private val api: MastodonApi,
     private val eventHub: EventHub,
     private val accountManager: AccountManager,
-    private val shareShortcutHelper: ShareShortcutHelper
+    private val shareShortcutHelper: ShareShortcutHelper,
+    private val notificationService: NotificationService,
 ) : ViewModel() {
 
     private val activeAccount = accountManager.activeAccount!!
@@ -98,15 +97,7 @@ class MainViewModel @Inject constructor(
 
                     shareShortcutHelper.updateShortcuts()
 
-                    NotificationHelper.createNotificationChannelsForAccount(activeAccount, context)
-
-                    if (NotificationHelper.areNotificationsEnabled(context, accountManager)) {
-                        viewModelScope.launch {
-                            enablePushNotificationsWithFallback(context, api, accountManager)
-                        }
-                    } else {
-                        disableAllNotifications(context, accountManager)
-                    }
+                    setupNotifications()
                 },
                 { throwable ->
                     Log.w(TAG, "Failed to fetch user info.", throwable)
@@ -166,6 +157,18 @@ class MainViewModel @Inject constructor(
     fun dismissDirectMessagesBadge() {
         viewModelScope.launch {
             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
+        }
+    }
+
+    fun setupNotifications() {
+        notificationService.createNotificationChannelsForAccount(activeAccount)
+
+        if (notificationService.areNotificationsEnabled()) {
+            viewModelScope.launch {
+                notificationService.enablePushNotificationsWithFallback()
+            }
+        } else {
+            notificationService.disableAllNotifications()
         }
     }
 

@@ -120,10 +120,13 @@ data class AccountEntity(
     val isShowHomeReplies: Boolean = true,
     val isShowHomeSelfBoosts: Boolean = true
 ) {
-
     val identifier: String
         get() = "$domain:$accountId"
 
     val fullName: String
         get() = "@$username@$domain"
+
+    fun isPushNotificationsEnabled(): Boolean {
+        return unifiedPushUrl.isNotEmpty()
+    }
 }

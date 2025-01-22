@@ -19,8 +19,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.keylesspalace.tusky.components.systemnotifications.registerUnifiedPushEndpoint
-import com.keylesspalace.tusky.components.systemnotifications.unregisterUnifiedPushEndpoint
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
@@ -33,15 +32,14 @@ import org.unifiedpush.android.connector.MessagingReceiver
 
 @AndroidEntryPoint
 class UnifiedPushBroadcastReceiver : MessagingReceiver() {
-    companion object {
-        const val TAG = "UnifiedPush"
-    }
-
     @Inject
     lateinit var accountManager: AccountManager
 
     @Inject
     lateinit var mastodonApi: MastodonApi
+
+    @Inject
+    lateinit var notificationService: NotificationService
 
     @Inject
     @ApplicationScope
@@ -57,9 +55,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
         Log.d(TAG, "Endpoint available for account $instance: $endpoint")
         accountManager.getAccountById(instance.toLong())?.let {
-            externalScope.launch {
-                registerUnifiedPushEndpoint(context, mastodonApi, accountManager, it, endpoint)
-            }
+            externalScope.launch { notificationService.registerUnifiedPushEndpoint(it, endpoint) }
         }
     }
 
@@ -69,7 +65,11 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         Log.d(TAG, "Endpoint unregistered for account $instance")
         accountManager.getAccountById(instance.toLong())?.let {
             // It's fine if the account does not exist anymore -- that means it has been logged out
-            externalScope.launch { unregisterUnifiedPushEndpoint(mastodonApi, accountManager, it) }
+            externalScope.launch { notificationService.unregisterUnifiedPushEndpoint(it) }
         }
+    }
+
+    companion object {
+        const val TAG = "UnifiedPush"
     }
 }
