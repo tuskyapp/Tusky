@@ -114,14 +114,15 @@
             android:id="@+id/usageLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="5dp"
             android:importantForAccessibility="no"
             android:text="@string/total_usage"
             android:textAlignment="textEnd"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
             app:layout_constrainedWidth="false"
-            app:layout_constraintBaseline_toBaselineOf="@+id/total_usage"
+            app:layout_constraintBottom_toBottomOf="@+id/total_usage"
+            app:layout_constraintTop_toTopOf="@+id/total_usage"
             app:layout_constraintStart_toEndOf="@id/barrier2" />
 
         <TextView
@@ -143,13 +144,14 @@
             android:id="@+id/accountsLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="5dp"
             android:importantForAccessibility="no"
             android:text="@string/total_accounts"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
             app:layout_constrainedWidth="true"
-            app:layout_constraintBaseline_toBaselineOf="@+id/total_accounts"
+            app:layout_constraintBottom_toBottomOf="@+id/total_accounts"
+            app:layout_constraintTop_toTopOf="@+id/total_accounts"
             app:layout_constraintStart_toEndOf="@id/barrier2" />
 
         <androidx.constraintlayout.widget.Barrier
