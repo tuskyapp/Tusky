@@ -31,6 +31,7 @@ import com.keylesspalace.tusky.appstore.DomainMuteEvent
 import com.keylesspalace.tusky.appstore.Event
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
 import com.keylesspalace.tusky.appstore.UnfollowEvent
@@ -116,6 +117,7 @@ class NetworkTimelineViewModel @Inject constructor(
     private fun handleEvent(event: Event) {
         when (event) {
             is StatusChangedEvent -> handleStatusChangedEvent(event.status)
+            is PollVoteEvent -> handlePollVote(event.statusId, event.poll)
             is UnfollowEvent -> {
                 if (kind == Kind.HOME) {
                     val id = event.accountId
@@ -146,12 +148,6 @@ class NetworkTimelineViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    override fun updatePoll(newPoll: Poll, status: StatusViewData.Concrete) {
-        status.copy(
-            status = status.status.copy(poll = newPoll)
-        ).update()
     }
 
     override fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
@@ -295,6 +291,12 @@ class NetworkTimelineViewModel @Inject constructor(
 
     private fun handleStatusChangedEvent(status: Status) {
         updateStatusByActionableId(status.id) { status }
+    }
+
+    private fun handlePollVote(statusId: String, poll: Poll) {
+        updateStatusByActionableId(statusId) { status ->
+            status.copy(poll = poll)
+        }
     }
 
     override fun fullReload() {
