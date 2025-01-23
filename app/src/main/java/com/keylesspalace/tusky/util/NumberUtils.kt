@@ -8,7 +8,6 @@ import kotlin.math.abs
 import kotlin.math.ln
 import kotlin.math.pow
 
-private val numberFormatter: NumberFormat = NumberFormat.getInstance()
 private val ln_1k = ln(1000.0)
 
 /**
@@ -19,6 +18,7 @@ private val ln_1k = ln(1000.0)
  * a suffix appropriate to the scaling is appended.
  */
 fun formatNumber(num: Long, min: Int = 100000): String {
+    val numberFormatter: NumberFormat = NumberFormat.getInstance()
     val absNum = abs(num)
     if (absNum < min) return numberFormatter.format(num)
 

@@ -41,7 +41,7 @@ class TrendingTagViewHolder(
         binding.totalAccounts.text = formatNumber(totalAccounts, 1000)
 
         binding.currentUsage.text = numberFormat.format(tagViewData.usage.last())
-        binding.currentAccounts.text = numberFormat.format(tagViewData.usage.last())
+        binding.currentAccounts.text = numberFormat.format(tagViewData.accounts.last())
 
         itemView.setOnClickListener {
             onViewTag(tagViewData.name)

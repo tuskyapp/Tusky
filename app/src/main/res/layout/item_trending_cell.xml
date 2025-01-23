@@ -35,16 +35,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:paddingStart="6dp"
+        android:paddingStart="8dp"
         android:textAlignment="textEnd"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="?attr/colorPrimary"
-        android:textSize="8sp"
+        android:textSize="12sp"
         android:textStyle="normal"
-        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/current_accounts"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/graph"
+        tools:ignore="RtlSymmetry"
         tools:text="12 345" />
 
     <TextView
@@ -52,17 +53,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:paddingStart="6dp"
+        android:paddingStart="8dp"
         android:textAlignment="textEnd"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/warning_color"
-        android:textSize="8sp"
+        android:textSize="12sp"
         android:textStyle="normal"
-        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="@id/graph"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/graph"
-        tools:text="12 345" />
+        tools:ignore="RtlSymmetry"
+        tools:text="13" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/legend_container"
@@ -101,8 +103,6 @@
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textColor="?attr/colorPrimary"
             android:textStyle="normal|bold"
-            app:layout_constrainedWidth="false"
-            app:layout_constraintEnd_toStartOf="@id/usageLabel"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tag"
@@ -112,16 +112,15 @@
             android:id="@+id/usageLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="5dp"
             android:importantForAccessibility="no"
             android:text="@string/total_usage"
             android:textAlignment="textEnd"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
-            app:layout_constrainedWidth="false"
-            app:layout_constraintBaseline_toBaselineOf="@+id/total_usage"
-            app:layout_constraintEnd_toStartOf="@id/total_accounts"
-            app:layout_constraintStart_toEndOf="@+id/total_usage" />
+            app:layout_constraintBottom_toBottomOf="@+id/total_usage"
+            app:layout_constraintStart_toEndOf="@+id/total_usage"
+            app:layout_constraintTop_toTopOf="@+id/total_usage" />
 
         <TextView
             android:id="@+id/total_accounts"
@@ -134,8 +133,6 @@
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textColor="@color/warning_color"
             android:textStyle="normal|bold"
-            app:layout_constrainedWidth="false"
-            app:layout_constraintEnd_toStartOf="@+id/accountsLabel"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/usageLabel"
             app:layout_constraintTop_toBottomOf="@+id/tag"
@@ -145,14 +142,15 @@
             android:id="@+id/accountsLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="5dp"
             android:importantForAccessibility="no"
             android:text="@string/total_accounts"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
             android:textColor="?android:textColorTertiary"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBaseline_toBaselineOf="@+id/total_accounts"
-            app:layout_constraintStart_toEndOf="@id/total_accounts" />
+            app:layout_constraintBottom_toBottomOf="@+id/total_accounts"
+            app:layout_constraintStart_toEndOf="@id/total_accounts"
+            app:layout_constraintTop_toTopOf="@+id/total_accounts" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
