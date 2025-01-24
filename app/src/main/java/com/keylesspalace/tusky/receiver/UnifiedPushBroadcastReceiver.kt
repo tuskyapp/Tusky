@@ -43,7 +43,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
 
     @Inject
     @ApplicationScope
-    lateinit var externalScope: CoroutineScope
+    lateinit var applicationScope: CoroutineScope
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
         Log.d(TAG, "New message received for account $instance")
@@ -55,7 +55,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
         Log.d(TAG, "Endpoint available for account $instance: $endpoint")
         accountManager.getAccountById(instance.toLong())?.let {
-            externalScope.launch { notificationService.registerUnifiedPushEndpoint(it, endpoint) }
+            applicationScope.launch { notificationService.registerPushEndpoint(it, endpoint) }
         }
     }
 
@@ -65,7 +65,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         Log.d(TAG, "Endpoint unregistered for account $instance")
         accountManager.getAccountById(instance.toLong())?.let {
             // It's fine if the account does not exist anymore -- that means it has been logged out
-            externalScope.launch { notificationService.unregisterUnifiedPushEndpoint(it) }
+            applicationScope.launch { notificationService.unregisterPushEndpoint(it) }
         }
     }
 

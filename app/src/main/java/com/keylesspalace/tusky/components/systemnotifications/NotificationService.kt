@@ -27,12 +27,16 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import androidx.work.await
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.common.util.concurrent.FutureCallback
+import com.google.common.util.concurrent.Futures
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.MainActivity.Companion.composeIntent
@@ -73,7 +77,7 @@ class NotificationService @Inject constructor(
         createWorkerNotificationChannel()
     }
 
-    fun areNotificationsEnabled(): Boolean {
+    fun areNotificationsEnabledBySystem(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // on Android >= O, notifications are enabled, if at least one channel is enabled
 
@@ -175,7 +179,7 @@ class NotificationService @Inject constructor(
         }
     }
 
-    fun deleteNotificationChannelsForAccount(account: AccountEntity) {
+    private fun deleteNotificationChannelsForAccount(account: AccountEntity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.deleteNotificationChannelGroup(account.identifier)
         }
@@ -183,6 +187,28 @@ class NotificationService @Inject constructor(
 
     fun enablePullNotifications() {
         val workManager = WorkManager.getInstance(context)
+
+//        val future = workManager.getWorkInfosByTag(NOTIFICATION_PULL_TAG)
+//        Log.w(TAG, "Is getWorkInfos done ${future.isDone}")
+//
+//        Futures.addCallback(
+//            future,
+//            object : FutureCallback<List<WorkInfo>> {
+//                override fun onSuccess(result: List<WorkInfo>) {
+//                    Log.w(TAG, "getWorkInfos onSuccess ${result.size}")
+//                    result.forEach {
+//                        Log.w(TAG, "  ${it.nextScheduleTimeMillis}")
+//                    }
+//                }
+//
+//                override fun onFailure(t: Throwable) {
+//                    Log.w(TAG, "getWorkInfos onFailure ${t.message}")
+//                }
+//            },
+//            // causes the callbacks to be executed on the main (UI) thread
+//            context.mainExecutor
+//        )
+
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
 
         // Periodic work requests are supposed to start running soon after being enqueued. In
@@ -208,7 +234,7 @@ class NotificationService @Inject constructor(
 
         workManager.enqueue(workRequest)
 
-        Log.d(TAG, "Enabled pull checks with " + PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval.")
+        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
     fun disablePullNotifications() {
@@ -265,7 +291,7 @@ class NotificationService @Inject constructor(
             val summary = createSummaryNotification(account, type, notificationsForOneType) ?: continue
 
             // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
-            //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
+            //   ie. single notification is enqueued but later the summary one is filtered and thus no grouping
             //   takes place.
             newNotifications.add(summary)
 
@@ -388,7 +414,7 @@ class NotificationService @Inject constructor(
     /**
      * Create a notification that summarises the other notifications in this group.
      *
-     * NOTE: We always create a summary notification (even for activeNotificationsForType.size() == 1):
+     * NOTE: We always create a summary notification (even for only one notification of that type):
      *   - No need to especially track the grouping
      *   - No need to change an existing single notification when there arrives another one of its group
      *   - Only the summary one will get announced
@@ -742,38 +768,58 @@ class NotificationService @Inject constructor(
         disablePullNotifications()
     }
 
+    fun disableNotificationsForAccount(account: AccountEntity) {
+        disablePushNotificationsForAccount(account)
+
+        deleteNotificationChannelsForAccount(account)
+
+        if (!areNotificationsEnabledBySystem()) {
+            // TODO this is sort of a hack, it means: are there now no active accounts?
+
+            disablePullNotifications()
+        }
+    }
+
     //
     // Push notification section
     //
 
-    fun isUnifiedPushAvailable(): Boolean =
+    fun arePushNotificationsAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
-    suspend fun enablePushNotificationsWithFallback() {
-        if (!isUnifiedPushAvailable()) {
+    suspend fun setupNotifications(accountEntity: AccountEntity?) {
+        if (!arePushNotificationsAvailable()) {
             // No distributors
             enablePullNotifications()
             return
         }
 
-        accountManager.accounts.forEach {
+        val relevantAccounts: List<AccountEntity> = if (accountEntity != null) {
+            listOf(accountEntity)
+        } else {
+            accountManager.accounts
+        }
+
+        relevantAccounts.forEach {
             val notificationGroupEnabled = Build.VERSION.SDK_INT < 28 ||
                 notificationManager.getNotificationChannelGroup(it.identifier)?.isBlocked == false
             val shouldEnable = it.notificationsEnabled && notificationGroupEnabled
 
             if (shouldEnable) {
-                enableUnifiedPushNotificationsForAccount(it)
+                enablePushNotificationsForAccount(it)
             } else {
-                disableUnifiedPushNotificationsForAccount(it)
+                disablePushNotificationsForAccount(it)
             }
         }
     }
 
-    private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+    private suspend fun enablePushNotificationsForAccount(account: AccountEntity) {
         if (account.isPushNotificationsEnabled()) {
             // Already registered, update the subscription to match notification settings
-            updateUnifiedPushSubscription(account)
+            updatePushSubscription(account)
         } else {
+            Log.d(TAG, "Trying to create a UnifiedPush subscription for account ${account.id}")
+
             UnifiedPush.registerAppWithDialog(
                 context,
                 account.id.toString(),
@@ -784,13 +830,12 @@ class NotificationService @Inject constructor(
 
     private fun disablePushNotificationsForAllAccounts() {
         accountManager.accounts.forEach {
-            disableUnifiedPushNotificationsForAccount(it)
+            disablePushNotificationsForAccount(it)
         }
     }
 
-    fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
-        if (!account.isPushNotificationsEnabled()) {
-            // Not registered
+    private fun disablePushNotificationsForAccount(account: AccountEntity) {
+        if (!account.isPushNotificationsEnabled() || !arePushNotificationsAvailable()) {
             return
         }
 
@@ -808,7 +853,7 @@ class NotificationService @Inject constructor(
         }
 
     // Called by UnifiedPush callback in UnifiedPushBroadcastReceiver
-    suspend fun registerUnifiedPushEndpoint(
+    suspend fun registerPushEndpoint(
         account: AccountEntity,
         endpoint: String
     ) = withContext(Dispatchers.IO) {
@@ -830,7 +875,7 @@ class NotificationService @Inject constructor(
             buildSubscriptionData(account)
         ).onFailure { throwable ->
             Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
-            disableUnifiedPushNotificationsForAccount(account)
+            disablePushNotificationsForAccount(account)
         }.onSuccess {
             Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
@@ -847,7 +892,7 @@ class NotificationService @Inject constructor(
     }
 
     // Synchronize the enabled / disabled state of notifications with server-side subscription
-    suspend fun updateUnifiedPushSubscription(account: AccountEntity) {
+    suspend fun updatePushSubscription(account: AccountEntity) {
         withContext(Dispatchers.IO) {
             api.updatePushNotificationSubscription(
                 "Bearer ${account.accessToken}",
@@ -862,7 +907,7 @@ class NotificationService @Inject constructor(
         }
     }
 
-    suspend fun unregisterUnifiedPushEndpoint(account: AccountEntity) {
+    suspend fun unregisterPushEndpoint(account: AccountEntity) {
         withContext(Dispatchers.IO) {
             api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
                 .onFailure { throwable ->

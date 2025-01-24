@@ -46,7 +46,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!notificationService.isUnifiedPushAvailable()) return
+        if (!notificationService.arePushNotificationsAvailable()) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -64,7 +64,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         accountManager.getAccountByIdentifier(gid)?.let { account ->
             if (account.isPushNotificationsEnabled()) {
                 externalScope.launch {
-                    notificationService.updateUnifiedPushSubscription(account)
+                    notificationService.updatePushSubscription(account)
                 }
             }
         }

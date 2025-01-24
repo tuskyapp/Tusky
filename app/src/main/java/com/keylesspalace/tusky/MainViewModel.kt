@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
@@ -91,13 +92,17 @@ class MainViewModel @Inject constructor(
 
     private fun loadAccountData() {
         viewModelScope.launch {
+            Log.w(TAG, "Trying accountVerifyCredentials ...")
+
             api.accountVerifyCredentials().fold(
                 { userInfo ->
                     accountManager.updateAccount(activeAccount, userInfo)
 
                     shareShortcutHelper.updateShortcuts()
 
-                    setupNotifications()
+                    Log.e(TAG, "accountVerifyCredentials succeeded ${userInfo.username} #${userInfo.statusesCount}")
+
+                    setupNotifications(activeAccount)
                 },
                 { throwable ->
                     Log.w(TAG, "Failed to fetch user info.", throwable)
@@ -160,12 +165,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setupNotifications() {
-        notificationService.createNotificationChannelsForAccount(activeAccount)
+    fun setupNotifications(account: AccountEntity? = null) {
+        if (account != null) {
+            // TODO it's quite odd to separate channel creation (for an account) from the "is enabled by channels" question below
 
-        if (notificationService.areNotificationsEnabled()) {
+            notificationService.createNotificationChannelsForAccount(account)
+        }
+
+        if (notificationService.areNotificationsEnabledBySystem()) {
             viewModelScope.launch {
-                notificationService.enablePushNotificationsWithFallback()
+                notificationService.setupNotifications(account)
             }
         } else {
             notificationService.disableAllNotifications()

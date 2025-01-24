@@ -407,6 +407,8 @@
     <string name="about_device_info">%1$s %2$s\nAndroid version: %3$s\nSDK version: %4$d</string>
     <string name="about_account_info_title">Your account</string>
     <string name="about_account_info">\@%1$s\@%2$s\nVersion: %3$s</string>
+    <string name="about_push_notification_info_title">Push notifications</string>
+    <string name="about_push_notification_info">Provider: %1$s</string>
     <string name="about_powered_by_tusky">Powered by Tusky</string>
     <string name="about_tusky_license">Tusky is free and open-source software.
         It is licensed under the GNU General Public License Version 3.
