@@ -1,0 +1,8 @@
+Tusky 27.0
+
+- Tusky hefur verið endurhannað með Material 3
+- Stuðningur við stefnur varðandi tilkynningar (Mastodon 4.3 eiginleiki)
+- Myllumerki í enda færslna birtast nú á sérstakri stiku
+- Fullur stuðningur við samanbrjótanleg tæki
+
+Skoðaðu https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md til að sjá alla breytingaskrána
