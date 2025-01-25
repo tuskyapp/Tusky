@@ -17,14 +17,12 @@ package com.keylesspalace.tusky.receiver
 
 import android.content.Context
 import android.util.Log
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.worker.NotificationWorker
 import dagger.hilt.android.AndroidEntryPoint
+import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -46,10 +44,8 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     lateinit var applicationScope: CoroutineScope
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        Log.d(TAG, "New message received for account $instance")
-        val workManager = WorkManager.getInstance(context)
-        val request = OneTimeWorkRequest.from(NotificationWorker::class.java)
-        workManager.enqueue(request)
+        Log.d(TAG, "New message received for account $instance: #${message.size} ${String(message, Charset.forName("utf-16")).substring(0,20)}")
+        notificationService.fetchNotificationsOnPushMessage(accountManager.getAccountById(instance.toLong()))
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
@@ -70,6 +66,6 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     }
 
     companion object {
-        const val TAG = "UnifiedPush"
+        const val TAG = "UnifiedPushBroadcastReceiver"
     }
 }

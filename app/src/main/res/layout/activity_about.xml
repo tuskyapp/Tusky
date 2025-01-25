@@ -125,15 +125,48 @@
                     app:srcCompat="@drawable/ic_content_copy_24" />
 
                 <TextView
+                    android:id="@+id/pushNotificationInfoTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_content_margin"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/text_content_margin"
+                    android:lineSpacingMultiplier="1.1"
+                    android:text="@string/about_push_notification_info_title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="true"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/accountInfo"
+                    tools:text="Push notifications"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/pushNotificationInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textIsSelectable="true"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/pushNotificationInfoTitle"
+                    app:layout_constraintStart_toStartOf="@+id/pushNotificationInfoTitle"
+                    app:layout_constraintTop_toBottomOf="@id/pushNotificationInfoTitle"
+                    tools:visibility="visible" />
+
+                <TextView
                     android:id="@+id/aboutPoweredByTusky"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:text="@string/about_powered_by_tusky"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
-                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
-                    app:layout_constraintTop_toBottomOf="@+id/accountInfo" />
+                    app:layout_constraintEnd_toEndOf="@+id/pushNotificationInfo"
+                    app:layout_constraintStart_toStartOf="@+id/pushNotificationInfo"
+                    app:layout_constraintTop_toBottomOf="@+id/pushNotificationInfo" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
                     android:id="@+id/aboutLicenseInfoTextView"
@@ -143,8 +176,8 @@
                     android:hyphenationFrequency="full"
                     android:lineSpacingMultiplier="1.2"
                     android:textIsSelectable="true"
-                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
-                    app:layout_constraintStart_toStartOf="@+id/accountInfo"
+                    app:layout_constraintEnd_toEndOf="@+id/aboutPoweredByTusky"
+                    app:layout_constraintStart_toStartOf="@+id/aboutPoweredByTusky"
                     app:layout_constraintTop_toBottomOf="@id/aboutPoweredByTusky"
                     tools:text="@string/about_tusky_license" />
 

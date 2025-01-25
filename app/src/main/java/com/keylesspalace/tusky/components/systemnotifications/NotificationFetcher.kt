@@ -137,7 +137,7 @@ class NotificationFetcher @Inject constructor(
         // Save the newest notification ID in the marker.
         notifications.firstOrNull()?.let {
             val newMarkerId = notifications.first().id
-            Log.d(TAG, "updating notification marker for ${account.fullName} to: $newMarkerId")
+            Log.d(TAG, "Updating notification marker for ${account.fullName} to: $newMarkerId")
             mastodonApi.updateMarkersWithAuth(
                 auth = authHeader,
                 domain = account.domain,

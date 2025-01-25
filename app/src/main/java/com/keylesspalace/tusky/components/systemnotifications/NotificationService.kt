@@ -27,16 +27,12 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import androidx.work.await
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.common.util.concurrent.FutureCallback
-import com.google.common.util.concurrent.Futures
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.MainActivity
 import com.keylesspalace.tusky.MainActivity.Companion.composeIntent
@@ -787,15 +783,17 @@ class NotificationService @Inject constructor(
     fun arePushNotificationsAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
-    suspend fun setupNotifications(accountEntity: AccountEntity?) {
+    suspend fun setupNotifications(account: AccountEntity?) {
         if (!arePushNotificationsAvailable()) {
             // No distributors
             enablePullNotifications()
             return
         }
 
-        val relevantAccounts: List<AccountEntity> = if (accountEntity != null) {
-            listOf(accountEntity)
+        disablePullNotifications()
+
+        val relevantAccounts: List<AccountEntity> = if (account != null) {
+            listOf(account)
         } else {
             accountManager.accounts
         }
@@ -807,10 +805,22 @@ class NotificationService @Inject constructor(
 
             if (shouldEnable) {
                 enablePushNotificationsForAccount(it)
+                Log.d(TAG, "Enabled push notifications for account ${it.id}.")
             } else {
                 disablePushNotificationsForAccount(it)
+                Log.d(TAG, "Disabled push notifications for account ${it.id}.")
             }
         }
+    }
+
+    fun fetchNotificationsOnPushMessage(account: AccountEntity?) {
+        Log.d(TAG, "Fetching notifications because of push for account ${account?.id}")
+
+        val workManager = WorkManager.getInstance(context)
+        val request = OneTimeWorkRequest.from(NotificationWorker::class.java)
+        workManager.enqueue(request)
+
+        // TODO this does not detect/delete "old but the same notifications"
     }
 
     private suspend fun enablePushNotificationsForAccount(account: AccountEntity) {
@@ -893,6 +903,8 @@ class NotificationService @Inject constructor(
 
     // Synchronize the enabled / disabled state of notifications with server-side subscription
     suspend fun updatePushSubscription(account: AccountEntity) {
+        // TODO must be updated on filter changes (see buildSubscriptionData)
+
         withContext(Dispatchers.IO) {
             api.updatePushNotificationSubscription(
                 "Bearer ${account.accessToken}",
@@ -927,6 +939,9 @@ class NotificationService @Inject constructor(
                     }
                 }
         }
+
+        // TODO when will this really happen (it can be done manually in ntfy for example)?
+        //   This should activate pull notifications then?
     }
 
     companion object {

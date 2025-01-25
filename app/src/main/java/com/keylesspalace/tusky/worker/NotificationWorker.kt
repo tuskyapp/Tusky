@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationServic
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-/** Fetch and show new notifications. */
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted appContext: Context,
