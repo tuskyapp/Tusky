@@ -23,6 +23,7 @@ import androidx.core.app.NotificationManagerCompat.NotificationWithIdAndTag
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OutOfQuotaPolicy
@@ -813,11 +814,18 @@ class NotificationService @Inject constructor(
         }
     }
 
-    fun fetchNotificationsOnPushMessage(account: AccountEntity?) {
-        Log.d(TAG, "Fetching notifications because of push for account ${account?.id}")
+    fun fetchNotificationsOnPushMessage(account: AccountEntity) {
+        Log.d(TAG, "Fetching notifications because of push for account ${account.id}")
+
+        val data = Data.Builder()
+        data.putLong(NotificationWorker.KEY_ACCOUNT_ID, account.id)
+
+        val request = OneTimeWorkRequest
+            .Builder(NotificationWorker::class.java)
+            .setInputData(data.build())
+            .build()
 
         val workManager = WorkManager.getInstance(context)
-        val request = OneTimeWorkRequest.from(NotificationWorker::class.java)
         workManager.enqueue(request)
 
         // TODO this does not detect/delete "old but the same notifications"

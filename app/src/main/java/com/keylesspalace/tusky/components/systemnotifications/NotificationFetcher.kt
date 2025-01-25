@@ -45,8 +45,12 @@ class NotificationFetcher @Inject constructor(
     private val eventHub: EventHub,
     private val notificationService: NotificationService,
 ) {
-    suspend fun fetchAndShow() {
+    suspend fun fetchAndShow(accountId: Long?) {
         for (account in accountManager.accounts) {
+            if (accountId != null && account.id != accountId) {
+                continue
+            }
+
             if (account.notificationsEnabled) {
                 try {
                     val notifications = fetchNewNotifications(account)

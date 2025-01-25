@@ -22,7 +22,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
 import dagger.hilt.android.AndroidEntryPoint
-import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -44,8 +43,11 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
     lateinit var applicationScope: CoroutineScope
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        Log.d(TAG, "New message received for account $instance: #${message.size} ${String(message, Charset.forName("utf-16")).substring(0,20)}")
-        notificationService.fetchNotificationsOnPushMessage(accountManager.getAccountById(instance.toLong()))
+        Log.d(TAG, "New message received for account $instance: #${message.size}")
+        val account = accountManager.getAccountById(instance.toLong())
+        account?.let {
+            notificationService.fetchNotificationsOnPushMessage(it)
+        }
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
@@ -61,6 +63,7 @@ class UnifiedPushBroadcastReceiver : MessagingReceiver() {
         Log.d(TAG, "Endpoint unregistered for account $instance")
         accountManager.getAccountById(instance.toLong())?.let {
             // It's fine if the account does not exist anymore -- that means it has been logged out
+            // TODO its not: this is the Mastodon side and should be done (unregistered)
             applicationScope.launch { notificationService.unregisterPushEndpoint(it) }
         }
     }
