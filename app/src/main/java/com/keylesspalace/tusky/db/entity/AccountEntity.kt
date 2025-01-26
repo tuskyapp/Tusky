@@ -129,4 +129,8 @@ data class AccountEntity(
     fun isPushNotificationsEnabled(): Boolean {
         return unifiedPushUrl.isNotEmpty()
     }
+
+    fun matchesPushSubscription(endpoint: String): Boolean {
+        return unifiedPushUrl == endpoint
+    }
 }

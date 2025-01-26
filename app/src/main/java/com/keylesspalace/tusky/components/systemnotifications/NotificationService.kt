@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -23,12 +24,14 @@ import androidx.core.app.NotificationManagerCompat.NotificationWithIdAndTag
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
+import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
 import com.bumptech.glide.Glide
@@ -43,8 +46,10 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
+import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CryptoUtil
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.unicodeWrap
@@ -59,21 +64,37 @@ import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
+import retrofit2.HttpException
 
 @Singleton
 class NotificationService @Inject constructor(
     private val notificationManager: NotificationManager,
     private val accountManager: AccountManager,
     private val api: MastodonApi,
+    private val preferences: SharedPreferences,
     @ApplicationContext private val context: Context,
 ) {
     private var notificationId: Int = NOTIFICATION_ID_PRUNE_CACHE + 1
 
     init {
         createWorkerNotificationChannel()
+        handleChangesInPushDistributors()
     }
 
-    fun areNotificationsEnabled(): Boolean {
+    private fun handleChangesInPushDistributors() {
+        val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVDER, null)
+        if (!lastUsedPushProvider.isNullOrEmpty() && !UnifiedPush.getDistributors(context).contains(lastUsedPushProvider)) {
+            Log.w(TAG, "Previous push provider ($lastUsedPushProvider) uninstalled. Resetting all accounts.")
+
+            // reset all accounts
+            accountManager.accounts.forEach {
+                // TODO this would like to call reset, but that is suspending; why would DB access be suspending?
+                //resetPushSettingsInAccount(it)
+            }
+        }
+    }
+
+    fun areNotificationsEnabledBySystem(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // on Android >= O, notifications are enabled, if at least one channel is enabled
 
@@ -102,7 +123,6 @@ class NotificationService @Inject constructor(
                 @StringRes val description: Int,
             )
 
-            // TODO REBLOG and esp. STATUS have very different names than the type itself.
             val channelData = arrayOf(
                 ChannelData(
                     getChannelId(account, Notification.Type.MENTION)!!,
@@ -175,7 +195,7 @@ class NotificationService @Inject constructor(
         }
     }
 
-    fun deleteNotificationChannelsForAccount(account: AccountEntity) {
+    private fun deleteNotificationChannelsForAccount(account: AccountEntity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.deleteNotificationChannelGroup(account.identifier)
         }
@@ -208,7 +228,7 @@ class NotificationService @Inject constructor(
 
         workManager.enqueue(workRequest)
 
-        Log.d(TAG, "Enabled pull checks with " + PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS + "ms interval.")
+        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
     fun disablePullNotifications() {
@@ -265,7 +285,7 @@ class NotificationService @Inject constructor(
             val summary = createSummaryNotification(account, type, notificationsForOneType) ?: continue
 
             // NOTE Enqueue the summary first: Needed to avoid rate limit problems:
-            //   ie. single notification is enqueued but that later summary one is filtered and thus no grouping
+            //   ie. single notification is enqueued but later the summary one is filtered and thus no grouping
             //   takes place.
             newNotifications.add(summary)
 
@@ -388,7 +408,7 @@ class NotificationService @Inject constructor(
     /**
      * Create a notification that summarises the other notifications in this group.
      *
-     * NOTE: We always create a summary notification (even for activeNotificationsForType.size() == 1):
+     * NOTE: We always create a summary notification (even for only one notification of that type):
      *   - No need to especially track the grouping
      *   - No need to change an existing single notification when there arrives another one of its group
      *   - Only the summary one will get announced
@@ -737,78 +757,166 @@ class NotificationService @Inject constructor(
         }
     }
 
-    fun disableAllNotifications() {
+    suspend fun disableAllNotifications() {
         disablePushNotificationsForAllAccounts()
         disablePullNotifications()
+    }
+
+    suspend fun disableNotificationsForAccount(account: AccountEntity) {
+        disablePushNotificationsForAccount(account)
+
+        deleteNotificationChannelsForAccount(account)
+
+        if (!areNotificationsEnabledBySystem()) {
+            // TODO this is sort of a hack, it means: are there now no active accounts?
+
+            disablePullNotifications()
+        }
     }
 
     //
     // Push notification section
     //
 
-    fun isUnifiedPushAvailable(): Boolean =
+    fun arePushNotificationsAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
-    suspend fun enablePushNotificationsWithFallback() {
-        if (!isUnifiedPushAvailable()) {
+    suspend fun setupNotifications(account: AccountEntity?) {
+        if (!arePushNotificationsAvailable()) {
             // No distributors
             enablePullNotifications()
             return
         }
 
-        accountManager.accounts.forEach {
+        // Otherwise the pull worker is still present after starting push notifications (and blocks the one time worker there).
+        disablePullNotifications()
+
+        setupPushNotifications(account)
+    }
+
+    private suspend fun setupPushNotifications(account: AccountEntity?) {
+        val relevantAccounts: List<AccountEntity> = if (account != null) {
+            listOf(account)
+        } else {
+            accountManager.accounts
+        }
+
+        relevantAccounts.forEach {
             val notificationGroupEnabled = Build.VERSION.SDK_INT < 28 ||
                 notificationManager.getNotificationChannelGroup(it.identifier)?.isBlocked == false
             val shouldEnable = it.notificationsEnabled && notificationGroupEnabled
 
             if (shouldEnable) {
-                enableUnifiedPushNotificationsForAccount(it)
+                setupPushNotificationsForAccount(it)
+                Log.d(TAG, "Enabled push notifications for account ${it.id}.")
             } else {
-                disableUnifiedPushNotificationsForAccount(it)
+                disablePushNotificationsForAccount(it)
+                Log.d(TAG, "Disabled push notifications for account ${it.id}.")
             }
         }
     }
 
-    private suspend fun enableUnifiedPushNotificationsForAccount(account: AccountEntity) {
-        if (account.isPushNotificationsEnabled()) {
-            // Already registered, update the subscription to match notification settings
-            updateUnifiedPushSubscription(account)
+    private suspend fun setupPushNotificationsForAccount(account: AccountEntity) {
+        val currentSubscription = getActiveSubscription(account)
+
+        if (currentSubscription != null) {
+            val alertData = buildAlertsMap(account)
+
+            if (alertData != currentSubscription.alerts) {
+                // Update the subscription to match notification settings
+                updatePushSubscription(account)
+            } else {
+                Log.d(TAG, "Nothing to be done. Current push subscription matches for account ${account.id}.")
+            }
         } else {
-            UnifiedPush.registerAppWithDialog(
-                context,
-                account.id.toString(),
-                features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE)
-            )
+            Log.d(TAG, "Trying to create a UnifiedPush subscription for account ${account.id}")
+
+            // When changing the local UP distributor this is necessary first to enable the following callbacks (i. e. onNewEndpoint);
+            //   make sure this is done in any inconsistent case (is not too often and doesn't hurt).
+            unregisterPushEndpoint(account)
+
+            UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
+            // Will lead to call of registerPushEndpoint()
         }
     }
 
-    private fun disablePushNotificationsForAllAccounts() {
+    private suspend fun getActiveSubscription(account: AccountEntity): NotificationSubscribeResult? {
+        api.pushNotificationSubscription(
+            "Bearer ${account.accessToken}",
+            account.domain
+        ).fold(
+            onSuccess = {
+                if (!account.matchesPushSubscription(it.endpoint)) {
+                    Log.w(TAG, "Server push endpoint does not match previously registered one: "+it.endpoint+" vs. "+account.unifiedPushUrl)
+
+                    return null
+
+                    // TODO / NOTE this case could also happen regularly if you use the same account on two different devices
+                    //   the server will only support (?) one subscription but you will need two for two devices (?)
+                }
+
+                return it
+            },
+            onFailure = { throwable ->
+                if (throwable is HttpException && throwable.code() == 404) {
+                    // this is alright; there is no subscription on server
+                    return null
+                }
+
+                Log.e(TAG, "Cannot get push subscription for account " + account.id + ": " + throwable.message, throwable)
+                return null
+            }
+        )
+    }
+
+    private suspend fun disablePushNotificationsForAllAccounts() {
         accountManager.accounts.forEach {
-            disableUnifiedPushNotificationsForAccount(it)
+            disablePushNotificationsForAccount(it)
         }
     }
 
-    fun disableUnifiedPushNotificationsForAccount(account: AccountEntity) {
+    private suspend fun disablePushNotificationsForAccount(account: AccountEntity) {
         if (!account.isPushNotificationsEnabled()) {
-            // Not registered
             return
         }
 
+        unregisterPushEndpoint(account)
+
+        // this probably does nothing (distributor to handle this is missing)
         UnifiedPush.unregisterApp(context, account.id.toString())
     }
 
-    private fun buildSubscriptionData(account: AccountEntity): Map<String, Boolean> =
+    fun fetchNotificationsOnPushMessage(account: AccountEntity) {
+        // TODO should there be a rate limit here? Ie. we could be silent (can we?) for another notification in a short timeframe.
+
+        Log.d(TAG, "Fetching notifications because of push for account ${account.id}")
+
+        val data = Data.Builder()
+        data.putLong(NotificationWorker.KEY_ACCOUNT_ID, account.id)
+
+        val request = OneTimeWorkRequest
+            .Builder(NotificationWorker::class.java)
+            .setInputData(data.build())
+            .build()
+
+        val workManager = WorkManager.getInstance(context)
+        workManager.enqueue(request)
+
+        // TODO this does not detect/delete "old but the same notifications"
+    }
+
+    private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
         buildMap {
             Notification.Type.visibleTypes.forEach {
-                put(
-                    "data[alerts][${it.presentation}]",
-                    filterNotification(account, it)
-                )
+                put(it.presentation, filterNotification(account, it))
             }
         }
 
+    private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> =
+        buildAlertsMap(account).mapKeys { "data[alerts][${it.key}]" }
+
     // Called by UnifiedPush callback in UnifiedPushBroadcastReceiver
-    suspend fun registerUnifiedPushEndpoint(
+    suspend fun registerPushEndpoint(
         account: AccountEntity,
         endpoint: String
     ) = withContext(Dispatchers.IO) {
@@ -827,10 +935,10 @@ class NotificationService @Inject constructor(
             endpoint,
             keyPair.pubkey,
             auth,
-            buildSubscriptionData(account)
+            buildAlertSubscriptionData(account)
         ).onFailure { throwable ->
             Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
-            disableUnifiedPushNotificationsForAccount(account)
+            disablePushNotificationsForAccount(account)
         }.onSuccess {
             Log.d(TAG, "UnifiedPush registration succeeded for account ${account.id}")
 
@@ -843,26 +951,37 @@ class NotificationService @Inject constructor(
                     unifiedPushUrl = endpoint
                 )
             }
+
+            UnifiedPush.getAckDistributor(context)?.let {
+                //UnifiedPush.saveDistributor(context, it)
+                val editor = preferences.edit()
+                editor.putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
+                editor.apply()
+
+                // TODO once this is selected it cannot be changed (except by wiping the application or uninstalling the provider)
+            }
         }
     }
 
-    // Synchronize the enabled / disabled state of notifications with server-side subscription
-    suspend fun updateUnifiedPushSubscription(account: AccountEntity) {
+    // Synchronize the enabled / disabled state of notifications with server-side subscription (also NotificationBlockStateBroadcastReceiver).
+    suspend fun updatePushSubscription(account: AccountEntity) {
         withContext(Dispatchers.IO) {
             api.updatePushNotificationSubscription(
                 "Bearer ${account.accessToken}",
                 account.domain,
-                buildSubscriptionData(account)
+                buildAlertSubscriptionData(account)
             ).onSuccess {
                 Log.d(TAG, "UnifiedPush subscription updated for account ${account.id}")
                 accountManager.updateAccount(account) {
                     copy(pushServerKey = it.serverKey)
                 }
+            }.onFailure { throwable ->
+                Log.e(TAG, "Could not update subscription ${throwable.message}")
             }
         }
     }
 
-    suspend fun unregisterUnifiedPushEndpoint(account: AccountEntity) {
+    suspend fun unregisterPushEndpoint(account: AccountEntity) {
         withContext(Dispatchers.IO) {
             api.unsubscribePushNotifications("Bearer ${account.accessToken}", account.domain)
                 .onFailure { throwable ->
@@ -870,17 +989,23 @@ class NotificationService @Inject constructor(
                 }
                 .onSuccess {
                     Log.d(TAG, "UnifiedPush unregistration succeeded for account " + account.id)
-                    // Clear the URL in database
-                    accountManager.updateAccount(account) {
-                        copy(
-                            pushPubKey = "",
-                            pushPrivKey = "",
-                            pushAuth = "",
-                            pushServerKey = "",
-                            unifiedPushUrl = ""
-                        )
-                    }
+                    resetPushSettingsInAccount(account)
                 }
+        }
+
+        // TODO when will this really happen (it can be done manually in ntfy for example)?
+        //   This should activate pull notifications then?
+    }
+
+    private suspend fun resetPushSettingsInAccount(account: AccountEntity) {
+        accountManager.updateAccount(account) {
+            copy(
+                pushPubKey = "",
+                pushPrivKey = "",
+                pushAuth = "",
+                pushServerKey = "",
+                unifiedPushUrl = ""
+            )
         }
     }
 

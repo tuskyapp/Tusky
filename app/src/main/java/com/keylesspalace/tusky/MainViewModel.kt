@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
+import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
@@ -97,10 +98,10 @@ class MainViewModel @Inject constructor(
 
                     shareShortcutHelper.updateShortcuts()
 
-                    setupNotifications()
+                    setupNotifications(activeAccount)
                 },
                 { throwable ->
-                    Log.w(TAG, "Failed to fetch user info.", throwable)
+                    Log.e(TAG, "Failed to fetch user info.", throwable)
                 }
             )
         }
@@ -160,15 +161,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setupNotifications() {
-        notificationService.createNotificationChannelsForAccount(activeAccount)
+    fun setupNotifications(account: AccountEntity? = null) {
+        if (account != null) {
+            // TODO it's quite odd to separate channel creation (for an account) from the "is enabled by channels" question below
 
-        if (notificationService.areNotificationsEnabled()) {
+            notificationService.createNotificationChannelsForAccount(account)
+        }
+
+        if (notificationService.areNotificationsEnabledBySystem()) {
             viewModelScope.launch {
-                notificationService.enablePushNotificationsWithFallback()
+                notificationService.setupNotifications(account)
             }
         } else {
-            notificationService.disableAllNotifications()
+            viewModelScope.launch {
+                notificationService.disableAllNotifications()
+            }
         }
     }
 
