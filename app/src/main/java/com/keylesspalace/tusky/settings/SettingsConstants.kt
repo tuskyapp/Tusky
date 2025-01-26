@@ -55,6 +55,8 @@ object PrefKeys {
     // each preference a key for it to work.
 
     const val SCHEMA_VERSION: String = "schema_version"
+    const val LAST_USED_PUSH_PROVDER = "lastUsedPushProvider"
+
     const val APP_THEME = "appTheme"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"

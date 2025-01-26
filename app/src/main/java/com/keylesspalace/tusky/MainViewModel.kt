@@ -92,20 +92,16 @@ class MainViewModel @Inject constructor(
 
     private fun loadAccountData() {
         viewModelScope.launch {
-            Log.w(TAG, "Trying accountVerifyCredentials ...")
-
             api.accountVerifyCredentials().fold(
                 { userInfo ->
                     accountManager.updateAccount(activeAccount, userInfo)
 
                     shareShortcutHelper.updateShortcuts()
 
-                    Log.e(TAG, "accountVerifyCredentials succeeded ${userInfo.username} #${userInfo.statusesCount}")
-
                     setupNotifications(activeAccount)
                 },
                 { throwable ->
-                    Log.w(TAG, "Failed to fetch user info.", throwable)
+                    Log.e(TAG, "Failed to fetch user info.", throwable)
                 }
             )
         }
