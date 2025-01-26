@@ -177,7 +177,9 @@ class MainViewModel @Inject constructor(
                 notificationService.setupNotifications(account)
             }
         } else {
-            notificationService.disableAllNotifications()
+            viewModelScope.launch {
+                notificationService.disableAllNotifications()
+            }
         }
     }
 
