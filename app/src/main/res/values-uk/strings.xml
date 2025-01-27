@@ -613,12 +613,14 @@
     <string name="action_post_failed">Не вдалося вивантажити</string>
     <string name="action_post_failed_show_drafts">Показати чернетки</string>
     <string name="action_post_failed_do_nothing">Відхилити</string>
-    <string name="action_post_failed_detail">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
 \n
-\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
-    <string name="action_post_failed_detail_plural">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</item>
+        <item quantity="other">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
 \n
-\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</string>
+\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</item>
+    </plurals>
     <string name="accessibility_talking_about_tag">%1$d людей обговорюють хештеґ %2$s</string>
     <string name="title_public_trending_hashtags">Популярні хештеги</string>
     <string name="total_usage">Усього використано</string>

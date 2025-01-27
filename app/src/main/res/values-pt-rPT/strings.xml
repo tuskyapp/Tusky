@@ -552,12 +552,14 @@
     <string name="hint_media_description_missing">Imagem/Vídeo deve ter uma descrição.</string>
     <string name="pref_title_http_proxy_port_message">A porta deve estar entre %1$d e %2$d</string>
     <string name="action_post_failed">Erro no upload</string>
-    <string name="action_post_failed_detail">A tua publicação não conseguiu ser enviada e foi guardada nos rascunhos.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">A tua publicação não conseguiu ser enviada e foi guardada nos rascunhos.
 \n
-\nO servidor não pode ser contactado ou rejeitou a publicação.</string>
-    <string name="action_post_failed_detail_plural">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
+\nO servidor não pode ser contactado ou rejeitou a publicação.</item>
+        <item quantity="other">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
 \n
-\nO servidor não pode ser contactado ou rejeitou as publicações.</string>
+\nO servidor não pode ser contactado ou rejeitou as publicações.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Mostrar rascunhos</string>
     <string name="action_post_failed_do_nothing">Descartar</string>
     <string name="post_media_alt">ALT</string>

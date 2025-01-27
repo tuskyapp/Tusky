@@ -579,12 +579,11 @@
     <string name="action_browser_login">Đăng nhập bằng trình duyệt</string>
     <string name="description_login">Đăng nhập ổn định. Dữ liệu sẽ không bị lộ.</string>
     <string name="action_post_failed">Tải lên thất bại</string>
-    <string name="action_post_failed_detail">Tút của bạn không tải lên được và đã được lưu nháp.
+    <plurals name="action_post_failed_detail">
+        <item quantity="other">Tút của bạn không tải lên được và đã được lưu nháp.
 \n
-\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
-    <string name="action_post_failed_detail_plural">Tút của bạn không tải lên được và đã được lưu nháp.
-\n
-\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</string>
+\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Xem bản nháp</string>
     <string name="action_post_failed_do_nothing">Bỏ qua</string>
     <string name="title_public_trending_hashtags">Hashtag xu hướng</string>

@@ -610,12 +610,14 @@
     <string name="pref_reading_order_newest_first">Спачатку навейшыя</string>
     <string name="dialog_follow_hashtag_title">Падпісацца на хэштэг</string>
     <string name="action_post_failed">Не атрымалася запампаваць</string>
-    <string name="action_post_failed_detail">Не атрымалася запампаваць ваш допіс і ён быў захаваны ў чарнавік.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Не атрымалася запампаваць ваш допіс і ён быў захаваны ў чарнавік.
 \n
-\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допіс.</string>
-    <string name="action_post_failed_detail_plural">Не атрымалася запампаваць вашы допісы і яны былі захаваны ў чарнавікі.
+\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допіс.</item>
+        <item quantity="other">Не атрымалася запампаваць вашы допісы і яны былі захаваны ў чарнавікі.
 \n
-\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допісы.</string>
+\nАльбо не атрымалася злучыцца з серверам ці ён адхіліў допісы.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Паказаць чарнавікі</string>
     <string name="action_post_failed_do_nothing">Адмяніць</string>
     <string name="description_login">Працуе амаль заўсёды. Даныя не ўцякаюць у іншыя праграмы.</string>

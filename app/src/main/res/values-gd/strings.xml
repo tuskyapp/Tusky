@@ -590,9 +590,14 @@
     <string name="notification_report_description">Brathan mu ghearanan na maorsainneachd</string>
     <string name="post_media_alt">ALT</string>
     <string name="action_post_failed">Dh’fhàillig leis an luchdadh suas</string>
-    <string name="action_post_failed_detail_plural">Dh’fhàillig luchdadh suas nam postaichean agad is chaidh an sàbhaladh ’nan dreachdan.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Dh’fhàillig luchdadh suas a’ phuist agad is chaidh a shàbhaladh ’na dhreachd.
 \n
-\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e na postaichean.</string>
+\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e am post.</item>
+        <item quantity="other">Dh’fhàillig luchdadh suas nam postaichean agad is chaidh an sàbhaladh ’nan dreachdan.
+\n
+\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e na postaichean.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Seall na dreachdan</string>
     <string name="action_post_failed_do_nothing">Leig seachad</string>
     <string name="confirmation_hashtag_unfollowed">Chan eil #%1$s a’ leantainn tuilleadh</string>
@@ -613,9 +618,6 @@
     <string name="account_username_copied">Chaidh lethbhreac a dhèanamh dhen ainm-chleachdaiche</string>
     <string name="compose_unsaved_changes">Tha atharraichean gun sàbhaladh agad.</string>
     <string name="error_status_source_load">Dh’fhàillig luchdadh bun-tùs a’ phuist on fhrithealaiche.</string>
-    <string name="action_post_failed_detail">Dh’fhàillig luchdadh suas a’ phuist agad is chaidh a shàbhaladh ’na dhreachd.
-\n
-\nCha d’ fhuair sinn grèim air an fhrithealaiche no dhiùlt e am post.</string>
     <string name="action_share_account_username">Co-roinn ainm-cleachdaiche a’ chunntais</string>
     <string name="send_account_link_to">Co-roinn URL a’ chunntais le…</string>
     <string name="send_account_username_to">Co-roinn ainm-cleachdaiche a’ chunntais le…</string>

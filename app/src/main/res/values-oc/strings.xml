@@ -596,12 +596,14 @@
     <string name="action_post_failed">Mandadís fracassat</string>
     <string name="action_post_failed_show_drafts">Afichar los borrolhons</string>
     <string name="action_post_failed_do_nothing">Ignorar</string>
-    <string name="action_post_failed_detail">Vòstra publicacion a pas pogut s’enviar e es estada salvada als borrolhons.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Vòstra publicacion a pas pogut s’enviar e es estada salvada als borrolhons.
 \n
-\nSiá se podiá pas contactar lo servidor, siá aquel a regetat la publicacion.</string>
-    <string name="action_post_failed_detail_plural">Vòstras publicacions an pas pogut s’enviar e son estadas salvadas als borrolhons.
+\nSiá se podiá pas contactar lo servidor, siá aquel a regetat la publicacion.</item>
+        <item quantity="other">Vòstras publicacions an pas pogut s’enviar e son estadas salvadas als borrolhons.
 \n
-\nSiá se podiá pas contactar lo servidor, siá aquel a regetat las publicacions.</string>
+\nSiá se podiá pas contactar lo servidor, siá aquel a regetat las publicacions.</item>
+    </plurals>
     <string name="action_browser_login">Connexion via Navigador</string>
     <string name="description_browser_login">Poiriá prendre en carga de metòdes d’autentificacions suplementaris, mas requerís un navigador compatible.</string>
     <string name="description_login">Fonciona los tres quarts del temps. Cap de donadas pèrdon pas per las autras aplicacions.</string>

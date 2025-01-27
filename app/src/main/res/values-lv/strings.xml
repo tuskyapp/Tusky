@@ -545,12 +545,14 @@
     <string name="abbreviated_in_years">pēc %1$dg</string>
     <string name="abbreviated_in_seconds">pēc %1$ds</string>
     <string name="pref_title_alway_open_spoiler">Vienmēr izvērst ziņas, kas atzīmētas ar satura brīdinājumu</string>
-    <string name="action_post_failed_detail">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
 \n
-\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstu.</string>
-    <string name="action_post_failed_detail_plural">Neizdevās augšupielādēt tavus ierakstus un tie tika saglabāti melnrakstos.
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstu.</item>
+        <item quantity="other">Neizdevās augšupielādēt tavus ierakstus un tie tika saglabāti melnrakstos.
 \n
-\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstus.</string>
+\nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstus.</item>
+    </plurals>
     <string name="notification_favourite_description">Paziņojumi par tavu ierakstu pievienošanu izlasei</string>
     <string name="wellbeing_mode_notice">Daļa informācijas, kas varētu ietekmēt tavu garīgo labsajūtu, tiks slēpta. Tas ietver:
 \n

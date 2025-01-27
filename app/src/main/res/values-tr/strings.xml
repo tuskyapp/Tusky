@@ -597,12 +597,14 @@
     <string name="label_filter_keywords">Süzgeçlenecek anahtar kelimeler veya kelime öbekleri</string>
     <string name="filter_keyword_display_format">%1$s (tüm dünya)</string>
     <string name="action_post_failed">Yükleme başarısız</string>
-    <string name="action_post_failed_detail">Gönderin yüklenemedi ve taslaklara kaydedildi.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Gönderin yüklenemedi ve taslaklara kaydedildi.
 \n
-\nSunucuya bağlanılamamış veya sunucu gönderiyi reddetmiş olabilir.</string>
-    <string name="action_post_failed_detail_plural">Gönderilerin yüklenemedi ve taslaklara kaydedildi.
+\nSunucuya bağlanılamamış veya sunucu gönderiyi reddetmiş olabilir.</item>
+        <item quantity="other">Gönderilerin yüklenemedi ve taslaklara kaydedildi.
 \n
-\nSunucuya bağlanılamamış veya sunucu gönderiyi reddetmiş olabilir.</string>
+\nSunucuya bağlanılamamış veya sunucu gönderiyi reddetmiş olabilir.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Taslakları göster</string>
     <string name="action_post_failed_do_nothing">Yoksay</string>
     <string name="notification_unknown_name">Bilinmeyen</string>

@@ -602,12 +602,14 @@
     <string name="pref_summary_http_proxy_missing">&lt;non impostato&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;non valido&gt;</string>
     <string name="pref_reading_order_newest_first">Più nuovi prima</string>
-    <string name="action_post_failed_detail">Non è stato possibile caricare il tuo post ed è stato salvato nelle bozze.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Non è stato possibile caricare il tuo post ed è stato salvato nelle bozze.
 \n
-\nNon è stato possibile contattare il server oppure il server ha rifiutato il post.</string>
-    <string name="action_post_failed_detail_plural">Non è stato possibile caricare i tuoi post e sono stati salvati nelle bozze.
+\nNon è stato possibile contattare il server oppure il server ha rifiutato il post.</item>
+        <item quantity="other">Non è stato possibile caricare i tuoi post e sono stati salvati nelle bozze.
 \n
-\nNon è stato possibile contattare il server oppure il server ha rifiutato i post.</string>
+\nNon è stato possibile contattare il server oppure il server ha rifiutato i post.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Mostra bozze</string>
     <string name="action_post_failed_do_nothing">Chiudi</string>
     <string name="send_account_username_to">Condividi nome utente dell\'account a…</string>

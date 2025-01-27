@@ -517,12 +517,14 @@
     <string name="post_edited">S\'ha editat %1$s</string>
     <string name="notification_update_name">Edicions de publicacions</string>
     <string name="action_post_failed">La càrrega ha fallat</string>
-    <string name="action_post_failed_detail">La teva publicació no s\'ha pogut penjar i s\'ha desat als esborranys.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">La teva publicació no s\'ha pogut penjar i s\'ha desat als esborranys.
 \n
-\nNo s\'ha pogut contactar amb el servidor o bé ha rebutjat la publicació.</string>
-    <string name="action_post_failed_detail_plural">Les teves publicacions no s\'han pogut penjar i s\'han desat als esborranys.
+\nNo s\'ha pogut contactar amb el servidor o bé ha rebutjat la publicació.</item>
+        <item quantity="other">Les teves publicacions no s\'han pogut penjar i s\'han desat als esborranys.
 \n
-\nNo s\'ha pogut contactar amb el servidor o ha rebutjat les publicacions.</string>
+\nNo s\'ha pogut contactar amb el servidor o ha rebutjat les publicacions.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Mostra esborranys</string>
     <string name="action_post_failed_do_nothing">Descartar</string>
     <string name="send_account_link_to">Comparteix l\'URL del compte a…</string>

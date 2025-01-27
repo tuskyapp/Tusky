@@ -520,12 +520,14 @@
     <string name="title_followed_hashtags">Jarraitutako traolak</string>
     <string name="notification_update_format">%1$s-(e)k bere tuta editatu du</string>
     <string name="action_post_failed">Igoerak huts egin du</string>
-    <string name="action_post_failed_detail">Akatsa zure tuta bidaltzean, beraz, zirriborroetara bidali da.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Akatsa zure tuta bidaltzean, beraz, zirriborroetara bidali da.
 \n
-\nZerbitzariarekin ezin izan da komunikatu edo tuta baztertu egin da.</string>
-    <string name="action_post_failed_detail_plural">Akatsa zure tutak bidaltzean, beraz, zirriborroetara bidali dira.
+\nZerbitzariarekin ezin izan da komunikatu edo tuta baztertu egin da.</item>
+        <item quantity="other">Akatsa zure tutak bidaltzean, beraz, zirriborroetara bidali dira.
 \n
-\nZerbitzariarekin ezin izan da komunikatu edo zure tutak baztertuak izan dira.</string>
+\nZerbitzariarekin ezin izan da komunikatu edo zure tutak baztertuak izan dira.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Zirriborroak erakutsi</string>
     <string name="action_post_failed_do_nothing">Baztertu</string>
     <string name="post_media_alt">ALT</string>

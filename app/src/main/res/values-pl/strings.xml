@@ -609,12 +609,14 @@
     <string name="pref_summary_http_proxy_missing">&lt;nieustawiony&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;niepoprawny&gt;</string>
     <string name="pref_title_http_proxy_port_message">Port powinien być pomiędzy %1$d a %2$d</string>
-    <string name="action_post_failed_detail">Wystąpił problem podczas publikacji posta, ale został on zapisany w szkicach.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Wystąpił problem podczas publikacji posta, ale został on zapisany w szkicach.
 \n
-\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił post.</string>
-    <string name="action_post_failed_detail_plural">Wystąpił problem podczas publikacji Twojego posta i został on zapisany w szkicach.
+\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił post.</item>
+        <item quantity="other">Wystąpił problem podczas publikacji Twojego posta i został on zapisany w szkicach.
 \n
-\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił Twój post.</string>
+\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił Twój post.</item>
+    </plurals>
     <string name="error_muting_hashtag_format">Wystąpił błąd podczas wyciszania #%1$s</string>
     <string name="error_unmuting_hashtag_format">Wystąpił błąd podczas zdejmowania wyciszenia #%1$s</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>

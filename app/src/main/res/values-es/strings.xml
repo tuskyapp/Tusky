@@ -603,12 +603,14 @@
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>
     <string name="pref_summary_http_proxy_missing">&lt;sin establecer&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;inválido&gt;</string>
-    <string name="action_post_failed_detail">No se ha podido subir tu publicación y se ha guardado en Borradores.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">No se ha podido subir tu publicación y se ha guardado en Borradores.
 \n
-\nO no se ha podido contactar con el servidor, o ha rechazado tu publicación.</string>
-    <string name="action_post_failed_detail_plural">Tus publicaciones no se han podido subir y se han guardado en Borradores.
+\nO no se ha podido contactar con el servidor, o ha rechazado tu publicación.</item>
+        <item quantity="other">Tus publicaciones no se han podido subir y se han guardado en Borradores.
 \n
-\nO no se ha podido contactar con el servidor, o ha rechazado tus publicaciones.</string>
+\nO no se ha podido contactar con el servidor, o ha rechazado tus publicaciones.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Mostrar borradores</string>
     <string name="send_account_username_to">Compartir nombre de usuario de la cuenta con…</string>
     <string name="account_username_copied">Nombre de usuario copiado</string>

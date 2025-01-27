@@ -592,15 +592,14 @@
     <string name="action_browser_login">用浏览器登录</string>
     <string name="description_login">多数情况下有效。没有数据泄露给其他应用。</string>
     <string name="description_browser_login">可能支持额外的验证方法但需要受支持的浏览器。</string>
-    <string name="action_post_failed_detail_plural">你的嘟文上传失败，已被保存到草稿。
+    <plurals name="action_post_failed_detail">
+        <item quantity="other">你的嘟文上传失败，已被保存到草稿。
 \n
-\n要么是无法联系服务器，要么是服务器拒绝了它。</string>
+\n要么是无法联系服务器，要么是服务器拒绝了它。</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">显示草稿</string>
     <string name="action_post_failed_do_nothing">取消</string>
     <string name="action_post_failed">上传失败了</string>
-    <string name="action_post_failed_detail">你的嘟文上传失败，已被保存到草稿。
-\n
-\n要么是无法联系服务器，要么是服务器拒绝了它。</string>
     <string name="accessibility_talking_about_tag">%1$d 人正谈论话题标签 %2$s</string>
     <string name="title_public_trending_hashtags">热门话题标签</string>
     <string name="total_usage">总使用</string>

@@ -612,12 +612,14 @@
     <string name="report_category_spam">Spam</string>
     <string name="report_category_other">Autre</string>
     <string name="total_accounts">comptes</string>
-    <string name="action_post_failed_detail">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
 \n
-\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</string>
-    <string name="action_post_failed_detail_plural">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
+\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
+        <item quantity="other">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
 \n
-\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</string>
+\nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
+    </plurals>
     <string name="action_refresh">Actualiser</string>
     <string name="failed_to_unpin">Échec du détachement</string>
     <string name="pref_title_show_self_username">Montrer le nom d\'utilisateur dans la barre d\'outils</string>
