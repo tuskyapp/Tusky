@@ -536,13 +536,9 @@
     <string name="action_details">Détails</string>
     <string name="saving_draft">Sauvegarde du brouillon …</string>
     <string name="status_count_one_plus">&gt;1</string>
-    <string name="dialog_push_notification_migration_other_accounts">Tusky peut maintenant recevoir les notifications instantanées de ce compte. Cependant, d\'autres de vos comptes n\'ont pas encore accès aux notifications instantanées. Basculez sur chacun de vos comptes et reconnectez les afin de recevoir les notifications avec UnifiedPush.</string>
     <string name="error_could_not_load_login_page">La page de connexion ne peut être chargée.</string>
     <string name="action_edit_image">Retoucher l’image</string>
     <string name="action_dismiss">Fermer</string>
-    <string name="title_migration_relogin">Se reconnecter pour recevoir les notifications instantanées</string>
-    <string name="dialog_push_notification_migration">Afin de recevoir les notifications via UnifiedPush, Tusky doit demander à votre serveur Mastodon la permission de s’inscrire aux notifications. Ceci nécessite une reconnexion de vos comptes afin de changer les droits OAuth accordés a Tusky. En utilisant l’option de reconnexion ici ou dans les préférences de compte, vos brouillons et le cache seront préservés.</string>
-    <string name="tips_push_notification_migration">Reconnectez tous vos comptes pour activer les notifications instantanées.</string>
     <string name="error_image_edit_failed">L\'image n’a pas pu être modifiée.</string>
     <string name="delete_scheduled_post_warning">Supprimer ce message planifié \?</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>

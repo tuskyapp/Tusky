@@ -562,7 +562,6 @@
     <string name="notification_listenable_worker_description">Уведомлять когда Tusky работает в фоновом режиме</string>
     <string name="notification_notification_worker">Получаю уведомления…</string>
     <string name="notification_listenable_worker_name">Работа в фоне</string>
-    <string name="dialog_push_notification_migration_other_accounts">Вы повторно вошли в свою текущую учетную запись, чтобы дать разрешение Tusky на рассылку push-уведомлений. Однако у вас все еще есть другие учетные записи, которые не были перенесены подобным образом. Переключитесь на них и заново войдите по очереди, чтобы включить поддержку UnifiedPush-уведомлений.</string>
     <string name="total_accounts">пользователей</string>
     <string name="description_post_language">Язык записи</string>
     <string name="pref_default_post_language">Язык постов (синхронизируется с сервером)</string>
@@ -592,7 +591,6 @@
     <string name="hint_media_description_missing">У медиа должно быть описание.</string>
     <string name="pref_show_self_username_disambiguate">Если вы вошли в несколько учетных записей</string>
     <string name="saving_draft">Сохраняю черновик…</string>
-    <string name="tips_push_notification_migration">Заново войдите во все учетные записи, чтобы включить поддержку push-уведомлений.</string>
     <string name="pref_title_account_filter_keywords">Профили</string>
     <string name="failed_to_add_to_list">Не удалось добавить учетную запись в список</string>
     <string name="duration_365_days">365 дней</string>
@@ -668,7 +666,6 @@
     <string name="unfollowing_hashtag_success_format">Больше не следите за хэштегом #%1$s</string>
     <string name="report_category_violation">Нарушение правил</string>
     <string name="action_set_focus">Установить точку фокуса</string>
-    <string name="dialog_push_notification_migration">Чтобы использовать push-уведомления через UnifiedPush Tusky нужно разрешение на отслеживание уведомлений на вашем сервере Mastodon. Это требует повторного входа в систему для изменения ключей OAuth предоставленных Tusky. Использование опции повторного входа здесь или в настройках аккаунта сохранит все ваши локальные черновики и кэш.</string>
     <string name="help_empty_home">Это ваша <b>домашняя лента</b>. Здесь отображаются последние сообщения от пользователей, на которых вы подписаны. \u0020 
 \n \u0020 
 \nЧтобы найти людей, вы можете обнаружить профили в других лентах. Например, в местной ленте вашего сервера [iconics gmd_group]. Либо вы можете поискать их по имени [iconics gmd_search]; например, по имени Tusky вы найдете наш профиль Mastodon.</string>
@@ -689,7 +686,6 @@
     <string name="notification_sign_up_format">%1$s зарегистрировался(-лась)</string>
     <string name="pref_title_show_stat_inline">Показывать статистику постов в ленте</string>
     <string name="filter_description_warn">Скрыть с предупреждением</string>
-    <string name="title_migration_relogin">Повторный вход в систему для получения push-уведомлений</string>
     <string name="ui_error_unknown">неизвестная причина</string>
     <string name="error_blocking_domain">Не удалось заглушить %1$s: %2$s</string>
     <string name="error_unblocking_domain">Не удалось вернуть звук %1$s: %2$s</string>

@@ -521,11 +521,7 @@
     <string name="title_login">Anmelden</string>
     <string name="error_could_not_load_login_page">Die Anmeldeseite konnte nicht geladen werden.</string>
     <string name="notification_update_name">Bearbeitete Beiträge</string>
-    <string name="title_migration_relogin">Neuanmeldung für Push-Benachrichtigungen</string>
     <string name="action_dismiss">Ablehnen</string>
-    <string name="dialog_push_notification_migration_other_accounts">Du hast dich erneut in dein aktuelles Konto angemeldet, um Tusky die Genehmigung für Push-Abonnements zu erteilen. Du hast jedoch noch andere Konten, die nicht auf diese Weise migriert wurden. Wechsel zu diesen Konten und melde dich nacheinander neu an, um die Unterstützung für UnifiedPush-Benachrichtigungen zu aktivieren.</string>
-    <string name="dialog_push_notification_migration">Um Push-Benachrichtigungen über UnifiedPush verwenden zu können, benötigt Tusky die Erlaubnis, Benachrichtigungen auf dem Mastodon-Server zu abonnieren. Dies erfordert eine erneute Anmeldung, um die Tusky gewährten OAuth-Bereiche zu ändern. Wenn du die Option zum erneuten Anmelden hier oder in den Profileinstellungen verwendest, bleiben alle deine lokalen Entwürfe und der Cache erhalten.</string>
-    <string name="tips_push_notification_migration">Melde alle Konten neu an, um die Unterstützung für Push-Benachrichtigungen zu aktivieren.</string>
     <string name="account_date_joined">%1$s beigetreten</string>
     <string name="status_count_one_plus">1+</string>
     <string name="status_created_at_now">Jetzt</string>

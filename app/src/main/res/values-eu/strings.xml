@@ -519,7 +519,6 @@
     <string name="notification_summary_report_format">%1$s · %2$d tutak finkatuak</string>
     <string name="title_followed_hashtags">Jarraitutako traolak</string>
     <string name="notification_update_format">%1$s-(e)k bere tuta editatu du</string>
-    <string name="title_migration_relogin">Berriro saioa hasi push motako jakinarazpenak gaitzeko</string>
     <string name="action_post_failed">Igoerak huts egin du</string>
     <string name="action_post_failed_detail">Akatsa zure tuta bidaltzean, beraz, zirriborroetara bidali da.
 \n

@@ -537,7 +537,6 @@
     <string name="error_image_edit_failed">चित्रं सम्पादयितुं न शक्यते।</string>
     <string name="error_loading_account_details">व्यक्तित्वलेखस्य विवरणानि दर्शनं विफलं जातम्</string>
     <string name="error_could_not_load_login_page">सम्प्रवेशपुटं दर्शयितुं न शक्यते।</string>
-    <string name="title_migration_relogin">पुनःसम्प्रवेशाय विज्ञापन-ज्ञापनसूचनाः</string>
     <string name="dialog_follow_hashtag_title">व्यक्तित्वविवरणलेखा अनुसरतु</string>
     <string name="limit_notifications">कालानुक्रमपङ्क्त्याः सूचनाः परिमिताः कुरुताम्</string>
     <string name="notification_report_description">परिमितावेदनानि प्रति ज्ञापनसूचनाः</string>

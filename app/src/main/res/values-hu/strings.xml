@@ -516,17 +516,13 @@
     <string name="notification_update_name">Bejegyzések szerkesztése</string>
     <string name="notification_update_description">Értesítések olyan bejegyzések szerkesztéséről, melyekkel már dolgod volt</string>
     <string name="tusky_compose_post_quicksetting_label">Bejegyzés Létrehozása</string>
-    <string name="title_migration_relogin">Bejelentkezés újra a leküldési értesítések érdekében</string>
     <string name="action_dismiss">Elvetés</string>
     <string name="action_details">Részletek</string>
     <string name="account_date_joined">Csatlakozva %1$s</string>
-    <string name="tips_push_notification_migration">Bejelentkezés újra minden fiókkal a leküldéses értesítések engedélyezése érdekében.</string>
     <string name="title_login">Bejelentkezés</string>
     <string name="status_count_one_plus">1+</string>
     <string name="error_could_not_load_login_page">Nem tudtuk betölteni a bejelentkező oldalt.</string>
     <string name="saving_draft">Vázlat mentése…</string>
-    <string name="dialog_push_notification_migration">Ahhoz, hogy a UnifiedPush szolgáltatás révén leküldéses értesítéseket használhass, a Tuskynak fel kell iratkoznia az értesítésekre a Mastodon-kiszolgálódon. Ehhez új bejelentkezésre van szükség, hogy a Tusky számára kiosztott OAuth jogosultságok megváltozzanak. Az újbóli bejelentkezés funkció használata (itt vagy a fiókbeállításokban) megőrzi a helyi piszkozataidat és a gyorsítótár tartalmát.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Újra bejelentkeztél a fiókodba, hogy feliratkoztasd a Tuskyt a leküldéses értesítések használatára. Ugyanakkor vannak még fiókjaid, melyek még nem lettek így átköltöztetve. Válts át rájuk, és jelentkezz be újra mindegyikben, hogy ezekben is engedélyezd a UnifiedPush értesítések támogatását.</string>
     <string name="action_edit_image">Kép szerkesztése</string>
     <string name="error_image_edit_failed">A kép nem szerkeszthető.</string>
     <string name="error_loading_account_details">Nem sikerült betölteni a fiókadatokat</string>

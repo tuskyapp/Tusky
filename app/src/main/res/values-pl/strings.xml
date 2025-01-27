@@ -547,14 +547,10 @@
     <string name="notification_update_name">Edycje wpisów</string>
     <string name="saving_draft">Zapisywanie szkicu…</string>
     <string name="error_could_not_load_login_page">Nie można załadować strony logowania.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Zalogowałeś/-aś się ponownie na swoje konto, aby przyzwolić Tusky na wysyłanie powiadomień push. Masz jednak inne konta które nie zostały zmigrowane. Przełącz się na nie i zaloguj się ponownie aby włączyć wsparcie dla powiadomień UnifiedPush.</string>
     <string name="status_count_one_plus">1+</string>
     <string name="account_date_joined">Dołączył/-a %1$s</string>
-    <string name="tips_push_notification_migration">Zaloguj się ponownie na wszystkie konta aby włączyć wsparcie dla powiadomień push.</string>
-    <string name="dialog_push_notification_migration">Aby użyć powiadomień push przez UnifiedPush, Tusky wymaga pozwolenia na subskrybowanie powiadomień na twoim serwerze Mastodon. Wymaga to ponownego zalogowania aby zmienić zakresy OAuth przyznane Tusky. Użycie opcji ponownego zalogowania tutaj lub w ustawieniach konta zachowa wszystkie szkice i pamięć podręczną.</string>
     <string name="action_edit_image">Edytuj obraz</string>
     <string name="error_image_edit_failed">Obrazek nie mógł być zmodyfikowany.</string>
-    <string name="title_migration_relogin">Zaloguj się ponownie aby włączyć powiadomienia push</string>
     <string name="action_dismiss">Odrzuć</string>
     <string name="action_details">Detale</string>
     <string name="error_loading_account_details">Ładowanie informacji o koncie nie powiodło się</string>

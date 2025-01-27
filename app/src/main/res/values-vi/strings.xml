@@ -503,12 +503,8 @@
     <string name="error_could_not_load_login_page">Không thể tải trang đăng nhập.</string>
     <string name="saving_draft">Đang lưu nháp…</string>
     <string name="action_dismiss">Bỏ qua</string>
-    <string name="title_migration_relogin">Đăng nhập lại để hiện thông báo đẩy</string>
     <string name="action_details">Chi tiết</string>
     <string name="account_date_joined">Đã tham gia %1$s</string>
-    <string name="tips_push_notification_migration">Đăng nhập lại tất cả tài khoản để kích hoạt thông báo đẩy.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Bạn đã đăng nhập lại vào tài khoản hiện tại của mình để cấp quyền thông báo đẩy cho Tusky. Tuy nhiên, bạn vẫn có các tài khoản khác chưa kích hoạt thông báo đẩy theo cách này. Chuyển sang chúng và đăng nhập từng cái một để cho phép hỗ trợ thông báo UnifiedPush.</string>
-    <string name="dialog_push_notification_migration">Để sử dụng thông báo đẩy qua UnifiedPush, Tusky cần có quyền đăng ký thông báo trên máy chủ Mastodon của bạn. Bạn hãy thoát ra rồi đăng nhập lại để thay đổi phạm vi OAuth được cấp cho Tusky. Sử dụng đăng nhập lại ở đây hoặc trong cài đặt Tài khoản sẽ bảo toàn tất cả các tút nháp và bộ nhớ đệm trên điện thoại của bạn.</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Sửa ảnh</string>
     <string name="error_image_edit_failed">Hình ảnh này không thể sửa.</string>

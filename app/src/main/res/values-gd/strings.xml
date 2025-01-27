@@ -537,8 +537,6 @@
     <string name="action_dismiss">Leig seachad</string>
     <string name="action_details">Fiosrachadh</string>
     <string name="account_date_joined">Air ballrachd fhaighinn %1$s</string>
-    <string name="tips_push_notification_migration">Clàraich a-steach às ùr leis a h-uile cunntas a chur na taice ri brathan putaidh an comas.</string>
-    <string name="title_migration_relogin">Clàraich a-steach às ùr airson brathan putaidh</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_edit_image">Deasaich an dealbh</string>
     <string name="error_following_hashtag_format">Mearachd a’ leantainn air #%1$s</string>
@@ -546,8 +544,6 @@
     <string name="error_unfollowing_hashtag_format">Mearachd a’ sgur de leantainn air #%1$s</string>
     <string name="error_loading_account_details">Mearachd a’ luchdadh fiosrachadh a’ chunntais</string>
     <string name="error_image_edit_failed">Cha b’ urrainn dhuinn an dealbh a dheasachadh.</string>
-    <string name="dialog_push_notification_migration">Airson brathan putaidh slighe UnifiedPush a chleachdadh, feumaidh Tusky cead airson fo-sgrìobhadh air brathan air an fhrithealaiche Mastodon agad fhaighinn. Bidh feum air clàradh a-steach às ùr airson na sgòpaichean OAuth a chaidh a cheadachadh dha Tusky atharrachadh. Ma nì thu clàradh a-steach às ùr an-seo no ann an “Roghainnean a’ chunntais”, cumaidh sinn na dreachdan is an tasgadan ionadail agad.</string>
-    <string name="dialog_push_notification_migration_other_accounts">Rinn thu clàradh a-steach às ùr dhan chunntas làithreach agad airson cead fo-sgrìobhadh putaidh a thoirt dha Tusky. Gidheadh, cha cunntasan eile agad fhathast nach deach imrich air an dòigh sin. Geàrr leum thuca is dèan clàradh a-steach às ùr do gach fear dhiubh airson taic do bhrathan UnifiedPush a chur an comas dhaibh.</string>
     <string name="duration_no_change">(Gun atharrachadh)</string>
     <string name="pref_title_show_self_username">Seall an t-ainm-cleachdaiche air na bàraichean-inneal</string>
     <string name="set_focus_description">Thoir gogag no slaod an cearcall a thaghadh puing an fhòcais a chithear air na dealbhagan an-còmhnaidh.</string>

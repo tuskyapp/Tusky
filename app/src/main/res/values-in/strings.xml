@@ -165,7 +165,6 @@
     <string name="tusky_compose_post_quicksetting_label">Tulis Postingan</string>
     <string name="error_media_upload_image_or_video">Gambar dan video tidak dapat disematkan ke dalam post yang sama.</string>
     <string name="title_public_federated">Federasi</string>
-    <string name="title_migration_relogin">Login ulang untuk notifikasi push</string>
     <string name="title_follow_requests">Permintaan mengikuti</string>
     <string name="post_boosted_format">%1$s ter-boost</string>
     <string name="post_content_show_more">Meluaskan</string>

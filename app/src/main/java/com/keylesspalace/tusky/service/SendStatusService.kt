@@ -41,7 +41,6 @@ import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.MediaUploader
 import com.keylesspalace.tusky.components.compose.UploadEvent
 import com.keylesspalace.tusky.components.drafts.DraftHelper
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.MediaAttribute
@@ -413,7 +412,7 @@ class SendStatusService : Service() {
             this,
             statusId,
             intent,
-            NotificationHelper.pendingIntentFlags(false)
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
     }
 
@@ -429,7 +428,7 @@ class SendStatusService : Service() {
             this,
             statusId,
             intent,
-            NotificationHelper.pendingIntentFlags(false)
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
         return NotificationCompat.Builder(this@SendStatusService, CHANNEL_ID)

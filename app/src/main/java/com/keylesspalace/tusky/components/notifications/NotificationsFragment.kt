@@ -52,7 +52,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
-import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
+import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.entity.Notification
@@ -97,6 +97,9 @@ class NotificationsFragment :
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var notificationService: NotificationService
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
 
@@ -262,7 +265,7 @@ class NotificationsFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 accountManager.activeAccount?.let { account ->
-                    NotificationHelper.clearNotificationsForAccount(requireContext(), account)
+                    notificationService.clearNotificationsForAccount(account)
                 }
 
                 val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)

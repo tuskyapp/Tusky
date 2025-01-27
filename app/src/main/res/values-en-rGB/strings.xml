@@ -62,7 +62,6 @@
     <string name="title_mutes">Muted users</string>
     <string name="title_blocks">Blocked users</string>
     <string name="title_domain_mutes">Hidden domains</string>
-    <string name="title_migration_relogin">Re-login for push notifications</string>
     <string name="title_follow_requests">Follow requests</string>
     <string name="title_edit_profile">Edit your profile</string>
     <string name="title_licenses">Licenses</string>

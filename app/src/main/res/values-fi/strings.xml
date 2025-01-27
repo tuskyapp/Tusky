@@ -261,7 +261,6 @@
     <string name="send_post_link_to">Jaa julkaisun URL…</string>
     <string name="notification_update_format">%1$s muokkasi julkaisua</string>
     <string name="notification_update_name">Julkaisujen muokkaukset</string>
-    <string name="title_migration_relogin">Kirjaudu uudestaan sisään ottaaksesi vastaan push-ilmoituksia</string>
     <string name="action_details">Yksityiskohdat</string>
     <string name="error_image_edit_failed">Kuvaa ei voitu muokata.</string>
     <string name="description_visibility_unlisted">Listaamaton</string>

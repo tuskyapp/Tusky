@@ -536,9 +536,7 @@
     <string name="action_subscribe_account">訂閱</string>
     <string name="action_unsubscribe_account">取消訂閱</string>
     <string name="saving_draft">正在儲存草稿…</string>
-    <string name="tips_push_notification_migration">重新登入所有帳號以啟用推播功能。</string>
     <string name="action_set_focus">設置關注點</string>
-    <string name="title_migration_relogin">重新登入以啟用推播功能</string>
     <string name="error_multimedia_size_limit">影片和音訊檔案大小不能超過 %1$s MB。</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_add_reaction">添加反應</string>
@@ -558,8 +556,6 @@
     <string name="action_details">詳情</string>
     <string name="pref_title_notification_filter_updates">我互動過的嘟文被編輯了</string>
     <string name="duration_14_days">14 天</string>
-    <string name="dialog_push_notification_migration">為了透過 UnifiedPush使用推播功能，Tusky 需要獲得訂閱您 Mastodon 服務器上的通知之權限。這會需要重新登入才能更改授予 Tusky 的 OAuth 範疇。在此頁面或帳戶設定頁面中使用重新登入選項將會保留您所有的本機草稿和快取。</string>
-    <string name="dialog_push_notification_migration_other_accounts">您已重新登入當前帳號並授予 Tusky 推送訂閱的權限。 然而，您仍擁有其他帳號未以此種方式遷移。 請切換到該帳號，並且逐一重新登入，以啟用 UnifiedPush 的通知支援。</string>
     <string name="error_loading_account_details">加載賬戶詳情失敗</string>
     <string name="notification_sign_up_format">%1$s 已註冊</string>
     <string name="notification_update_format">%1$s 編輯了他們的嘟文</string>
