@@ -586,12 +586,14 @@
     <string name="pref_summary_http_proxy_disabled">Desactivado</string>
     <string name="pref_summary_http_proxy_invalid">&lt;non válido&gt;</string>
     <string name="action_post_failed">Produciuse un fallo no envío</string>
-    <string name="action_post_failed_detail">Produciuse un fallo no envío da publicación e gardouse nos borradores.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Produciuse un fallo no envío da publicación e gardouse nos borradores.
 \n
-\nPode que o servidor non estivese accesible ou que rexeitase a publicación.</string>
-    <string name="action_post_failed_detail_plural">Produciuse un fallo no envío das túas publicacións e gardáronse nos borradores.
+\nPode que o servidor non estivese accesible ou que rexeitase a publicación.</item>
+        <item quantity="other">Produciuse un fallo no envío das túas publicacións e gardáronse nos borradores.
 \n
-\nPode que o servidor non estivese accesible ou que rexeitase as publicacións.</string>
+\nPode que o servidor non estivese accesible ou que rexeitase as publicacións.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Mostrar borradores</string>
     <string name="action_post_failed_do_nothing">Desbotar</string>
     <string name="action_browser_login">Acceder co Navegador</string>
