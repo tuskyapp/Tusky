@@ -18,7 +18,6 @@ package com.keylesspalace.tusky.components.preference
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Notification
@@ -42,7 +41,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PreferencesFragment : PreferenceFragmentCompat() {
+class PreferencesFragment : BasePreferencesFragment() {
 
     @Inject
     lateinit var accountManager: AccountManager

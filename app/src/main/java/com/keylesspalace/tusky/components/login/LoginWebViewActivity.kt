@@ -125,7 +125,6 @@ class LoginWebViewActivity : BaseActivity() {
         val webView = binding.loginWebView
         webView.settings.allowContentAccess = false
         webView.settings.allowFileAccess = false
-        webView.settings.databaseEnabled = false
         webView.settings.displayZoomControls = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
         // JavaScript needs to be enabled because otherwise 2FA does not work in some instances

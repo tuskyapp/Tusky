@@ -425,6 +425,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- correct size and color will be set programmatically -->
+                <View
+                    android:id="@+id/accountStatusBarScrim"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/transparent"
+                    app:layout_collapseMode="pin" />
+
                 <!-- top margin equal to statusbar size will be set programmatically -->
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/accountToolbar"
@@ -444,9 +452,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="center"
-                app:tabIndicatorHeight="4dp"
                 app:tabIndicator="@drawable/tab_indicator_top"
                 app:tabIndicatorFullWidth="true"
+                app:tabIndicatorHeight="4dp"
                 app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.AppBarLayout>

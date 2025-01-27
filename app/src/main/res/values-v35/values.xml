@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <bool name="is_edge_to_edge">true</bool>
+    <bool name="is_not_edge_to_edge">false</bool>
+</resources>

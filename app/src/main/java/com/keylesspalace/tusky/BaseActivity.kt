@@ -21,12 +21,22 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.displayCutout
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.MainActivity.Companion.redirectIntent
@@ -88,22 +98,57 @@ abstract class BaseActivity : AppCompatActivity() {
             setTheme(R.style.TuskyTheme)
         }
 
-        /* set the taskdescription programmatically, the theme would turn it blue */
+        /* Set the taskdescription programmatically  - by default the primary color is used.
+         * On newer Android versions (or launchers?) this doesn't seem to have an effect. */
         val appName = getString(R.string.app_name)
-        val appIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
         val recentsBackgroundColor = MaterialColors.getColor(
             this,
-            com.google.android.material.R.attr.colorSurface,
+            materialR.attr.colorSurface,
             Color.BLACK
         )
 
-        setTaskDescription(TaskDescription(appName, appIcon, recentsBackgroundColor))
+        val taskDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            TaskDescription.Builder()
+                .setLabel(appName)
+                .setIcon(R.mipmap.ic_launcher)
+                .setPrimaryColor(recentsBackgroundColor)
+                .build()
+        } else {
+            val appIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
+            @Suppress("DEPRECATION")
+            TaskDescription(appName, appIcon, recentsBackgroundColor)
+        }
+
+        setTaskDescription(taskDescription)
 
         val style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"))
         getTheme().applyStyle(style, true)
 
         if (requiresLogin()) {
             redirectIfNotLoggedIn()
+        }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        window.decorView.setBackgroundColor(Color.BLACK)
+
+        val contentView: View = findViewById(android.R.id.content)
+        contentView.setBackgroundColor(MaterialColors.getColor(contentView, android.R.attr.colorBackground))
+
+        // handle left/right insets. This is relevant for edge-to-edge mode in landscape orientation
+        ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            val displayCutoutInsets = insets.getInsets(displayCutout())
+            // use padding for system bar insets so they get our background color and margin for cutout insets to turn them black
+            contentView.updatePadding(left = systemBarInsets.left, right = systemBarInsets.right)
+            (contentView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = displayCutoutInsets.left
+            (contentView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = displayCutoutInsets.right
+
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(systemBars(), Insets.of(0, systemBarInsets.top, 0, systemBarInsets.bottom))
+                .setInsets(displayCutout(), Insets.of(0, displayCutoutInsets.top, 0, displayCutoutInsets.bottom))
+                .build()
         }
     }
 

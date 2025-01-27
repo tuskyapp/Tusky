@@ -107,8 +107,7 @@
         <activity
             android:name=".components.compose.ComposeActivity"
             android:theme="@style/TuskyDialogActivityTheme"
-            android:alwaysRetainTaskState="true"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:alwaysRetainTaskState="true" />
         <activity
             android:name=".components.viewthread.ViewThreadActivity"
             android:configChanges="orientation|screenSize" />
@@ -117,7 +116,7 @@
             android:theme="@style/TuskyBaseTheme"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize" />
         <activity android:name=".components.account.AccountActivity" />
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileActivity"/>
         <activity android:name=".components.preference.PreferencesActivity" />
         <activity android:name=".StatusListActivity" />
         <activity android:name=".components.accountlist.AccountListActivity" />

@@ -1,6 +1,7 @@
 <resources>
 
     <style name="TuskyTheme" parent="TuskyBaseTheme">
+        <item name="android:windowLightStatusBar">@bool/lightNavigationBar</item>
         <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
         <item name="android:navigationBarColor">@color/colorBackground</item>
         <item name="android:navigationBarDividerColor">?attr/dividerColor</item>
@@ -8,6 +9,7 @@
 
     <!--Black Application Theme Styles-->
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase">
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:navigationBarColor">@color/black</item>
         <item name="android:navigationBarDividerColor">?attr/dividerColor</item>

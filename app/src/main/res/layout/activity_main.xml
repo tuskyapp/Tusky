@@ -5,7 +5,7 @@
     android:id="@+id/mainDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="@bool/is_not_edge_to_edge"
     tools:context="com.keylesspalace.tusky.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,7 +17,9 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:liftOnScroll="false">
+            android:fitsSystemWindows="@bool/is_edge_to_edge"
+            app:liftOnScroll="false"
+            app:statusBarForeground="?attr/colorSurface">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mainToolbar"
@@ -58,14 +60,13 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"
             android:background="?attr/windowBackgroundColor"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorSurface"
             app:contentInsetStart="0dp"
@@ -73,13 +74,13 @@
             app:fabAlignmentMode="end"
             app:menuAlignmentMode="auto"
             app:navigationContentDescription="@string/action_open_drawer"
-            app:paddingBottomSystemWindowInsets="false">
+            app:paddingBottomSystemWindowInsets="true">
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"
                 style="@style/TuskyTabAppearance"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/bottomAppBarHeight"
                 android:background="?attr/colorSurface"
                 app:tabGravity="fill"
                 app:tabIndicator="@drawable/tab_indicator_bottom"

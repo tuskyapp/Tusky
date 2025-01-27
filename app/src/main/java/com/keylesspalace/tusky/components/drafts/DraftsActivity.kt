@@ -34,6 +34,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityDraftsBinding
 import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.db.entity.DraftEntity
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.isHttpNotFound
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.visible
@@ -65,6 +66,8 @@ class DraftsActivity : BaseActivity(), DraftActionListener {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        binding.draftsRecyclerView.ensureBottomPadding()
 
         binding.draftsErrorMessageView.setup(R.drawable.elephant_friend_empty, R.string.no_drafts)
 

@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.components.search.SearchViewModel
 import com.keylesspalace.tusky.databinding.FragmentSearchBinding
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -63,6 +64,7 @@ abstract class SearchFragment<T : Any> :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = initAdapter()
         binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.searchRecyclerView.ensureBottomPadding()
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         subscribeObservables(adapter)
     }

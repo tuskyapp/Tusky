@@ -3,4 +3,7 @@
     <integer name="profile_media_column_count">3</integer>
 
     <integer name="trending_column_count">1</integer>
+
+    <bool name="is_edge_to_edge">false</bool>
+    <bool name="is_not_edge_to_edge">true</bool>
 </resources>

@@ -27,7 +27,13 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -117,6 +123,25 @@ class EditProfileActivity : BaseActivity() {
             setTitle(R.string.title_edit_profile)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { scrollView, insets ->
+            // if keyboard visible -> set inset on the root to push the scrollview up
+            // if keyboard hidden -> set inset on the scrollview so last element does not get obscured by navigation bar
+            // scrollview has clipToPadding set to false so it draws behind the navigation bar in edge-to-edge mode
+            val imeInsets = insets.getInsets(ime())
+            val systemBarsInsets = insets.getInsets(systemBars())
+            binding.root.updatePadding(bottom = imeInsets.bottom)
+            val scrollViewPadding = if (imeInsets.bottom == 0) {
+                systemBarsInsets.bottom
+            } else {
+                0
+            }
+            binding.scrollView.updatePadding(bottom = scrollViewPadding)
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(ime(), Insets.of(imeInsets.left, imeInsets.top, imeInsets.right, 0))
+                .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, imeInsets.right, 0))
+                .build()
         }
 
         binding.avatarButton.setOnClickListener { pickMedia(PickType.AVATAR) }

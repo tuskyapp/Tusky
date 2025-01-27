@@ -18,6 +18,8 @@ import com.keylesspalace.tusky.databinding.ActivityFollowedTagsBinding
 import com.keylesspalace.tusky.interfaces.HashtagActionListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.copyToClipboard
+import com.keylesspalace.tusky.util.ensureBottomMargin
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -53,6 +55,9 @@ class FollowedTagsActivity :
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        binding.fab.ensureBottomMargin()
+        binding.followedTagsView.ensureBottomPadding(fab = true)
 
         binding.fab.setOnClickListener {
             showDialog()

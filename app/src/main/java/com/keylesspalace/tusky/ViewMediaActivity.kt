@@ -156,9 +156,13 @@ class ViewMediaActivity :
             true
         }
 
+        // yes it is deprecated, but it looks cool so it stays for now
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
 
-        window.statusBarColor = Color.BLACK
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            @Suppress("DEPRECATION")
+            window.statusBarColor = Color.BLACK
+        }
         window.sharedElementEnterTransition.addListener(object : NoopTransitionListener {
             override fun onTransitionEnd(transition: Transition) {
                 adapter.onTransitionEnd(binding.viewPager.currentItem)

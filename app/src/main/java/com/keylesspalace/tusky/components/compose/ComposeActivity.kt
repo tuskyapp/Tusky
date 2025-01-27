@@ -48,10 +48,17 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.FileProvider
 import androidx.core.content.res.use
+import androidx.core.graphics.Insets
 import androidx.core.view.ContentInfoCompat
 import androidx.core.view.OnReceiveContentListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -258,6 +265,24 @@ class ComposeActivity :
             setTheme(R.style.TuskyDialogActivityBlackTheme)
         }
         setContentView(binding.root)
+
+        ViewCompat.setWindowInsetsAnimationCallback(
+            binding.composeBottomBar,
+            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+                override fun onProgress(windowInsets: WindowInsetsCompat, runningAnimations: List<WindowInsetsAnimationCompat?>): WindowInsetsCompat {
+                    val insets = windowInsets.getInsets(systemBars() or ime())
+                    binding.composeBottomBar.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 4))
+                    binding.addMediaBottomSheet.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
+                    binding.emojiView.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
+                    binding.composeOptionsBottomSheet.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
+                    binding.composeScheduleView.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
+                    (binding.composeMainScrollView.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 58)
+                    return WindowInsetsCompat.Builder(windowInsets)
+                        .setInsets(systemBars() or ime(), Insets.of(insets.left, insets.top, insets.right, 0))
+                        .build()
+                }
+            }
+        )
 
         setupActionBar()
 

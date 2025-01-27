@@ -31,6 +31,12 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.AudioAttributes
@@ -129,6 +135,16 @@ class ViewVideoFragment : ViewMediaFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mediaDescriptionScrollView) { captionSheet, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            captionSheet.updatePadding(bottom = systemBarInsets.bottom)
+            (binding.videoView.layoutParams as ConstraintLayout.LayoutParams).bottomMargin = systemBarInsets.bottom
+
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
+                .build()
+        }
 
         /**
          * Handle single taps, flings, and dragging
