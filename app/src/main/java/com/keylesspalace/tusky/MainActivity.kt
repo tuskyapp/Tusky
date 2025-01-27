@@ -38,6 +38,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
+import android.view.ViewGroup.LayoutParams
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -47,10 +48,15 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.Insets
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
@@ -90,7 +96,6 @@ import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
 import com.keylesspalace.tusky.util.ActivityConstants
 import com.keylesspalace.tusky.util.emojify
-import com.keylesspalace.tusky.util.getDimension
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
@@ -219,8 +224,42 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             }
         }
 
-        window.statusBarColor = Color.TRANSPARENT // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
         setContentView(binding.root)
+
+        val bottomBarHeight = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
+            resources.getDimensionPixelSize(R.dimen.bottomAppBarHeight)
+        } else {
+            0
+        }
+
+        val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.viewPager) { _, insets ->
+                val systemBarsInsets = insets.getInsets(systemBars())
+                val bottomInsets = systemBarsInsets.bottom
+
+                (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomBarHeight + fabMargin + bottomInsets
+                binding.mainDrawer.recyclerView.updatePadding(bottom = bottomInsets)
+
+                if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "top") {
+                    insets
+                } else {
+                    binding.viewPager.updatePadding(bottom = bottomBarHeight + bottomInsets)
+                    WindowInsetsCompat.Builder(insets)
+                        .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
+                        .build()
+                }
+            }
+        } else {
+            // don't draw a status bar, the DrawerLayout and the MaterialDrawerLayout have their own
+            // on Vanilla Ice Cream (API 35) and up there is no status bar color because of edge-to-edge mode
+            @Suppress("DEPRECATION")
+            window.statusBarColor = Color.TRANSPARENT
+
+            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomBarHeight + fabMargin
+            binding.viewPager.updatePadding(bottom = bottomBarHeight)
+        }
 
         binding.composeButton.setOnClickListener {
             val composeIntent = Intent(applicationContext, ComposeActivity::class.java)
@@ -235,11 +274,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 "top" -> setSupportActionBar(binding.topNav)
                 "bottom" -> setSupportActionBar(binding.bottomNav)
             }
-            binding.mainToolbar.hide()
+            // this is a bit hacky, but when the mainToolbar is GONE, the toolbar size gets messed up for some reason
+            binding.mainToolbar.layoutParams.height = 0
+            binding.mainToolbar.visibility = View.INVISIBLE
             // There's not enough space in the top/bottom bars to show the title as well.
             supportActionBar?.setDisplayShowTitleEnabled(false)
         } else {
             setSupportActionBar(binding.mainToolbar)
+            binding.mainToolbar.layoutParams.height = LayoutParams.WRAP_CONTENT
             binding.mainToolbar.show()
         }
 
@@ -787,15 +829,10 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     private fun setupTabs(tabs: List<TabData>) {
         val activeTabLayout = if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "bottom") {
-            val actionBarSize = getDimension(this, androidx.appcompat.R.attr.actionBarSize)
-            val fabMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = actionBarSize + fabMargin
             binding.topNav.hide()
             binding.bottomTabLayout
         } else {
             binding.bottomNav.hide()
-            (binding.viewPager.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).anchorId = R.id.viewPager
             binding.tabLayout
         }
 

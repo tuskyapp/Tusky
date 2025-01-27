@@ -19,6 +19,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -56,6 +61,15 @@ class ReportActivity : BottomSheetActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_close_24dp)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.wizard) { wizard, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            wizard.updatePadding(bottom = systemBarInsets.bottom)
+
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
+                .build()
         }
 
         initViewPager()

@@ -40,6 +40,8 @@ import com.keylesspalace.tusky.databinding.DialogListBinding
 import com.keylesspalace.tusky.databinding.ItemListBinding
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.ensureBottomMargin
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -77,6 +79,9 @@ class ListsActivity : BaseActivity() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        binding.addListButton.ensureBottomMargin()
+        binding.listsRecycler.ensureBottomPadding(fab = true)
 
         binding.listsRecycler.adapter = adapter
         binding.listsRecycler.layoutManager = LinearLayoutManager(this)

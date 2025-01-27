@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/fabMargin"
         android:contentDescription="@string/action_add_tab"
         app:srcCompat="@drawable/ic_plus_24dp"
         app:tint="?attr/colorOnPrimary" />
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/fabMargin"
         android:visibility="invisible"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="?attr/colorSurface"

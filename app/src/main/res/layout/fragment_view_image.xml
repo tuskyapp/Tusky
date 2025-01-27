@@ -69,7 +69,7 @@
                     android:lineSpacingMultiplier="1.1"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/media_description_sheet_bottom_padding"
                     android:textColor="?android:textColorPrimary"
                     android:textIsSelectable="true"
                     android:textSize="?attr/status_text_medium"

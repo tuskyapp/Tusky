@@ -18,9 +18,17 @@ package com.keylesspalace.tusky.util
 
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.keylesspalace.tusky.R
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -77,4 +85,39 @@ fun ViewPager2.reduceSwipeSensitivity() {
 fun TextView.fixTextSelection() {
     setTextIsSelectable(false)
     post { setTextIsSelectable(true) }
+}
+
+/**
+ * Makes sure the [RecyclerView] has the correct bottom padding set
+ * and no system bars or floating action buttons cover the content when it is scrolled all the way up.
+ * This must be called before window insets are applied (Activity.onCreate or Fragment.onViewCreated).
+ * The RecyclerView needs to have clipToPadding set to false for this to work.
+ * @param fab true if there is a [FloatingActionButton] above the RecyclerView
+ */
+fun RecyclerView.ensureBottomPadding(fab: Boolean = false) {
+    val bottomPadding = if (fab) {
+        context.resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
+    } else {
+        context.resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
+    }
+
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val systemBarsInsets = insets.getInsets(systemBars())
+        view.updatePadding(bottom = bottomPadding + systemBarsInsets.bottom)
+        WindowInsetsCompat.Builder(insets)
+            .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
+            .build()
+    }
+}
+
+/** Makes sure a [FloatingActionButton] has the correct bottom margin set
+ * so it is not covered by any system bars.
+ */
+fun FloatingActionButton.ensureBottomMargin() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val bottomInsets = insets.getInsets(systemBars()).bottom
+        val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+        (view.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = bottomInsets + actionButtonMargin
+        insets
+    }
 }

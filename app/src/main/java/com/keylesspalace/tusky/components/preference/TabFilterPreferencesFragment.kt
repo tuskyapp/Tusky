@@ -19,7 +19,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.settings.AccountPreferenceDataStore
@@ -31,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabFilterPreferencesFragment : PreferenceFragmentCompat() {
+class TabFilterPreferencesFragment : BasePreferencesFragment() {
 
     @Inject
     lateinit var accountPreferenceDataStore: AccountPreferenceDataStore

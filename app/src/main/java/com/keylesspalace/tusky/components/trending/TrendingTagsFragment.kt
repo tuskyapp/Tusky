@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -73,6 +74,7 @@ class TrendingTagsFragment :
         val adapter = TrendingTagsAdapter(::onViewTag)
         this.adapter = adapter
         binding.swipeRefreshLayout.setOnRefreshListener(this)
+        binding.recyclerView.ensureBottomPadding()
         setupRecyclerView(adapter)
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {

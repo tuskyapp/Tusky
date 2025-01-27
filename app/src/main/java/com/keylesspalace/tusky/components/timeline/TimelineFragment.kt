@@ -25,7 +25,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.getSystemService
 import androidx.core.view.MenuProvider
-import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -61,6 +60,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -392,13 +392,8 @@ class TimelineFragment :
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
 
-        val recyclerViewBottomPadding = if ((activity as? ActionButtonActivity?)?.actionButton != null) {
-            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
-        } else {
-            resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
-        }
-
-        binding.recyclerView.updatePadding(bottom = recyclerViewBottomPadding)
+        val hasFab = (activity as? ActionButtonActivity?)?.actionButton != null
+        binding.recyclerView.ensureBottomPadding(fab = hasFab)
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false

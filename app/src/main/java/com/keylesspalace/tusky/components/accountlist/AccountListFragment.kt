@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.HttpHeaderLink
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.getSerializableCompat
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -92,6 +93,7 @@ class AccountListFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.recyclerView.ensureBottomPadding()
         binding.recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(view.context)
         binding.recyclerView.layoutManager = layoutManager

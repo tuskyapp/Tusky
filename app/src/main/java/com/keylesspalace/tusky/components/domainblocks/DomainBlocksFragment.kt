@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.FragmentDomainBlocksBinding
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -29,6 +30,8 @@ class DomainBlocksFragment : Fragment(R.layout.fragment_domain_blocks) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = DomainBlocksAdapter(viewModel::unblock)
+
+        binding.recyclerView.ensureBottomPadding()
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(

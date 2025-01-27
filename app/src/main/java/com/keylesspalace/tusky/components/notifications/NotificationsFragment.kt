@@ -65,6 +65,7 @@ import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.StatusProvider
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
@@ -133,6 +134,8 @@ class NotificationsFragment :
             showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
+
+        binding.recyclerView.ensureBottomPadding(fab = true)
 
         // setup the notifications filter bar
         showNotificationsFilterBar = preferences.getBoolean(PrefKeys.SHOW_NOTIFICATIONS_FILTER, true)

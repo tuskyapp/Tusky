@@ -82,4 +82,9 @@
 
     <dimen name="caption_dialog_inset">24dp</dimen>
 
+    <dimen name="media_description_sheet_bottom_padding">8dp</dimen>
+
+    <!-- height of an BottomAppBar according to Material Design guidelines -->
+    <dimen name="bottomAppBarHeight">80dp</dimen>
+
 </resources>
