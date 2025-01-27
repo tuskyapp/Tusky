@@ -260,8 +260,6 @@ class ComposeActivity :
 
         activeAccount = accountManager.activeAccount ?: return
 
-        // enableEdgeToEdge()
-
         val theme = preferences.getString(APP_THEME, AppTheme.DEFAULT.value)
         if (theme == "black") {
             setTheme(R.style.TuskyDialogActivityBlackTheme)
