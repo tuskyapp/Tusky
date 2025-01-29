@@ -740,7 +740,7 @@
     <string name="notification_policies_filter_out">管理来自哪些渠道的通知…</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_title">不请自来的私下提及</string>
     <string name="notification_policies_not_supported">仅运行 4.3.0 及之后版本的 Mastodon 服务器支持这个功能。</string>
-    <string name="post_replied_self">持续的帖子</string>
+    <string name="post_replied_self">嘟文串</string>
     <string name="post_replied">已回复</string>
     <string name="post_replied_format">回复%1$s</string>
     <string name="preview_card_by_author">%1$s 的</string>
