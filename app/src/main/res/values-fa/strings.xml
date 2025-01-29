@@ -585,12 +585,14 @@
     <string name="action_post_failed">بارگذاری شکست خورد</string>
     <string name="action_post_failed_show_drafts">نمایش پیش‌نویس‌ها</string>
     <string name="action_post_failed_do_nothing">رد کردن</string>
-    <string name="action_post_failed_detail">بارگذاری فرسته‌تان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">بارگذاری فرسته‌تان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
 \n
-\nارتباط با کارساز برقرار نشد یا فرسته را رد کرد.</string>
-    <string name="action_post_failed_detail_plural">بارگذاری فرسته‌هایتان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
+\nارتباط با کارساز برقرار نشد یا فرسته را رد کرد.</item>
+        <item quantity="other">بارگذاری فرسته‌هایتان شکست خورد و در پیش‌نویس‌ها ذخیره شد.
 \n
-\nارتباط با کارساز برقرار نشد یا فرسته‌ها را رد کرد.</string>
+\nارتباط با کارساز برقرار نشد یا فرسته‌ها را رد کرد.</item>
+    </plurals>
     <string name="description_login">در بیش‌تر حالت‌ها کار می‌کند. هیچ داده‌ای به دیگر کاره‌ها نشت نمی‌کند.</string>
     <string name="pref_reading_order_oldest_first">نخست قدیمی‌ترین</string>
     <string name="description_browser_login">ممکن است از روش‌های تأیید خویت اضافی پشتیبانی کند؛ ولی نیازمند مرورگری پشتیبانی شده است.</string>

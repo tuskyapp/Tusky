@@ -593,17 +593,19 @@
     <string name="action_continue_edit">Fortsätt redigera</string>
     <string name="compose_unsaved_changes">Du har ändringar som inte sparats.</string>
     <string name="action_post_failed">Uppladdning misslyckades</string>
-    <string name="action_post_failed_detail">Ett fel inträffade när inlägget skulle laddas upp och har sparats till utkast.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Ett fel inträffade när inlägget skulle laddas upp och har sparats till utkast.
 \n
-\nAntingen kunde servern inte kontaktas, eller så nekades uppladdningen.</string>
+\nAntingen kunde servern inte kontaktas, eller så nekades uppladdningen.</item>
+        <item quantity="other">Uppladdning av dina inlägg misslyckades och de har sparats i utkast.
+\n
+\nAntingen kunde inte servern nås eller så har uppladdningen nekats.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Visa utkast</string>
     <string name="action_browser_login">Inloggning via webbläsaren</string>
     <string name="pref_summary_http_proxy_disabled">Inaktiverad</string>
     <string name="pref_summary_http_proxy_missing">&lt;ej angiven&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;felaktig&gt;</string>
-    <string name="action_post_failed_detail_plural">Uppladdning av dina inlägg misslyckades och de har sparats i utkast.
-\n
-\nAntingen kunde inte servern nås eller så har uppladdningen nekats.</string>
     <string name="action_post_failed_do_nothing">Avbryt</string>
     <string name="description_login">Fungerar i de flesta fallen. Ingen information läcker till andra applikationer.</string>
     <string name="pref_reading_order_oldest_first">Äldsta först</string>

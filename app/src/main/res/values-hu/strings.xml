@@ -593,12 +593,14 @@
     <string name="send_account_username_to">Fiók felhasználói nevének megosztása vele…</string>
     <string name="account_username_copied">Felhasználónév másolva</string>
     <string name="action_post_failed">Feltöltés meghiúsult</string>
-    <string name="action_post_failed_detail">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
 \n
-\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</string>
-    <string name="action_post_failed_detail_plural">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
+\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</item>
+        <item quantity="other">A bejegyzésed feltöltése meghiúsult, és a vázlatokba mentettük el.
 \n
-\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</string>
+\nVagy a kiszolgálót nem lehetett elérni, vagy visszautasította a bejegyzést.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Vázlatok megjelenítése</string>
     <string name="action_post_failed_do_nothing">Elvetés</string>
     <string name="action_browser_login">Bejelentkezés Böngészővel</string>

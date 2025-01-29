@@ -576,12 +576,14 @@
     <string name="title_followed_hashtags">Gevolgde hashtags</string>
     <string name="dialog_follow_hashtag_title">Hashtag volgen</string>
     <string name="action_post_failed">Upload mislukt</string>
-    <string name="action_post_failed_detail">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Je bericht kan niet worden geüpload en is opgeslagen in concepten.
 \n
-\nEr kon geen contact worden opgenomen met de server, of het bericht werd geweigerd.</string>
-    <string name="action_post_failed_detail_plural">Je berichten kunnen niet worden geüpload en zijn opgeslagen in concepten.
+\nEr kon geen contact worden opgenomen met de server, of het bericht werd geweigerd.</item>
+        <item quantity="other">Je berichten kunnen niet worden geüpload en zijn opgeslagen in concepten.
 \n
-\nEr kon geen contact worden opgenomen met de server of de berichten werden geweigerd.</string>
+\nEr kon geen contact worden opgenomen met de server of de berichten werden geweigerd.</item>
+    </plurals>
     <string name="action_post_failed_do_nothing">Afwijzen</string>
     <string name="action_post_failed_show_drafts">Concepten tonen</string>
     <string name="error_unmuting_hashtag_format">Fout bij het niet langer negeren van #%1$s</string>

@@ -590,12 +590,14 @@
     <string name="action_post_failed">Innsending mistókst</string>
     <string name="action_post_failed_show_drafts">Birta drög</string>
     <string name="action_post_failed_do_nothing">Afgreiða</string>
-    <string name="action_post_failed_detail">Ekki tókst að senda inn færsluna þína og hefur hún verið vistuð í Drög.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Ekki tókst að senda inn færsluna þína og hefur hún verið vistuð í Drög.
 \n
-\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunni.</string>
-    <string name="action_post_failed_detail_plural">Ekki tókst að senda inn færslurnar þína og hafa þær verið vistaðar í Drög.
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunni.</item>
+        <item quantity="other">Ekki tókst að senda inn færslurnar þína og hafa þær verið vistaðar í Drög.
 \n
-\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunum.</string>
+\nAnnað hvort náðist ekki í netþjóninn, eða hann hafnaði færslunum.</item>
+    </plurals>
     <string name="action_browser_login">Skrá inn í vafra</string>
     <string name="description_login">Virkar í flestum tilvikum. Engum gögnum er lekið til annarra forrita.</string>
     <string name="description_browser_login">Gæti stutt fleiri aðferðir til auðkenningar, en krefst studds vafra.</string>

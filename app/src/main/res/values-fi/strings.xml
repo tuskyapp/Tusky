@@ -414,9 +414,14 @@
     <string name="error_media_upload_sending_fmt">Tiedoston lataaminen epäonnistui: %1$s</string>
     <string name="account_username_copied">Käyttäjätunnus kopioitu</string>
     <string name="error_multimedia_size_limit">Video- tai äänitiedoston koko ei voi ylittää %1$s Mt.</string>
-    <string name="action_post_failed_detail">Julkaisusi lähettäminen epäonnistui ja se tallennettiin luonnoksiin.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Julkaisusi lähettäminen epäonnistui ja se tallennettiin luonnoksiin.
 \n
-\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</string>
+\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</item>
+        <item quantity="other">Julkaisusi lähettäminen epäonnistui ja ne tallennettiin luonnoksiin.
+\n
+\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</item>
+    </plurals>
     <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a>
 \n
 \nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin.
@@ -444,9 +449,6 @@
     <string name="notification_report_format">Uusi ilmianto tilille %1$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d julkaisua liitetty</string>
     <string name="action_browser_login">Kirjaudu selaimella</string>
-    <string name="action_post_failed_detail_plural">Julkaisusi lähettäminen epäonnistui ja ne tallennettiin luonnoksiin.
-\n
-\nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</string>
     <string name="action_post_failed_do_nothing">Peru</string>
     <string name="action_share_account_link">Jaa linkki tiliin</string>
     <string name="action_share_account_username">Jaa tilin käyttäjätunnus</string>
