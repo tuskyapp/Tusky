@@ -92,9 +92,7 @@ class PreferencesActivity :
         }
 
         onBackPressedDispatcher.addCallback(this, restartActivitiesOnBackPressedCallback)
-        restartActivitiesOnBackPressedCallback.isEnabled = intent.extras?.getBoolean(
-            EXTRA_RESTART_ON_BACK
-        ) ?: savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) ?: false
+        restartActivitiesOnBackPressedCallback.isEnabled = savedInstanceState?.getBoolean(EXTRA_RESTART_ON_BACK, false) == true
     }
 
     override fun onPreferenceStartFragment(
