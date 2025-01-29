@@ -726,4 +726,14 @@
     <string name="pref_title_show_notifications_filter">Afficher les filtres de notifications</string>
     <string name="post_replied_format">En réponse à %1$s</string>
     <string name="post_replied_self">Suite du fil</string>
+    <string name="notifications_from_people_you_may_know">Notifications de %1$d personnes que vous pourriez connaître</string>
+    <string name="notification_policy_accept">Accepter</string>
+    <string name="notification_policies_filter_dont_follow_title">Personnes que vous ne suivez pas</string>
+    <string name="notification_policies_filter_dont_follow_description">Tant que vous ne les approuvez pas</string>
+    <string name="notification_policies_filter_not_following_title">Personnes qui ne vous suivent pas</string>
+    <string name="notification_policies_filter_not_following_description">Y compris des personnes qui vous suivent depuis moins de 3 jours</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nouveaux profils</string>
+    <string name="unknown_notification_filter_new_accounts_description">Créé durant les 30 derniers jours</string>
+    <string name="notification_policy_filter">Filtrer</string>
+    <string name="notification_policy_ignore">Ignorer</string>
 </resources>
