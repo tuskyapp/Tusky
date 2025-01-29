@@ -635,4 +635,16 @@
     <string name="action_share_account_username">Udostępnij nazwę użytkownika</string>
     <string name="action_share_account_link">Udostępnij link do konta</string>
     <string name="error_media_upload_sending_fmt">Wystąpił błąd podczas wysłania: %1$s</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nowe konta</string>
+    <string name="notification_policies_filter_dont_follow_title">Ludzie których nie obserwujesz</string>
+    <string name="action_refresh">Odśwież</string>
+    <string name="title_public_trending_statuses">Popularne wpisy</string>
+    <string name="title_public_trending_hashtags">Popularne hashtagi</string>
+    <string name="error_saving_filter">Błąd zapisywania filtru \"%1$s\"</string>
+    <string name="error_deleting_filter">Błąd usuwania filtru \"%1$s\"</string>
+    <string name="dialog_delete_filter_text">Usunąć filtr \"%1$s\"?</string>
+    <string name="filter_keyword_addition_title">Dodaj słowo klucz</string>
+    <string name="filter_edit_keyword_title">Edytuj słowo klucz</string>
+    <string name="filter_action_hide">Ukryj</string>
+    <string name="filter_action_warn">Ostrzeż</string>
 </resources>
