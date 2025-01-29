@@ -601,12 +601,14 @@
     <string name="duration_60_days">60 дней</string>
     <string name="pref_title_http_proxy_port_message">Порт должен находиться в диапазоне от %1$d до %2$d</string>
     <string name="action_post_failed">Загрузка не удалась</string>
-    <string name="action_post_failed_detail">Ваше сообщение не удалось загрузить и оно было сохранено в черновиках.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Ваше сообщение не удалось загрузить и оно было сохранено в черновиках.
 \n
-\nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</string>
-    <string name="action_post_failed_detail_plural">Ваши сообщения не удалось загрузить и они были сохранены в черновиках.
+\nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</item>
+        <item quantity="other">Ваши сообщения не удалось загрузить и они были сохранены в черновиках.
 \n
-\nЛибо с сервером не удалось связаться, либо он отклонил сообщения.</string>
+\nЛибо с сервером не удалось связаться, либо он отклонил сообщения.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Показать черновики</string>
     <string name="action_post_failed_do_nothing">Отклонить</string>
     <string name="duration_30_days">30 дней</string>

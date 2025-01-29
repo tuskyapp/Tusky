@@ -595,9 +595,14 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="pref_title_http_proxy_port_message">Portnummer burde være mellom %1$d og %2$d</string>
     <string name="action_post_failed">Opplastningen mislyktes</string>
-    <string name="action_post_failed_detail_plural">Opplastningen av innleggene dine mislyktes og de har blitt lagret som utkast.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Opplastingen mislyktes og har blitt lagret som utkast.
 \n
-\nEnten kunne ikke tjeneren nås, eller så ble opplastningen avvist.</string>
+\nEnten kunne ikke tjeneren ikke kontaktes, eller så ble posten avvist.</item>
+        <item quantity="other">Opplastningen av innleggene dine mislyktes og de har blitt lagret som utkast.
+\n
+\nEnten kunne ikke tjeneren nås, eller så ble opplastningen avvist.</item>
+    </plurals>
     <string name="action_post_failed_show_drafts">Vis utkast</string>
     <string name="action_post_failed_do_nothing">Lukk</string>
     <string name="post_media_alt">ALT</string>
@@ -611,9 +616,6 @@
     <string name="action_browser_login">Logg inn med nettleseren</string>
     <string name="description_browser_login">Kan støtte flere autentiseringsmetoder, men trenger en støttet nettleser.</string>
     <string name="description_login">Virker som oftest. Ingen informasjon deles med andre apper.</string>
-    <string name="action_post_failed_detail">Opplastingen mislyktes og har blitt lagret som utkast.
-\n
-\nEnten kunne ikke tjeneren ikke kontaktes, eller så ble posten avvist.</string>
     <string name="ui_success_accepted_follow_request">Følgeforespørsel akseptert</string>
     <string name="action_discard">Forkast endringer</string>
     <string name="action_continue_edit">Fortsett endring</string>

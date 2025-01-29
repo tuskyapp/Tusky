@@ -679,9 +679,14 @@
     <string name="title_public_trending_hashtags">Populární hashtagy</string>
     <string name="error_media_upload_sending_fmt">Nahrávání selhalo: %1$s</string>
     <string name="title_followed_hashtags">Sledované hashtagy</string>
-    <string name="action_post_failed_detail_plural">Nahrávání tvých postuů selhalo a posty byly uloženy mezi koncepty.
+    <plurals name="action_post_failed_detail">
+        <item quantity="one">Nahrávání tvého postu selhalo a post byl uložen mezi koncepty.
 \n
-\nServer buď nemohl být kontaktován, nebo posty odmítl.</string>
+\nServer buď nemohl být kontaktován, nebo post odmítl.</item>
+        <item quantity="other">Nahrávání tvých postuů selhalo a posty byly uloženy mezi koncepty.
+\n
+\nServer buď nemohl být kontaktován, nebo posty odmítl.</item>
+    </plurals>
     <string name="post_privacy_direct">Přímo</string>
     <string name="notification_listenable_worker_description">Upozornění když Tusky běží na pozadí</string>
     <string name="about_device_info_title">Tvé zařízení</string>
@@ -708,9 +713,6 @@
     <string name="notification_header_report_format">%1$s nahlášeno %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d postů připojeno</string>
     <string name="action_post_failed">Nahrávání selhalo</string>
-    <string name="action_post_failed_detail">Nahrávání tvého postu selhalo a post byl uložen mezi koncepty.
-\n
-\nServer buď nemohl být kontaktován, nebo post odmítl.</string>
     <string name="ui_error_accept_follow_request">Povolení žádosti o sledování selhalo: %1$s</string>
     <string name="help_empty_lists">Toto je tvůj seznam <b>seznamů</b>. Můžeš si definovat různý počet soukromých seznamů a přidat do nich uživatelské účty.
 \n
