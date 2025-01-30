@@ -24,6 +24,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
+import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -33,6 +34,9 @@ import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
@@ -121,6 +125,14 @@ class LoginWebViewActivity : BaseActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
 
         setTitle(R.string.title_login)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.loginWebView) { _, insets ->
+            val bottomInsets = insets.getInsets(systemBars()).bottom
+            binding.loginWebView.updatePadding(bottom = bottomInsets)
+            binding.loginRules.updatePadding(bottom = bottomInsets)
+            val x = insets.inset(0, 0, 0, bottomInsets)
+            x
+        }
 
         val webView = binding.loginWebView
         webView.settings.allowContentAccess = false
