@@ -74,7 +74,6 @@ class TrendingTagsFragment :
         val adapter = TrendingTagsAdapter(::onViewTag)
         this.adapter = adapter
         binding.swipeRefreshLayout.setOnRefreshListener(this)
-        binding.recyclerView.ensureBottomPadding()
         setupRecyclerView(adapter)
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -123,6 +122,8 @@ class TrendingTagsFragment :
     }
 
     private fun setupRecyclerView(adapter: TrendingTagsAdapter) {
+        binding.recyclerView.ensureBottomPadding()
+
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
         setupLayoutManager(adapter, columnCount)

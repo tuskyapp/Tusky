@@ -49,6 +49,7 @@ import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.isAnyLoading
 import com.keylesspalace.tusky.util.show
@@ -228,6 +229,7 @@ class ConversationsFragment :
     }
 
     private fun setupRecyclerView(adapter: ConversationAdapter) {
+        binding.recyclerView.ensureBottomPadding(fab = true)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 

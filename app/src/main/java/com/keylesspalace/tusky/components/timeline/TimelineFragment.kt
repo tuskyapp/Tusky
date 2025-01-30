@@ -378,6 +378,9 @@ class TimelineFragment :
     }
 
     private fun setupRecyclerView(adapter: TimelinePagingAdapter) {
+        val hasFab = (activity as? ActionButtonActivity?)?.actionButton != null
+        binding.recyclerView.ensureBottomPadding(fab = hasFab)
+
         binding.recyclerView.setAccessibilityDelegateCompat(
             ListStatusAccessibilityDelegate(binding.recyclerView, this) { pos ->
                 if (pos in 0 until adapter.itemCount) {
@@ -387,13 +390,10 @@ class TimelineFragment :
                 }
             }
         )
-        binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
         val divider = DividerItemDecoration(context, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(divider)
-
-        val hasFab = (activity as? ActionButtonActivity?)?.actionButton != null
-        binding.recyclerView.ensureBottomPadding(fab = hasFab)
 
         // CWs are expanded without animation, buttons animate itself, we don't need it basically
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
