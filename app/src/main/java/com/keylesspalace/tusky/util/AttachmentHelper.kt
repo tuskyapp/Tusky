@@ -24,11 +24,11 @@ fun Attachment.getFormattedDescription(context: Context): CharSequence {
     }
 }
 
-fun List<Attachment>.aspectRatios(): List<Double> {
+fun List<Attachment>.aspectRatios(minAspect: Double, maxAspect: Double): List<Double> {
     return map { attachment ->
-        // clamp ratio between 2:1 & 1:2, defaulting to 16:9
+        // clamp ratio between min & max, defaulting to 16:9 if there is no metadata
         val size = (attachment.meta?.small ?: attachment.meta?.original) ?: return@map 1.7778
         val aspect = if (size.aspect > 0) size.aspect else size.width.toDouble() / size.height
-        aspect.coerceIn(0.5, 2.0)
+        aspect.coerceIn(minAspect, maxAspect)
     }
 }

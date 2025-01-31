@@ -168,7 +168,9 @@ class ViewEditsAdapter(
             binding.statusEditMediaSensitivity.hide()
         } else {
             binding.statusEditMediaPreview.show()
-            binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios()
+            val minAspect: Double = context.resources.getInteger(R.integer.image_aspect_min_tenth) / 10.0
+            val maxAspect: Double = context.resources.getInteger(R.integer.image_aspect_max_tenth) / 10.0
+            binding.statusEditMediaPreview.aspectRatios = edit.mediaAttachments.aspectRatios(minAspect, maxAspect)
 
             binding.statusEditMediaPreview.forEachIndexed { index, imageView, descriptionIndicator ->
 

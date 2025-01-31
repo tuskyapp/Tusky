@@ -3,6 +3,7 @@ package com.keylesspalace.tusky.adapter;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -521,9 +522,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         boolean showingContent,
         boolean useBlurhash
     ) {
-
         mediaPreview.setVisibility(View.VISIBLE);
-        mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments));
+        Resources resources = this.content.getContext().getResources();
+        double minAspect = resources.getInteger(R.integer.image_aspect_min_tenth) / 10.0;
+        double maxAspect = resources.getInteger(R.integer.image_aspect_max_tenth) / 10.0;
+        mediaPreview.setAspectRatios(AttachmentHelper.aspectRatios(attachments, minAspect, maxAspect));
 
         mediaPreview.forEachIndexed((i, imageView, descriptionIndicator) -> {
             Attachment attachment = attachments.get(i);
