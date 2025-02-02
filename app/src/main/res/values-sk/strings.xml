@@ -412,7 +412,7 @@
     <string name="abbreviated_in_years">za %1$d rokov</string>
     <string name="abbreviated_in_days">za %1$d d</string>
     <string name="abbreviated_in_seconds">za %1$d s</string>
-    <string name="abbreviated_years_ago">%1$d rokov</string>
+    <string name="abbreviated_years_ago">%1$d r</string>
     <string name="abbreviated_days_ago">%1$d d</string>
     <string name="abbreviated_hours_ago">%1$d h</string>
     <string name="abbreviated_minutes_ago">%1$d m</string>
@@ -631,4 +631,13 @@
     <string name="notification_policy_filter">Filtrovať</string>
     <string name="notification_policy_ignore">Ignorovať</string>
     <string name="open_settings">Otvoriť predvoľby</string>
+    <string name="pref_default_reply_privacy">Súkromie odpovedí (nesynchronizované so serverom)</string>
+    <string name="pref_show_self_username_disambiguate">Keď je prihlásených viacero účtov</string>
+    <string name="compose_active_account_description">Uverejňujete ako %1$s</string>
+    <string name="report_description_1">Hlásenie bude odoslané moderátorom vášho servera. Nižšie môžete uviesť vysvetlenie, prečo nahlasujete tento účet:</string>
+    <string name="dialog_delete_filter_positive_action">Zmazať</string>
+    <string name="pref_title_enable_swipe_for_tabs">Povoľte gesto potiahnutia na prepínanie medzi kartami</string>
+    <string name="action_dismiss_notification_request">Zrušiť</string>
+    <string name="post_replied">Odpovedané</string>
+    <string name="post_lookup_error_format">Chyba pri hľadaní príspevku %1$s</string>
 </resources>
