@@ -172,11 +172,11 @@
     <string name="link_whats_an_instance">O que é uma instância\?</string>
     <string name="login_connection">A ligar…</string>
     <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a> 
-\n
+\n 
 \nSe ainda não tens uma conta, insere o nome da instância onde pretendes participar e cria uma conta lá.
-\n
-\nUma instância é o local onde tua conta é criada, mas podes facilmente seguir e comunicar com pessoas de outras instâncias como se estivessem todos no mesmo site.
-\n
+\n 
+\nUma instância é o local onde tua conta é criada, mas podes facilmente seguir e comunicar com pessoas de outras instâncias como se estivessem todos no mesmo site. 
+\n 
 \nMais informações disponíveis em <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">A Terminar Envio de Conteúdo Multimédia</string>
     <string name="dialog_message_uploading_media">A enviar…</string>
@@ -375,9 +375,9 @@
         <item quantity="other"><b>%1$s</b> Favoritos</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> Boost</item>
-        <item quantity="many"><b>%1$s</b> Boosts</item>
-        <item quantity="other"><b>%1$s</b> Boosts</item>
+        <item quantity="one"><b>%1$s</b> Partilha</item>
+        <item quantity="many"><b>%1$s</b> Partilhas</item>
+        <item quantity="other"><b>%1$s</b> Partilhas</item>
     </plurals>
     <string name="title_reblogged_by">Boost dado por</string>
     <string name="title_favourited_by">Adicionado aos favoritos por</string>
@@ -556,6 +556,9 @@
         <item quantity="one">A tua publicação não conseguiu ser enviada e foi guardada nos rascunhos.
 \n
 \nO servidor não pode ser contactado ou rejeitou a publicação.</item>
+        <item quantity="many">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
+\n
+\nO servidor não pode ser contactado ou rejeitou as publicações.</item>
         <item quantity="other">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
 \n
 \nO servidor não pode ser contactado ou rejeitou as publicações.</item>
@@ -673,7 +676,7 @@
     <string name="following_hashtag_success_format">Agora segues a hashtag #%1$s</string>
     <string name="load_newest_notifications">Carregar as notificações mais recentes</string>
     <string name="error_missing_edits">O teu servidor sabe que esta publicação foi editada, mas não a consegue mostrar porque não tem uma cópia da edição.
-\n 
+\n
 \nIsto é <a href="https://github.com/mastodon/mastodon/issues/25398"> o problema #25398 do Mastodon </a>.</string>
     <string name="list_reply_policy_none">Ninguém</string>
     <string name="list_reply_policy_list">Membros da lista</string>
@@ -686,18 +689,18 @@
     <string name="ui_success_accepted_follow_request">Seguidor pendente aceite</string>
     <string name="ui_success_rejected_follow_request">Seguidor pendente bloqueado</string>
     <string name="label_filter_action">Ação de filtro</string>
-    <string name="help_empty_conversations">As tuas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM).
-\n
+    <string name="help_empty_conversations">As tuas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM). 
+\n 
 \nAs mensagens privadas são criadas definindo a visibilidade [iconics gmd_public] de uma publicação como [iconics gmd_mail] <i>Direta</i> e mencionando um ou mais utilizadores no texto.
-\n
+\n 
 \nPor exemplo, podes entrar na vista de perfil de uma conta e pressionar o botão de criar publicação [iconics gmd_edit] e alterar a visibilidade.</string>
     <string name="help_empty_lists">Esta é a tua <b>vista de listas</b>. Podes criar várias listas privadas e adicionar contas nelas.
-\n
-\nAtenção, apenas podes adicionar contas que segues às tuas listas.
-\n
+\n 
+\nAtenção: apenas podes adicionar contas que segues às tuas listas.
+\n 
 \nEstas listas podem ser usadas como um separador nos separadores das Configurações da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
-    <string name="help_empty_home">Esta é a tua <b>timeline inicial</b>. Ela mostra as publicações mais recentes das contas que segues.
-\n
+    <string name="help_empty_home">Esta é a tua <b>timeline inicial</b>. Ela mostra as publicações mais recentes das contas que segues. 
+\n 
 \nPara explorar contas, podes descobri-las numa das outras timelines. Por exemplo, a timeline local da tua instância [iconics gmd_group]. Ou podes pesquisá-las pelo nome [iconics gmd_search]; por exemplo, pesquisando por Tusky para encontrar a nossa conta Mastodon.</string>
     <string name="unmuting_hashtag_success_format">Remover silêncio da hashtag #%1$s</string>
     <string name="muting_hashtag_success_format">Silenciar hashtag #%1$s como um aviso</string>
@@ -713,7 +716,7 @@
     <string name="pref_default_reply_privacy_explanation">A privacidade pré-selecionada vai depender da publicação a que estás a responder.</string>
     <string name="pref_match_default_post_privacy">Igualar a privacidade da publicação padrão</string>
     <string name="post_privacy_direct">Direta</string>
-    <string name="action_follow_hashtag">Seguir uma nova hashtag</string>
+    <string name="action_follow_hashtag">Segue uma nova hashtag</string>
     <string name="dialog_follow_warning">Seguir esta conta?</string>
     <string name="label_translating">A traduzir…</string>
     <string name="label_translated">Traduzido de %1$s para %2$s</string>
@@ -753,4 +756,7 @@
     <string name="confirmation_hashtag_copied">\'#%1$s\' copiada</string>
     <string name="reply_sending">A enviar…</string>
     <string name="reply_sending_long">A tua resposta está a ser enviada.</string>
+    <string name="preview_card_by_author">Por %1$s</string>
+    <string name="preview_card_more_by_author">Mais por %1$s</string>
+    <string name="follow_hashtag_success">Hashtags seguidas %1$s</string>
 </resources>
