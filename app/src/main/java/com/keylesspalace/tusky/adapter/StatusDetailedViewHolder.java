@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     private final TextView reblogs;
@@ -140,7 +141,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull final StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads,
+                                @NonNull List<Object> payloads,
                                 final boolean showStatusInfo) {
         // We never collapse statuses in the detail view
         StatusViewData.Concrete uncollapsedStatus = (status.isCollapsible() && status.isCollapsed()) ?
@@ -149,7 +150,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
 
         super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads, showStatusInfo);
         setupCard(uncollapsedStatus, status.isExpanded(), CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
-        if (payloads == null) {
+        if (payloads.isEmpty()) {
             Status actionable = uncollapsedStatus.getActionable();
 
             if (!statusDisplayOptions.hideStats()) {

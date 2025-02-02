@@ -143,18 +143,10 @@ class NotificationsPagingAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        bindViewHolder(viewHolder, position, emptyList())
+        onBindViewHolder(viewHolder, position, emptyList())
     }
 
-    override fun onBindViewHolder(
-        viewHolder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: List<Any>
-    ) {
-        bindViewHolder(viewHolder, position, payloads)
-    }
-
-    private fun bindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
         getItem(position)?.let { notification ->
             when (notification) {
                 is NotificationViewData.Concrete ->
@@ -197,7 +189,7 @@ class NotificationsPagingAdapter(
             ): Any? {
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    StatusBaseViewHolder.Key.KEY_CREATED
                 } else {
                     // If items are different - update the whole view holder
                     null

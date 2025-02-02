@@ -39,6 +39,7 @@ import com.keylesspalace.tusky.util.StringUtils;
 import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import at.connyduck.sparkbutton.helpers.Utils;
@@ -64,9 +65,9 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads,
+                                @NonNull List<Object> payloads,
                                 final boolean showStatusInfo) {
-        if (payloads == null) {
+        if (payloads.isEmpty()) {
             boolean sensitive = !TextUtils.isEmpty(status.getActionable().getSpoilerText());
             boolean expanded = status.isExpanded();
 

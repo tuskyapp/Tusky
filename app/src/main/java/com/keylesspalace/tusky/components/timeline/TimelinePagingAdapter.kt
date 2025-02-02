@@ -71,21 +71,13 @@ class TimelinePagingAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        bindViewHolder(viewHolder, position, null)
+        onBindViewHolder(viewHolder, position, emptyList())
     }
 
     override fun onBindViewHolder(
         viewHolder: RecyclerView.ViewHolder,
         position: Int,
-        payloads: List<*>
-    ) {
-        bindViewHolder(viewHolder, position, payloads)
-    }
-
-    private fun bindViewHolder(
-        viewHolder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: List<*>?
+        payloads: List<Any>
     ) {
         val viewData = getItem(position)
         if (viewData is StatusViewData.Placeholder) {
@@ -101,7 +93,7 @@ class TimelinePagingAdapter(
                     viewData,
                     statusListener,
                     statusDisplayOptions,
-                    if (payloads != null && payloads.isNotEmpty()) payloads[0] else null,
+                    payloads,
                     true
                 )
             }
@@ -142,7 +134,7 @@ class TimelinePagingAdapter(
             override fun getChangePayload(oldItem: StatusViewData, newItem: StatusViewData): Any? {
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    StatusBaseViewHolder.Key.KEY_CREATED
                 } else {
                     // If items are different - update the whole view holder
                     null

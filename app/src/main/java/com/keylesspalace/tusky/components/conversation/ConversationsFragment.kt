@@ -183,7 +183,7 @@ class ConversationsFragment :
                     adapter.notifyItemRangeChanged(
                         0,
                         adapter.itemCount,
-                        listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                        StatusBaseViewHolder.Key.KEY_CREATED
                     )
                     delay(1.toDuration(DurationUnit.MINUTES))
                 }

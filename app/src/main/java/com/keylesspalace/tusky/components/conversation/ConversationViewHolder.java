@@ -69,7 +69,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
     void setupWithConversation(
             @NonNull ConversationViewData conversation,
-            @Nullable Object payloads
+            @Nullable List<Object> payloads
     ) {
 
         StatusViewData.Concrete statusViewData = conversation.getLastStatus();
@@ -118,11 +118,9 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
             setAvatars(conversation.getAccounts());
         } else {
-            if (payloads instanceof List) {
-                for (Object item : (List<?>) payloads) {
-                    if (Key.KEY_CREATED.equals(item)) {
-                        setMetaData(statusViewData, statusDisplayOptions, listener);
-                    }
+            for (Object item : payloads) {
+                if (Key.KEY_CREATED.equals(item)) {
+                    setMetaData(statusViewData, statusDisplayOptions, listener);
                 }
             }
         }

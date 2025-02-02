@@ -779,9 +779,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
-                                @Nullable Object payloads,
+                                @NonNull List<Object> payloads,
                                 final boolean showStatusInfo) {
-        if (payloads == null) {
+        if (payloads.isEmpty()) {
             Status actionable = status.getActionable();
             setDisplayName(actionable.getAccount().getName(), actionable.getAccount().getEmojis(), statusDisplayOptions);
             setUsername(actionable.getAccount().getUsername());
@@ -832,16 +832,16 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // and let RecyclerView ask for a new delegate.
             itemView.setAccessibilityDelegate(null);
         } else {
-            if (payloads instanceof List)
-                for (Object item : (List<?>) payloads) {
-                    if (Key.KEY_CREATED.equals(item)) {
-                        setMetaData(status, statusDisplayOptions, listener);
-                        if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
-                            // there is a preview card showing the published time, we need to refresh it as well
-                            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
-                        }
+            for (Object item : payloads) {
+                if (Key.KEY_CREATED.equals(item)) {
+                    setMetaData(status, statusDisplayOptions, listener);
+                    if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
+                        // there is a preview card showing the published time, we need to refresh it as well
+                        setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
                     }
+                    break;
                 }
+            }
         }
     }
 
@@ -1239,7 +1239,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     builder = builder.placeholder(decodeBlurHash(card.getBlurhash()));
                 }
                 builder.centerInside()
-                  .into(cardImage);
+                    .into(cardImage);
             } else if (statusDisplayOptions.useBlurhash() && !TextUtils.isEmpty(card.getBlurhash())) {
                 int radius = cardImage.getContext().getResources()
                     .getDimensionPixelSize(R.dimen.inner_card_radius);

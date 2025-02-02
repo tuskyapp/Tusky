@@ -48,13 +48,9 @@ class ConversationAdapter(
         onBindViewHolder(holder, position, emptyList())
     }
 
-    override fun onBindViewHolder(
-        holder: ConversationViewHolder,
-        position: Int,
-        payloads: List<Any>
-    ) {
+    override fun onBindViewHolder(holder: ConversationViewHolder, position: Int, payloads: List<Any>) {
         getItem(position)?.let { conversationViewData ->
-            holder.setupWithConversation(conversationViewData, payloads.firstOrNull())
+            holder.setupWithConversation(conversationViewData, payloads)
         }
     }
 
@@ -80,7 +76,7 @@ class ConversationAdapter(
             ): Any? {
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    StatusBaseViewHolder.Key.KEY_CREATED
                 } else {
                     // If items are different - update the whole view holder
                     null
