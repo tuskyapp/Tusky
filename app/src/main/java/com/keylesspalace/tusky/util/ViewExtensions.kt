@@ -21,8 +21,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
@@ -119,5 +122,63 @@ fun FloatingActionButton.ensureBottomMargin() {
         val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
         (view.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = bottomInsets + actionButtonMargin
         insets
+    }
+}
+
+/**
+ * Combines WindowInsetsAnimationCompat.Callback and OnApplyWindowInsetsListener
+ * for easy implementation of layouts that animate with they keyboard.
+ * The animation callback is only called when something animates, so it isn't suitable for initial setup.
+ * The OnApplyWindowInsetsListener can do that, but the insets it supplies must not be used when an animation is ongoing,
+ * as that messes with the animation.
+ */
+fun View.setOnWindowInsetsChangeListener(listener: (WindowInsetsCompat) -> Unit) {
+    val callback = WindowInsetsCallback(listener)
+
+    ViewCompat.setWindowInsetsAnimationCallback(this, callback)
+    ViewCompat.setOnApplyWindowInsetsListener(this, callback)
+}
+
+private class WindowInsetsCallback(
+    private val listener: (WindowInsetsCompat) -> Unit,
+) : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP),
+    OnApplyWindowInsetsListener {
+
+    var imeVisible = false
+    var deferredInsets: WindowInsetsCompat? = null
+
+    override fun onStart(animation: WindowInsetsAnimationCompat, bounds: WindowInsetsAnimationCompat.BoundsCompat): WindowInsetsAnimationCompat.BoundsCompat {
+        imeVisible = true
+        return super.onStart(animation, bounds)
+    }
+
+    override fun onProgress(
+        insets: WindowInsetsCompat,
+        runningAnimations: List<WindowInsetsAnimationCompat>,
+    ): WindowInsetsCompat {
+        listener(insets)
+        return WindowInsetsCompat.CONSUMED
+    }
+
+    override fun onApplyWindowInsets(
+        view: View,
+        insets: WindowInsetsCompat,
+    ): WindowInsetsCompat {
+        val ime = insets.getInsets(ime()).bottom
+        if (!imeVisible && ime == 0) {
+            listener(insets)
+            deferredInsets = null
+        } else {
+            deferredInsets = insets
+        }
+        return WindowInsetsCompat.CONSUMED
+    }
+
+    override fun onEnd(animation: WindowInsetsAnimationCompat) {
+        imeVisible = deferredInsets?.isVisible(ime()) == true
+        deferredInsets?.let { insets ->
+            listener(insets)
+            deferredInsets = null
+        }
     }
 }

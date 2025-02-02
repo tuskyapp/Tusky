@@ -24,12 +24,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import androidx.core.graphics.Insets
 import androidx.core.net.toUri
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_STOP
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
@@ -47,6 +42,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
+import com.keylesspalace.tusky.util.setOnWindowInsetsChangeListener
 import com.keylesspalace.tusky.util.shouldRickRoll
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,18 +79,10 @@ class LoginActivity : BaseActivity() {
 
         setContentView(binding.root)
 
-        ViewCompat.setWindowInsetsAnimationCallback(
-            binding.loginScrollView,
-            object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-                override fun onProgress(windowInsets: WindowInsetsCompat, runningAnimations: List<WindowInsetsAnimationCompat?>): WindowInsetsCompat {
-                    val insets = windowInsets.getInsets(systemBars() or ime())
-                    binding.loginScrollView.updatePadding(bottom = insets.bottom)
-                    return WindowInsetsCompat.Builder(windowInsets)
-                        .setInsets(systemBars() or ime(), Insets.of(insets.left, insets.top, insets.right, 0))
-                        .build()
-                }
-            }
-        )
+        binding.loginScrollView.setOnWindowInsetsChangeListener { windowInsets ->
+            val insets = windowInsets.getInsets(systemBars() or ime())
+            binding.loginScrollView.updatePadding(bottom = insets.bottom)
+        }
 
         if (savedInstanceState == null &&
             BuildConfig.CUSTOM_INSTANCE.isNotBlank() &&
