@@ -640,9 +640,13 @@
     <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
     <string name="description_browser_login">Efallai y bydd dulliau dilysu ychwanegol ar gael, ond mae eu hangen porwr arall.</string>
     <plurals name="action_post_failed_detail">
+        <item quantity="zero"></item>
         <item quantity="one">Methodd eich neges â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
         <item quantity="other">Methodd eich negeseuon â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</item>
@@ -650,7 +654,6 @@
     <string name="action_post_failed">Wedi methu llwytho i fyny</string>
     <string name="action_post_failed_show_drafts">Dangos drafftiau</string>
     <string name="action_post_failed_do_nothing">Diystyru</string>
-
     <string name="title_public_trending_hashtags">Hashnodau poblogaidd</string>
     <string name="accessibility_talking_about_tag">Mae %1$d o bobl yn siarad am hashnod %2$s</string>
     <string name="total_usage">Defnydd cyfan</string>
