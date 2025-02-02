@@ -582,7 +582,7 @@
     <plurals name="action_post_failed_detail">
         <item quantity="other">Tút của bạn không tải lên được và đã được lưu nháp.
 \n
-\nKhông thể liên lạc được với máy chủ hoặc nó đã từ chối tút.</item>
+\nKhông thể kết nối tới máy chủ hoặc nó đã từ chối tút.</item>
     </plurals>
     <string name="action_post_failed_show_drafts">Xem bản nháp</string>
     <string name="action_post_failed_do_nothing">Bỏ qua</string>
