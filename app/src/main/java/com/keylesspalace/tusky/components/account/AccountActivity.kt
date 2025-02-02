@@ -44,6 +44,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -292,8 +293,10 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         ViewCompat.setOnApplyWindowInsetsListener(binding.accountCoordinatorLayout) { _, insets ->
             val systemBarInsets = insets.getInsets(systemBars())
             val top = systemBarInsets.top
-            val toolbarParams = binding.accountToolbar.layoutParams as ViewGroup.MarginLayoutParams
-            toolbarParams.topMargin = top
+
+            binding.accountToolbar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = top
+            }
 
             binding.swipeToRefreshLayout.setProgressViewEndTarget(
                 false,

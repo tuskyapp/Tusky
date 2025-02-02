@@ -24,6 +24,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -91,8 +92,12 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
         ViewCompat.setOnApplyWindowInsetsListener(binding.actionButton) { _, insets ->
             val systemBarInsets = insets.getInsets(systemBars())
             val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
-            (binding.actionButton.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = systemBarInsets.bottom + actionButtonMargin
-            (binding.sheet.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = systemBarInsets.bottom + actionButtonMargin
+            binding.actionButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = systemBarInsets.bottom + actionButtonMargin
+            }
+            binding.sheet.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = systemBarInsets.bottom + actionButtonMargin
+            }
             WindowInsetsCompat.Builder(insets)
                 .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
                 .build()

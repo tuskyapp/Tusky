@@ -33,6 +33,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.displayCutout
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.lifecycleScope
@@ -142,8 +143,10 @@ abstract class BaseActivity : AppCompatActivity() {
             val displayCutoutInsets = insets.getInsets(displayCutout())
             // use padding for system bar insets so they get our background color and margin for cutout insets to turn them black
             contentView.updatePadding(left = systemBarInsets.left, right = systemBarInsets.right)
-            (contentView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = displayCutoutInsets.left
-            (contentView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = displayCutoutInsets.right
+            contentView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = displayCutoutInsets.left
+                rightMargin = displayCutoutInsets.right
+            }
 
             WindowInsetsCompat.Builder(insets)
                 .setInsets(systemBars(), Insets.of(0, systemBarInsets.top, 0, systemBarInsets.bottom))

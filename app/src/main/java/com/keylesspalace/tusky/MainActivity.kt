@@ -56,6 +56,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -256,7 +257,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 val systemBarsInsets = insets.getInsets(systemBars())
                 val bottomInsets = systemBarsInsets.bottom
 
-                (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomBarHeight + fabMargin + bottomInsets
+                binding.composeButton.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                    bottomMargin = bottomBarHeight + fabMargin + bottomInsets
+                }
                 binding.mainDrawer.recyclerView.updatePadding(bottom = bottomInsets)
 
                 if (preferences.getString(PrefKeys.MAIN_NAV_POSITION, "top") == "top") {
@@ -274,7 +277,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             @Suppress("DEPRECATION")
             window.statusBarColor = Color.TRANSPARENT
 
-            (binding.composeButton.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = bottomBarHeight + fabMargin
+            binding.composeButton.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                bottomMargin = bottomBarHeight + fabMargin
+            }
             binding.viewPager.updatePadding(bottom = bottomBarHeight)
         }
 

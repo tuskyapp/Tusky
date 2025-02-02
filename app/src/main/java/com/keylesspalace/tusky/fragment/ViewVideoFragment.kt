@@ -36,6 +36,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -139,7 +140,9 @@ class ViewVideoFragment : ViewMediaFragment() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mediaDescriptionScrollView) { captionSheet, insets ->
             val systemBarInsets = insets.getInsets(systemBars())
             captionSheet.updatePadding(bottom = systemBarInsets.bottom)
-            (binding.videoView.layoutParams as ConstraintLayout.LayoutParams).bottomMargin = systemBarInsets.bottom
+            binding.videoView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                bottomMargin = systemBarInsets.bottom
+            }
 
             WindowInsetsCompat.Builder(insets)
                 .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))

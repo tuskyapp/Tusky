@@ -27,6 +27,7 @@ import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -120,7 +121,9 @@ fun FloatingActionButton.ensureBottomMargin() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val bottomInsets = insets.getInsets(systemBars()).bottom
         val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
-        (view.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = bottomInsets + actionButtonMargin
+        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = bottomInsets + actionButtonMargin
+        }
         insets
     }
 }
