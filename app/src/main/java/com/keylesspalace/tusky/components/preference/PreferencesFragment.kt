@@ -32,9 +32,7 @@ import com.keylesspalace.tusky.settings.preferenceCategory
 import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
-import com.keylesspalace.tusky.util.deserialize
 import com.keylesspalace.tusky.util.icon
-import com.keylesspalace.tusky.util.serialize
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import dagger.hilt.android.AndroidEntryPoint
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
@@ -245,9 +243,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     key = PrefKeys.WELLBEING_LIMITED_NOTIFICATIONS
                     setOnPreferenceChangeListener { _, value ->
                         for (account in accountManager.accounts) {
-                            val notificationFilter = deserialize(
-                                account.notificationsFilter
-                            ).toMutableSet()
+                            val notificationFilter = account.notificationsFilter.toMutableSet()
 
                             if (value == true) {
                                 notificationFilter.add(Notification.Type.FAVOURITE)
@@ -260,7 +256,7 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                             }
 
                             lifecycleScope.launch {
-                                accountManager.updateAccount(account) { copy(notificationsFilter = serialize(notificationFilter)) }
+                                accountManager.updateAccount(account) { copy(notificationsFilter = notificationFilter) }
                             }
                         }
                         true
