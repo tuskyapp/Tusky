@@ -595,7 +595,7 @@
     <plurals name="action_post_failed_detail">
         <item quantity="other">你的嘟文上传失败，已被保存到草稿。
 \n
-\n要么是无法联系服务器，要么是服务器拒绝了它。</item>
+\n要么是无法联系服务器，要么是服务器拒绝了它们。</item>
     </plurals>
     <string name="action_post_failed_show_drafts">显示草稿</string>
     <string name="action_post_failed_do_nothing">取消</string>
