@@ -20,9 +20,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
@@ -90,17 +88,15 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
 
         binding.currentTabsRecyclerView.ensureBottomPadding(fab = true)
         ViewCompat.setOnApplyWindowInsetsListener(binding.actionButton) { _, insets ->
-            val systemBarInsets = insets.getInsets(systemBars())
+            val bottomInset = insets.getInsets(systemBars()).bottom
             val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
             binding.actionButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = systemBarInsets.bottom + actionButtonMargin
+                bottomMargin = bottomInset + actionButtonMargin
             }
             binding.sheet.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = systemBarInsets.bottom + actionButtonMargin
+                bottomMargin = bottomInset + actionButtonMargin
             }
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
-                .build()
+            insets.inset(0, 0, 0, bottomInset)
         }
 
         currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().toMutableList()

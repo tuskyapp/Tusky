@@ -32,9 +32,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.OptIn
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -144,9 +142,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                 bottomMargin = systemBarInsets.bottom
             }
 
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
-                .build()
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
         }
 
         /**

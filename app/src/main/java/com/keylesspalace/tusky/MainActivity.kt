@@ -48,11 +48,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.Insets
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
@@ -266,9 +264,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     insets
                 } else {
                     binding.viewPager.updatePadding(bottom = bottomBarHeight + bottomInsets)
-                    WindowInsetsCompat.Builder(insets)
-                        .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
-                        .build()
+                    insets.inset(0, 0, 0, bottomInsets)
                 }
             }
         } else {

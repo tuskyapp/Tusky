@@ -27,9 +27,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
@@ -116,9 +114,8 @@ class ViewImageFragment : ViewMediaFragment() {
             val systemBarInsets = insets.getInsets(systemBars())
             val mediaDescriptionBottomPadding = requireContext().resources.getDimensionPixelSize(R.dimen.media_description_sheet_bottom_padding)
             binding.mediaDescription.updatePadding(bottom = mediaDescriptionBottomPadding + systemBarInsets.bottom)
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
-                .build()
+
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
         }
 
         val singleTapDetector = GestureDetector(

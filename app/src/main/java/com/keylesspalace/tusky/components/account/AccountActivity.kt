@@ -38,11 +38,9 @@ import androidx.annotation.Px
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.Insets
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -303,9 +301,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 top + resources.getDimensionPixelSize(R.dimen.account_swiperefresh_distance)
             )
 
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarInsets.left, 0, systemBarInsets.right, systemBarInsets.bottom))
-                .build()
+            insets.inset(0, top, 0, 0)
         }
     }
 

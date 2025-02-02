@@ -10,9 +10,7 @@ import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
@@ -50,9 +48,7 @@ class AboutActivity : BottomSheetActivity() {
             val systemBarInsets = insets.getInsets(systemBars())
             scrollView.updatePadding(bottom = systemBarInsets.bottom)
 
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarInsets.left, systemBarInsets.top, systemBarInsets.right, 0))
-                .build()
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
         }
 
         binding.versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)

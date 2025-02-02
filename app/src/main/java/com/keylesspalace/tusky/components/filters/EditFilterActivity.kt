@@ -20,9 +20,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.AdapterView
 import androidx.activity.viewModels
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.size
 import androidx.core.view.updatePadding
@@ -99,9 +97,7 @@ class EditFilterActivity : BaseActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { scrollView, insets ->
             val systemBarsInsets = insets.getInsets(systemBars())
             scrollView.updatePadding(bottom = systemBarsInsets.bottom)
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
-                .build()
+            insets.inset(0, 0, 0, systemBarsInsets.bottom)
         }
 
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
