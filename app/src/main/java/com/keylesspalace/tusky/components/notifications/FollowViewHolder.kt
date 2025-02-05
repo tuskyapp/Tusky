@@ -36,6 +36,9 @@ class FollowViewHolder(
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
+        if (payloads.isNotEmpty()) {
+            return
+        }
         val context = itemView.context
         val account = viewData.account
         val messageTemplate =
