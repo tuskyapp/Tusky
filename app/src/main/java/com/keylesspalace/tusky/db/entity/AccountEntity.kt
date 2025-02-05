@@ -24,6 +24,7 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
+import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 
@@ -93,7 +94,7 @@ data class AccountEntity(
     val notificationMarkerId: String = "0",
     val emojis: List<Emoji> = emptyList(),
     val tabPreferences: List<TabData> = defaultTabs(),
-    val notificationsFilter: String = "[\"follow_request\"]",
+    val notificationsFilter: Set<Notification.Type> = setOf(Notification.Type.FOLLOW_REQUEST),
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future
     val oauthScopes: String = "",

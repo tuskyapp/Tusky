@@ -48,8 +48,6 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
-import com.keylesspalace.tusky.util.deserialize
-import com.keylesspalace.tusky.util.serialize
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -87,8 +85,8 @@ class NotificationsViewModel @Inject constructor(
     private val refreshTrigger = MutableStateFlow(0L)
 
     val excludes: StateFlow<Set<Notification.Type>> = activeAccountFlow
-        .map { account -> deserialize(account?.notificationsFilter ?: "[]") }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, deserialize(activeAccountFlow.value?.notificationsFilter ?: "[]"))
+        .map { account -> account?.notificationsFilter.orEmpty() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, activeAccountFlow.value?.notificationsFilter.orEmpty())
 
     /** Map from notification id to translation. */
     private val translations = MutableStateFlow(mapOf<String, TranslationViewData>())
@@ -155,7 +153,7 @@ class NotificationsViewModel @Inject constructor(
         if (newFilters != excludes.value && account != null) {
             viewModelScope.launch {
                 accountManager.updateAccount(account) {
-                    copy(notificationsFilter = serialize(newFilters))
+                    copy(notificationsFilter = newFilters)
                 }
                 db.notificationsDao().cleanupNotifications(accountId, 0)
                 refreshTrigger.value++
