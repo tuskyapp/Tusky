@@ -38,6 +38,7 @@ import com.keylesspalace.tusky.databinding.FragmentTrendingTagsBinding
 import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -121,6 +122,8 @@ class TrendingTagsFragment :
     }
 
     private fun setupRecyclerView(adapter: TrendingTagsAdapter) {
+        binding.recyclerView.ensureBottomPadding()
+
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
         setupLayoutManager(adapter, columnCount)

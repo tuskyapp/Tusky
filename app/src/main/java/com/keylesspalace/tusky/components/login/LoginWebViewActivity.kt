@@ -33,6 +33,11 @@ import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.BaseActivity
@@ -122,10 +127,15 @@ class LoginWebViewActivity : BaseActivity() {
 
         setTitle(R.string.title_login)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.loginWebView) { _, insets ->
+            val bottomInsets = insets.getInsets(systemBars() or ime()).bottom
+            binding.root.updatePadding(bottom = bottomInsets)
+            WindowInsetsCompat.CONSUMED
+        }
+
         val webView = binding.loginWebView
         webView.settings.allowContentAccess = false
         webView.settings.allowFileAccess = false
-        webView.settings.databaseEnabled = false
         webView.settings.displayZoomControls = false
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
         // JavaScript needs to be enabled because otherwise 2FA does not work in some instances

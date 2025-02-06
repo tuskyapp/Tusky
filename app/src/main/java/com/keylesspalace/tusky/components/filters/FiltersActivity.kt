@@ -11,6 +11,8 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ActivityFiltersBinding
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.util.ensureBottomMargin
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.launchAndRepeatOnLifecycle
 import com.keylesspalace.tusky.util.show
@@ -42,6 +44,9 @@ class FiltersActivity : BaseActivity(), FiltersListener {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        binding.filtersList.ensureBottomPadding(fab = true)
+        binding.addFilterButton.ensureBottomMargin()
 
         binding.addFilterButton.setOnClickListener {
             launchEditFilterActivity()

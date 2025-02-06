@@ -36,6 +36,7 @@ import com.keylesspalace.tusky.appstore.StatusScheduledEvent
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.databinding.ActivityScheduledStatusBinding
 import com.keylesspalace.tusky.entity.ScheduledStatus
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
@@ -75,6 +76,8 @@ class ScheduledStatusActivity :
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        binding.scheduledTootList.ensureBottomPadding()
 
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshStatuses)
 

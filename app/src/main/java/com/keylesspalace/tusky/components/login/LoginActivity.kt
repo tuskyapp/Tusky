@@ -25,6 +25,9 @@ import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.bumptech.glide.Glide
@@ -39,6 +42,7 @@ import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.openLinkInCustomTab
 import com.keylesspalace.tusky.util.rickRoll
+import com.keylesspalace.tusky.util.setOnWindowInsetsChangeListener
 import com.keylesspalace.tusky.util.shouldRickRoll
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,6 +78,11 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
+
+        binding.loginScrollView.setOnWindowInsetsChangeListener { windowInsets ->
+            val insets = windowInsets.getInsets(systemBars() or ime())
+            binding.loginScrollView.updatePadding(bottom = insets.bottom)
+        }
 
         if (savedInstanceState == null &&
             BuildConfig.CUSTOM_INSTANCE.isNotBlank() &&

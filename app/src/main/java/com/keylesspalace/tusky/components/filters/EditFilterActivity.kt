@@ -20,7 +20,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import android.widget.AdapterView
 import androidx.activity.viewModels
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.size
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
@@ -90,6 +93,12 @@ class EditFilterActivity : BaseActivity() {
                 R.string.filter_edit_title
             }
         )
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { scrollView, insets ->
+            val systemBarsInsets = insets.getInsets(systemBars())
+            scrollView.updatePadding(bottom = systemBarsInsets.bottom)
+            insets.inset(0, 0, 0, systemBarsInsets.bottom)
+        }
 
         binding.actionChip.setOnClickListener { showAddKeywordDialog() }
         binding.filterSaveButton.setOnClickListener { saveChanges() }

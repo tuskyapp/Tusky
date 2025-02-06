@@ -6,79 +6,87 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/composeAvatar"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="end"
-            android:padding="8dp"
-            tools:ignore="ContentDescription" />
-        <!--content description will be set in code -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/composePostLanguageButton"
-            style="@style/TuskyImageButton"
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:contentDescription="@string/description_post_language"
-            android:padding="0dp"
-            android:textColor="?android:attr/textColorTertiary"
-            android:textSize="?attr/status_text_large"
-            android:textStyle="bold"
-            app:tooltipText="@string/description_post_language" />
+            <ImageView
+                android:id="@+id/composeAvatar"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="end"
+                android:padding="8dp"
+                tools:ignore="ContentDescription" />
+            <!--content description will be set in code -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/atButton"
-            style="@style/TuskyImageButton"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:padding="8dp"
-            android:text="@string/at_symbol"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_large"
-            android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/composePostLanguageButton"
+                style="@style/TuskyImageButton"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:contentDescription="@string/description_post_language"
+                android:padding="0dp"
+                android:textColor="?android:attr/textColorTertiary"
+                android:textSize="?attr/status_text_large"
+                android:textStyle="bold"
+                app:tooltipText="@string/description_post_language" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/hashButton"
-            style="@style/TuskyImageButton"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:padding="8dp"
-            android:text="@string/hash_symbol"
-            android:textColor="?android:textColorTertiary"
-            android:textSize="?attr/status_text_large"
-            android:textStyle="bold" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/atButton"
+                style="@style/TuskyImageButton"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="8dp"
+                android:text="@string/at_symbol"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_large"
+                android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/descriptionMissingWarningButton"
-            style="@style/TuskyImageButton"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:contentDescription="@string/hint_media_description_missing"
-            android:padding="8dp"
-            app:icon="@drawable/ic_missing_description_24dp"
-            app:iconTint="@color/tusky_orange_light"
-            app:tooltipText="@string/hint_media_description_missing" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hashButton"
+                style="@style/TuskyImageButton"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="8dp"
+                android:text="@string/hash_symbol"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="?attr/status_text_large"
+                android:textStyle="bold" />
 
-    </com.google.android.material.appbar.MaterialToolbar>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/descriptionMissingWarningButton"
+                style="@style/TuskyImageButton"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:contentDescription="@string/hint_media_description_missing"
+                android:padding="8dp"
+                app:icon="@drawable/ic_missing_description_24dp"
+                app:iconTint="@color/tusky_orange_light"
+                app:tooltipText="@string/hint_media_description_missing" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/composeMainScrollView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/compose_activity_scrollview_height"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginBottom="52dp">
+        android:layout_marginBottom="52dp"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -290,7 +298,8 @@
         android:paddingStart="8dp"
         android:paddingTop="4dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        app:layout_insetEdge="bottom">
 
         <ImageButton
             android:id="@+id/composeAddMediaButton"

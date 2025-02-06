@@ -18,7 +18,11 @@ package com.keylesspalace.tusky
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -34,7 +38,7 @@ import com.keylesspalace.tusky.components.account.list.ListSelectionFragment
 import com.keylesspalace.tusky.databinding.ActivityTabPreferenceBinding
 import com.keylesspalace.tusky.entity.MastoList
 import com.keylesspalace.tusky.network.MastodonApi
-import com.keylesspalace.tusky.util.hashtagPattern
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
@@ -80,6 +84,19 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
             setTitle(R.string.title_tab_preferences)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
+        }
+
+        binding.currentTabsRecyclerView.ensureBottomPadding(fab = true)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.actionButton) { _, insets ->
+            val bottomInset = insets.getInsets(systemBars()).bottom
+            val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+            binding.actionButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = bottomInset + actionButtonMargin
+            }
+            binding.sheet.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = bottomInset + actionButtonMargin
+            }
+            insets.inset(0, 0, 0, bottomInset)
         }
 
         currentTabs = accountManager.activeAccount?.tabPreferences.orEmpty().toMutableList()
@@ -251,11 +268,6 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
         currentTabsAdapter.notifyItemInserted(currentTabs.size - 1)
         updateAvailableTabs()
         saveTabs()
-    }
-
-    private fun validateHashtag(input: CharSequence?): Boolean {
-        val trimmedInput = input?.trim() ?: ""
-        return trimmedInput.isNotEmpty() && hashtagPattern.matcher(trimmedInput).matches()
     }
 
     private fun updateAvailableTabs() {

@@ -27,6 +27,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -105,6 +108,14 @@ class ViewImageFragment : ViewMediaFragment() {
             if (url == null) {
                 throw IllegalArgumentException("attachment or image url has to be set")
             }
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            val mediaDescriptionBottomPadding = requireContext().resources.getDimensionPixelSize(R.dimen.media_description_sheet_bottom_padding)
+            binding.mediaDescription.updatePadding(bottom = mediaDescriptionBottomPadding + systemBarInsets.bottom)
+
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
         }
 
         val singleTapDetector = GestureDetector(

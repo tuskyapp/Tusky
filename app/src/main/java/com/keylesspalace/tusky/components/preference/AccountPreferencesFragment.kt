@@ -23,7 +23,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
@@ -64,7 +63,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AccountPreferencesFragment : PreferenceFragmentCompat() {
+class AccountPreferencesFragment : BasePreferencesFragment() {
     @Inject
     lateinit var accountManager: AccountManager
 

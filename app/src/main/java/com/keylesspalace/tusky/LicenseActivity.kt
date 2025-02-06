@@ -19,6 +19,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RawRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.databinding.ActivityLicenseBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +47,13 @@ class LicenseActivity : BaseActivity() {
         }
 
         setTitle(R.string.title_licenses)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { scrollView, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            scrollView.updatePadding(bottom = systemBarInsets.bottom)
+
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
+        }
 
         loadFileIntoTextView(R.raw.apache, binding.licenseApacheTextView)
     }

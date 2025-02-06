@@ -10,6 +10,9 @@ import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityAboutBinding
@@ -40,6 +43,13 @@ class AboutActivity : BottomSheetActivity() {
         }
 
         setTitle(R.string.about_title_activity)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView) { scrollView, insets ->
+            val systemBarInsets = insets.getInsets(systemBars())
+            scrollView.updatePadding(bottom = systemBarInsets.bottom)
+
+            insets.inset(0, 0, 0, systemBarInsets.bottom)
+        }
 
         binding.versionTextView.text = getString(R.string.about_app_version, getString(R.string.app_name), BuildConfig.VERSION_NAME)
 

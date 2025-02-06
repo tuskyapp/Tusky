@@ -18,9 +18,21 @@ package com.keylesspalace.tusky.util
 
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.keylesspalace.tusky.R
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -77,4 +89,99 @@ fun ViewPager2.reduceSwipeSensitivity() {
 fun TextView.fixTextSelection() {
     setTextIsSelectable(false)
     post { setTextIsSelectable(true) }
+}
+
+/**
+ * Makes sure the [RecyclerView] has the correct bottom padding set
+ * and no system bars or floating action buttons cover the content when it is scrolled all the way up.
+ * This must be called before window insets are applied (Activity.onCreate or Fragment.onViewCreated).
+ * The RecyclerView needs to have clipToPadding set to false for this to work.
+ * @param fab true if there is a [FloatingActionButton] above the RecyclerView
+ */
+fun RecyclerView.ensureBottomPadding(fab: Boolean = false) {
+    val bottomPadding = if (fab) {
+        context.resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_actionbutton)
+    } else {
+        context.resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
+    }
+
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val systemBarsInsets = insets.getInsets(systemBars())
+        view.updatePadding(bottom = bottomPadding + systemBarsInsets.bottom)
+        WindowInsetsCompat.Builder(insets)
+            .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
+            .build()
+    }
+}
+
+/** Makes sure a [FloatingActionButton] has the correct bottom margin set
+ * so it is not covered by any system bars.
+ */
+fun FloatingActionButton.ensureBottomMargin() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val bottomInsets = insets.getInsets(systemBars()).bottom
+        val actionButtonMargin = resources.getDimensionPixelSize(R.dimen.fabMargin)
+        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = bottomInsets + actionButtonMargin
+        }
+        insets
+    }
+}
+
+/**
+ * Combines WindowInsetsAnimationCompat.Callback and OnApplyWindowInsetsListener
+ * for easy implementation of layouts that animate with they keyboard.
+ * The animation callback is only called when something animates, so it isn't suitable for initial setup.
+ * The OnApplyWindowInsetsListener can do that, but the insets it supplies must not be used when an animation is ongoing,
+ * as that messes with the animation.
+ */
+fun View.setOnWindowInsetsChangeListener(listener: (WindowInsetsCompat) -> Unit) {
+    val callback = WindowInsetsCallback(listener)
+
+    ViewCompat.setWindowInsetsAnimationCallback(this, callback)
+    ViewCompat.setOnApplyWindowInsetsListener(this, callback)
+}
+
+private class WindowInsetsCallback(
+    private val listener: (WindowInsetsCompat) -> Unit,
+) : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP),
+    OnApplyWindowInsetsListener {
+
+    var imeVisible = false
+    var deferredInsets: WindowInsetsCompat? = null
+
+    override fun onStart(animation: WindowInsetsAnimationCompat, bounds: WindowInsetsAnimationCompat.BoundsCompat): WindowInsetsAnimationCompat.BoundsCompat {
+        imeVisible = true
+        return super.onStart(animation, bounds)
+    }
+
+    override fun onProgress(
+        insets: WindowInsetsCompat,
+        runningAnimations: List<WindowInsetsAnimationCompat>,
+    ): WindowInsetsCompat {
+        listener(insets)
+        return WindowInsetsCompat.CONSUMED
+    }
+
+    override fun onApplyWindowInsets(
+        view: View,
+        insets: WindowInsetsCompat,
+    ): WindowInsetsCompat {
+        val ime = insets.getInsets(ime()).bottom
+        if (!imeVisible && ime == 0) {
+            listener(insets)
+            deferredInsets = null
+        } else {
+            deferredInsets = insets
+        }
+        return WindowInsetsCompat.CONSUMED
+    }
+
+    override fun onEnd(animation: WindowInsetsAnimationCompat) {
+        imeVisible = deferredInsets?.isVisible(ime()) == true
+        deferredInsets?.let { insets ->
+            listener(insets)
+            deferredInsets = null
+        }
+    }
 }
