@@ -47,7 +47,7 @@ internal class StatusViewHolder(
                 statusViewData,
                 statusActionListener,
                 statusDisplayOptions,
-                payloads.firstOrNull(),
+                payloads,
                 false
             )
         }

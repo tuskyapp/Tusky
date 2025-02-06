@@ -40,7 +40,11 @@ class FilteredStatusViewHolder(
         viewData: NotificationViewData.Concrete,
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
-    ) = bind(viewData.statusViewData!!)
+    ) {
+        if (payloads.isEmpty()) {
+            bind(viewData.statusViewData!!)
+        }
+    }
 
     fun bind(viewData: StatusViewData.Concrete) {
         val matchedFilterResult: FilterResult? = viewData.actionable.filtered.orEmpty().find { filterResult ->

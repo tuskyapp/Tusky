@@ -55,11 +55,15 @@ class ThreadAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        onBindViewHolder(viewHolder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
         val status = getItem(position)
         if (viewHolder is FilteredStatusViewHolder) {
             viewHolder.bind(status)
         } else if (viewHolder is StatusBaseViewHolder) {
-            viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions, null, false)
+            viewHolder.setupWithStatus(status, statusActionListener, statusDisplayOptions, payloads, false)
         }
     }
 
@@ -100,7 +104,7 @@ class ThreadAdapter(
             ): Any? {
                 return if (oldItem == newItem) {
                     // If items are equal - update timestamp only
-                    listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                    StatusBaseViewHolder.Key.KEY_CREATED
                 } else {
                     // If items are different - update the whole view holder
                     null

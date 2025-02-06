@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -37,23 +38,44 @@ class SearchStatusesAdapter(
     }
 
     override fun onBindViewHolder(holder: StatusViewHolder, position: Int) {
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(holder: StatusViewHolder, position: Int, payloads: List<Any>) {
         getItem(position)?.let { item ->
-            holder.setupWithStatus(item, statusListener, statusDisplayOptions, null, true)
+            holder.setupWithStatus(item, statusListener, statusDisplayOptions, payloads, true)
         }
     }
 
     companion object {
 
         val STATUS_COMPARATOR = object : DiffUtil.ItemCallback<StatusViewData.Concrete>() {
-            override fun areContentsTheSame(
-                oldItem: StatusViewData.Concrete,
-                newItem: StatusViewData.Concrete
-            ): Boolean = oldItem == newItem
-
             override fun areItemsTheSame(
                 oldItem: StatusViewData.Concrete,
                 newItem: StatusViewData.Concrete
-            ): Boolean = oldItem.id == newItem.id
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: StatusViewData.Concrete,
+                newItem: StatusViewData.Concrete
+            ): Boolean {
+                return false // Items are different always. It allows to refresh timestamp on every view holder update
+            }
+
+            override fun getChangePayload(
+                oldItem: StatusViewData.Concrete,
+                newItem: StatusViewData.Concrete
+            ): Any? {
+                return if (oldItem == newItem) {
+                    // If items are equal - update timestamp only
+                    StatusBaseViewHolder.Key.KEY_CREATED
+                } else {
+                    // If items are different - update the whole view holder
+                    null
+                }
+            }
         }
     }
 }

@@ -300,7 +300,7 @@ class TimelineFragment :
             adapter.notifyItemRangeChanged(
                 0,
                 adapter.itemCount,
-                listOf(StatusBaseViewHolder.Key.KEY_CREATED)
+                StatusBaseViewHolder.Key.KEY_CREATED
             )
         }
     }

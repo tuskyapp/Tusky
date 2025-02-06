@@ -39,6 +39,9 @@ class ReportNotificationViewHolder(
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
+        if (payloads.isNotEmpty()) {
+            return
+        }
         val report = viewData.report!!
         val reporter = viewData.account
 

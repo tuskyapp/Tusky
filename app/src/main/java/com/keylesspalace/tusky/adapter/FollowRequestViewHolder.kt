@@ -49,6 +49,9 @@ class FollowRequestViewHolder(
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
+        if (payloads.isNotEmpty()) {
+            return
+        }
         setupWithAccount(
             viewData.account,
             statusDisplayOptions.animateAvatars,
