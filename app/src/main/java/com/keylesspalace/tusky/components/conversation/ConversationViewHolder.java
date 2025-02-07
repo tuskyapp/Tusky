@@ -69,13 +69,13 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
 
     void setupWithConversation(
             @NonNull ConversationViewData conversation,
-            @Nullable List<Object> payloads
+            @NonNull List<Object> payloads
     ) {
 
         StatusViewData.Concrete statusViewData = conversation.getLastStatus();
         Status status = statusViewData.getStatus();
 
-        if (payloads == null) {
+        if (payloads.isEmpty()) {
             TimelineAccount account = status.getAccount();
 
             setupCollapsedState(statusViewData.isCollapsible(), statusViewData.isCollapsed(), statusViewData.isExpanded(), status.getSpoilerText(), listener);
