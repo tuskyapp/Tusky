@@ -97,8 +97,6 @@ class TrendingTagsFragment :
                 processViewState(adapter, trendingState)
             }
         }
-
-        (requireActivity() as? ActionButtonActivity)?.actionButton?.visibility = View.GONE
     }
 
     override fun onDestroyView() {
@@ -122,7 +120,7 @@ class TrendingTagsFragment :
     }
 
     private fun setupRecyclerView(adapter: TrendingTagsAdapter) {
-        binding.recyclerView.ensureBottomPadding()
+        binding.recyclerView.ensureBottomPadding(fab = actionButtonPresent())
 
         val columnCount =
             requireContext().resources.getInteger(R.integer.trending_column_count)
@@ -220,7 +218,7 @@ class TrendingTagsFragment :
     }
 
     private fun actionButtonPresent(): Boolean {
-        return activity is ActionButtonActivity
+        return (activity as? ActionButtonActivity?)?.actionButton != null
     }
 
     private var talkBackWasEnabled = false
@@ -235,11 +233,6 @@ class TrendingTagsFragment :
         if (talkBackWasEnabled && !wasEnabled) {
             val adapter = requireNotNull(this.adapter)
             adapter.notifyItemRangeChanged(0, adapter.itemCount)
-        }
-
-        if (actionButtonPresent()) {
-            val composeButton = (activity as ActionButtonActivity).actionButton
-            composeButton?.hide()
         }
     }
 
