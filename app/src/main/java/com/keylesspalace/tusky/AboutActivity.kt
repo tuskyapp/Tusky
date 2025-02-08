@@ -69,16 +69,6 @@ class AboutActivity : BottomSheetActivity() {
             binding.aboutPoweredByTusky.hide()
         }
 
-        if (accountManager.activeAccount?.isPushNotificationsEnabled() == true) {
-            accountManager.activeAccount?.let {
-                binding.pushNotificationInfo.text = it.unifiedPushUrl
-                binding.pushNotificationInfoTitle.show()
-                binding.pushNotificationInfo.show()
-            }
-        } else {
-            binding.pushNotificationInfo.text = "No push notifications"
-        }
-
         binding.aboutLicenseInfoTextView.setClickableTextWithoutUnderlines(
             R.string.about_tusky_license
         )
