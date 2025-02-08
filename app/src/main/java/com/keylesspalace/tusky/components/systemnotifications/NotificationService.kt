@@ -74,6 +74,8 @@ class NotificationService @Inject constructor(
     private val preferences: SharedPreferences,
     @ApplicationContext private val context: Context,
 ) {
+    private var workManager: WorkManager = WorkManager.getInstance(context)
+
     private var notificationId: Int = NOTIFICATION_ID_PRUNE_CACHE + 1
 
     init {
@@ -202,7 +204,6 @@ class NotificationService @Inject constructor(
     }
 
     fun enablePullNotifications() {
-        val workManager = WorkManager.getInstance(context)
         workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
 
         // Periodic work requests are supposed to start running soon after being enqueued. In
@@ -214,16 +215,18 @@ class NotificationService @Inject constructor(
             .build()
         workManager.enqueue(fetchNotifications)
 
+        enqueueOneTimeWorker(null)
+
         val workRequest: WorkRequest = PeriodicWorkRequest.Builder(
             NotificationWorker::class.java,
-            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
-            TimeUnit.MILLISECONDS,
-            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
-            TimeUnit.MILLISECONDS,
+            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
+            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS,
         )
             .addTag(NOTIFICATION_PULL_TAG)
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .setInitialDelay(5, TimeUnit.MINUTES)
+            .setInitialDelay(
+                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS
+            )
             .build()
 
         workManager.enqueue(workRequest)
@@ -231,8 +234,24 @@ class NotificationService @Inject constructor(
         Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
+    private fun enqueueOneTimeWorker(account: AccountEntity?) {
+        val oneTimeRequestBuilder = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+            .setExpedited(OutOfQuotaPolicy.DROP_WORK_REQUEST) // TODO differentiate two with RUN_AS_NON_EXPEDITED_WORK_REQUEST?
+            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+
+        account?.let {
+            val data = Data.Builder()
+            data.putLong(NotificationWorker.KEY_ACCOUNT_ID, account.id)
+            oneTimeRequestBuilder.setInputData(data.build())
+        }
+
+        workManager.enqueue(oneTimeRequestBuilder.build())
+
+        // TODO this does not detect/delete "old but the same notifications"
+    }
+
     fun disablePullNotifications() {
-        WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
+        workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
         Log.d(TAG, "Disabled pull checks.")
     }
 
@@ -891,18 +910,7 @@ class NotificationService @Inject constructor(
 
         Log.d(TAG, "Fetching notifications because of push for account ${account.id}")
 
-        val data = Data.Builder()
-        data.putLong(NotificationWorker.KEY_ACCOUNT_ID, account.id)
-
-        val request = OneTimeWorkRequest
-            .Builder(NotificationWorker::class.java)
-            .setInputData(data.build())
-            .build()
-
-        val workManager = WorkManager.getInstance(context)
-        workManager.enqueue(request)
-
-        // TODO this does not detect/delete "old but the same notifications"
+        enqueueOneTimeWorker(account)
     }
 
     private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
