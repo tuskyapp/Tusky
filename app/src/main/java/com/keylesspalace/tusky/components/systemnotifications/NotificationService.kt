@@ -25,12 +25,12 @@ import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.work.Constraints
 import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.calladapter.networkresult.onSuccess
@@ -204,39 +204,22 @@ class NotificationService @Inject constructor(
     }
 
     fun enablePullNotifications() {
-        workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
-
-        // Periodic work requests are supposed to start running soon after being enqueued. In
-        // practice that may not be soon enough, so create and enqueue an expedited one-time
-        // request to get new notifications immediately.
-        val fetchNotifications: WorkRequest = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-            .setExpedited(OutOfQuotaPolicy.DROP_WORK_REQUEST)
-            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .build()
-        workManager.enqueue(fetchNotifications)
-
-        enqueueOneTimeWorker(null)
-
-        val workRequest: WorkRequest = PeriodicWorkRequest.Builder(
+        val workRequest: PeriodicWorkRequest = PeriodicWorkRequest.Builder(
             NotificationWorker::class.java,
             PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
-            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS, TimeUnit.MILLISECONDS,
         )
             .addTag(NOTIFICATION_PULL_TAG)
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .setInitialDelay(
-                PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS
-            )
             .build()
 
-        workManager.enqueue(workRequest)
+        workManager.enqueueUniquePeriodicWork(NOTIFICATION_PULL_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest)
 
         Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
     private fun enqueueOneTimeWorker(account: AccountEntity?) {
         val oneTimeRequestBuilder = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-            .setExpedited(OutOfQuotaPolicy.DROP_WORK_REQUEST) // TODO differentiate two with RUN_AS_NON_EXPEDITED_WORK_REQUEST?
+            .setExpedited(OutOfQuotaPolicy.DROP_WORK_REQUEST)
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
 
         account?.let {
@@ -801,16 +784,12 @@ class NotificationService @Inject constructor(
         UnifiedPush.getDistributors(context).isNotEmpty()
 
     suspend fun setupNotifications(account: AccountEntity?) {
-        if (!arePushNotificationsAvailable()) {
-            // No distributors
-            enablePullNotifications()
-            return
+        if (arePushNotificationsAvailable()) {
+            setupPushNotifications(account)
         }
 
-        // Otherwise the pull worker is still present after starting push notifications (and blocks the one time worker there).
-        disablePullNotifications()
-
-        setupPushNotifications(account)
+        // At least as a fallback and as main source when there are no push distributors installed:
+        enablePullNotifications()
     }
 
     private suspend fun setupPushNotifications(account: AccountEntity?) {
