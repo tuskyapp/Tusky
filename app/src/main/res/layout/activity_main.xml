@@ -66,15 +66,14 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/bottomAppBarHeight"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorSurface"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="end"
             app:menuAlignmentMode="auto"
-            app:navigationContentDescription="@string/action_open_drawer"
-            app:paddingBottomSystemWindowInsets="true">
+            app:navigationContentDescription="@string/action_open_drawer" >
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"

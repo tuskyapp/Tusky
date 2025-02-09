@@ -64,6 +64,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.FixedSizeDrawable
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.R as materialR
+import android.view.ViewGroup
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -264,6 +265,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     insets
                 } else {
                     binding.viewPager.updatePadding(bottom = bottomBarHeight + bottomInsets)
+
+                    /* BottomAppBar could handle size and insets automatically, but then it gets quite large,
+                       so we do it like this instead */
+                    binding.bottomNav.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        height = bottomBarHeight + bottomInsets
+                    }
+                    binding.bottomNav.updatePadding(bottom = bottomInsets)
+                    binding.bottomTabLayout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = bottomInsets
+                    }
                     insets.inset(0, 0, 0, bottomInsets)
                 }
             }
