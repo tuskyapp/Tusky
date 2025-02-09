@@ -47,7 +47,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
@@ -268,13 +267,7 @@ class NotificationsFragment :
             }
         }
 
-        updateRelativeTimePeriodically(preferences) {
-            adapter.notifyItemRangeChanged(
-                0,
-                adapter.itemCount,
-                StatusBaseViewHolder.Key.KEY_CREATED
-            )
-        }
+        updateRelativeTimePeriodically(preferences, adapter)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.notificationPolicy.collect {

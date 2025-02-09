@@ -36,7 +36,6 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -88,7 +87,7 @@ class ConversationsFragment :
 
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled != false,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
@@ -174,13 +173,7 @@ class ConversationsFragment :
             }
         }
 
-        updateRelativeTimePeriodically(preferences) {
-            adapter.notifyItemRangeChanged(
-                0,
-                adapter.itemCount,
-                StatusBaseViewHolder.Key.KEY_CREATED
-            )
-        }
+        updateRelativeTimePeriodically(preferences, adapter)
 
         viewLifecycleOwner.lifecycleScope.launch {
             eventHub.events.collect { event ->

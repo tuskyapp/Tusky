@@ -21,7 +21,6 @@ import android.view.View
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -45,10 +44,8 @@ class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
             )
         )
 
-        adapter?.run {
-            updateRelativeTimePeriodically(preferences) {
-                notifyItemRangeChanged(0, itemCount, StatusBaseViewHolder.Key.KEY_CREATED)
-            }
+        adapter?.let {
+            updateRelativeTimePeriodically(preferences, it)
         }
     }
 

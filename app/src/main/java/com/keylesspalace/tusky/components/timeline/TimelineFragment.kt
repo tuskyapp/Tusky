@@ -39,7 +39,6 @@ import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.appstore.StatusComposedEvent
@@ -296,13 +295,7 @@ class TimelineFragment :
             }
         }
 
-        updateRelativeTimePeriodically(preferences) {
-            adapter.notifyItemRangeChanged(
-                0,
-                adapter.itemCount,
-                StatusBaseViewHolder.Key.KEY_CREATED
-            )
-        }
+        updateRelativeTimePeriodically(preferences, adapter)
     }
 
     override fun onDestroyView() {
