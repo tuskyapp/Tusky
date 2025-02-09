@@ -36,6 +36,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
@@ -50,6 +51,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -247,6 +249,14 @@ class ViewThreadFragment :
             }
         }
 
+        updateRelativeTimePeriodically(preferences) {
+            adapter.notifyItemRangeChanged(
+                0,
+                adapter.itemCount,
+                StatusBaseViewHolder.Key.KEY_CREATED
+            )
+        }
+
         viewModel.loadThread(thisThreadsStatusId)
     }
 
@@ -287,11 +297,6 @@ class ViewThreadFragment :
 
             else -> false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requireActivity().title = getString(R.string.title_view_thread)
     }
 
     /**

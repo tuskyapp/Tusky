@@ -70,6 +70,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -267,17 +268,15 @@ class NotificationsFragment :
                 accountManager.activeAccount?.let { account ->
                     notificationService.clearNotificationsForAccount(account)
                 }
-
-                val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-                while (!useAbsoluteTime) {
-                    adapter.notifyItemRangeChanged(
-                        0,
-                        adapter.itemCount,
-                        StatusBaseViewHolder.Key.KEY_CREATED
-                    )
-                    delay(1.toDuration(DurationUnit.MINUTES))
-                }
             }
+        }
+
+        updateRelativeTimePeriodically(preferences) {
+            adapter.notifyItemRangeChanged(
+                0,
+                adapter.itemCount,
+                StatusBaseViewHolder.Key.KEY_CREATED
+            )
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

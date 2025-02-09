@@ -21,9 +21,11 @@ import android.view.View
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.components.search.adapter.SearchAccountsAdapter
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +44,12 @@ class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        adapter?.run {
+            updateRelativeTimePeriodically(preferences) {
+                notifyItemRangeChanged(0, itemCount, StatusBaseViewHolder.Key.KEY_CREATED)
+            }
+        }
     }
 
     override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {

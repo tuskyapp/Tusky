@@ -53,6 +53,7 @@ import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.isAnyLoading
 import com.keylesspalace.tusky.util.show
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.mikepenz.iconics.IconicsDrawable
@@ -177,18 +178,12 @@ class ConversationsFragment :
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-                while (!useAbsoluteTime) {
-                    adapter.notifyItemRangeChanged(
-                        0,
-                        adapter.itemCount,
-                        StatusBaseViewHolder.Key.KEY_CREATED
-                    )
-                    delay(1.toDuration(DurationUnit.MINUTES))
-                }
-            }
+        updateRelativeTimePeriodically(preferences) {
+            adapter.notifyItemRangeChanged(
+                0,
+                adapter.itemCount,
+                StatusBaseViewHolder.Key.KEY_CREATED
+            )
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
