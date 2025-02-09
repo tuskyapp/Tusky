@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
+import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.network.MastodonApi
@@ -61,7 +62,9 @@ import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
 import retrofit2.HttpException
@@ -73,6 +76,7 @@ class NotificationService @Inject constructor(
     private val api: MastodonApi,
     private val preferences: SharedPreferences,
     @ApplicationContext private val context: Context,
+    @ApplicationScope private val applicationScope: CoroutineScope,
 ) {
     private var workManager: WorkManager = WorkManager.getInstance(context)
 
@@ -80,20 +84,6 @@ class NotificationService @Inject constructor(
 
     init {
         createWorkerNotificationChannel()
-        handleChangesInPushDistributors()
-    }
-
-    private fun handleChangesInPushDistributors() {
-        val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVDER, null)
-        if (!lastUsedPushProvider.isNullOrEmpty() && !UnifiedPush.getDistributors(context).contains(lastUsedPushProvider)) {
-            Log.w(TAG, "Previous push provider ($lastUsedPushProvider) uninstalled. Resetting all accounts.")
-
-            // reset all accounts
-            accountManager.accounts.forEach {
-                // TODO this would like to call reset, but that is suspending; why would DB access be suspending?
-                //resetPushSettingsInAccount(it)
-            }
-        }
     }
 
     fun areNotificationsEnabledBySystem(): Boolean {
@@ -115,6 +105,33 @@ class NotificationService @Inject constructor(
             // on Android < O, notifications are enabled, if at least one account has notification enabled
             return accountManager.areNotificationsEnabled()
         }
+    }
+
+    suspend fun setupNotifications(account: AccountEntity?) {
+        resetPushWhenDistributorIsMissing()
+
+        if (arePushNotificationsAvailable()) {
+            setupPushNotifications(account)
+        }
+
+        // At least as a fallback and as main source when there are no push distributors installed:
+        enablePullNotifications()
+    }
+
+    fun enablePullNotifications() {
+        val workRequest: PeriodicWorkRequest = PeriodicWorkRequest.Builder(
+            NotificationWorker::class.java,
+            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
+        )
+            .addTag(NOTIFICATION_PULL_TAG)
+            .setConstraints(Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build())
+            .build()
+
+        workManager.enqueueUniquePeriodicWork(NOTIFICATION_PULL_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest)
+
+        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
     fun createNotificationChannelsForAccount(account: AccountEntity) {
@@ -201,20 +218,6 @@ class NotificationService @Inject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.deleteNotificationChannelGroup(account.identifier)
         }
-    }
-
-    fun enablePullNotifications() {
-        val workRequest: PeriodicWorkRequest = PeriodicWorkRequest.Builder(
-            NotificationWorker::class.java,
-            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
-        )
-            .addTag(NOTIFICATION_PULL_TAG)
-            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .build()
-
-        workManager.enqueueUniquePeriodicWork(NOTIFICATION_PULL_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest)
-
-        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
     }
 
     private fun enqueueOneTimeWorker(account: AccountEntity?) {
@@ -783,15 +786,6 @@ class NotificationService @Inject constructor(
     fun arePushNotificationsAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
-    suspend fun setupNotifications(account: AccountEntity?) {
-        if (arePushNotificationsAvailable()) {
-            setupPushNotifications(account)
-        }
-
-        // At least as a fallback and as main source when there are no push distributors installed:
-        enablePullNotifications()
-    }
-
     private suspend fun setupPushNotifications(account: AccountEntity?) {
         val relevantAccounts: List<AccountEntity> = if (account != null) {
             listOf(account)
@@ -838,6 +832,29 @@ class NotificationService @Inject constructor(
         }
     }
 
+    private fun resetPushWhenDistributorIsMissing() {
+        val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVDER, null)
+
+        // TODO use UnifiedPush.getSavedDistributor(context) instead?
+
+        if (lastUsedPushProvider.isNullOrEmpty() || UnifiedPush.getDistributors(context).contains(lastUsedPushProvider)) {
+            return
+        }
+
+        Log.w(TAG, "Previous push provider ($lastUsedPushProvider) uninstalled. Resetting all accounts.")
+
+        val editor = preferences.edit()
+        editor.remove(PrefKeys.LAST_USED_PUSH_PROVDER)
+        editor.apply()
+
+        applicationScope.launch {
+            accountManager.accounts.forEach {
+                // reset all accounts, also does resetPushSettingsInAccount()
+                unregisterPushEndpoint(it)
+            }
+        }
+    }
+
     private suspend fun getActiveSubscription(account: AccountEntity): NotificationSubscribeResult? {
         api.pushNotificationSubscription(
             "Bearer ${account.accessToken}",
@@ -845,19 +862,16 @@ class NotificationService @Inject constructor(
         ).fold(
             onSuccess = {
                 if (!account.matchesPushSubscription(it.endpoint)) {
-                    Log.w(TAG, "Server push endpoint does not match previously registered one: "+it.endpoint+" vs. "+account.unifiedPushUrl)
+                    Log.w(TAG, "Server push endpoint does not match previously registered one: ${it.endpoint} vs. ${account.unifiedPushUrl}")
 
                     return null
-
-                    // TODO / NOTE this case could also happen regularly if you use the same account on two different devices
-                    //   the server will only support (?) one subscription but you will need two for two devices (?)
                 }
 
                 return it
             },
             onFailure = { throwable ->
                 if (throwable is HttpException && throwable.code() == 404) {
-                    // this is alright; there is no subscription on server
+                    // this is alright; there is no subscription on the server
                     return null
                 }
 
@@ -940,7 +954,9 @@ class NotificationService @Inject constructor(
             }
 
             UnifiedPush.getAckDistributor(context)?.let {
-                //UnifiedPush.saveDistributor(context, it)
+                Log.d(TAG, "Saving distributor to preferences: $it UP has ${UnifiedPush.getSavedDistributor(context)}")
+
+                // UnifiedPush.saveDistributor(context, it) probably already done here?
                 val editor = preferences.edit()
                 editor.putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
                 editor.apply()
@@ -979,9 +995,6 @@ class NotificationService @Inject constructor(
                     resetPushSettingsInAccount(account)
                 }
         }
-
-        // TODO when will this really happen (it can be done manually in ntfy for example)?
-        //   This should activate pull notifications then?
     }
 
     private suspend fun resetPushSettingsInAccount(account: AccountEntity) {
