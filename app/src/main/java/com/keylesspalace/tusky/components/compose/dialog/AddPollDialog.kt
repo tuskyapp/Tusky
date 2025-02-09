@@ -38,10 +38,16 @@ fun showAddPollDialog(
 ) {
     val binding = DialogAddPollBinding.inflate(LayoutInflater.from(context))
 
+    val inset = context.resources.getDimensionPixelSize(R.dimen.dialog_inset)
+
     val dialog = MaterialAlertDialogBuilder(context)
         .setIcon(R.drawable.ic_poll_24dp)
         .setTitle(R.string.create_poll_title)
         .setView(binding.root)
+        .setBackgroundInsetTop(inset)
+        .setBackgroundInsetEnd(inset)
+        .setBackgroundInsetBottom(inset)
+        .setBackgroundInsetStart(inset)
         .setNegativeButton(android.R.string.cancel, null)
         .setPositiveButton(android.R.string.ok, null)
         .create()
@@ -88,7 +94,7 @@ fun showAddPollDialog(
         selectedDurationIndex = position
     }
 
-    binding.multipleChoicesCheckBox.isChecked = poll?.multiple ?: false
+    binding.multipleChoicesCheckBox.isChecked = poll?.multiple == true
 
     dialog.setOnShowListener {
         val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -107,7 +113,11 @@ fun showAddPollDialog(
 
     dialog.show()
 
-    dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    // yes, SOFT_INPUT_ADJUST_RESIZE is deprecated, but without it the dropdown can get behind the keyboard
+    dialog.window?.setSoftInputMode(
+        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+    )
+
     binding.pollChoices.post {
         val firstItemView = binding.pollChoices.layoutManager?.findViewByPosition(0)
         val editText = firstItemView?.findViewById<TextInputEditText>(R.id.optionEditText)
