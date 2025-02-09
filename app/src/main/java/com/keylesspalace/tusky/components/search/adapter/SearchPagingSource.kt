@@ -26,7 +26,7 @@ class SearchPagingSource<T : Any>(
     private val mastodonApi: MastodonApi,
     private val searchType: SearchType,
     private val searchRequest: String,
-    private val initialItems: List<T>?,
+    private val onRefresh: () -> Unit,
     private val parser: (SearchResult) -> List<T>
 ) : PagingSource<Int, T>() {
 
@@ -43,14 +43,6 @@ class SearchPagingSource<T : Any>(
             )
         }
 
-        if (params.key == null && !initialItems.isNullOrEmpty()) {
-            return LoadResult.Page(
-                data = initialItems.toList(),
-                prevKey = null,
-                nextKey = initialItems.size
-            )
-        }
-
         val currentKey = params.key ?: 0
 
         try {
@@ -62,6 +54,10 @@ class SearchPagingSource<T : Any>(
                 offset = currentKey,
                 following = false
             ).getOrThrow()
+
+            if (params.key == null) {
+                onRefresh()
+            }
 
             val res = parser(data)
 
