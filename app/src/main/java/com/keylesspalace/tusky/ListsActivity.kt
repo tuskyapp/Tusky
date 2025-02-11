@@ -123,8 +123,13 @@ class ListsActivity : BaseActivity() {
                 selectedReplyPolicyIndex = position
             }
         }
+        val inset = resources.getDimensionPixelSize(R.dimen.dialog_inset)
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(binding.root)
+            .setBackgroundInsetTop(inset)
+            .setBackgroundInsetEnd(inset)
+            .setBackgroundInsetBottom(inset)
+            .setBackgroundInsetStart(inset)
             .setPositiveButton(
                 if (list == null) {
                     R.string.action_create_list
@@ -142,7 +147,10 @@ class ListsActivity : BaseActivity() {
             .setNegativeButton(android.R.string.cancel, null)
             .show()
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        // yes, SOFT_INPUT_ADJUST_RESIZE is deprecated, but without it the dropdown can get behind the keyboard
+        dialog.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        )
 
         binding.nameText.let { editText ->
             editText.doOnTextChanged { s, _, _, _ ->

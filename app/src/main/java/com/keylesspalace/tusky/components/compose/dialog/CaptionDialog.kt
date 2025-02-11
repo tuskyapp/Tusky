@@ -49,7 +49,7 @@ class CaptionDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val localId = arguments?.getInt(LOCAL_ID_ARG) ?: error("Missing localId")
-        val inset = requireContext().resources.getDimensionPixelSize(R.dimen.caption_dialog_inset)
+        val inset = requireContext().resources.getDimensionPixelSize(R.dimen.dialog_inset)
         return MaterialAlertDialogBuilder(requireContext())
             .setView(createView(savedInstanceState))
             .setBackgroundInsetTop(inset)

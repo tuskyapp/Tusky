@@ -80,7 +80,7 @@
     <dimen name="recyclerview_bottom_padding_actionbutton">88dp</dimen>
     <dimen name="recyclerview_bottom_padding_no_actionbutton">32dp</dimen>
 
-    <dimen name="caption_dialog_inset">24dp</dimen>
+    <dimen name="dialog_inset">24dp</dimen>
 
     <dimen name="media_description_sheet_bottom_padding">8dp</dimen>
 
