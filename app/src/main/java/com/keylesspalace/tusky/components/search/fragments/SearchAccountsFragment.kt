@@ -43,10 +43,6 @@ class SearchAccountsFragment : SearchFragment<TimelineAccount>() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
-        adapter?.let {
-            updateRelativeTimePeriodically(preferences, it)
-        }
     }
 
     override fun createAdapter(): PagingDataAdapter<TimelineAccount, *> {
