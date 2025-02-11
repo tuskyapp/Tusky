@@ -38,6 +38,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -264,6 +265,16 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     insets
                 } else {
                     binding.viewPager.updatePadding(bottom = bottomBarHeight + bottomInsets)
+
+                    /* BottomAppBar could handle size and insets automatically, but then it gets quite large,
+                       so we do it like this instead */
+                    binding.bottomNav.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        height = bottomBarHeight + bottomInsets
+                    }
+                    binding.bottomNav.updatePadding(bottom = bottomInsets)
+                    binding.bottomTabLayout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = bottomInsets
+                    }
                     insets.inset(0, 0, 0, bottomInsets)
                 }
             }
