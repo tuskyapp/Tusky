@@ -60,20 +60,14 @@ class SearchViewModel @Inject constructor(
     val activeAccount: AccountEntity?
         get() = accountManager.activeAccount
 
-    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled == true
-    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia == true
-    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler == true
+    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
+    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
+    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
 
     private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
 
     private val statusesPagingSourceFactory =
-        SearchPagingSourceFactory(
-            mastodonApi,
-            SearchType.Status,
-            onRefresh = {
-                loadedStatuses.clear()
-            }
-        ) {
+        SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
             it.statuses.map { status ->
                 status.toViewData(
                     isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
