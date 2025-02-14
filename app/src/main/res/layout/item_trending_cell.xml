@@ -91,7 +91,7 @@
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="#itishashtagtuesdayitishsdsdsdsdsdsdashtagtuesday" />
+            tools:text="#itishashtagtuesdayitishashtagtuesday" />
 
         <TextView
             android:id="@+id/total_usage"
