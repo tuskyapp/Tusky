@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PreviewCard
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
@@ -251,5 +252,15 @@ class Converters @Inject constructor(
             }
         }
         return ret
+    }
+
+    @TypeConverter
+    fun relationshipSeveranceEventToJson(application: RelationshipSeveranceEvent?): String {
+        return moshi.adapter<RelationshipSeveranceEvent?>().toJson(application)
+    }
+
+    @TypeConverter
+    fun jsonToRelationshipSeveranceEvent(applicationJson: String?): RelationshipSeveranceEvent? {
+        return applicationJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
     }
 }

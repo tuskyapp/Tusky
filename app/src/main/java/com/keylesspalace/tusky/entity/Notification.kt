@@ -28,6 +28,7 @@ data class Notification(
     val status: Status? = null,
     val report: Report? = null,
     val filtered: Boolean = false,
+    val event: RelationshipSeveranceEvent? = null
 ) {
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
@@ -73,7 +74,10 @@ data class Notification(
 
         /** A new report has been filed */
         @Json(name = "admin.report")
-        REPORT("admin.report", R.string.notification_report_name);
+        REPORT("admin.report", R.string.notification_report_name),
+
+        @Json(name = "severed_relationships")
+        SEVERED_RELATIONSHIP("severed_relationships", R.string.notification_severed_relationship_name);
 
         companion object {
             fun byString(s: String): Type {

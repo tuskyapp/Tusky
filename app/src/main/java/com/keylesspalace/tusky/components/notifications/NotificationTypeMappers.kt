@@ -38,6 +38,7 @@ fun Placeholder.toNotificationEntity(
     accountId = null,
     statusId = null,
     reportId = null,
+    event = null,
     loading = loading
 )
 
@@ -50,6 +51,7 @@ fun Notification.toEntity(
     accountId = account.id,
     statusId = status?.reblog?.id ?: status?.id,
     reportId = report?.id,
+    event = event,
     loading = false
 )
 
@@ -66,7 +68,8 @@ fun Notification.toViewData(
         isExpanded = isExpanded,
         isCollapsed = isCollapsed
     ),
-    report = report
+    report = report,
+    event = event
 )
 
 fun Report.toEntity(
@@ -106,7 +109,8 @@ fun NotificationDataEntity.toViewData(
             report.toReport(reportTargetAccount)
         } else {
             null
-        }
+        },
+        event = event
     )
 }
 

@@ -43,6 +43,7 @@ import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.util.CryptoUtil
@@ -52,6 +53,7 @@ import com.keylesspalace.tusky.viewdata.buildDescription
 import com.keylesspalace.tusky.viewdata.calculatePercent
 import com.keylesspalace.tusky.worker.NotificationWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.text.NumberFormat
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -315,12 +317,12 @@ class NotificationService @Inject constructor(
 
         builder
             .setContentTitle(titleForType(body, account))
-            .setContentText(bodyForType(body, account.alwaysOpenSpoiler))
+            .setContentText(bodyForType(body, account))
 
         if (body.type == Notification.Type.MENTION || body.type == Notification.Type.POLL) {
             builder.setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(bodyForType(body, account.alwaysOpenSpoiler))
+                    .bigText(bodyForType(body, account))
             )
         }
 
@@ -525,14 +527,17 @@ class NotificationService @Inject constructor(
             Notification.Type.SIGN_UP -> return context.getString(R.string.notification_sign_up_format, accountName)
             Notification.Type.UPDATE -> return context.getString(R.string.notification_update_format, accountName)
             Notification.Type.REPORT -> return context.getString(R.string.notification_report_format, account.domain)
+            Notification.Type.SEVERED_RELATIONSHIP -> return context.getString(R.string.relationship_severance_event_title)
             Notification.Type.UNKNOWN -> return null
         }
     }
 
-    private fun bodyForType(notification: Notification, alwaysOpenSpoiler: Boolean): String? {
+    private fun bodyForType(notification: Notification, account: AccountEntity): String? {
         if (notification.status == null) {
             return null
         }
+
+        val alwaysOpenSpoiler = account.alwaysOpenSpoiler
 
         when (notification.type) {
             Notification.Type.FOLLOW, Notification.Type.FOLLOW_REQUEST, Notification.Type.SIGN_UP -> return "@" + notification.account.username
@@ -568,6 +573,7 @@ class NotificationService @Inject constructor(
                 notification.account.name.unicodeWrap(),
                 notification.report!!.targetAccount.name.unicodeWrap()
             )
+            Notification.Type.SEVERED_RELATIONSHIP -> return severedRelationShipText(context, notification.event!!, account.domain)
             else -> return null
         }
     }
@@ -906,5 +912,33 @@ class NotificationService @Inject constructor(
         private const val EXTRA_NOTIFICATION_TYPE = BuildConfig.APPLICATION_ID + ".notification.extra.notification_type"
         private const val GROUP_SUMMARY_TAG = BuildConfig.APPLICATION_ID + ".notification.group_summary"
         private const val NOTIFICATION_PULL_TAG = "pullNotifications"
+
+        private val numberFormat = NumberFormat.getNumberInstance()
+
+        fun severedRelationShipText(
+            context: Context,
+            event: RelationshipSeveranceEvent,
+            instanceName: String
+        ): String {
+            return when (event.type) {
+                RelationshipSeveranceEvent.Type.DOMAIN_BLOCK -> {
+                    val followers = numberFormat.format(event.followersCount)
+                    val following = numberFormat.format(event.followingCount)
+                    val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
+                    context.getString(R.string.relationship_severance_event_domain_block, instanceName, event.targetName, followers, followingText)
+                }
+
+                RelationshipSeveranceEvent.Type.USER_DOMAIN_BLOCK -> {
+                    val followers = numberFormat.format(event.followersCount)
+                    val following = numberFormat.format(event.followingCount)
+                    val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
+                    context.getString(R.string.relationship_severance_event_user_domain_block, event.targetName, followers, followingText)
+                }
+
+                RelationshipSeveranceEvent.Type.ACCOUNT_SUSPENSION -> {
+                    context.getString(R.string.relationship_severance_event_account_suspension, instanceName, event.targetName)
+                }
+            }
+        }
     }
 }

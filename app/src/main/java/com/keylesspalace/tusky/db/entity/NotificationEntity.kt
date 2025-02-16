@@ -22,8 +22,10 @@ import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import java.util.Date
 
+@TypeConverters(Converters::class)
 data class NotificationDataEntity(
     // id of the account logged into Tusky this notifications belongs to
     val tuskyAccountId: Long,
@@ -36,6 +38,7 @@ data class NotificationDataEntity(
     @Embedded(prefix = "r_") val report: NotificationReportEntity?,
     @Embedded(prefix = "ra_") val reportTargetAccount: TimelineAccountEntity?,
     // relevant when it is a placeholder
+    val event: RelationshipSeveranceEvent?,
     val loading: Boolean = false
 )
 
@@ -76,8 +79,9 @@ data class NotificationEntity(
     val accountId: String?,
     val statusId: String?,
     val reportId: String?,
+    val event: RelationshipSeveranceEvent?,
     // relevant when it is a placeholder
-    val loading: Boolean = false
+    val loading: Boolean = false,
 )
 
 @Entity(

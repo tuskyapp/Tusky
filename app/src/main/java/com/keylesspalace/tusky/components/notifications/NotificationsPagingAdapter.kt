@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
+import com.keylesspalace.tusky.databinding.ItemSeveredRelationshipNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
@@ -57,7 +58,8 @@ class NotificationsPagingAdapter(
     private var statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
-    private val accountActionListener: AccountActionListener
+    private val accountActionListener: AccountActionListener,
+    private val instanceName: String
 ) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
 
     var mediaPreviewEnabled: Boolean
@@ -93,6 +95,7 @@ class NotificationsPagingAdapter(
                     Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
                     Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
                     Notification.Type.REPORT -> VIEW_TYPE_REPORT
+                    Notification.Type.SEVERED_RELATIONSHIP -> VIEW_TYPE_SEVERED_RELATIONSHIP
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }
@@ -136,6 +139,10 @@ class NotificationsPagingAdapter(
                 notificationActionListener,
                 accountActionListener
             )
+            VIEW_TYPE_SEVERED_RELATIONSHIP -> SeveredRelationshipNotificationViewHolder(
+                ItemSeveredRelationshipNotificationBinding.inflate(inflater, parent, false),
+                instanceName
+            )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )
@@ -166,7 +173,8 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_FOLLOW_REQUEST = 4
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_UNKNOWN = 7
+        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 8
+        private const val VIEW_TYPE_UNKNOWN = 9
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(
