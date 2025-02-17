@@ -39,7 +39,7 @@ SELECT n.tuskyAccountId, n.type, n.id, n.loading, n.event, n.moderationWarning,
 a.serverId as 'a_serverId', a.tuskyAccountId as 'a_tuskyAccountId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
-a.emojis as 'a_emojis', a.bot as 'a_bot',
+a.note as 'a_note', a.emojis as 'a_emojis', a.bot as 'a_bot',
 s.serverId as 's_serverId', s.url as 's_url', s.tuskyAccountId as 's_tuskyAccountId',
 s.authorServerId as 's_authorServerId', s.inReplyToId as 's_inReplyToId', s.inReplyToAccountId as 's_inReplyToAccountId',
 s.content as 's_content', s.createdAt as 's_createdAt', s.editedAt as 's_editedAt', s.emojis as 's_emojis', s.reblogsCount as 's_reblogsCount',
@@ -51,14 +51,14 @@ s.pinned as 's_pinned', s.language as 's_language', s.filtered as 's_filtered',
 sa.serverId as 'sa_serverId', sa.tuskyAccountId as 'sa_tuskyAccountId',
 sa.localUsername as 'sa_localUsername', sa.username as 'sa_username',
 sa.displayName as 'sa_displayName', sa.url as 'sa_url', sa.avatar as 'sa_avatar',
-sa.emojis as 'sa_emojis', sa.bot as 'sa_bot',
+sa.note as 'sa_note', sa.emojis as 'sa_emojis', sa.bot as 'sa_bot',
 r.serverId as 'r_serverId', r.tuskyAccountId as 'r_tuskyAccountId',
 r.category as 'r_category', r.statusIds as 'r_statusIds',
 r.createdAt as 'r_createdAt', r.targetAccountId as 'r_targetAccountId',
 ra.serverId as 'ra_serverId', ra.tuskyAccountId as 'ra_tuskyAccountId',
 ra.localUsername as 'ra_localUsername', ra.username as 'ra_username',
 ra.displayName as 'ra_displayName', ra.url as 'ra_url', ra.avatar as 'ra_avatar',
-ra.emojis as 'ra_emojis', ra.bot as 'ra_bot'
+ra.note as 'ra_note', ra.emojis as 'ra_emojis', ra.bot as 'ra_bot'
 FROM NotificationEntity n
 LEFT JOIN TimelineAccountEntity a ON (n.tuskyAccountId = a.tuskyAccountId AND n.accountId = a.serverId)
 LEFT JOIN TimelineStatusEntity s ON (n.tuskyAccountId = s.tuskyAccountId AND n.statusId = s.serverId)

@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
@@ -32,6 +33,7 @@ data class TimelineAccountEntity(
     val displayName: String,
     val url: String,
     val avatar: String,
+    @ColumnInfo(defaultValue = "") val note: String,
     val emojis: List<Emoji>,
     val bot: Boolean
 )

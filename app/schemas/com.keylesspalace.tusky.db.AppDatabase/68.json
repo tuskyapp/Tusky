@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 68,
-    "identityHash": "881634d4a22ecc45cf8b97556ff8b000",
+    "identityHash": "777c12ac0106c655480ce119eb10ed4d",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -783,7 +783,7 @@
       },
       {
         "tableName": "TimelineAccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `tuskyAccountId` INTEGER NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, `emojis` TEXT NOT NULL, `bot` INTEGER NOT NULL, PRIMARY KEY(`serverId`, `tuskyAccountId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serverId` TEXT NOT NULL, `tuskyAccountId` INTEGER NOT NULL, `localUsername` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `url` TEXT NOT NULL, `avatar` TEXT NOT NULL, `note` TEXT NOT NULL DEFAULT '', `emojis` TEXT NOT NULL, `bot` INTEGER NOT NULL, PRIMARY KEY(`serverId`, `tuskyAccountId`))",
         "fields": [
           {
             "fieldPath": "serverId",
@@ -826,6 +826,13 @@
             "columnName": "avatar",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
           },
           {
             "fieldPath": "emojis",
@@ -1352,7 +1359,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '881634d4a22ecc45cf8b97556ff8b000')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '777c12ac0106c655480ce119eb10ed4d')"
     ]
   }
 }
