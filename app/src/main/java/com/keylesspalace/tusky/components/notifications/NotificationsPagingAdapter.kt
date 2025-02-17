@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.databinding.ItemModerationWarningNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemSeveredRelationshipNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
@@ -96,6 +97,7 @@ class NotificationsPagingAdapter(
                     Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
                     Notification.Type.REPORT -> VIEW_TYPE_REPORT
                     Notification.Type.SEVERED_RELATIONSHIP -> VIEW_TYPE_SEVERED_RELATIONSHIP
+                    Notification.Type.MODERATION_WARNING -> VIEW_TYPE_MODERATION_WARNING
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }
@@ -143,6 +145,10 @@ class NotificationsPagingAdapter(
                 ItemSeveredRelationshipNotificationBinding.inflate(inflater, parent, false),
                 instanceName
             )
+            VIEW_TYPE_MODERATION_WARNING -> ModerationWarningViewHolder(
+                ItemModerationWarningNotificationBinding.inflate(inflater, parent, false),
+                instanceName
+            )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )
@@ -174,7 +180,8 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
         private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 8
-        private const val VIEW_TYPE_UNKNOWN = 9
+        private const val VIEW_TYPE_MODERATION_WARNING = 9
+        private const val VIEW_TYPE_UNKNOWN = 10
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

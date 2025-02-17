@@ -39,6 +39,7 @@ fun Placeholder.toNotificationEntity(
     statusId = null,
     reportId = null,
     event = null,
+    moderationWarning = null,
     loading = loading
 )
 
@@ -52,6 +53,7 @@ fun Notification.toEntity(
     statusId = status?.reblog?.id ?: status?.id,
     reportId = report?.id,
     event = event,
+    moderationWarning = moderationWarning,
     loading = false
 )
 
@@ -69,6 +71,7 @@ fun Notification.toViewData(
         isCollapsed = isCollapsed
     ),
     report = report,
+    moderationWarning = moderationWarning,
     event = event
 )
 
@@ -110,7 +113,8 @@ fun NotificationDataEntity.toViewData(
         } else {
             null
         },
-        event = event
+        event = event,
+        moderationWarning = moderationWarning
     )
 }
 

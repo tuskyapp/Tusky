@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 68,
-    "identityHash": "b111a0be410de3b9596ba37be06b00df",
+    "identityHash": "881634d4a22ecc45cf8b97556ff8b000",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -1041,7 +1041,7 @@
       },
       {
         "tableName": "NotificationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `type` TEXT, `id` TEXT NOT NULL, `accountId` TEXT, `statusId` TEXT, `reportId` TEXT, `event` TEXT, `loading` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`), FOREIGN KEY(`accountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`reportId`, `tuskyAccountId`) REFERENCES `NotificationReportEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `type` TEXT, `id` TEXT NOT NULL, `accountId` TEXT, `statusId` TEXT, `reportId` TEXT, `event` TEXT, `moderationWarning` TEXT, `loading` INTEGER NOT NULL, PRIMARY KEY(`id`, `tuskyAccountId`), FOREIGN KEY(`accountId`, `tuskyAccountId`) REFERENCES `TimelineAccountEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`statusId`, `tuskyAccountId`) REFERENCES `TimelineStatusEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`reportId`, `tuskyAccountId`) REFERENCES `NotificationReportEntity`(`serverId`, `tuskyAccountId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "tuskyAccountId",
@@ -1082,6 +1082,12 @@
           {
             "fieldPath": "event",
             "columnName": "event",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moderationWarning",
+            "columnName": "moderationWarning",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -1346,7 +1352,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b111a0be410de3b9596ba37be06b00df')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '881634d4a22ecc45cf8b97556ff8b000')"
     ]
   }
 }

@@ -10,28 +10,42 @@
     android:paddingBottom="8dp">
 
     <ImageView
-        android:id="@+id/severed_relationship_icon"
+        android:id="@+id/moderation_warning_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="28dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/heart_broken_24"
+        android:src="@drawable/ic_gavel_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?android:textColorSecondary" />
 
     <TextView
-        android:id="@+id/severed_relationship_text"
+        android:id="@+id/moderation_warning_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:hyphenationFrequency="full"
         android:lineSpacingMultiplier="1.1"
+        android:text="@string/moderation_warning"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/severed_relationship_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="You have blocked mastodon.example, removing 2 of your followers and 7 accounts you follow." />
+        app:layout_constraintStart_toEndOf="@id/moderation_warning_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/moderation_warning_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:hyphenationFrequency="full"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/moderation_warning_icon"
+        app:layout_constraintTop_toBottomOf="@id/moderation_warning_text"
+        tools:text="@string/moderation_warning_action_none" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

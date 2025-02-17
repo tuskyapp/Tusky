@@ -886,4 +886,15 @@
         <item quantity="one">%1$s account</item>
         <item quantity="other">%1$s accounts</item>
     </plurals>
+
+    <string name="moderation_warning">You have received a moderation warning.</string>
+
+    <string name="moderation_warning_action_delete_statuses">Some of your posts have been removed.</string>
+    <string name="moderation_warning_action_disable">Your account has been disabled.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Some of your posts have been marked as sensitive.</string>
+    <string name="moderation_warning_action_none">Your account has received a moderation warning.</string>
+    <string name="moderation_warning_action_sensitive">Your posts will be marked as sensitive from now on.</string>
+    <string name="moderation_warning_action_silence">Your account has been limited.</string>
+    <string name="moderation_warning_action_suspend">Your account has been suspended.</string>
+
 </resources>

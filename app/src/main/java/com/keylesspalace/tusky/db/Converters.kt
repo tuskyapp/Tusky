@@ -21,6 +21,7 @@ import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.db.entity.DraftAttachment
+import com.keylesspalace.tusky.entity.AccountWarning
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
@@ -255,12 +256,22 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun relationshipSeveranceEventToJson(application: RelationshipSeveranceEvent?): String {
-        return moshi.adapter<RelationshipSeveranceEvent?>().toJson(application)
+    fun relationshipSeveranceEventToJson(event: RelationshipSeveranceEvent?): String {
+        return moshi.adapter<RelationshipSeveranceEvent?>().toJson(event)
     }
 
     @TypeConverter
-    fun jsonToRelationshipSeveranceEvent(applicationJson: String?): RelationshipSeveranceEvent? {
-        return applicationJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
+    fun jsonToRelationshipSeveranceEvent(eventJson: String?): RelationshipSeveranceEvent? {
+        return eventJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun accountWarningToJson(accountWarning: AccountWarning?): String {
+        return moshi.adapter<AccountWarning?>().toJson(accountWarning)
+    }
+
+    @TypeConverter
+    fun jsonToAccountWarning(accountWarningJson: String?): AccountWarning? {
+        return accountWarningJson?.let { moshi.adapter<AccountWarning?>().fromJson(it) }
     }
 }

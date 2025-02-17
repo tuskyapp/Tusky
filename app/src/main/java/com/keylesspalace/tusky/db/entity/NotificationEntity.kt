@@ -21,6 +21,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.db.Converters
+import com.keylesspalace.tusky.entity.AccountWarning
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import java.util.Date
@@ -37,8 +38,9 @@ data class NotificationDataEntity(
     @Embedded(prefix = "sa_") val statusAccount: TimelineAccountEntity?,
     @Embedded(prefix = "r_") val report: NotificationReportEntity?,
     @Embedded(prefix = "ra_") val reportTargetAccount: TimelineAccountEntity?,
-    // relevant when it is a placeholder
     val event: RelationshipSeveranceEvent?,
+    val moderationWarning: AccountWarning?,
+    // relevant when it is a placeholder
     val loading: Boolean = false
 )
 
@@ -80,6 +82,7 @@ data class NotificationEntity(
     val statusId: String?,
     val reportId: String?,
     val event: RelationshipSeveranceEvent?,
+    val moderationWarning: AccountWarning?,
     // relevant when it is a placeholder
     val loading: Boolean = false,
 )

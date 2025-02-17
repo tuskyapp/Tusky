@@ -13,15 +13,16 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.service.notification.StatusBarNotification
-import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.NotificationWithIdAndTag
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
@@ -292,7 +293,7 @@ class NotificationService @Inject constructor(
         )
     }
 
-    // Only public for one test...
+    @VisibleForTesting
     fun createBaseNotification(apiNotification: Notification, account: AccountEntity): android.app.Notification? {
         val channelId = getChannelId(account, apiNotification.type) ?: return null
 
@@ -310,14 +311,20 @@ class NotificationService @Inject constructor(
         notificationId++
 
         val builder = if (existingAndroidNotification == null) {
-            getNotificationBuilder(body.type, account, channelId)
+            getNotificationBuilder(body, account, channelId)
         } else {
             NotificationCompat.Builder(context, existingAndroidNotification)
         }
 
+        val t = titleForType(body, account)
+        val b = bodyForType(body, account)
+
+        Log.d(TAG, "titleForType: $t")
+        Log.d(TAG, "bodyForType: $b")
+
         builder
-            .setContentTitle(titleForType(body, account))
-            .setContentText(bodyForType(body, account))
+            .setContentTitle(t)
+            .setContentText(b)
 
         if (body.type == Notification.Type.MENTION || body.type == Notification.Type.POLL) {
             builder.setStyle(
@@ -326,22 +333,24 @@ class NotificationService @Inject constructor(
             )
         }
 
-        val accountAvatar = try {
-            Glide.with(context)
-                .asBitmap()
-                .load(body.account.avatar)
-                .transform(RoundedCorners(20))
-                .submit()
-                .get()
-        } catch (e: ExecutionException) {
-            Log.d(TAG, "Error loading account avatar", e)
-            BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
-        } catch (e: InterruptedException) {
-            Log.d(TAG, "Error loading account avatar", e)
-            BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
-        }
+        if (body.type != Notification.Type.SEVERED_RELATIONSHIP && body.type != Notification.Type.MODERATION_WARNING) {
+            val accountAvatar = try {
+                Glide.with(context)
+                    .asBitmap()
+                    .load(body.account.avatar)
+                    .transform(RoundedCorners(20))
+                    .submit()
+                    .get()
+            } catch (e: ExecutionException) {
+                Log.d(TAG, "Error loading account avatar", e)
+                BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
+            } catch (e: InterruptedException) {
+                Log.d(TAG, "Error loading account avatar", e)
+                BitmapFactory.decodeResource(context.resources, R.drawable.avatar_default)
+            }
 
-        builder.setLargeIcon(accountAvatar)
+            builder.setLargeIcon(accountAvatar)
+        }
 
         // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
         if (body.type == Notification.Type.MENTION) {
@@ -476,17 +485,24 @@ class NotificationService @Inject constructor(
         }
     }
 
-    private fun getNotificationBuilder(notificationType: Notification.Type, account: AccountEntity, channelId: String): NotificationCompat.Builder {
-        val eventResultIntent = openNotificationIntent(context, account.id, notificationType)
+    private fun getNotificationBuilder(notification: Notification, account: AccountEntity, channelId: String): NotificationCompat.Builder {
+        val notificationType = notification.type
+        val eventResultPendingIntent = if (notificationType == Notification.Type.MODERATION_WARNING) {
+            val warning = notification.moderationWarning!!
+            val intent = Intent(Intent.ACTION_VIEW, "https://${account.domain}/disputes/strikes/${warning.id}".toUri())
+            PendingIntent.getActivity(context, account.id.toInt(), intent, pendingIntentFlags(false))
+        } else {
+            val eventResultIntent = openNotificationIntent(context, account.id, notificationType)
 
-        val eventStackBuilder = TaskStackBuilder.create(context)
-        eventStackBuilder.addParentStack(MainActivity::class.java)
-        eventStackBuilder.addNextIntent(eventResultIntent)
+            val eventStackBuilder = TaskStackBuilder.create(context)
+            eventStackBuilder.addParentStack(MainActivity::class.java)
+            eventStackBuilder.addNextIntent(eventResultIntent)
 
-        val eventResultPendingIntent = eventStackBuilder.getPendingIntent(
-            account.id.toInt(),
-            pendingIntentFlags(false)
-        )
+            eventStackBuilder.getPendingIntent(
+                account.id.toInt(),
+                pendingIntentFlags(false)
+            )
+        }
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notify)
@@ -507,10 +523,6 @@ class NotificationService @Inject constructor(
     }
 
     private fun titleForType(notification: Notification, account: AccountEntity): String? {
-        if (notification.status == null) {
-            return null
-        }
-
         val accountName = notification.account.name.unicodeWrap()
         when (notification.type) {
             Notification.Type.MENTION -> return context.getString(R.string.notification_mention_format, accountName)
@@ -519,7 +531,7 @@ class NotificationService @Inject constructor(
             Notification.Type.FOLLOW_REQUEST -> return context.getString(R.string.notification_follow_request_format, accountName)
             Notification.Type.FAVOURITE -> return context.getString(R.string.notification_favourite_format, accountName)
             Notification.Type.REBLOG -> return context.getString(R.string.notification_reblog_format, accountName)
-            Notification.Type.POLL -> return if (notification.status.account.id == account.accountId) {
+            Notification.Type.POLL -> return if (notification.status!!.account.id == account.accountId) {
                 context.getString(R.string.poll_ended_created)
             } else {
                 context.getString(R.string.poll_ended_voted)
@@ -528,28 +540,25 @@ class NotificationService @Inject constructor(
             Notification.Type.UPDATE -> return context.getString(R.string.notification_update_format, accountName)
             Notification.Type.REPORT -> return context.getString(R.string.notification_report_format, account.domain)
             Notification.Type.SEVERED_RELATIONSHIP -> return context.getString(R.string.relationship_severance_event_title)
+            Notification.Type.MODERATION_WARNING -> return context.getString(R.string.moderation_warning)
             Notification.Type.UNKNOWN -> return null
         }
     }
 
     private fun bodyForType(notification: Notification, account: AccountEntity): String? {
-        if (notification.status == null) {
-            return null
-        }
-
         val alwaysOpenSpoiler = account.alwaysOpenSpoiler
 
         when (notification.type) {
             Notification.Type.FOLLOW, Notification.Type.FOLLOW_REQUEST, Notification.Type.SIGN_UP -> return "@" + notification.account.username
-            Notification.Type.MENTION, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.STATUS -> return if (!TextUtils.isEmpty(notification.status.spoilerText) && !alwaysOpenSpoiler) {
+            Notification.Type.MENTION, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.STATUS -> return if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
                 notification.status.spoilerText
             } else {
-                notification.status.content.parseAsMastodonHtml().toString()
+                notification.status?.content?.parseAsMastodonHtml()?.toString()
             }
-            Notification.Type.POLL -> if (!TextUtils.isEmpty(notification.status.spoilerText) && !alwaysOpenSpoiler) {
+            Notification.Type.POLL -> if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
                 return notification.status.spoilerText
             } else {
-                val poll = notification.status.poll ?: return null
+                val poll = notification.status?.poll ?: return null
 
                 val builder = StringBuilder(notification.status.content.parseAsMastodonHtml())
                 builder.append('\n')
@@ -574,6 +583,7 @@ class NotificationService @Inject constructor(
                 notification.report!!.targetAccount.name.unicodeWrap()
             )
             Notification.Type.SEVERED_RELATIONSHIP -> return severedRelationShipText(context, notification.event!!, account.domain)
+            Notification.Type.MODERATION_WARNING -> return context.getString(notification.moderationWarning!!.action.text)
             else -> return null
         }
     }
