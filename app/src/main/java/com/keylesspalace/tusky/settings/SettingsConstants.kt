@@ -45,7 +45,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023112001
+const val SCHEMA_VERSION = 2025021701
 
 /** The schema version for fresh installs */
 const val NEW_INSTALL_SCHEMA_VERSION = 0

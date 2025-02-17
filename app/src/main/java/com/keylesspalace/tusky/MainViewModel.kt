@@ -162,8 +162,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun setupNotifications(account: AccountEntity? = null) {
-        // TODO this is only called on full app (re) start; so changes inbetween (push distributor uninstalled/subscription changed, or
-        //   notifications fully disabled will get unnoticed; and also restart cannot be triggered by the user.
+        // TODO this is only called on full app (re) start; so changes in-between (push distributor uninstalled/subscription changed, or
+        //   notifications fully disabled) will get unnoticed; and also an app restart cannot be easily triggered by the user.
 
         if (account != null) {
             // TODO it's quite odd to separate channel creation (for an account) from the "is enabled by channels" question below

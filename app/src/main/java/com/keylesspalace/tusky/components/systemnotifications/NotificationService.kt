@@ -114,24 +114,26 @@ class NotificationService @Inject constructor(
             setupPushNotifications(account)
         }
 
-        // At least as a fallback and as main source when there are no push distributors installed:
+        // At least as a fallback and otherwise as main source when there are no push distributors installed:
         enablePullNotifications()
     }
 
     fun enablePullNotifications() {
         val workRequest: PeriodicWorkRequest = PeriodicWorkRequest.Builder(
             NotificationWorker::class.java,
-            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS,
+            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+            TimeUnit.MILLISECONDS,
         )
-            .addTag(NOTIFICATION_PULL_TAG)
-            .setConstraints(Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build())
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
             .build()
 
-        workManager.enqueueUniquePeriodicWork(NOTIFICATION_PULL_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest)
+        workManager.enqueueUniquePeriodicWork(NOTIFICATION_PULL_NAME, ExistingPeriodicWorkPolicy.KEEP, workRequest)
 
-        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS/60000} minutes interval.")
+        Log.d(TAG, "Enabled pull checks with ${PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS / 60000} minutes interval.")
     }
 
     fun createNotificationChannelsForAccount(account: AccountEntity) {
@@ -232,12 +234,10 @@ class NotificationService @Inject constructor(
         }
 
         workManager.enqueue(oneTimeRequestBuilder.build())
-
-        // TODO this does not detect/delete "old but the same notifications"
     }
 
     fun disablePullNotifications() {
-        workManager.cancelAllWorkByTag(NOTIFICATION_PULL_TAG)
+        workManager.cancelUniqueWork(NOTIFICATION_PULL_NAME)
         Log.d(TAG, "Disabled pull checks.")
     }
 
@@ -834,8 +834,8 @@ class NotificationService @Inject constructor(
 
     private fun resetPushWhenDistributorIsMissing() {
         val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVDER, null)
-
-        // TODO use UnifiedPush.getSavedDistributor(context) instead?
+        // NOTE UnifiedPush.getSavedDistributor() cannot be used here as that is already null here if the
+        //   distributor was uninstalled.
 
         if (lastUsedPushProvider.isNullOrEmpty() || UnifiedPush.getDistributors(context).contains(lastUsedPushProvider)) {
             return
@@ -926,7 +926,6 @@ class NotificationService @Inject constructor(
         // standard which does not send needed information for decryption in the payload
         // This makes it not directly compatible with UnifiedPush
         // As of now, we use it purely as a way to trigger a pull
-        // TODO that is still correct?
         val keyPair = CryptoUtil.generateECKeyPair(CryptoUtil.CURVE_PRIME256_V1)
         val auth = CryptoUtil.secureRandomBytesEncoded(16)
 
@@ -954,9 +953,8 @@ class NotificationService @Inject constructor(
             }
 
             UnifiedPush.getAckDistributor(context)?.let {
-                Log.d(TAG, "Saving distributor to preferences: $it UP has ${UnifiedPush.getSavedDistributor(context)}")
+                Log.d(TAG, "Saving distributor to preferences: $it")
 
-                // UnifiedPush.saveDistributor(context, it) probably already done here?
                 val editor = preferences.edit()
                 editor.putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
                 editor.apply()
@@ -1030,6 +1028,6 @@ class NotificationService @Inject constructor(
         private const val EXTRA_ACCOUNT_NAME = BuildConfig.APPLICATION_ID + ".notification.extra.account_name"
         private const val EXTRA_NOTIFICATION_TYPE = BuildConfig.APPLICATION_ID + ".notification.extra.notification_type"
         private const val GROUP_SUMMARY_TAG = BuildConfig.APPLICATION_ID + ".notification.group_summary"
-        private const val NOTIFICATION_PULL_TAG = "pullNotifications"
+        private const val NOTIFICATION_PULL_NAME = "pullNotifications"
     }
 }

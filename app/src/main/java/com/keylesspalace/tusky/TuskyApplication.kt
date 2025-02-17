@@ -68,13 +68,19 @@ class TuskyApplication : Application(), Configuration.Provider {
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
 
+        val workManager = WorkManager.getInstance(this)
+
         // Migrate shared preference keys and defaults from version to version.
         val oldVersion = preferences.getInt(
             PrefKeys.SCHEMA_VERSION,
             NEW_INSTALL_SCHEMA_VERSION
         )
         if (oldVersion != SCHEMA_VERSION) {
-            // TODO SCHEMA_VERSION is outdated / not updated in code
+            if (oldVersion < 2025021701) {
+                // A new periodic work request is enqueued by unique name (and not tag anymore): stop the old one
+                workManager.cancelAllWorkByTag("pullNotifications")
+            }
+
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)
         }
 
@@ -93,7 +99,7 @@ class TuskyApplication : Application(), Configuration.Provider {
         val pruneCacheWorker = PeriodicWorkRequestBuilder<PruneCacheWorker>(12, TimeUnit.HOURS)
             .setConstraints(Constraints.Builder().setRequiresDeviceIdle(true).build())
             .build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+        workManager.enqueueUniquePeriodicWork(
             PruneCacheWorker.PERIODIC_WORK_TAG,
             ExistingPeriodicWorkPolicy.KEEP,
             pruneCacheWorker
