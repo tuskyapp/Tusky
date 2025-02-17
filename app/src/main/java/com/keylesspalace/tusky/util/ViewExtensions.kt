@@ -16,6 +16,7 @@
 
 package com.keylesspalace.tusky.util
 
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -105,12 +106,16 @@ fun RecyclerView.ensureBottomPadding(fab: Boolean = false) {
         context.resources.getDimensionPixelSize(R.dimen.recyclerview_bottom_padding_no_actionbutton)
     }
 
-    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-        val systemBarsInsets = insets.getInsets(systemBars())
-        view.updatePadding(bottom = bottomPadding + systemBarsInsets.bottom)
-        WindowInsetsCompat.Builder(insets)
-            .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
-            .build()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+        ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+            val systemBarsInsets = insets.getInsets(systemBars())
+            view.updatePadding(bottom = bottomPadding + systemBarsInsets.bottom)
+            WindowInsetsCompat.Builder(insets)
+                .setInsets(systemBars(), Insets.of(systemBarsInsets.left, systemBarsInsets.top, systemBarsInsets.right, 0))
+                .build()
+        }
+    } else {
+        updatePadding(bottom = bottomPadding)
     }
 }
 
