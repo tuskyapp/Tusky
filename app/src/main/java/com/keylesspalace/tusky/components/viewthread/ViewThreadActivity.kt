@@ -39,6 +39,9 @@ class ViewThreadActivity : BottomSheetActivity() {
             setDisplayShowHomeEnabled(true)
             setDisplayShowTitleEnabled(true)
         }
+
+        setTitle(R.string.title_view_thread)
+
         val id = intent.getStringExtra(ID_EXTRA)!!
         val url = intent.getStringExtra(URL_EXTRA)!!
         val fragment =

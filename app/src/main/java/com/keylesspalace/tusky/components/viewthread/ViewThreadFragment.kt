@@ -50,6 +50,7 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -247,6 +248,8 @@ class ViewThreadFragment :
             }
         }
 
+        updateRelativeTimePeriodically(preferences, adapter)
+
         viewModel.loadThread(thisThreadsStatusId)
     }
 
@@ -287,11 +290,6 @@ class ViewThreadFragment :
 
             else -> false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requireActivity().title = getString(R.string.title_view_thread)
     }
 
     /**
