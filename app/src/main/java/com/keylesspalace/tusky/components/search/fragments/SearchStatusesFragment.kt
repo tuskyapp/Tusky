@@ -147,6 +147,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         return adapter
     }
 
+    override fun onRefresh() {
+        viewModel.clearStatusCache()
+        super.onRefresh()
+    }
+
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {
         adapter?.peek(position)?.let {
             viewModel.contentHiddenChange(it, isShowing)
