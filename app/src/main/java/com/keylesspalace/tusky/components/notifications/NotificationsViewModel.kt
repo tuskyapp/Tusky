@@ -163,7 +163,7 @@ class NotificationsViewModel @Inject constructor(
 
     private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
-            Notification.Type.MENTION, Notification.Type.POLL -> {
+            Notification.Type.MENTION, Notification.Type.POLL, Notification.Type.STATUS, Notification.Type.UPDATE -> {
                 val account = activeAccountFlow.value
                 notificationViewData.statusViewData?.let { statusViewData ->
                     if (statusViewData.status.account.id == account?.accountId) {

@@ -89,9 +89,13 @@ class NotificationsPagingAdapter(
                         VIEW_TYPE_STATUS
                     }
                     Notification.Type.STATUS,
+                    Notification.Type.UPDATE -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                        VIEW_TYPE_STATUS_FILTERED
+                    } else {
+                        VIEW_TYPE_STATUS_NOTIFICATION
+                    }
                     Notification.Type.FAVOURITE,
-                    Notification.Type.REBLOG,
-                    Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
+                    Notification.Type.REBLOG -> VIEW_TYPE_STATUS_NOTIFICATION
                     Notification.Type.FOLLOW,
                     Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
                     Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
