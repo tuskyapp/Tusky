@@ -108,52 +108,53 @@ class NotificationService @Inject constructor(
             // TODO REBLOG and esp. STATUS have very different names than the type itself.
             val channelData = arrayOf(
                 ChannelData(
-                    getChannelId(account, Notification.Type.MENTION)!!,
-                    R.string.notification_mention_name,
-                    R.string.notification_mention_descriptions,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.FOLLOW)!!,
+                    getChannelId(account, Notification.Type.Follow)!!,
                     R.string.notification_follow_name,
                     R.string.notification_follow_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.FOLLOW_REQUEST)!!,
+                    getChannelId(account, Notification.Type.Mention)!!,
+                    R.string.notification_mention_name,
+                    R.string.notification_mention_descriptions,
+                ),
+
+                ChannelData(
+                    getChannelId(account, Notification.Type.FollowRequest)!!,
                     R.string.notification_follow_request_name,
                     R.string.notification_follow_request_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.REBLOG)!!,
+                    getChannelId(account, Notification.Type.Reblog)!!,
                     R.string.notification_boost_name,
                     R.string.notification_boost_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.FAVOURITE)!!,
+                    getChannelId(account, Notification.Type.Favourite)!!,
                     R.string.notification_favourite_name,
                     R.string.notification_favourite_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.POLL)!!,
+                    getChannelId(account, Notification.Type.Poll)!!,
                     R.string.notification_poll_name,
                     R.string.notification_poll_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.STATUS)!!,
+                    getChannelId(account, Notification.Type.Status)!!,
                     R.string.notification_subscription_name,
                     R.string.notification_subscription_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.SIGN_UP)!!,
+                    getChannelId(account, Notification.Type.SignUp)!!,
                     R.string.notification_sign_up_name,
                     R.string.notification_sign_up_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.UPDATE)!!,
+                    getChannelId(account, Notification.Type.Update)!!,
                     R.string.notification_update_name,
                     R.string.notification_update_description,
                 ),
                 ChannelData(
-                    getChannelId(account, Notification.Type.REPORT)!!,
+                    getChannelId(account, Notification.Type.Report)!!,
                     R.string.notification_report_name,
                     R.string.notification_report_description,
                 ),
@@ -238,16 +239,16 @@ class NotificationService @Inject constructor(
         }
 
         return when (type) {
-            Notification.Type.MENTION -> account.notificationsMentioned
-            Notification.Type.STATUS -> account.notificationsSubscriptions
-            Notification.Type.FOLLOW -> account.notificationsFollowed
-            Notification.Type.FOLLOW_REQUEST -> account.notificationsFollowRequested
-            Notification.Type.REBLOG -> account.notificationsReblogged
-            Notification.Type.FAVOURITE -> account.notificationsFavorited
-            Notification.Type.POLL -> account.notificationsPolls
-            Notification.Type.SIGN_UP -> account.notificationsSignUps
-            Notification.Type.UPDATE -> account.notificationsUpdates
-            Notification.Type.REPORT -> account.notificationsReports
+            Notification.Type.Mention -> account.notificationsMentioned
+            Notification.Type.Status -> account.notificationsSubscriptions
+            Notification.Type.Follow -> account.notificationsFollowed
+            Notification.Type.FollowRequest -> account.notificationsFollowRequested
+            Notification.Type.Reblog -> account.notificationsReblogged
+            Notification.Type.Favourite -> account.notificationsFavorited
+            Notification.Type.Poll -> account.notificationsPolls
+            Notification.Type.SignUp -> account.notificationsSignUps
+            Notification.Type.Update -> account.notificationsUpdates
+            Notification.Type.Report -> account.notificationsReports
             else -> false
         }
     }
@@ -326,14 +327,14 @@ class NotificationService @Inject constructor(
             .setContentTitle(t)
             .setContentText(b)
 
-        if (body.type == Notification.Type.MENTION || body.type == Notification.Type.POLL) {
+        if (body.type == Notification.Type.Mention || body.type == Notification.Type.Poll) {
             builder.setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(bodyForType(body, account))
             )
         }
 
-        if (body.type != Notification.Type.SEVERED_RELATIONSHIP && body.type != Notification.Type.MODERATION_WARNING) {
+        if (body.type != Notification.Type.SeveredRelationship && body.type != Notification.Type.ModerationWarning) {
             val accountAvatar = try {
                 Glide.with(context)
                     .asBitmap()
@@ -353,7 +354,7 @@ class NotificationService @Inject constructor(
         }
 
         // Reply to mention action; RemoteInput is available from KitKat Watch, but buttons are available from Nougat
-        if (body.type == Notification.Type.MENTION) {
+        if (body.type == Notification.Type.Mention) {
             val replyRemoteInput = RemoteInput.Builder(KEY_REPLY)
                 .setLabel(context.getString(R.string.label_quick_reply))
                 .build()
@@ -458,16 +459,16 @@ class NotificationService @Inject constructor(
 
     private fun getChannelId(account: AccountEntity, type: Notification.Type): String? {
         return when (type) {
-            Notification.Type.MENTION -> CHANNEL_MENTION + account.identifier
-            Notification.Type.STATUS -> "CHANNEL_SUBSCRIPTIONS" + account.identifier
-            Notification.Type.FOLLOW -> "CHANNEL_FOLLOW" + account.identifier
-            Notification.Type.FOLLOW_REQUEST -> "CHANNEL_FOLLOW_REQUEST" + account.identifier
-            Notification.Type.REBLOG -> "CHANNEL_BOOST" + account.identifier
-            Notification.Type.FAVOURITE -> "CHANNEL_FAVOURITE" + account.identifier
-            Notification.Type.POLL -> "CHANNEL_POLL" + account.identifier
-            Notification.Type.SIGN_UP -> "CHANNEL_SIGN_UP" + account.identifier
-            Notification.Type.UPDATE -> "CHANNEL_UPDATES" + account.identifier
-            Notification.Type.REPORT -> "CHANNEL_REPORT" + account.identifier
+            Notification.Type.Mention -> CHANNEL_MENTION + account.identifier
+            Notification.Type.Status -> "CHANNEL_SUBSCRIPTIONS" + account.identifier
+            Notification.Type.Follow -> "CHANNEL_FOLLOW" + account.identifier
+            Notification.Type.FollowRequest -> "CHANNEL_FOLLOW_REQUEST" + account.identifier
+            Notification.Type.Reblog -> "CHANNEL_BOOST" + account.identifier
+            Notification.Type.Favourite -> "CHANNEL_FAVOURITE" + account.identifier
+            Notification.Type.Poll -> "CHANNEL_POLL" + account.identifier
+            Notification.Type.SignUp -> "CHANNEL_SIGN_UP" + account.identifier
+            Notification.Type.Update -> "CHANNEL_UPDATES" + account.identifier
+            Notification.Type.Report -> "CHANNEL_REPORT" + account.identifier
             else -> null
         }
     }
@@ -487,7 +488,7 @@ class NotificationService @Inject constructor(
 
     private fun getNotificationBuilder(notification: Notification, account: AccountEntity, channelId: String): NotificationCompat.Builder {
         val notificationType = notification.type
-        val eventResultPendingIntent = if (notificationType == Notification.Type.MODERATION_WARNING) {
+        val eventResultPendingIntent = if (notificationType == Notification.Type.ModerationWarning) {
             val warning = notification.moderationWarning!!
             val intent = Intent(Intent.ACTION_VIEW, "https://${account.domain}/disputes/strikes/${warning.id}".toUri())
             PendingIntent.getActivity(context, account.id.toInt(), intent, pendingIntentFlags(false))
@@ -525,23 +526,23 @@ class NotificationService @Inject constructor(
     private fun titleForType(notification: Notification, account: AccountEntity): String? {
         val accountName = notification.account.name.unicodeWrap()
         when (notification.type) {
-            Notification.Type.MENTION -> return context.getString(R.string.notification_mention_format, accountName)
-            Notification.Type.STATUS -> return context.getString(R.string.notification_subscription_format, accountName)
-            Notification.Type.FOLLOW -> return context.getString(R.string.notification_follow_format, accountName)
-            Notification.Type.FOLLOW_REQUEST -> return context.getString(R.string.notification_follow_request_format, accountName)
-            Notification.Type.FAVOURITE -> return context.getString(R.string.notification_favourite_format, accountName)
-            Notification.Type.REBLOG -> return context.getString(R.string.notification_reblog_format, accountName)
-            Notification.Type.POLL -> return if (notification.status!!.account.id == account.accountId) {
+            Notification.Type.Mention -> return context.getString(R.string.notification_mention_format, accountName)
+            Notification.Type.Status -> return context.getString(R.string.notification_subscription_format, accountName)
+            Notification.Type.Follow -> return context.getString(R.string.notification_follow_format, accountName)
+            Notification.Type.FollowRequest -> return context.getString(R.string.notification_follow_request_format, accountName)
+            Notification.Type.Favourite -> return context.getString(R.string.notification_favourite_format, accountName)
+            Notification.Type.Reblog -> return context.getString(R.string.notification_reblog_format, accountName)
+            Notification.Type.Poll -> return if (notification.status!!.account.id == account.accountId) {
                 context.getString(R.string.poll_ended_created)
             } else {
                 context.getString(R.string.poll_ended_voted)
             }
-            Notification.Type.SIGN_UP -> return context.getString(R.string.notification_sign_up_format, accountName)
-            Notification.Type.UPDATE -> return context.getString(R.string.notification_update_format, accountName)
-            Notification.Type.REPORT -> return context.getString(R.string.notification_report_format, account.domain)
-            Notification.Type.SEVERED_RELATIONSHIP -> return context.getString(R.string.relationship_severance_event_title)
-            Notification.Type.MODERATION_WARNING -> return context.getString(R.string.moderation_warning)
-            Notification.Type.UNKNOWN -> return null
+            Notification.Type.SignUp -> return context.getString(R.string.notification_sign_up_format, accountName)
+            Notification.Type.Update -> return context.getString(R.string.notification_update_format, accountName)
+            Notification.Type.Report -> return context.getString(R.string.notification_report_format, account.domain)
+            Notification.Type.SeveredRelationship -> return context.getString(R.string.relationship_severance_event_title)
+            Notification.Type.ModerationWarning -> return context.getString(R.string.moderation_warning)
+            is Notification.Type.Unknown -> return null
         }
     }
 
@@ -549,13 +550,13 @@ class NotificationService @Inject constructor(
         val alwaysOpenSpoiler = account.alwaysOpenSpoiler
 
         when (notification.type) {
-            Notification.Type.FOLLOW, Notification.Type.FOLLOW_REQUEST, Notification.Type.SIGN_UP -> return "@" + notification.account.username
-            Notification.Type.MENTION, Notification.Type.FAVOURITE, Notification.Type.REBLOG, Notification.Type.STATUS -> return if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
+            Notification.Type.Follow, Notification.Type.FollowRequest, Notification.Type.SignUp -> return "@" + notification.account.username
+            Notification.Type.Mention, Notification.Type.Favourite, Notification.Type.Reblog, Notification.Type.Status -> return if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
                 notification.status.spoilerText
             } else {
                 notification.status?.content?.parseAsMastodonHtml()?.toString()
             }
-            Notification.Type.POLL -> if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
+            Notification.Type.Poll -> if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
                 return notification.status.spoilerText
             } else {
                 val poll = notification.status?.poll ?: return null
@@ -577,13 +578,13 @@ class NotificationService @Inject constructor(
 
                 return builder.toString()
             }
-            Notification.Type.REPORT -> return context.getString(
+            Notification.Type.Report -> return context.getString(
                 R.string.notification_header_report_format,
                 notification.account.name.unicodeWrap(),
                 notification.report!!.targetAccount.name.unicodeWrap()
             )
-            Notification.Type.SEVERED_RELATIONSHIP -> return severedRelationShipText(context, notification.event!!, account.domain)
-            Notification.Type.MODERATION_WARNING -> return context.getString(notification.moderationWarning!!.action.text)
+            Notification.Type.SeveredRelationship -> return severedRelationShipText(context, notification.event!!, account.domain)
+            Notification.Type.ModerationWarning -> return context.getString(notification.moderationWarning!!.action.text)
             else -> return null
         }
     }
@@ -817,7 +818,7 @@ class NotificationService @Inject constructor(
         buildMap {
             Notification.Type.visibleTypes.forEach {
                 put(
-                    "data[alerts][${it.presentation}]",
+                    "data[alerts][${it.name}]",
                     filterNotification(account, it)
                 )
             }

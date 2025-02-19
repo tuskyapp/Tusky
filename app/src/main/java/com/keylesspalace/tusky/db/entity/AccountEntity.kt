@@ -94,7 +94,7 @@ data class AccountEntity(
     val notificationMarkerId: String = "0",
     val emojis: List<Emoji> = emptyList(),
     val tabPreferences: List<TabData> = defaultTabs(),
-    val notificationsFilter: Set<Notification.Type> = setOf(Notification.Type.FOLLOW_REQUEST),
+    val notificationsFilter: Set<Notification.Type> = setOf(Notification.Type.FollowRequest),
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future
     val oauthScopes: String = "",

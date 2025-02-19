@@ -82,26 +82,26 @@ class NotificationsPagingAdapter(
         return when (val notification = getItem(position)) {
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
-                    Notification.Type.MENTION,
-                    Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    Notification.Type.Mention,
+                    Notification.Type.Poll -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
                         VIEW_TYPE_STATUS_FILTERED
                     } else {
                         VIEW_TYPE_STATUS
                     }
-                    Notification.Type.STATUS,
-                    Notification.Type.UPDATE -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    Notification.Type.Status,
+                    Notification.Type.Update -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
                         VIEW_TYPE_STATUS_FILTERED
                     } else {
                         VIEW_TYPE_STATUS_NOTIFICATION
                     }
-                    Notification.Type.FAVOURITE,
-                    Notification.Type.REBLOG -> VIEW_TYPE_STATUS_NOTIFICATION
-                    Notification.Type.FOLLOW,
-                    Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
-                    Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
-                    Notification.Type.REPORT -> VIEW_TYPE_REPORT
-                    Notification.Type.SEVERED_RELATIONSHIP -> VIEW_TYPE_SEVERED_RELATIONSHIP
-                    Notification.Type.MODERATION_WARNING -> VIEW_TYPE_MODERATION_WARNING
+                    Notification.Type.Favourite,
+                    Notification.Type.Reblog -> VIEW_TYPE_STATUS_NOTIFICATION
+                    Notification.Type.Follow,
+                    Notification.Type.SignUp -> VIEW_TYPE_FOLLOW
+                    Notification.Type.FollowRequest -> VIEW_TYPE_FOLLOW_REQUEST
+                    Notification.Type.Report -> VIEW_TYPE_REPORT
+                    Notification.Type.SeveredRelationship -> VIEW_TYPE_SEVERED_RELATIONSHIP
+                    Notification.Type.ModerationWarning -> VIEW_TYPE_MODERATION_WARNING
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }

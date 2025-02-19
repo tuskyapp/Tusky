@@ -17,7 +17,7 @@ import java.util.Date
 import org.junit.Assert.assertEquals
 
 fun fakeNotification(
-    type: Notification.Type = Notification.Type.FAVOURITE,
+    type: Notification.Type = Notification.Type.Favourite,
     id: String = "1",
     account: TimelineAccount = fakeAccount(id = id),
     status: Status? = fakeStatus(id = id),
@@ -50,7 +50,7 @@ fun Notification.toNotificationDataEntity(
     isStatusContentShowing: Boolean = false
 ) = NotificationDataEntity(
     tuskyAccountId = tuskyAccountId,
-    type = type,
+    type = this@Notification.name,
     id = id,
     account = account.toEntity(tuskyAccountId),
     status = status?.toEntity(

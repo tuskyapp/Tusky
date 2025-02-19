@@ -245,13 +245,13 @@ class PreferencesFragment : BasePreferencesFragment() {
                             val notificationFilter = account.notificationsFilter.toMutableSet()
 
                             if (value == true) {
-                                notificationFilter.add(Notification.Type.FAVOURITE)
-                                notificationFilter.add(Notification.Type.FOLLOW)
-                                notificationFilter.add(Notification.Type.REBLOG)
+                                notificationFilter.add(Notification.Type.Favourite)
+                                notificationFilter.add(Notification.Type.Follow)
+                                notificationFilter.add(Notification.Type.Reblog)
                             } else {
-                                notificationFilter.remove(Notification.Type.FAVOURITE)
-                                notificationFilter.remove(Notification.Type.FOLLOW)
-                                notificationFilter.remove(Notification.Type.REBLOG)
+                                notificationFilter.remove(Notification.Type.Favourite)
+                                notificationFilter.remove(Notification.Type.Follow)
+                                notificationFilter.remove(Notification.Type.Reblog)
                             }
 
                             lifecycleScope.launch {

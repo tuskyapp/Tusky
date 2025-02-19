@@ -897,4 +897,6 @@
     <string name="moderation_warning_action_silence">Your account has been limited.</string>
     <string name="moderation_warning_action_suspend">Your account has been suspended.</string>
 
+    <string name="unknown_notification_type_explanation">Tusky does not recognize this notification type and can\'t show it to you. Your server\'s web interface may be able to do so. Please also inform the Tusky developers so they can add support for this type! </string>
+
 </resources>

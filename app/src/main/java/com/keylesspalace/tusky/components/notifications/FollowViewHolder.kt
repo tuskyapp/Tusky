@@ -49,7 +49,7 @@ class FollowViewHolder(
         val context = itemView.context
         val account = viewData.account
         val messageTemplate =
-            context.getString(if (viewData.type == Notification.Type.SIGN_UP) R.string.notification_sign_up_format else R.string.notification_follow_format)
+            context.getString(if (viewData.type == Notification.Type.SignUp) R.string.notification_sign_up_format else R.string.notification_follow_format)
         val wrappedDisplayName = account.name.unicodeWrap()
 
         binding.notificationText.text = messageTemplate.format(wrappedDisplayName)

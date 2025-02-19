@@ -26,6 +26,7 @@ import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.json.GuardedAdapter
+import com.keylesspalace.tusky.json.NotificationTypeAdapter
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.network.MediaUploadApi
 import com.keylesspalace.tusky.network.apiForAccount
@@ -91,8 +92,7 @@ object NetworkModule {
         )
         .add(
             Notification.Type::class.java,
-            EnumJsonAdapter.create(Notification.Type::class.java)
-                .withUnknownFallback(Notification.Type.UNKNOWN)
+            NotificationTypeAdapter()
         )
         .add(
             Status.Visibility::class.java,

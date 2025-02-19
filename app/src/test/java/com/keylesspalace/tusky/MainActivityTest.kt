@@ -74,7 +74,7 @@ class MainActivityTest {
 
     @Test
     fun `clicking notification of type FOLLOW shows notification tab`() {
-        val intent = showNotification(Notification.Type.FOLLOW)
+        val intent = showNotification(Notification.Type.Follow)
 
         val activity = startMainActivity(intent)
         val currentTab = activity.findViewById<ViewPager2>(R.id.viewPager).currentItem
@@ -86,7 +86,7 @@ class MainActivityTest {
 
     @Test
     fun `clicking notification of type FOLLOW_REQUEST shows follow requests`() {
-        val intent = showNotification(Notification.Type.FOLLOW_REQUEST)
+        val intent = showNotification(Notification.Type.FollowRequest)
 
         val activity = startMainActivity(intent)
         val nextActivity = shadowOf(activity).peekNextStartedActivity()

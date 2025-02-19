@@ -18,12 +18,14 @@
 package com.keylesspalace.tusky.components.notifications
 
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 internal class UnknownNotificationViewHolder(
-    binding: ItemUnknownNotificationBinding,
+    private val binding: ItemUnknownNotificationBinding,
 ) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
 
     override fun bind(
@@ -31,6 +33,13 @@ internal class UnknownNotificationViewHolder(
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
-        // nothing to do
+        binding.unknownNotificationType.text = viewData.type.name
+
+        binding.root.setOnClickListener {
+            MaterialAlertDialogBuilder(binding.root.context)
+                .setMessage(R.string.unknown_notification_type_explanation)
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
+        }
     }
 }

@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- paddingStart = 14dp+48dp+14dp = 76dp to align with avatars of other notifications -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:paddingStart="14dp"
+android:paddingEnd="14dp"
+android:paddingBottom="14dp">
+
+<TextView
+    android:id="@+id/unknownNotificationTypeTitle"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingVertical="8dp"
-    android:lineSpacingMultiplier="1.1"
+    android:layout_marginTop="8dp"
+    android:drawablePadding="10dp"
+    android:ellipsize="end"
+    android:gravity="center_vertical"
+    android:maxLines="1"
+    android:paddingStart="28dp"
+    android:textColor="?android:textColorSecondary"
     android:textSize="?attr/status_text_medium"
-    android:paddingStart="76dp"
-    android:paddingEnd="8dp"
-    android:text="@string/unknown_notification_type"/>
+    app:drawableStartCompat="@drawable/help_24dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:text="@string/unknown_notification_type" />
+
+<TextView
+    android:id="@+id/unknownNotificationType"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="62dp"
+    android:layout_marginTop="6dp"
+    android:lineSpacingMultiplier="1.1"
+    android:textColor="?android:textColorTertiary"
+    android:textSize="?attr/status_text_medium"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/unknownNotificationTypeTitle"
+    tools:text="unknown_type" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -234,7 +234,7 @@ class Converters @Inject constructor(
     fun notificationTypeListToJson(data: Set<Notification.Type>?): String {
         val array = JSONArray()
         data?.forEach {
-            array.put(it.presentation)
+            array.put(it.name)
         }
         return array.toString()
     }
@@ -247,7 +247,7 @@ class Converters @Inject constructor(
             for (i in 0 until array.length()) {
                 val item = array.getString(i)
                 val type = Notification.Type.byString(item)
-                if (type != Notification.Type.UNKNOWN) {
+                if (type !is Notification.Type.Unknown) {
                     ret.add(type)
                 }
             }
@@ -273,5 +273,15 @@ class Converters @Inject constructor(
     @TypeConverter
     fun jsonToAccountWarning(accountWarningJson: String?): AccountWarning? {
         return accountWarningJson?.let { moshi.adapter<AccountWarning?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun accountWarningToJson(notificationType: Notification.Type): String {
+        return notificationType.name
+    }
+
+    @TypeConverter
+    fun jsonToNotificationType(notificationTypeJson: String): Notification.Type {
+        return Notification.Type.byString(notificationTypeJson)
     }
 }

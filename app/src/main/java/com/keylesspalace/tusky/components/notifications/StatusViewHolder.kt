@@ -51,7 +51,7 @@ internal class StatusViewHolder(
                 false
             )
         }
-        if (viewData.type == Notification.Type.POLL) {
+        if (viewData.type == Notification.Type.Poll) {
             setPollInfo(accountId == viewData.account.id)
         } else {
             hideStatusInfo()

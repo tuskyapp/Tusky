@@ -84,8 +84,8 @@ internal class StatusNotificationViewHolder(
                 setDisplayName(account.name, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)
-                if (viewData.type == Notification.Type.STATUS ||
-                    viewData.type == Notification.Type.UPDATE
+                if (viewData.type == Notification.Type.Status ||
+                    viewData.type == Notification.Type.Update
                 ) {
                     setAvatar(
                         account.avatar,
@@ -230,19 +230,19 @@ internal class StatusNotificationViewHolder(
         val format: String
         val icon: Drawable?
         when (type) {
-            Notification.Type.FAVOURITE -> {
+            Notification.Type.Favourite -> {
                 icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange)
                 format = context.getString(R.string.notification_favourite_format)
             }
-            Notification.Type.REBLOG -> {
+            Notification.Type.Reblog -> {
                 icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_reblog_format)
             }
-            Notification.Type.STATUS -> {
+            Notification.Type.Status -> {
                 icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_subscription_format)
             }
-            Notification.Type.UPDATE -> {
+            Notification.Type.Update -> {
                 icon = getIconWithColor(context, R.drawable.ic_edit_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_update_format)
             }
