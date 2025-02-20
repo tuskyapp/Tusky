@@ -54,7 +54,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
-import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.visibleNotificationTypes
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -450,7 +450,7 @@ class NotificationsFragment :
     }
 
     private fun showFilterMenu() {
-        val notificationTypeList = Notification.Type.visibleTypes.map { type ->
+        val notificationTypeList = visibleNotificationTypes.map { type ->
             getString(type.uiString)
         }
 
@@ -460,7 +460,7 @@ class NotificationsFragment :
 
         menuBinding.buttonApply.setOnClickListener {
             val checkedItems = menuBinding.listView.getCheckedItemPositions()
-            val excludes = Notification.Type.visibleTypes.filterIndexed { index, _ ->
+            val excludes = visibleNotificationTypes.filterIndexed { index, _ ->
                 !checkedItems[index, false]
             }
             window.dismiss()
@@ -470,7 +470,7 @@ class NotificationsFragment :
         menuBinding.listView.setAdapter(adapter)
         menuBinding.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE)
 
-        Notification.Type.visibleTypes.forEachIndexed { index, type ->
+        visibleNotificationTypes.forEachIndexed { index, type ->
             menuBinding.listView.setItemChecked(index, !viewModel.excludes.value.contains(type))
         }
 

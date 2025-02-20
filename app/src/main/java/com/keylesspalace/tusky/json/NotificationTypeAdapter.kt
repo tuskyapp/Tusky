@@ -18,6 +18,7 @@
 package com.keylesspalace.tusky.json
 
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.notificationTypeFromString
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -25,7 +26,7 @@ import com.squareup.moshi.JsonWriter
 class NotificationTypeAdapter : JsonAdapter<Notification.Type>() {
 
     override fun fromJson(reader: JsonReader): Notification.Type {
-        return Notification.Type.byString(reader.nextString())
+        return notificationTypeFromString(reader.nextString())
     }
 
     override fun toJson(writer: JsonWriter, value: Notification.Type?) {

@@ -50,6 +50,7 @@ import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
 import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
+import com.keylesspalace.tusky.entity.visibleNotificationTypes
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -927,7 +928,7 @@ class NotificationService @Inject constructor(
 
     private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
         buildMap {
-            Notification.Type.visibleTypes.forEach {
+            visibleNotificationTypes.forEach {
                 put(it.name, filterNotification(account, it))
             }
         }

@@ -32,6 +32,7 @@ import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PreviewCard
 import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.notificationTypeFromString
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
@@ -246,7 +247,7 @@ class Converters @Inject constructor(
             val array = JSONArray(data)
             for (i in 0 until array.length()) {
                 val item = array.getString(i)
-                val type = Notification.Type.byString(item)
+                val type = notificationTypeFromString(item)
                 if (type !is Notification.Type.Unknown) {
                     ret.add(type)
                 }
@@ -282,6 +283,6 @@ class Converters @Inject constructor(
 
     @TypeConverter
     fun jsonToNotificationType(notificationTypeJson: String): Notification.Type {
-        return Notification.Type.byString(notificationTypeJson)
+        return notificationTypeFromString(notificationTypeJson)
     }
 }

@@ -17,6 +17,17 @@ package com.keylesspalace.tusky.entity
 
 import androidx.annotation.StringRes
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.Notification.Type
+import com.keylesspalace.tusky.entity.Notification.Type.Favourite
+import com.keylesspalace.tusky.entity.Notification.Type.Follow
+import com.keylesspalace.tusky.entity.Notification.Type.FollowRequest
+import com.keylesspalace.tusky.entity.Notification.Type.Mention
+import com.keylesspalace.tusky.entity.Notification.Type.ModerationWarning
+import com.keylesspalace.tusky.entity.Notification.Type.Reblog
+import com.keylesspalace.tusky.entity.Notification.Type.SeveredRelationship
+import com.keylesspalace.tusky.entity.Notification.Type.SignUp
+import com.keylesspalace.tusky.entity.Notification.Type.Unknown
+import com.keylesspalace.tusky.entity.Notification.Type.Update
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -73,22 +84,13 @@ data class Notification(
         /** moderation_warning = A moderator has taken action against your account or has sent you a warning **/
         object ModerationWarning : Type("moderation_warning", R.string.notification_severed_relationship_name)
 
-        companion object {
-            fun byString(s: String): Type {
-                return visibleTypes.firstOrNull { it.name == s.lowercase() } ?: Unknown(s)
-            }
-
-            /** Notification types for UI display (omits UNKNOWN) */
-            val visibleTypes = listOf(Mention, Reblog, Favourite, Follow, FollowRequest, Poll, Status, SignUp, Update, Report, SeveredRelationship, ModerationWarning)
-        }
-
         // can't use data objects or this wouldn't work
         override fun toString() = name
     }
 
     // for Pleroma compatibility that uses Mention type
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
-        if (type == Type.Mention && status != null) {
+        if (type == Mention && status != null) {
             return if (status.mentions.any {
                     it.id == accountId
                 }
@@ -100,4 +102,14 @@ data class Notification(
         }
         return this
     }
+}
+
+/** Notification types for UI display (omits UNKNOWN) */
+/** this is not in a companion object so it gets initialized earlier,
+ * otherwise it might get initialized when a subclass is loaded,
+ * which leds to crash since those subclasses are referenced here */
+val visibleNotificationTypes = listOf(Mention, Reblog, Favourite, Follow, FollowRequest, Type.Poll, Type.Status, SignUp, Update, Type.Report, SeveredRelationship, ModerationWarning)
+
+fun notificationTypeFromString(s: String): Type {
+    return visibleNotificationTypes.firstOrNull { it.name == s.lowercase() } ?: Unknown(s)
 }
