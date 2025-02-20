@@ -48,8 +48,8 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.entity.Notification
-import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.entity.NotificationSubscribeResult
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -274,7 +274,7 @@ class NotificationService @Inject constructor(
             Notification.Type.SignUp -> account.notificationsSignUps
             Notification.Type.Update -> account.notificationsUpdates
             Notification.Type.Report -> account.notificationsReports
-            Notification.Type.SeveredRelationship-> account.notificationsRelationshipSeveranceEvents
+            Notification.Type.SeveredRelationship -> account.notificationsRelationshipSeveranceEvents
             Notification.Type.ModerationWarning -> account.notificationsModerationWarnings
             else -> false
         }

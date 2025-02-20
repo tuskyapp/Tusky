@@ -72,7 +72,7 @@ class NotificationPolicyUsecase @Inject constructor(
             forPrivateMentions = forPrivateMentions,
             forLimitedAccounts = forLimitedAccounts
         ).onSuccess { notificationPolicy ->
-
+            _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
         }
     }
 }

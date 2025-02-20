@@ -1,4 +1,4 @@
-package com.keylesspalace.tusky.db.entity;
+package com.keylesspalace.tusky.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
