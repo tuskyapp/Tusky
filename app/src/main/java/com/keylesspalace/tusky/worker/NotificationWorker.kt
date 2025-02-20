@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationServic
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-/** Fetch and show new notifications. */
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
     @Assisted appContext: Context,
@@ -42,7 +41,8 @@ class NotificationWorker @AssistedInject constructor(
     )
 
     override suspend fun doWork(): Result {
-        notificationsFetcher.fetchAndShow()
+        val accountId = inputData.getLong(KEY_ACCOUNT_ID, 0).takeIf { it != 0L }
+        notificationsFetcher.fetchAndShow(accountId)
         return Result.success()
     }
 
@@ -50,4 +50,8 @@ class NotificationWorker @AssistedInject constructor(
         NotificationService.NOTIFICATION_ID_FETCH_NOTIFICATION,
         notification
     )
+
+    companion object {
+        const val KEY_ACCOUNT_ID = "accountId"
+    }
 }

@@ -46,11 +46,11 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!notificationService.isUnifiedPushAvailable()) return
+        if (!notificationService.arePushNotificationsAvailable()) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val gid = when (intent.action) {
+        val accountIdentifier = when (intent.action) {
             NotificationManager.ACTION_NOTIFICATION_CHANNEL_BLOCK_STATE_CHANGED -> {
                 val channelId = intent.getStringExtra(NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
                 nm.getNotificationChannel(channelId).group
@@ -61,10 +61,10 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
             else -> null
         } ?: return
 
-        accountManager.getAccountByIdentifier(gid)?.let { account ->
+        accountManager.getAccountByIdentifier(accountIdentifier)?.let { account ->
             if (account.isPushNotificationsEnabled()) {
                 externalScope.launch {
-                    notificationService.updateUnifiedPushSubscription(account)
+                    notificationService.updatePushSubscription(account)
                 }
             }
         }
