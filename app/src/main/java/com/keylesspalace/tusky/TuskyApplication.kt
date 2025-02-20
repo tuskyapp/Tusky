@@ -16,7 +16,9 @@
 package com.keylesspalace.tusky
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -53,6 +55,9 @@ class TuskyApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var preferences: SharedPreferences
 
+    @Inject
+    lateinit var notificationManager: NotificationManager
+
     override fun onCreate() {
         // Uncomment me to get StrictMode violation logs
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -79,6 +84,14 @@ class TuskyApplication : Application(), Configuration.Provider {
             if (oldVersion < 2025021701) {
                 // A new periodic work request is enqueued by unique name (and not tag anymore): stop the old one
                 workManager.cancelAllWorkByTag("pullNotifications")
+            }
+            if (oldVersion < 2025022001 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // delete old now unused notification channels
+                for (channel in notificationManager.notificationChannels) {
+                    if (channel.id.startsWith("CHANNEL_SIGN_UP") || channel.id.startsWith("CHANNEL_REPORT")) {
+                        notificationManager.deleteNotificationChannel(channel.id)
+                    }
+                }
             }
 
             upgradeSharedPreferences(oldVersion, SCHEMA_VERSION)

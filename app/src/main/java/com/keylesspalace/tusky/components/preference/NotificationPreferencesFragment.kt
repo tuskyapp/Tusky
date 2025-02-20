@@ -62,8 +62,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 category.isIconSpaceReserved = false
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_follows)
-                    key = PrefKeys.NOTIFICATIONS_FILTER_FOLLOWS
+                    setTitle(R.string.notification_follow_name)
+                    setSummary(R.string.notification_follow_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsFollowed
                     setOnPreferenceChangeListener { _, newValue ->
@@ -73,8 +73,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_follow_requests)
-                    key = PrefKeys.NOTIFICATION_FILTER_FOLLOW_REQUESTS
+                    setTitle(R.string.notification_follow_request_name)
+                    setSummary(R.string.notification_follow_request_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsFollowRequested
                     setOnPreferenceChangeListener { _, newValue ->
@@ -84,8 +84,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_reblogs)
-                    key = PrefKeys.NOTIFICATION_FILTER_REBLOGS
+                    setTitle(R.string.notification_boost_name)
+                    setSummary(R.string.notification_boost_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsReblogged
                     setOnPreferenceChangeListener { _, newValue ->
@@ -95,8 +95,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_favourites)
-                    key = PrefKeys.NOTIFICATION_FILTER_FAVS
+                    setTitle(R.string.notification_favourite_name)
+                    setSummary(R.string.notification_favourite_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsFavorited
                     setOnPreferenceChangeListener { _, newValue ->
@@ -106,8 +106,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_poll)
-                    key = PrefKeys.NOTIFICATION_FILTER_POLLS
+                    setTitle(R.string.notification_poll_name)
+                    setSummary(R.string.notification_poll_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsPolls
                     setOnPreferenceChangeListener { _, newValue ->
@@ -117,8 +117,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_subscriptions)
-                    key = PrefKeys.NOTIFICATION_FILTER_SUBSCRIPTIONS
+                    setTitle(R.string.notification_subscription_name)
+                    setSummary(R.string.notification_subscription_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsSubscriptions
                     setOnPreferenceChangeListener { _, newValue ->
@@ -128,19 +128,8 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_sign_ups)
-                    key = PrefKeys.NOTIFICATION_FILTER_SIGN_UPS
-                    isIconSpaceReserved = false
-                    isChecked = activeAccount.notificationsSignUps
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { copy(notificationsSignUps = newValue as Boolean) }
-                        true
-                    }
-                }
-
-                switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_updates)
-                    key = PrefKeys.NOTIFICATION_FILTER_UPDATES
+                    setTitle(R.string.notification_update_name)
+                    setSummary(R.string.notification_update_description)
                     isIconSpaceReserved = false
                     isChecked = activeAccount.notificationsUpdates
                     setOnPreferenceChangeListener { _, newValue ->
@@ -150,34 +139,23 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_reports)
-                    key = PrefKeys.NOTIFICATION_FILTER_REPORTS
+                    setTitle(R.string.notification_channel_admin)
+                    setSummary(R.string.notification_channel_admin_description)
                     isIconSpaceReserved = false
-                    isChecked = activeAccount.notificationsReports
+                    isChecked = activeAccount.notificationsAdmin
                     setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { copy(notificationsReports = newValue as Boolean) }
+                        updateAccount { copy(notificationsAdmin = newValue as Boolean) }
                         true
                     }
                 }
 
                 switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_relationship_severed)
-                    key = PrefKeys.NOTIFICATION_FILTER_RELATIONSHIP_SEVERANCE_EVENTS
+                    setTitle(R.string.notification_channel_other)
+                    setSummary(R.string.notification_channel_other_description)
                     isIconSpaceReserved = false
-                    isChecked = activeAccount.notificationsRelationshipSeveranceEvents
+                    isChecked = activeAccount.notificationsOther
                     setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { copy(notificationsRelationshipSeveranceEvents = newValue as Boolean) }
-                        true
-                    }
-                }
-
-                switchPreference {
-                    setTitle(R.string.pref_title_notification_filter_moderation_warning)
-                    key = PrefKeys.NOTIFICATION_FILTER_MODERATION_WARNINGS
-                    isIconSpaceReserved = false
-                    isChecked = activeAccount.notificationsModerationWarnings
-                    setOnPreferenceChangeListener { _, newValue ->
-                        updateAccount { copy(notificationsModerationWarnings = newValue as Boolean) }
+                        updateAccount { copy(notificationsOther = newValue as Boolean) }
                         true
                     }
                 }

@@ -51,10 +51,10 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
-import com.keylesspalace.tusky.entity.visibleNotificationTypes
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -450,8 +450,8 @@ class NotificationsFragment :
     }
 
     private fun showFilterMenu() {
-        val notificationTypeList = visibleNotificationTypes.map { type ->
-            getString(type.uiString)
+        val notificationTypeList = NotificationChannelData.entries.map { type ->
+            getString(type.title)
         }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, notificationTypeList)
@@ -460,7 +460,7 @@ class NotificationsFragment :
 
         menuBinding.buttonApply.setOnClickListener {
             val checkedItems = menuBinding.listView.getCheckedItemPositions()
-            val excludes = visibleNotificationTypes.filterIndexed { index, _ ->
+            val excludes = NotificationChannelData.entries.filterIndexed { index, _ ->
                 !checkedItems[index, false]
             }
             window.dismiss()
@@ -470,7 +470,7 @@ class NotificationsFragment :
         menuBinding.listView.setAdapter(adapter)
         menuBinding.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE)
 
-        visibleNotificationTypes.forEachIndexed { index, type ->
+        NotificationChannelData.entries.forEachIndexed { index, type ->
             menuBinding.listView.setItemChecked(index, !viewModel.excludes.value.contains(type))
         }
 

@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky.entity
 
-import androidx.annotation.StringRes
-import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Notification.Type
 import com.keylesspalace.tusky.entity.Notification.Type.Favourite
 import com.keylesspalace.tusky.entity.Notification.Type.Follow
@@ -45,44 +43,44 @@ data class Notification(
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonClass(generateAdapter = false)
-    sealed class Type(val name: String, @StringRes val uiString: Int) {
-        data class Unknown(val unknownName: String) : Type(unknownName, R.string.notification_unknown_name)
+    sealed class Type(val name: String) {
+        data class Unknown(val unknownName: String) : Type(unknownName)
 
         /** Someone mentioned you */
-        object Mention : Type("mention", R.string.notification_mention_name)
+        object Mention : Type("mention")
 
         /** Someone boosted one of your statuses */
-        object Reblog : Type("reblog", R.string.notification_boost_name)
+        object Reblog : Type("reblog")
 
         /** Someone favourited one of your statuses */
-        object Favourite : Type("favourite", R.string.notification_favourite_name)
+        object Favourite : Type("favourite")
 
         /** Someone followed you */
-        object Follow : Type("follow", R.string.notification_follow_name)
+        object Follow : Type("follow")
 
         /** Someone requested to follow you */
-        object FollowRequest : Type("follow_request", R.string.notification_follow_request_name)
+        object FollowRequest : Type("follow_request")
 
         /** A poll you have voted in or created has ended */
-        object Poll : Type("poll", R.string.notification_poll_name)
+        object Poll : Type("poll")
 
         /** Someone you enabled notifications for has posted a status */
-        object Status : Type("status", R.string.notification_subscription_name)
+        object Status : Type("status")
 
         /** Someone signed up (optionally sent to admins) */
-        object SignUp : Type("admin.sign_up", R.string.notification_sign_up_name)
+        object SignUp : Type("admin.sign_up")
 
         /** A status you interacted with has been updated */
-        object Update : Type("update", R.string.notification_update_name)
+        object Update : Type("update")
 
         /** A new report has been filed */
-        object Report : Type("admin.report", R.string.notification_report_name)
+        object Report : Type("admin.report")
 
         /**  Some of your follow relationships have been severed as a result of a moderation or block event **/
-        object SeveredRelationship : Type("severed_relationships", R.string.notification_severed_relationship_name)
+        object SeveredRelationship : Type("severed_relationships")
 
         /** moderation_warning = A moderator has taken action against your account or has sent you a warning **/
-        object ModerationWarning : Type("moderation_warning", R.string.notification_severed_relationship_name)
+        object ModerationWarning : Type("moderation_warning")
 
         // can't use data objects or this wouldn't work
         override fun toString() = name

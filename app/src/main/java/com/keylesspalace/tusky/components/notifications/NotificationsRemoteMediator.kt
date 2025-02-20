@@ -21,6 +21,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.keylesspalace.tusky.components.systemnotifications.toTypes
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -57,7 +58,7 @@ class NotificationsRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = true)
         }
 
-        val excludes = viewModel.excludes.value
+        val excludes = viewModel.excludes.value.toTypes()
 
         try {
             var dbEmpty = false

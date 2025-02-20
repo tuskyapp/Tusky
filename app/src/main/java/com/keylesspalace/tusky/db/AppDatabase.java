@@ -75,7 +75,7 @@ import java.io.File;
         @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
         @AutoMigration(from = 62, to = 64), // filterV2Available in InstanceEntity
         @AutoMigration(from = 64, to = 66), // added profileHeaderUrl to AccountEntity
-        @AutoMigration(from = 66, to = 68), // added event and moderationAction to NotificationEntity, new NotificationPolicyEntity
+        @AutoMigration(from = 66, to = 68, spec = AppDatabase.MIGRATION_66_68.class), // added event and moderationAction to NotificationEntity, new NotificationPolicyEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -855,4 +855,8 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    @DeleteColumn(tableName = "AccountEntity", columnName = "notificationsSignUps")
+    @DeleteColumn(tableName = "AccountEntity", columnName = "notificationsReports")
+    static class MIGRATION_66_68 implements AutoMigrationSpec { }
 }

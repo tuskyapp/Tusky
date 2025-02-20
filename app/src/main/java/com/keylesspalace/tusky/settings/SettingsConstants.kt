@@ -45,7 +45,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2025021701
+const val SCHEMA_VERSION = 2025022001
 
 /** The schema version for fresh installs */
 const val NEW_INSTALL_SCHEMA_VERSION = 0
@@ -98,17 +98,6 @@ object PrefKeys {
     const val NOTIFICATION_ALERT_LIGHT = "notificationAlertLight"
     const val NOTIFICATION_ALERT_VIBRATE = "notificationAlertVibrate"
     const val NOTIFICATION_ALERT_SOUND = "notificationAlertSound"
-    const val NOTIFICATION_FILTER_POLLS = "notificationFilterPolls"
-    const val NOTIFICATION_FILTER_FAVS = "notificationFilterFavourites"
-    const val NOTIFICATION_FILTER_REBLOGS = "notificationFilterReblogs"
-    const val NOTIFICATION_FILTER_FOLLOW_REQUESTS = "notificationFilterFollowRequests"
-    const val NOTIFICATIONS_FILTER_FOLLOWS = "notificationFilterFollows"
-    const val NOTIFICATION_FILTER_SUBSCRIPTIONS = "notificationFilterSubscriptions"
-    const val NOTIFICATION_FILTER_SIGN_UPS = "notificationFilterSignUps"
-    const val NOTIFICATION_FILTER_UPDATES = "notificationFilterUpdates"
-    const val NOTIFICATION_FILTER_REPORTS = "notificationFilterReports"
-    const val NOTIFICATION_FILTER_RELATIONSHIP_SEVERANCE_EVENTS = "notificationFilterRelationshipSeveranceEvents"
-    const val NOTIFICATION_FILTER_MODERATION_WARNINGS = "notificationFilterModerationWarnings"
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"

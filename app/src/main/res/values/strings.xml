@@ -287,19 +287,8 @@
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
     <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
     <string name="pref_title_notification_alert_light">Notify with light</string>
-    <string name="pref_title_notification_filters">Notify me when</string>
-    <string name="pref_title_notification_filter_mentions">mentioned</string>
-    <string name="pref_title_notification_filter_follows">followed</string>
-    <string name="pref_title_notification_filter_follow_requests">follow requested</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
-    <string name="pref_title_notification_filter_poll">polls have ended</string>
-    <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new post</string>
-    <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
-    <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
-    <string name="pref_title_notification_filter_reports">there\'s a new report</string>
-    <string name="pref_title_notification_filter_moderation_warning">I get a moderation warning</string>
-    <string name="pref_title_notification_filter_relationship_severed">a connection is lost</string>
+    <string name="pref_title_notification_filters">Enabled notification types</string>
+
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -378,7 +367,7 @@
     <string name="notification_boost_description">Notifications when your posts get boosted</string>
     <string name="notification_favourite_name">Favorites</string>
     <string name="notification_favourite_description">Notifications when your posts get marked as favorite</string>
-    <string name="notification_poll_name">Polls</string>
+    <string name="notification_poll_name">Poll results</string>
     <string name="notification_poll_description">Notifications about polls that have ended</string>
     <string name="notification_subscription_name">New posts</string>
     <string name="notification_subscription_description">Notifications when somebody you\'re subscribed to published a new post</string>
@@ -388,10 +377,18 @@
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
     <string name="notification_severed_relationship_name">Lost connections</string>
+    <string name="notification_moderation_warning_name">Moderation warnings</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
     <string name="notification_listenable_worker_name">Background activity</string>
     <string name="notification_listenable_worker_description">Notifications when Tusky is working in the background</string>
     <string name="notification_unknown_name">Unknown</string>
+    <string name="notification_unknown_description">Unknown notification type</string>
+
+    <string name="notification_channel_other">Other</string>
+    <string name="notification_channel_other_description">Other notifications, like lost connections and moderation warnings</string>
+
+    <string name="notification_channel_admin">Admin</string>
+    <string name="notification_channel_admin_description">Admin notifications, like new reports or signups</string>
 
     <string name="notification_mention_format">%1$s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>

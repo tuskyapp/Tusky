@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 68,
-    "identityHash": "2b3f6a3e26a310e248271214c1b229c8",
+    "identityHash": "45583265bb92757d39163ee6c19dc4e5",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -104,7 +104,7 @@
       },
       {
         "tableName": "AccountEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `clientId` TEXT, `clientSecret` TEXT, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `profileHeaderUrl` TEXT NOT NULL DEFAULT '', `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsFollowRequested` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationsPolls` INTEGER NOT NULL, `notificationsSubscriptions` INTEGER NOT NULL, `notificationsSignUps` INTEGER NOT NULL, `notificationsUpdates` INTEGER NOT NULL, `notificationsReports` INTEGER NOT NULL, `notificationsRelationshipSeveranceEvents` INTEGER NOT NULL DEFAULT true, `notificationsModerationWarnings` INTEGER NOT NULL DEFAULT true, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultReplyPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `defaultPostLanguage` TEXT NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `alwaysOpenSpoiler` INTEGER NOT NULL DEFAULT 0, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `notificationMarkerId` TEXT NOT NULL DEFAULT '0', `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL, `oauthScopes` TEXT NOT NULL, `unifiedPushUrl` TEXT NOT NULL, `pushPubKey` TEXT NOT NULL, `pushPrivKey` TEXT NOT NULL, `pushAuth` TEXT NOT NULL, `pushServerKey` TEXT NOT NULL, `lastVisibleHomeTimelineStatusId` TEXT, `locked` INTEGER NOT NULL DEFAULT 0, `hasDirectMessageBadge` INTEGER NOT NULL DEFAULT 0, `isShowHomeBoosts` INTEGER NOT NULL, `isShowHomeReplies` INTEGER NOT NULL, `isShowHomeSelfBoosts` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `domain` TEXT NOT NULL, `accessToken` TEXT NOT NULL, `clientId` TEXT, `clientSecret` TEXT, `isActive` INTEGER NOT NULL, `accountId` TEXT NOT NULL, `username` TEXT NOT NULL, `displayName` TEXT NOT NULL, `profilePictureUrl` TEXT NOT NULL, `profileHeaderUrl` TEXT NOT NULL DEFAULT '', `notificationsEnabled` INTEGER NOT NULL, `notificationsMentioned` INTEGER NOT NULL, `notificationsFollowed` INTEGER NOT NULL, `notificationsFollowRequested` INTEGER NOT NULL, `notificationsReblogged` INTEGER NOT NULL, `notificationsFavorited` INTEGER NOT NULL, `notificationsPolls` INTEGER NOT NULL, `notificationsSubscriptions` INTEGER NOT NULL, `notificationsUpdates` INTEGER NOT NULL, `notificationsAdmin` INTEGER NOT NULL DEFAULT true, `notificationsOther` INTEGER NOT NULL DEFAULT true, `notificationSound` INTEGER NOT NULL, `notificationVibration` INTEGER NOT NULL, `notificationLight` INTEGER NOT NULL, `defaultPostPrivacy` INTEGER NOT NULL, `defaultReplyPrivacy` INTEGER NOT NULL, `defaultMediaSensitivity` INTEGER NOT NULL, `defaultPostLanguage` TEXT NOT NULL, `alwaysShowSensitiveMedia` INTEGER NOT NULL, `alwaysOpenSpoiler` INTEGER NOT NULL DEFAULT 0, `mediaPreviewEnabled` INTEGER NOT NULL, `lastNotificationId` TEXT NOT NULL, `notificationMarkerId` TEXT NOT NULL DEFAULT '0', `emojis` TEXT NOT NULL, `tabPreferences` TEXT NOT NULL, `notificationsFilter` TEXT NOT NULL, `oauthScopes` TEXT NOT NULL, `unifiedPushUrl` TEXT NOT NULL, `pushPubKey` TEXT NOT NULL, `pushPrivKey` TEXT NOT NULL, `pushAuth` TEXT NOT NULL, `pushServerKey` TEXT NOT NULL, `lastVisibleHomeTimelineStatusId` TEXT, `locked` INTEGER NOT NULL DEFAULT 0, `hasDirectMessageBadge` INTEGER NOT NULL DEFAULT 0, `isShowHomeBoosts` INTEGER NOT NULL, `isShowHomeReplies` INTEGER NOT NULL, `isShowHomeSelfBoosts` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -222,33 +222,21 @@
             "notNull": true
           },
           {
-            "fieldPath": "notificationsSignUps",
-            "columnName": "notificationsSignUps",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "notificationsUpdates",
             "columnName": "notificationsUpdates",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "notificationsReports",
-            "columnName": "notificationsReports",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "notificationsRelationshipSeveranceEvents",
-            "columnName": "notificationsRelationshipSeveranceEvents",
+            "fieldPath": "notificationsAdmin",
+            "columnName": "notificationsAdmin",
             "affinity": "INTEGER",
             "notNull": true,
             "defaultValue": "true"
           },
           {
-            "fieldPath": "notificationsModerationWarnings",
-            "columnName": "notificationsModerationWarnings",
+            "fieldPath": "notificationsOther",
+            "columnName": "notificationsOther",
             "affinity": "INTEGER",
             "notNull": true,
             "defaultValue": "true"
@@ -1405,7 +1393,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2b3f6a3e26a310e248271214c1b229c8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '45583265bb92757d39163ee6c19dc4e5')"
     ]
   }
 }

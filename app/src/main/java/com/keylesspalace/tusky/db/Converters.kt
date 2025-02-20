@@ -19,6 +19,7 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.db.entity.DraftAttachment
 import com.keylesspalace.tusky.entity.AccountWarning
@@ -232,7 +233,7 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun notificationTypeListToJson(data: Set<Notification.Type>?): String {
+    fun notificationChannelDataListToJson(data: Set<NotificationChannelData>?): String {
         val array = JSONArray()
         data?.forEach {
             array.put(it.name)
@@ -241,15 +242,17 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun jsonToNotificationTypeList(data: String?): Set<Notification.Type> {
-        val ret = HashSet<Notification.Type>()
+    fun jsonToNotificationChannelDataList(data: String?): Set<NotificationChannelData> {
+        val ret = HashSet<NotificationChannelData>()
         data?.let {
             val array = JSONArray(data)
             for (i in 0 until array.length()) {
                 val item = array.getString(i)
-                val type = notificationTypeFromString(item)
-                if (type !is Notification.Type.Unknown) {
+                try {
+                    val type = NotificationChannelData.valueOf(item)
                     ret.add(type)
+                } catch (_: IllegalArgumentException) {
+                    // ignore, this can happen because we stored individual notification types and not channels before
                 }
             }
         }

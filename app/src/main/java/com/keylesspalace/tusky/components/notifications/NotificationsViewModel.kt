@@ -34,6 +34,8 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
+import com.keylesspalace.tusky.components.systemnotifications.toTypes
 import com.keylesspalace.tusky.components.timeline.Placeholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -85,7 +87,7 @@ class NotificationsViewModel @Inject constructor(
 
     private val refreshTrigger = MutableStateFlow(0L)
 
-    val excludes: StateFlow<Set<Notification.Type>> = activeAccountFlow
+    val excludes: StateFlow<Set<NotificationChannelData>> = activeAccountFlow
         .map { account -> account?.notificationsFilter.orEmpty() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, activeAccountFlow.value?.notificationsFilter.orEmpty())
 
@@ -149,7 +151,7 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun updateNotificationFilters(newFilters: Set<Notification.Type>) {
+    fun updateNotificationFilters(newFilters: Set<NotificationChannelData>) {
         val account = activeAccountFlow.value
         if (newFilters != excludes.value && account != null) {
             viewModelScope.launch {
@@ -321,7 +323,7 @@ class NotificationsViewModel @Inject constructor(
                         maxId = idAbovePlaceholder,
                         minId = idBelowPlaceholder,
                         limit = TimelineViewModel.LOAD_AT_ONCE,
-                        excludes = excludes.value
+                        excludes = excludes.value.toTypes()
                     )
                     // Using sinceId, loads up to LOAD_AT_ONCE statuses immediately before
                     // maxId, and no smaller than minId.
@@ -329,7 +331,7 @@ class NotificationsViewModel @Inject constructor(
                         maxId = idAbovePlaceholder,
                         sinceId = idBelowPlaceholder,
                         limit = TimelineViewModel.LOAD_AT_ONCE,
-                        excludes = excludes.value
+                        excludes = excludes.value.toTypes()
                     )
                 }
 

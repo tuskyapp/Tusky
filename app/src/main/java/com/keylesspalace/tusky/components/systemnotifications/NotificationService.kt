@@ -142,72 +142,15 @@ class NotificationService @Inject constructor(
 
     fun createNotificationChannelsForAccount(account: AccountEntity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            data class ChannelData(
-                val id: String,
-                @StringRes val name: Int,
-                @StringRes val description: Int,
-            )
-
-            val channelData = arrayOf(
-                ChannelData(
-                    getChannelId(account, Notification.Type.Follow)!!,
-                    R.string.notification_follow_name,
-                    R.string.notification_follow_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Mention)!!,
-                    R.string.notification_mention_name,
-                    R.string.notification_mention_descriptions,
-                ),
-
-                ChannelData(
-                    getChannelId(account, Notification.Type.FollowRequest)!!,
-                    R.string.notification_follow_request_name,
-                    R.string.notification_follow_request_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Reblog)!!,
-                    R.string.notification_boost_name,
-                    R.string.notification_boost_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Favourite)!!,
-                    R.string.notification_favourite_name,
-                    R.string.notification_favourite_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Poll)!!,
-                    R.string.notification_poll_name,
-                    R.string.notification_poll_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Status)!!,
-                    R.string.notification_subscription_name,
-                    R.string.notification_subscription_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.SignUp)!!,
-                    R.string.notification_sign_up_name,
-                    R.string.notification_sign_up_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Update)!!,
-                    R.string.notification_update_name,
-                    R.string.notification_update_description,
-                ),
-                ChannelData(
-                    getChannelId(account, Notification.Type.Report)!!,
-                    R.string.notification_report_name,
-                    R.string.notification_report_description,
-                ),
-            )
-            // TODO enumerate all keys of Notification.Type and check if one is missing here?
-
             val channelGroup = NotificationChannelGroup(account.identifier, account.fullName)
             notificationManager.createNotificationChannelGroup(channelGroup)
 
-            val channels = channelData.map {
-                NotificationChannel(it.id, context.getString(it.name), NotificationManager.IMPORTANCE_DEFAULT).apply {
+            val channels = NotificationChannelData.entries.map {
+                NotificationChannel(
+                    it.getChannelId(account),
+                    context.getString(it.title),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
                     description = context.getString(it.description)
                     enableLights(true)
                     lightColor = -0xd46f27
@@ -272,12 +215,10 @@ class NotificationService @Inject constructor(
             Notification.Type.Reblog -> account.notificationsReblogged
             Notification.Type.Favourite -> account.notificationsFavorited
             Notification.Type.Poll -> account.notificationsPolls
-            Notification.Type.SignUp -> account.notificationsSignUps
+            Notification.Type.SignUp -> account.notificationsAdmin
             Notification.Type.Update -> account.notificationsUpdates
-            Notification.Type.Report -> account.notificationsReports
-            Notification.Type.SeveredRelationship -> account.notificationsRelationshipSeveranceEvents
-            Notification.Type.ModerationWarning -> account.notificationsModerationWarnings
-            else -> false
+            Notification.Type.Report -> account.notificationsAdmin
+            else -> account.notificationsOther
         }
     }
 
@@ -486,19 +427,9 @@ class NotificationService @Inject constructor(
     }
 
     private fun getChannelId(account: AccountEntity, type: Notification.Type): String? {
-        return when (type) {
-            Notification.Type.Mention -> CHANNEL_MENTION + account.identifier
-            Notification.Type.Status -> "CHANNEL_SUBSCRIPTIONS" + account.identifier
-            Notification.Type.Follow -> "CHANNEL_FOLLOW" + account.identifier
-            Notification.Type.FollowRequest -> "CHANNEL_FOLLOW_REQUEST" + account.identifier
-            Notification.Type.Reblog -> "CHANNEL_BOOST" + account.identifier
-            Notification.Type.Favourite -> "CHANNEL_FAVOURITE" + account.identifier
-            Notification.Type.Poll -> "CHANNEL_POLL" + account.identifier
-            Notification.Type.SignUp -> "CHANNEL_SIGN_UP" + account.identifier
-            Notification.Type.Update -> "CHANNEL_UPDATES" + account.identifier
-            Notification.Type.Report -> "CHANNEL_REPORT" + account.identifier
-            else -> null
-        }
+        return NotificationChannelData.entries.find { data ->
+            data.notificationTypes.contains(type)
+        }?.getChannelId(account)
     }
 
     /**
@@ -1030,7 +961,6 @@ class NotificationService @Inject constructor(
     companion object {
         const val TAG = "NotificationService"
 
-        const val CHANNEL_MENTION: String = "CHANNEL_MENTION"
         const val KEY_CITED_STATUS_ID: String = "KEY_CITED_STATUS_ID"
         const val KEY_MENTIONS: String = "KEY_MENTIONS"
         const val KEY_REPLY: String = "KEY_REPLY"
