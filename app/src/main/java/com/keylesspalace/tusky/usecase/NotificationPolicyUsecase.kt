@@ -75,6 +75,9 @@ class NotificationPolicyUsecase @Inject constructor(
             _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
         }
     }
+
+    suspend fun updateCounts(notificationCount: Int) =
+        db.notificationPolicyDao().updateCounts(accountId, notificationCount)
 }
 
 sealed interface NotificationPolicyState {

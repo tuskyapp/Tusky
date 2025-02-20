@@ -29,4 +29,15 @@ interface NotificationPolicyDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun update(entity: NotificationPolicyEntity)
+
+    @Query(
+        "UPDATE NotificationPolicyEntity " +
+            "SET pendingRequestsCount = max(0, pendingRequestsCount - 1)," +
+            "pendingNotificationsCount = max(0, pendingNotificationsCount - :notificationCount) " +
+            "WHERE tuskyAccountId = :accountId"
+    )
+    suspend fun updateCounts(
+        accountId: Long,
+        notificationCount: Int
+    )
 }
