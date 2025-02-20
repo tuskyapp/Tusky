@@ -40,7 +40,6 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val activeAccount = accountManager.activeAccount ?: return
-        val context = requireContext()
         makePreferenceScreen {
             switchPreference {
                 setTitle(R.string.pref_title_notifications_enabled)
@@ -49,7 +48,7 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 isChecked = activeAccount.notificationsEnabled
                 setOnPreferenceChangeListener { _, newValue ->
                     updateAccount { copy(notificationsEnabled = newValue as Boolean) }
-                    if (notificationService.areNotificationsEnabled()) {
+                    if (notificationService.areNotificationsEnabledBySystem()) {
                         notificationService.enablePullNotifications()
                     } else {
                         notificationService.disablePullNotifications()

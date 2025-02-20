@@ -45,7 +45,7 @@ enum class AppTheme(val value: String) {
  *
  * - Adding a new preference that does not change the interpretation of an existing preference
  */
-const val SCHEMA_VERSION = 2023112001
+const val SCHEMA_VERSION = 2025021701
 
 /** The schema version for fresh installs */
 const val NEW_INSTALL_SCHEMA_VERSION = 0
@@ -55,6 +55,8 @@ object PrefKeys {
     // each preference a key for it to work.
 
     const val SCHEMA_VERSION: String = "schema_version"
+    const val LAST_USED_PUSH_PROVDER = "lastUsedPushProvider"
+
     const val APP_THEME = "appTheme"
     const val LANGUAGE = "language"
     const val STATUS_TEXT_SIZE = "statusTextSize"

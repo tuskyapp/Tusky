@@ -60,6 +60,7 @@ import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -99,6 +100,14 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pendingMediaDownloads = savedInstanceState?.getStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter?.let {
+            updateRelativeTimePeriodically(preferences, it)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -145,6 +154,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         binding.searchRecyclerView.layoutManager =
             LinearLayoutManager(binding.searchRecyclerView.context)
         return adapter
+    }
+
+    override fun onRefresh() {
+        viewModel.clearStatusCache()
+        super.onRefresh()
     }
 
     override fun onContentHiddenChange(isShowing: Boolean, position: Int) {

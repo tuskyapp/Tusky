@@ -45,8 +45,12 @@ class NotificationFetcher @Inject constructor(
     private val eventHub: EventHub,
     private val notificationService: NotificationService,
 ) {
-    suspend fun fetchAndShow() {
+    suspend fun fetchAndShow(accountId: Long?) {
         for (account in accountManager.accounts) {
+            if (accountId != null && account.id != accountId) {
+                continue
+            }
+
             if (account.notificationsEnabled) {
                 try {
                     val notifications = fetchNewNotifications(account)
@@ -137,7 +141,7 @@ class NotificationFetcher @Inject constructor(
         // Save the newest notification ID in the marker.
         notifications.firstOrNull()?.let {
             val newMarkerId = notifications.first().id
-            Log.d(TAG, "updating notification marker for ${account.fullName} to: $newMarkerId")
+            Log.d(TAG, "Updating notification marker for ${account.fullName} to: $newMarkerId")
             mastodonApi.updateMarkersWithAuth(
                 auth = authHeader,
                 domain = account.domain,

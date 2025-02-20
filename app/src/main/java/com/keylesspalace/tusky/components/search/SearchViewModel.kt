@@ -60,9 +60,9 @@ class SearchViewModel @Inject constructor(
     val activeAccount: AccountEntity?
         get() = accountManager.activeAccount
 
-    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled ?: false
-    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia ?: false
-    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler ?: false
+    val mediaPreviewEnabled = activeAccount?.mediaPreviewEnabled == true
+    val alwaysShowSensitiveMedia = activeAccount?.alwaysShowSensitiveMedia == true
+    val alwaysOpenSpoiler = activeAccount?.alwaysOpenSpoiler == true
 
     private val loadedStatuses: MutableList<StatusViewData.Concrete> = mutableListOf()
 
@@ -129,6 +129,10 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun clearStatusCache() {
+        loadedStatuses.clear()
     }
 
     fun expandedChange(statusViewData: StatusViewData.Concrete, expanded: Boolean) {

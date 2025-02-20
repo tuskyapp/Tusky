@@ -47,7 +47,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
@@ -70,15 +69,13 @@ import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
+import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -270,18 +267,10 @@ class NotificationsFragment :
                 accountManager.activeAccount?.let { account ->
                     notificationService.clearNotificationsForAccount(account)
                 }
-
-                val useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false)
-                while (!useAbsoluteTime) {
-                    adapter.notifyItemRangeChanged(
-                        0,
-                        adapter.itemCount,
-                        StatusBaseViewHolder.Key.KEY_CREATED
-                    )
-                    delay(1.toDuration(DurationUnit.MINUTES))
-                }
             }
         }
+
+        updateRelativeTimePeriodically(preferences, adapter)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.notificationPolicy.collect {
