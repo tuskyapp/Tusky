@@ -98,7 +98,7 @@
     <string name="action_open_media_n">Mở tập tin #%1$d</string>
     <string name="title_links_dialog">Links</string>
     <string name="title_mentions_dialog">Lượt nhắc tới</string>
-    <string name="title_hashtags_dialog">HASHTAG</string>
+    <string name="title_hashtags_dialog">Hashtag</string>
     <string name="action_open_faved_by">Xem lượt thích</string>
     <string name="action_open_reblogged_by">Xem lượt đăng lại</string>
     <string name="action_open_reblogger">Xem lượt đăng lại</string>
@@ -322,7 +322,7 @@
     <string name="create_poll_title">Bình chọn</string>
     <string name="pref_title_enable_swipe_for_tabs">Vuốt qua lại giữa các tab</string>
     <string name="failed_search">Không thể tìm thấy</string>
-    <string name="title_accounts">NGƯỜI</string>
+    <string name="title_accounts">Người</string>
     <string name="report_description_remote_instance">Người này thuộc máy chủ khác. Gửi luôn cho máy chủ đó\?</string>
     <string name="report_description_1">Báo cáo sẽ được gửi tới kiểm duyệt viên. Hãy cho biết lý do bạn báo cáo người này bên dưới:</string>
     <string name="failed_fetch_posts">Chưa tải được tút</string>
@@ -543,7 +543,7 @@
     <string name="no_lists">Chưa có danh sách nào.</string>
     <string name="report_category_violation">Vi phạm nội quy máy chủ</string>
     <string name="report_category_spam">Spam</string>
-    <string name="report_category_other">Khác</string>
+    <string name="report_category_other">Lý do khác</string>
     <string name="error_following_hashtags_unsupported">Máy chủ này không hỗ trợ theo dõi hashtag.</string>
     <string name="title_followed_hashtags">Những hashtag theo dõi</string>
     <string name="post_edited">Sửa %1$s</string>
@@ -688,7 +688,7 @@
     <string name="label_translated">Dịch %1$s bằng %2$s</string>
     <string name="ui_error_translate">Không thể dịch: %1$s</string>
     <string name="unknown_notification_type">Kiểu thông báo chưa rõ</string>
-    <string name="report_category_legal">Pháp luật</string>
+    <string name="report_category_legal">Vi phạm pháp luật</string>
     <string name="dialog_follow_warning">Theo dõi người này?</string>
     <string name="pref_title_confirm_follows">Hỏi trước khi theo dõi</string>
     <string name="url_copied">Đã sao chép liên kết</string>
@@ -730,6 +730,6 @@
     <string name="post_replied_self">Tiếp tục chủ đề</string>
     <string name="post_replied">Trả lời</string>
     <string name="preview_card_by_author">Bởi %1$s</string>
-    <string name="preview_card_more_by_author">Bài khác bởi %1$s</string>
+    <string name="preview_card_more_by_author">Viết bởi %1$s</string>
     <string name="follow_hashtag_success">Đã theo dõi hashtag %1$s</string>
 </resources>
