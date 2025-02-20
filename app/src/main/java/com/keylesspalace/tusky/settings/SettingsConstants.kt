@@ -107,6 +107,8 @@ object PrefKeys {
     const val NOTIFICATION_FILTER_SIGN_UPS = "notificationFilterSignUps"
     const val NOTIFICATION_FILTER_UPDATES = "notificationFilterUpdates"
     const val NOTIFICATION_FILTER_REPORTS = "notificationFilterReports"
+    const val NOTIFICATION_FILTER_RELATIONSHIP_SEVERANCE_EVENTS = "notificationFilterRelationshipSeveranceEvents"
+    const val NOTIFICATION_FILTER_MODERATION_WARNINGS = "notificationFilterModerationWarnings"
 
     const val TAB_FILTER_HOME_REPLIES = "tabFilterHomeReplies_v2" // This was changed once to reset an unintentionally set default.
     const val TAB_FILTER_HOME_BOOSTS = "tabFilterHomeBoosts"

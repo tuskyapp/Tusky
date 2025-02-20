@@ -298,6 +298,8 @@
     <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
     <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
     <string name="pref_title_notification_filter_reports">there\'s a new report</string>
+    <string name="pref_title_notification_filter_moderation_warning">I get a moderation warning</string>
+    <string name="pref_title_notification_filter_relationship_severed">a connection is lost</string>
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>

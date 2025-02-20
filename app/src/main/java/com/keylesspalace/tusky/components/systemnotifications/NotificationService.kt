@@ -274,6 +274,8 @@ class NotificationService @Inject constructor(
             Notification.Type.SignUp -> account.notificationsSignUps
             Notification.Type.Update -> account.notificationsUpdates
             Notification.Type.Report -> account.notificationsReports
+            Notification.Type.SeveredRelationship-> account.notificationsRelationshipSeveranceEvents
+            Notification.Type.ModerationWarning -> account.notificationsModerationWarnings
             else -> false
         }
     }

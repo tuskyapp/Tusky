@@ -159,6 +159,28 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                         true
                     }
                 }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_relationship_severed)
+                    key = PrefKeys.NOTIFICATION_FILTER_RELATIONSHIP_SEVERANCE_EVENTS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsRelationshipSeveranceEvents
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { copy(notificationsRelationshipSeveranceEvents = newValue as Boolean) }
+                        true
+                    }
+                }
+
+                switchPreference {
+                    setTitle(R.string.pref_title_notification_filter_moderation_warning)
+                    key = PrefKeys.NOTIFICATION_FILTER_MODERATION_WARNINGS
+                    isIconSpaceReserved = false
+                    isChecked = activeAccount.notificationsModerationWarnings
+                    setOnPreferenceChangeListener { _, newValue ->
+                        updateAccount { copy(notificationsModerationWarnings = newValue as Boolean) }
+                        true
+                    }
+                }
             }
 
             preferenceCategory(R.string.pref_title_notification_alerts) { category ->
