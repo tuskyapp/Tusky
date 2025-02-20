@@ -40,12 +40,12 @@ import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
+import com.keylesspalace.tusky.db.entity.NotificationPolicyEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.usecase.NotificationPolicyState
 import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -56,6 +56,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -122,14 +123,9 @@ class NotificationsViewModel @Inject constructor(
     }
         .flowOn(Dispatchers.Default)
 
-    val notificationPolicy: StateFlow<NotificationPolicyState> = notificationPolicyUsecase.state
+    val notificationPolicy: Flow<NotificationPolicyEntity?> = notificationPolicyUsecase.info
 
     init {
-        viewModelScope.launch {
-            activeAccountFlow.collect {
-                println("activeAccountFlow ${it?.notificationsFilter}")
-            }
-        }
         viewModelScope.launch {
             eventHub.events.collect { event ->
                 if (event is PreferenceChangedEvent) {

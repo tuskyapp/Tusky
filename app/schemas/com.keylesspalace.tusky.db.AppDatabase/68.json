@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 68,
-    "identityHash": "777c12ac0106c655480ce119eb10ed4d",
+    "identityHash": "ba350f46b059b537c8aae2a9db5d2255",
     "entities": [
       {
         "tableName": "DraftEntity",
@@ -1354,12 +1354,44 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "NotificationPolicyEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tuskyAccountId` INTEGER NOT NULL, `pendingRequestsCount` INTEGER NOT NULL, `pendingNotificationsCount` INTEGER NOT NULL, PRIMARY KEY(`tuskyAccountId`))",
+        "fields": [
+          {
+            "fieldPath": "tuskyAccountId",
+            "columnName": "tuskyAccountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingRequestsCount",
+            "columnName": "pendingRequestsCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingNotificationsCount",
+            "columnName": "pendingNotificationsCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tuskyAccountId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '777c12ac0106c655480ce119eb10ed4d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ba350f46b059b537c8aae2a9db5d2255')"
     ]
   }
 }

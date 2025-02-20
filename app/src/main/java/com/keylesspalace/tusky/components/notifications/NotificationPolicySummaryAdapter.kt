@@ -20,7 +20,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemFilteredNotificationsInfoBinding
-import com.keylesspalace.tusky.usecase.NotificationPolicyState
+import com.keylesspalace.tusky.db.entity.NotificationPolicyEntity
 import com.keylesspalace.tusky.util.BindingHolder
 import java.text.NumberFormat
 
@@ -28,9 +28,9 @@ class NotificationPolicySummaryAdapter(
     private val onOpenDetails: () -> Unit
 ) : RecyclerView.Adapter<BindingHolder<ItemFilteredNotificationsInfoBinding>>() {
 
-    private var state: NotificationPolicyState = NotificationPolicyState.Loading
+    private var state: NotificationPolicyEntity? = null
 
-    fun updateState(newState: NotificationPolicyState) {
+    fun updateState(newState: NotificationPolicyEntity?) {
         val oldShowInfo = state.shouldShowInfo()
         val newShowInfo = newState.shouldShowInfo()
         state = newState
@@ -58,16 +58,15 @@ class NotificationPolicySummaryAdapter(
     override fun getItemCount() = if (state.shouldShowInfo()) 1 else 0
 
     override fun onBindViewHolder(holder: BindingHolder<ItemFilteredNotificationsInfoBinding>, position: Int) {
-        val policySummary = (state as? NotificationPolicyState.Loaded)?.policy?.summary
-        if (policySummary != null) {
+        state?.let { policyState ->
             val binding = holder.binding
             val context = holder.binding.root.context
-            binding.notificationPolicySummaryDescription.text = context.getString(R.string.notifications_from_people_you_may_know, policySummary.pendingRequestsCount)
-            binding.notificationPolicySummaryBadge.text = NumberFormat.getInstance().format(policySummary.pendingNotificationsCount)
+            binding.notificationPolicySummaryDescription.text = context.getString(R.string.notifications_from_people_you_may_know, policyState.pendingRequestsCount)
+            binding.notificationPolicySummaryBadge.text = NumberFormat.getInstance().format(policyState.pendingNotificationsCount)
         }
     }
 
-    private fun NotificationPolicyState.shouldShowInfo(): Boolean {
-        return this is NotificationPolicyState.Loaded && this.policy.summary.pendingNotificationsCount > 0
+    private fun NotificationPolicyEntity?.shouldShowInfo(): Boolean {
+        return this != null && this.pendingNotificationsCount > 0
     }
 }
