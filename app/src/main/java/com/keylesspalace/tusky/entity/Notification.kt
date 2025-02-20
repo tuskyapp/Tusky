@@ -82,7 +82,7 @@ data class Notification(
             val visibleTypes = listOf(Mention, Reblog, Favourite, Follow, FollowRequest, Poll, Status, SignUp, Update, Report, SeveredRelationship, ModerationWarning)
         }
 
-        // can't use data objects or this would work
+        // can't use data objects or this wouldn't work
         override fun toString() = name
     }
 

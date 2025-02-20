@@ -23,8 +23,8 @@
         app:drawableStartCompat="@drawable/ic_person_add_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Someone requested to follow you"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        tools:text="Someone requested to follow you" />
 
     <ImageView
         android:id="@+id/avatar"
@@ -109,10 +109,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="?attr/status_text_medium"
-        android:textIsSelectable="true"
         android:hyphenationFrequency="full"
         android:lineSpacingMultiplier="1.1"
+        android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toEndOf="@+id/acceptButton"
         app:layout_constraintStart_toStartOf="@+id/usernameTextView"
         app:layout_constraintTop_toBottomOf="@+id/rejectButton"

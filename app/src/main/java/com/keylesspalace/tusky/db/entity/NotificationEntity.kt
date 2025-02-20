@@ -84,7 +84,7 @@ data class NotificationEntity(
     val event: RelationshipSeveranceEvent?,
     val moderationWarning: AccountWarning?,
     // relevant when it is a placeholder
-    val loading: Boolean = false,
+    val loading: Boolean = false
 )
 
 @Entity(

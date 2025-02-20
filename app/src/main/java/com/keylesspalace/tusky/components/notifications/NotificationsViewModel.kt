@@ -81,15 +81,12 @@ class NotificationsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val activeAccountFlow = accountManager.activeAccount(viewModelScope)
-
     private val accountId: Long = activeAccountFlow.value!!.id
 
     private val refreshTrigger = MutableStateFlow(0L)
 
     val excludes: StateFlow<Set<Notification.Type>> = activeAccountFlow
-        .map { account ->
-            account?.notificationsFilter.orEmpty()
-        }
+        .map { account -> account?.notificationsFilter.orEmpty() }
         .stateIn(viewModelScope, SharingStarted.Eagerly, activeAccountFlow.value?.notificationsFilter.orEmpty())
 
     /** Map from notification id to translation. */

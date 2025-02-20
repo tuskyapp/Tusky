@@ -184,9 +184,9 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_FOLLOW_REQUEST = 4
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 8
-        private const val VIEW_TYPE_MODERATION_WARNING = 9
-        private const val VIEW_TYPE_UNKNOWN = 10
+        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 7
+        private const val VIEW_TYPE_MODERATION_WARNING = 8
+        private const val VIEW_TYPE_UNKNOWN = 9
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

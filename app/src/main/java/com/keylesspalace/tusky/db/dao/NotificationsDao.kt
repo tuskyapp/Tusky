@@ -111,7 +111,7 @@ AND
             (accountId = :userId OR
             statusId IN (SELECT serverId FROM TimelineStatusEntity WHERE tuskyAccountId = :tuskyAccountId AND authorServerId = :userId)
             )
-            AND type != "SIGN_UP" AND type != "REPORT"
+            AND upper(type) != "SIGN_UP" AND upper(type) != "REPORT"
         """
     )
     abstract suspend fun removeAllByUser(tuskyAccountId: Long, userId: String)
