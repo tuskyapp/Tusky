@@ -599,7 +599,7 @@ class ComposeActivityTest {
     private fun getConfiguration(maximumStatusCharacters: Int?, charactersReservedPerUrl: Int?): Instance.Configuration {
         return Instance.Configuration(
             Instance.Configuration.Urls(),
-            Instance.Configuration.Accounts(1),
+            Instance.Configuration.Accounts(maxFeaturedTags = 1, maxProfileFields = 4),
             Instance.Configuration.Statuses(
                 maximumStatusCharacters ?: InstanceInfoRepository.DEFAULT_CHARACTER_LIMIT,
                 InstanceInfoRepository.DEFAULT_MAX_MEDIA_ATTACHMENTS,
