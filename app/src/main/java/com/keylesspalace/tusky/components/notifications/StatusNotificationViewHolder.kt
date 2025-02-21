@@ -239,7 +239,7 @@ internal class StatusNotificationViewHolder(
                 format = context.getString(R.string.notification_reblog_format)
             }
             Notification.Type.Status -> {
-                icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue)
+                icon = getIconWithColor(context, R.drawable.ic_notifications_active_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_subscription_format)
             }
             Notification.Type.Update -> {
