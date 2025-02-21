@@ -170,7 +170,7 @@ class InstanceInfoRepository @Inject constructor(
             ?: DEFAULT_IMAGE_MATRIX_LIMIT,
         maxMediaAttachments = this.configuration?.statuses?.maxMediaAttachments
             ?: DEFAULT_MAX_MEDIA_ATTACHMENTS,
-        maxFields = this.pleroma?.metadata?.fieldLimits?.maxFields,
+        maxFields = this.configuration?.accounts?.maxProfileFields ?: this.pleroma?.metadata?.fieldLimits?.maxFields,
         maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
         maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
         translationEnabled = this.configuration?.translation?.enabled
