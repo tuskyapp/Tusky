@@ -22,5 +22,5 @@ import com.squareup.moshi.JsonClass
 data class NotificationRequest(
     val id: String,
     val account: Account,
-    @Json(name = "notifications_count") val notificationsCount: String
+    @Json(name = "notifications_count") val notificationsCount: Int
 )

@@ -112,10 +112,8 @@ class NotificationRequestsViewModel @Inject constructor(
     fun removeNotificationRequest(id: String) {
         requestData.forEach { request ->
             if (request.id == id) {
-                request.notificationsCount.toIntOrNull()?.let { notificationsCount ->
-                    viewModelScope.launch {
-                        notificationPolicyUsecase.updateCounts(notificationsCount)
-                    }
+                viewModelScope.launch {
+                    notificationPolicyUsecase.updateCounts(request.notificationsCount)
                 }
             }
         }

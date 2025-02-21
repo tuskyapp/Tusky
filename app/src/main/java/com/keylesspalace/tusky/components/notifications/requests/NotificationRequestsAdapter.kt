@@ -27,6 +27,7 @@ import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.loadAvatar
+import java.text.NumberFormat
 
 class NotificationRequestsAdapter(
     private val onAcceptRequest: (notificationRequestId: String) -> Unit,
@@ -35,6 +36,8 @@ class NotificationRequestsAdapter(
     private val animateAvatar: Boolean,
     private val animateEmojis: Boolean,
 ) : PagingDataAdapter<NotificationRequest, BindingHolder<ItemNotificationRequestBinding>>(NOTIFICATION_REQUEST_COMPARATOR) {
+
+    private val numberFormat: NumberFormat = NumberFormat.getNumberInstance()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -58,7 +61,7 @@ class NotificationRequestsAdapter(
             val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
             loadAvatar(account.avatar, binding.notificationRequestAvatar, avatarRadius, animateAvatar)
 
-            binding.notificationRequestBadge.text = notificationRequest.notificationsCount
+            binding.notificationRequestBadge.text = numberFormat.format(notificationRequest.notificationsCount)
 
             val emojifiedName = account.name.emojify(
                 account.emojis,
