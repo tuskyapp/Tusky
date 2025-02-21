@@ -18,6 +18,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -35,7 +36,7 @@
             android:text="@string/action_accept_notification_request" />
 
         <Button
-            android:id="@+id/dismissButtin"
+            android:id="@+id/dismissButton"
             style="@style/TuskyButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

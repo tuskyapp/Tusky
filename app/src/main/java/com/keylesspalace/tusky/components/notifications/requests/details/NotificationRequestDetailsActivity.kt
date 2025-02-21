@@ -19,6 +19,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -69,6 +72,12 @@ class NotificationRequestDetailsActivity : BottomSheetActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomBar) { view, insets ->
+            val bottomInsets = insets.getInsets(systemBars()).bottom
+            view.updatePadding(bottom = bottomInsets)
+            insets.inset(0, 0, 0, bottomInsets)
+        }
+
         lifecycleScope.launch {
             viewModel.finish.collect { finishMode ->
                 setResult(RESULT_OK, Intent().apply { putExtra(EXTRA_NOTIFICATION_REQUEST_ID, intent.getStringExtra(EXTRA_NOTIFICATION_REQUEST_ID)!!) })
@@ -79,7 +88,7 @@ class NotificationRequestDetailsActivity : BottomSheetActivity() {
         binding.acceptButton.setOnClickListener {
             viewModel.acceptNotificationRequest()
         }
-        binding.dismissButtin.setOnClickListener {
+        binding.dismissButton.setOnClickListener {
             viewModel.dismissNotificationRequest()
         }
     }
