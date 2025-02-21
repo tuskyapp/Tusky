@@ -87,5 +87,6 @@ class FollowViewHolder(
         binding.avatarBadge.visible(statusDisplayOptions.showBotOverlay && account.bot)
 
         itemView.setOnClickListener { listener.onViewAccount(account.id) }
+        binding.accountNote.setOnClickListener { listener.onViewAccount(account.id) }
     }
 }

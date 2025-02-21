@@ -119,5 +119,6 @@ class FollowRequestViewHolder(
             }
         }
         itemView.setOnClickListener { listener.onViewAccount(accountId) }
+        binding.accountNote.setOnClickListener { listener.onViewAccount(accountId) }
     }
 }
