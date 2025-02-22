@@ -18,10 +18,14 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.view.View
+import at.connyduck.sparkbutton.helpers.Utils
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 internal class StatusViewHolder(
@@ -50,11 +54,40 @@ internal class StatusViewHolder(
                 payloads,
                 false
             )
-        }
-        if (viewData.type == Notification.Type.Poll) {
-            setPollInfo(accountId == viewData.account.id)
-        } else {
-            hideStatusInfo()
+            if (payloads.isNotEmpty()) {
+                return
+            }
+
+            if (viewData.type == Notification.Type.Poll) {
+                statusInfo.setText(if (accountId == viewData.account.id) R.string.poll_ended_created else R.string.poll_ended_voted)
+                statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0)
+                statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.context, 10))
+                statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.context, 28), 0, 0, 0)
+                statusInfo.show()
+            } else if (viewData.type == Notification.Type.Mention) {
+                statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.context, 6))
+                statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.context, 38), 0, 0, 0)
+                statusInfo.show()
+                if (viewData.statusViewData.status.inReplyToAccountId == accountId) {
+                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_reply_18dp, 0, 0, 0)
+
+                    if (viewData.statusViewData.status.visibility == Status.Visibility.DIRECT) {
+                        statusInfo.setText(R.string.notification_info_reply)
+                    } else {
+                        statusInfo.setText(R.string.notification_info_private_reply)
+                    }
+                } else {
+                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_at_18dp, 0, 0, 0)
+
+                    if (viewData.statusViewData.status.visibility == Status.Visibility.DIRECT) {
+                        statusInfo.setText(R.string.notification_info_private_mention)
+                    } else {
+                        statusInfo.setText(R.string.notification_info_mention)
+                    }
+                }
+            } else {
+                hideStatusInfo()
+            }
         }
     }
 }

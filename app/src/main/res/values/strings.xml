@@ -903,4 +903,9 @@
         <item quantity="one">%1$s media attachment</item>
         <item quantity="other">%1$s media attachments</item>
     </plurals>
+
+    <string name="notification_info_reply">Reply</string>
+    <string name="notification_info_private_mention">Private mention</string>
+    <string name="notification_info_mention">Mention</string>
+    <string name="notification_info_private_reply">Private reply</string>
 </resources>
