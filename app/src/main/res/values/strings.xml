@@ -898,4 +898,9 @@
 
     <string name="unknown_notification_type_explanation">Tusky does not recognize this notification type and can\'t show it to you. Your server\'s web interface may be able to do so. Please also inform the Tusky developers so they can add support for this type! </string>
 
+    <string name="poll">Poll</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s media attachment</item>
+        <item quantity="other">%1$s media attachments</item>
+    </plurals>
 </resources>

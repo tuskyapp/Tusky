@@ -80,8 +80,7 @@ class FollowViewHolder(
             account.avatar,
             binding.notificationAvatar,
             avatarRadius,
-            statusDisplayOptions.animateAvatars,
-            null
+            statusDisplayOptions.animateAvatars
         )
 
         binding.avatarBadge.visible(statusDisplayOptions.showBotOverlay && account.bot)
