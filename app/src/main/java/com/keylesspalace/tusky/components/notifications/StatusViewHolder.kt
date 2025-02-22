@@ -72,9 +72,9 @@ internal class StatusViewHolder(
                     statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_reply_18dp, 0, 0, 0)
 
                     if (viewData.statusViewData.status.visibility == Status.Visibility.DIRECT) {
-                        statusInfo.setText(R.string.notification_info_reply)
-                    } else {
                         statusInfo.setText(R.string.notification_info_private_reply)
+                    } else {
+                        statusInfo.setText(R.string.notification_info_reply)
                     }
                 } else {
                     statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_at_18dp, 0, 0, 0)
