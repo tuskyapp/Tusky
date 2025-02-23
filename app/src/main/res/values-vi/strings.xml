@@ -358,8 +358,8 @@
     <string name="compose_shortcut_short_label">Soạn</string>
     <string name="compose_shortcut_long_label">Soạn tút</string>
     <string name="filter_apply">Áp dụng</string>
-    <string name="notifications_apply_filter">LỌC</string>
-    <string name="notifications_clear">XÓA HẾT</string>
+    <string name="notifications_apply_filter">Lọc theo</string>
+    <string name="notifications_clear">Xóa hết</string>
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
     <string name="hashtags">Hashtag</string>
