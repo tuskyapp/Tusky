@@ -27,6 +27,7 @@ data class Attachment(
     val url: String,
     // can be null for e.g. audio attachments
     @Json(name = "preview_url") val previewUrl: String? = null,
+    // null when local attachment
     @Json(name = "remote_url") val remoteUrl: String? = null,
     val meta: MetaData? = null,
     val type: Type,
