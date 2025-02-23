@@ -414,7 +414,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             }
 
             Attachment.Type.UNKNOWN -> {
-                requireContext().openLink(attachment.url)
+                requireContext().openLink(attachment.unknownUrl)
             }
         }
     }

@@ -27,11 +27,16 @@ data class Attachment(
     val url: String,
     // can be null for e.g. audio attachments
     @Json(name = "preview_url") val previewUrl: String? = null,
+    @Json(name = "remote_url") val remoteUrl: String? = null,
     val meta: MetaData? = null,
     val type: Type,
     val description: String? = null,
     val blurhash: String? = null
 ) : Parcelable {
+
+    /** The url to open for attachments of unknown type */
+    val unknownUrl: String
+        get() = remoteUrl ?: url
 
     @JsonClass(generateAdapter = false)
     enum class Type {
