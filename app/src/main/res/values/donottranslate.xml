@@ -213,24 +213,22 @@
 
     <string-array name="mute_duration_names">
         <item>@string/duration_indefinite</item>
-        <item>@string/duration_5_min</item>
-        <item>@string/duration_30_min</item>
         <item>@string/duration_1_hour</item>
         <item>@string/duration_6_hours</item>
         <item>@string/duration_1_day</item>
-        <item>@string/duration_3_days</item>
         <item>@string/duration_7_days</item>
+        <item>@string/duration_30_days</item>
+        <item>@string/duration_180_days</item>
     </string-array>
 
     <integer-array name="mute_duration_values"> <!-- values in seconds, corresponding to mute_duration_names -->
         <item>0</item>
-        <item>300</item>
-        <item>1800</item>
         <item>3600</item>
         <item>21600</item>
         <item>86400</item>
-        <item>259200</item>
         <item>604800</item>
+        <item>2592000</item>
+        <item>15552000</item>
     </integer-array>
 
     <string-array name="filter_duration_names">
