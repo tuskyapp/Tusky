@@ -286,15 +286,9 @@ class NotificationService @Inject constructor(
             NotificationCompat.Builder(context, existingAndroidNotification)
         }
 
-        val t = titleForType(body, account)
-        val b = bodyForType(body, account)
-
-        Log.d(TAG, "titleForType: $t")
-        Log.d(TAG, "bodyForType: $b")
-
         builder
-            .setContentTitle(t)
-            .setContentText(b)
+            .setContentTitle(titleForType(body, account))
+            .setContentText(bodyForType(body, account))
 
         if (body.type == Notification.Type.Mention || body.type == Notification.Type.Poll) {
             builder.setStyle(
