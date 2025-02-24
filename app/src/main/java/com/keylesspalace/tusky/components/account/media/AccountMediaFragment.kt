@@ -206,7 +206,7 @@ class AccountMediaFragment :
                 }
             }
             Attachment.Type.UNKNOWN -> {
-                context?.openLink(selected.attachment.url)
+                context?.openLink(selected.attachment.unknownUrl)
             }
         }
     }
