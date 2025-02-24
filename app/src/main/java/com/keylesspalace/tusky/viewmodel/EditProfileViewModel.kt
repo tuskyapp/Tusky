@@ -17,6 +17,7 @@ package com.keylesspalace.tusky.viewmodel
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -139,38 +140,38 @@ class EditProfileViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            var avatarFileBody: MultipartBody.Part? = null
-            diff.avatarFile?.let {
-                avatarFileBody = MultipartBody.Part.createFormData(
+            val avatarFileBody: MultipartBody.Part? = diff.avatarFile?.let {
+                MultipartBody.Part.createFormData(
                     "avatar",
                     randomAlphanumericString(12),
                     it.asRequestBody("image/png".toMediaTypeOrNull())
                 )
             }
 
-            var headerFileBody: MultipartBody.Part? = null
-            diff.headerFile?.let {
-                headerFileBody = MultipartBody.Part.createFormData(
+            val headerFileBody: MultipartBody.Part? = diff.headerFile?.let {
+                MultipartBody.Part.createFormData(
                     "header",
                     randomAlphanumericString(12),
                     it.asRequestBody("image/png".toMediaTypeOrNull())
                 )
             }
 
+            val fieldsMap = diff.fields?.let { fields ->
+                buildMap {
+                    fields.forEachIndexed { index, field ->
+                        put("fields_attributes[$index][name]", field.name.toRequestBody(MultipartBody.FORM))
+                        put("fields_attributes[$index][value]", field.value.toRequestBody(MultipartBody.FORM))
+                    }
+                }
+            }.orEmpty()
+
             mastodonApi.accountUpdateCredentials(
-                diff.displayName?.toRequestBody(MultipartBody.FORM),
-                diff.note?.toRequestBody(MultipartBody.FORM),
-                diff.locked?.toString()?.toRequestBody(MultipartBody.FORM),
-                avatarFileBody,
-                headerFileBody,
-                diff.field1?.first?.toRequestBody(MultipartBody.FORM),
-                diff.field1?.second?.toRequestBody(MultipartBody.FORM),
-                diff.field2?.first?.toRequestBody(MultipartBody.FORM),
-                diff.field2?.second?.toRequestBody(MultipartBody.FORM),
-                diff.field3?.first?.toRequestBody(MultipartBody.FORM),
-                diff.field3?.second?.toRequestBody(MultipartBody.FORM),
-                diff.field4?.first?.toRequestBody(MultipartBody.FORM),
-                diff.field4?.second?.toRequestBody(MultipartBody.FORM)
+                displayName = diff.displayName?.toRequestBody(MultipartBody.FORM),
+                note = diff.note?.toRequestBody(MultipartBody.FORM),
+                locked = diff.locked?.toString()?.toRequestBody(MultipartBody.FORM),
+                avatar = avatarFileBody,
+                header = headerFileBody,
+                fields = fieldsMap
             ).fold(
                 { newAccountData ->
                     accountManager.updateAccount(activeAccount, newAccountData)
@@ -178,6 +179,7 @@ class EditProfileViewModel @Inject constructor(
                     _saveData.value = Success()
                 },
                 { throwable ->
+                    Log.d(TAG, "failed updating profile", throwable)
                     _saveData.value = Error(errorMessage = throwable.getServerErrorMessage())
                 }
             )
@@ -236,28 +238,13 @@ class EditProfileViewModel @Inject constructor(
         }
 
         // when one field changed, all have to be sent or they unchanged ones would get overridden
-        val allFieldsUnchanged = oldProfileAccount?.source?.fields == newProfileData.fields
-        val field1 = calculateFieldToUpdate(newProfileData.fields.getOrNull(0), allFieldsUnchanged)
-        val field2 = calculateFieldToUpdate(newProfileData.fields.getOrNull(1), allFieldsUnchanged)
-        val field3 = calculateFieldToUpdate(newProfileData.fields.getOrNull(2), allFieldsUnchanged)
-        val field4 = calculateFieldToUpdate(newProfileData.fields.getOrNull(3), allFieldsUnchanged)
-
-        return DiffProfileData(
-            displayName, note, locked, field1, field2, field3, field4, headerFile, avatarFile
-        )
-    }
-
-    private fun calculateFieldToUpdate(
-        newField: StringField?,
-        fieldsUnchanged: Boolean
-    ): Pair<String, String>? {
-        if (fieldsUnchanged || newField == null) {
-            return null
+        val fields = if (oldProfileAccount?.source?.fields == newProfileData.fields) {
+            null
+        } else {
+            newProfileData.fields
         }
-        return Pair(
-            newField.name,
-            newField.value
-        )
+
+        return DiffProfileData(displayName, note, locked, fields, headerFile, avatarFile)
     }
 
     private fun getCacheFileForName(filename: String): File {
@@ -268,15 +255,15 @@ class EditProfileViewModel @Inject constructor(
         val displayName: String?,
         val note: String?,
         val locked: Boolean?,
-        val field1: Pair<String, String>?,
-        val field2: Pair<String, String>?,
-        val field3: Pair<String, String>?,
-        val field4: Pair<String, String>?,
+        val fields: List<StringField>?,
         val headerFile: File?,
         val avatarFile: File?
     ) {
         fun hasChanges() = displayName != null || note != null || locked != null ||
-            avatarFile != null || headerFile != null || field1 != null || field2 != null ||
-            field3 != null || field4 != null
+            avatarFile != null || headerFile != null || fields != null
+    }
+
+    companion object {
+        private const val TAG = "EditProfileViewModel"
     }
 }

@@ -216,7 +216,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 }
 
                 Attachment.Type.UNKNOWN -> {
-                    context?.openLink(status.attachments[attachmentIndex].url)
+                    context?.openLink(status.attachments[attachmentIndex].unknownUrl)
                 }
             }
         }

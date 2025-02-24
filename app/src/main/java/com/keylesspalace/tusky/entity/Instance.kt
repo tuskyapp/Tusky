@@ -51,7 +51,11 @@ data class Instance(
         data class Urls(@Json(name = "streaming_api") val streamingApi: String? = null)
 
         @JsonClass(generateAdapter = true)
-        data class Accounts(@Json(name = "max_featured_tags") val maxFeaturedTags: Int)
+        data class Accounts(
+            @Json(name = "max_featured_tags") val maxFeaturedTags: Int,
+            // GoToSocial feature
+            @Json(name = "max_profile_fields") val maxProfileFields: Int?
+        )
 
         @JsonClass(generateAdapter = true)
         data class Statuses(

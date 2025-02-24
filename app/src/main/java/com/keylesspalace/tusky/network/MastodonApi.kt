@@ -67,6 +67,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -314,14 +315,7 @@ interface MastodonApi {
         @Part(value = "locked") locked: RequestBody?,
         @Part avatar: MultipartBody.Part?,
         @Part header: MultipartBody.Part?,
-        @Part(value = "fields_attributes[0][name]") fieldName0: RequestBody?,
-        @Part(value = "fields_attributes[0][value]") fieldValue0: RequestBody?,
-        @Part(value = "fields_attributes[1][name]") fieldName1: RequestBody?,
-        @Part(value = "fields_attributes[1][value]") fieldValue1: RequestBody?,
-        @Part(value = "fields_attributes[2][name]") fieldName2: RequestBody?,
-        @Part(value = "fields_attributes[2][value]") fieldValue2: RequestBody?,
-        @Part(value = "fields_attributes[3][name]") fieldName3: RequestBody?,
-        @Part(value = "fields_attributes[3][value]") fieldValue3: RequestBody?
+        @PartMap fields: Map<String, RequestBody>
     ): NetworkResult<Account>
 
     @GET("api/v1/accounts/search")
