@@ -27,7 +27,9 @@ import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.databinding.ItemModerationWarningNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
+import com.keylesspalace.tusky.databinding.ItemSeveredRelationshipNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
@@ -57,7 +59,8 @@ class NotificationsPagingAdapter(
     private var statusDisplayOptions: StatusDisplayOptions,
     private val statusListener: StatusActionListener,
     private val notificationActionListener: NotificationActionListener,
-    private val accountActionListener: AccountActionListener
+    private val accountActionListener: AccountActionListener,
+    private val instanceName: String
 ) : PagingDataAdapter<NotificationViewData, RecyclerView.ViewHolder>(NotificationsDifferCallback) {
 
     var mediaPreviewEnabled: Boolean
@@ -79,20 +82,26 @@ class NotificationsPagingAdapter(
         return when (val notification = getItem(position)) {
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
-                    Notification.Type.MENTION,
-                    Notification.Type.POLL -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    Notification.Type.Mention,
+                    Notification.Type.Poll -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
                         VIEW_TYPE_STATUS_FILTERED
                     } else {
                         VIEW_TYPE_STATUS
                     }
-                    Notification.Type.STATUS,
-                    Notification.Type.FAVOURITE,
-                    Notification.Type.REBLOG,
-                    Notification.Type.UPDATE -> VIEW_TYPE_STATUS_NOTIFICATION
-                    Notification.Type.FOLLOW,
-                    Notification.Type.SIGN_UP -> VIEW_TYPE_FOLLOW
-                    Notification.Type.FOLLOW_REQUEST -> VIEW_TYPE_FOLLOW_REQUEST
-                    Notification.Type.REPORT -> VIEW_TYPE_REPORT
+                    Notification.Type.Status,
+                    Notification.Type.Update -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                        VIEW_TYPE_STATUS_FILTERED
+                    } else {
+                        VIEW_TYPE_STATUS_NOTIFICATION
+                    }
+                    Notification.Type.Favourite,
+                    Notification.Type.Reblog -> VIEW_TYPE_STATUS_NOTIFICATION
+                    Notification.Type.Follow,
+                    Notification.Type.SignUp -> VIEW_TYPE_FOLLOW
+                    Notification.Type.FollowRequest -> VIEW_TYPE_FOLLOW_REQUEST
+                    Notification.Type.Report -> VIEW_TYPE_REPORT
+                    Notification.Type.SeveredRelationship -> VIEW_TYPE_SEVERED_RELATIONSHIP
+                    Notification.Type.ModerationWarning -> VIEW_TYPE_MODERATION_WARNING
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }
@@ -119,7 +128,8 @@ class NotificationsPagingAdapter(
             )
             VIEW_TYPE_FOLLOW -> FollowViewHolder(
                 ItemFollowBinding.inflate(inflater, parent, false),
-                accountActionListener
+                accountActionListener,
+                statusListener
             )
             VIEW_TYPE_FOLLOW_REQUEST -> FollowRequestViewHolder(
                 ItemFollowRequestBinding.inflate(inflater, parent, false),
@@ -135,6 +145,14 @@ class NotificationsPagingAdapter(
                 ItemReportNotificationBinding.inflate(inflater, parent, false),
                 notificationActionListener,
                 accountActionListener
+            )
+            VIEW_TYPE_SEVERED_RELATIONSHIP -> SeveredRelationshipNotificationViewHolder(
+                ItemSeveredRelationshipNotificationBinding.inflate(inflater, parent, false),
+                instanceName
+            )
+            VIEW_TYPE_MODERATION_WARNING -> ModerationWarningViewHolder(
+                ItemModerationWarningNotificationBinding.inflate(inflater, parent, false),
+                instanceName
             )
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
@@ -166,7 +184,9 @@ class NotificationsPagingAdapter(
         private const val VIEW_TYPE_FOLLOW_REQUEST = 4
         private const val VIEW_TYPE_PLACEHOLDER = 5
         private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_UNKNOWN = 7
+        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 7
+        private const val VIEW_TYPE_MODERATION_WARNING = 8
+        private const val VIEW_TYPE_UNKNOWN = 9
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

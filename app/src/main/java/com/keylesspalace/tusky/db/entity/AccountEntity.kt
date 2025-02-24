@@ -21,10 +21,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.keylesspalace.tusky.TabData
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.db.Converters
 import com.keylesspalace.tusky.defaultTabs
 import com.keylesspalace.tusky.entity.Emoji
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 
@@ -54,14 +54,14 @@ data class AccountEntity(
     val notificationsEnabled: Boolean = true,
     val notificationsMentioned: Boolean = true,
     val notificationsFollowed: Boolean = true,
-    val notificationsFollowRequested: Boolean = false,
+    val notificationsFollowRequested: Boolean = true,
     val notificationsReblogged: Boolean = true,
     val notificationsFavorited: Boolean = true,
     val notificationsPolls: Boolean = true,
     val notificationsSubscriptions: Boolean = true,
-    val notificationsSignUps: Boolean = true,
     val notificationsUpdates: Boolean = true,
-    val notificationsReports: Boolean = true,
+    @ColumnInfo(defaultValue = "true") val notificationsAdmin: Boolean = true,
+    @ColumnInfo(defaultValue = "true") val notificationsOther: Boolean = true,
     val notificationSound: Boolean = true,
     val notificationVibration: Boolean = true,
     val notificationLight: Boolean = true,
@@ -94,7 +94,7 @@ data class AccountEntity(
     val notificationMarkerId: String = "0",
     val emojis: List<Emoji> = emptyList(),
     val tabPreferences: List<TabData> = defaultTabs(),
-    val notificationsFilter: Set<Notification.Type> = setOf(Notification.Type.FOLLOW_REQUEST),
+    val notificationsFilter: Set<NotificationChannelData> = emptySet(),
     // Scope cannot be changed without re-login, so store it in case
     // the scope needs to be changed in the future
     val oauthScopes: String = "",

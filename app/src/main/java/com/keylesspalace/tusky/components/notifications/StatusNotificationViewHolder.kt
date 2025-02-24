@@ -37,6 +37,7 @@ import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
@@ -44,8 +45,10 @@ import com.keylesspalace.tusky.util.SmartLengthInputFilter
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
+import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.loadAvatar
 import com.keylesspalace.tusky.util.setClickableText
+import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.util.visible
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -84,8 +87,8 @@ internal class StatusNotificationViewHolder(
                 setDisplayName(account.name, account.emojis, statusDisplayOptions.animateEmojis)
                 setUsername(account.username)
                 setCreatedAt(createdAt, statusDisplayOptions.useAbsoluteTime)
-                if (viewData.type == Notification.Type.STATUS ||
-                    viewData.type == Notification.Type.UPDATE
+                if (viewData.type == Notification.Type.Status ||
+                    viewData.type == Notification.Type.Update
                 ) {
                     setAvatar(
                         account.avatar,
@@ -136,6 +139,7 @@ internal class StatusNotificationViewHolder(
         binding.notificationContent.visible(show)
         binding.notificationStatusAvatar.visible(show)
         binding.notificationNotificationAvatar.visible(show)
+        binding.notificationAttachmentInfo.visible(show)
     }
 
     private fun setDisplayName(name: String, emojis: List<Emoji>, animateEmojis: Boolean) {
@@ -230,19 +234,19 @@ internal class StatusNotificationViewHolder(
         val format: String
         val icon: Drawable?
         when (type) {
-            Notification.Type.FAVOURITE -> {
+            Notification.Type.Favourite -> {
                 icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange)
                 format = context.getString(R.string.notification_favourite_format)
             }
-            Notification.Type.REBLOG -> {
+            Notification.Type.Reblog -> {
                 icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_reblog_format)
             }
-            Notification.Type.STATUS -> {
-                icon = getIconWithColor(context, R.drawable.ic_home_24dp, R.color.tusky_blue)
+            Notification.Type.Status -> {
+                icon = getIconWithColor(context, R.drawable.ic_notifications_active_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_subscription_format)
             }
-            Notification.Type.UPDATE -> {
+            Notification.Type.Update -> {
                 icon = getIconWithColor(context, R.drawable.ic_edit_24dp, R.color.tusky_blue)
                 format = context.getString(R.string.notification_update_format)
             }
@@ -330,15 +334,18 @@ internal class StatusNotificationViewHolder(
                     R.string.post_content_warning_show_more
                 )
                 binding.notificationContent.filters = COLLAPSE_INPUT_FILTER
+                binding.notificationAttachmentInfo.hide()
             } else {
                 binding.buttonToggleNotificationContent.setText(
                     R.string.post_content_warning_show_less
                 )
                 binding.notificationContent.filters = NO_INPUT_FILTER
+                setupAttachmentInfo(statusViewData.status)
             }
         } else {
             binding.buttonToggleNotificationContent.visibility = View.GONE
             binding.notificationContent.filters = NO_INPUT_FILTER
+            setupAttachmentInfo(statusViewData.status)
         }
         val emojifiedText = content.emojify(
             emojis = emojis,
@@ -358,6 +365,22 @@ internal class StatusNotificationViewHolder(
             animateEmojis
         )
         binding.notificationContentWarningDescription.text = emojifiedContentWarning
+    }
+
+    private fun setupAttachmentInfo(status: Status) {
+        if (status.attachments.isNotEmpty()) {
+            binding.notificationAttachmentInfo.show()
+            binding.notificationAttachmentInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_attach_file_24dp, 0, 0, 0)
+            val attachmentCount = status.attachments.size
+            val attachmentText = binding.root.context.resources.getQuantityString(R.plurals.media_attachments, attachmentCount, attachmentCount)
+            binding.notificationAttachmentInfo.text = attachmentText
+        } else if (status.poll != null) {
+            binding.notificationAttachmentInfo.show()
+            binding.notificationAttachmentInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0)
+            binding.notificationAttachmentInfo.setText(R.string.poll)
+        } else {
+            binding.notificationAttachmentInfo.hide()
+        }
     }
 
     companion object {

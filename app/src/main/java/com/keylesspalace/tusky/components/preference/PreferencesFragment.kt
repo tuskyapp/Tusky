@@ -19,8 +19,8 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.settings.AppTheme
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.settings.emojiPreference
@@ -245,13 +245,13 @@ class PreferencesFragment : BasePreferencesFragment() {
                             val notificationFilter = account.notificationsFilter.toMutableSet()
 
                             if (value == true) {
-                                notificationFilter.add(Notification.Type.FAVOURITE)
-                                notificationFilter.add(Notification.Type.FOLLOW)
-                                notificationFilter.add(Notification.Type.REBLOG)
+                                notificationFilter.add(NotificationChannelData.FAVOURITE)
+                                notificationFilter.add(NotificationChannelData.FOLLOW)
+                                notificationFilter.add(NotificationChannelData.REBLOG)
                             } else {
-                                notificationFilter.remove(Notification.Type.FAVOURITE)
-                                notificationFilter.remove(Notification.Type.FOLLOW)
-                                notificationFilter.remove(Notification.Type.REBLOG)
+                                notificationFilter.remove(NotificationChannelData.FAVOURITE)
+                                notificationFilter.remove(NotificationChannelData.FOLLOW)
+                                notificationFilter.remove(NotificationChannelData.REBLOG)
                             }
 
                             lifecycleScope.launch {

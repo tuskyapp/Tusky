@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.components.conversation.ConversationEntity;
 import com.keylesspalace.tusky.db.dao.AccountDao;
 import com.keylesspalace.tusky.db.dao.DraftDao;
 import com.keylesspalace.tusky.db.dao.InstanceDao;
+import com.keylesspalace.tusky.db.dao.NotificationPolicyDao;
 import com.keylesspalace.tusky.db.dao.NotificationsDao;
 import com.keylesspalace.tusky.db.dao.TimelineAccountDao;
 import com.keylesspalace.tusky.db.dao.TimelineDao;
@@ -39,6 +40,7 @@ import com.keylesspalace.tusky.db.entity.DraftEntity;
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity;
 import com.keylesspalace.tusky.db.entity.InstanceEntity;
 import com.keylesspalace.tusky.db.entity.NotificationEntity;
+import com.keylesspalace.tusky.db.entity.NotificationPolicyEntity;
 import com.keylesspalace.tusky.db.entity.NotificationReportEntity;
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity;
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity;
@@ -58,11 +60,12 @@ import java.io.File;
         ConversationEntity.class,
         NotificationEntity.class,
         NotificationReportEntity.class,
-        HomeTimelineEntity.class
+        HomeTimelineEntity.class,
+        NotificationPolicyEntity.class
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 66,
+    version = 68,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),
@@ -72,6 +75,7 @@ import java.io.File;
         @AutoMigration(from = 56, to = 58), // translationEnabled in InstanceEntity/InstanceInfoEntity
         @AutoMigration(from = 62, to = 64), // filterV2Available in InstanceEntity
         @AutoMigration(from = 64, to = 66), // added profileHeaderUrl to AccountEntity
+        @AutoMigration(from = 66, to = 68, spec = AppDatabase.MIGRATION_66_68.class), // added event and moderationAction to NotificationEntity, new NotificationPolicyEntity
     }
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -84,6 +88,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @NonNull public abstract NotificationsDao notificationsDao();
     @NonNull public abstract TimelineStatusDao timelineStatusDao();
     @NonNull public abstract TimelineAccountDao timelineAccountDao();
+    @NonNull public abstract NotificationPolicyDao notificationPolicyDao();
 
     public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -850,4 +855,8 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `AccountEntity` ADD COLUMN `defaultReplyPrivacy` INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    @DeleteColumn(tableName = "AccountEntity", columnName = "notificationsSignUps")
+    @DeleteColumn(tableName = "AccountEntity", columnName = "notificationsReports")
+    static class MIGRATION_66_68 implements AutoMigrationSpec { }
 }

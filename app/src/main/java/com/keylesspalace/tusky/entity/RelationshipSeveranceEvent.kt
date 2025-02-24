@@ -1,4 +1,4 @@
-/* Copyright 2024 Tusky contributors
+/* Copyright 2025 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -19,8 +19,23 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class NotificationRequest(
+data class RelationshipSeveranceEvent(
     val id: String,
-    val account: Account,
-    @Json(name = "notifications_count") val notificationsCount: Int
-)
+    val type: Type,
+    @Json(name = "target_name") val targetName: String,
+    @Json(name = "followers_count") val followersCount: Int,
+    @Json(name = "following_count") val followingCount: Int
+) {
+
+    @JsonClass(generateAdapter = false)
+    enum class Type {
+        @Json(name = "domain_block")
+        DOMAIN_BLOCK,
+
+        @Json(name = "user_domain_block")
+        USER_DOMAIN_BLOCK,
+
+        @Json(name = "account_suspension")
+        ACCOUNT_SUSPENSION,
+    }
+}

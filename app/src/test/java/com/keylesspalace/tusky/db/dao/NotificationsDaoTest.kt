@@ -206,11 +206,11 @@ class NotificationsDaoTest {
             // will be removed because it references a status by account 1
             fakeNotification(id = "2", account = fakeAccount(id = "2"), status = fakeStatus(id = "2", authorServerId = "1")),
             // will not be removed because they are admin notifications
-            fakeNotification(type = Notification.Type.REPORT, id = "3", account = fakeAccount(id = "3"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "1"))),
-            fakeNotification(type = Notification.Type.SIGN_UP, id = "4", account = fakeAccount(id = "1"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "4"))),
+            fakeNotification(type = Notification.Type.Report, id = "3", account = fakeAccount(id = "3"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "1"))),
+            fakeNotification(type = Notification.Type.SignUp, id = "4", account = fakeAccount(id = "1"), status = null, report = fakeReport(id = "1", targetAccount = fakeAccount(id = "4"))),
             // will not be removed because it does not reference account 1
             fakeNotification(id = "5", account = fakeAccount(id = "5"), status = fakeStatus(id = "5", authorServerId = "100")),
-            fakeNotification(type = Notification.Type.FOLLOW, id = "6", account = fakeAccount(id = "1"), status = null)
+            fakeNotification(type = Notification.Type.Follow, id = "6", account = fakeAccount(id = "1"), status = null)
         )
 
         db.insert(notificationsAccount1, tuskyAccountId = 1)

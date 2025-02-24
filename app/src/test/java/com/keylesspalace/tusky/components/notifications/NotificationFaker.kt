@@ -17,7 +17,7 @@ import java.util.Date
 import org.junit.Assert.assertEquals
 
 fun fakeNotification(
-    type: Notification.Type = Notification.Type.FAVOURITE,
+    type: Notification.Type = Notification.Type.Favourite,
     id: String = "1",
     account: TimelineAccount = fakeAccount(id = id),
     status: Status? = fakeStatus(id = id),
@@ -61,7 +61,9 @@ fun Notification.toNotificationDataEntity(
     ),
     statusAccount = status?.account?.toEntity(tuskyAccountId),
     report = report?.toEntity(tuskyAccountId),
-    reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId)
+    reportTargetAccount = report?.targetAccount?.toEntity(tuskyAccountId),
+    event = null,
+    moderationWarning = null,
 )
 
 fun Placeholder.toNotificationDataEntity(
@@ -74,7 +76,9 @@ fun Placeholder.toNotificationDataEntity(
     status = null,
     statusAccount = null,
     report = null,
-    reportTargetAccount = null
+    reportTargetAccount = null,
+    event = null,
+    moderationWarning = null,
 )
 
 suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId: Long = 1) = withTransaction {
@@ -115,6 +119,8 @@ suspend fun AppDatabase.insert(notifications: List<Notification>, tuskyAccountId
                 accountId = notification.account.id,
                 statusId = notification.status?.id,
                 reportId = notification.report?.id,
+                event = null,
+                moderationWarning = null,
                 loading = false
             )
         )

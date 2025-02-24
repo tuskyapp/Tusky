@@ -19,8 +19,10 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.keylesspalace.tusky.TabData
 import com.keylesspalace.tusky.components.conversation.ConversationAccountEntity
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.createTabDataFromId
 import com.keylesspalace.tusky.db.entity.DraftAttachment
+import com.keylesspalace.tusky.entity.AccountWarning
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.FilterResult
@@ -29,7 +31,9 @@ import com.keylesspalace.tusky.entity.NewPoll
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PreviewCard
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.entity.Status
+import com.keylesspalace.tusky.entity.notificationTypeFromString
 import com.keylesspalace.tusky.settings.DefaultReplyVisibility
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
@@ -229,27 +233,59 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun notificationTypeListToJson(data: Set<Notification.Type>?): String {
+    fun notificationChannelDataListToJson(data: Set<NotificationChannelData>?): String {
         val array = JSONArray()
         data?.forEach {
-            array.put(it.presentation)
+            array.put(it.name)
         }
         return array.toString()
     }
 
     @TypeConverter
-    fun jsonToNotificationTypeList(data: String?): Set<Notification.Type> {
-        val ret = HashSet<Notification.Type>()
+    fun jsonToNotificationChannelDataList(data: String?): Set<NotificationChannelData> {
+        val ret = HashSet<NotificationChannelData>()
         data?.let {
             val array = JSONArray(data)
             for (i in 0 until array.length()) {
                 val item = array.getString(i)
-                val type = Notification.Type.byString(item)
-                if (type != Notification.Type.UNKNOWN) {
+                try {
+                    val type = NotificationChannelData.valueOf(item)
                     ret.add(type)
+                } catch (_: IllegalArgumentException) {
+                    // ignore, this can happen because we stored individual notification types and not channels before
                 }
             }
         }
         return ret
+    }
+
+    @TypeConverter
+    fun relationshipSeveranceEventToJson(event: RelationshipSeveranceEvent?): String {
+        return moshi.adapter<RelationshipSeveranceEvent?>().toJson(event)
+    }
+
+    @TypeConverter
+    fun jsonToRelationshipSeveranceEvent(eventJson: String?): RelationshipSeveranceEvent? {
+        return eventJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun accountWarningToJson(accountWarning: AccountWarning?): String {
+        return moshi.adapter<AccountWarning?>().toJson(accountWarning)
+    }
+
+    @TypeConverter
+    fun jsonToAccountWarning(accountWarningJson: String?): AccountWarning? {
+        return accountWarningJson?.let { moshi.adapter<AccountWarning?>().fromJson(it) }
+    }
+
+    @TypeConverter
+    fun accountWarningToJson(notificationType: Notification.Type): String {
+        return notificationType.name
+    }
+
+    @TypeConverter
+    fun jsonToNotificationType(notificationTypeJson: String): Notification.Type {
+        return notificationTypeFromString(notificationTypeJson)
     }
 }

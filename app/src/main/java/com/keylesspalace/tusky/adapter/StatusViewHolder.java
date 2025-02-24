@@ -23,7 +23,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -40,9 +39,6 @@ import com.keylesspalace.tusky.viewdata.StatusViewData;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
-import at.connyduck.sparkbutton.helpers.Utils;
 
 public class StatusViewHolder extends StatusBaseViewHolder {
     private static final InputFilter[] COLLAPSE_INPUT_FILTER = new InputFilter[]{SmartLengthInputFilter.INSTANCE};
@@ -134,16 +130,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
-        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_all_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
-        statusInfo.setVisibility(View.VISIBLE);
-    }
-
-    // don't use this on the same ViewHolder as setStatusInfoContent, will cause recycling issues as paddings are changed
-    protected void setPollInfo(final boolean ownPoll) {
-        statusInfo.setText(ownPoll ? R.string.poll_ended_created : R.string.poll_ended_voted);
-        statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0);
-        statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.getContext(), 10));
-        statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.getContext(), 28), 0, 0, 0);
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
         statusInfo.setVisibility(View.VISIBLE);
     }
 
@@ -157,6 +144,10 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
     protected void hideStatusInfo() {
         statusInfo.setVisibility(View.GONE);
+    }
+
+    protected TextView getStatusInfo() {
+        return statusInfo;
     }
 
     private void setupCollapsedState(boolean sensitive,

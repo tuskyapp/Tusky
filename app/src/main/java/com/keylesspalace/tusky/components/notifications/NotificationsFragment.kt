@@ -51,10 +51,10 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
-import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -115,9 +115,11 @@ class NotificationsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        val activeAccount = accountManager.activeAccount ?: return
+
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
+            mediaPreviewEnabled = activeAccount.mediaPreviewEnabled,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
@@ -131,8 +133,8 @@ class NotificationsFragment :
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
-            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
+            showSensitiveMedia = activeAccount.alwaysShowSensitiveMedia,
+            openSpoiler = activeAccount.alwaysOpenSpoiler
         )
 
         binding.recyclerView.ensureBottomPadding(fab = true)
@@ -149,11 +151,12 @@ class NotificationsFragment :
         // Setup the RecyclerView.
         binding.recyclerView.setHasFixedSize(true)
         val adapter = NotificationsPagingAdapter(
-            accountId = accountManager.activeAccount!!.accountId,
+            accountId = activeAccount.accountId,
             statusListener = this,
             notificationActionListener = this,
             accountActionListener = this,
-            statusDisplayOptions = statusDisplayOptions
+            statusDisplayOptions = statusDisplayOptions,
+            instanceName = activeAccount.domain
         )
         this.notificationsAdapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -447,8 +450,8 @@ class NotificationsFragment :
     }
 
     private fun showFilterMenu() {
-        val notificationTypeList = Notification.Type.visibleTypes.map { type ->
-            getString(type.uiString)
+        val notificationTypeList = NotificationChannelData.entries.map { type ->
+            getString(type.title)
         }
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, notificationTypeList)
@@ -457,7 +460,7 @@ class NotificationsFragment :
 
         menuBinding.buttonApply.setOnClickListener {
             val checkedItems = menuBinding.listView.getCheckedItemPositions()
-            val excludes = Notification.Type.visibleTypes.filterIndexed { index, _ ->
+            val excludes = NotificationChannelData.entries.filterIndexed { index, _ ->
                 !checkedItems[index, false]
             }
             window.dismiss()
@@ -467,7 +470,7 @@ class NotificationsFragment :
         menuBinding.listView.setAdapter(adapter)
         menuBinding.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE)
 
-        Notification.Type.visibleTypes.forEachIndexed { index, type ->
+        NotificationChannelData.entries.forEachIndexed { index, type ->
             menuBinding.listView.setItemChecked(index, !viewModel.excludes.value.contains(type))
         }
 

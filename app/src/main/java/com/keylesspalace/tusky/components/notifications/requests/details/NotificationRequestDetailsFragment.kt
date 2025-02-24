@@ -102,9 +102,10 @@ class NotificationRequestDetailsFragment : SFragment(R.layout.fragment_notificat
     }
 
     private fun setupAdapter(): NotificationsPagingAdapter {
+        val activeAccount = accountManager.activeAccount!!
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            mediaPreviewEnabled = accountManager.activeAccount!!.mediaPreviewEnabled,
+            mediaPreviewEnabled = activeAccount.mediaPreviewEnabled,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
@@ -118,16 +119,17 @@ class NotificationRequestDetailsFragment : SFragment(R.layout.fragment_notificat
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
-            showSensitiveMedia = accountManager.activeAccount!!.alwaysShowSensitiveMedia,
-            openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
+            showSensitiveMedia = activeAccount.alwaysShowSensitiveMedia,
+            openSpoiler = activeAccount.alwaysOpenSpoiler
         )
 
         return NotificationsPagingAdapter(
-            accountId = accountManager.activeAccount!!.accountId,
+            accountId = activeAccount.accountId,
             statusDisplayOptions = statusDisplayOptions,
             statusListener = this,
             notificationActionListener = this,
-            accountActionListener = this
+            accountActionListener = this,
+            instanceName = activeAccount.domain
         ).apply {
             addLoadStateListener { loadState ->
                 binding.progressBar.visible(

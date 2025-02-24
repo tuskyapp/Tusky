@@ -140,6 +140,25 @@
         app:layout_constraintTop_toBottomOf="@id/notification_content_warning_button"
         tools:text="Example status here" />
 
+    <TextView
+        android:id="@+id/notification_attachment_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="6dp"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:hyphenationFrequency="full"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="?android:textColorTertiary"
+        android:textSize="?attr/status_text_medium"
+        app:drawableTint="?android:textColorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
+        app:layout_constraintTop_toBottomOf="@id/notification_content"
+        tools:drawableStart="@drawable/ic_attach_file_24dp"
+        tools:text="3 media attachments" />
+
     <Button
         android:id="@+id/button_toggle_notification_content"
         style="@style/TuskyButton.Outlined"
@@ -154,10 +173,8 @@
         android:paddingRight="16dp"
         android:paddingBottom="4dp"
         android:textSize="?attr/status_text_medium"
-        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/notification_status_avatar"
-        app:layout_constraintTop_toBottomOf="@id/notification_content"
-        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/notification_attachment_info"
         tools:text="@string/post_content_show_less" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

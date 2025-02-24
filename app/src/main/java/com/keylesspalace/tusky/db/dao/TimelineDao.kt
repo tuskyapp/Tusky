@@ -39,15 +39,15 @@ s.content, s.attachments, s.poll, s.card, s.muted, s.expanded, s.contentShowing,
 a.serverId as 'a_serverId', a.tuskyAccountId as 'a_tuskyAccountId',
 a.localUsername as 'a_localUsername', a.username as 'a_username',
 a.displayName as 'a_displayName', a.url as 'a_url', a.avatar as 'a_avatar',
-a.emojis as 'a_emojis', a.bot as 'a_bot',
+a.note as 'a_note', a.emojis as 'a_emojis', a.bot as 'a_bot',
 rb.serverId as 'rb_serverId', rb.tuskyAccountId 'rb_tuskyAccountId',
 rb.localUsername as 'rb_localUsername', rb.username as 'rb_username',
 rb.displayName as 'rb_displayName', rb.url as 'rb_url', rb.avatar as 'rb_avatar',
-rb.emojis as 'rb_emojis', rb.bot as 'rb_bot',
+rb.note as 'rb_note', rb.emojis as 'rb_emojis', rb.bot as 'rb_bot',
 replied.serverId as 'replied_serverId', replied.tuskyAccountId 'replied_tuskyAccountId',
 replied.localUsername as 'replied_localUsername', replied.username as 'replied_username',
 replied.displayName as 'replied_displayName', replied.url as 'replied_url', replied.avatar as 'replied_avatar',
-replied.emojis as 'replied_emojis', replied.bot as 'replied_bot',
+replied.note as 'replied_note', replied.emojis as 'replied_emojis', replied.bot as 'replied_bot',
 h.loading
 FROM HomeTimelineEntity h
 LEFT JOIN TimelineStatusEntity s ON (h.statusId = s.serverId AND s.tuskyAccountId = :tuskyAccountId)

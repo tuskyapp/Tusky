@@ -1,5 +1,4 @@
-/*
- * Copyright 2023 Tusky Contributors
+/* Copyright 2025 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -12,34 +11,37 @@
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
- * see <http://www.gnu.org/licenses>.
- */
+ * see <http://www.gnu.org/licenses>. */
 
 package com.keylesspalace.tusky.components.notifications
 
+import android.content.Intent
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
+import com.keylesspalace.tusky.databinding.ItemModerationWarningNotificationBinding
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
 
-internal class UnknownNotificationViewHolder(
-    private val binding: ItemUnknownNotificationBinding,
-) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
+class ModerationWarningViewHolder(
+    private val binding: ItemModerationWarningNotificationBinding,
+    private val instanceDomain: String
+) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
         payloads: List<*>,
         statusDisplayOptions: StatusDisplayOptions
     ) {
-        binding.unknownNotificationType.text = viewData.type.name
+        if (payloads.isNotEmpty()) {
+            return
+        }
+        val warning = viewData.moderationWarning!!
+
+        binding.moderationWarningDescription.setText(warning.action.text)
 
         binding.root.setOnClickListener {
-            MaterialAlertDialogBuilder(binding.root.context)
-                .setMessage(R.string.unknown_notification_type_explanation)
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
+            val intent = Intent(Intent.ACTION_VIEW, "https://$instanceDomain/disputes/strikes/${warning.id}".toUri())
+            binding.root.context.startActivity(intent)
         }
     }
 }

@@ -28,6 +28,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
 import com.keylesspalace.tusky.entity.NotificationRequest
 import com.keylesspalace.tusky.network.MastodonApi
+import com.keylesspalace.tusky.usecase.NotificationPolicyUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
@@ -39,7 +40,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class NotificationRequestsViewModel @Inject constructor(
     private val api: MastodonApi,
-    private val eventHub: EventHub
+    private val eventHub: EventHub,
+    private val notificationPolicyUsecase: NotificationPolicyUsecase
 ) : ViewModel() {
 
     var currentSource: NotificationRequestsPagingSource? = null
@@ -108,6 +110,13 @@ class NotificationRequestsViewModel @Inject constructor(
     }
 
     fun removeNotificationRequest(id: String) {
+        requestData.forEach { request ->
+            if (request.id == id) {
+                viewModelScope.launch {
+                    notificationPolicyUsecase.updateCounts(request.notificationsCount)
+                }
+            }
+        }
         requestData.removeAll { request -> request.id == id }
         currentSource?.invalidate()
     }

@@ -15,8 +15,17 @@
 
 package com.keylesspalace.tusky.entity
 
-import androidx.annotation.StringRes
-import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.entity.Notification.Type
+import com.keylesspalace.tusky.entity.Notification.Type.Favourite
+import com.keylesspalace.tusky.entity.Notification.Type.Follow
+import com.keylesspalace.tusky.entity.Notification.Type.FollowRequest
+import com.keylesspalace.tusky.entity.Notification.Type.Mention
+import com.keylesspalace.tusky.entity.Notification.Type.ModerationWarning
+import com.keylesspalace.tusky.entity.Notification.Type.Reblog
+import com.keylesspalace.tusky.entity.Notification.Type.SeveredRelationship
+import com.keylesspalace.tusky.entity.Notification.Type.SignUp
+import com.keylesspalace.tusky.entity.Notification.Type.Unknown
+import com.keylesspalace.tusky.entity.Notification.Type.Update
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -28,78 +37,77 @@ data class Notification(
     val status: Status? = null,
     val report: Report? = null,
     val filtered: Boolean = false,
+    val event: RelationshipSeveranceEvent? = null,
+    @Json(name = "moderation_warning") val moderationWarning: AccountWarning? = null
 ) {
 
     /** From https://docs.joinmastodon.org/entities/Notification/#type */
     @JsonClass(generateAdapter = false)
-    enum class Type(val presentation: String, @StringRes val uiString: Int) {
-        UNKNOWN("unknown", R.string.notification_unknown_name),
+    sealed class Type(val name: String) {
+        data class Unknown(val unknownName: String) : Type(unknownName)
 
         /** Someone mentioned you */
-        @Json(name = "mention")
-        MENTION("mention", R.string.notification_mention_name),
+        object Mention : Type("mention")
 
         /** Someone boosted one of your statuses */
-        @Json(name = "reblog")
-        REBLOG("reblog", R.string.notification_boost_name),
+        object Reblog : Type("reblog")
 
         /** Someone favourited one of your statuses */
-        @Json(name = "favourite")
-        FAVOURITE("favourite", R.string.notification_favourite_name),
+        object Favourite : Type("favourite")
 
         /** Someone followed you */
-        @Json(name = "follow")
-        FOLLOW("follow", R.string.notification_follow_name),
+        object Follow : Type("follow")
 
         /** Someone requested to follow you */
-        @Json(name = "follow_request")
-        FOLLOW_REQUEST("follow_request", R.string.notification_follow_request_name),
+        object FollowRequest : Type("follow_request")
 
         /** A poll you have voted in or created has ended */
-        @Json(name = "poll")
-        POLL("poll", R.string.notification_poll_name),
+        object Poll : Type("poll")
 
         /** Someone you enabled notifications for has posted a status */
-        @Json(name = "status")
-        STATUS("status", R.string.notification_subscription_name),
+        object Status : Type("status")
 
         /** Someone signed up (optionally sent to admins) */
-        @Json(name = "admin.sign_up")
-        SIGN_UP("admin.sign_up", R.string.notification_sign_up_name),
+        object SignUp : Type("admin.sign_up")
 
         /** A status you interacted with has been updated */
-        @Json(name = "update")
-        UPDATE("update", R.string.notification_update_name),
+        object Update : Type("update")
 
         /** A new report has been filed */
-        @Json(name = "admin.report")
-        REPORT("admin.report", R.string.notification_report_name);
+        object Report : Type("admin.report")
 
-        companion object {
-            fun byString(s: String): Type {
-                return entries.firstOrNull { it.presentation == s } ?: UNKNOWN
-            }
+        /**  Some of your follow relationships have been severed as a result of a moderation or block event **/
+        object SeveredRelationship : Type("severed_relationships")
 
-            /** Notification types for UI display (omits UNKNOWN) */
-            val visibleTypes =
-                listOf(MENTION, REBLOG, FAVOURITE, FOLLOW, FOLLOW_REQUEST, POLL, STATUS, SIGN_UP, UPDATE, REPORT)
-        }
+        /** moderation_warning = A moderator has taken action against your account or has sent you a warning **/
+        object ModerationWarning : Type("moderation_warning")
 
-        override fun toString() = presentation
+        // can't use data objects or this wouldn't work
+        override fun toString() = name
     }
 
     // for Pleroma compatibility that uses Mention type
     fun rewriteToStatusTypeIfNeeded(accountId: String): Notification {
-        if (type == Type.MENTION && status != null) {
+        if (type == Mention && status != null) {
             return if (status.mentions.any {
                     it.id == accountId
                 }
             ) {
                 this
             } else {
-                copy(type = Type.STATUS)
+                copy(type = Type.Status)
             }
         }
         return this
     }
+}
+
+/** Notification types for UI display (omits UNKNOWN) */
+/** this is not in a companion object so it gets initialized earlier,
+ * otherwise it might get initialized when a subclass is loaded,
+ * which leds to crash since those subclasses are referenced here */
+val visibleNotificationTypes = listOf(Mention, Reblog, Favourite, Follow, FollowRequest, Type.Poll, Type.Status, SignUp, Update, Type.Report, SeveredRelationship, ModerationWarning)
+
+fun notificationTypeFromString(s: String): Type {
+    return visibleNotificationTypes.firstOrNull { it.name == s.lowercase() } ?: Unknown(s)
 }

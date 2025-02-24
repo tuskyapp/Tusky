@@ -14,7 +14,9 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.viewdata
 
+import com.keylesspalace.tusky.entity.AccountWarning
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.RelationshipSeveranceEvent
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.entity.TimelineAccount
 
@@ -30,7 +32,9 @@ sealed class NotificationViewData {
         val type: Notification.Type,
         val account: TimelineAccount,
         val statusViewData: StatusViewData.Concrete?,
-        val report: Report?
+        val report: Report?,
+        val event: RelationshipSeveranceEvent?,
+        val moderationWarning: AccountWarning?
     ) : NotificationViewData() {
         override fun asStatusOrNull() = statusViewData
 

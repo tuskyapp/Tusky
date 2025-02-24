@@ -24,6 +24,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Status
@@ -47,7 +48,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
             val senderId = intent.getLongExtra(NotificationService.KEY_SENDER_ACCOUNT_ID, -1)
             val senderIdentifier = intent.getStringExtra(
                 NotificationService.KEY_SENDER_ACCOUNT_IDENTIFIER
-            )
+            )!!
             val senderFullName = intent.getStringExtra(
                 NotificationService.KEY_SENDER_ACCOUNT_FULL_NAME
             )
@@ -68,7 +69,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
 
                 val notification = NotificationCompat.Builder(
                     context,
-                    NotificationService.CHANNEL_MENTION + senderIdentifier
+                    NotificationChannelData.MENTION.getChannelId(senderIdentifier)
                 )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.tusky_blue))
@@ -113,7 +114,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                 // Notifications with remote input active can't be cancelled, so let's replace it with another one that will dismiss automatically
                 val notification = NotificationCompat.Builder(
                     context,
-                    NotificationService.CHANNEL_MENTION + senderIdentifier
+                    NotificationChannelData.MENTION.getChannelId(senderIdentifier)
                 )
                     .setSmallIcon(R.drawable.ic_notify)
                     .setColor(context.getColor(R.color.notification_color))

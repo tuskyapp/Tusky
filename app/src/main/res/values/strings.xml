@@ -287,17 +287,8 @@
     <string name="pref_title_notification_alert_sound">Notify with a sound</string>
     <string name="pref_title_notification_alert_vibrate">Notify with vibration</string>
     <string name="pref_title_notification_alert_light">Notify with light</string>
-    <string name="pref_title_notification_filters">Notify me when</string>
-    <string name="pref_title_notification_filter_mentions">mentioned</string>
-    <string name="pref_title_notification_filter_follows">followed</string>
-    <string name="pref_title_notification_filter_follow_requests">follow requested</string>
-    <string name="pref_title_notification_filter_reblogs">my posts are boosted</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favorited</string>
-    <string name="pref_title_notification_filter_poll">polls have ended</string>
-    <string name="pref_title_notification_filter_subscriptions">somebody I\'m subscribed to published a new post</string>
-    <string name="pref_title_notification_filter_sign_ups">somebody signed up</string>
-    <string name="pref_title_notification_filter_updates">a post I\'ve interacted with is edited</string>
-    <string name="pref_title_notification_filter_reports">there\'s a new report</string>
+    <string name="pref_title_notification_filters">Enabled notification types</string>
+
     <string name="pref_title_appearance_settings">Appearance</string>
     <string name="pref_title_app_theme">App theme</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -376,7 +367,7 @@
     <string name="notification_boost_description">Notifications when your posts get boosted</string>
     <string name="notification_favourite_name">Favorites</string>
     <string name="notification_favourite_description">Notifications when your posts get marked as favorite</string>
-    <string name="notification_poll_name">Polls</string>
+    <string name="notification_poll_name">Poll results</string>
     <string name="notification_poll_description">Notifications about polls that have ended</string>
     <string name="notification_subscription_name">New posts</string>
     <string name="notification_subscription_description">Notifications when somebody you\'re subscribed to published a new post</string>
@@ -385,10 +376,19 @@
     <string name="notification_update_name">Post edits</string>
     <string name="notification_update_description">Notifications when posts you\'ve interacted with are edited</string>
     <string name="notification_report_name">Reports</string>
+    <string name="notification_severed_relationship_name">Lost connections</string>
+    <string name="notification_moderation_warning_name">Moderation warnings</string>
     <string name="notification_report_description">Notifications about moderation reports</string>
     <string name="notification_listenable_worker_name">Background activity</string>
     <string name="notification_listenable_worker_description">Notifications when Tusky is working in the background</string>
     <string name="notification_unknown_name">Unknown</string>
+    <string name="notification_unknown_description">Unknown notification type</string>
+
+    <string name="notification_channel_other">Other</string>
+    <string name="notification_channel_other_description">Other notifications, like lost connections and moderation warnings</string>
+
+    <string name="notification_channel_admin">Admin</string>
+    <string name="notification_channel_admin_description">Admin notifications, like new reports or signups</string>
 
     <string name="notification_mention_format">%1$s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
@@ -877,4 +877,35 @@
     <string name="action_accept_notification_request">Accept</string>
     <string name="action_dismiss_notification_request">Dismiss</string>
 
+    <string name="relationship_severance_event_title">Connection lost</string>
+    <string name="relationship_severance_event_account_suspension">An admin from %1$s has suspended %2$s, which means you can no longer receive updates from them or interact with them.</string>
+    <string name="relationship_severance_event_domain_block">An admin from %1$s has blocked %2$s, including %3$s of your followers and %4$s you follow.</string>
+    <string name="relationship_severance_event_user_domain_block">You have blocked %1$s, removing %2$s of your followers and %3$s you follow.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s account</item>
+        <item quantity="other">%1$s accounts</item>
+    </plurals>
+
+    <string name="moderation_warning">You have received a moderation warning.</string>
+
+    <string name="moderation_warning_action_delete_statuses">Some of your posts have been removed.</string>
+    <string name="moderation_warning_action_disable">Your account has been disabled.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Some of your posts have been marked as sensitive.</string>
+    <string name="moderation_warning_action_none">Your account has received a moderation warning.</string>
+    <string name="moderation_warning_action_sensitive">Your posts will be marked as sensitive from now on.</string>
+    <string name="moderation_warning_action_silence">Your account has been limited.</string>
+    <string name="moderation_warning_action_suspend">Your account has been suspended.</string>
+
+    <string name="unknown_notification_type_explanation">Tusky does not recognize this notification type and can\'t show it to you. Your server\'s web interface may be able to do so. Please also inform the Tusky developers so they can add support for this type! </string>
+
+    <string name="poll">Poll</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s media attachment</item>
+        <item quantity="other">%1$s media attachments</item>
+    </plurals>
+
+    <string name="notification_info_reply">Reply</string>
+    <string name="notification_info_private_mention">Private mention</string>
+    <string name="notification_info_mention">Mention</string>
+    <string name="notification_info_private_reply">Private reply</string>
 </resources>

@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp"
-    android:paddingBottom="10dp">
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingBottom="8dp">
 
     <TextView
-        android:id="@+id/notification_text"
+        android:id="@+id/notificationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -27,60 +26,66 @@
         tools:text="Someone followed you" />
 
     <ImageView
-        android:id="@+id/notification_avatar"
+        android:id="@+id/notificationAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentStart="false"
+        android:layout_centerVertical="false"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/action_view_profile"
-        android:scaleType="centerCrop"
-        android:textSize="?attr/status_text_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notification_text"
+        app:layout_constraintTop_toBottomOf="@id/notificationText"
         tools:src="@drawable/avatar_default" />
 
+    <ImageView
+        android:id="@+id/avatarBadge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="@string/profile_badge_bot_text"
+        app:layout_constraintBottom_toBottomOf="@id/notificationAvatar"
+        app:layout_constraintEnd_toEndOf="@id/notificationAvatar"
+        app:srcCompat="@drawable/bot_badge" />
+
     <TextView
-        android:id="@+id/notification_display_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/notificationDisplayName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingEnd="@dimen/status_display_name_padding_end"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
-        app:layout_constraintStart_toEndOf="@id/notification_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/notification_text"
-        tools:text="Test User"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/notificationAvatar"
+        app:layout_constraintTop_toBottomOf="@id/notificationText"
+        tools:text="Display name" />
 
     <TextView
-        android:id="@+id/notification_username"
-        android:layout_width="wrap_content"
+        android:id="@+id/notificationUsername"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:layout_constraintStart_toEndOf="@+id/notification_display_name"
-        app:layout_constraintTop_toTopOf="@+id/notification_display_name"
-        tools:text="\@testuser" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/notificationAvatar"
+        app:layout_constraintTop_toBottomOf="@id/notificationDisplayName"
+        tools:text="\@username" />
 
     <com.keylesspalace.tusky.view.ClickableSpanTextView
-        android:id="@+id/notification_account_note"
+        android:id="@+id/accountNote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="4dp"
         android:hyphenationFrequency="full"
         android:lineSpacingMultiplier="1.1"
         android:textSize="?attr/status_text_medium"
-        android:textIsSelectable="true"
-        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/notification_display_name"
-        app:layout_constraintTop_toBottomOf="@+id/notification_display_name"
+        app:layout_constraintStart_toStartOf="@+id/notificationUsername"
+        app:layout_constraintTop_toBottomOf="@+id/notificationUsername"
         tools:text="Account note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
