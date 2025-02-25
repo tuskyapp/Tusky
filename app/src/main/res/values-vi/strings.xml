@@ -216,12 +216,6 @@
     <string name="pref_title_timelines">Bảng tin</string>
     <string name="pref_title_app_theme">Chủ đề</string>
     <string name="pref_title_appearance_settings">Giao diện</string>
-    <string name="pref_title_notification_filter_poll">cuộc bình chọn kết thúc</string>
-    <string name="pref_title_notification_filter_favourites">tút được thích</string>
-    <string name="pref_title_notification_filter_reblogs">tút được đăng lại</string>
-    <string name="pref_title_notification_filter_follow_requests">yêu cầu theo dõi</string>
-    <string name="pref_title_notification_filter_follows">lượt theo dõi</string>
-    <string name="pref_title_notification_filter_mentions">nhắc tới</string>
     <string name="pref_title_notification_filters">Thông báo tôi khi</string>
     <string name="pref_title_notification_alert_light">Kèm đèn sáng</string>
     <string name="pref_title_notification_alert_vibrate">Kèm rung</string>
@@ -462,7 +456,6 @@
     <string name="pref_title_wellbeing_mode">Chống nghiện</string>
     <string name="notification_subscription_description">Thông báo khi người bạn theo dõi đăng tút mới</string>
     <string name="notification_subscription_name">Tút mới</string>
-    <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%1$s đăng tút mới</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">Bạn không thể đính kèm quá %1$d tệp.</item>
@@ -491,12 +484,10 @@
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
     <string name="tusky_compose_post_quicksetting_label">Soạn tút</string>
-    <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%1$s tham gia máy chủ</string>
     <string name="notification_sign_up_name">Thành viên mới</string>
     <string name="notification_sign_up_description">Thông báo về người mới tham gia máy chủ</string>
     <string name="notification_update_format">%1$s đã sửa tút của họ</string>
-    <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
     <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
     <string name="title_login">Đăng nhập</string>
@@ -538,7 +529,6 @@
     <string name="notification_header_report_format">%1$s báo cáo %2$s</string>
     <string name="notification_summary_report_format">%1$s trước · %2$d tút</string>
     <string name="confirmation_hashtag_unfollowed">Đã bỏ theo dõi #%1$s</string>
-    <string name="pref_title_notification_filter_reports">có một báo cáo mới</string>
     <string name="notification_report_name">Báo cáo</string>
     <string name="no_lists">Chưa có danh sách nào.</string>
     <string name="report_category_violation">Vi phạm nội quy máy chủ</string>

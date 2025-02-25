@@ -134,10 +134,6 @@
     <string name="pref_title_notification_alert_vibrate">Powiadamiaj wibracją</string>
     <string name="pref_title_notification_alert_light">Powiadamiaj diodą</string>
     <string name="pref_title_notification_filters">Powiadom mnie, gdy</string>
-    <string name="pref_title_notification_filter_mentions">wspomniano o mnie</string>
-    <string name="pref_title_notification_filter_follows">zaczęto mnie obserwować</string>
-    <string name="pref_title_notification_filter_reblogs">moje wpisy zostaną podbite</string>
-    <string name="pref_title_notification_filter_favourites">moje posty zostaną dodane do ulubionych</string>
     <string name="pref_title_appearance_settings">Wygląd</string>
     <string name="pref_title_app_theme">Motyw</string>
     <string name="app_them_dark">Ciemny</string>
@@ -298,7 +294,6 @@
     <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
     <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
-    <string name="pref_title_notification_filter_poll">głosowania zostały zakończone</string>
     <string name="pref_title_timelines">Osi czasu</string>
     <string name="pref_title_timeline_filters">Filtry</string>
     <string name="app_theme_system">Użyj motywu systemu</string>
@@ -504,8 +499,6 @@
     <string name="pref_title_enable_swipe_for_tabs">Włącz gest przesuwania by przełączać między zakładkami</string>
     <string name="post_media_attachments">Załączniki</string>
     <string name="notification_follow_request_description">Powiadomienia o prośbach o obserwowanie</string>
-    <string name="pref_title_notification_filter_subscriptions">ktoś, kogo zasubskrybowałem/am opublikował nowy wpis</string>
-    <string name="pref_title_notification_filter_follow_requests">Wysłano prośbę o obserwowanie</string>
     <string name="title_announcements">Ogłoszenia</string>
     <string name="pref_title_wellbeing_mode">Zdrowie</string>
     <string name="action_unsubscribe_account">Anuluj subskrypcję</string>
@@ -541,8 +534,6 @@
     <string name="notification_sign_up_name">Rejestracje</string>
     <string name="notification_sign_up_description">Powiadomienia o nowych użytkownikach</string>
     <string name="notification_update_description">Powiadomienia o edycji wpisów z którymi dokonałeś/aś interakcji</string>
-    <string name="pref_title_notification_filter_sign_ups">ktoś zarejestrował się</string>
-    <string name="pref_title_notification_filter_updates">wpis, z którym dokonałem/am interakcji został edytowany</string>
     <string name="notification_update_format">%1$s edytował/a swój wpis</string>
     <string name="notification_update_name">Edycje wpisów</string>
     <string name="saving_draft">Zapisywanie szkicu…</string>
@@ -573,7 +564,6 @@
     <string name="action_add_reaction">dodaj reakcję</string>
     <string name="notification_header_report_format">%1$s zgłosił/a %2$s</string>
     <string name="confirmation_hashtag_unfollowed">Odobserwowano #%1$s</string>
-    <string name="pref_title_notification_filter_reports">jest nowe zgłoszenie</string>
     <string name="notification_report_name">Zgłoszenia</string>
     <string name="notification_report_description">Powiadomienia o zgłoszeniach moderacyjnych</string>
     <string name="action_set_focus">Wybierz punkt centralny</string>

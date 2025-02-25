@@ -120,10 +120,6 @@
     <string name="pref_title_notification_alert_vibrate">Notifica amb una vibració</string>
     <string name="pref_title_notification_alert_light">Notifica amb el llum led</string>
     <string name="pref_title_notification_filters">Notifica\'m si</string>
-    <string name="pref_title_notification_filter_mentions">em mencionen</string>
-    <string name="pref_title_notification_filter_follows">em segueixen</string>
-    <string name="pref_title_notification_filter_reblogs">retootejen les meves publicacions</string>
-    <string name="pref_title_notification_filter_favourites">marquen com a preferit les meves publicacions</string>
     <string name="pref_title_appearance_settings">Aparença</string>
     <string name="pref_title_browser_settings">Navegador</string>
     <string name="pref_title_custom_tabs">Pestanyes personalitzades del Chrome</string>
@@ -233,7 +229,6 @@
     <string name="dialog_message_cancel_follow_request">Revocar la petició de seguiment\?</string>
     <string name="dialog_delete_post_warning">Vols eliminar aquest toot\?</string>
     <string name="dialog_redraft_post_warning">Vols eliminar i reescriure aquesta publicació\?</string>
-    <string name="pref_title_notification_filter_poll">Finalització de les enquetes</string>
     <string name="pref_title_app_theme">Tema</string>
     <string name="pref_title_timelines">Cronologia</string>
     <string name="pref_title_timeline_filters">Filtres</string>
@@ -434,7 +429,6 @@
     <string name="hashtags">Hashtags</string>
     <string name="add_hashtag_title">Afegir hashtag</string>
     <string name="notification_follow_request_description">Notificacions sobre sol·licituds de seguiment</string>
-    <string name="pref_title_notification_filter_follow_requests">sol·licitació de seguiment</string>
     <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
     <string name="dialog_block_warning">Bloquejar @%1$s\?</string>
     <string name="action_unmute_conversation">No silenciar la conversació</string>
@@ -476,7 +470,6 @@
     <string name="notification_subscription_description">Notificacions quan algú a qui estàs subscrit publica una publicació nova</string>
     <string name="notification_subscription_name">Publicacions noves</string>
     <string name="pref_title_animate_custom_emojis">emojis personalitzats animats</string>
-    <string name="pref_title_notification_filter_subscriptions">algú a qui estic subscrit ha publicat una nova publicació</string>
     <string name="notification_subscription_format">%1$s acaba de fer una publicació</string>
     <string name="title_announcements">Avisos</string>
     <string name="drafts_post_reply_removed">S\'ha eliminat la publicació a la qual vau fer un esborrany de resposta</string>
@@ -503,7 +496,6 @@
     <string name="pref_title_http_proxy_port_message">El port hauria d\'estar entre %1$d i %2$d</string>
     <string name="status_count_one_plus">+1</string>
     <string name="title_edits">Edicions</string>
-    <string name="pref_title_notification_filter_reports">hi ha un nou informe</string>
     <string name="pref_summary_http_proxy_disabled">Inhabilitat</string>
     <string name="pref_summary_http_proxy_missing">&lt;no definit&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;no vàlid&gt;</string>
@@ -551,8 +543,6 @@
     <string name="send_account_username_to">Comparteix el nom d\'usuari del compte a…</string>
     <string name="account_username_copied">S\'ha copiat el nom d\'usuari</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s deixat de seguir</string>
-    <string name="pref_title_notification_filter_sign_ups">algú s\'ha donat d\'alta</string>
-    <string name="pref_title_notification_filter_updates">una publicació amb la qual he interactuat s\'ha editat</string>
     <string name="notification_report_name">Informes</string>
     <string name="error_following_hashtag_format">Error seguint #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Error en deixar de seguir #%1$s</string>

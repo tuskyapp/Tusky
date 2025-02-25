@@ -69,7 +69,6 @@
     <string name="drafts_failed_loading_reply">පිළිතුරෙහි තොරතුරු පූරණය වීමට අසමත් විය</string>
     <string name="report_username_format">\@%1$s වාර්තා කරන්න</string>
     <string name="report_comment_hint">අතිරේක අදහස්\?</string>
-    <string name="pref_title_notification_filter_mentions">සඳහන් කළ</string>
     <string name="send_post_link_to">වෙත ටූට් ඒ.ස.නි. බෙදාගන්න…</string>
     <string name="app_theme_light">දීප්ත</string>
     <string name="compose_save_draft">කටුපිටපත සුරකින්නද\?</string>

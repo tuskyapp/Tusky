@@ -122,7 +122,6 @@
     <string name="unreblog_private">ബൂസ്റ്റ് ചെയ്യേണ്ട</string>
     <string name="filter_apply">പ്രയോഗിക്കുക</string>
     <string name="add_account_name">അക്കൗണ്ട് ചേർക്കുക</string>
-    <string name="pref_title_notification_filter_mentions">സൂചിപ്പിച്ചു</string>
     <string name="profile_badge_bot_text">യന്ത്രം‍</string>
     <string name="pref_title_appearance_settings">രൂപം</string>
     <string name="follows_you">നിങ്ങളെ പിന്തുടരുന്നു</string>

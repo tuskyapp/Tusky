@@ -138,10 +138,6 @@
     <string name="pref_title_notification_alert_vibrate">آگاهی با لرزش</string>
     <string name="pref_title_notification_alert_light">آگاهی با چراغ</string>
     <string name="pref_title_notification_filters">به من اطلاع بده زمانی که</string>
-    <string name="pref_title_notification_filter_mentions">اشاره شدن</string>
-    <string name="pref_title_notification_filter_follows">دنبال‌شده</string>
-    <string name="pref_title_notification_filter_reblogs">فرسته‌هایم تقویت شدند</string>
-    <string name="pref_title_notification_filter_favourites">فرسته‌هایم برگزیده شدند</string>
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">زمینهٔ کاره</string>
     <string name="pref_title_timelines">خط‌ زمانی‌ها</string>
@@ -299,7 +295,6 @@
     <string name="confirmation_domain_unmuted">%1$s نانهفته</string>
     <string name="dialog_redraft_post_warning">حذف و بازنویسی این فرسته؟</string>
     <string name="mute_domain_warning_dialog_ok">نهفتن تمام دامنه</string>
-    <string name="pref_title_notification_filter_poll">پایان نظرسنجی‌ها</string>
     <string name="pref_title_timeline_filters">پالایه‌ها</string>
     <string name="app_theme_system">استفاده از طراحی سامانه</string>
     <string name="pref_title_language">زبان</string>
@@ -436,7 +431,6 @@
     <string name="add_hashtag_title">افزودن برچسب</string>
     <string name="notification_follow_request_description">آگاهی‌ها دربارهٔ درخواست‌های پی‌گیری</string>
     <string name="notification_follow_request_name">درخواست‌های پی‌گیری</string>
-    <string name="pref_title_notification_filter_follow_requests">درخواست پی‌گیری</string>
     <string name="dialog_mute_warning">خموشی @%1$s؟</string>
     <string name="dialog_block_warning">انسداد @%1$s؟</string>
     <string name="action_unmute_conversation">ناخموشی گفت‌وگو</string>
@@ -478,7 +472,6 @@
     <string name="notification_subscription_description">آگاهی‌ها هنگام انتشار فرسته‌ای جدید از کسی که پی‌می‌گیرید</string>
     <string name="notification_subscription_name">فرسته‌های جدید</string>
     <string name="pref_title_animate_custom_emojis">اموجی‌های شخصی متحرّک</string>
-    <string name="pref_title_notification_filter_subscriptions">کسی که پی‌می‌گیرم، فرسته‌ای جدید منتشر کرد</string>
     <string name="notification_subscription_format">%1$s چیزی فرستاد</string>
     <string name="drafts_post_reply_removed">فرسته‌ای که پاسخی به آن را پیش‌نویس کردید، برداشته شده</string>
     <string name="drafts_failed_loading_reply">شکست در بار کردن اطّلاعات پاسخ</string>
@@ -514,11 +507,9 @@
     <string name="duration_180_days">۱۸۰ روز</string>
     <string name="status_count_one_plus">۱+</string>
     <string name="error_could_not_load_login_page">نتوانست صفحهٔ ورود را بار کند.</string>
-    <string name="pref_title_notification_filter_sign_ups">کسی ثبت‌نام کرد</string>
     <string name="notification_update_name">ویرایش‌های فرسته</string>
     <string name="action_edit_image">ویرایش تصویر</string>
     <string name="notification_update_format">%1$s فرسته‌اش را ویراست</string>
-    <string name="pref_title_notification_filter_updates">فرسته‌ای که با آن تعامل داشته‌ام ویرایش شده</string>
     <string name="notification_sign_up_name">ثبت‌نام‌ها</string>
     <string name="notification_sign_up_description">آگاهی‌ها دربارهٔ کاربران جدید</string>
     <string name="action_dismiss">رد کردن</string>
@@ -555,7 +546,6 @@
     <string name="error_following_hashtags_unsupported">این نمونه از پی‌گیری برچسب‌ها پشتیبانی نمی‌کند.</string>
     <string name="title_followed_hashtags">برچسب‌های دنبالی</string>
     <string name="confirmation_hashtag_unfollowed">پی‌گیری #%1$s لغو شد</string>
-    <string name="pref_title_notification_filter_reports">گزارشی جدید موجود است</string>
     <string name="notification_report_name">گزارش‌ها</string>
     <string name="notification_report_description">آگاهی‌ها دربارهٔ گزارش‌های مدیریتی</string>
     <string name="report_category_violation">نقض قانون</string>

@@ -299,12 +299,6 @@
     <string name="pref_title_timelines">समयतालिकाः</string>
     <string name="pref_title_app_theme">अनुप्रयोगप्रबन्धाः</string>
     <string name="pref_title_appearance_settings">स्वरूपम्</string>
-    <string name="pref_title_notification_filter_poll">मतदानं समाप्तम्</string>
-    <string name="pref_title_notification_filter_favourites">मम प्रकटनानि प्रियाणि</string>
-    <string name="pref_title_notification_filter_reblogs">मम प्रकटनानि प्रकाशितानि</string>
-    <string name="pref_title_notification_filter_follow_requests">अनुसरणार्थं निवेदितम्</string>
-    <string name="pref_title_notification_filter_follows">अनुसृतम्</string>
-    <string name="pref_title_notification_filter_mentions">उल्लिखिताः</string>
     <string name="download_fonts">प्राक्तु भावचिह्नसमूहोऽयमवारोप्यः</string>
     <string name="system_default">प्रणाल्यां पूर्वनिविष्टम्</string>
     <string name="emoji_style">भावचिह्नशैली</string>
@@ -486,7 +480,6 @@
     <string name="report_category_other">अन्यम्</string>
     <string name="title_login">सम्प्रवेशः</string>
     <string name="dialog_delete_conversation_warning">इदं सम्भाषणं निष्कास्यताम् \?</string>
-    <string name="pref_title_notification_filter_sign_ups">कश्चन पञ्जीकरणम् अकरोत्</string>
     <string name="pref_show_self_username_always">सर्वदा</string>
     <string name="notification_subscription_name">नूतन-प्रकटनानि</string>
     <string name="notification_sign_up_name">पञ्जीकरणानि</string>
@@ -541,7 +534,6 @@
     <string name="limit_notifications">कालानुक्रमपङ्क्त्याः सूचनाः परिमिताः कुरुताम्</string>
     <string name="notification_report_description">परिमितावेदनानि प्रति ज्ञापनसूचनाः</string>
     <string name="compose_unsaved_changes">भवतः अरक्षितानि परिवर्तनानि सन्ति।</string>
-    <string name="pref_title_notification_filter_reports">नूतनम् आवेदनमस्ति</string>
     <string name="pref_title_wellbeing_mode">सुस्थितिः</string>
     <string name="delete_scheduled_post_warning">इदं कालबद्धदौत्यं विनश्येत् किम् \?</string>
     <string name="drafts_failed_loading_reply">प्रत्युत्तरसमाचारस्य आरोपनं विफलं जातम्</string>

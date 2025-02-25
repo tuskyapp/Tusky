@@ -129,10 +129,6 @@
     <string name="pref_title_notification_alert_vibrate">அதிர்வுடன் தெரிவிக்கவும்</string>
     <string name="pref_title_notification_alert_light">ஒளியுடன் தெரிவிக்கவும்</string>
     <string name="pref_title_notification_filters">எனக்கு தெரிவி எப்போதெனில்</string>
-    <string name="pref_title_notification_filter_mentions">என்னை குறிபிடும்போது</string>
-    <string name="pref_title_notification_filter_follows">என்னை பின்பற்றினால்</string>
-    <string name="pref_title_notification_filter_reblogs">என் பதிவுகள் அதிகரிக்கப்பட்டால்</string>
-    <string name="pref_title_notification_filter_favourites">என் பதிவுகள் பிடித்தவையானால்</string>
     <string name="pref_title_appearance_settings">தோற்றம்</string>
     <string name="pref_title_app_theme">செயலியின் தீம்</string>
     <string name="app_them_dark">கருமை</string>

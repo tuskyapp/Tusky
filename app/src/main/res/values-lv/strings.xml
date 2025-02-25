@@ -224,7 +224,6 @@
     <string name="action_add_reaction">pievienot reakciju</string>
     <string name="hint_compose">Kas notiek\?</string>
     <string name="dialog_block_warning">Bloķēt @%1$s\?</string>
-    <string name="pref_title_notification_filter_follow_requests">sekošana pieprasīta</string>
     <string name="notification_follow_request_name">Sekošanas pieprasījumi</string>
     <string name="notification_subscription_name">Jauni ieraksti</string>
     <string name="follows_you">Seko tev</string>
@@ -286,9 +285,6 @@
     <string name="pref_title_notifications_enabled">Paziņojumi</string>
     <string name="pref_title_notification_alerts">Brīdinājumi</string>
     <string name="pref_title_notification_filters">Paziņot man, kad</string>
-    <string name="pref_title_notification_filter_mentions">pieminēja</string>
-    <string name="pref_title_notification_filter_follows">sāka sekot</string>
-    <string name="pref_title_notification_filter_sign_ups">kāds ir reģistrējies</string>
     <string name="app_theme_black">Melna</string>
     <string name="app_theme_auto">Automātiski saulrietā</string>
     <string name="app_theme_system">Izmantot sistēmas dizainu</string>
@@ -327,7 +323,6 @@
     <string name="app_them_dark">Tumša</string>
     <string name="app_theme_light">Gaiša</string>
     <string name="pref_title_app_theme">Lietotnes tēma</string>
-    <string name="pref_title_notification_filter_poll">aptaujas ir noslēgušās</string>
     <string name="pref_main_nav_position_option_top">Augšā</string>
     <string name="pref_main_nav_position_option_bottom">Apakšā</string>
     <string name="pref_title_show_boosts">Parādīt pastiprinājumus</string>
@@ -394,7 +389,6 @@
     <string name="action_unmute_desc">Atcelt %1$s apklusināšanu</string>
     <string name="send_post_link_to">Dalīties ar ieraksta URL…</string>
     <string name="confirmation_unmuted">Lietotāja apklusināšana atcelta</string>
-    <string name="pref_title_notification_filter_reblogs">mani ieraksti tiek pastiprināti</string>
     <string name="pref_title_custom_tabs">Izmantot Chrome pielāgotās cilnes</string>
     <string name="action_unmute_domain">Atcelt %1$s apklusināšanu</string>
     <string name="action_unmute_conversation">Atcelt sarunas apklusināšanu</string>
@@ -423,7 +417,6 @@
     <string name="failed_search">Meklēšana neizdevās</string>
     <string name="pref_title_enable_swipe_for_tabs">Iespējot vilkšanas žestu, lai pārslēgtos starp cilnēm</string>
     <string name="pref_title_hide_top_toolbar">Paslēpt augšējās rīkjoslas virsrakstu</string>
-    <string name="pref_title_notification_filter_reports">iesniegts jauns ziņojums</string>
     <string name="report_remote_instance">Pārsūtīt uz %1$s</string>
     <string name="failed_report">Ziņošana neizdevās</string>
     <string name="notification_follow_description">Paziņojumi par jauniem sekotājiem</string>
@@ -538,7 +531,6 @@
     <string name="poll_info_time_absolute">beidzas %1$s</string>
     <string name="pref_title_confirm_favourites">Pirms pievienošanas izlasei rādīt apstiprināšanas dialogu</string>
     <string name="action_view_favourites">Izlases</string>
-    <string name="pref_title_notification_filter_favourites">mani ieraksti tiek pievienoti izlasei</string>
     <string name="abbreviated_in_days">pēc %1$dd</string>
     <string name="abbreviated_in_hours">pēc %1$dh</string>
     <string name="abbreviated_in_minutes">pēc %1$dm</string>

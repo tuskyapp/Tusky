@@ -164,7 +164,6 @@
         <item quantity="other"><b>%1$s</b> вподобань</item>
     </plurals>
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
-    <string name="pref_title_notification_filter_favourites">мої дописи вподобано</string>
     <string name="action_hide_media">Сховати медіа</string>
     <string name="notification_subscription_format">%1$s щойно опубліковано</string>
     <string name="title_announcements">Оголошення</string>
@@ -388,12 +387,6 @@
     <string name="pref_title_timelines">Стрічки</string>
     <string name="pref_title_app_theme">Тема застосунку</string>
     <string name="pref_title_appearance_settings">Вигляд</string>
-    <string name="pref_title_notification_filter_subscriptions">хтось, на кого мене підписано, публікує новий допис</string>
-    <string name="pref_title_notification_filter_poll">опитування завершено</string>
-    <string name="pref_title_notification_filter_reblogs">мої дописи поширено</string>
-    <string name="pref_title_notification_filter_follow_requests">отримано запит на підписку</string>
-    <string name="pref_title_notification_filter_follows">хтось підписується</string>
-    <string name="pref_title_notification_filter_mentions">мене згадано</string>
     <string name="pref_title_notification_filters">Сповіщати мене коли</string>
     <string name="pref_title_notification_alert_light">Світлосповіщення</string>
     <string name="pref_title_notification_alert_vibrate">Вібросповіщення</string>
@@ -524,11 +517,9 @@
     <string name="duration_365_days">365 днів</string>
     <string name="tusky_compose_post_quicksetting_label">Створити допис</string>
     <string name="notification_sign_up_format">%1$s реєструється</string>
-    <string name="pref_title_notification_filter_sign_ups">хтось реєструється</string>
     <string name="notification_sign_up_name">Реєстрації</string>
     <string name="notification_sign_up_description">Сповіщення про нових користувачів</string>
     <string name="notification_update_format">%1$s редагує свій допис</string>
-    <string name="pref_title_notification_filter_updates">допис, з яким у мене була взаємодія, відредаговано</string>
     <string name="notification_update_description">Сповіщення, коли редагується повідомлення, з яким ви взаємодіяли</string>
     <string name="notification_update_name">Редакції допису</string>
     <string name="title_login">Вхід</string>
@@ -570,7 +561,6 @@
     <string name="notification_header_report_format">%1$s скаржиться %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d прикріплених дописів</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s не відстежується</string>
-    <string name="pref_title_notification_filter_reports">з\'явилася нова скарга</string>
     <string name="notification_report_name">Скарги</string>
     <string name="notification_report_description">Сповіщення про звіти про модерацію</string>
     <string name="no_lists">У вас немає списків.</string>

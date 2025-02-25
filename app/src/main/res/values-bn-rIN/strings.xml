@@ -164,11 +164,6 @@
     <string name="pref_title_notification_alert_vibrate">কম্পন সঙ্গে অবহিত</string>
     <string name="pref_title_notification_alert_light">আলো সঙ্গে অবহিত</string>
     <string name="pref_title_notification_filters">যখন আমাকে অবহিত</string>
-    <string name="pref_title_notification_filter_mentions">উল্লিখিত</string>
-    <string name="pref_title_notification_filter_follows">অনুসরণ</string>
-    <string name="pref_title_notification_filter_reblogs">আমার পোস্টগুলির সমর্থন হচ্ছে</string>
-    <string name="pref_title_notification_filter_favourites">আমার পোস্টগুলির পছন্দ হচ্ছে</string>
-    <string name="pref_title_notification_filter_poll">নির্বাচন শেষ হয়েছে</string>
     <string name="pref_title_appearance_settings">উপস্থিতি</string>
     <string name="pref_title_app_theme">এপ্লিকেশন এর থিম</string>
     <string name="pref_title_timelines">টাইমলাইন</string>
@@ -410,7 +405,6 @@
     <string name="action_bookmark">বুকমার্ক</string>
     <string name="notification_follow_request_format">%1$s আপনাকে অনুসরণ করার জন্য অনুরোধ করেছে</string>
     <string name="title_bookmarks">বুকমার্কগুলি</string>
-    <string name="pref_title_notification_filter_follow_requests">অনুরোধ অনুসরণ করো</string>
     <string name="dialog_mute_hide_notifications">বিজ্ঞপ্তি লুকাও</string>
     <string name="dialog_mute_warning">নিঃশব্দ @%1$s\?</string>
     <string name="dialog_block_warning">অবরুদ্ধ @%1$s\?</string>

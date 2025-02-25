@@ -281,10 +281,6 @@
     <string name="visibility_private">Len pre sledovateľov: Uverejniť len pre sledovateľov</string>
     <string name="visibility_direct">Priame: Uverejniť len spomenutým užívateľom</string>
     <string name="pref_title_notification_filters">Oznamovať, keď</string>
-    <string name="pref_title_notification_filter_follows">som sledovaný/á</string>
-    <string name="pref_title_notification_filter_mentions">som spomenutý/á</string>
-    <string name="pref_title_notification_filter_reblogs">sú moje príspevky boostnuté</string>
-    <string name="pref_title_notification_filter_follow_requests">som požiadaný/á o sledovanie</string>
     <string name="dialog_title_finishing_media_upload">Dokončuje sa nahrávanie médií</string>
     <string name="mute_domain_warning">Naozaj chcete zablokovat všetko z domény %1$s? Obsah z tejto domény neuvidíte v žiadnej verejnej časovej osi ani vo svojich upozorneniach. Vaši sledovatelia z tejto domény budú odstránení.</string>
     <string name="pref_title_appearance_settings">Vzhľad</string>
@@ -295,12 +291,6 @@
     <string name="app_them_dark">Tmavý</string>
     <string name="app_theme_light">Svetlý</string>
     <string name="app_theme_black">Čierny</string>
-    <string name="pref_title_notification_filter_favourites">sú moje príspevky obľúbené</string>
-    <string name="pref_title_notification_filter_poll">sa ukončia ankety</string>
-    <string name="pref_title_notification_filter_subscriptions">niekto, ku komu som prihlásený/a, zverejní nový príspevek</string>
-    <string name="pref_title_notification_filter_sign_ups">sa niekto zaregistroval</string>
-    <string name="pref_title_notification_filter_updates">príspevok, s ktorým som interagoval, je upravený</string>
-    <string name="pref_title_notification_filter_reports">je nové hlásenie</string>
     <string name="app_theme_auto">Automaticky pri západe slnka</string>
     <string name="app_theme_system">Použiť systémový design</string>
     <string name="app_theme_system_black">Použiť systémový design (čierny)</string>

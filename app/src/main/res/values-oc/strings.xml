@@ -137,10 +137,6 @@
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
     <string name="pref_title_notification_alert_light">Notificar amb lo lum led</string>
     <string name="pref_title_notification_filters">Notificar me se</string>
-    <string name="pref_title_notification_filter_mentions">òm me menciona</string>
-    <string name="pref_title_notification_filter_follows">òm me sèc</string>
-    <string name="pref_title_notification_filter_reblogs">òm parteja mas publicacions</string>
-    <string name="pref_title_notification_filter_favourites">òm met mos tuts en favorit</string>
     <string name="pref_title_appearance_settings">Aparéncia</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
     <string name="app_them_dark">Escur</string>
@@ -360,7 +356,6 @@
     <string name="poll_info_time_absolute">S’acaba a %1$s</string>
     <string name="poll_info_closed">acabat</string>
     <string name="poll_vote">Votar</string>
-    <string name="pref_title_notification_filter_poll">Los sondatges son tampats</string>
     <string name="notification_poll_name">Sondatges</string>
     <string name="notification_poll_description">Notificacion de sondatges tampats</string>
     <string name="poll_info_format"> \u0020<!-- 15 vòtes • demòra 1 ora --> \u0020%1$s • %2$s</string>
@@ -470,8 +465,6 @@
     <string name="pref_main_nav_position">Posicion de navigacion principala</string>
     <string name="pref_title_animate_custom_emojis">Emoji animats personalizats</string>
     <string name="pref_title_gradient_for_media">Afichar un degradat colorat pels mèdias amagats</string>
-    <string name="pref_title_notification_filter_subscriptions">qualqu’un que seguissi a publicat una publicacion novèla</string>
-    <string name="pref_title_notification_filter_follow_requests">abonament demandat</string>
     <string name="dialog_mute_warning">Amagar @%1$s \?</string>
     <string name="dialog_block_warning">Blocar @%1$s \?</string>
     <string name="dialog_mute_hide_notifications">Amagar las notificacions</string>
@@ -534,8 +527,6 @@
     <string name="error_following_hashtags_unsupported">Aquesta instància pren pas en carga l’abonament a las etiquetas.</string>
     <string name="title_followed_hashtags">Etiquetas seguidas</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s pas mai seguit</string>
-    <string name="pref_title_notification_filter_sign_ups">un compte novèl creat</string>
-    <string name="pref_title_notification_filter_updates">una publicacion ont ai agut una reaccion es modificada</string>
     <string name="delete_scheduled_post_warning">Suprimir la publicacion programada \?</string>
     <string name="drafts_post_reply_removed">La publicacion a la quala respondiá lo borrolhon foguèt suprimida</string>
     <string name="instance_rule_info">En vos connectant acceptatz las règlas de %1$s.</string>
@@ -543,7 +534,6 @@
     <string name="status_created_at_now">ara</string>
     <string name="notification_report_format">Senhalament novèl sus %1$s</string>
     <string name="notification_header_report_format">%1$s a senhalat %2$s</string>
-    <string name="pref_title_notification_filter_reports">i a un senhalament novèl</string>
     <string name="notification_report_name">Senhalaments</string>
     <string name="report_category_violation">Violacion de las règlas</string>
     <string name="report_category_other">Autre</string>

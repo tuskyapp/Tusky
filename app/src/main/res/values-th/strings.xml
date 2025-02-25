@@ -235,12 +235,6 @@
     <string name="pref_title_timelines">ไทม์ไลน์</string>
     <string name="pref_title_app_theme">ธีมแอป</string>
     <string name="pref_title_appearance_settings">ลักษณะ</string>
-    <string name="pref_title_notification_filter_poll">โพลสิ้นสุดแล้ว</string>
-    <string name="pref_title_notification_filter_favourites">โพสต์ถูกชื่นชอบ</string>
-    <string name="pref_title_notification_filter_reblogs">โพสต์ถูกบูสต์</string>
-    <string name="pref_title_notification_filter_follow_requests">คำขอติดตาม</string>
-    <string name="pref_title_notification_filter_follows">ติดตาม</string>
-    <string name="pref_title_notification_filter_mentions">กล่าวถึง</string>
     <string name="pref_title_notification_filters">แจ้งฉันเมื่อ</string>
     <string name="pref_title_notification_alert_sound">แจ้งด้วยเสียง</string>
     <string name="pref_title_notification_alert_vibrate">แจ้งด้วยการสั่น</string>
@@ -455,7 +449,6 @@
 \n การแจ้งเตือนแบบพุชจะไม่ได้รับผลกระทบ แต่คุณสามารถตรวจสอบการตั้งค่าการแจ้งเตือนได้ด้วยตนเอง</string>
     <string name="limit_notifications">แจ้งเตือน Limit timeline</string>
     <string name="review_notifications">แจ้งเตือน Review</string>
-    <string name="pref_title_notification_filter_subscriptions">ใครบางคนที่ฉันได้ติดตาม ได้เผยแพร่โพสต์ใหม่</string>
     <string name="wellbeing_hide_stats_profile">ซ่อนสถิติเชิงปริมาณในโปรไฟล์</string>
     <string name="wellbeing_hide_stats_posts">ซ่อนสถิติเชิงปริมาณของโพสต์</string>
     <string name="pref_title_wellbeing_mode">สุขภาวะ</string>

@@ -164,11 +164,6 @@
     <string name="pref_title_notification_alert_vibrate">振动</string>
     <string name="pref_title_notification_alert_light">呼吸灯</string>
     <string name="pref_title_notification_filters">事件</string>
-    <string name="pref_title_notification_filter_mentions">被提及</string>
-    <string name="pref_title_notification_filter_follows">有新的关注者</string>
-    <string name="pref_title_notification_filter_reblogs">嘟文被转嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被喜欢</string>
-    <string name="pref_title_notification_filter_poll">投票已结束</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
     <string name="pref_title_timelines">时间轴</string>
@@ -442,7 +437,6 @@
     <string name="pref_main_nav_position_option_bottom">底部</string>
     <string name="pref_main_nav_position_option_top">顶部</string>
     <string name="pref_title_gradient_for_media">为隐藏的媒体文件显示彩色模糊预览</string>
-    <string name="pref_title_notification_filter_follow_requests">有关注申请</string>
     <string name="dialog_mute_hide_notifications">隐藏通知</string>
     <string name="dialog_mute_warning">确定隐藏 @%1$s？</string>
     <string name="dialog_block_warning">确定屏蔽 @%1$s？</string>
@@ -491,7 +485,6 @@
     <string name="notification_subscription_description">当我关注的用户发布了新嘟文时通知</string>
     <string name="notification_subscription_name">新嘟文</string>
     <string name="pref_title_animate_custom_emojis">显示动态自定义Emoji</string>
-    <string name="pref_title_notification_filter_subscriptions">关注的人发布了新嘟文</string>
     <string name="notification_subscription_format">%1$s 刚刚发送了新嘟文</string>
     <string name="follow_requests_info">即使你的账号未上锁，但 %1$s 的管理员认为你可能需要手动处理这些账号的关注请求。</string>
     <string name="dialog_delete_conversation_warning">删除此对话吗？</string>
@@ -506,12 +499,10 @@
     <string name="duration_365_days">365 天</string>
     <string name="tusky_compose_post_quicksetting_label">撰写嘟文</string>
     <string name="notification_sign_up_format">%1$s 已注册</string>
-    <string name="pref_title_notification_filter_sign_ups">某人进行了注册</string>
     <string name="notification_sign_up_description">新用户通知</string>
     <string name="notification_sign_up_name">注册</string>
     <string name="title_login">登录</string>
     <string name="notification_update_format">%1$s 编辑了他们的嘟文</string>
-    <string name="pref_title_notification_filter_updates">我进行过互动的嘟文被编辑了</string>
     <string name="notification_update_name">嘟文编辑</string>
     <string name="notification_update_description">当你进行过互动的嘟文被编辑时发出通知</string>
     <string name="error_could_not_load_login_page">无法加载登录页。</string>
@@ -544,7 +535,6 @@
     <string name="action_add_reaction">添加回应</string>
     <string name="notification_report_format">%1$s 的新报告</string>
     <string name="notification_header_report_format">%1$s 报告了 %2$s</string>
-    <string name="pref_title_notification_filter_reports">有新报告</string>
     <string name="notification_report_name">报告</string>
     <string name="action_add_or_remove_from_list">从列表中添加或删除</string>
     <string name="failed_to_add_to_list">未能将账户添加到列表</string>

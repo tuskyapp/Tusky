@@ -160,10 +160,6 @@
     <string name="pref_title_notification_alert_vibrate">Meddela med vibration</string>
     <string name="pref_title_notification_alert_light">Notifieringar med LED</string>
     <string name="pref_title_notification_filters">Meddela mig när</string>
-    <string name="pref_title_notification_filter_mentions">omnämnd</string>
-    <string name="pref_title_notification_filter_follows">nya följare</string>
-    <string name="pref_title_notification_filter_reblogs">mina inlägg är knuffade</string>
-    <string name="pref_title_notification_filter_favourites">mina inlägg är favoritmarkerade</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
@@ -366,7 +362,6 @@
     <string name="poll_info_time_absolute">avslutas vid %1$s</string>
     <string name="poll_info_closed">stängd</string>
     <string name="poll_vote">Rösta</string>
-    <string name="pref_title_notification_filter_poll">omröstningar har avslutats</string>
     <string name="notification_poll_name">Omröstningar</string>
     <string name="notification_poll_description">Aviseringar när omröstningar har avslutats</string>
     <string name="poll_ended_voted">En omröstning där du har röstat är avslutad</string>
@@ -451,7 +446,6 @@
     </plurals>
     <string name="notification_follow_request_description">Aviseringar om följarförfrågningar</string>
     <string name="notification_follow_request_name">Följförfrågningar</string>
-    <string name="pref_title_notification_filter_follow_requests">följförfrågan</string>
     <string name="dialog_mute_warning">Tysta @%1$s\?</string>
     <string name="dialog_block_warning">Blockera @%1$s\?</string>
     <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
@@ -472,7 +466,6 @@
     <string name="title_announcements">Meddelanden</string>
     <string name="notification_subscription_description">Aviseringar när någon du följer skrivit ett nytt inlägg</string>
     <string name="notification_subscription_name">Nya inlägg</string>
-    <string name="pref_title_notification_filter_subscriptions">någon jag följer har skrivit ett nytt inlägg</string>
     <string name="notification_subscription_format">%1$s skrev precis</string>
     <string name="wellbeing_hide_stats_profile">Dölj kvantitativ information på profiler</string>
     <string name="wellbeing_hide_stats_posts">Dölj kvantitativ information på inlägg</string>
@@ -536,8 +529,6 @@
     <string name="notification_update_format">%1$s redigerade sitt inlägg</string>
     <string name="action_unbookmark">Ta bort bokmärke</string>
     <string name="action_delete_conversation">Radera konversation</string>
-    <string name="pref_title_notification_filter_sign_ups">någon registrerade sig</string>
-    <string name="pref_title_notification_filter_updates">ett inlägg jag interagerat med har redigerats</string>
     <string name="pref_title_animate_custom_emojis">Animera skräddarsydda emojis</string>
     <string name="post_media_audio">Ljud</string>
     <string name="post_media_attachments">Bilagor</string>
@@ -562,7 +553,6 @@
     <string name="notification_header_report_format">%1$s rapporterade %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d inlägg bifogade</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s avföljd</string>
-    <string name="pref_title_notification_filter_reports">det finns en ny rapport</string>
     <string name="notification_report_name">Rapporter</string>
     <string name="notification_report_description">Aviseringar om modereringsrapporter</string>
     <string name="report_category_spam">Skräppost</string>

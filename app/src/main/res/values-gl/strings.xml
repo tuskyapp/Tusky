@@ -372,13 +372,6 @@
     <string name="pref_title_timelines">Cronoloxías</string>
     <string name="pref_title_app_theme">Decorado da aplicación</string>
     <string name="pref_title_appearance_settings">Aparencia</string>
-    <string name="pref_title_notification_filter_subscriptions">alguén a quen eu siga publique novo contido</string>
-    <string name="pref_title_notification_filter_poll">rematen as enquisas</string>
-    <string name="pref_title_notification_filter_favourites">marquen unha publicación como favorita</string>
-    <string name="pref_title_notification_filter_reblogs">promovan unha publicación miña</string>
-    <string name="pref_title_notification_filter_follow_requests">soliciten seguirme</string>
-    <string name="pref_title_notification_filter_follows">me sigan</string>
-    <string name="pref_title_notification_filter_mentions">me mencionen</string>
     <string name="pref_title_notification_filters">Notifícame cando</string>
     <string name="pref_title_notification_alert_light">Notificar coa luz</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
@@ -502,10 +495,8 @@
     <string name="duration_365_days">365 días</string>
     <string name="tusky_compose_post_quicksetting_label">Redactar publicación</string>
     <string name="notification_sign_up_format">%1$s creou a conta</string>
-    <string name="pref_title_notification_filter_sign_ups">hai unha nova usuaria</string>
     <string name="notification_sign_up_name">Rexistros</string>
     <string name="notification_sign_up_description">Notificacións sobre novas usuarias</string>
-    <string name="pref_title_notification_filter_updates">Foi editada unha publicación coa que interactuei</string>
     <string name="notification_update_name">Edicións da publicación</string>
     <string name="account_date_joined">Creada %1$s</string>
     <string name="title_login">Acceder</string>
@@ -557,7 +548,6 @@
     <string name="notification_header_report_format">%1$s denunciou a %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d publicacións anexadas</string>
     <string name="confirmation_hashtag_unfollowed">Xa non segues a #%1$s</string>
-    <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
     <string name="pref_title_http_proxy_port_message">O porto debe estar entre %1$d e %2$d</string>
     <string name="error_muting_hashtag_format">Produciuse un erro ao acalar #%1$s</string>

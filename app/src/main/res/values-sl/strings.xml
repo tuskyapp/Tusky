@@ -161,10 +161,6 @@
     <string name="pref_title_notification_alert_vibrate">Obvesti z vibracijo</string>
     <string name="pref_title_notification_alert_light">Obvesti s svetlobo</string>
     <string name="pref_title_notification_filters">Obvesti me, ko</string>
-    <string name="pref_title_notification_filter_mentions">sem omenjen</string>
-    <string name="pref_title_notification_filter_follows">me kdo sledi</string>
-    <string name="pref_title_notification_filter_reblogs">so moje objave spodbujene</string>
-    <string name="pref_title_notification_filter_favourites">so moje objave vzljubljene</string>
     <string name="pref_title_appearance_settings">Videz</string>
     <string name="pref_title_app_theme">Tema aplikacije</string>
     <string name="pref_title_timelines">Časovnice</string>
@@ -339,7 +335,6 @@
     <string name="poll_info_time_absolute">se konča ob %1$s</string>
     <string name="poll_info_closed">zaprto</string>
     <string name="poll_vote">Glasovanje</string>
-    <string name="pref_title_notification_filter_poll">ankete so se končala</string>
     <string name="app_them_dark">Temna</string>
     <string name="app_theme_light">Svetla</string>
     <string name="app_theme_black">Črna</string>

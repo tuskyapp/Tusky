@@ -169,11 +169,6 @@
     <string name="pref_title_notification_alert_vibrate">진동</string>
     <string name="pref_title_notification_alert_light">LED 상태표시등</string>
     <string name="pref_title_notification_filters">알림</string>
-    <string name="pref_title_notification_filter_mentions">누군가가 나를 멘션했을때</string>
-    <string name="pref_title_notification_filter_follows">누군가가 나를 팔로우했을 때</string>
-    <string name="pref_title_notification_filter_reblogs">누군가가 내 게시물을 부스트했을 때</string>
-    <string name="pref_title_notification_filter_favourites">누군가가 내 게시물을 좋아요했을 때</string>
-    <string name="pref_title_notification_filter_poll">투표가 종료되었을 때</string>
     <string name="pref_title_appearance_settings">화면</string>
     <string name="pref_title_app_theme">어플리케이션 테마</string>
     <string name="pref_title_timelines">타임라인</string>

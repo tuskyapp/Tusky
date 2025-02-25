@@ -154,10 +154,6 @@
     <string name="pref_title_notification_alert_vibrate">Értesítés rezgéssel</string>
     <string name="pref_title_notification_alert_light">Értesítés fénnyel</string>
     <string name="pref_title_notification_filters">Értesítsen, ha</string>
-    <string name="pref_title_notification_filter_mentions">megemlítettek</string>
-    <string name="pref_title_notification_filter_follows">bekövettek</string>
-    <string name="pref_title_notification_filter_reblogs">bejegyzésemet megtolták</string>
-    <string name="pref_title_notification_filter_favourites">bejegyzésemet kedvencnek jelölték</string>
     <string name="pref_title_appearance_settings">Megjelenés</string>
     <string name="pref_title_timelines">Idővonalak</string>
     <string name="app_them_dark">Sötét</string>
@@ -278,7 +274,6 @@
     <string name="downloading_media">Média letöltése</string>
     <string name="send_media_to">Média megosztása következővel…</string>
     <string name="dialog_redraft_post_warning">Törlöd és újraírod ezt a bejegyzést\?</string>
-    <string name="pref_title_notification_filter_poll">befejeződött egy szavazás</string>
     <string name="pref_title_timeline_filters">Szűrők</string>
     <string name="app_theme_system">Rendszer téma használata</string>
     <string name="pref_title_language">Nyelv</string>
@@ -450,7 +445,6 @@
     <string name="pref_main_nav_position_option_top">Fent</string>
     <string name="pref_main_nav_position">Fő navigálási pozíció</string>
     <string name="pref_title_gradient_for_media">Színes homály megjelenítése a rejtett médiánál</string>
-    <string name="pref_title_notification_filter_follow_requests">követni szeretnének</string>
     <string name="dialog_mute_hide_notifications">Értesítések elrejtése</string>
     <string name="dialog_block_warning">Letiltod: @%1$s?</string>
     <string name="dialog_mute_warning">Elnémítod: @%1$s?</string>
@@ -490,7 +484,6 @@
     <string name="post_media_audio">Audio</string>
     <string name="notification_subscription_description">Értesítések az általam követettek új bejegyzéseiről</string>
     <string name="notification_subscription_name">Új bejegyzések</string>
-    <string name="pref_title_notification_filter_subscriptions">valaki, akit követek, új bejegyzést tett közzé</string>
     <string name="notification_subscription_format">%1$s épp bejegyzést írt</string>
     <string name="pref_title_wellbeing_mode">Jóllét</string>
     <string name="pref_title_animate_custom_emojis">Egyéni emodzsik animálása</string>
@@ -502,9 +495,7 @@
     <string name="action_unbookmark">Könyvjelző törlése</string>
     <string name="pref_title_confirm_favourites">Jóváhagyás megjelenítése kedvencnek jelölés előtt</string>
     <string name="notification_update_format">%1$s szerkesztette a bejegyzését</string>
-    <string name="pref_title_notification_filter_updates">szerkesztették a bejegyzést, mellyel dolgod volt</string>
     <string name="notification_sign_up_format">%1$s regisztrált</string>
-    <string name="pref_title_notification_filter_sign_ups">valaki regisztrált</string>
     <string name="notification_sign_up_name">Regisztrációk</string>
     <string name="notification_sign_up_description">Értesítések az új felhasználókról</string>
     <string name="duration_14_days">14 nap</string>
@@ -549,7 +540,6 @@
     <string name="no_lists">Nincs egy listád se.</string>
     <string name="action_unfollow_hashtag_format">Megszünteted a követését: #%1$s?</string>
     <string name="hint_media_description_missing">A médiához leírást is kell adni.</string>
-    <string name="pref_title_notification_filter_reports">van egy új bejelentés</string>
     <string name="pref_default_post_language">Bejegyzések nyelve (a kiszolgálóval szinkronizálva)</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Szabálysértés</string>

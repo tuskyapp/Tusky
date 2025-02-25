@@ -151,10 +151,6 @@
     <string name="pref_title_notification_alert_vibrate">バイブレーションする</string>
     <string name="pref_title_notification_alert_light">通知ランプ</string>
     <string name="pref_title_notification_filters">通知の種類</string>
-    <string name="pref_title_notification_filter_mentions">返信</string>
-    <string name="pref_title_notification_filter_follows">フォロー</string>
-    <string name="pref_title_notification_filter_reblogs">投稿がブーストされた</string>
-    <string name="pref_title_notification_filter_favourites">投稿がお気に入りに登録された</string>
     <string name="pref_title_appearance_settings">表示</string>
     <string name="pref_title_app_theme">アプリテーマ</string>
     <string name="pref_title_timelines">タイムライン</string>
@@ -340,7 +336,6 @@
     <string name="title_domain_mutes">非表示のドメイン</string>
     <string name="action_view_domain_mutes">非表示のドメイン</string>
     <string name="action_mute_domain">%1$sをミュート</string>
-    <string name="pref_title_notification_filter_poll">投票の集計が完了した</string>
     <string name="notification_poll_name">投票</string>
     <string name="notification_poll_description">投票の集計が完了したときの通知</string>
     <string name="pref_title_thread_filter_keywords">会話</string>
@@ -418,7 +413,6 @@
     <string name="pref_main_nav_position_option_top">上部</string>
     <string name="pref_main_nav_position">メインナビゲーションの位置</string>
     <string name="pref_title_gradient_for_media">非表示のメディアを色付きのぼかしで表示する</string>
-    <string name="pref_title_notification_filter_follow_requests">フォローリクエスト</string>
     <string name="dialog_mute_hide_notifications">通知を非表示</string>
     <string name="dialog_mute_warning">\@%1$sさんをミュートしますか？</string>
     <string name="dialog_block_warning">\@%1$sさんをブロックしますか？</string>
@@ -506,9 +500,6 @@
     <string name="confirmation_hashtag_unfollowed">#%1$s をフォロー解除しました</string>
     <string name="pref_title_animate_custom_emojis">カスタム絵文字のアニメーションを有効化</string>
     <string name="dialog_delete_conversation_warning">この会話を削除しますか？</string>
-    <string name="pref_title_notification_filter_reports">新しい報告があります</string>
-    <string name="pref_title_notification_filter_subscriptions">購読している誰かが新しい投稿を公開しました</string>
-    <string name="pref_title_notification_filter_sign_ups">誰かがサインアップしました</string>
     <string name="notification_sign_up_name">サインアップ</string>
     <string name="notification_report_name">報告</string>
     <string name="notification_report_description">モデレーション報告に関する通知</string>
@@ -580,7 +571,6 @@
     <string name="pref_summary_http_proxy_disabled">無効</string>
     <string name="pref_summary_http_proxy_missing">&lt;設定なし&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;無効&gt;</string>
-    <string name="pref_title_notification_filter_updates">やり取りした投稿が編集された時</string>
     <string name="notification_update_description">やり取りした投稿が編集されたときの通知</string>
     <string name="pref_title_http_proxy_port_message">ポートは %1$d から %2$d の間でなければなりません</string>
     <string name="action_post_failed">アップロードに失敗しました</string>

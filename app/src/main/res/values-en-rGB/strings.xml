@@ -9,7 +9,6 @@
     </plurals>
     <string name="notification_favourite_description">Notifications when your posts get marked as favourite</string>
     <string name="notification_favourite_name">Favourites</string>
-    <string name="pref_title_notification_filter_favourites">my posts are favourited</string>
     <string name="action_open_faved_by">Show favourites</string>
     <string name="action_view_favourites">Favourites</string>
     <string name="action_unfavourite">Remove favourite</string>

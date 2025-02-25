@@ -148,10 +148,6 @@
     <string name="pref_title_notification_alert_vibrate">Titreşimli bildirim</string>
     <string name="pref_title_notification_alert_light">Işıklı bildirim</string>
     <string name="pref_title_notification_filters">Bana bildir:</string>
-    <string name="pref_title_notification_filter_mentions">bahsedildiğinde</string>
-    <string name="pref_title_notification_filter_follows">takip edildiğimde</string>
-    <string name="pref_title_notification_filter_reblogs">gönderilerim yeniden paylaşıldığında</string>
-    <string name="pref_title_notification_filter_favourites">gönderilerim gözdelere eklendiğinde</string>
     <string name="pref_title_appearance_settings">Görünüş</string>
     <string name="pref_title_app_theme">Uygulama teması</string>
     <string name="pref_title_timelines">Ağ akışı</string>
@@ -309,7 +305,6 @@
     <string name="download_media">Medya indir</string>
     <string name="downloading_media">Medya indiriliyor</string>
     <string name="mute_domain_warning">%1$s\? alan adından gelen her şeyi engellemek istediğinden emin misin\? Bu alan adından gelen içeriği herhangi bir genel zaman tünelinde veya bildirimlerinde göremezsiniz. Bu alan adındaki takipçilerin de kaldırılacak.</string>
-    <string name="pref_title_notification_filter_poll">anketler sona erdiğinde</string>
     <string name="pref_title_timeline_filters">Süzgeçler</string>
     <string name="app_theme_system">Sistem tasarımını kullan</string>
     <string name="pref_title_language">Dil</string>
@@ -454,7 +449,6 @@
     <string name="action_unmute_desc">%1$s sesini aç</string>
     <string name="notification_follow_request_format">%1$s seni takip etmek istiyor</string>
     <string name="action_unmute_conversation">Sohbetin sesini aç</string>
-    <string name="pref_title_notification_filter_follow_requests">takip isteklerinde</string>
     <string name="action_mute_conversation">Sohbeti sessize al</string>
     <string name="pref_main_nav_position">Ana gezinti konumu</string>
     <string name="pref_title_gradient_for_media">Gizli medya için renkli gradyanlar göster</string>
@@ -479,7 +473,6 @@
     <string name="pref_show_self_username_never">Asla</string>
     <string name="pref_title_confirm_favourites">Gözdelere eklemeden önce onay kutusunu göster</string>
     <string name="error_unmuting_hashtag_format">Susturmayı kaldırma hatası #%1$s</string>
-    <string name="pref_title_notification_filter_reports">yeni bir rapor olduğunda</string>
     <string name="pref_title_animate_custom_emojis">Özel ayarlanmış emojileri oynat</string>
     <string name="notification_header_report_format">%1$s rapor edilmiş %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d ekli gönderiler</string>
@@ -494,7 +487,6 @@
         <item quantity="other">adetten fazla %1$d medya ekleri yükleyemezsiniz.</item>
     </plurals>
     <string name="delete_scheduled_post_warning">Bu zamanlanmış yayını sil\?</string>
-    <string name="pref_title_notification_filter_updates">etkileşimde bulunduğun bir gönderi düzenledi</string>
     <string name="instance_rule_info">Giriş yaparak aşağıdaki kuralları kabul etmiş sayılırsınız %1$s.</string>
     <string name="instance_rule_title">%1$s kural</string>
     <string name="set_focus_description">Küçük görsellerde her zaman görülebilecek odak noktasını seçmek için daireye dokunun veya sürükleyin.</string>
@@ -532,8 +524,6 @@
     <string name="account_date_joined">%1$s katıldı</string>
     <string name="hint_media_description_missing">Medyanın bir açıklaması olmalı.</string>
     <string name="dialog_delete_conversation_warning">Bu görüşmeyi sil\?</string>
-    <string name="pref_title_notification_filter_subscriptions">abone olduğum birisi yeni bir gönderi yayınladı</string>
-    <string name="pref_title_notification_filter_sign_ups">birisi kaydolmuş</string>
     <string name="post_media_audio">Ses</string>
     <string name="post_media_attachments">Ekler</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>

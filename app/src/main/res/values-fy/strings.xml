@@ -86,11 +86,6 @@
     <string name="pref_title_timeline_filters">Filters</string>
     <string name="pref_title_app_theme">Applikaasje Tema</string>
     <string name="pref_title_appearance_settings">Uterlik</string>
-    <string name="pref_title_notification_filter_subscriptions">Ien dy\'t ik folgje hat in nije toot pleatst</string>
-    <string name="pref_title_notification_filter_favourites">Myn berjochten bin as favoryt oanmurken</string>
-    <string name="pref_title_notification_filter_follow_requests">Folgfersyk</string>
-    <string name="pref_title_notification_filter_follows">Folgers</string>
-    <string name="pref_title_notification_filter_mentions">beneamd</string>
     <string name="pref_title_notification_alert_light">Op\'e hichte steld wurde mei in ljochtsje</string>
     <string name="pref_title_notification_alert_vibrate">Op\'e hichte steld wurde mei in trilling</string>
     <string name="pref_title_notification_alert_sound">Op\'e hichte stelt wurde mei in lûdsje</string>

@@ -47,7 +47,6 @@
     <string name="description_poll">जनमत के विकल्प: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="action_view_bookmarks">बुकमार्क</string>
     <string name="edit_poll">संपादित करें</string>
-    <string name="pref_title_notification_filter_poll">जनमत खत्म हो गया हैं</string>
     <string name="action_add_poll">जनमत शुरू करें</string>
     <string name="create_poll_title">पोल</string>
     <string name="title_accounts">खाता</string>
@@ -103,7 +102,6 @@
     <string name="app_them_dark">अंधकार</string>
     <string name="pref_title_timeline_filters">फिल्टर</string>
     <string name="pref_title_appearance_settings">दिखावट</string>
-    <string name="pref_title_notification_filter_mentions">उल्लेख किया</string>
     <string name="pref_title_notification_filters">मुझे सूचित करें जब</string>
     <string name="pref_title_notification_alert_light">रोशनी के साथ सूचित करें</string>
     <string name="pref_title_notification_alert_vibrate">कंपन के साथ सूचित करें</string>
@@ -323,7 +321,6 @@
     <string name="title_media">मीडिया</string>
     <string name="pref_title_alway_show_sensitive_media">संवेदनशील विषय वस्तु</string>
     <string name="follows_you">आपको फॉलो करते है</string>
-    <string name="pref_title_notification_filter_follow_requests">फ़ॉलो करने का अनुरोध किया</string>
     <string name="state_follow_requested">फ़ॉलो करने का अनुरोध किया हुआ</string>
     <string name="post_media_video">वीडियो</string>
     <string name="post_media_images">तस्वीरें</string>
@@ -346,7 +343,6 @@
     <string name="app_theme_light">प्रकाश</string>
     <string name="pref_title_timelines">टाइमलाइन</string>
     <string name="pref_title_app_theme">एप्लिकेशन थीम</string>
-    <string name="pref_title_notification_filter_favourites">मेरे पोस्ट पसंद किए गए</string>
     <string name="pref_title_notification_alerts">सूचनाएं</string>
     <string name="dialog_mute_hide_notifications">सूचनाएं छिपाएं</string>
     <string name="dialog_block_warning">ब्लॉक @%1$s\?</string>
@@ -375,7 +371,6 @@
     <string name="notification_follow_description">नए फ़ॉलोअर की सूचनाएं</string>
     <string name="notification_follow_name">नए फ़ॉलोअर</string>
     <string name="post_privacy_followers_only">केवल फ़ॉलोअर के लिए</string>
-    <string name="pref_title_notification_filter_follows">ने फ़ॉलो किया</string>
     <string name="dialog_unfollow_warning">इस खाते को अनफ़ॉलो करें\?</string>
     <string name="dialog_message_cancel_follow_request">फ़ॉलो अनुरोध को रद्द करें\?</string>
     <string name="action_view_follow_requests">फ़ॉलो अनुरोध</string>

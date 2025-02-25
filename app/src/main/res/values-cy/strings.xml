@@ -138,10 +138,6 @@
     <string name="pref_title_notification_alert_vibrate">Hysbysiad drwy grynu</string>
     <string name="pref_title_notification_alert_light">Hysbysu â golau</string>
     <string name="pref_title_notification_filters">Roi gwybod i mi pryd</string>
-    <string name="pref_title_notification_filter_mentions">crybwyllwyd</string>
-    <string name="pref_title_notification_filter_follows">yn dilyn</string>
-    <string name="pref_title_notification_filter_reblogs">mae fy negeseuon yn cael eu hybu</string>
-    <string name="pref_title_notification_filter_favourites">mae fy negeseuon yn cael eu hoffi</string>
     <string name="pref_title_appearance_settings">Gwedd</string>
     <string name="pref_title_app_theme">Thema\'r ap</string>
     <string name="app_them_dark">Tywyll</string>
@@ -316,7 +312,6 @@
     <string name="action_mentions">Crybwylliadau</string>
     <string name="dialog_mute_warning">Tewi @%1$s?</string>
     <string name="dialog_mute_hide_notifications">Cuddio hysbysiadau</string>
-    <string name="pref_title_notification_filter_sign_ups">mae rhywun wedi cofrestru</string>
     <string name="pref_title_timeline_filters">Hidlyddion</string>
     <string name="dialog_block_warning">Rhwystro @%1$s?</string>
     <string name="notification_subscription_name">Negeseuon newydd</string>
@@ -327,13 +322,9 @@
     <string name="filter_addition_title">Ychwanegu hidlydd</string>
     <string name="filter_edit_title">Golygu hidlydd</string>
     <string name="filter_dialog_update_button">Diweddaru</string>
-    <string name="pref_title_notification_filter_updates">golygwyd neges rydych chi wedi rhyngweithio ag ef</string>
     <string name="notification_update_format">Golygodd %1$s ei neges</string>
     <string name="filter_apply">Gosod</string>
-    <string name="pref_title_notification_filter_follow_requests">gofyn i gael dilyn</string>
     <string name="notifications_clear">Dileu</string>
-    <string name="pref_title_notification_filter_poll">polau wedi dod i ben</string>
-    <string name="pref_title_notification_filter_subscriptions">mae rhywun dw i\'n tanysgrifio iddi/o wedi cyhoeddi neges newydd</string>
     <string name="filter_dialog_whole_word">Gair cyfan</string>
     <string name="filter_add_description">Ymadrodd i\'w hidlo</string>
     <string name="action_open_as">Agor fel %1$s</string>
@@ -474,7 +465,6 @@
     <string name="notification_report_format">Adroddiad newydd ar %1$s</string>
     <string name="notification_header_report_format">Adroddodd %1$s %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d o negeseuon wedi\'u hatodi</string>
-    <string name="pref_title_notification_filter_reports">mae yna adroddiad newydd</string>
     <string name="report_category_violation">Toriad rheol</string>
     <string name="report_category_spam">Sbam</string>
     <string name="failed_to_pin">Wedi methu Pinio</string>
@@ -640,13 +630,13 @@
     <string name="description_login">Yn gweithio yn y rhan mwyaf o achosion. Nid oes unrhyw ddata yn cael ei ollwng i apiau eraill.</string>
     <string name="description_browser_login">Efallai y bydd dulliau dilysu ychwanegol ar gael, ond mae eu hangen porwr arall.</string>
     <plurals name="action_post_failed_detail">
-        <item quantity="zero"></item>
+        <item quantity="zero"/>
         <item quantity="one">Methodd eich neges â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y neges.</item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
-        <item quantity="many"></item>
+        <item quantity="two"/>
+        <item quantity="few"/>
+        <item quantity="many"/>
         <item quantity="other">Methodd eich negeseuon â llwytho i fyny a chafodd ei chadw i\'ch drafftiau.
 \n
 \nNaill ai nid oedd modd cysylltu â\'r gweinydd, neu fe wrthododd y negeseuon.</item>

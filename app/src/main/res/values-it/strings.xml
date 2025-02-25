@@ -160,10 +160,6 @@
     <string name="pref_title_notification_alert_vibrate">Notifica con vibrazione</string>
     <string name="pref_title_notification_alert_light">Notifica con luce</string>
     <string name="pref_title_notification_filters">Notificami quando</string>
-    <string name="pref_title_notification_filter_mentions">vengo menzionato</string>
-    <string name="pref_title_notification_filter_follows">vengo seguito</string>
-    <string name="pref_title_notification_filter_reblogs">i miei post vengono condivisi</string>
-    <string name="pref_title_notification_filter_favourites">i miei post vengono messi nei preferiti</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
@@ -374,7 +370,6 @@
     <string name="confirmation_domain_unmuted">%1$s mostrati</string>
     <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
-    <string name="pref_title_notification_filter_poll">dei sondaggi si sono conclusi</string>
     <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
     <string name="notification_poll_name">Votazioni</string>
     <string name="notification_poll_description">Notifiche sui sondaggi che si sono conclusi</string>
@@ -477,7 +472,6 @@
     <string name="pref_title_gradient_for_media">Mostra gradienti colorati per i media nascosti</string>
     <string name="dialog_mute_hide_notifications">Nascondi notifiche</string>
     <string name="title_announcements">Annunci</string>
-    <string name="pref_title_notification_filter_follow_requests">mi viene richiesto di seguirmi</string>
     <string name="wellbeing_hide_stats_profile">Nascondi statistiche quantitative sui profili</string>
     <string name="wellbeing_hide_stats_posts">Nascondi le statistiche quantitative sui post</string>
     <string name="limit_notifications">Limita le notifiche della timeline</string>
@@ -485,7 +479,6 @@
     <string name="pref_title_wellbeing_mode">Benessere</string>
     <string name="notification_subscription_description">Notifiche di nuovi post di qualcuno a cui sei iscritto</string>
     <string name="notification_subscription_name">Nuovi post</string>
-    <string name="pref_title_notification_filter_subscriptions">qualcuno che seguo ha pubblicato un nuovo post</string>
     <string name="notification_subscription_format">%1$s ha appena pubblicato</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Non puoi caricare più di %1$d allegato multimediale.</item>
@@ -523,10 +516,8 @@
     <string name="duration_365_days">365 giorni</string>
     <string name="follow_requests_info">Anche se il tuo account non è bloccato, lo staff di %1$s ha pensato che potresti voler verificare le richieste di seguirti da parte questi utenti manualmente.</string>
     <string name="notification_sign_up_format">%1$s si è registrato</string>
-    <string name="pref_title_notification_filter_sign_ups">qualcuno si è registrato</string>
     <string name="title_login">Accesso</string>
     <string name="notification_update_format">%1$s ha modificato il suo post</string>
-    <string name="pref_title_notification_filter_updates">un post con cui ho interagito è stato modificato</string>
     <string name="tusky_compose_post_quicksetting_label">Componi post</string>
     <string name="notification_sign_up_name">Registrazioni</string>
     <string name="notification_sign_up_description">Notifiche di quando qualcuno si è registrato</string>
@@ -571,7 +562,6 @@
     <string name="report_category_violation">Violazione di una regola</string>
     <string name="status_created_at_now">adesso</string>
     <string name="post_media_alt">ALT</string>
-    <string name="pref_title_notification_filter_reports">c\'è una nuova segnalazione</string>
     <string name="notification_report_name">Segnalazioni</string>
     <string name="error_muting_hashtag_format">Errore nel silenziamento di #%1$s</string>
     <string name="error_unmuting_hashtag_format">Errore nella rimozione del silenziamento di #%1$s</string>

@@ -224,13 +224,6 @@
     <string name="pref_title_timelines">Емисии</string>
     <string name="pref_title_app_theme">Тема на приложение</string>
     <string name="pref_title_appearance_settings">Външен вид</string>
-    <string name="pref_title_notification_filter_subscriptions">някой, за когото съм абониран, публикува</string>
-    <string name="pref_title_notification_filter_poll">приключили анкети</string>
-    <string name="pref_title_notification_filter_favourites">публикациите ми са сложени в любими</string>
-    <string name="pref_title_notification_filter_reblogs">публикациите ми са споделени</string>
-    <string name="pref_title_notification_filter_follow_requests">заявка за последване</string>
-    <string name="pref_title_notification_filter_follows">последвани</string>
-    <string name="pref_title_notification_filter_mentions">споменати</string>
     <string name="pref_title_notification_filters">Уведомете ме когато</string>
     <string name="pref_title_notification_alert_light">Уведомяване със светлина</string>
     <string name="pref_title_notification_alert_vibrate">Уведомяване с вибрация</string>
@@ -533,7 +526,6 @@
     <string name="post_media_alt">Алт текст</string>
     <string name="description_post_language">Езика на публикация</string>
     <string name="action_browser_login">Вписване с Браузър</string>
-    <string name="pref_title_notification_filter_sign_ups">някой се регистрира</string>
     <string name="status_created_at_now">сега</string>
     <string name="description_post_edited">Редактирано</string>
     <string name="action_refresh">Опресняване</string>
@@ -549,7 +541,6 @@
     <string name="dialog_delete_filter_positive_action">Изтриване</string>
     <string name="dialog_delete_filter_text">Да се изтрие ли филтър \'%1$s\'?</string>
     <string name="no_lists">Нямате списъци.</string>
-    <string name="pref_title_notification_filter_reports">има ново докладване</string>
     <string name="error_following_hashtag_format">Грешка при последване на #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Грешка при отследване на #%1$s</string>
     <string name="title_public_federated">Федерирани</string>

@@ -42,12 +42,6 @@
     <string name="pref_title_timelines">Amlínte</string>
     <string name="pref_title_app_theme">Téama an Aip</string>
     <string name="pref_title_appearance_settings">Dealramh</string>
-    <string name="pref_title_notification_filter_poll">tá deireadh leis na pobalbhreitheanna</string>
-    <string name="pref_title_notification_filter_favourites">tá mo chuid postálacha tofa</string>
-    <string name="pref_title_notification_filter_reblogs">athchraoltar mó chuid postálacha</string>
-    <string name="pref_title_notification_filter_follow_requests">lean iarrtar</string>
-    <string name="pref_title_notification_filter_follows">lean</string>
-    <string name="pref_title_notification_filter_mentions">luaigh</string>
     <string name="pref_title_notification_filters">Cuir in iúl dom cathain</string>
     <string name="pref_title_notification_alert_light">Fógra le solas</string>
     <string name="pref_title_notification_alert_vibrate">Cuir in iúl le tonnchrith</string>

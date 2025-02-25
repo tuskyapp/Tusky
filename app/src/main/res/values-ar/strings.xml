@@ -158,10 +158,6 @@
     <string name="pref_title_notification_alert_vibrate">إعلام بالاهتزار</string>
     <string name="pref_title_notification_alert_light">إعلام بالضوء</string>
     <string name="pref_title_notification_filters">أخطرني عندما</string>
-    <string name="pref_title_notification_filter_mentions">يشار إلي</string>
-    <string name="pref_title_notification_filter_follows">يتبعني أحدهم</string>
-    <string name="pref_title_notification_filter_reblogs">أُعيدَ نشر منشوراتي</string>
-    <string name="pref_title_notification_filter_favourites">يُعجَب أحد ما بمنشوراتي</string>
     <string name="pref_title_appearance_settings">المظهر</string>
     <string name="pref_title_app_theme">مظهر التطبيق</string>
     <string name="pref_title_timelines">الخيوط الزمنية</string>
@@ -372,7 +368,6 @@
     </plurals>
     <string name="poll_ended_voted">لقد انتهى استطلاع رأي قد أبديت بصوتك فيه</string>
     <string name="poll_ended_created">لقد انتهى استطلاع رأي قمتَ بإنشائه</string>
-    <string name="pref_title_notification_filter_poll">تنتهي استطلاعات الرأي</string>
     <plurals name="favs">
         <item quantity="zero"><b>%1$s</b> مفضلة</item>
         <item quantity="one"><b>%1$s</b> مفضلة</item>
@@ -478,7 +473,6 @@
     <string name="no_scheduled_posts">ليس لديك أية منشورات مُبرمَجة للنشر.</string>
     <string name="warning_scheduling_interval">تُقدّر أدنى فترة لبرمجة النشر في ماستدون بـ 5 دقائق.</string>
     <string name="pref_title_enable_swipe_for_tabs">تمكين حركات السحب للانتقال بين الألسنة</string>
-    <string name="pref_title_notification_filter_follow_requests">طلب متابعة</string>
     <string name="pref_title_confirm_reblogs">أظهر نافذة للتأكيد قبل إعادة النشر</string>
     <string name="pref_title_show_cards_in_timelines">أظهر معاينات الروابط على الخيوط</string>
     <plurals name="poll_info_people">
@@ -524,7 +518,6 @@
     <string name="review_notifications">راجع الإشعارات</string>
     <string name="post_media_audio">صوت</string>
     <string name="drafts_post_reply_removed">لقد حُذِف التبويق الذي حررت من أجله مسودة الرد</string>
-    <string name="pref_title_notification_filter_subscriptions">شخص ما أنا مشترك في حسابه قد نشر منشورا جديدا</string>
     <string name="pref_title_animate_custom_emojis">حرّك الإيموجيات المخصصة</string>
     <string name="wellbeing_hide_stats_posts">إخفاء الإحصائيات الكمية عن المنشورات</string>
     <string name="wellbeing_hide_stats_profile">إخفاء الإحصائيات الكمية عن الملفات التعريفية</string>
@@ -543,7 +536,6 @@
     <string name="notification_sign_up_name">حسابات جديدة</string>
     <string name="title_login">تسجيل الدخول</string>
     <string name="notification_sign_up_format">قام %1$s بإنشاء حساب</string>
-    <string name="pref_title_notification_filter_sign_ups">أحدهم أنشأ حسابا جديدا</string>
     <string name="notification_update_name">منشورات تم تعديلها</string>
     <string name="notification_update_format">قام %1$s بتعديل منشوره</string>
     <string name="a11y_label_loading_thread">تحميل خيط المحادثة</string>
@@ -551,7 +543,6 @@
     <string name="error_multimedia_size_limit">لا يمكن أن يتجاوز حجم ملفات الفيديو والصوت %1$s ميغا بايت.</string>
     <string name="error_image_edit_failed">لا يمكن تحرير الصورة.</string>
     <string name="title_edits">التعديلات</string>
-    <string name="pref_title_notification_filter_reports">هناك شكوى جديدة</string>
     <string name="pref_show_self_username_never">أبداً</string>
     <string name="notification_subscription_description">تشغيل الاشعارات عندما يقوم شخص انت مشترك معه بنشر منشور جديد</string>
     <string name="notification_update_description">ارسال إشعار عند تحرير المنشورات التي تفاعلت معها</string>
@@ -633,7 +624,6 @@
     <string name="account_date_joined">انضم في %1$s</string>
     <string name="action_dismiss">تجاهل</string>
     <string name="action_details">تفاصيل</string>
-    <string name="pref_title_notification_filter_updates">المنشور الذي تفاعلت معه تم تعديله</string>
     <string name="error_loading_account_details">فشلت عملية تحميل تفاصيل الحساب</string>
     <string name="error_could_not_load_login_page">فشل الوصول الى صفحة تسجيل الدخول.</string>
     <string name="action_post_failed">فشل التحميل</string>
