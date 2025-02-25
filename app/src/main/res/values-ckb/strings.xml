@@ -173,13 +173,6 @@
     <string name="pref_title_app_theme">ڕووکاری ئەپ</string>
     <string name="pref_title_timelines">تایملاین</string>
     <string name="pref_title_appearance_settings">دەرکەوتن</string>
-    <string name="pref_title_notification_filter_subscriptions">کەسێک کە من بەشدارم لە بڵاو کردنەوەی توتێکی نوێیرکری</string>
-    <string name="pref_title_notification_filter_poll">ڕاپرسی کۆتایی هاتووە</string>
-    <string name="pref_title_notification_filter_favourites">بابەتەکانی من پەسەندن</string>
-    <string name="pref_title_notification_filter_reblogs">پۆستەکانم بەرزدەکرانەوه</string>
-    <string name="pref_title_notification_filter_follow_requests">بەدواداچوونەوەی داواکراو</string>
-    <string name="pref_title_notification_filter_follows">بەدوادا</string>
-    <string name="pref_title_notification_filter_mentions">ناوبراو</string>
     <string name="pref_title_notification_filters">ئاگادارم بکەوە کاتێک</string>
     <string name="pref_title_notification_alert_light">ئاگاداربکەوە بە ڕووناکی</string>
     <string name="pref_title_notification_alert_vibrate">ئاگادارکردنەوەی لەلەرینە</string>

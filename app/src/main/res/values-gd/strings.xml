@@ -90,7 +90,6 @@
     <string name="pref_title_wellbeing_mode">Slàinte-inntinn</string>
     <string name="notification_subscription_description">Brathan nuair a dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_name">Postaichean ùra</string>
-    <string name="pref_title_notification_filter_subscriptions">dh’fhoillsich cuideigin air a rinn mi fo-sgrìobhadh post ùr</string>
     <string name="notification_subscription_format">Phostaich %1$s rud</string>
     <string name="no_announcements">Chan eil brath-fios ann.</string>
     <string name="title_announcements">Brathan-fios</string>
@@ -381,12 +380,6 @@
     <string name="pref_title_timelines">Loidhnichean-ama</string>
     <string name="pref_title_app_theme">Ùrlar na h-aplacaid</string>
     <string name="pref_title_appearance_settings">Coltas</string>
-    <string name="pref_title_notification_filter_poll">thig cunntas-bheachd gu crìoch</string>
-    <string name="pref_title_notification_filter_favourites">thèid post agam a chur ris na h-annsachdan</string>
-    <string name="pref_title_notification_filter_reblogs">thèid post agam a bhrosnachadh</string>
-    <string name="pref_title_notification_filter_follow_requests">iarrar leantainn orm</string>
-    <string name="pref_title_notification_filter_follows">leanar orm</string>
-    <string name="pref_title_notification_filter_mentions">thoirear iomradh orm</string>
     <string name="pref_title_notification_filters">Cuir brath thugam nuair a</string>
     <string name="pref_title_notification_alert_light">Seall solas nuair a thig brath a-steach</string>
     <string name="pref_title_notification_alert_vibrate">Dèan crith nuair a thig brath a-steach</string>
@@ -526,11 +519,9 @@
     <string name="notification_sign_up_format">Chlàraich %1$s</string>
     <string name="notification_sign_up_name">Clàraidhean</string>
     <string name="notification_sign_up_description">Brathan mu cleachdaichean ùra</string>
-    <string name="pref_title_notification_filter_sign_ups">chlàraich cuideigin</string>
     <string name="notification_update_format">Dheasaich %1$s am post aca</string>
     <string name="notification_update_name">Deasachadh puist</string>
     <string name="notification_update_description">Brathan nuair a thèid postaichean a rinn thu conaltradh leotha a dheasachadh</string>
-    <string name="pref_title_notification_filter_updates">chaidh post a rinn mi conaltradh leis a deasachadh</string>
     <string name="title_login">Clàraich a-steach</string>
     <string name="error_could_not_load_login_page">Cha b’ urrainn dhuinn duilleag a’ chlàraidh a-steach fhosgladh.</string>
     <string name="saving_draft">A’ sàbhaladh na dreuchd…</string>
@@ -603,7 +594,6 @@
     <string name="confirmation_hashtag_unfollowed">Chan eil #%1$s a’ leantainn tuilleadh</string>
     <string name="description_post_edited">Chaidh a dheasachadh</string>
     <string name="action_browser_login">Clàraich a-steach le brabhsair</string>
-    <string name="pref_title_notification_filter_reports">bhios gearan ùr ann</string>
     <string name="action_add_or_remove_from_list">Cuir ris no thoir air falbh on liosta</string>
     <string name="failed_to_add_to_list">Cha deach leinn an cunntas a chur ris an liosta</string>
     <string name="description_login">Obraichidh seo mar as trice. Cha dèid dàta fhoillseachadh do dh’aplacaidean eile.</string>

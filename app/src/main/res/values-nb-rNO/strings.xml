@@ -162,10 +162,6 @@
     <string name="pref_title_notification_alert_vibrate">Varsle med vibrasjon</string>
     <string name="pref_title_notification_alert_light">Varsle med lys</string>
     <string name="pref_title_notification_filters">Varsle meg når</string>
-    <string name="pref_title_notification_filter_mentions">jeg blir nevnt</string>
-    <string name="pref_title_notification_filter_follows">jeg blir fulgt</string>
-    <string name="pref_title_notification_filter_reblogs">innleggene mine blir delt</string>
-    <string name="pref_title_notification_filter_favourites">innleggene mine blir favorisert</string>
     <string name="pref_title_appearance_settings">Utseende</string>
     <string name="pref_title_app_theme">Apptema</string>
     <string name="pref_title_timelines">Tidslinjer</string>
@@ -356,7 +352,6 @@
     <string name="post_text_size_medium">Medium</string>
     <string name="post_text_size_large">Stor</string>
     <string name="post_text_size_largest">Størst</string>
-    <string name="pref_title_notification_filter_poll">Avstemminger er avsluttet</string>
     <string name="notification_poll_name">Avstemminger</string>
     <string name="notification_poll_description">Varsler om avstemminger som er avsluttet</string>
     <string name="poll_ended_voted">En avstemming du har stemt på er avsluttet</string>
@@ -440,7 +435,6 @@
     </plurals>
     <string name="notification_follow_request_description">Varsler om følgeforespørsler</string>
     <string name="notification_follow_request_name">Følgeforespørsler</string>
-    <string name="pref_title_notification_filter_follow_requests">Følgeforespørsel sendt</string>
     <string name="dialog_mute_warning">Dempe @%1$s\?</string>
     <string name="dialog_block_warning">Blokkere @%1$s\?</string>
     <string name="action_unmute_conversation">Fjern demping av samtale</string>
@@ -474,7 +468,6 @@
     <string name="pref_title_wellbeing_mode">Velvære</string>
     <string name="notification_subscription_description">Varsler når noen jeg følger publiserer et nytt innlegg</string>
     <string name="notification_subscription_name">Nye innlegg</string>
-    <string name="pref_title_notification_filter_subscriptions">noen jeg følger publiserer et nytt innlegg</string>
     <string name="notification_subscription_format">%1$s postet akkurat</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kan ikke laste opp flere enn %1$d mediavedlegg.</item>
@@ -505,11 +498,9 @@
     <string name="duration_14_days">14 dager</string>
     <string name="tusky_compose_post_quicksetting_label">Skriv innlegg</string>
     <string name="notification_sign_up_format">%1$s registrerte seg</string>
-    <string name="pref_title_notification_filter_sign_ups">noen registrerte seg</string>
     <string name="notification_sign_up_name">Registreringer</string>
     <string name="notification_sign_up_description">Varslinger om nye brukere</string>
     <string name="notification_update_format">%1$s redigerte innlegget sitt</string>
-    <string name="pref_title_notification_filter_updates">et innlegg jeg har interagert med, er redigert</string>
     <string name="notification_update_name">Redigerte innlegg</string>
     <string name="notification_update_description">Varslinger når et innlegg du har interagert med er redigert</string>
     <string name="title_login">Logg inn</string>
@@ -553,7 +544,6 @@
     <string name="notification_report_format">Ny rapport på %1$s</string>
     <string name="notification_header_report_format">%1$s rapporterte %2$s</string>
     <string name="notification_report_description">Varsler om moderasjonsrapporter</string>
-    <string name="pref_title_notification_filter_reports">det er en ny rapport</string>
     <string name="notification_report_name">Rapporter</string>
     <string name="description_post_edited">Redigert</string>
     <string name="error_following_hashtags_unsupported">Denne instansen støtter ikke følging av emneknagger.</string>

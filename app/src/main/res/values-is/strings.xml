@@ -182,11 +182,6 @@
     <string name="pref_title_notification_alert_vibrate">Aðvara með titringi</string>
     <string name="pref_title_notification_alert_light">Aðvara með ljósi</string>
     <string name="pref_title_notification_filters">Láta mig vita þegar</string>
-    <string name="pref_title_notification_filter_mentions">minnst er á</string>
-    <string name="pref_title_notification_filter_follows">fylgst er með</string>
-    <string name="pref_title_notification_filter_reblogs">færslurnar mínar eru endurbirtar</string>
-    <string name="pref_title_notification_filter_favourites">færslurnar mínar eru settar í eftirlæti</string>
-    <string name="pref_title_notification_filter_poll">könnunum er lokið</string>
     <string name="pref_title_appearance_settings">Útlit</string>
     <string name="pref_title_app_theme">Þema forrits</string>
     <string name="pref_title_timelines">Tímalínur</string>
@@ -447,7 +442,6 @@
     <string name="pref_main_nav_position_option_top">Efst</string>
     <string name="pref_main_nav_position">Aðalstaða leiðsagnar</string>
     <string name="pref_title_gradient_for_media">Birta litstigla í stað falins myndefnis</string>
-    <string name="pref_title_notification_filter_follow_requests">beiðni um að fylgja</string>
     <string name="dialog_mute_hide_notifications">Fela tilkynningar</string>
     <string name="dialog_mute_warning">Þagga niður í @%1$s\?</string>
     <string name="dialog_block_warning">Loka á @%1$s\?</string>
@@ -487,7 +481,6 @@
     <string name="pref_title_wellbeing_mode">Vellíðan</string>
     <string name="notification_subscription_description">Tilkynningar þegar einhver sem þú ert áskrifandi að hefur birt nýja færslu</string>
     <string name="notification_subscription_name">Nýjar færslur</string>
-    <string name="pref_title_notification_filter_subscriptions">einhver sem ég er áskrifandi að birti nýja færslu</string>
     <string name="notification_subscription_format">%1$s sendi inn rétt í þessu</string>
     <string name="follow_requests_info">Jafnvel þótt aðgangurinn þinn sé ekki læstur, fannst starfsfólki %1$s að þú gætir viljað yfirfara handvirkt fylgjendabeiðnir frá þessum aðgöngum.</string>
     <string name="action_unbookmark">Fjarlægja bókamerki</string>
@@ -502,9 +495,7 @@
     <string name="duration_14_days">14 dagar</string>
     <string name="tusky_compose_post_quicksetting_label">Semja færslu</string>
     <string name="notification_sign_up_format">%1$s skráði sig</string>
-    <string name="pref_title_notification_filter_sign_ups">einhver skráði sig</string>
     <string name="notification_update_format">%1$s breytti færslunni sinni</string>
-    <string name="pref_title_notification_filter_updates">færsla sem ég hef átt við er breytt</string>
     <string name="notification_sign_up_name">Nýskráningar</string>
     <string name="notification_sign_up_description">Tilkynningar um nýja notendur</string>
     <string name="notification_update_name">Breytingar á færslum</string>
@@ -555,7 +546,6 @@
     <string name="confirmation_hashtag_unfollowed">Hætt að fylgjast með #%1$s</string>
     <string name="notification_report_name">Kærur</string>
     <string name="notification_report_description">Tilkynningar um kærur umsjónarmanna</string>
-    <string name="pref_title_notification_filter_reports">það er ný kæra</string>
     <string name="description_post_edited">Breytti</string>
     <string name="report_category_violation">Brot á reglu</string>
     <string name="report_category_spam">Ruslpóstur</string>

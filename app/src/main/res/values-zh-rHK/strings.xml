@@ -164,11 +164,6 @@
     <string name="pref_title_notification_alert_vibrate">振動</string>
     <string name="pref_title_notification_alert_light">呼吸燈</string>
     <string name="pref_title_notification_filters">事件</string>
-    <string name="pref_title_notification_filter_mentions">被提及</string>
-    <string name="pref_title_notification_filter_follows">有新的關注者</string>
-    <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被加入收藏</string>
-    <string name="pref_title_notification_filter_poll">投票已結束</string>
     <string name="pref_title_appearance_settings">外觀</string>
     <string name="pref_title_app_theme">佈景主題</string>
     <string name="pref_title_timelines">時間軸</string>
@@ -405,8 +400,6 @@
     <string name="pref_title_animate_custom_emojis">動態自訂表情符號</string>
     <string name="pref_title_gradient_for_media">在隱藏的媒體上使用漸變色彩</string>
     <string name="pref_title_animate_gif_avatars">動態 GIF 頭像</string>
-    <string name="pref_title_notification_filter_subscriptions">我關注的人有新嘟文</string>
-    <string name="pref_title_notification_filter_follow_requests">已送出關注請求</string>
     <string name="dialog_mute_hide_notifications">隱藏通知</string>
     <string name="dialog_mute_warning">靜音 @%1$s？</string>
     <string name="dialog_block_warning">封鎖 @%1$s？</string>

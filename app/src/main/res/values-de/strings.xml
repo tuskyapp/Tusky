@@ -161,10 +161,6 @@
     <string name="pref_title_notification_alert_vibrate">Mit Vibration benachrichtigen</string>
     <string name="pref_title_notification_alert_light">Mit Licht benachrichtigen</string>
     <string name="pref_title_notification_filters">Mich benachrichtigen, wenn</string>
-    <string name="pref_title_notification_filter_mentions">ich erwähnt werde</string>
-    <string name="pref_title_notification_filter_follows">mir jemand folgt</string>
-    <string name="pref_title_notification_filter_reblogs">meine Beiträge geteilt werden</string>
-    <string name="pref_title_notification_filter_favourites">meine Beiträge favorisiert werden</string>
     <string name="pref_title_appearance_settings">Erscheinungsbild</string>
     <string name="pref_title_app_theme">App-Design</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -333,7 +329,6 @@
     <string name="description_visibility_unlisted">Nicht gelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
     <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen\?</string>
-    <string name="pref_title_notification_filter_poll">Umfragen beendet wurden</string>
     <string name="notification_poll_name">Umfragen</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
     <string name="notifications_clear">Löschen</string>
@@ -425,7 +420,6 @@
     <string name="no_scheduled_posts">Du hast keine geplanten Beiträge.</string>
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
-    <string name="pref_title_notification_filter_follow_requests">neue Follower-Anfrage</string>
     <string name="notification_follow_request_name">Follower-Anfragen</string>
     <string name="dialog_mute_warning">\@%1$s stummschalten\?</string>
     <string name="dialog_block_warning">\@%1$s blockieren\?</string>
@@ -477,7 +471,6 @@
     <string name="notification_subscription_description">Benachrichtigungen, wenn jemand, den ich abonniert habe, eine neue Nachricht veröffentlicht</string>
     <string name="notification_subscription_name">Neue Beiträge</string>
     <string name="pref_title_animate_custom_emojis">GIF-Emojis animieren</string>
-    <string name="pref_title_notification_filter_subscriptions">jemand, den ich abonniert habe, etwas Neues veröffentlicht</string>
     <string name="notification_subscription_format">%1$s hat gerade etwas veröffentlicht</string>
     <string name="abbreviated_minutes_ago">%1$d Min.</string>
     <string name="review_notifications">Benachrichtigungen überprüfen</string>
@@ -512,11 +505,9 @@
     <string name="duration_180_days">180 Tage</string>
     <string name="tusky_compose_post_quicksetting_label">Beitrag erstellen</string>
     <string name="notification_update_format">%1$s hat den Beitrag bearbeitet</string>
-    <string name="pref_title_notification_filter_updates">ein Beitrag, mit dem ich interagiert habe, bearbeitet wurde</string>
     <string name="notification_sign_up_name">Registrierungen</string>
     <string name="notification_sign_up_description">Benachrichtigungen über neue Profile</string>
     <string name="notification_sign_up_format">%1$s hat sich registriert</string>
-    <string name="pref_title_notification_filter_sign_ups">jemand sich registriert</string>
     <string name="notification_update_description">Benachrichtigungen, wenn Beiträge bearbeitet werden, mit denen du interagiert hast</string>
     <string name="title_login">Anmelden</string>
     <string name="error_could_not_load_login_page">Die Anmeldeseite konnte nicht geladen werden.</string>
@@ -601,7 +592,6 @@
     <string name="status_created_info">Erstellt: %1$s</string>
     <string name="notification_report_format">Neue Meldung über %1$s</string>
     <string name="notification_report_description">Benachrichtigungen über Moderationsmeldungen</string>
-    <string name="pref_title_notification_filter_reports">es eine neue Meldung gibt</string>
     <string name="error_unmuting_hashtag_format">Fehler beim Aufheben der Stummschaltung von #%1$s</string>
     <string name="description_login">Funktioniert in den meisten Fällen. Keine Daten werden mit anderen Apps geteilt.</string>
     <string name="description_browser_login">Zusätzliche Authentisierungsmethoden können unterstützt werden. Ein unterstützter Browser wird benötigt.</string>

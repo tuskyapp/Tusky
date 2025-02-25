@@ -162,10 +162,6 @@
     <string name="pref_title_notification_alert_vibrate">Oznamovat s vibrací</string>
     <string name="pref_title_notification_alert_light">Oznamovat se světlem</string>
     <string name="pref_title_notification_filters">Oznamovat, když</string>
-    <string name="pref_title_notification_filter_mentions">jsem zmíněn/a</string>
-    <string name="pref_title_notification_filter_follows">jsem sledován/a</string>
-    <string name="pref_title_notification_filter_reblogs">jsou moje příspěvky boostnuty</string>
-    <string name="pref_title_notification_filter_favourites">jsou moje příspěvky oblíbeny</string>
     <string name="pref_title_appearance_settings">Vzhled</string>
     <string name="pref_title_app_theme">Motiv aplikace</string>
     <string name="pref_title_timelines">Časové osy</string>
@@ -370,7 +366,6 @@
     <string name="poll_info_time_absolute">končí v %1$s</string>
     <string name="poll_info_closed">uzavřena</string>
     <string name="poll_vote">Hlasovat</string>
-    <string name="pref_title_notification_filter_poll">skončí ankety</string>
     <string name="notification_poll_name">Ankety</string>
     <string name="notification_poll_description">Oznámení o anketách, které skončily</string>
     <string name="compose_preview_image_description">Akce pro obrázek %1$s</string>
@@ -521,9 +516,6 @@
     <string name="drafts_post_reply_removed">Příspěvek, na který jste připravili odpověď, byl odstraněn</string>
     <string name="action_set_focus">Nastavit bod zaostření</string>
     <string name="action_add_reaction">přidat reakci</string>
-    <string name="pref_title_notification_filter_updates">příspěvek, se kterým jsem interagoval/a, je upraven</string>
-    <string name="pref_title_notification_filter_sign_ups">někdo se zaregistroval</string>
-    <string name="pref_title_notification_filter_subscriptions">někdo, ke komu jsem přihlášen/a, zveřejnil nový příspěvek</string>
     <string name="pref_show_self_username_disambiguate">Když je přihlášeno více účtů</string>
     <string name="notification_subscription_name">Nové příspěvky</string>
     <string name="notification_sign_up_name">Registrace</string>
@@ -559,7 +551,6 @@
     <string name="action_dismiss">Zavřít</string>
     <string name="action_details">Podrobnosti</string>
     <string name="dialog_delete_conversation_warning">Smazat tuto konverzaci\?</string>
-    <string name="pref_title_notification_filter_follow_requests">Požádáno o sledování</string>
     <string name="pref_title_animate_custom_emojis">Animovat vlastní emotikony</string>
     <string name="action_follow_hashtag">Sleduj nový hashtag</string>
     <string name="action_translate">Přeložit</string>
@@ -573,7 +564,6 @@
     <string name="reply_sending_long">Tvá odpověď se posílá.</string>
     <string name="hint_media_description_missing">Média by měla mít popisek.</string>
     <string name="label_image">Obrázek</string>
-    <string name="pref_title_notification_filter_reports">máme nové hlášení</string>
     <string name="pref_title_http_proxy_port_message">Port by měl být mezi %1$d a %2$d</string>
     <string name="pref_summary_http_proxy_disabled">Zakázáno</string>
     <string name="pref_summary_http_proxy_missing">&lt;nenastaveno&gt;</string>

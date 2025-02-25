@@ -158,11 +158,6 @@
     <string name="pref_title_notification_alert_vibrate">振動</string>
     <string name="pref_title_notification_alert_light">呼吸燈</string>
     <string name="pref_title_notification_filters">事件</string>
-    <string name="pref_title_notification_filter_mentions">被提及</string>
-    <string name="pref_title_notification_filter_follows">有新的關注者</string>
-    <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被收藏</string>
-    <string name="pref_title_notification_filter_poll">投票已結束</string>
     <string name="pref_title_appearance_settings">外觀</string>
     <string name="pref_title_app_theme">佈景主題</string>
     <string name="pref_title_timelines">時間軸</string>

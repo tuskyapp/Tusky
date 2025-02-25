@@ -151,11 +151,6 @@
     <string name="pref_title_timelines">টাইমলাইন</string>
     <string name="pref_title_app_theme">এপ্লিকেশন এর থিম</string>
     <string name="pref_title_appearance_settings">উপস্থিতি</string>
-    <string name="pref_title_notification_filter_poll">নির্বাচন শেষ হয়েছে</string>
-    <string name="pref_title_notification_filter_favourites">আমার পোস্টগুলির পছন্দ হচ্ছে</string>
-    <string name="pref_title_notification_filter_reblogs">আমার পোস্টগুলির সমর্থন হচ্ছে</string>
-    <string name="pref_title_notification_filter_follows">অনুসরণ</string>
-    <string name="pref_title_notification_filter_mentions">উল্লিখিত</string>
     <string name="pref_title_notification_filters">যখন আমাকে অবহিত</string>
     <string name="pref_title_notification_alert_light">আলো সঙ্গে অবহিত</string>
     <string name="pref_title_notification_alert_vibrate">কম্পন সঙ্গে অবহিত</string>
@@ -315,7 +310,6 @@
     <string name="pref_title_enable_swipe_for_tabs">ট্যাবের মাঝে সোয়াইপ সংকেত চালু করো</string>
     <string name="notification_follow_request_description">অনুসরণ রিকোয়েস্টের বিজ্ঞপ্তি</string>
     <string name="notification_follow_request_name">অনুরোধ অনুসরণ করুন</string>
-    <string name="pref_title_notification_filter_follow_requests">অনুরোধ অনুসরণ করো</string>
     <string name="dialog_mute_warning">নিঃশব্দ @%1$s\?</string>
     <string name="dialog_block_warning">অবরুদ্ধ @%1$s\?</string>
     <string name="action_unmute_conversation">আলাপ বন্ধ করো</string>
@@ -430,7 +424,6 @@
     <string name="notification_subscription_description">যখন আমার সদস্যতা নেওয়া কেউ টুট দেয় তখন বিজ্ঞপ্তি দিবে</string>
     <string name="notification_subscription_name">নতুন টুট</string>
     <string name="pref_title_animate_custom_emojis">বিশেষ আবেগ বানাও</string>
-    <string name="pref_title_notification_filter_subscriptions">সদস্যতা আছে এমন একজন টুট দিয়েছে</string>
     <string name="no_announcements">কোনো ঘোষণা নেই।</string>
     <string name="follow_requests_info">যদিও তোমার অ্যাকাউন্ট রুদ্ধকৃত না, %1$s রা ভেবেছে এই অ্যাকাউন্টগুলোর অনুসরণ অনুরোধ তোমার পরীক্ষা করা উচিত।</string>
     <string name="drafts_post_reply_removed">যে টুটের উত্তর খসড়া করেছিলে তা মুছে ফেলা হয়েছে</string>

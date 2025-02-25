@@ -139,10 +139,6 @@
     <string name="pref_title_notification_alert_vibrate">Bibrazioarekin jakinarazi</string>
     <string name="pref_title_notification_alert_light">Led-arekin jakinarazi</string>
     <string name="pref_title_notification_filters">Honen arabera jakinarazi</string>
-    <string name="pref_title_notification_filter_mentions">Aipatzen naute</string>
-    <string name="pref_title_notification_filter_follows">Jarraitzen didate</string>
-    <string name="pref_title_notification_filter_reblogs">Bultzatzen naute</string>
-    <string name="pref_title_notification_filter_favourites">Nire argitarapenak gustokoak izan dira</string>
     <string name="pref_title_appearance_settings">Interfazea</string>
     <string name="pref_title_app_theme">Gaia</string>
     <string name="pref_title_timelines">Denbora-lerroak</string>
@@ -307,7 +303,6 @@
     <string name="dialog_redraft_post_warning">Tut hau ezabatu eta zirriborro berria egin\?</string>
     <string name="mute_domain_warning">Ziur al zaude %1$s-(r)en eduki guztia ezabatu nahi duzula\? Domeinu horretatik datorren edukia ez duzu denbora-lerro publikoetan edo jakinarazpenetan ikusiko. Domeinu horretan dituzun jarraitzaileak ezabatuko dira.</string>
     <string name="mute_domain_warning_dialog_ok">Domeinu osoa ezkutatu</string>
-    <string name="pref_title_notification_filter_poll">Galdeketak bukatu dira</string>
     <string name="pref_title_timeline_filters">Iragazkiak</string>
     <string name="app_theme_system">Erabili sistemaren diseinua</string>
     <string name="pref_title_language">Hizkuntza</string>
@@ -455,13 +450,11 @@
     <string name="pref_main_nav_position_option_top">Goian</string>
     <string name="pref_main_nav_position">Nabigazio nagusiaren posizioa</string>
     <string name="pref_title_gradient_for_media">Gradiente koloretsuak erakutsi ezkutuko mediaren lekuan</string>
-    <string name="pref_title_notification_filter_follow_requests">jarraitzeko eskaera jasotzean</string>
     <string name="action_unmute_conversation">Desmututu elkarrizketa</string>
     <string name="action_unmute_domain">Desmututu %1$s</string>
     <string name="review_notifications">Berrikusi jakinarazpenak</string>
     <string name="pref_title_confirm_favourites">Erakutsi berrespena gogokoenetara gehitu aurretik</string>
     <string name="follow_requests_info">Zure kontua blokeatuta ez badago ere, %1$s-ko langileek kontu hauetako eskaerak eskuz berrikusi nahi dituzula pentsatu dute.</string>
-    <string name="pref_title_notification_filter_subscriptions">harpidedun naizen norbaitek tut berria argitaratu du</string>
     <string name="post_media_attachments">Eranskinak</string>
     <string name="dialog_delete_list_warning">Ziur %1$s zerrenda ezabatu nahi duzula\?</string>
     <string name="post_media_audio">Audioa</string>

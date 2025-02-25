@@ -216,13 +216,7 @@
     <string name="pref_title_timelines">Bảng tin</string>
     <string name="pref_title_app_theme">Chủ đề</string>
     <string name="pref_title_appearance_settings">Giao diện</string>
-    <string name="pref_title_notification_filter_poll">cuộc bình chọn kết thúc</string>
-    <string name="pref_title_notification_filter_favourites">tút được thích</string>
-    <string name="pref_title_notification_filter_reblogs">tút được đăng lại</string>
-    <string name="pref_title_notification_filter_follow_requests">yêu cầu theo dõi</string>
-    <string name="pref_title_notification_filter_follows">lượt theo dõi</string>
-    <string name="pref_title_notification_filter_mentions">nhắc tới</string>
-    <string name="pref_title_notification_filters">Thông báo tôi khi</string>
+    <string name="pref_title_notification_filters">Các loại thông báo đã bật</string>
     <string name="pref_title_notification_alert_light">Kèm đèn sáng</string>
     <string name="pref_title_notification_alert_vibrate">Kèm rung</string>
     <string name="pref_title_notification_alert_sound">Kèm theo tiếng bíp</string>
@@ -358,7 +352,7 @@
     <string name="compose_shortcut_short_label">Soạn</string>
     <string name="compose_shortcut_long_label">Soạn tút</string>
     <string name="filter_apply">Áp dụng</string>
-    <string name="notifications_apply_filter">Lọc theo</string>
+    <string name="notifications_apply_filter">Lọc theo loại</string>
     <string name="notifications_clear">Xóa hết</string>
     <string name="list">Danh sách</string>
     <string name="select_list_title">Chọn danh sách</string>
@@ -462,7 +456,6 @@
     <string name="pref_title_wellbeing_mode">Chống nghiện</string>
     <string name="notification_subscription_description">Thông báo khi người bạn theo dõi đăng tút mới</string>
     <string name="notification_subscription_name">Tút mới</string>
-    <string name="pref_title_notification_filter_subscriptions">người tôi đăng ký theo dõi đăng tút mới</string>
     <string name="notification_subscription_format">%1$s đăng tút mới</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">Bạn không thể đính kèm quá %1$d tệp.</item>
@@ -491,12 +484,10 @@
     <string name="duration_180_days">180 ngày</string>
     <string name="duration_365_days">365 ngày</string>
     <string name="tusky_compose_post_quicksetting_label">Soạn tút</string>
-    <string name="pref_title_notification_filter_sign_ups">ai đó mới tham gia máy chủ</string>
     <string name="notification_sign_up_format">%1$s tham gia máy chủ</string>
     <string name="notification_sign_up_name">Thành viên mới</string>
     <string name="notification_sign_up_description">Thông báo về người mới tham gia máy chủ</string>
     <string name="notification_update_format">%1$s đã sửa tút của họ</string>
-    <string name="pref_title_notification_filter_updates">khi một tút mà tôi tương tác bị sửa</string>
     <string name="notification_update_name">Sửa tút</string>
     <string name="notification_update_description">Thông báo khi tút mà tôi tương tác bị sửa</string>
     <string name="title_login">Đăng nhập</string>
@@ -538,7 +529,6 @@
     <string name="notification_header_report_format">%1$s báo cáo %2$s</string>
     <string name="notification_summary_report_format">%1$s trước · %2$d tút</string>
     <string name="confirmation_hashtag_unfollowed">Đã bỏ theo dõi #%1$s</string>
-    <string name="pref_title_notification_filter_reports">có một báo cáo mới</string>
     <string name="notification_report_name">Báo cáo</string>
     <string name="no_lists">Chưa có danh sách nào.</string>
     <string name="report_category_violation">Vi phạm nội quy máy chủ</string>
@@ -732,4 +722,35 @@
     <string name="preview_card_by_author">Bởi %1$s</string>
     <string name="preview_card_more_by_author">Viết bởi %1$s</string>
     <string name="follow_hashtag_success">Đã theo dõi hashtag %1$s</string>
+    <string name="notification_severed_relationship_name">Mất kết nối</string>
+    <string name="notification_unknown_description">Loại thông báo chưa biết</string>
+    <string name="notification_channel_admin">Quản trị</string>
+    <string name="notification_channel_admin_description">Thông báo của quản trị viên, như báo cáo mới hoặc đăng ký</string>
+    <string name="notification_moderation_warning_name">Cảnh cáo kiểm duyệt</string>
+    <string name="notification_channel_other_description">Các thông báo khác, như mất kết nối và cảnh cáo kiểm duyệt</string>
+    <string name="notification_channel_other">Khác</string>
+    <string name="relationship_severance_event_domain_block">Quản trị viên %1$s đã chặn %2$s, nơi có %3$s người theo dõi của bạn và %4$s người mà bạn theo dõi.</string>
+    <plurals name="accounts">
+        <item quantity="other">%1$s người</item>
+    </plurals>
+    <string name="moderation_warning_action_delete_statuses">Vài tút của bạn đã bị xóa.</string>
+    <string name="moderation_warning_action_disable">Tài khoản của bạn đã bị khóa.</string>
+    <string name="moderation_warning_action_none">Tài khoản của bạn nhận một cảnh cáo kiểm duyệt.</string>
+    <string name="moderation_warning_action_silence">Tài khoản của bạn đã bị hạn chế.</string>
+    <string name="moderation_warning_action_suspend">Tài khoản của bạn đã bị vô hiệu hóa.</string>
+    <string name="poll">Bình chọn</string>
+    <plurals name="media_attachments">
+        <item quantity="other">%1$s media đính kèm</item>
+    </plurals>
+    <string name="notification_info_reply">Trả lời</string>
+    <string name="moderation_warning_action_sensitive">Tút của bạn sẽ bị đánh dấu nhạy cảm kể từ bây giờ.</string>
+    <string name="relationship_severance_event_user_domain_block">Bạn đã chặn %1$s, xóa đi %2$s người theo dõi của bạn và %3$s người mà bạn theo dõi.</string>
+    <string name="notification_info_private_reply">Trả lời riêng</string>
+    <string name="notification_info_mention">Nhắc tới tôi</string>
+    <string name="relationship_severance_event_account_suspension">Quản trị viên %1$s đã vô hiệu hóa %2$s, bạn không còn có thể tương tác hoặc nhận được thông tin cập nhật từ họ nữa.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Vài tút của bạn được đánh dấu là nhạy cảm.</string>
+    <string name="relationship_severance_event_title">Mất kết nối</string>
+    <string name="unknown_notification_type_explanation">Tusky không nhận dạng được loại thông báo này và không thể hiển thị cho bạn. Giao diện web của máy chủ của bạn có thể thực hiện được. Vui lòng thông báo cho các nhà phát triển Tusky để họ có thể thêm hỗ trợ cho loại này!</string>
+    <string name="notification_info_private_mention">Nhắn riêng</string>
+    <string name="moderation_warning">Bạn nhận một cảnh cáo kiểm duyệt</string>
 </resources>

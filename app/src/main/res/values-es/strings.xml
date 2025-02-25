@@ -148,10 +148,6 @@
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
     <string name="pref_title_notification_alert_light">Notificar con led</string>
     <string name="pref_title_notification_filters">Notificar cuando</string>
-    <string name="pref_title_notification_filter_mentions">me mencionan</string>
-    <string name="pref_title_notification_filter_follows">me siguen</string>
-    <string name="pref_title_notification_filter_reblogs">mis posts son impulsados</string>
-    <string name="pref_title_notification_filter_favourites">me dan favorito</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema de la app</string>
     <string name="pref_title_timelines">Cronología</string>
@@ -361,7 +357,6 @@
     <string name="action_open_media_n">Abrir contenido #%1$d</string>
     <string name="downloading_media">Descargando contenido</string>
     <string name="dialog_redraft_post_warning">¿Eliminar y devolver a borradores este toot\?</string>
-    <string name="pref_title_notification_filter_poll">encuestas han terminado</string>
     <string name="notification_poll_description">Notificaciones sobre encuestas que han terminado</string>
     <string name="pref_title_public_filter_keywords">Cronologías públicas</string>
     <string name="pref_title_thread_filter_keywords">Conversaciones</string>
@@ -453,7 +448,6 @@
     <string name="action_mute_conversation">Silenciar conversación</string>
     <string name="action_unmute_conversation">Dejar de silenciar conversación</string>
     <string name="notification_follow_request_description">Notificaciones de solicitudes</string>
-    <string name="pref_title_notification_filter_follow_requests">solicitud de seguimiento</string>
     <string name="pref_title_confirm_reblogs">Pedir confirmación antes de impulsar</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar previsualización de enlaces en la cronología</string>
     <string name="pref_title_enable_swipe_for_tabs">Habilitar gesto de deslizar para alternar entre pestañas</string>
@@ -489,7 +483,6 @@
     <string name="pref_title_wellbeing_mode">Bienestar</string>
     <string name="notification_subscription_description">Notificaciones cuando alguien al que estoy suscrito escribe una publicación</string>
     <string name="notification_subscription_name">Nuevas publicaciones</string>
-    <string name="pref_title_notification_filter_subscriptions">alguien al que estoy suscrito hizo una nueva publicación</string>
     <string name="wellbeing_mode_notice">Se ocultarán algunas informaciones que podrían afectar a tu bienestar. Esto incluye:
 \n
 \n- Notificaciones de favoritos, impulsos y seguidores
@@ -515,13 +508,11 @@
     <string name="action_unsubscribe_account">Darse de baja</string>
     <string name="action_delete_conversation">Eliminar conversación</string>
     <string name="pref_title_confirm_favourites">Pedir confirmación antes de marcar como favorito</string>
-    <string name="pref_title_notification_filter_updates">una publicación con la que interactué se editó</string>
     <string name="error_multimedia_size_limit">Los archivos de video y audio no pueden pesar más de %1$s MB.</string>
     <string name="error_image_edit_failed">Esta imagen no puede ser editada.</string>
     <string name="pref_show_self_username_always">Siempre</string>
     <string name="pref_show_self_username_never">Nunca</string>
     <string name="action_add_reaction">añadir reacción</string>
-    <string name="pref_title_notification_filter_sign_ups">alguien se registró</string>
     <string name="error_following_hashtag_format">Error al seguir #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Error dejando de seguir #%1$s</string>
     <string name="title_login">Ingreso</string>
@@ -585,7 +576,6 @@
     <string name="post_edited">%1$s editado</string>
     <string name="error_status_source_load">Fallo al cargar el estado desde el servidor.</string>
     <string name="confirmation_hashtag_unfollowed">Dejaste de seguir a #%1$s</string>
-    <string name="pref_title_notification_filter_reports">Hay una nueva denuncia</string>
     <string name="action_discard">Descartar cambios</string>
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Tienes cambios sin guardar.</string>

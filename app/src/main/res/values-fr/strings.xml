@@ -162,10 +162,6 @@
     <string name="pref_title_notification_alert_vibrate">Notifier avec une vibration</string>
     <string name="pref_title_notification_alert_light">Notifier avec une lumière</string>
     <string name="pref_title_notification_filters">Me notifier quand</string>
-    <string name="pref_title_notification_filter_mentions">on me mentionne</string>
-    <string name="pref_title_notification_filter_follows">on vient de me suivre</string>
-    <string name="pref_title_notification_filter_reblogs">mes messages sont partagés</string>
-    <string name="pref_title_notification_filter_favourites">mes messages sont mis en favoris</string>
     <string name="pref_title_appearance_settings">Apparence</string>
     <string name="pref_title_app_theme">Thème de l’application</string>
     <string name="pref_title_timelines">Fils chronologiques</string>
@@ -364,7 +360,6 @@
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
     <string name="notification_poll_name">Sondages</string>
-    <string name="pref_title_notification_filter_poll">les sondages se terminent</string>
     <string name="notification_poll_description">Notifications pour les sondages terminés</string>
     <string name="poll_ended_created">Un sondage que vous avez créé est terminé</string>
     <plurals name="poll_timespan_days">
@@ -449,7 +444,6 @@
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
     <string name="notification_follow_request_format">%1$s vous a envoyé une demande d’abonnement</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
-    <string name="pref_title_notification_filter_follow_requests">on demande à me suivre</string>
     <string name="dialog_mute_warning">Mettre en sourdine @%1$s \?</string>
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Masquer la conversation</string>
@@ -485,7 +479,6 @@
 \n - des statistiques sur les profils
 \n
 \n Les notifications « push » ne seront pas affectées, mais vous pouvez revoir vos préférences de notification manuellement.</string>
-    <string name="pref_title_notification_filter_subscriptions">un compte auquel je suis abonné·e a publié un nouveau message</string>
     <string name="notification_subscription_format">%1$s vient de publier</string>
     <string name="review_notifications">Examiner les notifications</string>
     <string name="notification_subscription_name">Nouveaux messages</string>
@@ -526,9 +519,7 @@
     <string name="notification_sign_up_format">%1$s a créé un compte</string>
     <string name="notification_sign_up_name">Nouveaux comptes</string>
     <string name="notification_sign_up_description">Notifications quand quelqu’un crée un nouveau compte</string>
-    <string name="pref_title_notification_filter_sign_ups">un nouveau compte a été créé</string>
     <string name="notification_update_format">%1$s a modifié son message</string>
-    <string name="pref_title_notification_filter_updates">un message avec lequel j’ai interagi est modifié</string>
     <string name="notification_update_name">Messages modifiés</string>
     <string name="notification_update_description">Notifications quand un message avec lequel vous avez interagi est modifié</string>
     <string name="title_login">Se connecter</string>
@@ -590,7 +581,6 @@
     <string name="action_share_account_link">Partager le lien du compte</string>
     <string name="action_share_account_username">Partager le nom du compte</string>
     <string name="title_followed_hashtags">Hashtags suivis</string>
-    <string name="pref_title_notification_filter_reports">il y a un nouveau signalement</string>
     <string name="pref_title_account_filter_keywords">Profils</string>
     <string name="status_filtered_show_anyway">Montrer quand même</string>
     <string name="status_filter_placeholder_label_format">Caché : %1$s</string>

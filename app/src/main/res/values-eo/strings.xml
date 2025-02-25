@@ -162,10 +162,6 @@
     <string name="pref_title_notification_alert_vibrate">Sciigi per vibro</string>
     <string name="pref_title_notification_alert_light">Sciigi per lumo</string>
     <string name="pref_title_notification_filters">Sciigi al mi, kiam</string>
-    <string name="pref_title_notification_filter_mentions">iu mencias min</string>
-    <string name="pref_title_notification_filter_follows">iu sekvas min</string>
-    <string name="pref_title_notification_filter_reblogs">miaj mesaĝoj estas diskonigitaj</string>
-    <string name="pref_title_notification_filter_favourites">miaj mesaĝoj estas stelumitaj</string>
     <string name="pref_title_appearance_settings">Aspekto</string>
     <string name="pref_title_app_theme">Temo de la apo</string>
     <string name="pref_title_timelines">Tempolinioj</string>
@@ -355,7 +351,6 @@
     <string name="hint_list_name">Nomo de la listo</string>
     <string name="action_delete_and_redraft">Forigi kaj reskribi</string>
     <string name="dialog_redraft_post_warning">Ĉu forigi kaj reskribi ĉi tiun mesaĝon\?</string>
-    <string name="pref_title_notification_filter_poll">enketoj finiĝis</string>
     <string name="pref_title_bot_overlay">Montri indikilon pri robotoj</string>
     <string name="pref_title_animate_gif_avatars">Ebligi GIF-profilbildojn</string>
     <string name="notification_poll_name">Enketoj</string>
@@ -464,7 +459,6 @@
         <item quantity="other">%1$d tagoj restas</item>
     </plurals>
     <string name="pref_main_nav_position">Pozicio de la ĉefa naviga breto</string>
-    <string name="pref_title_notification_filter_follow_requests">iu petas sekvi min</string>
     <string name="pref_main_nav_position_option_bottom">Malsupro</string>
     <string name="pref_main_nav_position_option_top">Supro</string>
     <string name="account_note_saved">Konservita!</string>
@@ -476,7 +470,6 @@
     <string name="pref_title_enable_swipe_for_tabs">Ebligi ŝovumadon por ŝanĝi inter la langetoj</string>
     <string name="warning_scheduling_interval">Mastodon havas minimuman intervalon de planado de 5 minutoj.</string>
     <string name="post_media_attachments">Kunsendaĵoj</string>
-    <string name="pref_title_notification_filter_subscriptions">iu, kiun mi sekvas, afiŝis novan mesaĝon</string>
     <string name="dialog_delete_list_warning">Ĉu vi vere volas forigi la liston %1$s\?</string>
     <string name="post_media_audio">Aŭdaĵo</string>
     <string name="action_subscribe_account">Aboni</string>
@@ -512,8 +505,6 @@
     <string name="limit_notifications">Limigi sciigojn pri tempolinio</string>
     <string name="drafts_post_reply_removed">La mesaĝo, al kiu tiu ĉi malneto respondas, estis forigita</string>
     <string name="notification_sign_up_format">%1$s registriĝis</string>
-    <string name="pref_title_notification_filter_sign_ups">iu registriĝis</string>
-    <string name="pref_title_notification_filter_updates">mesaĝo, kun kiu mi interagis, estas redaktita</string>
     <string name="notification_sign_up_name">Novaj kontoj</string>
     <string name="notification_sign_up_description">Sciigoj pri novaj uzantoj</string>
     <string name="status_count_one_plus">1+</string>

@@ -122,8 +122,6 @@
     <string name="pref_title_notification_alert_vibrate">Апавяшчаць з вібрацыяй</string>
     <string name="pref_title_notification_alert_light">Апавяшчаць святлом</string>
     <string name="pref_title_notification_filters">Апавяшчаць калі</string>
-    <string name="pref_title_notification_filter_mentions">згадалі</string>
-    <string name="pref_title_notification_filter_follows">падпісаліся</string>
     <string name="pref_title_timeline_filters">Фільтры</string>
     <string name="app_them_dark">Цёмная</string>
     <string name="app_theme_light">Светлая</string>
@@ -272,14 +270,6 @@
     <string name="pref_title_notifications_enabled">Апавяшчэнні</string>
     <string name="pref_title_notification_alerts">Апавяшчэнні</string>
     <string name="pref_title_notification_alert_sound">Апавяшчаць з гукам</string>
-    <string name="pref_title_notification_filter_follow_requests">запыт на падпіску</string>
-    <string name="pref_title_notification_filter_reblogs">мае допісы пашыраны</string>
-    <string name="pref_title_notification_filter_favourites">мае допісы абраныя</string>
-    <string name="pref_title_notification_filter_poll">апытанні скончыліся</string>
-    <string name="pref_title_notification_filter_subscriptions">нехта, на каго я падпісаны(-ая), даслаў(-ла) новы допіс</string>
-    <string name="pref_title_notification_filter_sign_ups">нехта зарэгістраваўся</string>
-    <string name="pref_title_notification_filter_updates">допіс, з якім я ўзаемадзейнічаў(-ла), зменены</string>
-    <string name="pref_title_notification_filter_reports">з\'явілася новая скарга</string>
     <string name="pref_title_appearance_settings">Выгляд</string>
     <string name="pref_title_app_theme">Тэма</string>
     <string name="pref_title_timelines">Стужкі</string>

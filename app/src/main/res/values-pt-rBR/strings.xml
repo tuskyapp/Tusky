@@ -149,10 +149,6 @@
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
     <string name="pref_title_notification_alert_light">Notificar com luz</string>
     <string name="pref_title_notification_filters">Notifique-me quando</string>
-    <string name="pref_title_notification_filter_mentions">me mencionarem</string>
-    <string name="pref_title_notification_filter_follows">me seguirem</string>
-    <string name="pref_title_notification_filter_reblogs">derem boosts nos meus toots</string>
-    <string name="pref_title_notification_filter_favourites">favoritarem meus toots</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Temas</string>
     <string name="pref_title_timelines">Linhas do tempo</string>
@@ -298,7 +294,6 @@
     <string name="download_media">Baixar mídia</string>
     <string name="downloading_media">Baixando mídia</string>
     <string name="dialog_redraft_post_warning">Excluir e rascunhar este toot\?</string>
-    <string name="pref_title_notification_filter_poll">enquetes terminarem</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="pref_title_language">Idioma</string>
     <string name="post_privacy_followers_only">Privado</string>
@@ -450,7 +445,6 @@
     <string name="action_unmute_conversation">Dessilenciar conversa</string>
     <string name="dialog_block_warning">Bloquear @%1$s\?</string>
     <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
-    <string name="pref_title_notification_filter_follow_requests">quiserem me seguir</string>
     <string name="notification_follow_request_description">Notificações sobre seguidores pendentes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s pessoa</item>
@@ -471,7 +465,6 @@
     <string name="action_unmute_desc">Dessilenciar %1$s</string>
     <string name="pref_title_hide_top_toolbar">Ocultar o título da barra superior de tarefas</string>
     <string name="notification_subscription_description">Notificações quando alguém que eu sigo publicar uma novo toot</string>
-    <string name="pref_title_notification_filter_subscriptions">alguém que eu sigo publicou um novo toot</string>
     <string name="drafts_failed_loading_reply">Erro ao carregar toot para responder</string>
     <string name="drafts_post_failed_to_send">Erro ao enviar o toot!</string>
     <string name="drafts_post_reply_removed">O toot em que se rascunhou uma resposta foi excluído</string>
@@ -548,7 +541,6 @@
     <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
-    <string name="pref_title_notification_filter_reports">há uma nova denúncia</string>
     <string name="description_post_language">Idioma do toot</string>
     <string name="duration_no_change">(Sem alteração)</string>
     <string name="tusky_compose_post_quicksetting_label">Compor toot</string>
@@ -582,11 +574,9 @@
     <string name="no_lists">Você não tem nenhuma lista.</string>
     <string name="notification_update_format">%1$s editou um toot</string>
     <string name="error_following_hashtags_unsupported">Esta instância não oferece o recurso de seguir hashtags.</string>
-    <string name="pref_title_notification_filter_updates">um toot que eu interagi foi editado</string>
     <string name="notification_sign_up_description">Notificações sobre novos usuários</string>
     <string name="action_set_focus">Definir ponto de foco</string>
     <string name="action_edit_image">Editar imagem</string>
-    <string name="pref_title_notification_filter_sign_ups">alguém se inscreveu</string>
     <string name="saving_draft">Salvando rascunho…</string>
     <string name="title_login">Entrar</string>
     <string name="instance_rule_title">%1$s regras</string>

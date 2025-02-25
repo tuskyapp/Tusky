@@ -164,10 +164,6 @@
     <string name="pref_title_notification_alert_vibrate">Уведомить с вибрацией</string>
     <string name="pref_title_notification_alert_light">Уведомить со светом</string>
     <string name="pref_title_notification_filters">Уведомлять меня если</string>
-    <string name="pref_title_notification_filter_mentions">меня упомянули</string>
-    <string name="pref_title_notification_filter_follows">кто-то подписался</string>
-    <string name="pref_title_notification_filter_reblogs">мои посты продвигают</string>
-    <string name="pref_title_notification_filter_favourites">мой пост был избран</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема приложения</string>
     <string name="pref_title_timelines">Ленты</string>
@@ -404,7 +400,6 @@
     <string name="confirmation_domain_unmuted">%1$s не скрыт</string>
     <string name="mute_domain_warning">Вы уверены, что хотите заблокировать весь %1$s? Вы не увидите контент с этого домена ни в публичных лентах, ни в своих уведомлениях. Ваши подписчики с этого домена будут удалены.</string>
     <string name="mute_domain_warning_dialog_ok">Скрыть весь домен</string>
-    <string name="pref_title_notification_filter_poll">опросы закончились</string>
     <string name="pref_title_animate_gif_avatars">Анимировать GIF-аватары</string>
     <string name="filter_dialog_whole_word">Слово целиком</string>
     <string name="filter_dialog_whole_word_description">Если ключевое слово или фраза состоит только из букв или цифр, они будут учитываться только при полном совпадении</string>
@@ -460,7 +455,6 @@
     </plurals>
     <string name="notification_follow_request_description">Уведомления о запросах на подписку</string>
     <string name="notification_follow_request_name">Запросы на подписку</string>
-    <string name="pref_title_notification_filter_follow_requests">получен запрос на подписку</string>
     <string name="dialog_mute_warning">Заглушить @%1$s\?</string>
     <string name="dialog_block_warning">Заблокировать @%1$s?</string>
     <string name="action_unmute_conversation">Не глушить обсуждение</string>
@@ -514,7 +508,6 @@
     <string name="notification_subscription_description">Уведомлять о новых постах пользователей на которых Вы подписаны</string>
     <string name="notification_subscription_name">Новые посты</string>
     <string name="pref_title_animate_custom_emojis">Анимировать эмодзи</string>
-    <string name="pref_title_notification_filter_subscriptions">кое-кто, на кого я подписан, опубликовал новое сообщение</string>
     <string name="dialog_delete_conversation_warning">Удалить этот разговор\?</string>
     <string name="action_delete_conversation">Удалить разговор</string>
     <string name="pref_title_confirm_favourites">Запрашивать подтверждение перед добавлением в избранное</string>
@@ -653,9 +646,6 @@
     <string name="notification_report_format">Новая жалоба на %1$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d постов прикреплено</string>
     <string name="confirmation_hashtag_unfollowed">отписался от #%1$s</string>
-    <string name="pref_title_notification_filter_sign_ups">кто-то зарегистрировался</string>
-    <string name="pref_title_notification_filter_updates">сообщение, на которое я отвечал, было отредактировано</string>
-    <string name="pref_title_notification_filter_reports">появилась новая жалоба</string>
     <string name="description_post_edited">Отредактировано</string>
     <string name="title_followed_hashtags">Отслеживаемые хэштэги</string>
     <string name="error_status_source_load">Не удалось загрузить источник состояния с сервера.</string>

@@ -164,11 +164,6 @@
     <string name="pref_title_notification_alert_vibrate">振動</string>
     <string name="pref_title_notification_alert_light">呼吸燈</string>
     <string name="pref_title_notification_filters">事件</string>
-    <string name="pref_title_notification_filter_mentions">被提及</string>
-    <string name="pref_title_notification_filter_follows">有新的關注者</string>
-    <string name="pref_title_notification_filter_reblogs">嘟文被轉嘟</string>
-    <string name="pref_title_notification_filter_favourites">嘟文被加入最愛</string>
-    <string name="pref_title_notification_filter_poll">投票已結束</string>
     <string name="pref_title_appearance_settings">外觀</string>
     <string name="pref_title_app_theme">佈景主題</string>
     <string name="pref_title_timelines">時間軸</string>
@@ -464,7 +459,6 @@
     </plurals>
     <string name="notification_subscription_description">當你關注的人發布新嘟文時通知</string>
     <string name="notification_subscription_name">新嘟文</string>
-    <string name="pref_title_notification_filter_subscriptions">我關注的人有新嘟文</string>
     <string name="no_announcements">沒有公告。</string>
     <string name="title_announcements">公告</string>
     <string name="account_note_saved">已儲存！</string>
@@ -482,7 +476,6 @@
     <string name="pref_title_show_cards_in_timelines">在時間軸中顯示連結預覽</string>
     <string name="pref_title_enable_swipe_for_tabs">啟用在分頁間切換的滑動手勢</string>
     <string name="notification_follow_request_description">關注請求的通知</string>
-    <string name="pref_title_notification_filter_follow_requests">已送出關注請求</string>
     <string name="dialog_mute_warning">靜音 @%1$s？</string>
     <string name="dialog_block_warning">封鎖 @%1$s？</string>
     <string name="action_unmute_conversation">取消靜音對話</string>
@@ -540,7 +533,6 @@
     <string name="error_multimedia_size_limit">影片和音訊檔案大小不能超過 %1$s MB。</string>
     <string name="status_count_one_plus">1+</string>
     <string name="action_add_reaction">添加反應</string>
-    <string name="pref_title_notification_filter_sign_ups">有人進行了註冊</string>
     <string name="action_edit_image">編輯圖片</string>
     <string name="duration_30_days">30 天</string>
     <string name="duration_60_days">60 天</string>
@@ -554,7 +546,6 @@
     <string name="action_delete_conversation">刪除對話</string>
     <string name="action_dismiss">撤銷</string>
     <string name="action_details">詳情</string>
-    <string name="pref_title_notification_filter_updates">我互動過的嘟文被編輯了</string>
     <string name="duration_14_days">14 天</string>
     <string name="error_loading_account_details">加載賬戶詳情失敗</string>
     <string name="notification_sign_up_format">%1$s 已註冊</string>

@@ -108,8 +108,6 @@
     <string name="app_them_dark">Tumma</string>
     <string name="pref_title_timeline_filters">Suodattimet</string>
     <string name="pref_title_timelines">Aikajanat</string>
-    <string name="pref_title_notification_filter_follows">seurasi</string>
-    <string name="pref_title_notification_filter_mentions">mainitsi</string>
     <string name="pref_title_notifications_enabled">Ilmoitukset</string>
     <string name="pref_title_edit_notification_settings">Ilmoitukset</string>
     <string name="dialog_download_image">Lataa</string>
@@ -325,11 +323,6 @@
     <string name="pref_title_notification_alert_vibrate">Ilmoita värinällä</string>
     <string name="pref_title_notification_alert_light">Ilmoita valolla</string>
     <string name="pref_title_notification_filters">Ilmoita kun</string>
-    <string name="pref_title_notification_filter_reblogs">minun julkaisua buustataan</string>
-    <string name="pref_title_notification_filter_favourites">minun julkaisu merkitään suosikiksi</string>
-    <string name="pref_title_notification_filter_poll">äänestys päättyy</string>
-    <string name="pref_title_notification_filter_subscriptions">joku ketä seuraan tekee uuden julkaisun</string>
-    <string name="pref_title_notification_filter_reports">uusi ilmianto</string>
     <string name="pref_title_per_timeline_preferences">Aikajanakohtaiset asetukset</string>
     <string name="app_theme_auto">Automaattinen auringonlaskun mukaan</string>
     <string name="pref_title_bot_overlay">Merkitse bottitilit</string>
@@ -359,8 +352,6 @@
     <string name="pref_title_notification_alert_sound">Ilmoita äänellä</string>
     <string name="action_post_failed">Lataaminen ylös epäonnistui</string>
     <string name="action_post_failed_show_drafts">Näytä luonnokset</string>
-    <string name="pref_title_notification_filter_sign_ups">joku rekisteröityy</string>
-    <string name="pref_title_notification_filter_follow_requests">seuraamispyyntö</string>
     <string name="action_dismiss">Peru</string>
     <string name="status_created_at_now">nyt</string>
     <string name="notification_unknown_name">Tuntematon</string>

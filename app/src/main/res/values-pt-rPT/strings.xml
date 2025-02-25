@@ -202,15 +202,6 @@
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
     <string name="pref_title_notification_alert_light">Notificar com luz</string>
     <string name="pref_title_notification_filters">Notifique-me quando</string>
-    <string name="pref_title_notification_filter_mentions">mencionado</string>
-    <string name="pref_title_notification_filter_follows">seguido</string>
-    <string name="pref_title_notification_filter_subscriptions">alguém para quem ativei os alertas criar uma publicação nova</string>
-    <string name="pref_title_notification_filter_follow_requests">pedido para me seguir</string>
-    <string name="pref_title_notification_filter_reblogs">boosts às minhas publicações</string>
-    <string name="pref_title_notification_filter_favourites">as minhas publicações adicionadas aos favoritos</string>
-    <string name="pref_title_notification_filter_poll">votações terminadas</string>
-    <string name="pref_title_notification_filter_sign_ups">alguém criou conta</string>
-    <string name="pref_title_notification_filter_updates">uma publicação com que interagi foi editada</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Tema da aplicação</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -548,7 +539,6 @@
     <string name="pref_summary_http_proxy_disabled">Desativada</string>
     <string name="pref_summary_http_proxy_missing">&lt;indefinido&gt;</string>
     <string name="title_edits">Edições</string>
-    <string name="pref_title_notification_filter_reports">existe um novo relatório</string>
     <string name="hint_media_description_missing">Imagem/Vídeo deve ter uma descrição.</string>
     <string name="pref_title_http_proxy_port_message">A porta deve estar entre %1$d e %2$d</string>
     <string name="action_post_failed">Erro no upload</string>

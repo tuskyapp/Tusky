@@ -287,9 +287,9 @@
     <string name="abbreviated_hours_ago">%1$dh</string>
     <string name="abbreviated_days_ago">%1$dd</string>
     <string name="abbreviated_years_ago">%1$da</string>
-    <string name="abbreviated_in_seconds">en %1$ds</string>
+    <string name="abbreviated_in_seconds">hai %1$ds</string>
     <string name="abbreviated_in_hours">en %1$dh</string>
-    <string name="abbreviated_in_minutes">en %1$dm</string>
+    <string name="abbreviated_in_minutes">hai %1$dm</string>
     <string name="abbreviated_in_days">hai %1$dd</string>
     <string name="abbreviated_in_years">hai %1$da</string>
     <string name="state_follow_requested">Seguimento solicitado</string>
@@ -319,7 +319,7 @@
     <string name="notification_subscription_description">Notificacións cando alguén a quen estás subscrita publica novo contido</string>
     <string name="notification_subscription_name">Novas publicacións</string>
     <string name="notification_poll_description">Notificacións cando rematan as enquisas</string>
-    <string name="notification_poll_name">Enquisas</string>
+    <string name="notification_poll_name">Resultados de enquisas</string>
     <string name="notification_favourite_description">Notificacións cando as túas publicacións son favorecidas</string>
     <string name="notification_favourite_name">Favoritos</string>
     <string name="notification_boost_description">Notificacións cando as túas publicacións sexan promovidas</string>
@@ -372,14 +372,7 @@
     <string name="pref_title_timelines">Cronoloxías</string>
     <string name="pref_title_app_theme">Decorado da aplicación</string>
     <string name="pref_title_appearance_settings">Aparencia</string>
-    <string name="pref_title_notification_filter_subscriptions">alguén a quen eu siga publique novo contido</string>
-    <string name="pref_title_notification_filter_poll">rematen as enquisas</string>
-    <string name="pref_title_notification_filter_favourites">marquen unha publicación como favorita</string>
-    <string name="pref_title_notification_filter_reblogs">promovan unha publicación miña</string>
-    <string name="pref_title_notification_filter_follow_requests">soliciten seguirme</string>
-    <string name="pref_title_notification_filter_follows">me sigan</string>
-    <string name="pref_title_notification_filter_mentions">me mencionen</string>
-    <string name="pref_title_notification_filters">Notifícame cando</string>
+    <string name="pref_title_notification_filters">Tipos de notificación activados</string>
     <string name="pref_title_notification_alert_light">Notificar coa luz</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
     <string name="pref_title_notification_alert_sound">Nofiticar cun ton</string>
@@ -402,12 +395,12 @@
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_title_finishing_media_upload">Rematando o envío de multimedia</string>
-    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a>
-\n
-\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela.
-\n
-\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí.
-\n
+    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
+\n 
+\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. 
+\n 
+\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí. 
+\n 
 \nPodes atopar máis información en <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="login_connection">Conectando…</string>
     <string name="link_whats_an_instance">Que é unha instancia\?</string>
@@ -502,10 +495,8 @@
     <string name="duration_365_days">365 días</string>
     <string name="tusky_compose_post_quicksetting_label">Redactar publicación</string>
     <string name="notification_sign_up_format">%1$s creou a conta</string>
-    <string name="pref_title_notification_filter_sign_ups">hai unha nova usuaria</string>
     <string name="notification_sign_up_name">Rexistros</string>
     <string name="notification_sign_up_description">Notificacións sobre novas usuarias</string>
-    <string name="pref_title_notification_filter_updates">Foi editada unha publicación coa que interactuei</string>
     <string name="notification_update_name">Edicións da publicación</string>
     <string name="account_date_joined">Creada %1$s</string>
     <string name="title_login">Acceder</string>
@@ -557,7 +548,6 @@
     <string name="notification_header_report_format">%1$s denunciou a %2$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d publicacións anexadas</string>
     <string name="confirmation_hashtag_unfollowed">Xa non segues a #%1$s</string>
-    <string name="pref_title_notification_filter_reports">hai unha nova denuncia</string>
     <string name="hint_media_description_missing">O multimedia debería ter unha descrición.</string>
     <string name="pref_title_http_proxy_port_message">O porto debe estar entre %1$d e %2$d</string>
     <string name="error_muting_hashtag_format">Produciuse un erro ao acalar #%1$s</string>
@@ -596,7 +586,7 @@
     </plurals>
     <string name="action_post_failed_show_drafts">Mostrar borradores</string>
     <string name="action_post_failed_do_nothing">Desbotar</string>
-    <string name="action_browser_login">Acceder co Navegador</string>
+    <string name="action_browser_login">Acceder no navegador</string>
     <string name="description_browser_login">Pode ter compatibilidade para métodos adicionais de autenticación, pero require un navegador compatíbel.</string>
     <string name="description_login">Funciona case sempre. Non se filtran datos a outras apps.</string>
     <string name="accessibility_talking_about_tag">%1$d persoas están falando do cancelo %2$s</string>
@@ -604,8 +594,8 @@
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
-    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
-\n
+    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues. 
+\n 
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia [iconics gmd_group]. Ou buscalas polo seu nome [iconics gmd_search]; por exemplo busca Tusky para atopar a nosa conta en Mastodon.</string>
     <string name="post_media_image">Imaxe</string>
     <string name="hint_filter_title">O meu filtro</string>
@@ -640,8 +630,8 @@
     <string name="filter_keyword_addition_title">Engadir palabra clave</string>
     <string name="filter_edit_keyword_title">Editar palabra clave</string>
     <string name="select_list_manage">Xestionar listas</string>
-    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas.
-\n
+    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas. 
+\n 
 \nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
     <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
     <string name="compose_delete_draft">Eliminar borrador\?</string>
@@ -677,7 +667,7 @@
     <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
     <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas.
 \n
-\nTEN EN CONTA que só podes engadir contas que estás a seguir. 
+\nTEN EN CONTA que só podes engadir contas que estás a seguir.
 \n
 \nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
@@ -745,4 +735,37 @@
     <string name="preview_card_by_author">Por %1$s</string>
     <string name="preview_card_more_by_author">Máis de %1$s</string>
     <string name="follow_hashtag_success">Segues o cancelo %1$s</string>
+    <string name="unknown_notification_type_explanation">Tusky non recoñece este tipo de notificación e non pode mostrala. Deberías poder vela na interface web da túa instancia. Informa ao equipo de desenvolvemento de Tusky para que poidan engadir esta notificación!</string>
+    <string name="relationship_severance_event_account_suspension">A administración de %1$s suspendeu a %2$s, polo que non recibirás actualizacións nin poderás interactuar con esa conta.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Algunha das túas publicacións marcouse como sensible.</string>
+    <string name="relationship_severance_event_domain_block">A administración de %1$s bloqueou a %2$s, que inclúe %3$s das túas seguidoras e %4$s seguimentos.</string>
+    <string name="notification_severed_relationship_name">Relacións perdidas</string>
+    <string name="notification_moderation_warning_name">Avisos da moderación</string>
+    <string name="notification_unknown_description">Tipo de notificación descoñecido</string>
+    <string name="notification_channel_other">Outro</string>
+    <string name="notification_channel_other_description">Outras notificacións, como relacións perdidas e avisos da moderación</string>
+    <string name="notification_channel_admin">Admin</string>
+    <string name="notification_channel_admin_description">Notificacións para admins, como denuncias ou novas contas</string>
+    <string name="relationship_severance_event_title">Relación perdida</string>
+    <string name="relationship_severance_event_user_domain_block">Bloqueaches a %1$s, eliminando a %2$s das túas seguidoras e %3$s seguimentos.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s conta</item>
+        <item quantity="other">%1$s contas</item>
+    </plurals>
+    <string name="moderation_warning">Recibiches un aviso da Moderación.</string>
+    <string name="moderation_warning_action_delete_statuses">Elimináronse algunha das túas publicacións.</string>
+    <string name="moderation_warning_action_disable">Desactivouse a túa conta.</string>
+    <string name="moderation_warning_action_none">A túa conta recibeu un aviso da Moderación.</string>
+    <string name="moderation_warning_action_sensitive">A partir de agora as túas publicacións marcaranse como sensibles.</string>
+    <string name="moderation_warning_action_silence">A túa conta está limitada.</string>
+    <string name="moderation_warning_action_suspend">A túa conta está suspendida.</string>
+    <string name="poll">Enquisa</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s anexo multimedia</item>
+        <item quantity="other">%1$s anexos multimedia</item>
+    </plurals>
+    <string name="notification_info_reply">Resposta</string>
+    <string name="notification_info_private_mention">Mención privada</string>
+    <string name="notification_info_mention">Mención</string>
+    <string name="notification_info_private_reply">Resposta privada</string>
 </resources>
