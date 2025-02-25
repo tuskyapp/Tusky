@@ -137,7 +137,7 @@
     <string name="pref_title_notification_alert_sound">آگاهی با صدا</string>
     <string name="pref_title_notification_alert_vibrate">آگاهی با لرزش</string>
     <string name="pref_title_notification_alert_light">آگاهی با چراغ</string>
-    <string name="pref_title_notification_filters">به من اطلاع بده زمانی که</string>
+    <string name="pref_title_notification_filters">گونه‌های آگاهی به کار افتاده</string>
     <string name="pref_title_appearance_settings">ظاهر</string>
     <string name="pref_title_app_theme">زمینهٔ کاره</string>
     <string name="pref_title_timelines">خط‌ زمانی‌ها</string>
@@ -300,7 +300,7 @@
     <string name="pref_title_language">زبان</string>
     <string name="pref_title_bot_overlay">نمایش نشانگر برای بات‌ها</string>
     <string name="pref_title_animate_gif_avatars">پویانمایی آواتارهای جیف</string>
-    <string name="notification_poll_name">نظرسنجی‌ها</string>
+    <string name="notification_poll_name">نتایج نظرسنجی</string>
     <string name="notification_poll_description">آگاهی‌ها دربارهٔ نظرسنجی‌های پایان‌یافته</string>
     <string name="about_tusky_version">تاسکی %1$s</string>
     <string name="abbreviated_years_ago">%1$d سال</string>
@@ -742,4 +742,37 @@
     <string name="follow_hashtag_success">برچسب دنبال شدهٔ %1$s</string>
     <string name="preview_card_by_author">از %1$s</string>
     <string name="preview_card_more_by_author">بیش‌تر از %1$s</string>
+    <string name="notification_severed_relationship_name">قطعی‌های اتّصال</string>
+    <string name="notification_moderation_warning_name">هشدارهای نظارتی</string>
+    <string name="notification_unknown_description">گونهٔ آگاهی ناشناخته</string>
+    <string name="notification_channel_other">دیگر</string>
+    <string name="notification_channel_other_description">دیگر آگاهی‌ها چون هشدارهای نظارتی و قطعی اتّصال</string>
+    <string name="notification_channel_admin">مدیر</string>
+    <string name="notification_channel_admin_description">آگاهی‌های مدیر چون ثبت‌نام‌ها و گزارش‌های جدید</string>
+    <string name="relationship_severance_event_title">اتّصال از دست رفت</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s حساب</item>
+        <item quantity="other">%1$s حساب</item>
+    </plurals>
+    <string name="moderation_warning">هشدار مدیریتی گرفتید.</string>
+    <string name="moderation_warning_action_delete_statuses">برخی فرسته‌هایتان برداشته شدند.</string>
+    <string name="moderation_warning_action_disable">حسابتان از کار افتاده.</string>
+    <string name="relationship_severance_event_account_suspension">مدیری از %1$s حساب %2$s را معلّق کرد که یعنی دیگر نمی‌تواند به‌روز رسانی‌هایش را گرفته یا با او تعامل کنید.</string>
+    <string name="relationship_severance_event_domain_block">مدیری از %1$s حساب %2$s را از جمله %3$s نفر از پی‌گیرانتان و %4$s نفر از پی‌گرفته‌هایتان مسدود کرد.</string>
+    <string name="relationship_severance_event_user_domain_block">شما %1$s را مسدود کردید که %2$s نفر از پی‌گیران و %3$s نفر از پی‌گرفته‌ّایتان را برداشت.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">برخی فرسته‌هایتان به عنوان حسّاس علامت خوردند.</string>
+    <string name="moderation_warning_action_none">حسابتان هشدار نظارتی گرفت.</string>
+    <string name="moderation_warning_action_sensitive">زین پس فرسته‌هایتان به عنوان حساس علامت خواهند خورد.</string>
+    <string name="moderation_warning_action_silence">حسابتان محدود شد.</string>
+    <string name="moderation_warning_action_suspend">حسابتان معلّق شد.</string>
+    <string name="poll">نظرسنجی</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s پیوست رسانه‌ای</item>
+        <item quantity="other">%1$s پیوست رسانه‌ای</item>
+    </plurals>
+    <string name="notification_info_reply">پاسخ</string>
+    <string name="notification_info_private_mention">اشارهٔ خصوصی</string>
+    <string name="notification_info_mention">اشاره</string>
+    <string name="notification_info_private_reply">پاسخ خصوصی</string>
+    <string name="unknown_notification_type_explanation">تاسکی گونهٔ این آگاهی را تشخیص نداد و نمی‌تواند نشانش دهد. شاید میانای وب کارسازتان بتواند. لطفاً توسعه‌دهندگان تاسکی را آگاه کنید تا بتوانند پشتیبانی این گونه را بیفزایند!</string>
 </resources>
