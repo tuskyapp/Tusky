@@ -26,7 +26,6 @@ import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -152,12 +151,11 @@ private class WindowInsetsCallback(
 ) : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP),
     OnApplyWindowInsetsListener {
 
-    var imeVisible = false
+    var animationRunning = false
     var deferredInsets: WindowInsetsCompat? = null
 
-    override fun onStart(animation: WindowInsetsAnimationCompat, bounds: WindowInsetsAnimationCompat.BoundsCompat): WindowInsetsAnimationCompat.BoundsCompat {
-        imeVisible = true
-        return super.onStart(animation, bounds)
+    override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+        animationRunning = true
     }
 
     override fun onProgress(
@@ -172,8 +170,7 @@ private class WindowInsetsCallback(
         view: View,
         insets: WindowInsetsCompat,
     ): WindowInsetsCompat {
-        val ime = insets.getInsets(ime()).bottom
-        if (!imeVisible && ime == 0) {
+        if (!animationRunning) {
             listener(insets)
             deferredInsets = null
         } else {
@@ -183,10 +180,10 @@ private class WindowInsetsCallback(
     }
 
     override fun onEnd(animation: WindowInsetsAnimationCompat) {
-        imeVisible = deferredInsets?.isVisible(ime()) == true
         deferredInsets?.let { insets ->
             listener(insets)
             deferredInsets = null
         }
+        animationRunning = false
     }
 }
