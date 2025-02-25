@@ -342,8 +342,10 @@ class ViewImageFragment : ViewMediaFragment() {
                 // post() because load() replaces image with null. Sometimes after we set
                 // the thumbnail.
                 binding.photoView.post {
-                    target.onResourceReady(resource, null)
-                    if (shouldStartTransition) photoActionsListener.onBringUp()
+                    if (isAdded) {
+                        target.onResourceReady(resource, null)
+                        if (shouldStartTransition) photoActionsListener.onBringUp()
+                    }
                 }
             } else {
                 // This waits for transition. If there's no transition then we should hit
