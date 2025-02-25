@@ -163,7 +163,7 @@
     <string name="pref_title_notification_alert_sound">铃声</string>
     <string name="pref_title_notification_alert_vibrate">振动</string>
     <string name="pref_title_notification_alert_light">呼吸灯</string>
-    <string name="pref_title_notification_filters">事件</string>
+    <string name="pref_title_notification_filters">已启用的通知类型</string>
     <string name="pref_title_appearance_settings">外观</string>
     <string name="pref_title_app_theme">应用主题</string>
     <string name="pref_title_timelines">时间轴</string>
@@ -207,7 +207,7 @@
     <string name="notification_boost_description">当我的嘟文被转发时通知</string>
     <string name="notification_favourite_name">喜欢</string>
     <string name="notification_favourite_description">当有用户喜欢了我的嘟文时</string>
-    <string name="notification_poll_name">投票</string>
+    <string name="notification_poll_name">投票结果</string>
     <string name="notification_poll_description">当我参与的投票结束时</string>
     <string name="notification_mention_format">%1$s 提及了你</string>
     <string name="notification_summary_large">%1$s，%2$s，%3$s 和 %4$d 等人</string>
@@ -736,4 +736,35 @@
     <string name="preview_card_by_author">%1$s 的</string>
     <string name="preview_card_more_by_author">更多来自 %1$s 的</string>
     <string name="follow_hashtag_success">关注了 %1$s 话题标签</string>
+    <string name="notification_severed_relationship_name">失去连接</string>
+    <string name="notification_moderation_warning_name">管理警告</string>
+    <string name="notification_unknown_description">未知通知类型</string>
+    <string name="notification_channel_other">其他</string>
+    <string name="notification_channel_admin">管理</string>
+    <string name="notification_channel_admin_description">管理性质的通知，比如新举报或注册</string>
+    <string name="relationship_severance_event_domain_block">%1$s 管理员已经封禁了 %2$s，包括你关注者中的 %3$s 以及你关注的 %4$s。</string>
+    <string name="relationship_severance_event_user_domain_block">你已经封禁了 %1$s，删除了你关注者中的 %2$s 以及你关注的 %3$s。</string>
+    <plurals name="accounts">
+        <item quantity="other">%1$s 个账户</item>
+    </plurals>
+    <string name="moderation_warning">你已经收到了一则管理警告。</string>
+    <string name="moderation_warning_action_delete_statuses">你的一些嘟文已经被删除。</string>
+    <string name="moderation_warning_action_disable">你的账户已被停用。</string>
+    <string name="moderation_warning_action_none">你的账户已收到了一则管理警告。</string>
+    <string name="moderation_warning_action_sensitive">你的多条嘟文从现在起将被标记为敏感。</string>
+    <string name="moderation_warning_action_silence">你的账户已经被限制。</string>
+    <string name="moderation_warning_action_suspend">你的账户已被暂停。</string>
+    <string name="poll">投票</string>
+    <plurals name="media_attachments">
+        <item quantity="other">%1$s 个媒体附件</item>
+    </plurals>
+    <string name="notification_info_reply">回复</string>
+    <string name="notification_info_private_mention">私密提及</string>
+    <string name="notification_info_mention">提及</string>
+    <string name="notification_info_private_reply">私密回复</string>
+    <string name="relationship_severance_event_title">连接丢失</string>
+    <string name="relationship_severance_event_account_suspension">%1$s 管理员已经暂停了%2$s，这意味着你无法再接收来自它们的更新或与它们互动。</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">你的一些嘟文已经被标记为敏感。</string>
+    <string name="notification_channel_other_description">其他通知，比如丢失连接和管理警告</string>
+    <string name="unknown_notification_type_explanation">Tusky 未识别出此通知类型，无法将它显示给你。你服务器的 web 界面也许能够做得到。同时请将此问题告知 Tusky 开发者以添加对此类通知的通知！</string>
 </resources>
