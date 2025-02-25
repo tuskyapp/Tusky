@@ -159,7 +159,7 @@
     <string name="pref_title_notification_alert_sound">Notifica con suoneria</string>
     <string name="pref_title_notification_alert_vibrate">Notifica con vibrazione</string>
     <string name="pref_title_notification_alert_light">Notifica con luce</string>
-    <string name="pref_title_notification_filters">Notificami quando</string>
+    <string name="pref_title_notification_filters">Tipi di notifica abilitati</string>
     <string name="pref_title_appearance_settings">Aspetto</string>
     <string name="pref_title_app_theme">Tema dell\'app</string>
     <string name="pref_title_timelines">Timeline</string>
@@ -371,7 +371,7 @@
     <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
-    <string name="notification_poll_name">Votazioni</string>
+    <string name="notification_poll_name">Risultati del sondaggio</string>
     <string name="notification_poll_description">Notifiche sui sondaggi che si sono conclusi</string>
     <string name="filter_dialog_whole_word">Parola intera</string>
     <string name="filter_dialog_whole_word_description">Quando la parola chiave o la frase sono composte da soli caratteri alfanumerici, sarà applicata solo se corrisponde alla parola completa</string>
@@ -757,4 +757,12 @@
     <string name="follow_hashtag_success">Hashtag %1$s seguito</string>
     <string name="preview_card_by_author">Da %1$s</string>
     <string name="preview_card_more_by_author">Altro da %1$s</string>
+    <string name="notification_severed_relationship_name">Connessioni perse</string>
+    <string name="notification_moderation_warning_name">Avvisi di moderazione</string>
+    <string name="notification_unknown_description">Tipo di notifica ignoto</string>
+    <string name="notification_channel_other">Altro</string>
+    <string name="notification_channel_other_description">Altre notifiche, come connessioni perse e avvisi di moderazione</string>
+    <string name="notification_channel_admin">Amministratore</string>
+    <string name="notification_channel_admin_description">Notifiche amministratore, come nuove segnalazioni o iscrizioni</string>
+    <string name="relationship_severance_event_title">Connessione persa</string>
 </resources>
