@@ -118,6 +118,9 @@
     <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reply">Reply</string>
     <string name="action_reblog">Boost</string>
+    <string name="action_reblog_private">Followers-Only Boost</string>
+    <string name="action_reblog_public">Public Boost</string>
+    <string name="action_reblog_unlisted">Unlisted Boost</string>
     <string name="action_unreblog">Remove boost</string>
     <string name="action_favourite">Favorite</string>
     <string name="action_unfavourite">Remove favorite</string>

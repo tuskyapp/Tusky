@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.entity.NotificationPolicyEntity
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -204,8 +205,8 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
-        timelineCases.reblog(status.actionableId, reblog).onFailure { t ->
+    fun reblog(reblog: Boolean, status: StatusViewData.Concrete, visibility: Status.Visibility = Status.Visibility.PUBLIC): Job = viewModelScope.launch {
+        timelineCases.reblog(status.actionableId, reblog, visibility).onFailure { t ->
             ifExpected(t) {
                 Log.w(TAG, "Failed to reblog status " + status.actionableId, t)
             }

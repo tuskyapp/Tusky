@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -324,9 +325,9 @@ class ViewThreadFragment :
         super.reply(viewData.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
-        viewModel.reblog(reblog, status)
+        viewModel.reblog(reblog, status, visibility)
     }
 
     override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit) =

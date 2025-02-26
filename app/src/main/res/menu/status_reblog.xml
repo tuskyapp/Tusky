@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menu_action_reblog"
-        android:icon="@drawable/ic_reblog_24dp"
-        android:title="@string/action_reblog" />
+    <group
+        android:id="@+id/menu_action_reblog_group">
+
+        <item
+            android:id="@+id/menu_action_reblog_public"
+            android:icon="@drawable/ic_reblog_24dp"
+            android:title="@string/action_reblog_public" />
+        <item
+            android:id="@+id/menu_action_reblog_unlisted"
+            android:icon="@drawable/ic_reblog_24dp"
+            android:title="@string/action_reblog_unlisted" />
+        <item
+            android:id="@+id/menu_action_reblog_private"
+            android:icon="@drawable/ic_reblog_24dp"
+            android:title="@string/action_reblog_private" />
+
+    </group>
+
     <item
         android:id="@+id/menu_action_unreblog"
         android:icon="@drawable/ic_reblog_24dp"

@@ -139,9 +139,9 @@ class SearchViewModel @Inject constructor(
         updateStatusViewData(statusViewData.copy(isExpanded = expanded))
     }
 
-    fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean) {
+    fun reblog(statusViewData: StatusViewData.Concrete, reblog: Boolean, visibility: Status.Visibility = Status.Visibility.PUBLIC) {
         viewModelScope.launch {
-            timelineCases.reblog(statusViewData.id, reblog).fold({
+            timelineCases.reblog(statusViewData.id, reblog, visibility).fold({
                 updateStatus(
                     statusViewData.status.copy(
                         reblogged = reblog,
@@ -162,7 +162,7 @@ class SearchViewModel @Inject constructor(
         updateStatusViewData(statusViewData.copy(isCollapsed = collapsed))
     }
 
-    fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: MutableList<Int>) {
+    fun voteInPoll(statusViewData: StatusViewData.Concrete, choices: List<Int>) {
         val votedPoll = statusViewData.status.actionableStatus.poll!!.votedCopy(choices)
         updateStatus(statusViewData.status.copy(poll = votedPoll))
         viewModelScope.launch {

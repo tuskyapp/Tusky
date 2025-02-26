@@ -678,7 +678,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                         showConfirmReblog(listener, buttonState, position);
                         return false;
                     } else {
-                        listener.onReblog(!buttonState, position);
+                        listener.onReblog(!buttonState, position, Status.Visibility.PUBLIC);
                         return true;
                     }
                 } else {
@@ -739,13 +739,25 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         popup.inflate(R.menu.status_reblog);
         Menu menu = popup.getMenu();
         if (buttonState) {
-            menu.findItem(R.id.menu_action_reblog).setVisible(false);
+            menu.setGroupVisible(R.id.menu_action_reblog_group, false);
         } else {
             menu.findItem(R.id.menu_action_unreblog).setVisible(false);
         }
         popup.setOnMenuItemClickListener(item -> {
-            listener.onReblog(!buttonState, position);
-            if (!buttonState) {
+            if (buttonState) {
+                listener.onReblog(false, position, Status.Visibility.PUBLIC);
+            } else {
+                Status.Visibility visibility;
+                if (item.getItemId() == R.id.menu_action_reblog_public) {
+                    visibility = Status.Visibility.PUBLIC;
+                } else if (item.getItemId() == R.id.menu_action_reblog_unlisted) {
+                    visibility = Status.Visibility.UNLISTED;
+                } else if (item.getItemId() == R.id.menu_action_reblog_private) {
+                    visibility = Status.Visibility.PRIVATE;
+                } else {
+                    visibility = Status.Visibility.PUBLIC;
+                }
+                listener.onReblog(true, position, visibility);
                 reblogButton.playAnimation();
                 reblogButton.setChecked(true);
             }

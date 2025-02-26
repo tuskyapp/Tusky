@@ -74,7 +74,7 @@ import kotlinx.coroutines.launch
  * up what needs to be where. */
 abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     protected abstract fun removeItem(position: Int)
-    protected abstract fun onReblog(reblog: Boolean, position: Int)
+    protected abstract fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility)
 
     /** `null` if translation is not supported on this screen */
     protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
@@ -318,12 +318,12 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
                 }
 
                 R.id.status_unreblog_private -> {
-                    onReblog(false, position)
+                    onReblog(false, position, Status.Visibility.PUBLIC)
                     return@setOnMenuItemClickListener true
                 }
 
                 R.id.status_reblog_private -> {
-                    onReblog(true, position)
+                    onReblog(true, position, Status.Visibility.PUBLIC)
                     return@setOnMenuItemClickListener true
                 }
 

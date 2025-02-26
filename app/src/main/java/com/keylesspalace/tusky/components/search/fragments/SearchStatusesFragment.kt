@@ -251,7 +251,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+    override fun onVoteInPoll(position: Int, choices: List<Int>) {
         adapter?.peek(position)?.let {
             viewModel.voteInPoll(it, choices)
         }
@@ -265,9 +265,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onReblog(reblog: Boolean, position: Int) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
         adapter?.peek(position)?.let { status ->
-            viewModel.reblog(status, reblog)
+            viewModel.reblog(status, reblog, visibility)
         }
     }
 
