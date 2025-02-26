@@ -252,8 +252,9 @@ interface MastodonApi {
     @DELETE("api/v1/statuses/{id}")
     suspend fun deleteStatus(@Path("id") statusId: String): NetworkResult<DeletedStatus>
 
+    @FormUrlEncoded
     @POST("api/v1/statuses/{id}/reblog")
-    suspend fun reblogStatus(@Path("id") statusId: String): NetworkResult<Status>
+    suspend fun reblogStatus(@Path("id") statusId: String, @Field("visibility") visibility: String?): NetworkResult<Status>
 
     @POST("api/v1/statuses/{id}/unreblog")
     suspend fun unreblogStatus(@Path("id") statusId: String): NetworkResult<Status>

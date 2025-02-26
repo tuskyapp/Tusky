@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.components.systemnotifications.NotificationChanne
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
@@ -335,9 +336,9 @@ class NotificationsFragment :
         viewModel.remove(notification.id)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
         val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
-        viewModel.reblog(reblog, status)
+        viewModel.reblog(reblog, status, visibility)
     }
 
     override val onMoreTranslate: (translate: Boolean, position: Int) -> Unit
