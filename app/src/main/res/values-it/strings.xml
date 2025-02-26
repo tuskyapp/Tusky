@@ -137,11 +137,11 @@
     <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
     <string name="login_connection">Connessione…</string>
     <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a>
-\n \u0020
+\n
 \nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
-\n \u0020
+\n
 \nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito.
-\n \u0020
+\n
 \nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
@@ -596,6 +596,9 @@
         <item quantity="one">Non è stato possibile caricare il tuo post ed è stato salvato nelle bozze.
 \n
 \nNon è stato possibile contattare il server oppure il server ha rifiutato il post.</item>
+        <item quantity="many">Non è stato possibile caricare i tuoi post e sono stati salvati nelle bozze.
+\n
+\nNon è stato possibile contattare il server oppure il server ha rifiutato i post.</item>
         <item quantity="other">Non è stato possibile caricare i tuoi post e sono stati salvati nelle bozze.
 \n
 \nNon è stato possibile contattare il server oppure il server ha rifiutato i post.</item>
@@ -765,4 +768,31 @@
     <string name="notification_channel_admin">Amministratore</string>
     <string name="notification_channel_admin_description">Notifiche amministratore, come nuove segnalazioni o iscrizioni</string>
     <string name="relationship_severance_event_title">Connessione persa</string>
+    <string name="relationship_severance_event_user_domain_block">Hai bloccato %1$s, rimuovendo %2$s dai tuoi follower e %3$s che segui.</string>
+    <string name="unknown_notification_type_explanation">Tusky non riconosce questo tipo di notifica e non te la può mostrare. L\'interfaccia web potrebbe essere in grado di farlo. Per favore informa gli sviluppatori di Tusky così che possano aggiungerne il supporto!</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Alcuni tuoi post sono stati indicati come sensibili.</string>
+    <string name="relationship_severance_event_account_suspension">Un amministratore di %1$s ha sospeso %2$s, il che significa che non riceverai più i loro aggiornamenti e non potrai interagire con loro.</string>
+    <string name="relationship_severance_event_domain_block">Un amministratore di %1$s ha bloccato %2$s, includendo %3$s dei tuoi follower e %4$s che segui tu.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s account</item>
+        <item quantity="many">%1$s account</item>
+        <item quantity="other">%1$s account</item>
+    </plurals>
+    <string name="moderation_warning">Hai ricevuto un avviso di moderazione.</string>
+    <string name="moderation_warning_action_delete_statuses">Alcuni dei tuoi post sono stati rimossi.</string>
+    <string name="moderation_warning_action_disable">Il tuo account è stato disattivato.</string>
+    <string name="moderation_warning_action_none">Il tuo account ha ricevuto un avviso di moderazione.</string>
+    <string name="moderation_warning_action_sensitive">I tuoi post saranno indicati come sensibili da ora in poi.</string>
+    <string name="moderation_warning_action_silence">Il tuo account è stato limitato.</string>
+    <string name="moderation_warning_action_suspend">Il tuo account è stato sospeso.</string>
+    <string name="poll">Sondaggio</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s allegato multimediale</item>
+        <item quantity="many">%1$s allegati multimediale</item>
+        <item quantity="other">%1$s allegati multimediale</item>
+    </plurals>
+    <string name="notification_info_reply">Rispondi</string>
+    <string name="notification_info_private_mention">Menzione privata</string>
+    <string name="notification_info_mention">Menzione</string>
+    <string name="notification_info_private_reply">Risposta privata</string>
 </resources>
