@@ -24,6 +24,7 @@
 - The rendering of trending tags has been improved https://github.com/tuskyapp/Tusky/pull/4889 https://github.com/tuskyapp/Tusky/pull/4924
 - The app will no longer make database queries on the main thread, which improves performance https://github.com/tuskyapp/Tusky/pull/4786
 - Wellbeing mode will no longer hide the "follows you" badge on profiles https://github.com/tuskyapp/Tusky/pull/4940
+- It is now possible to select boost visibility when the "Show confirmation before boosting" option is active https://github.com/tuskyapp/Tusky/pull/4944
 
 ### Significant bug fixes
 
