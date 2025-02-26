@@ -196,9 +196,9 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun reblog(reblog: Boolean, status: StatusViewData.Concrete, visibility: Status.Visibility = Status.Visibility.PUBLIC): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).getOrThrow()
+            timelineCases.reblog(status.actionableId, reblog, visibility).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)

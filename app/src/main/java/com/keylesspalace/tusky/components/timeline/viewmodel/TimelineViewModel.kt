@@ -29,6 +29,7 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Filter
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.FilterModel
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -107,9 +108,9 @@ abstract class TimelineViewModel(
         }
     }
 
-    fun reblog(reblog: Boolean, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+    fun reblog(reblog: Boolean, status: StatusViewData.Concrete, visibility: Status.Visibility = Status.Visibility.PUBLIC): Job = viewModelScope.launch {
         try {
-            timelineCases.reblog(status.actionableId, reblog).getOrThrow()
+            timelineCases.reblog(status.actionableId, reblog, visibility).getOrThrow()
         } catch (t: Exception) {
             ifExpected(t) {
                 Log.d(TAG, "Failed to reblog status " + status.actionableId, t)

@@ -415,9 +415,9 @@ class TimelineFragment :
         super.reply(status.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
-        viewModel.reblog(reblog, status)
+        viewModel.reblog(reblog, status, visibility)
     }
 
     private fun onTranslate(position: Int) {

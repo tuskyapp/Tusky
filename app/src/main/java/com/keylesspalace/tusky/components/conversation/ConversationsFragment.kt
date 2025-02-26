@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.account.AccountActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
+import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.ReselectableFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
@@ -231,7 +232,7 @@ class ConversationsFragment :
         adapter?.refresh()
     }
 
-    override fun onReblog(reblog: Boolean, position: Int) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
         // its impossible to reblog private messages
     }
 
@@ -335,7 +336,7 @@ class ConversationsFragment :
         }
     }
 
-    override fun onVoteInPoll(position: Int, choices: MutableList<Int>) {
+    override fun onVoteInPoll(position: Int, choices: List<Int>) {
         adapter?.peek(position)?.let { conversation ->
             viewModel.voteInPoll(choices, conversation)
         }

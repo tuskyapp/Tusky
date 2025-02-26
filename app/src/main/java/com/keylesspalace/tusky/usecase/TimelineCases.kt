@@ -44,9 +44,9 @@ class TimelineCases @Inject constructor(
     private val eventHub: EventHub
 ) {
 
-    suspend fun reblog(statusId: String, reblog: Boolean): NetworkResult<Status> {
+    suspend fun reblog(statusId: String, reblog: Boolean, visibility: Status.Visibility = Status.Visibility.PUBLIC): NetworkResult<Status> {
         return if (reblog) {
-            mastodonApi.reblogStatus(statusId)
+            mastodonApi.reblogStatus(statusId, visibility.stringValue)
         } else {
             mastodonApi.unreblogStatus(statusId)
         }.onSuccess { status ->
