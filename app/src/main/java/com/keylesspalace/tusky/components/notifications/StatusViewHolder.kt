@@ -18,7 +18,6 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.view.View
-import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Notification
