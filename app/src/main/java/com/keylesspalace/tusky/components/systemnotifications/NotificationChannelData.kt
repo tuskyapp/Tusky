@@ -48,13 +48,13 @@ enum class NotificationChannelData(
         R.string.notification_poll_description
     ),
 
-    STATUS(
+    SUBSCRIPTIONS(
         listOf(Notification.Type.Status),
         R.string.notification_subscription_name,
         R.string.notification_subscription_description
     ),
 
-    UPDATE(
+    UPDATES(
         listOf(Notification.Type.Update),
         R.string.notification_update_name,
         R.string.notification_update_description
@@ -77,7 +77,7 @@ enum class NotificationChannelData(
     }
 
     fun getChannelId(accountIdentifier: String): String {
-        return "CHANNEL_${name}_$accountIdentifier"
+        return "CHANNEL_${name}$accountIdentifier"
     }
 }
 
