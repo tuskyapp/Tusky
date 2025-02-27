@@ -50,7 +50,7 @@
     <string name="action_block">Bloquear</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_follow">Seguir</string>
-    <string name="action_logout_confirm">Tes a certeza de querer pechar a sesión %1$s\? Isto eliminará todos os datos locais da conta, incluíndo borradores e preferencias.</string>
+    <string name="action_logout_confirm">Tes a certeza de querer pechar a sesión %1$s? Isto eliminará todos os datos locais da conta, incluíndo borradores e preferencias.</string>
     <string name="action_logout">Pechar sesión</string>
     <string name="action_login">Acceder con Tusky</string>
     <string name="action_compose">Redactar</string>
@@ -62,7 +62,7 @@
     <string name="action_reblog">Promover</string>
     <string name="action_reply">Responder</string>
     <string name="action_quick_reply">Resposta rápida</string>
-    <string name="report_comment_hint">Comentarios adicionais\?</string>
+    <string name="report_comment_hint">Comentarios adicionais?</string>
     <string name="report_username_format">Denunciar a @%1$s</string>
     <string name="notification_subscription_format">%1$s acaba de publicar</string>
     <string name="notification_follow_request_format">%1$s solicitou seguirte</string>
@@ -130,7 +130,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Activar xestos de desprazamento para moverse entre pestanas</string>
     <string name="failed_search">Fallou a busca</string>
     <string name="title_accounts">Contas</string>
-    <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén\?</string>
+    <string name="report_description_remote_instance">A conta pertence a outro servidor. Queres enviar unha copia anónima da denuncia alí tamén?</string>
     <string name="report_description_1">A denuncia vaise enviar á moderación do teu servidor. Podes engadir algunha explicación ou razón pola que estás denunciando a conta:</string>
     <string name="failed_fetch_posts">Fallou a obtención dos estados</string>
     <string name="failed_report">Fallo ao realizar a denuncia</string>
@@ -171,7 +171,7 @@
     </plurals>
     <string name="poll_info_format"> \u0020<!-- 15 votos • queda 1 hora --> \u0020%1$s • %2$s</string>
     <string name="compose_preview_image_description">Accións para a imaxe %1$s</string>
-    <string name="notification_clear_text">Tes a certeza de que queres borrar permanentemente todas as notificacións\?</string>
+    <string name="notification_clear_text">Tes a certeza de que queres borrar permanentemente todas as notificacións?</string>
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="compose_shortcut_long_label">Redactar publicación</string>
     <string name="filter_apply">Aplicar</string>
@@ -244,7 +244,7 @@
     <string name="send_post_notification_channel_name">Ao enviar Publicacións</string>
     <string name="send_post_notification_error_title">Produciuse un erro ao enviar a mensaxe</string>
     <string name="send_post_notification_title">Enviando publicación…</string>
-    <string name="compose_save_draft">Gardar borrador\?</string>
+    <string name="compose_save_draft">Gardar borrador?</string>
     <string name="lock_account_label_description">Require que aprobes manualmente as seguidoras</string>
     <string name="lock_account_label">Bloquear conta</string>
     <string name="action_remove">Retirar</string>
@@ -388,22 +388,22 @@
     <string name="dialog_block_warning">Bloquear a @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Agochar todo o dominio</string>
     <string name="mute_domain_warning">Tes a certeza de querer bloquear a todo %1$s? Non verás o contido dese dominio en ningunha cronoloxía pública ou nas notificacións. As túas seguidoras nese dominio serán retiradas.</string>
-    <string name="dialog_redraft_post_warning">Eliminar e reescribir esta publicación\?</string>
-    <string name="dialog_delete_post_warning">Eliminar esta publicación\?</string>
-    <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
-    <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento\?</string>
+    <string name="dialog_redraft_post_warning">Eliminar e reescribir esta publicación?</string>
+    <string name="dialog_delete_post_warning">Eliminar esta publicación?</string>
+    <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
+    <string name="dialog_message_cancel_follow_request">Revogar a solicitude de seguimento?</string>
     <string name="dialog_download_image">Descargar</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_title_finishing_media_upload">Rematando o envío de multimedia</string>
-    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a>
-\n
-\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela.
-\n
-\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí.
-\n
+    <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
+\n 
+\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. 
+\n 
+\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí. 
+\n 
 \nPodes atopar máis información en <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="login_connection">Conectando…</string>
-    <string name="link_whats_an_instance">Que é unha instancia\?</string>
+    <string name="link_whats_an_instance">Que é unha instancia?</string>
     <string name="label_header">Cabeceira</string>
     <string name="label_avatar">Avatar</string>
     <string name="label_quick_reply">Responder…</string>
@@ -412,7 +412,7 @@
     <string name="hint_note">Acerca de</string>
     <string name="hint_display_name">Nome público</string>
     <string name="hint_content_warning">Aviso sobre o contido</string>
-    <string name="hint_compose">Que contas\?</string>
+    <string name="hint_compose">Que contas?</string>
     <string name="draft_deleted">Borrador eliminado</string>
     <string name="drafts_failed_loading_reply">Fallou a carga da información da Resposta</string>
     <string name="drafts_post_failed_to_send">Fallou o envío da publicación!</string>
@@ -454,7 +454,7 @@
     <string name="duration_1_hour">1 hora</string>
     <string name="duration_30_min">30 minutos</string>
     <string name="duration_5_min">5 minutos</string>
-    <string name="hint_domain">En que instancia\?</string>
+    <string name="hint_domain">En que instancia?</string>
     <string name="confirmation_domain_unmuted">%1$s visible</string>
     <string name="confirmation_unmuted">Usuaria reactivada</string>
     <string name="confirmation_unblocked">Usuaria desbloqueada</string>
@@ -483,7 +483,7 @@
     <string name="action_schedule_post">Programar publicación</string>
     <string name="action_emoji_keyboard">Teclado Emoji</string>
     <string name="follow_requests_info">Aínda que a túa conta non está bloqueada, a administración de %1$s opina que debes revisar manualmente as peticións de seguimento destas contas.</string>
-    <string name="dialog_delete_conversation_warning">Eliminar esta conversa\?</string>
+    <string name="dialog_delete_conversation_warning">Eliminar esta conversa?</string>
     <string name="action_delete_conversation">Eliminar conversa</string>
     <string name="action_unbookmark">Retirar marcador</string>
     <string name="pref_title_confirm_favourites">Pedir confirmación antes de favorecer</string>
@@ -523,7 +523,7 @@
     <string name="action_add_reaction">engadir reacción</string>
     <string name="compose_save_draft_loses_media">Gardar borrador? (Os adxuntos serán enviados outra vez cando restablezas o borrador.)</string>
     <string name="pref_title_show_self_username">Mostrar identificador na barra ferramentas</string>
-    <string name="delete_scheduled_post_warning">Eliminar publicación programada\?</string>
+    <string name="delete_scheduled_post_warning">Eliminar publicación programada?</string>
     <string name="failed_to_pin">Produciuse un fallo ao fixar</string>
     <string name="failed_to_unpin">Produciuse un fallo ao desprender</string>
     <string name="pref_show_self_username_always">Sempre</string>
@@ -594,8 +594,8 @@
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
-    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
-\n
+    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues. 
+\n 
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia {{group}}. Ou buscalas polo seu nome {{search}}; por exemplo busca «Tusky» para atopar a nosa conta en Mastodon.</string>
     <string name="post_media_image">Imaxe</string>
     <string name="hint_filter_title">O meu filtro</string>
@@ -630,11 +630,11 @@
     <string name="filter_keyword_addition_title">Engadir palabra clave</string>
     <string name="filter_edit_keyword_title">Editar palabra clave</string>
     <string name="select_list_manage">Xestionar listas</string>
-    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas.
-\n
+    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas. 
+\n 
 \nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
     <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
-    <string name="compose_delete_draft">Eliminar borrador\?</string>
+    <string name="compose_delete_draft">Eliminar borrador?</string>
     <string name="pref_ui_text_size">Tamaño da letra</string>
     <string name="notification_listenable_worker_name">Actividade en segundo plano</string>
     <string name="notification_listenable_worker_description">Notificacións cando Tusky está a funcionar en segundo plano</string>
@@ -652,23 +652,23 @@
     <string name="about_copy">Copiar a información da versión e o dispositivo</string>
     <string name="dialog_delete_filter_positive_action">Eliminar</string>
     <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
-    <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'?</string>
     <string name="error_media_playback">Produciuse un fallo ao reproducir: %1$s</string>
-    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM);
-\n
-\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto.
-\n
+    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); 
+\n 
+\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto. 
+\n 
 \nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir [iconics gmd_edit] e cambiar a visibilidade.</string>
     <string name="muting_hashtag_success_format">Acalar o cancelo #%1$s cun aviso</string>
     <string name="unmuting_hashtag_success_format">Reactivar o cancelo #%1$s</string>
     <string name="action_view_filter">Ver filtro</string>
     <string name="following_hashtag_success_format">Agora segues o cancelo #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%1$s</string>
-    <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil\?</string>
-    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas.
-\n
-\nTEN EN CONTA que só podes engadir contas que estás a seguir.
-\n
+    <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil?</string>
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. 
+\n 
+\nTEN EN CONTA que só podes engadir contas que estás a seguir. 
+\n 
 \nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
