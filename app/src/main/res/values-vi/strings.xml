@@ -281,11 +281,11 @@
     <string name="pref_title_alway_open_spoiler">Hiện nội dung ẩn</string>
     <string name="pref_title_alway_show_sensitive_media">Hiện media nhạy cảm</string>
     <string name="follows_you">Đang theo dõi bạn</string>
-    <string name="abbreviated_seconds_ago">%1$ds</string>
-    <string name="abbreviated_minutes_ago">%1$dp</string>
-    <string name="abbreviated_hours_ago">%1$dh</string>
-    <string name="abbreviated_days_ago">%1$d ngày</string>
-    <string name="abbreviated_years_ago">%1$d năm</string>
+    <string name="abbreviated_seconds_ago">%1$ds trước</string>
+    <string name="abbreviated_minutes_ago">%1$dp trước</string>
+    <string name="abbreviated_hours_ago">cách đây %1$dh</string>
+    <string name="abbreviated_days_ago">%1$d ngày trước</string>
+    <string name="abbreviated_years_ago">%1$d năm trước</string>
     <string name="abbreviated_in_seconds">%1$ds</string>
     <string name="abbreviated_in_minutes">%1$d phút</string>
     <string name="abbreviated_in_hours">%1$dh%1$ giờ</string>
