@@ -181,7 +181,7 @@
     <string name="pref_title_notification_alert_sound">Aðvara með hljóði</string>
     <string name="pref_title_notification_alert_vibrate">Aðvara með titringi</string>
     <string name="pref_title_notification_alert_light">Aðvara með ljósi</string>
-    <string name="pref_title_notification_filters">Láta mig vita þegar</string>
+    <string name="pref_title_notification_filters">Virkar tegundir tilkynninga</string>
     <string name="pref_title_appearance_settings">Útlit</string>
     <string name="pref_title_app_theme">Þema forrits</string>
     <string name="pref_title_timelines">Tímalínur</string>
@@ -227,7 +227,7 @@
     <string name="notification_boost_description">Tilkynningar þegar færslurnar þínar eru endurbirtar</string>
     <string name="notification_favourite_name">Eftirlæti</string>
     <string name="notification_favourite_description">Tilkynningar þegar færslurnar þínar eru settar í eftirlæti</string>
-    <string name="notification_poll_name">Kannanir</string>
+    <string name="notification_poll_name">Niðurstöður könnunar</string>
     <string name="notification_poll_description">Tilkynningar um kannanir sem er lokið</string>
     <string name="notification_mention_format">%1$s minntist á þig</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s og %4$d til viðbótar</string>
@@ -735,4 +735,40 @@
     <string name="notification_policies_filter_out">Sýsla með tilkynningar frá…</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_title">Óumbeðið einkaspjall</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Síað nema það sé í svari við þínu eigin spjalli (minnist á e-n) eða ef þú fylgist með sendandanum</string>
+    <string name="action_reblog_private">Endurbirting aðeins til fylgjenda</string>
+    <string name="action_reblog_public">Opinber endurbirting</string>
+    <string name="action_reblog_unlisted">Óskráð endurbirting</string>
+    <string name="notification_severed_relationship_name">Tapaðar tengingar</string>
+    <string name="notification_moderation_warning_name">Aðvaranir umsjónaraðila</string>
+    <string name="notification_unknown_description">Óþekkt tegund tilkynningar</string>
+    <string name="notification_channel_other">Annað</string>
+    <string name="notification_channel_other_description">Aðrar tilkynningar, eins og um rofnar tengingar og aðvaranir umsjónaraðila</string>
+    <string name="notification_channel_admin">Stjórnandi</string>
+    <string name="notification_channel_admin_description">Tilkynningar stjórnanda, eins og nýjar kærur eða nýskráningar</string>
+    <string name="moderation_warning_action_delete_statuses">Sumar færslurnar þínar hafa verið fjarlægðar.</string>
+    <string name="moderation_warning_action_disable">Aðgangurinn þinn hefur verið gerður óvirkur.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Sumar færslurnar þínar hafa verið merktar sem viðkvæmt efni.</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s myndefnisviðhengi</item>
+        <item quantity="other">%1$s myndefnisviðhengi</item>
+    </plurals>
+    <string name="notification_info_reply">Svara</string>
+    <string name="notification_info_private_mention">Minnst á í einkaspjalli</string>
+    <string name="notification_info_mention">Minnst á</string>
+    <string name="notification_info_private_reply">Einkasvar</string>
+    <string name="relationship_severance_event_title">Tenging tapaðist</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s aðgangur</item>
+        <item quantity="other">%1$s aðgangar</item>
+    </plurals>
+    <string name="relationship_severance_event_account_suspension">Stjórnandi frá %1$s hefur sett %2$s í bið, sem þýðir að þú getur ekki lengur séð neitt frá þeim eða átt í samskiptum við þá.</string>
+    <string name="relationship_severance_event_domain_block">Stjórnandi frá %1$s hefur lokað á %2$s, þar með talda %3$s af þeim sem fylgjast með þér og %4$s sem þú fylgist með.</string>
+    <string name="relationship_severance_event_user_domain_block">Þú hefur lokað á %1$s, þar með fjarlægt %2$s af þeim sem fylgjast með þér og %3$s sem þú fylgist með.</string>
+    <string name="moderation_warning">Þú hefur fengið aðvörun frá umsjónaraðila.</string>
+    <string name="moderation_warning_action_none">Aðgangurinn þinn hefur fengið aðvörun frá umsjónaraðila.</string>
+    <string name="moderation_warning_action_sensitive">Færslurnar þínar verða héðan í frá merktar sem viðkvæmt efni.</string>
+    <string name="moderation_warning_action_silence">Aðgangurinn þinn hefur verið takmarkaður.</string>
+    <string name="moderation_warning_action_suspend">Aðgangurinn þinn hefur verið settur í bið.</string>
+    <string name="poll">Könnun</string>
+    <string name="unknown_notification_type_explanation">Tusky þekkir ekki þessa tegund tilkynninga og getur ekki birt þér hana. Mögulega getur vefviðmót netþjónsins þíns birt þetta. Láttu hönnuði Tusky samt vita svo þeir getir bætt við stuðningi við þessa tegund tilkynninga!</string>
 </resources>
