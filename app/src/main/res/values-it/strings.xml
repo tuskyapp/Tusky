@@ -795,4 +795,7 @@
     <string name="notification_info_private_mention">Menzione privata</string>
     <string name="notification_info_mention">Menzione</string>
     <string name="notification_info_private_reply">Risposta privata</string>
+    <string name="action_reblog_private">Ricondividi solo per chi ti segue</string>
+    <string name="action_reblog_public">Ricondividi pubblicamente</string>
+    <string name="action_reblog_unlisted">Ricondivisione non in elenco</string>
 </resources>
