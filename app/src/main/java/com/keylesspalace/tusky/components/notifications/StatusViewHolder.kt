@@ -18,7 +18,6 @@
 package com.keylesspalace.tusky.components.notifications
 
 import android.view.View
-import at.connyduck.sparkbutton.helpers.Utils
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.StatusViewHolder
 import com.keylesspalace.tusky.entity.Notification
@@ -57,16 +56,16 @@ internal class StatusViewHolder(
             if (payloads.isNotEmpty()) {
                 return
             }
-
+            val res = itemView.resources
             if (viewData.type == Notification.Type.Poll) {
                 statusInfo.setText(if (accountId == viewData.account.id) R.string.poll_ended_created else R.string.poll_ended_voted)
                 statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0)
-                statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.context, 10))
-                statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.context, 28), 0, 0, 0)
+                statusInfo.setCompoundDrawablePadding(res.getDimensionPixelSize(R.dimen.status_info_drawable_padding_large))
+                statusInfo.setPadding(res.getDimensionPixelSize(R.dimen.status_info_padding_large), 0, 0, 0)
                 statusInfo.show()
             } else if (viewData.type == Notification.Type.Mention) {
-                statusInfo.setCompoundDrawablePadding(Utils.dpToPx(statusInfo.context, 6))
-                statusInfo.setPaddingRelative(Utils.dpToPx(statusInfo.context, 38), 0, 0, 0)
+                statusInfo.setCompoundDrawablePadding(res.getDimensionPixelSize(R.dimen.status_info_drawable_padding_small))
+                statusInfo.setPaddingRelative(res.getDimensionPixelSize(R.dimen.status_info_padding_small), 0, 0, 0)
                 statusInfo.show()
                 if (viewData.statusViewData.status.inReplyToAccountId == accountId) {
                     statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_reply_18dp, 0, 0, 0)

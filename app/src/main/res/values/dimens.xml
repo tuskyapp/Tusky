@@ -86,4 +86,12 @@
 
     <dimen name="bottomAppBarHeight">64dp</dimen>
 
+    <!-- padding + drawablePadding + drawable size must be 62dp to align with the 14dp padding and the 48dp avatar -->
+    <!-- paddings for when the status info has a large (24dp) icon -->
+    <dimen name="status_info_drawable_padding_large">10dp</dimen>
+    <dimen name="status_info_padding_large">28dp</dimen>
+    <!-- paddings for when the status info has a small (18dp) icon -->
+    <dimen name="status_info_drawable_padding_small">6dp</dimen>
+    <dimen name="status_info_padding_small">38dp</dimen>
+
 </resources>
