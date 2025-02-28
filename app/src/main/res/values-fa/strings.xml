@@ -775,4 +775,7 @@
     <string name="notification_info_mention">اشاره</string>
     <string name="notification_info_private_reply">پاسخ خصوصی</string>
     <string name="unknown_notification_type_explanation">تاسکی گونهٔ این آگاهی را تشخیص نداد و نمی‌تواند نشانش دهد. شاید میانای وب کارسازتان بتواند. لطفاً توسعه‌دهندگان تاسکی را آگاه کنید تا بتوانند پشتیبانی این گونه را بیفزایند!</string>
+    <string name="action_reblog_private">تقویت فقط برای پیگیران</string>
+    <string name="action_reblog_public">تقویت عمومی</string>
+    <string name="action_reblog_unlisted">تقویت سیاهه نشده</string>
 </resources>
