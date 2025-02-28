@@ -611,4 +611,6 @@
     <string name="ui_error_translate">Nevarēja iztulkot: %1$s</string>
     <string name="action_view_filter">Skatīt filtru</string>
     <string name="label_translated">Tulkots no %1$s, izmantojot %2$s</string>
+    <string name="url_copied">Url nokopēts</string>
+    <string name="confirmation_hashtag_copied">\'#%1$s\' nokopēts</string>
 </resources>
