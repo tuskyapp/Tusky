@@ -337,7 +337,7 @@
     <string name="notification_subscription_description">Сповіщати про нові дописи осіб, на яких ви підписалися</string>
     <string name="notification_subscription_name">Нові дописи</string>
     <string name="notification_poll_description">Сповіщати про завершення опитувань</string>
-    <string name="notification_poll_name">Опитування</string>
+    <string name="notification_poll_name">Результати опитування</string>
     <string name="notification_boost_description">Сповіщати про поширення ваших дописів</string>
     <string name="notification_boost_name">Поширення</string>
     <string name="notification_follow_request_description">Сповіщати про нові запити на підписки</string>
@@ -387,7 +387,7 @@
     <string name="pref_title_timelines">Стрічки</string>
     <string name="pref_title_app_theme">Тема застосунку</string>
     <string name="pref_title_appearance_settings">Вигляд</string>
-    <string name="pref_title_notification_filters">Сповіщати мене коли</string>
+    <string name="pref_title_notification_filters">Увімкнені типи сповіщень</string>
     <string name="pref_title_notification_alert_light">Світлосповіщення</string>
     <string name="pref_title_notification_alert_vibrate">Вібросповіщення</string>
     <string name="pref_title_notification_alert_sound">Звукові сповіщення</string>
@@ -604,12 +604,18 @@
     <string name="action_post_failed_show_drafts">Показати чернетки</string>
     <string name="action_post_failed_do_nothing">Відхилити</string>
     <plurals name="action_post_failed_detail">
-        <item quantity="one">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+        <item quantity="one">Не вдалося вивантажити ваш допис. Він збережений в чернетках.
 \n
-\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</item>
-        <item quantity="other">Не вдалося вивантажити ваш допис і його було збережено в чернетках.
+\nАбо не вдалося зв\'язатися з сервером, або він відхилив допис.</item>
+        <item quantity="few">Не вдалося вивантажити ваші дописи. Їх збережено в чернетках.
 \n
-\nАбо з не вдалося зв\'язатися з сервером, або він відхилив допис.</item>
+\nАбо не вдалося зв\'язатися з сервером, або він відхилив дописи.</item>
+        <item quantity="many">Не вдалося вивантажити ваші дописи. Їх збережено в чернетках.
+\n
+\nАбо не вдалося зв\'язатися з сервером, або він відхилив дописи.</item>
+        <item quantity="other">Не вдалося вивантажити ваші дописи. Їх збережено в чернетках.
+\n
+\nАбо не вдалося зв\'язатися з сервером, або він відхилив дописи.</item>
     </plurals>
     <string name="accessibility_talking_about_tag">%1$d людей обговорюють хештеґ %2$s</string>
     <string name="title_public_trending_hashtags">Популярні хештеги</string>
