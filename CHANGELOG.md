@@ -12,6 +12,7 @@
 
 - Support for Android 15 and edge-to-edge mode https://github.com/tuskyapp/Tusky/pull/4897
 - Improves the reliability of push notifications https://github.com/tuskyapp/Tusky/pull/4896 https://github.com/tuskyapp/Tusky/pull/4883
+- Replies in timeline are now clearly marked as such by a text above them https://github.com/tuskyapp/Tusky/pull/4834
 - Several improvements to how notifications are rendered in the notifications tab https://github.com/tuskyapp/Tusky/pull/4929
   - support for the new Mastodon 4.3 notification types `severed_relationships` and `moderation_warning`
   - The "unknown notification type" notification now shows the unknown type and a info dialog when you click it
