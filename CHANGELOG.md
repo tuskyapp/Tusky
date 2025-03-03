@@ -6,6 +6,33 @@
 
 ### Significant bug fixes
 
+## v28.0
+
+### New features and other improvements
+
+- Support for Android 15 and edge-to-edge mode https://github.com/tuskyapp/Tusky/pull/4897
+- Improves the reliability of push notifications https://github.com/tuskyapp/Tusky/pull/4896 https://github.com/tuskyapp/Tusky/pull/4883
+- Replies in timeline are now clearly marked as such by a text above them https://github.com/tuskyapp/Tusky/pull/4834
+- Several improvements to how notifications are rendered in the notifications tab https://github.com/tuskyapp/Tusky/pull/4929
+  - support for the new Mastodon 4.3 notification types `severed_relationships` and `moderation_warning`
+  - The "unknown notification type" notification now shows the unknown type and a info dialog when you click it
+  - The account note is now shown again for follow request and follow notifications
+  - The icon for the "<user> just posted" notification is now a bell instead of a home
+  - Adds a text above mention notifications that indicates if it is a (private) reply or (private) mention
+  - Follow requests won't be filtered by default in the notification tab. This change will only affect new logins and not existing ones.
+- Link Preview Cards got a new design and now support the fediverse:creator feature https://github.com/tuskyapp/Tusky/pull/4782
+- The possible selections for mute durations are now 1 hour, 6 hours, 1 day, 7 days, 30 days and 180 days https://github.com/tuskyapp/Tusky/pull/4943
+- The rendering of trending tags has been improved https://github.com/tuskyapp/Tusky/pull/4889 https://github.com/tuskyapp/Tusky/pull/4924
+- The app will no longer make database queries on the main thread, which improves performance https://github.com/tuskyapp/Tusky/pull/4786
+- Wellbeing mode will no longer hide the "follows you" badge on profiles https://github.com/tuskyapp/Tusky/pull/4940
+- It is now possible to select boost visibility when the "Show confirmation before boosting" option is active https://github.com/tuskyapp/Tusky/pull/4944
+
+### Significant bug fixes
+
+- Fixes a bug where more than 4 profile fields could not be edited (on instances that allow more than 4) https://github.com/tuskyapp/Tusky/commit/1157be18cf3bbd44426f4cdaae35e69b9f3cecca
+- Fixes a bug where a dropdown was partially hidden by the keyboard https://github.com/tuskyapp/Tusky/pull/4913
+- Tusky side timeline filters apply to own posts again https://github.com/tuskyapp/Tusky/pull/4879
+
 ## v27.2
 
 ### Significant bug fixes
