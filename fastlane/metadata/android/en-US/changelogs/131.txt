@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- Support for Android 15 and edge-to-edge mode
+- Improves the reliability of push notifications
+- Replies in timeline are now clearly marked as such
+- Several improvements to how notifications are rendered in the notifications tab
+- Link Preview Cards got a new design and now support the fediverse:creator feature
+
+See https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md for the full changelog
