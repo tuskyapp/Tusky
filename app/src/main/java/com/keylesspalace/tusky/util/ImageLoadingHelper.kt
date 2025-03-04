@@ -2,9 +2,7 @@
 
 package com.keylesspalace.tusky.util
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.annotation.Px
 import com.bumptech.glide.Glide
@@ -51,8 +49,4 @@ fun loadAvatar(
                 .into(imageView)
         }
     }
-}
-
-fun decodeBlurHash(context: Context, blurhash: String): BitmapDrawable {
-    return BitmapDrawable(context.resources, BlurHashDecoder.decode(blurhash, 32, 32, 1f))
 }

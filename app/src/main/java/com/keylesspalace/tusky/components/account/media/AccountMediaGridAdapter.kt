@@ -17,7 +17,7 @@ import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemAccountMediaBinding
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.decodeBlurHash
+import com.keylesspalace.tusky.util.BlurhashDrawable
 import com.keylesspalace.tusky.util.getFormattedDescription
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.show
@@ -86,7 +86,7 @@ class AccountMediaGridAdapter(
 
             val blurhash = item.attachment.blurhash
             val placeholder = if (useBlurhash && blurhash != null) {
-                decodeBlurHash(context, blurhash)
+                BlurhashDrawable(context, blurhash)
             } else {
                 null
             }
