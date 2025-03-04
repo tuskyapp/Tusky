@@ -143,8 +143,8 @@ class StatusViewHelper(private val itemView: View) {
                 } else {
                     mediaPreviews[i].removeFocalPoint()
                     if (statusDisplayOptions.useBlurhash && attachment.blurhash != null) {
-                        val blurhashBitmap = BlurhashDrawable(context, attachment.blurhash)
-                        mediaPreviews[i].setImageDrawable(blurhashBitmap)
+                        val blurhashDrawable = BlurhashDrawable(context, attachment.blurhash)
+                        mediaPreviews[i].setImageDrawable(blurhashDrawable)
                     } else {
                         mediaPreviews[i].setImageDrawable(mediaPreviewUnloaded)
                     }
