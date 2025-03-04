@@ -26,9 +26,9 @@ import com.keylesspalace.tusky.entity.StatusEdit
 import com.keylesspalace.tusky.interfaces.LinkListener
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter
 import com.keylesspalace.tusky.util.BindingHolder
+import com.keylesspalace.tusky.util.BlurhashDrawable
 import com.keylesspalace.tusky.util.TuskyTagHandler
 import com.keylesspalace.tusky.util.aspectRatios
-import com.keylesspalace.tusky.util.decodeBlurHash
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
@@ -186,7 +186,7 @@ class ViewEditsAdapter(
                 val blurhash = attachment.blurhash
 
                 val placeholder: Drawable = if (blurhash != null && useBlurhash) {
-                    decodeBlurHash(context, blurhash)
+                    BlurhashDrawable(context, blurhash)
                 } else {
                     ColorDrawable(MaterialColors.getColor(imageView, R.attr.colorBackgroundAccent))
                 }
