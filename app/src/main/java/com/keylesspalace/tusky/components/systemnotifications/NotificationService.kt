@@ -149,7 +149,8 @@ class NotificationService @Inject constructor(
                 NotificationChannel(
                     it.getChannelId(account),
                     context.getString(it.title),
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    // HIGH: to show up as popup like with any other app
+                    NotificationManager.IMPORTANCE_HIGH,
                 ).apply {
                     description = context.getString(it.description)
                     enableLights(true)
