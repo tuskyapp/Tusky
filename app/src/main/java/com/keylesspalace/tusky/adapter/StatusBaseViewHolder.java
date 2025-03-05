@@ -54,6 +54,7 @@ import com.keylesspalace.tusky.entity.Translation;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
+import com.keylesspalace.tusky.util.BlurhashDrawable;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
 import com.keylesspalace.tusky.util.CustomEmojiHelper;
@@ -473,7 +474,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private BitmapDrawable decodeBlurHash(String blurhash) {
-        return ImageLoadingHelper.decodeBlurHash(this.avatar.getContext(), blurhash);
+        return new BlurhashDrawable(this.avatar.getContext(), blurhash);
     }
 
     private void loadImage(MediaPreviewImageView imageView,

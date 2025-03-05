@@ -115,7 +115,7 @@ class StatusViewHelper(private val itemView: View) {
                     .into(mediaPreviews[i])
             } else {
                 val placeholder = if (attachment.blurhash != null) {
-                    decodeBlurHash(context, attachment.blurhash)
+                    BlurhashDrawable(context, attachment.blurhash)
                 } else {
                     mediaPreviewUnloaded
                 }
@@ -143,8 +143,8 @@ class StatusViewHelper(private val itemView: View) {
                 } else {
                     mediaPreviews[i].removeFocalPoint()
                     if (statusDisplayOptions.useBlurhash && attachment.blurhash != null) {
-                        val blurhashBitmap = decodeBlurHash(context, attachment.blurhash)
-                        mediaPreviews[i].setImageDrawable(blurhashBitmap)
+                        val blurhashDrawable = BlurhashDrawable(context, attachment.blurhash)
+                        mediaPreviews[i].setImageDrawable(blurhashDrawable)
                     } else {
                         mediaPreviews[i].setImageDrawable(mediaPreviewUnloaded)
                     }

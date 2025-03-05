@@ -1,10 +1,23 @@
+/* Copyright 2025 Tusky Contributors
+ *
+ * This file is a part of Tusky.
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Tusky is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Tusky; if not,
+ * see <http://www.gnu.org/licenses>. */
+
 @file:JvmName("ImageLoadingHelper")
 
 package com.keylesspalace.tusky.util
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.widget.ImageView
 import androidx.annotation.Px
 import com.bumptech.glide.Glide
@@ -51,8 +64,4 @@ fun loadAvatar(
                 .into(imageView)
         }
     }
-}
-
-fun decodeBlurHash(context: Context, blurhash: String): BitmapDrawable {
-    return BitmapDrawable(context.resources, BlurHashDecoder.decode(blurhash, 32, 32, 1f))
 }
