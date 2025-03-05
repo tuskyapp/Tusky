@@ -54,7 +54,6 @@ import com.keylesspalace.tusky.entity.Translation;
 import com.keylesspalace.tusky.interfaces.StatusActionListener;
 import com.keylesspalace.tusky.util.AbsoluteTimeFormatter;
 import com.keylesspalace.tusky.util.AttachmentHelper;
-import com.keylesspalace.tusky.util.BlurHashDecoder;
 import com.keylesspalace.tusky.util.BlurhashDrawable;
 import com.keylesspalace.tusky.util.CardViewMode;
 import com.keylesspalace.tusky.util.CompositeWithOpaqueBackground;
