@@ -247,6 +247,10 @@ class ViewThreadViewModel @Inject constructor(
             }
         }
 
+    fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
+        updateStatus(status.id) { it.copy(poll = it.poll?.copy(voted = true)) }
+    }
+
     fun removeStatus(statusToRemove: StatusViewData.Concrete) {
         updateSuccess { uiState ->
             uiState.copy(

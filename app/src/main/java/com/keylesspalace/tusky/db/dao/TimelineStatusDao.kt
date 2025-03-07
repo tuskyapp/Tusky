@@ -183,6 +183,16 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     )
     abstract suspend fun setVoted(tuskyAccountId: Long, statusId: String, poll: String)
 
+    @Transaction
+    @OptIn(ExperimentalStdlibApi::class)
+    open suspend fun setShowResults(tuskyAccountId: Long, statusId: String, moshi: Moshi) {
+        getStatus(tuskyAccountId, statusId)?.let { status ->
+            status.poll?.let { poll ->
+                setVoted(tuskyAccountId, statusId, moshi.adapter<Poll>().toJson(poll.copy(voted = true)))
+            }
+        }
+    }
+
     @Query(
         """UPDATE TimelineStatusEntity SET expanded = :expanded
 WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""

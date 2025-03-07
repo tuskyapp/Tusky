@@ -469,6 +469,12 @@ class ViewThreadFragment :
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun onShowPollResults(position: Int) {
+        adapter?.currentList?.getOrNull(position)?.let { status ->
+            viewModel.showPollResults(status)
+        }
+    }
+
     override fun onShowEdits(position: Int) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
         val viewEditsFragment = ViewEditsFragment.newInstance(status.actionableId)

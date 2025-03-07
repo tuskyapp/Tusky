@@ -342,6 +342,12 @@ class ConversationsFragment :
         }
     }
 
+    override fun onShowPollResults(position: Int) {
+        adapter?.peek(position)?.let { conversation ->
+            viewModel.showPollResults(conversation)
+        }
+    }
+
     override fun clearWarningAction(position: Int) {
     }
 

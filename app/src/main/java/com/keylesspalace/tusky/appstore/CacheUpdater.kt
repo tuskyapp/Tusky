@@ -60,6 +60,7 @@ class CacheUpdater @Inject constructor(
                         val pollString = moshi.adapter<Poll>().toJson(event.poll)
                         statusDao.setVoted(tuskyAccountId, event.statusId, pollString)
                     }
+                    is PollShowResultsEvent -> statusDao.setShowResults(tuskyAccountId, event.statusId, moshi)
                 }
             }
         }
