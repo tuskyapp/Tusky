@@ -132,26 +132,30 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        window.decorView.setBackgroundColor(Color.BLACK)
 
-        val contentView: View = findViewById(android.R.id.content)
-        contentView.setBackgroundColor(MaterialColors.getColor(contentView, android.R.attr.colorBackground))
+        // currently only ComposeActivity on tablets is floating
+        if (!window.isFloating) {
+            window.decorView.setBackgroundColor(Color.BLACK)
 
-        // handle left/right insets. This is relevant for edge-to-edge mode in landscape orientation
-        ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, insets ->
-            val systemBarInsets = insets.getInsets(systemBars())
-            val displayCutoutInsets = insets.getInsets(displayCutout())
-            // use padding for system bar insets so they get our background color and margin for cutout insets to turn them black
-            contentView.updatePadding(left = systemBarInsets.left, right = systemBarInsets.right)
-            contentView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = displayCutoutInsets.left
-                rightMargin = displayCutoutInsets.right
+            val contentView: View = findViewById(android.R.id.content)
+            contentView.setBackgroundColor(MaterialColors.getColor(contentView, android.R.attr.colorBackground))
+
+            // handle left/right insets. This is relevant for edge-to-edge mode in landscape orientation
+            ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, insets ->
+                val systemBarInsets = insets.getInsets(systemBars())
+                val displayCutoutInsets = insets.getInsets(displayCutout())
+                // use padding for system bar insets so they get our background color and margin for cutout insets to turn them black
+                contentView.updatePadding(left = systemBarInsets.left, right = systemBarInsets.right)
+                contentView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    leftMargin = displayCutoutInsets.left
+                    rightMargin = displayCutoutInsets.right
+                }
+
+                WindowInsetsCompat.Builder(insets)
+                    .setInsets(systemBars(), Insets.of(0, systemBarInsets.top, 0, systemBarInsets.bottom))
+                    .setInsets(displayCutout(), Insets.of(0, displayCutoutInsets.top, 0, displayCutoutInsets.bottom))
+                    .build()
             }
-
-            WindowInsetsCompat.Builder(insets)
-                .setInsets(systemBars(), Insets.of(0, systemBarInsets.top, 0, systemBarInsets.bottom))
-                .setInsets(displayCutout(), Insets.of(0, displayCutoutInsets.top, 0, displayCutoutInsets.bottom))
-                .build()
         }
     }
 

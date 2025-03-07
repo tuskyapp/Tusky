@@ -21,7 +21,6 @@
     <dimen name="account_activity_scroll_title_visible_height">200dp</dimen>
     <dimen name="account_activity_avatar_size">100dp</dimen>
 
-    <dimen name="compose_activity_scrollview_height">-1px</dimen> <!-- match_parent -->
     <dimen name="timeline_width">-1px</dimen> <!-- match_parent -->
 
     <item name="wrap_content" format="integer" type="dimen">-2</item>
@@ -83,6 +82,8 @@
     <dimen name="dialog_inset">24dp</dimen>
 
     <dimen name="media_description_sheet_bottom_padding">8dp</dimen>
+    <dimen name="media_description_sheet_peek_height">90dp</dimen>
+    <dimen name="media_image_view_bottom_margin">24dp</dimen>
 
     <dimen name="bottomAppBarHeight">64dp</dimen>
 
@@ -93,5 +94,11 @@
     <!-- paddings for when the status info has a small (18dp) icon -->
     <dimen name="status_info_drawable_padding_small">6dp</dimen>
     <dimen name="status_info_padding_small">38dp</dimen>
+
+    <dimen name="compose_bottom_bar_height">56dp</dimen>
+    <dimen name="compose_bottom_bar_padding_vertical">4dp</dimen>
+    <dimen name="compose_bottom_bar_padding_horizontal">8dp</dimen>
+
+    <dimen name="dialog_activity_vertical_inset">64dp</dimen>
 
 </resources>
