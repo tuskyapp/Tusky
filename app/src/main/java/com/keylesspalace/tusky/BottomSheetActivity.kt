@@ -22,6 +22,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.VisibleForTesting
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -62,6 +66,14 @@ abstract class BottomSheetActivity : BaseActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+
+        ViewCompat.setOnApplyWindowInsetsListener(bottomSheetLayout) { _, insets ->
+            val systemBarsInsets = insets.getInsets(systemBars() or ime())
+            val bottomInsets = systemBarsInsets.bottom
+
+            bottomSheetLayout.updatePadding(bottom = bottomInsets)
+            insets
+        }
     }
 
     open fun viewUrl(

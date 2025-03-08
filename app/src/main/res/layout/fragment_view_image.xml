@@ -10,7 +10,8 @@
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/photoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/media_image_view_bottom_margin"/>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
@@ -45,7 +46,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/description_bg_expanded"
             android:orientation="vertical"
-            app:behavior_peekHeight="90dp"
+            app:behavior_peekHeight="@dimen/media_description_sheet_peek_height"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <View

@@ -54,6 +54,7 @@ import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
@@ -265,12 +266,14 @@ class ComposeActivity :
 
         binding.composeBottomBar.setOnWindowInsetsChangeListener { windowInsets ->
             val insets = windowInsets.getInsets(systemBars() or ime())
-            binding.composeBottomBar.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 4))
-            binding.addMediaBottomSheet.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
-            binding.emojiView.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
-            binding.composeOptionsBottomSheet.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
-            binding.composeScheduleView.updatePadding(bottom = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 50))
-            (binding.composeMainScrollView.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = insets.bottom + at.connyduck.sparkbutton.helpers.Utils.dpToPx(this@ComposeActivity, 58)
+            val bottomBarHeight = resources.getDimensionPixelSize(R.dimen.compose_bottom_bar_height)
+            val bottomBarPadding = resources.getDimensionPixelSize(R.dimen.compose_bottom_bar_padding_vertical)
+            binding.composeBottomBar.updatePadding(bottom = insets.bottom + bottomBarPadding)
+            binding.addMediaBottomSheet.updatePadding(bottom = insets.bottom + bottomBarHeight)
+            binding.emojiView.updatePadding(bottom = insets.bottom + bottomBarHeight)
+            binding.composeOptionsBottomSheet.updatePadding(bottom = insets.bottom + bottomBarHeight)
+            binding.composeScheduleView.updatePadding(bottom = insets.bottom + bottomBarHeight)
+            binding.composeMainScrollView.updateLayoutParams<ViewGroup.MarginLayoutParams> { bottomMargin = insets.bottom + bottomBarHeight }
         }
 
         setupActionBar()
@@ -609,6 +612,11 @@ class ComposeActivity :
         addMediaBehavior = BottomSheetBehavior.from(binding.addMediaBottomSheet)
         scheduleBehavior = BottomSheetBehavior.from(binding.composeScheduleView)
         emojiBehavior = BottomSheetBehavior.from(binding.emojiView)
+
+        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        scheduleBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        emojiBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         val bottomSheetCallback = object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -1005,11 +1013,11 @@ class ComposeActivity :
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             }
         )
-        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun openPollDialog() = lifecycleScope.launch {
-        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         val instanceParams = viewModel.instanceInfo.first()
         showAddPollDialog(
             context = this@ComposeActivity,
@@ -1058,7 +1066,7 @@ class ComposeActivity :
     }
 
     override fun onVisibilityChanged(visibility: Status.Visibility) {
-        composeOptionsBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        composeOptionsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         viewModel.changeStatusVisibility(visibility)
     }
 
@@ -1165,7 +1173,7 @@ class ComposeActivity :
     }
 
     private fun initiateCameraApp() {
-        addMediaBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         val photoFile: File = try {
             createNewImageFile(this)

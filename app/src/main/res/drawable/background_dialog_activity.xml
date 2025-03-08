@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="16dp" />
-    <solid android:color="?android:attr/colorBackground" />
-</shape>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetTop="@dimen/dialog_activity_vertical_inset"
+    android:insetBottom="@dimen/dialog_activity_vertical_inset">
+    <shape>
+        <corners android:radius="16dp" />
+        <solid android:color="?android:attr/colorBackground" />
+    </shape>
+</inset>

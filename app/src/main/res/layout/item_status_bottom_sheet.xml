@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_status_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="?android:colorBackground"
     android:orientation="vertical"
@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:paddingVertical="24dp"
         android:text="@string/performing_lookup_title"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium" />
+
 </LinearLayout>
