@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- Supporto per Android 15 e schermi edge-to-edge
+- Migliorata l'affidabilità delle notifiche push
+- Le risposte ora sono indicate chiaramente nelle timeline
+- Diversi miglioramenti nella resa visiva delle notifiche nella tab Notifiche
+- Le carte di anteprima dei link hanno un nuovo aspetto e supportano la funzionalità fediverse:creator
+
+Vedi https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md per il changelog completo
