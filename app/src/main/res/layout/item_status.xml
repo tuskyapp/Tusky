@@ -25,9 +25,9 @@
         android:textSize="?attr/status_text_medium"
         app:drawableStartCompat="@drawable/ic_reblog_18dp"
         app:drawableTint="?android:textColorTertiary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
         tools:text="ConnyDuck boosted"
@@ -126,9 +126,9 @@
         style="@style/TuskyButton.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="0dp"
         android:layout_marginEnd="10dp"
         android:minHeight="0dp"
+        android:paddingHorizontal="0dp"
         android:text="@string/action_show_original"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
@@ -192,14 +192,15 @@
         app:layout_constraintTop_toBottomOf="@id/status_content_warning_button"
         tools:text="This is a status" />
 
-    <include layout="@layout/item_preview_card"
+    <include
+        layout="@layout/item_preview_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
-        app:layout_constraintTop_toBottomOf="@+id/button_toggle_content"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_toggle_content" />
 
     <Button
         android:id="@+id/button_toggle_content"
@@ -287,16 +288,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="14dp"
+        android:ellipsize="end"
         android:hyphenationFrequency="full"
         android:importantForAccessibility="no"
+        android:singleLine="true"
         android:textColor="?android:textColorPrimary"
         android:textIsSelectable="true"
         android:textSize="?attr/status_text_medium"
-        android:singleLine="true"
-        android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/status_display_name"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_description"
         tools:text="#one #two #three #four #five #six #seven #eight #nine #ten" />
 
     <ImageButton
@@ -305,6 +306,7 @@
         android:layout_width="52dp"
         android:layout_height="48dp"
         android:layout_marginStart="-14dp"
+        android:layout_marginTop="2dp"
         android:contentDescription="@string/action_reply"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"

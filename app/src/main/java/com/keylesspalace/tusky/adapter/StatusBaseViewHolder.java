@@ -97,7 +97,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final SparkButton favouriteButton;
     private final SparkButton bookmarkButton;
     private final ImageButton moreButton;
-    private final ConstraintLayout mediaContainer;
+    protected final ConstraintLayout mediaContainer;
     protected final MediaPreviewLayout mediaPreview;
     private final TextView sensitiveMediaWarning;
     private final View sensitiveMediaShow;
@@ -808,7 +808,11 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             setBookmarked(actionable.getBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = actionable.getSensitive();
-            if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
+            if (attachments.isEmpty()) {
+                mediaContainer.setVisibility(View.GONE);
+            } else if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
+                mediaContainer.setVisibility(View.VISIBLE);
+
                 setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
 
                 if (attachments.isEmpty()) {
@@ -819,6 +823,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     mediaLabel.setVisibility(View.GONE);
                 }
             } else {
+                mediaContainer.setVisibility(View.VISIBLE);
+
                 setMediaLabel(attachments, sensitive, listener, status.isShowingContent());
                 // Hide all unused views.
                 mediaPreview.setVisibility(View.GONE);

@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.keylesspalace.tusky.R;
@@ -91,7 +90,11 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
             setBookmarked(status.getBookmarked());
             List<Attachment> attachments = status.getAttachments();
             boolean sensitive = status.getSensitive();
-            if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
+            if (attachments.isEmpty()) {
+                mediaContainer.setVisibility(View.GONE);
+            } else if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
+                mediaContainer.setVisibility(View.VISIBLE);
+
                 setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
                         statusDisplayOptions.useBlurhash());
 
@@ -103,6 +106,8 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                     mediaLabel.setVisibility(View.GONE);
                 }
             } else {
+                mediaContainer.setVisibility(View.VISIBLE);
+
                 setMediaLabel(attachments, sensitive, listener, statusViewData.isShowingContent());
                 // Hide all unused views.
                 mediaPreview.setVisibility(View.GONE);
