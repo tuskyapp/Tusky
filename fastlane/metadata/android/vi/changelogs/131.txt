@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- Hỗ trợ Android 15 và chế độ tràn viền
+- Cải thiện thông báo đẩy
+- Cải thiện tab thông báo
+- Làm nổi bật lượt trả lời trên bảng tin
+- Thiết kế lại Xem trước liên kết và hỗ trợ tính năng fediverse:creator
+
+Xem đầy đủ https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md
