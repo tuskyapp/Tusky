@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="post_text_size_largest">Maior</string>
-    <string name="notification_subscription_name">Toots novos</string>
+    <string name="notification_subscription_name">Publicações novas</string>
     <string name="notification_sign_up_name">Criações de contas</string>
     <string name="notification_summary_small">%1$s e %2$s</string>
     <plurals name="notification_title_summary">
@@ -16,21 +16,21 @@
     <string name="unpin_action">Desafixar</string>
     <string name="conversation_2_recipients">%1$s e %2$s</string>
     <string name="pref_title_wellbeing_mode">Bem-estar</string>
-    <string name="tusky_compose_post_quicksetting_label">Escrever Toot</string>
+    <string name="tusky_compose_post_quicksetting_label">Escrever Publicação</string>
     <string name="dialog_delete_list_warning">Pretende remover a lista %1$s?</string>
     <string name="follow_requests_info">Apesar do seu perfil não ser privado, %1$s exige que você reveja manualmente as solicitações para te seguir destes perfis.</string>
     <string name="action_subscribe_account">Subscrever</string>
     <string name="action_unsubscribe_account">Remover subscrição</string>
-    <string name="error_authorization_denied">Autorização negada. Se tens a certeza que introduziste as credenciais corretas, tenta fazer login através do navegador pelo menu.</string>
+    <string name="error_authorization_denied">Autorização negada. Se tem a certeza que introduziu as credenciais corretas, tente fazer login através do navegador pelo menu.</string>
     <string name="error_retrieving_oauth_token">Erro ao adquirir token de login. Se o erro persistir, tenta fazer login através do navegador pelo menu.</string>
-    <string name="error_compose_character_limit">O toot é muito extenso!</string>
+    <string name="error_compose_character_limit">A publicação é muito extensa!</string>
     <string name="error_media_upload_type">Esse tipo de ficheiro não pode ser enviado.</string>
     <string name="error_media_upload_opening">Não foi possível abrir esse ficheiro.</string>
     <string name="error_media_upload_permission">É necessária permissão para ler o armazenamento.</string>
     <string name="error_media_download_permission">É necessária permissão para escrever no armazenamento.</string>
-    <string name="error_media_upload_image_or_video">Não é possível anexar imagens e vídeos no mesmo toot.</string>
+    <string name="error_media_upload_image_or_video">Não é possível anexar imagens e vídeos na mesma publicação.</string>
     <string name="error_media_upload_sending">Erro ao enviar.</string>
-    <string name="error_sender_account_gone">Erro ao publicar o toot.</string>
+    <string name="error_sender_account_gone">Erro ao enviar a publicação.</string>
     <string name="title_home">Página inicial</string>
     <string name="title_notifications">Notificações</string>
     <string name="title_public_local">Local</string>
@@ -38,7 +38,7 @@
     <string name="title_direct_messages">Mensagens diretas</string>
     <string name="title_tab_preferences">Separadores</string>
     <string name="title_view_thread">Conversa</string>
-    <string name="title_posts">Toots</string>
+    <string name="title_posts">Publicações</string>
     <string name="title_posts_with_replies">Com respostas</string>
     <string name="title_posts_pinned">Fixado</string>
     <string name="title_follows">Segue</string>
@@ -50,7 +50,7 @@
     <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="title_follow_requests">Seguidores pendentes</string>
     <string name="post_sensitive_media_title">Conteúdo sensível</string>
-    <string name="title_edit_profile">Edita o teu perfil</string>
+    <string name="title_edit_profile">Edite o seu perfil</string>
     <string name="post_media_hidden_title">Conteúdo multimédia ocultado</string>
     <string name="title_drafts">Rascunhos</string>
     <string name="post_sensitive_media_directions">Toque para ver</string>
@@ -58,15 +58,15 @@
     <string name="post_content_warning_show_less">Mostrar menos</string>
     <string name="post_content_show_more">Expandir</string>
     <string name="post_content_show_less">Contrair</string>
-    <string name="title_scheduled_posts">Toots agendados</string>
+    <string name="title_scheduled_posts">Publicações agendadas</string>
     <string name="title_announcements">Anúncios</string>
     <string name="title_licenses">Licenças</string>
     <string name="post_username_format">\@%1$s</string>
     <string name="post_boosted_format">%1$s partilhou</string>
     <string name="message_empty">Nada aqui.</string>
     <string name="footer_empty">Nada para ver aqui. Arraste para baixo para atualizar!</string>
-    <string name="notification_reblog_format">%1$s partilhou a tua publicação</string>
-    <string name="notification_favourite_format">%1$s gostou da tua publicação</string>
+    <string name="notification_reblog_format">%1$s partilhou a sua publicação</string>
+    <string name="notification_favourite_format">%1$s gostou da sua publicação</string>
     <string name="notification_follow_format">%1$s está a seguir-te</string>
     <string name="notification_follow_request_format">%1$s pediu para te seguir</string>
     <string name="notification_sign_up_format">%1$s criou conta</string>
@@ -98,8 +98,8 @@
     <string name="action_delete">Apagar</string>
     <string name="action_delete_conversation">Apagar conversa</string>
     <string name="action_delete_and_redraft">Apagar e criar novo rascunho</string>
-    <string name="action_send">TOOT</string>
-    <string name="action_send_public">TOOT!</string>
+    <string name="action_send">PUBLICAÇÃO</string>
+    <string name="action_send_public">PUBLICAÇÃO!</string>
     <string name="action_retry">Tentar novamente</string>
     <string name="action_close">Fechar</string>
     <string name="action_view_profile">Perfil</string>
@@ -129,11 +129,11 @@
     <string name="action_open_drawer">Abrir menu</string>
     <string name="action_search">Pesquisar</string>
     <string name="action_access_drafts">Rascunhos</string>
-    <string name="action_access_scheduled_posts">Toots Agendados</string>
-    <string name="action_toggle_visibility">Privacidade do toot</string>
+    <string name="action_access_scheduled_posts">Publicações agendadas</string>
+    <string name="action_toggle_visibility">Privacidade da publicação</string>
     <string name="action_content_warning">Aviso de conteúdo</string>
     <string name="action_emoji_keyboard">Teclado de emojis</string>
-    <string name="action_schedule_post">Agendar Toot</string>
+    <string name="action_schedule_post">Agendar Pubicação</string>
     <string name="action_reset_schedule">Redefinir</string>
     <string name="action_add_tab">Adicionar Separador</string>
     <string name="action_links">Hiperligações</string>
@@ -173,9 +173,9 @@
     <string name="login_connection">A ligar…</string>
     <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a> 
 \n 
-\nSe ainda não tens uma conta, insere o nome da instância onde pretendes participar e cria uma conta lá.
+\nSe ainda não tem uma conta, insira o nome da instância onde pretende participar e crie uma conta nela.
 \n 
-\nUma instância é o local onde tua conta é criada, mas podes facilmente seguir e comunicar com pessoas de outras instâncias como se estivessem todos no mesmo site. 
+\nUma instância é o local onde sua conta é criada, mas pode facilmente seguir e comunicar com pessoas de outras instâncias como se estivessem todos no mesmo site.
 \n 
 \nMais informações disponíveis em <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">A Terminar Envio de Conteúdo Multimédia</string>
@@ -183,10 +183,10 @@
     <string name="dialog_download_image">Descarregar</string>
     <string name="dialog_message_cancel_follow_request">Cancelar o pedido para seguir\?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta\?</string>
-    <string name="dialog_delete_post_warning">Apagar este toot\?</string>
-    <string name="dialog_redraft_post_warning">Apagar e rescrever este toot\?</string>
+    <string name="dialog_delete_post_warning">Apagar esta publicação?</string>
+    <string name="dialog_redraft_post_warning">Apagar e rescrever esta publicação?</string>
     <string name="dialog_delete_conversation_warning">Apagar esta conversa\?</string>
-    <string name="mute_domain_warning">Tens a certeza que pretendes bloquear a instância %1$s? Deixarás de poder ver quaisquer conteúdos dessa instância em qualquer timeline pública ou nas tuas notificações. Os teus seguidores dessa instância serão removidos.</string>
+    <string name="mute_domain_warning">Tem a certeza que pretende bloquear a instância %1$s? Deixará de poder ver quaisquer conteúdos dessa instância em qualquer timeline pública ou nas suas notificações. Os seus seguidores dessa instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
     <string name="dialog_block_warning">Bloquear @%1$s?</string>
     <string name="dialog_mute_warning">Silenciar @%1$s?</string>
@@ -201,7 +201,7 @@
     <string name="pref_title_notification_alert_sound">Notificar com som</string>
     <string name="pref_title_notification_alert_vibrate">Notificar com vibração</string>
     <string name="pref_title_notification_alert_light">Notificar com luz</string>
-    <string name="pref_title_notification_filters">Notifique-me quando</string>
+    <string name="pref_title_notification_filters">Tipos de notificações ativas</string>
     <string name="pref_title_appearance_settings">Aparência</string>
     <string name="pref_title_app_theme">Tema da aplicação</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -245,20 +245,20 @@
     <string name="notification_mention_name">Menções novas</string>
     <string name="notification_mention_descriptions">Notificações para menções novas</string>
     <string name="notification_follow_name">Novos seguidores</string>
-    <string name="pref_post_text_size">Tamanho do texto do toot</string>
+    <string name="pref_post_text_size">Tamanho do texto da publicação</string>
     <string name="notification_follow_description">Notificações para seguidores novos</string>
     <string name="notification_follow_request_name">Seguidores pendentes</string>
     <string name="notification_follow_request_description">Notificações para seguidores pendentes</string>
-    <string name="notification_boost_name">Boosts</string>
-    <string name="notification_poll_name">Votações</string>
+    <string name="notification_boost_name">Partilhas</string>
+    <string name="notification_poll_name">Resultados da votação</string>
     <string name="notification_poll_description">Notificações para votações terminadas</string>
-    <string name="notification_subscription_description">Notificações quando alguém para quem ativou os alertas publicar um toot novo</string>
+    <string name="notification_subscription_description">Notificações quando alguém para quem ativou os alertas enviar uma publicação nova</string>
     <string name="notification_sign_up_description">Notificações para novos utilizadores</string>
-    <string name="notification_update_name">Edições de toots</string>
+    <string name="notification_update_name">Edições de publicações</string>
     <string name="notification_boost_description">Notificações para boosts recebidos</string>
     <string name="notification_favourite_name">Favoritos</string>
-    <string name="notification_favourite_description">Notificações quando os seus toots são adicionados aos favoritos</string>
-    <string name="notification_update_description">Notificações quando toots com os quais interagiu forem editados</string>
+    <string name="notification_favourite_description">Notificações quando as suas publicações são adicionados aos favoritos</string>
+    <string name="notification_update_description">Notificações quando publicações com as quais interagiu forem editadas</string>
     <string name="notification_mention_format">%1$s mencionou-te</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s e %4$d outros</string>
     <string name="notification_summary_medium">%1$s, %2$s e %3$s</string>
@@ -272,8 +272,8 @@
     <string name="about_bug_feature_request_site">Reportar erros e pedidos de funcionalidades:
 \nhttps://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Perfil do Tusky</string>
-    <string name="post_share_content">Partilhar conteúdo do toot</string>
-    <string name="post_share_link">Partilhar hiperligação do toot</string>
+    <string name="post_share_content">Partilhar conteúdo da publicação</string>
+    <string name="post_share_link">Partilhar hiperligação da publicação</string>
     <string name="post_media_images">Imagens</string>
     <string name="post_media_video">Vídeo</string>
     <string name="post_media_audio">Áudio</string>
@@ -291,7 +291,7 @@
     <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Segue-te</string>
     <string name="pref_title_alway_show_sensitive_media">Mostrar sempre conteúdo multimédia sensível</string>
-    <string name="pref_title_alway_open_spoiler">Expandir sempre toots com Aviso de Conteúdo</string>
+    <string name="pref_title_alway_open_spoiler">Expandir sempre publicações com Aviso de Conteúdo</string>
     <string name="filter_dialog_whole_word">Palavra completa</string>
     <string name="title_media">Conteúdo Multimédia</string>
     <string name="load_more_placeholder_text">Carregar mais</string>
@@ -324,19 +324,19 @@
     <string name="action_set_caption">Escrever descrição</string>
     <string name="action_remove">Remover</string>
     <string name="lock_account_label">Proteger conta</string>
-    <string name="send_post_notification_title">A enviar o toot…</string>
-    <string name="send_post_notification_error_title">Erro ao enviar o toot</string>
-    <string name="send_post_notification_channel_name">A Enviar os Toots</string>
+    <string name="send_post_notification_title">A enviar a publicação…</string>
+    <string name="send_post_notification_error_title">Erro ao enviar a publicação</string>
+    <string name="send_post_notification_channel_name">A Enviar as Publicações</string>
     <string name="send_post_notification_cancel_title">Envio cancelado</string>
-    <string name="send_post_notification_saved_content">Uma cópia do toot foi guardada nos seus rascunhos</string>
+    <string name="send_post_notification_saved_content">Uma cópia da publicação foi guardada nos seus rascunhos</string>
     <string name="action_compose_shortcut">Escrever</string>
     <string name="error_no_custom_emojis">A sua instância, %1$s, não tem emojis personalizados</string>
     <string name="emoji_style">Estilo dos emojis</string>
     <string name="system_default">Padrão do sistema</string>
     <string name="download_fonts">É necessário descarregar estes pacotes de emojis primeiro</string>
     <string name="performing_lookup_title">A fazer pesquisa…</string>
-    <string name="expand_collapse_all_posts">Expandir/Contrair todos os toots</string>
-    <string name="action_open_post">Abrir toot</string>
+    <string name="expand_collapse_all_posts">Expandir/Contrair todas as publicações</string>
+    <string name="action_open_post">Abrir publicação</string>
     <string name="restart_required">É necessário reiniciar a aplicação</string>
     <string name="restart_emoji">É necessário reiniciar o Tusky para aplicar as alterações</string>
     <string name="restart">Reiniciar</string>
@@ -394,9 +394,9 @@
     <string name="notifications_clear">Apagar</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>
-    <string name="compose_shortcut_long_label">Escrever toot</string>
+    <string name="compose_shortcut_long_label">Escrever publicação</string>
     <string name="compose_shortcut_short_label">Escrever</string>
-    <string name="notification_clear_text">Tens a certeza que pretendes limpar todas as tuas notificações\?</string>
+    <string name="notification_clear_text">Tem a certeza que pretende limpar todas as suas notificações?</string>
     <string name="compose_preview_image_description">Ações para imagem %1$s</string>
     <string name="poll_info_format"> \u0020<!-- 15 votos • 1 hora restante --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -441,8 +441,8 @@
     <string name="hint_additional_info">Comentários adicionais</string>
     <string name="report_remote_instance">Encaminhar para %1$s</string>
     <string name="failed_report">Erro ao denunciar</string>
-    <string name="failed_fetch_posts">Erro ao carregar toots</string>
-    <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Podes adicionar abaixo uma explicação para a tua denúncia:</string>
+    <string name="failed_fetch_posts">Erro ao carregar publicações</string>
+    <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Pode adicionar abaixo uma explicação para a sua denúncia:</string>
     <string name="report_description_remote_instance">A conta está noutra instância. Quer enviar uma cópia anónima da denúncia para lá\?</string>
     <string name="title_accounts">Contas</string>
     <string name="failed_search">Erro ao pesquisar</string>
@@ -469,13 +469,13 @@
     <string name="edit_poll">Editar</string>
     <string name="post_lookup_error_format">Erro ao pesquisar publicação %1$s</string>
     <string name="no_drafts">Não tem rascunhos.</string>
-    <string name="no_scheduled_posts">Não tem toots agendados.</string>
+    <string name="no_scheduled_posts">Não tem publicações agendadas.</string>
     <string name="account_note_saved">Guardado!</string>
     <string name="wellbeing_mode_notice">Algumas informações que podem afetar seu bem-estar serão ocultadas. Isso inclui:
 \n
-\n- Notificações de favoritos, boosts e seguidores
-\n- Número de favoritos e boosts nos toots
-\n- Status de toots e seguidores nos perfis
+\n- Notificações de favoritos, partilhas e seguidores
+\n- Número de favoritos e partilhas nas publicações
+\n- Status de publicações e seguidores nos perfis
 \n
 \nNotificações push não serão afetadas, mas é possível rever as configurações das notificações manualmente.</string>
     <string name="review_notifications">Rever Notificações</string>
@@ -487,19 +487,19 @@
     <string name="pref_title_confirm_favourites">Mostrar confirmação antes de adicionar aos favoritos</string>
     <string name="pref_title_hide_top_toolbar">Esconder o título da barra superior</string>
     <string name="account_note_hint">Nota pessoal sobre este perfil</string>
-    <string name="wellbeing_hide_stats_posts">Esconder estatísticas quantitativas nos toots</string>
+    <string name="wellbeing_hide_stats_posts">Esconder estatísticas quantitativas nas publicações</string>
     <string name="wellbeing_hide_stats_profile">Esconder estatísticas quantitativas nos perfis</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Não é possível enviar mais de %1$d arquivo de conteúdo multimédia.</item>
         <item quantity="many">Não é possível enviar mais de %1$d arquivos de conteúdo multimédia.</item>
         <item quantity="other">Não é possível enviar mais de %1$d arquivos de conteúdo multimédia.</item>
     </plurals>
-    <string name="drafts_post_failed_to_send">Erro ao enviar o toot!</string>
+    <string name="drafts_post_failed_to_send">Erro ao enviar a publicação!</string>
     <string name="drafts_failed_loading_reply">Erro ao carregar a informação da resposta</string>
     <string name="draft_deleted">Rascunho apagado</string>
-    <string name="drafts_post_reply_removed">O toot para o qual escreveu um rascunho foi apagado</string>
+    <string name="drafts_post_reply_removed">A publicação para a qual escreveu um rascunho foi apagada</string>
     <string name="error_generic">Ocorreu um erro.</string>
-    <string name="error_network">Ocorreu um erro de conetividade. Por favor, verifica a tua ligação e tenta novamente.</string>
+    <string name="error_network">Ocorreu um erro de conetividade. Por favor, verifique a sua ligação e tente novamente.</string>
     <string name="error_empty">Isto não pode estar vazio.</string>
     <string name="error_invalid_domain">A instância inserida é inválida</string>
     <string name="error_failed_app_registration">Erro ao autenticar com esta instância. Se o erro persistir, tenta fazer login através do navegador pelo menu.</string>
@@ -543,13 +543,13 @@
     <string name="pref_title_http_proxy_port_message">A porta deve estar entre %1$d e %2$d</string>
     <string name="action_post_failed">Erro no upload</string>
     <plurals name="action_post_failed_detail">
-        <item quantity="one">A tua publicação não conseguiu ser enviada e foi guardada nos rascunhos.
+        <item quantity="one">Ocorreu um erro no envio da sua publicação e ela foi guardada nos rascunhos.
 \n
 \nO servidor não pode ser contactado ou rejeitou a publicação.</item>
-        <item quantity="many">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
+        <item quantity="many">Ocorreu um erro no envio das suas publicações e elas foram guardadas nos rascunhos.
 \n
 \nO servidor não pode ser contactado ou rejeitou as publicações.</item>
-        <item quantity="other">As tuas publicações não conseguiram ser enviadas e foram guardadas nos rascunhos.
+        <item quantity="other">Ocorreu um erro no envio das suas publicações e elas foram guardadas nos rascunhos.
 \n
 \nO servidor não pode ser contactado ou rejeitou as publicações.</item>
     </plurals>
@@ -586,7 +586,7 @@
     <string name="pref_default_post_language">Linguagem da publicação (sincronizada com o servidor)</string>
     <string name="notification_report_name">Denúncias</string>
     <string name="notification_report_description">Notificações de denúncias</string>
-    <string name="about_device_info_title">O teu dispositivo</string>
+    <string name="about_device_info_title">O seu dispositivo</string>
     <string name="notification_unknown_name">Desconhecido</string>
     <string name="app_theme_system_black">Usar tema do Sistema (preto)</string>
     <string name="error_following_hashtags_unsupported">Esta instância não suporta a funcionalidade que permite seguir hashtags.</string>
@@ -605,11 +605,11 @@
     <string name="status_filter_placeholder_label_format">Filtrado: %1$s</string>
     <string name="status_filtered_show_anyway">Mostrar à mesma</string>
     <string name="description_post_edited">Editado</string>
-    <string name="about_account_info_title">A tua conta</string>
+    <string name="about_account_info_title">A sua conta</string>
     <string name="about_account_info">\@%1$s@%2$s
 \nVersão: %3$s</string>
     <string name="status_created_at_now">agora</string>
-    <string name="compose_unsaved_changes">Tens alterações por guardar.</string>
+    <string name="compose_unsaved_changes">Tem alterações por guardar.</string>
     <string name="pref_title_account_filter_keywords">Perfis</string>
     <string name="compose_delete_draft">Apagar rascunho\?</string>
     <string name="post_media_image">Imagem</string>
@@ -625,8 +625,8 @@
     <string name="status_created_info">Criada: %1$s</string>
     <string name="pref_title_reading_order">Ordem de leitura</string>
     <string name="report_category_violation">Violação de uma regra</string>
-    <string name="no_lists">Não tens nenhuma lista.</string>
-    <string name="socket_timeout_exception">A tentativa de contacto com o teu servidor demorou muito tempo</string>
+    <string name="no_lists">Não tem nenhuma lista.</string>
+    <string name="socket_timeout_exception">A tentativa de contacto com o seu servidor demorou muito tempo</string>
     <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s?</string>
     <string name="pref_title_show_stat_inline">Mostrar estatísticas das publicações na timeline</string>
     <string name="action_view_filter">Ver filtro</string>
@@ -652,8 +652,8 @@
     <string name="notification_summary_report_format">%1$s · %2$d publicações anexadas</string>
     <string name="notification_report_format">Nova denúncia de %1$s</string>
     <string name="filter_keyword_addition_title">Adicionar palavra-chave</string>
-    <string name="unfollowing_hashtag_success_format">Já não segues a hashtag #%1$s</string>
-    <string name="dialog_save_profile_changes_message">Queres guardar as alterações ao teu perfil\?</string>
+    <string name="unfollowing_hashtag_success_format">Já não segue a hashtag #%1$s</string>
+    <string name="dialog_save_profile_changes_message">Quer guardar as alterações ao seu perfil?</string>
     <string name="action_add">Adcionar</string>
     <string name="ui_error_bookmark">Erro ao guardar a publicação: %1$s</string>
     <string name="hint_filter_title">O meu filtro</string>
@@ -663,14 +663,14 @@
     <string name="filter_description_warn">Esconder com um aviso</string>
     <string name="error_blocking_domain">Falha ao silenciar %1$s: %2$s</string>
     <string name="error_unblocking_domain">Falha ao remover o silêncio de %1$s: %2$s</string>
-    <string name="following_hashtag_success_format">Agora segues a hashtag #%1$s</string>
+    <string name="following_hashtag_success_format">Agora segue a hashtag #%1$s</string>
     <string name="load_newest_notifications">Carregar as notificações mais recentes</string>
-    <string name="error_missing_edits">O teu servidor sabe que esta publicação foi editada, mas não a consegue mostrar porque não tem uma cópia da edição.
-\n
+    <string name="error_missing_edits">O seu servidor sabe que esta publicação foi editada, mas não a consegue mostrar porque não tem uma cópia da edição.
+\n 
 \nIsto é <a href="https://github.com/mastodon/mastodon/issues/25398"> o problema #25398 do Mastodon </a>.</string>
     <string name="list_reply_policy_none">Ninguém</string>
     <string name="list_reply_policy_list">Membros da lista</string>
-    <string name="list_reply_policy_followed">Qualquer utilizador que segues</string>
+    <string name="list_reply_policy_followed">Qualquer utilizador que siga</string>
     <string name="list_reply_policy_label">Mostrar respostas a</string>
     <string name="total_usage">Uso total</string>
     <string name="ui_error_reject_follow_request">Rejeição de seguidor pendente falhou: %1$s</string>
@@ -679,19 +679,19 @@
     <string name="ui_success_accepted_follow_request">Seguidor pendente aceite</string>
     <string name="ui_success_rejected_follow_request">Seguidor pendente bloqueado</string>
     <string name="label_filter_action">Ação de filtro</string>
-    <string name="help_empty_conversations">As tuas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM). 
-\n 
+    <string name="help_empty_conversations">As suas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM).
+\n
 \nAs mensagens privadas são criadas definindo a visibilidade [iconics gmd_public] de uma publicação como [iconics gmd_mail] <i>Direta</i> e mencionando um ou mais utilizadores no texto.
 \n 
-\nPor exemplo, podes entrar na vista de perfil de uma conta e pressionar o botão de criar publicação [iconics gmd_edit] e alterar a visibilidade.</string>
-    <string name="help_empty_lists">Esta é a tua <b>vista de listas</b>. Podes criar várias listas privadas e adicionar contas nelas.
+\nPor exemplo, pode entrar na vista de perfil de uma conta e pressionar o botão de criar publicação [iconics gmd_edit] e alterar a visibilidade.</string>
+    <string name="help_empty_lists">Esta é a sua <b>vista de listas</b>. Pode criar várias listas privadas e adicionar contas nelas.
 \n 
-\nAtenção: apenas podes adicionar contas que segues às tuas listas.
+\nAtenção: apenas pode adicionar contas que segue às suas listas.
 \n 
 \nEstas listas podem ser usadas como um separador nos separadores das Configurações da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
-    <string name="help_empty_home">Esta é a tua <b>timeline inicial</b>. Ela mostra as publicações mais recentes das contas que segues. 
+    <string name="help_empty_home">Esta é a sua <b>timeline inicial</b>. Ela mostra as publicações mais recentes das contas que segue.
 \n 
-\nPara explorar contas, podes descobri-las numa das outras timelines. Por exemplo, a timeline local da tua instância [iconics gmd_group]. Ou podes pesquisá-las pelo nome [iconics gmd_search]; por exemplo, pesquisando por Tusky para encontrar a nossa conta Mastodon.</string>
+\nPara explorar contas, pode descobri-las numa das outras timelines. Por exemplo, a timeline local da sua instância [iconics gmd_group]. Ou pode pesquisá-las pelo nome [iconics gmd_search]; por exemplo, pesquisando por Tusky para encontrar a nossa conta Mastodon.</string>
     <string name="unmuting_hashtag_success_format">Remover silêncio da hashtag #%1$s</string>
     <string name="muting_hashtag_success_format">Silenciar hashtag #%1$s como um aviso</string>
     <string name="pref_title_per_timeline_preferences">Configurações por timeline</string>
@@ -717,7 +717,7 @@
     <string name="ui_error_translate">Não foi possível traduzir: %1$s</string>
     <string name="notification_policies_title">Políticas de Notificação</string>
     <string name="notification_policies_filter_out">Gerir notificações de…</string>
-    <string name="notification_policies_filter_dont_follow_title">Pessoas que não segues</string>
+    <string name="notification_policies_filter_dont_follow_title">Pessoas que não segue</string>
     <string name="notification_policies_filter_dont_follow_description">Até as aprovares manualmente</string>
     <string name="notification_policies_filter_not_following_title">Pessoas que não te seguem</string>
     <string name="notification_policies_filter_not_following_description">Incluindo pessoas que te seguem há menos de 3 dias</string>
@@ -725,7 +725,7 @@
     <string name="filtered_notifications_title">Notificações Filtradas</string>
     <string name="unknown_notification_filter_new_accounts_description">Criadas nos últimos 30 dias</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_title">Mensagens diretas não solicitadas</string>
-    <string name="unknown_notification_filter_unsolicited_private_mentions_description">Filtrado, a não ser que seja em resposta à tua menção ou se seguires quem enviou</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description">Filtrado, a não ser que seja em resposta à sua menção ou se segue quem enviou</string>
     <string name="unknown_notification_filter_moderated_accounts">Contas moderadas</string>
     <string name="unknown_notification_filter_moderated_accounts_description">Com limites impostos pelos moderadores da instância</string>
     <string name="notification_policies_not_supported">Esta funcionalidade é apenas suportada em instâncias Mastodon que usem a versão 4.3.0 ou posterior.</string>
@@ -745,8 +745,46 @@
     <string name="url_copied">Endereço copiado</string>
     <string name="confirmation_hashtag_copied">\'#%1$s\' copiada</string>
     <string name="reply_sending">A enviar…</string>
-    <string name="reply_sending_long">A tua resposta está a ser enviada.</string>
+    <string name="reply_sending_long">A sua resposta está a ser enviada.</string>
     <string name="preview_card_by_author">Por %1$s</string>
     <string name="preview_card_more_by_author">Mais por %1$s</string>
     <string name="follow_hashtag_success">Hashtags seguidas %1$s</string>
+    <string name="relationship_severance_event_user_domain_block">Bloqueou %1$s, removendo %2$s dos seguidores e %3$s que segue.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s conta</item>
+        <item quantity="many">%1$s contas</item>
+        <item quantity="other">%1$s contas</item>
+    </plurals>
+    <string name="action_reblog_private">Partilha apenas para seguidores</string>
+    <string name="notification_unknown_description">Tipo de notificação desconhecida</string>
+    <string name="relationship_severance_event_account_suspension">Um(a) administrador(a) de %1$s suspendeu %2$s o que significa que deixará de receber atualizações e de poder interagir com essa conta.</string>
+    <string name="notification_severed_relationship_name">Ligação perdida</string>
+    <string name="relationship_severance_event_domain_block">Um(a) administrador(a) de %1$s bloqueou %2$s, incluindo %3$s dos seus seguidores e %4$s que segue.</string>
+    <string name="moderation_warning_action_suspend">A sua conta foi suspensa.</string>
+    <string name="relationship_severance_event_title">Ligação perdida</string>
+    <string name="unknown_notification_type_explanation">O Tusky não reconhece este tipo de notificação e não a consegue mostrar. O interface web do seu servidor, no entanto, poderá conseguir. Por favor, informe a equipa do Tusky, para que possam adicionar suporte para este tipo de notificação!</string>
+    <string name="action_reblog_public">Partilha pública</string>
+    <string name="action_reblog_unlisted">Partilha não-listada</string>
+    <string name="notification_moderation_warning_name">Alertas de moderação</string>
+    <string name="notification_channel_other">Outro</string>
+    <string name="notification_channel_other_description">Outras notificações, tais como ligação perdida e alertas de moderação</string>
+    <string name="notification_channel_admin_description">Notificações de administração, tais como novas denúncias e novos utilizadores</string>
+    <string name="notification_channel_admin">Administração</string>
+    <string name="moderation_warning">Recebeu um aviso de moderação.</string>
+    <string name="moderation_warning_action_delete_statuses">Algumas das suas publicações foram removidas.</string>
+    <string name="moderation_warning_action_disable">A sua conta foi desativada.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Algumas das suas publicações foram marcadas como sensíveis.</string>
+    <string name="moderation_warning_action_none">A sua conta recebeu um aviso de moderação.</string>
+    <string name="moderation_warning_action_sensitive">As suas publicações serão marcadas como sensíveis de agora em diante.</string>
+    <string name="moderation_warning_action_silence">A sua conta foi limitada.</string>
+    <string name="poll">Votação</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s conteúdo multimédia anexado</item>
+        <item quantity="many">%1$s conteúdos multimédia anexados</item>
+        <item quantity="other">%1$s conteúdos multimédia anexados</item>
+    </plurals>
+    <string name="notification_info_reply">Responder</string>
+    <string name="notification_info_private_mention">Menção privada</string>
+    <string name="notification_info_mention">Mencionar</string>
+    <string name="notification_info_private_reply">Resposta privada</string>
 </resources>

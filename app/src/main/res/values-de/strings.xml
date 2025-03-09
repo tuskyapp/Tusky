@@ -736,4 +736,35 @@
     <string name="notification_policies_filter_not_following_description">Einschließlich Profilen, die dir seit weniger als 3 Tagen folgen</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Solange sie keine Antwort auf deine Erwähnung ist oder du dem Profil nicht folgst</string>
     <string name="notifications_from">Benachrichtigungen von %1$s</string>
+    <string name="follow_hashtag_success">Hashtag %1$s wird jetzt gefolgt</string>
+    <string name="relationship_severance_event_title">Verbindung verloren</string>
+    <string name="moderation_warning_action_delete_statuses">Einige deiner Beiträge wurden entfernt.</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s Anhang</item>
+        <item quantity="other">%1$s Anhänge</item>
+    </plurals>
+    <string name="relationship_severance_event_domain_block">Ein Administrator von %1$s hat %2$s blockiert, das betrifft %3$s von deinen Folgenden und %4$s, denen du folgst.</string>
+    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert, was %2$s von deinen Folgenden und %3$s, denen du folgst, entfernt.</string>
+    <string name="poll">Umfrage</string>
+    <string name="action_reblog_private">Boost nur für Folgende</string>
+    <string name="action_reblog_public">Öffentlicher Boost</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s Konto</item>
+        <item quantity="other">%1$s Konten</item>
+    </plurals>
+    <string name="moderation_warning">Du hast eine Verwarnung von den Moderator*innen erhalten.</string>
+    <string name="moderation_warning_action_disable">Dein Konto wurde deaktiviert.</string>
+    <string name="moderation_warning_action_none">Dein Konto hat eine Verwarnung von den Moderator*innen erhalten.</string>
+    <string name="moderation_warning_action_sensitive">Deine Beiträge werden von jetzt an als sensibel markiert werden.</string>
+    <string name="moderation_warning_action_silence">Dein Konto wurde eingeschränkt.</string>
+    <string name="moderation_warning_action_suspend">Dein Konto wurde stillgelegt.</string>
+    <string name="notification_info_private_mention">Private Erwähnung</string>
+    <string name="notification_info_mention">Erwähnung</string>
+    <string name="notification_info_private_reply">Private Antwort</string>
+    <string name="notification_channel_other">Andere</string>
+    <string name="preview_card_by_author">Von %1$s</string>
+    <string name="preview_card_more_by_author">Mehr von %1$s</string>
+    <string name="post_replied_self">Fortgeführter Thread</string>
+    <string name="post_replied">Antwortete</string>
+    <string name="post_replied_format">Antwort an %1$s</string>
 </resources>
