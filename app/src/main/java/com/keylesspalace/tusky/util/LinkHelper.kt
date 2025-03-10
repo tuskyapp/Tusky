@@ -86,7 +86,7 @@ fun setClickableText(
         trailingHashtagView == null || tags.isNullOrEmpty() -> Pair(spannableContent.length, emptyList())
         else -> getTrailingHashtags(spannableContent)
     }
-    val inlineHashtags = mutableListOf<CharSequence>()
+    val inlineHashtags = mutableSetOf<CharSequence>()
 
     view.text = spannableContent.apply {
         styleQuoteSpans(view)
