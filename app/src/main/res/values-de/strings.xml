@@ -63,7 +63,7 @@
     <string name="action_compose">Beitrag erstellen</string>
     <string name="action_login">Mit Tusky anmelden</string>
     <string name="action_logout">Abmelden</string>
-    <string name="action_logout_confirm">Möchtest du %1$s wirklich abmelden\? Dadurch werden alle lokalen Daten des Profils, wie Entwürfe und Einstellungen, gelöscht.</string>
+    <string name="action_logout_confirm">Möchtest du %1$s wirklich abmelden? Dadurch werden alle lokalen Daten des Profils, wie Entwürfe und Einstellungen, gelöscht.</string>
     <string name="action_follow">Folgen</string>
     <string name="action_unfollow">Entfolgen</string>
     <string name="action_block">Blockieren</string>
@@ -337,7 +337,7 @@
     <string name="compose_shortcut_long_label">Beitrag erstellen</string>
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
-    <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
+    <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest?</string>
     <string name="poll_info_format"> \u0020<!-- 15 Stimmen • noch 1 Stunde --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s Stimme</item>
@@ -495,7 +495,7 @@
     <string name="abbreviated_in_seconds">in %1$d Sek.</string>
     <string name="action_unbookmark">Lesezeichen entfernen</string>
     <string name="pref_title_confirm_favourites">Vor dem Favorisieren bestätigen</string>
-    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
+    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen?</string>
     <string name="action_delete_conversation">Unterhaltung löschen</string>
     <string name="duration_30_days">30 Tage</string>
     <string name="duration_60_days">60 Tage</string>
