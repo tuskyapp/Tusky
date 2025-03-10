@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- Unterstüzung für Android 15 und Edge-to-Edge
+- Verbessert die Zuverlässigkeit von Push-Benachrichtigungen
+- Antworten sind in der Timeline klar als solche gekennzeichnet
+- Mehrere Verbesserungen wie Benachrichtigungen im zugehörigen Tab angezeigt werden
+- Link-Vorschauen haben ein neues Design bekommen und unterstützen jetzt das fediverse:creator Attribut
+
+Vollständiges Änderungsprotokoll: https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md

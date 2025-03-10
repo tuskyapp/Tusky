@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- compatible co modo marxe-a-marxe de Android 15
+- melloras na fiabilidade das notificacións push
+- marcado máis claro das respostas na cronoloxía
+- varias melloras no xeito en que se mostran as notificacións na lapela de notificacións
+- as Tarxetas de previsualización de ligazóns teñen un novo deseño compatible con fediverse:creator
+
+Le a lista completa dos cambios en https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md

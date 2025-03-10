@@ -1,0 +1,9 @@
+Tusky 28.0
+
+- Cefnogaeth i Android 15 a modd ymyl-i-ymyl
+- Yn gwella dibynadwyaeth hysbysiadau gwthio
+- Mae atebion yn yr amserlen bellach wedi'u nodi'n glir
+- Sawl gwelliant i sut mae hysbysiadau'n cael eu rhoi yn y tab hysbysiadau
+- Cafodd Link Preview Cards ddyluniad newydd ac maent bellach yn cefnogi'r nodwedd fediverse:creator
+
+Gweler https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md am y log newid llawn
