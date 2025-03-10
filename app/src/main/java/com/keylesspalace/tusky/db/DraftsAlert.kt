@@ -18,15 +18,17 @@ package com.keylesspalace.tusky.db
 import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.drafts.DraftsActivity
 import com.keylesspalace.tusky.db.dao.DraftDao
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.launch
 
 /**
@@ -37,7 +39,6 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "DraftsAlert"
 
-@Singleton
 class DraftsAlert @Inject constructor(
     db: AppDatabase,
     private val accountManager: AccountManager
@@ -45,43 +46,48 @@ class DraftsAlert @Inject constructor(
     // For tracking when a media upload fails in the service
     private val draftDao: DraftDao = db.draftDao()
 
+    private var dialog: AlertDialog? = null
+
     fun <T> observeInContext(context: T, showAlert: Boolean) where T : Context, T : LifecycleOwner {
         accountManager.activeAccount?.let { activeAccount ->
             val coroutineScope = context.lifecycleScope
 
-            // Assume a single MainActivity, AccountActivity or DraftsActivity never sees more then one user id in its lifetime.
+            // One activity never sees more then one user id in its lifetime.
             val activeAccountId = activeAccount.id
-
-            val draftsNeedUserAlert = draftDao.draftsNeedUserAlert(activeAccountId)
 
             // observe ensures that this gets called at the most appropriate moment wrt the context lifecycle—
             // at init, at next onResume, or immediately if the context is resumed already.
             coroutineScope.launch {
-                if (showAlert) {
-                    draftsNeedUserAlert.collect { count ->
-                        Log.d(TAG, "User id $activeAccountId changed: Notification-worthy draft count $count")
-                        if (count > 0) {
-                            MaterialAlertDialogBuilder(context)
-                                .setTitle(R.string.action_post_failed)
-                                .setMessage(
-                                    context.resources.getQuantityString(R.plurals.action_post_failed_detail, count)
-                                )
-                                .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
-                                    clearDraftsAlert(coroutineScope, activeAccountId) // User looked at drafts
+                context.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    val draftsNeedUserAlert = draftDao.draftsNeedUserAlert(activeAccountId)
 
-                                    val intent = DraftsActivity.newIntent(context)
-                                    context.startActivity(intent)
-                                }
-                                .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
-                                    clearDraftsAlert(coroutineScope, activeAccountId) // User doesn't care
-                                }
-                                .show()
+                    if (showAlert) {
+                        draftDao.draftsNeedUserAlert(activeAccountId).collect { count ->
+                            Log.d(TAG, "User id $activeAccountId changed: Notification-worthy draft count $count")
+                            if (count > 0) {
+                                dialog?.cancel()
+                                dialog = MaterialAlertDialogBuilder(context)
+                                    .setTitle(R.string.action_post_failed)
+                                    .setMessage(
+                                        context.resources.getQuantityString(R.plurals.action_post_failed_detail, count)
+                                    )
+                                    .setPositiveButton(R.string.action_post_failed_show_drafts) { _: DialogInterface?, _: Int ->
+                                        clearDraftsAlert(coroutineScope, activeAccountId) // User looked at drafts
+
+                                        val intent = DraftsActivity.newIntent(context)
+                                        context.startActivity(intent)
+                                    }
+                                    .setNegativeButton(R.string.action_post_failed_do_nothing) { _: DialogInterface?, _: Int ->
+                                        clearDraftsAlert(coroutineScope, activeAccountId) // User doesn't care
+                                    }
+                                    .show()
+                            }
                         }
-                    }
-                } else {
-                    draftsNeedUserAlert.collect {
-                        Log.d(TAG, "User id $activeAccountId: Clean out notification-worthy drafts")
-                        clearDraftsAlert(coroutineScope, activeAccountId)
+                    } else {
+                        draftsNeedUserAlert.collect {
+                            Log.d(TAG, "User id $activeAccountId: Clean out notification-worthy drafts")
+                            clearDraftsAlert(coroutineScope, activeAccountId)
+                        }
                     }
                 }
             }
