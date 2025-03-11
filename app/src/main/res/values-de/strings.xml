@@ -160,7 +160,7 @@
     <string name="pref_title_notification_alert_sound">Mit einem Ton benachrichtigen</string>
     <string name="pref_title_notification_alert_vibrate">Mit Vibration benachrichtigen</string>
     <string name="pref_title_notification_alert_light">Mit Licht benachrichtigen</string>
-    <string name="pref_title_notification_filters">Mich benachrichtigen, wenn</string>
+    <string name="pref_title_notification_filters">Aktivierte Benachrichtigungen</string>
     <string name="pref_title_appearance_settings">Erscheinungsbild</string>
     <string name="pref_title_app_theme">App-Design</string>
     <string name="pref_title_timelines">Timelines</string>
@@ -329,7 +329,7 @@
     <string name="description_visibility_unlisted">Nicht gelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
     <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen\?</string>
-    <string name="notification_poll_name">Umfragen</string>
+    <string name="notification_poll_name">Umfrageergebnisse</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
     <string name="notifications_clear">Löschen</string>
     <string name="notifications_apply_filter">Filtern</string>
@@ -744,7 +744,7 @@
         <item quantity="other">%1$s Anhänge</item>
     </plurals>
     <string name="relationship_severance_event_domain_block">Ein Administrator von %1$s hat %2$s blockiert, das betrifft %3$s von deinen Folgenden und %4$s, denen du folgst.</string>
-    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert, was %2$s von deinen Folgenden und %3$s, denen du folgst, entfernt.</string>
+    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert – %2$s deiner Follower und %3$s du folgst, wurden entfernt.</string>
     <string name="poll">Umfrage</string>
     <string name="action_reblog_private">Boost nur für Folgende</string>
     <string name="action_reblog_public">Öffentlicher Boost</string>
@@ -767,4 +767,12 @@
     <string name="post_replied_self">Fortgeführter Thread</string>
     <string name="post_replied">Antwortete</string>
     <string name="post_replied_format">Antwort an %1$s</string>
+    <string name="notification_channel_admin_description">Administrationsbenachrichtigungen wie neue Meldungen und Accounts</string>
+    <string name="action_reblog_unlisted">Ungelisteter Boost</string>
+    <string name="relationship_severance_event_account_suspension">Ein Administrator von %1$s hat %2$s blockiert. Du wirst von diesem Profil keine Updates mehr erhalten und auch nicht mit ihm interagieren können.</string>
+    <string name="unknown_notification_type_explanation">Tusky kennt diesen Benachrichtigungstyp nicht und kann ihn nicht anzeigen. In der Webansicht deines Servers ist das vielleicht möglich. Bitte gib auch dem Tusky Team Bescheid damit sie den Typ in Zukunft unterstützen können!</string>
+    <string name="notification_info_reply">Antwort</string>
+    <string name="notification_channel_admin">Administration</string>
+    <string name="notification_severed_relationship_name">Verlorene Verbindungen</string>
+    <string name="notification_unknown_description">Unbekannter Benachrichtigungstyp</string>
 </resources>
