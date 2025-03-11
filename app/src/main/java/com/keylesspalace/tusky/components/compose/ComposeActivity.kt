@@ -996,24 +996,12 @@ class ComposeActivity :
     }
 
     private fun onMediaPick() {
-        addMediaBehavior.addBottomSheetCallback(
-            object : BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    // Wait until bottom sheet is not collapsed and show next screen after
-                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                        addMediaBehavior.removeBottomSheetCallback(this)
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                            pickMediaFilePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        } else {
-                            pickMediaFileLauncher.launch(true)
-                        }
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            }
-        )
-        addMediaBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            pickMediaFilePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            pickMediaFileLauncher.launch(true)
+        }
+        addMediaBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
     }
 
     private fun openPollDialog() = lifecycleScope.launch {
