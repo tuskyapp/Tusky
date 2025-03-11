@@ -775,4 +775,7 @@
     <string name="notification_channel_admin">Administration</string>
     <string name="notification_severed_relationship_name">Verlorene Verbindungen</string>
     <string name="notification_unknown_description">Unbekannter Benachrichtigungstyp</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Einige deiner Beiträge wurden als sensibel markiert.</string>
+    <string name="notification_moderation_warning_name">Moderationsverwarnung</string>
+    <string name="notification_channel_other_description">Andere Benachrichtigungen wie verlorene Verbindungen oder Moderationsverwarnungen</string>
 </resources>
