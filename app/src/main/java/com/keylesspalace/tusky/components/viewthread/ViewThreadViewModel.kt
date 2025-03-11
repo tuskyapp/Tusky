@@ -42,7 +42,6 @@ import com.keylesspalace.tusky.usecase.TimelineCases
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Job
@@ -65,7 +64,6 @@ class ViewThreadViewModel @Inject constructor(
     eventHub: EventHub,
     private val accountManager: AccountManager,
     private val db: AppDatabase,
-    private val moshi: Moshi
 ) : ViewModel() {
 
     private val activeAccount = accountManager.activeAccount!!
@@ -140,11 +138,7 @@ class ViewThreadViewModel @Inject constructor(
             // failed. Update the database when the fetch was successful.
             if (statusAndAccount != null) {
                 api.status(id).onSuccess { result ->
-                    db.timelineStatusDao().update(
-                        tuskyAccountId = activeAccount.id,
-                        status = result,
-                        moshi = moshi
-                    )
+                    db.timelineStatusDao().update(tuskyAccountId = activeAccount.id, status = result)
                     detailedStatus = result.toViewData(isDetailed = true)
                 }
             }
