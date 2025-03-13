@@ -763,4 +763,21 @@
     <string name="unknown_notification_filter_moderated_accounts">Модерований обліковий запис</string>
     <string name="unknown_notification_filter_moderated_accounts_description">Обмежено модераторами сервера</string>
     <string name="notification_policies_not_supported">Ця функція підтримується лише на серверах Mastodon версії 4.3.0 або новіших.</string>
+    <string name="action_reblog_public">Поширення для всіх</string>
+    <string name="notification_severed_relationship_name">Розірвані з\'єднання</string>
+    <string name="notification_unknown_description">Невідомий тип сповіщення</string>
+    <string name="notification_channel_admin_description">Адміністративні сповіщення, наприклад, скарги або реєстрації</string>
+    <string name="relationship_severance_event_title">З\'єднання розірвано</string>
+    <string name="poll">Опитування</string>
+    <string name="notification_info_mention">Згадка</string>
+    <string name="action_reblog_private">Поширення лише для підписників</string>
+    <string name="notification_moderation_warning_name">Попередження модерації</string>
+    <string name="notification_channel_other">Інше</string>
+    <string name="notification_channel_other_description">Інші сповіщення, наприклад, розірвані з\'єднання і попередження модерації</string>
+    <string name="notification_channel_admin">Адміністративні</string>
+    <string name="moderation_warning_action_silence">Ваш обліковий запис обмежено.</string>
+    <string name="moderation_warning_action_suspend">Ваш обліковий запис призупинено.</string>
+    <string name="notification_info_reply">Відповідь</string>
+    <string name="notification_info_private_mention">Приватна згадка</string>
+    <string name="notification_info_private_reply">Приватна відповідь</string>
 </resources>
