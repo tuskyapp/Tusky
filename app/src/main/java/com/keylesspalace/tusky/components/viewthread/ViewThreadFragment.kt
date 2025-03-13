@@ -40,6 +40,7 @@ import com.keylesspalace.tusky.components.accountlist.AccountListActivity
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity.Companion.newIntent
 import com.keylesspalace.tusky.components.viewthread.edits.ViewEditsFragment
 import com.keylesspalace.tusky.databinding.FragmentViewThreadBinding
+import com.keylesspalace.tusky.db.DraftsAlert
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.fragment.SFragment
 import com.keylesspalace.tusky.interfaces.StatusActionListener
@@ -72,6 +73,9 @@ class ViewThreadFragment :
 
     @Inject
     lateinit var preferences: SharedPreferences
+
+    @Inject
+    lateinit var draftsAlert: DraftsAlert
 
     private val viewModel: ViewThreadViewModel by viewModels()
 
@@ -250,6 +254,8 @@ class ViewThreadFragment :
         }
 
         updateRelativeTimePeriodically(preferences, adapter)
+
+        draftsAlert.observeInContext(requireActivity(), true)
 
         viewModel.loadThread(thisThreadsStatusId)
     }
