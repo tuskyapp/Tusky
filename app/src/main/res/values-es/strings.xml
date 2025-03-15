@@ -771,4 +771,7 @@
     <string name="notification_policies_filter_not_following_title">Personas que no te siguen</string>
     <string name="list_reply_policy_followed">Cualquier usuario seguido</string>
     <string name="list_reply_policy_label">Mostrar respuestas a</string>
+    <string name="pref_match_default_post_privacy">Usar la visibilidad predefinida</string>
+    <string name="following_hashtag_success_format">Ahora sigues la etiqueta #%1$s</string>
+    <string name="app_theme_system_black">Usar tema del sistema (negro)</string>
 </resources>
