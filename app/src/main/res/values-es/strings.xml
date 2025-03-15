@@ -696,4 +696,8 @@
     <string name="error_unblocking_domain">Error al activar el sonido %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">Error al subir el archivo: %1$s</string>
     <string name="post_privacy_direct">Directo</string>
+    <string name="action_reblog_private">Compartir para seguidores</string>
+    <string name="action_reblog_public">Compartir públicamente</string>
+    <string name="follow_hashtag_success">Siguiendo etiqueta %1$s</string>
+    <string name="post_replied_format">En respuesta a %1$s</string>
 </resources>
