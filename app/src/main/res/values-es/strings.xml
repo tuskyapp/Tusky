@@ -147,7 +147,7 @@
     <string name="pref_title_notification_alert_sound">Notificar con sonido</string>
     <string name="pref_title_notification_alert_vibrate">Notificar con vibración</string>
     <string name="pref_title_notification_alert_light">Notificar con led</string>
-    <string name="pref_title_notification_filters">Notificar cuando</string>
+    <string name="pref_title_notification_filters">Tipos de notificación habilitados</string>
     <string name="pref_title_appearance_settings">Apariencia</string>
     <string name="pref_title_app_theme">Tema de la app</string>
     <string name="pref_title_timelines">Cronología</string>
@@ -311,7 +311,7 @@
     <string name="action_unreblog">Dejar de impulsar</string>
     <string name="action_unfavourite">Eliminar favorito</string>
     <string name="pref_title_timeline_filters">Filtros</string>
-    <string name="notification_poll_name">Encuestas</string>
+    <string name="notification_poll_name">Resultados</string>
     <string name="filter_dialog_remove_button">Eliminar</string>
     <string name="action_create_list">Crear lista</string>
     <string name="action_rename_list">Renombrar lista</string>
@@ -696,4 +696,82 @@
     <string name="error_unblocking_domain">Error al activar el sonido %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">Error al subir el archivo: %1$s</string>
     <string name="post_privacy_direct">Directo</string>
+    <string name="action_reblog_private">Compartir para seguidores</string>
+    <string name="action_reblog_public">Compartir públicamente</string>
+    <string name="follow_hashtag_success">Siguiendo etiqueta %1$s</string>
+    <string name="post_replied_format">En respuesta a %1$s</string>
+    <string name="pref_title_show_self_boosts">Mostrar publicaciones compartidas por mí</string>
+    <string name="preview_card_more_by_author">Más de %1$s</string>
+    <string name="pref_title_per_timeline_preferences">Preferencias de cronología</string>
+    <string name="notification_policy_filter">Filtrar</string>
+    <string name="list_exclusive_label">Ocultar en la cronología de tu instancia</string>
+    <string name="help_empty_conversations">Aquí están tus <b>mensajes privados</b>; a veces llamados conversaciones o mensajes directos (MD).
+\n
+\nLos mensajes privados se crean fijando la visibilidad [iconics gmd_public] de una publicación a [iconics gmd_mail] <i>Directo</i> y mencionando a uno o más usuarios.
+\n
+\nPor ejemplo puedes empezar desde el perfil de otro usuario, pulsar el botón de crear [iconics gmd_edit] y cambiar la visibilidad.</string>
+    <string name="about_copied">Se copió la información de versión y dispositivo</string>
+    <string name="unknown_notification_type_explanation">Tusky no ha reconocido este tipo de notificación y no pudo mostrartela. La interfaz web de tu servidor quizás pueda. ¡Por favor informa a los desarrolladores de Tusky para que añadir soporte de la misma!</string>
+    <string name="notification_moderation_warning_name">Alertas de moderación</string>
+    <string name="notification_unknown_description">Tipo de notificación desconocida</string>
+    <string name="dialog_delete_filter_text">¿Borrar filtro \'%1$s\'?</string>
+    <string name="dialog_delete_filter_positive_action">Borrar</string>
+    <string name="dialog_save_profile_changes_message">¿Quiere guardar sus cambios en el perfil?</string>
+    <string name="list_reply_policy_none">Nadie</string>
+    <string name="list_reply_policy_list">Miembros de la lista</string>
+    <string name="unknown_notification_type">Tipo de notificación desconocida</string>
+    <string name="notification_policies_title">Política de notificaciones</string>
+    <string name="notification_policies_filter_out">Administrar notificaciones de…</string>
+    <string name="notification_policies_filter_dont_follow_title">Personas que no sigues</string>
+    <string name="notification_policies_filter_dont_follow_description">Hasta que los aceptes</string>
+    <string name="notification_policies_filter_not_following_description">Incluyendo personas que llevan siguiéndote menos de tres días</string>
+    <string name="unknown_notification_filter_new_accounts_description">Creadas en los últimos 30 días</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title">Menciones privadas no solicitadas</string>
+    <string name="unknown_notification_filter_moderated_accounts_description">Limitada por moderadores</string>
+    <string name="notification_policies_not_supported">Está característica solo funciona en servidores de Mastodon v4.3.0 o superior.</string>
+    <string name="filtered_notifications">Notificaciones filtradas</string>
+    <string name="notifications_from_people_you_may_know">Notificaciones de %1$d persons que quizás conozcas</string>
+    <string name="notification_policy_accept">Aceptar</string>
+    <string name="notification_policy_ignore">Ignorar</string>
+    <string name="filtered_notifications_title">Notificaciones filtradas</string>
+    <string name="open_settings">Abrir preferencias</string>
+    <string name="notifications_from">Notificaciones de %1$s</string>
+    <string name="action_accept_notification_request">Aceptar</string>
+    <string name="action_dismiss_notification_request">Descartar</string>
+    <string name="relationship_severance_event_account_suspension">Un administrador de %1$s ha suspendido %2$s, por lo que no podrás recibir actualizaciones ni interactuar con ellos.</string>
+    <string name="relationship_severance_event_domain_block">Un administrador de %1$s ha bloqueado %2$s, incluyendo %3$s de tus seguidores y %4$s de tus seguidos.</string>
+    <string name="relationship_severance_event_user_domain_block">Has bloqueado %1$s, eliminando %2$s de tus seguidores y %3$s de tus seguidos.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s cuenta</item>
+        <item quantity="many">%1$s cuentas</item>
+        <item quantity="other">%1$s cuentas</item>
+    </plurals>
+    <string name="moderation_warning">Has recibido un aviso de moderación.</string>
+    <string name="moderation_warning_action_delete_statuses">Algunas de tu publicaciones ha sido eliminadas.</string>
+    <string name="moderation_warning_action_disable">Tu cuenta ha sido deshabilitada.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Algunas de tus publicaciones han sido marcadas como sensibles.</string>
+    <string name="moderation_warning_action_none">Tu cuenta ha recibido un aviso de moderación.</string>
+    <string name="moderation_warning_action_sensitive">Tus publicaciones serán marcadas como sensibles a partir de ahora.</string>
+    <string name="moderation_warning_action_silence">Tu cuenta ha sido limitada.</string>
+    <string name="moderation_warning_action_suspend">Tu cuenta ha sido suspendida.</string>
+    <string name="poll">Encuesta</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s adjunto</item>
+        <item quantity="many">%1$s adjuntos</item>
+        <item quantity="other">%1$s adjuntos</item>
+    </plurals>
+    <string name="notification_info_reply">Responder</string>
+    <string name="notification_info_private_mention">Mención privada</string>
+    <string name="notification_info_mention">Mención</string>
+    <string name="notification_info_private_reply">Respuesta privada</string>
+    <string name="unmuting_hashtag_success_format">Desilenciar etiqueta #%1$s</string>
+    <string name="about_copy">Copiar información de versión y dispositivo</string>
+    <string name="error_media_playback">Reproducción falló: %1$s</string>
+    <string name="unknown_notification_filter_new_accounts_title">Nuevas cuentas</string>
+    <string name="notification_policies_filter_not_following_title">Personas que no te siguen</string>
+    <string name="list_reply_policy_followed">Cualquier usuario seguido</string>
+    <string name="list_reply_policy_label">Mostrar respuestas a</string>
+    <string name="pref_match_default_post_privacy">Usar la visibilidad predefinida</string>
+    <string name="following_hashtag_success_format">Ahora sigues la etiqueta #%1$s</string>
+    <string name="app_theme_system_black">Usar tema del sistema (negro)</string>
 </resources>
