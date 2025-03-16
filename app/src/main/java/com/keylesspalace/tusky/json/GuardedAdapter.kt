@@ -20,6 +20,7 @@ package com.keylesspalace.tusky.json
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
+import com.squareup.moshi.JsonReader.Token
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -37,7 +38,17 @@ class GuardedAdapter<T> private constructor(
         return try {
             delegate.fromJson(reader)
         } catch (e: JsonDataException) {
-            reader.skipValue()
+            // skip the value in case the delegate did not read it
+            val nextToken = reader.peek()
+            if (nextToken == Token.BEGIN_OBJECT ||
+                nextToken == Token.BEGIN_ARRAY ||
+                nextToken == Token.NUMBER ||
+                nextToken == Token.STRING ||
+                nextToken == Token.BOOLEAN ||
+                nextToken == Token.NULL
+            ) {
+                reader.skipValue()
+            }
             null
         }
     }
