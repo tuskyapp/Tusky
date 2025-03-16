@@ -911,4 +911,10 @@
     <string name="notification_info_private_mention">Private mention</string>
     <string name="notification_info_mention">Mention</string>
     <string name="notification_info_private_reply">Private reply</string>
+
+    <string name="block_success">Blocked %1$s</string>
+    <string name="mute_success">Muted %1$s</string>
+    <string name="block_failure">Failed blocking %1$s: %2$s</string>
+    <string name="mute_failure">Failed muting %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Failed accepting follow request from %1$s: %2$s</string>
 </resources>

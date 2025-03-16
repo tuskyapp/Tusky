@@ -38,42 +38,37 @@ class BlocksAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemBlockedUserBinding> {
-        val binding = ItemBlockedUserBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemBlockedUserBinding> {
+        return BindingHolder(
+            ItemBlockedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
-        return BindingHolder(binding)
     }
 
-    override fun onBindAccountViewHolder(
-        viewHolder: BindingHolder<ItemBlockedUserBinding>,
-        position: Int
-    ) {
-        val account = accountList[position]
-        val binding = viewHolder.binding
-        val context = binding.root.context
+    override fun onBindViewHolder(viewHolder: BindingHolder<ItemBlockedUserBinding>, position: Int) {
+        getItem(position)?.let { account ->
+            val binding = viewHolder.binding
+            val context = binding.root.context
 
-        val emojifiedName = account.name.emojify(
-            account.emojis,
-            binding.blockedUserDisplayName,
-            animateEmojis
-        )
-        binding.blockedUserDisplayName.text = emojifiedName
-        val formattedUsername = context.getString(R.string.post_username_format, account.username)
-        binding.blockedUserUsername.text = formattedUsername
+            val emojifiedName = account.name.emojify(
+                account.emojis,
+                binding.blockedUserDisplayName,
+                animateEmojis
+            )
+            binding.blockedUserDisplayName.text = emojifiedName
+            val formattedUsername = context.getString(R.string.post_username_format, account.username)
+            binding.blockedUserUsername.text = formattedUsername
 
-        val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
-        loadAvatar(account.avatar, binding.blockedUserAvatar, avatarRadius, animateAvatar)
+            val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+            loadAvatar(account.avatar, binding.blockedUserAvatar, avatarRadius, animateAvatar)
 
-        binding.blockedUserBotBadge.visible(showBotOverlay && account.bot)
+            binding.blockedUserBotBadge.visible(showBotOverlay && account.bot)
 
-        binding.blockedUserUnblock.setOnClickListener {
-            accountActionListener.onBlock(false, account.id, position)
-        }
-        binding.root.setOnClickListener {
-            accountActionListener.onViewAccount(account.id)
+            binding.blockedUserUnblock.setOnClickListener {
+                accountActionListener.onBlock(false, account.id, position)
+            }
+            binding.root.setOnClickListener {
+                accountActionListener.onViewAccount(account.id)
+            }
         }
     }
 }

@@ -16,109 +16,38 @@ package com.keylesspalace.tusky.components.accountlist.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.databinding.ItemFooterBinding
+import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.AccountActionListener
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.removeDuplicatesTo
+import com.keylesspalace.tusky.viewdata.NotificationViewData
 
-/** Generic adapter with bottom loading indicator. */
-abstract class AccountAdapter<AVH : RecyclerView.ViewHolder> internal constructor(
+abstract class AccountAdapter<AVH : RecyclerView.ViewHolder>(
     protected val accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean,
     protected val showBotOverlay: Boolean
-) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
-
-    protected var accountList: MutableList<TimelineAccount> = mutableListOf()
-    private var bottomLoading: Boolean = false
-
-    override fun getItemCount(): Int {
-        return accountList.size + if (bottomLoading) 1 else 0
-    }
-
-    abstract fun createAccountViewHolder(parent: ViewGroup): AVH
-
-    abstract fun onBindAccountViewHolder(viewHolder: AVH, position: Int)
-
-    final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_ACCOUNT) {
-            @Suppress("UNCHECKED_CAST")
-            this.onBindAccountViewHolder(holder as AVH, position)
-        }
-    }
-
-    final override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_ACCOUNT -> this.createAccountViewHolder(parent)
-            VIEW_TYPE_FOOTER -> this.createFooterViewHolder(parent)
-            else -> error("Unknown item type: $viewType")
-        }
-    }
-
-    private fun createFooterViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        val binding = ItemFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BindingHolder(binding)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (position == accountList.size && bottomLoading) {
-            VIEW_TYPE_FOOTER
-        } else {
-            VIEW_TYPE_ACCOUNT
-        }
-    }
-
-    fun update(newAccounts: List<TimelineAccount>) {
-        accountList = newAccounts.removeDuplicatesTo(ArrayList())
-        notifyDataSetChanged()
-    }
-
-    fun addItems(newAccounts: List<TimelineAccount>) {
-        val end = accountList.size
-        val last = accountList[end - 1]
-        if (newAccounts.none { it.id == last.id }) {
-            accountList.addAll(newAccounts)
-            notifyItemRangeInserted(end, newAccounts.size)
-        }
-    }
-
-    fun setBottomLoading(loading: Boolean) {
-        val wasLoading = bottomLoading
-        if (wasLoading == loading) {
-            return
-        }
-        bottomLoading = loading
-        if (loading) {
-            notifyItemInserted(accountList.size)
-        } else {
-            notifyItemRemoved(accountList.size)
-        }
-    }
-
-    fun removeItem(position: Int): TimelineAccount? {
-        if (position < 0 || position >= accountList.size) {
-            return null
-        }
-        val account = accountList.removeAt(position)
-        notifyItemRemoved(position)
-        return account
-    }
-
-    fun addItem(account: TimelineAccount, position: Int) {
-        if (position < 0 || position > accountList.size) {
-            return
-        }
-        accountList.add(position, account)
-        notifyItemInserted(position)
-    }
+) : PagingDataAdapter<TimelineAccount, AVH>(TimelineAccountDifferCallback) {
 
     companion object {
-        const val VIEW_TYPE_ACCOUNT = 0
-        const val VIEW_TYPE_FOOTER = 1
+        private val TimelineAccountDifferCallback = object : DiffUtil.ItemCallback<TimelineAccount>() {
+            override fun areItemsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: TimelineAccount,
+                newItem: TimelineAccount
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

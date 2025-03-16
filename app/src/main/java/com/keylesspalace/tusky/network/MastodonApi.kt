@@ -402,10 +402,10 @@ interface MastodonApi {
     suspend fun unsubscribeAccount(@Path("id") accountId: String): NetworkResult<Relationship>
 
     @GET("api/v1/blocks")
-    suspend fun blocks(@Query("max_id") maxId: String?): Response<List<TimelineAccount>>
+    suspend fun blocks(@Query("max_id") maxId: String? = null): Response<List<TimelineAccount>>
 
     @GET("api/v1/mutes")
-    suspend fun mutes(@Query("max_id") maxId: String?): Response<List<TimelineAccount>>
+    suspend fun mutes(@Query("max_id") maxId: String? = null): Response<List<TimelineAccount>>
 
     @GET("api/v1/domain_blocks")
     suspend fun domainBlocks(

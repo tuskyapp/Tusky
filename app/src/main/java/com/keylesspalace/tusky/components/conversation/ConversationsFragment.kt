@@ -36,6 +36,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
+import com.keylesspalace.tusky.adapter.LoadStateFooterAdapter
 import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -225,7 +226,7 @@ class ConversationsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.recyclerView.adapter =
-            adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
+            adapter.withLoadStateFooter(LoadStateFooterAdapter(adapter::retry))
     }
 
     private fun refreshContent() {
