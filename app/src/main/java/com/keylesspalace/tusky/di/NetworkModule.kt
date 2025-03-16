@@ -25,7 +25,6 @@ import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Attachment
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
-import com.keylesspalace.tusky.json.Guarded
 import com.keylesspalace.tusky.json.GuardedAdapter
 import com.keylesspalace.tusky.json.NotificationTypeAdapter
 import com.keylesspalace.tusky.network.MastodonApi
