@@ -36,20 +36,11 @@ class GuardedAdapter<T> private constructor(
 
     override fun fromJson(reader: JsonReader): T? {
         return try {
-            delegate.fromJson(reader)
+            delegate.fromJson(reader.peekJson())
         } catch (e: JsonDataException) {
-            // skip the value in case the delegate did not read it
-            val nextToken = reader.peek()
-            if (nextToken == Token.BEGIN_OBJECT ||
-                nextToken == Token.BEGIN_ARRAY ||
-                nextToken == Token.NUMBER ||
-                nextToken == Token.STRING ||
-                nextToken == Token.BOOLEAN ||
-                nextToken == Token.NULL
-            ) {
-                reader.skipValue()
-            }
             null
+        } finally {
+            reader.skipValue()
         }
     }
 
