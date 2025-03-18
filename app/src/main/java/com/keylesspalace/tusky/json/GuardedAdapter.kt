@@ -19,7 +19,6 @@ package com.keylesspalace.tusky.json
 
 import android.util.Log
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
