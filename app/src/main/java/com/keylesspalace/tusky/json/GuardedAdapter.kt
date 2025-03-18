@@ -17,6 +17,7 @@
 
 package com.keylesspalace.tusky.json
 
+import android.util.Log
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -35,8 +36,9 @@ class GuardedAdapter<T> private constructor(
 
     override fun fromJson(reader: JsonReader): T? {
         return try {
-            delegate.fromJson(reader.peekJson())
-        } catch (e: JsonDataException) {
+            reader.peekJson().use { delegate.fromJson(it) }
+        } catch (e: Exception) {
+            Log.w("GuardedAdapter", "failed to read json", e)
             null
         } finally {
             reader.skipValue()
