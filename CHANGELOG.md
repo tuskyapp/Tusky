@@ -32,6 +32,8 @@
 - Fixes a bug where more than 4 profile fields could not be edited (on instances that allow more than 4) https://github.com/tuskyapp/Tusky/commit/1157be18cf3bbd44426f4cdaae35e69b9f3cecca
 - Fixes a bug where a dropdown was partially hidden by the keyboard https://github.com/tuskyapp/Tusky/pull/4913
 - Tusky side timeline filters apply to own posts again https://github.com/tuskyapp/Tusky/pull/4879
+- Fixes a bug where media previews would flicker when interacting with a post https://github.com/tuskyapp/Tusky/pull/4971
+- Tusky now ignores invalid publishing dates of preview cards that caused some posts not to load https://github.com/tuskyapp/Tusky/pull/4993
 
 ## v27.2
 
