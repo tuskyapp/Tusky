@@ -288,7 +288,7 @@
     <string name="abbreviated_years_ago">%1$d năm</string>
     <string name="abbreviated_in_seconds">%1$ds</string>
     <string name="abbreviated_in_minutes">%1$d phút</string>
-    <string name="abbreviated_in_hours">%1$dh%1$ giờ</string>
+    <string name="abbreviated_in_hours">%1$d giờ</string>
     <string name="abbreviated_in_days">%1$d ngày</string>
     <string name="abbreviated_in_years">%1$d năm</string>
     <string name="state_follow_requested">Yêu cầu theo dõi</string>

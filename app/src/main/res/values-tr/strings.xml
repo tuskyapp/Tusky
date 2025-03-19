@@ -41,7 +41,7 @@
     <string name="post_sensitive_media_title">Hassas medya</string>
     <string name="post_media_hidden_title">Gizlenmiş medya</string>
     <string name="post_sensitive_media_directions">Görüntülemek için dokunun</string>
-    <string name="post_content_warning_show_more">Daha fazlası</string>
+    <string name="post_content_warning_show_more">Daha fazla göster</string>
     <string name="post_content_warning_show_less">Daha az göster</string>
     <string name="post_content_show_more">Genişlet</string>
     <string name="post_content_show_less">Daralt</string>
@@ -147,7 +147,7 @@
     <string name="pref_title_notification_alert_sound">Sesli bildirim</string>
     <string name="pref_title_notification_alert_vibrate">Titreşimli bildirim</string>
     <string name="pref_title_notification_alert_light">Işıklı bildirim</string>
-    <string name="pref_title_notification_filters">Bana bildir:</string>
+    <string name="pref_title_notification_filters">Etkin bildirim türleri</string>
     <string name="pref_title_appearance_settings">Görünüş</string>
     <string name="pref_title_app_theme">Uygulama teması</string>
     <string name="pref_title_timelines">Ağ akışı</string>
@@ -227,7 +227,7 @@
     <string name="abbreviated_minutes_ago">%1$dm</string>
     <string name="abbreviated_seconds_ago">%1$ds</string>
     <string name="follows_you">Seni takip ediyor</string>
-    <string name="pref_title_alway_show_sensitive_media">Her zaman hassas içerikleri göster</string>
+    <string name="pref_title_alway_show_sensitive_media">Her zaman hassas ortamları göster</string>
     <string name="title_media">Medya</string>
     <string name="load_more_placeholder_text">Daha fazlası</string>
     <string name="add_account_name">Hesap Ekle</string>
@@ -309,7 +309,7 @@
     <string name="app_theme_system">Sistem tasarımını kullan</string>
     <string name="pref_title_language">Dil</string>
     <string name="pref_title_animate_gif_avatars">Hareketli GIF görsellerini oynat</string>
-    <string name="notification_poll_name">Anketler</string>
+    <string name="notification_poll_name">Anket sonuçları</string>
     <string name="notification_poll_description">Sona eren anketlerle ilgili bildirimler</string>
     <string name="pref_title_public_filter_keywords">Genel ağ akışı</string>
     <string name="pref_title_thread_filter_keywords">Konuşmalar</string>
@@ -381,7 +381,7 @@
     <string name="hint_additional_info">Ek Yorumlar</string>
     <string name="report_remote_instance">%1$s adresine ilet</string>
     <string name="failed_fetch_posts">Yayınlar getirilemedi</string>
-    <string name="report_description_1">Bildirim sunucu yöneticinize gönderilecektir. Bu hesabı neden raporladığınızla ilgili açıklama yapabilirsiniz:</string>
+    <string name="report_description_1">Rapor, sunucunuzun moderatörlerine gönderilecektir. Bu hesabı neden raporladığınızı aşağıya açıklayabilirsiniz:</string>
     <string name="report_description_remote_instance">Hesap başka bir sunucudan. Raporun anonim bir kopyasını da oraya gönderilsin mi\?</string>
     <string name="action_mentions">Bahsedenler</string>
     <string name="action_open_reblogger">Gönderi yazanını aç</string>
@@ -508,13 +508,13 @@
     <string name="duration_14_days">14 gün</string>
     <string name="duration_365_days">365 gün</string>
     <string name="review_notifications">Bildirimleri Gözden Geçir</string>
-    <string name="wellbeing_mode_notice">İyi kullanım için bazı bilgiler gizlenebilir.. Bunlar:
+    <string name="wellbeing_mode_notice">Ruhsal sağlığınızı etkileyebilecek bazı bilgiler gizlenecektir. Buna şunlar dahildir:
 \n
-\n - Gözde/Yeniden Paylaşım/Takip bildirimleri
-\n - Gözde/Yeniden Paylaşım sayacı
-\n - Takipçi/Gönderi istatistikleri
+\n- Favori/Başarı/Takip bildirimleri
+\n- Gönderilerdeki Favori/Başarı sayısı
+\n- Profillerdeki Takipçi/Gönderi istatistikleri
 \n
-\nBesleme bildirimleri etkilenmeyecek , ama manuel olarak tercihlerinizi gözden geçirebilirsiniz.</string>
+\nAnlık bildirimler etkilenmeyecektir, ancak bildirim tercihlerinizi manuel olarak gözden geçirebilirsiniz.</string>
     <string name="dialog_delete_list_warning">%1$s listesini gerçekten silmek istiyor musunuz\?</string>
     <string name="wellbeing_hide_stats_profile">Profillerdeki niceliksel istatistikleri gizle</string>
     <string name="tusky_compose_post_quicksetting_label">Gönderi Oluştur</string>
@@ -711,4 +711,71 @@
     <string name="pref_match_default_post_privacy">Varsayılan gönderi gizliliğini eşleştiriniz</string>
     <string name="post_privacy_direct">Doğrudan</string>
     <string name="label_expires_after">Son kullanma tarihi</string>
+    <string name="preview_card_more_by_author">Daha fazlası %1$s</string>
+    <string name="unknown_notification_filter_moderated_accounts_description">Sunucu moderatörleri tarafından sınırlandırılmıştır</string>
+    <string name="notifications_from">%1$s\'den gelen Bildirimler</string>
+    <string name="relationship_severance_event_user_domain_block">%1$s kişisini engellediniz, %2$s takipçiniz ve takip ettiğiniz %3$s kişi kaldırıldı.</string>
+    <string name="preview_card_by_author">Yazan %1$s</string>
+    <string name="notification_policies_not_supported">Bu özellik yalnızca v4.3.0 veya sonraki sürümleri çalıştıran Mastodon sunucularında desteklenir.</string>
+    <string name="notification_policy_ignore">Yoksay</string>
+    <string name="dismiss_notification_request">Bildirim talebini reddetme</string>
+    <string name="notification_policies_title">Bildirim Politikaları</string>
+    <string name="notification_policies_filter_out">Gelen bildirimleri yönetin…</string>
+    <string name="unknown_notification_filter_new_accounts_title">Yeni hesaplar</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description">Kendi sözünüze yanıt değilse veya göndereni takip etmiyorsanız süzgeçlenir</string>
+    <string name="accept_notification_request">Bildirim talebini kabul et</string>
+    <string name="relationship_severance_event_account_suspension">%1$s \'den bir yönetici %2$s\'i askıya aldı, bu da artık onlardan güncelleme alamayacağınız veya onlarla etkileşime geçemeyeceğiniz anlamına geliyor.</string>
+    <string name="moderation_warning_action_suspend">Hesabınız askıya alındı.</string>
+    <string name="unknown_notification_filter_new_accounts_description">Son 30 gün içinde oluşturuldu</string>
+    <string name="filtered_notifications">Süzgeçlenmiş bildirimler</string>
+    <string name="action_reblog_private">Yalnızca Takipçi Artışı</string>
+    <string name="action_reblog_public">Kamu Desteği</string>
+    <string name="action_reblog_unlisted">Listelenmemiş Destek</string>
+    <string name="notification_severed_relationship_name">Kayıp bağlantılar</string>
+    <string name="notification_moderation_warning_name">Moderasyon uyarıları</string>
+    <string name="notification_unknown_description">Bilinmeyen bildirim türü</string>
+    <string name="notification_channel_other">Diğer</string>
+    <string name="notification_channel_other_description">Kayıp bağlantılar ve moderasyon uyarıları gibi diğer bildirimler</string>
+    <string name="notification_channel_admin">Yönetici</string>
+    <string name="notification_channel_admin_description">Yeni raporlar veya kayıtlar gibi yönetici bildirimleri</string>
+    <string name="notification_policies_filter_dont_follow_title">Takip etmediğiniz kişiler</string>
+    <string name="notification_policies_filter_dont_follow_description">Siz manuel olarak onaylayana kadar</string>
+    <string name="notification_policies_filter_not_following_title">İnsanlar sizi takip etmiyor</string>
+    <string name="notification_policies_filter_not_following_description">Sizi 3 günden daha az süredir takip eden kişiler dahil</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title">İstenmeyen özel bahsedenler</string>
+    <string name="unknown_notification_filter_moderated_accounts">Denetlenen hesaplar</string>
+    <string name="notifications_from_people_you_may_know">Tanıyor olabileceğiniz %1$d kişiden gelen bildirimler</string>
+    <string name="notification_policy_accept">Kabul</string>
+    <string name="notification_policy_filter">Süzgeç</string>
+    <string name="filtered_notifications_title">Süzgeçlenmiş Bildirimler</string>
+    <string name="open_settings">Açık tercihler</string>
+    <string name="action_accept_notification_request">Kabul</string>
+    <string name="action_dismiss_notification_request">Reddet</string>
+    <string name="relationship_severance_event_title">Bağlantı kesildi</string>
+    <string name="relationship_severance_event_domain_block">%1$s \'den bir yönetici, takipçilerinizin %2$s\'i ve takip ettiğiniz %3$s dahil olmak üzere %4$s \'i engelledi.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s hesap</item>
+        <item quantity="other">%1$s hesaplar</item>
+    </plurals>
+    <string name="moderation_warning">Bir moderasyon uyarısı aldınız.</string>
+    <string name="moderation_warning_action_delete_statuses">Bazı gönderileriniz kaldırıldı.</string>
+    <string name="moderation_warning_action_disable">Hesabınız devre dışı bırakıldı.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Bazı gönderileriniz hassas olarak işaretlendi.</string>
+    <string name="moderation_warning_action_none">Hesabınız bir moderasyon uyarısı aldı.</string>
+    <string name="moderation_warning_action_sensitive">Gönderileriniz bundan sonra hassas olarak işaretlenecektir.</string>
+    <string name="moderation_warning_action_silence">Hesabınız sınırlandırıldı.</string>
+    <string name="unknown_notification_type_explanation">Tusky bu bildirim türünü tanımıyor ve size gösteremiyor. Sunucunuzun web arayüzü bunu gösterebilir. Lütfen Tusky geliştiricilerine de haber verin, böylece bu tür için destek ekleyebilsinler!</string>
+    <string name="poll">Anket</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s medya eki</item>
+        <item quantity="other">%1$s medya ekleri</item>
+    </plurals>
+    <string name="notification_info_reply">Yanıt</string>
+    <string name="notification_info_private_reply">Özel yanıt</string>
+    <string name="notification_info_mention">Değinme</string>
+    <string name="notification_info_private_mention">Özel değinme</string>
+    <string name="follow_hashtag_success">Takip edilen etiket %1$s</string>
+    <string name="post_replied">Yanıtladı</string>
+    <string name="post_replied_format">Yanıt olarak %1$s</string>
+    <string name="post_replied_self">Devam eden konu</string>
 </resources>
