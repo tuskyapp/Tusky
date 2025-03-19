@@ -61,6 +61,7 @@ class DatabaseCleaner @Inject constructor(
             db.timelineDao().removeAllHomeTimelineItems(tuskyAccountId)
             db.timelineStatusDao().removeAllStatuses(tuskyAccountId)
             db.timelineAccountDao().removeAllAccounts(tuskyAccountId)
+            db.conversationDao().deleteForAccount(tuskyAccountId)
         }
     }
 }
