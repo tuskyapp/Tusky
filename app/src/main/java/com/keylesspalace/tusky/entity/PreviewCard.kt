@@ -15,6 +15,7 @@
 
 package com.keylesspalace.tusky.entity
 
+import com.keylesspalace.tusky.json.Guarded
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.Date
@@ -27,7 +28,8 @@ data class PreviewCard(
     val authors: List<PreviewCardAuthor> = emptyList(),
     @Json(name = "author_name") val authorName: String? = null,
     @Json(name = "provider_name") val providerName: String? = null,
-    @Json(name = "published_at") val publishedAt: Date?,
+    // sometimes this date is invalid https://github.com/tuskyapp/Tusky/issues/4992
+    @Json(name = "published_at") @Guarded val publishedAt: Date?,
     val image: String? = null,
     val type: String,
     val width: Int = 0,
