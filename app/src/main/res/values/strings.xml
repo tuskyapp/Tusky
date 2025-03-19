@@ -911,4 +911,8 @@
     <string name="notification_info_private_mention">Private mention</string>
     <string name="notification_info_mention">Mention</string>
     <string name="notification_info_private_reply">Private reply</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirm_dismiss_caption">Dismiss caption change without saving?</string>
 </resources>
