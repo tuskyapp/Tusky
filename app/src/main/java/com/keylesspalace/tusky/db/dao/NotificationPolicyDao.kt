@@ -40,4 +40,7 @@ interface NotificationPolicyDao {
         accountId: Long,
         notificationCount: Int
     )
+
+    @Query("DELETE FROM NotificationPolicyEntity WHERE tuskyAccountId = :accountId")
+    suspend fun deleteForAccount(accountId: Long)
 }
