@@ -914,5 +914,5 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="confirm_dismiss_caption">Dismiss caption change without saving?</string>
+    <string name="confirm_dismiss_caption">Discard caption changes?</string>
 </resources>
