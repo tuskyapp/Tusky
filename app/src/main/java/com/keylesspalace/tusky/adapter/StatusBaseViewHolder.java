@@ -114,6 +114,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final RecyclerView pollOptions;
     private final TextView pollDescription;
     private final Button pollButton;
+    private final Button pollResultsButton;
 
     private final MaterialCardView cardView;
     private final LinearLayout cardLayout;
@@ -173,6 +174,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions = itemView.findViewById(R.id.status_poll_options);
         pollDescription = itemView.findViewById(R.id.status_poll_description);
         pollButton = itemView.findViewById(R.id.status_poll_button);
+        pollResultsButton = itemView.findViewById(R.id.status_poll_results_button);
 
         cardView = itemView.findViewById(R.id.status_card_view);
         cardLayout = itemView.findViewById(R.id.status_card_layout);
@@ -321,6 +323,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void hidePoll() {
         pollButton.setVisibility(View.GONE);
+        pollResultsButton.setVisibility(View.GONE);
         pollDescription.setVisibility(View.GONE);
         pollOptions.setVisibility(View.GONE);
     }
@@ -1084,6 +1087,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             );
 
             pollButton.setVisibility(View.GONE);
+            pollResultsButton.setVisibility(View.GONE);
         } else {
             // voting possible
             pollAdapter.setup(
@@ -1097,6 +1101,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             );
 
             pollButton.setVisibility(View.VISIBLE);
+            pollResultsButton.setVisibility(View.VISIBLE);
 
             pollButton.setOnClickListener(v -> {
 
@@ -1111,6 +1116,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     }
                 }
 
+            });
+
+            pollResultsButton.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onShowPollResults(position);
+                }
             });
         }
 
@@ -1320,6 +1333,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaContainer.setVisibility(visibility);
         pollOptions.setVisibility(visibility);
         pollButton.setVisibility(visibility);
+        pollResultsButton.setVisibility(visibility);
         pollDescription.setVisibility(visibility);
         replyButton.setVisibility(visibility);
         reblogButton.setVisibility(visibility);

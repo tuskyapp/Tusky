@@ -454,6 +454,12 @@ class TimelineFragment :
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun onShowPollResults(position: Int) {
+        adapter?.peek(position)?.asStatusOrNull()?.let { status ->
+            viewModel.showPollResults(status)
+        }
+    }
+
     override fun clearWarningAction(position: Int) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.clearWarning(status)

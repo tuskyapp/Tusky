@@ -23,6 +23,7 @@ import at.connyduck.calladapter.networkresult.onSuccess
 import com.keylesspalace.tusky.appstore.BlockEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.MuteEvent
+import com.keylesspalace.tusky.appstore.PollShowResultsEvent
 import com.keylesspalace.tusky.appstore.PollVoteEvent
 import com.keylesspalace.tusky.appstore.StatusChangedEvent
 import com.keylesspalace.tusky.appstore.StatusDeletedEvent
@@ -140,6 +141,10 @@ class TimelineCases @Inject constructor(
         return mastodonApi.voteInPoll(pollId, choices).onSuccess { poll ->
             eventHub.dispatch(PollVoteEvent(statusId, poll))
         }
+    }
+
+    suspend fun showPollResults(statusId: String) {
+        eventHub.dispatch(PollShowResultsEvent(statusId))
     }
 
     suspend fun translate(

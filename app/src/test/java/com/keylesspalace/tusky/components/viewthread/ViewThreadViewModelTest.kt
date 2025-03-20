@@ -104,7 +104,7 @@ class ViewThreadViewModelTest {
             .allowMainThreadQueries()
             .build()
 
-        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager, db, moshi)
+        viewModel = ViewThreadViewModel(api, filterModel, timelineCases, eventHub, accountManager, db)
     }
 
     @After

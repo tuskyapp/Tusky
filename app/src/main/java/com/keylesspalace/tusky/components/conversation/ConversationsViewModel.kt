@@ -110,6 +110,14 @@ class ConversationsViewModel @Inject constructor(
         }
     }
 
+    fun showPollResults(conversation: ConversationViewData) = viewModelScope.launch {
+        conversation.lastStatus.status.poll?.let { poll ->
+            conversation.toEntity(accountId = accountId, poll = poll.copy(voted = true)).let {
+                saveConversationToDb(it)
+            }
+        }
+    }
+
     fun expandHiddenStatus(expanded: Boolean, conversation: ConversationViewData) {
         viewModelScope.launch {
             val newConversation = conversation.toEntity(

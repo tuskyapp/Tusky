@@ -31,8 +31,6 @@ import com.keylesspalace.tusky.entity.HashTag
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PreviewCard
 import com.keylesspalace.tusky.entity.Status
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapter
 
 @Dao
 abstract class TimelineStatusDao(
@@ -58,14 +56,13 @@ AND s.tuskyAccountId = :tuskyAccountId"""
     )
     abstract suspend fun getStatus(tuskyAccountId: Long, statusId: String): TimelineStatusEntity?
 
-    @OptIn(ExperimentalStdlibApi::class)
-    suspend fun update(tuskyAccountId: Long, status: Status, moshi: Moshi) {
+    suspend fun update(tuskyAccountId: Long, status: Status) {
         update(
             tuskyAccountId = tuskyAccountId,
             statusId = status.id,
             content = status.content,
             editedAt = status.editedAt?.time,
-            emojis = moshi.adapter<List<Emoji>?>().toJson(status.emojis),
+            emojis = status.emojis,
             reblogsCount = status.reblogsCount,
             favouritesCount = status.favouritesCount,
             repliesCount = status.repliesCount,
@@ -75,13 +72,13 @@ AND s.tuskyAccountId = :tuskyAccountId"""
             sensitive = status.sensitive,
             spoilerText = status.spoilerText,
             visibility = status.visibility,
-            attachments = moshi.adapter<List<Attachment>?>().toJson(status.attachments),
-            mentions = moshi.adapter<List<Status.Mention>?>().toJson(status.mentions),
-            tags = moshi.adapter<List<HashTag>?>().toJson(status.tags),
-            poll = moshi.adapter<Poll?>().toJson(status.poll),
+            attachments = status.attachments,
+            mentions = status.mentions,
+            tags = status.tags,
+            poll = status.poll,
             muted = status.muted,
             pinned = status.pinned,
-            card = moshi.adapter<PreviewCard?>().toJson(status.card),
+            card = status.card,
             language = status.language
         )
     }
@@ -116,7 +113,7 @@ AND s.tuskyAccountId = :tuskyAccountId"""
         statusId: String,
         content: String?,
         editedAt: Long?,
-        emojis: String?,
+        emojis: List<Emoji>?,
         reblogsCount: Int,
         favouritesCount: Int,
         repliesCount: Int,
@@ -126,13 +123,13 @@ AND s.tuskyAccountId = :tuskyAccountId"""
         sensitive: Boolean,
         spoilerText: String,
         visibility: Status.Visibility,
-        attachments: String?,
-        mentions: String?,
-        tags: String?,
-        poll: String?,
+        attachments: List<Attachment>?,
+        mentions: List<Status.Mention>?,
+        tags: List<HashTag>?,
+        poll: Poll?,
         muted: Boolean?,
         pinned: Boolean,
-        card: String?,
+        card: PreviewCard?,
         language: String?
     )
 
@@ -181,7 +178,17 @@ WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
         """UPDATE TimelineStatusEntity SET poll = :poll
 WHERE tuskyAccountId = :tuskyAccountId AND serverId = :statusId"""
     )
-    abstract suspend fun setVoted(tuskyAccountId: Long, statusId: String, poll: String)
+    @TypeConverters(Converters::class)
+    abstract suspend fun setVoted(tuskyAccountId: Long, statusId: String, poll: Poll)
+
+    @Transaction
+    open suspend fun setShowResults(tuskyAccountId: Long, statusId: String) {
+        getStatus(tuskyAccountId, statusId)?.let { status ->
+            status.poll?.let { poll ->
+                setVoted(tuskyAccountId, statusId, poll.copy(voted = true))
+            }
+        }
+    }
 
     @Query(
         """UPDATE TimelineStatusEntity SET expanded = :expanded

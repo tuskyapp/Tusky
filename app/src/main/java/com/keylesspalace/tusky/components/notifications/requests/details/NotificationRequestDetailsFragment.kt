@@ -234,6 +234,12 @@ class NotificationRequestDetailsFragment : SFragment(R.layout.fragment_notificat
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun onShowPollResults(position: Int) {
+        adapter?.peek(position)?.asStatusOrNull()?.let { status ->
+            viewModel.showPollResults(status)
+        }
+    }
+
     override fun clearWarningAction(position: Int) {
         // not applicable here
     }
