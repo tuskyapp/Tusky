@@ -149,7 +149,8 @@ class NotificationService @Inject constructor(
                 NotificationChannel(
                     it.getChannelId(account),
                     context.getString(it.title),
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    // HIGH: to show up as popup like with any other app
+                    NotificationManager.IMPORTANCE_HIGH,
                 ).apply {
                     description = context.getString(it.description)
                     enableLights(true)
@@ -401,7 +402,6 @@ class NotificationService @Inject constructor(
             .setCategory(NotificationCompat.CATEGORY_SOCIAL)
             .setGroup(typeChannelId)
             .setGroupSummary(true)
-            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
 
         setSoundVibrationLight(account, summaryBuilder)
 
@@ -469,7 +469,6 @@ class NotificationService @Inject constructor(
             .setCategory(NotificationCompat.CATEGORY_SOCIAL)
             .setOnlyAlertOnce(true)
             .setGroup(channelId)
-            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY) // Only ever alert for the summary notification
 
         setSoundVibrationLight(account, builder)
 
@@ -582,16 +581,11 @@ class NotificationService @Inject constructor(
     }
 
     private fun joinNames(notifications1: List<StatusBarNotification>, notifications2: List<Notification>): String? {
-        val names = java.util.ArrayList<String>(notifications1.size + notifications2.size)
+        val names1 = notifications1.mapNotNull { it.notification.extras.getString(EXTRA_ACCOUNT_NAME) }
+        val names2 = notifications2.map { it.account.name }
 
-        for (notification in notifications1) {
-            val author = notification.notification.extras.getString(EXTRA_ACCOUNT_NAME) ?: continue
-            names.add(author)
-        }
-
-        for (noti in notifications2) {
-            names.add(noti.account.name)
-        }
+        // Collapsing the same names
+        val names: List<String> = (names1 + names2).distinct()
 
         if (names.size > 3) {
             val length = names.size
@@ -615,6 +609,8 @@ class NotificationService @Inject constructor(
                 names[1].unicodeWrap(),
                 names[0].unicodeWrap()
             )
+        } else if (names.size == 1) {
+            return names[0].unicodeWrap()
         }
 
         return null
