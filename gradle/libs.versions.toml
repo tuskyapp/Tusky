@@ -32,7 +32,7 @@ filemoji-compat = "3.2.7"
 glide = "4.16.0"
 glide-animation-plugin = "3.0.2"
 hilt = "2.56"
-kotlin = "2.1.10"
+kotlin = "2.1.20"
 image-cropper = "4.3.2"
 material = "1.12.0"
 material-drawer = "9.0.2"
@@ -53,7 +53,7 @@ xmlwriter = "1.0.4"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-google-ksp = "com.google.devtools.ksp:2.1.10-1.0.31"
+google-ksp = "com.google.devtools.ksp:2.1.20-1.0.31"
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
