@@ -79,11 +79,12 @@ public class StatusViewHolder extends StatusBaseViewHolder {
                 boolean hasStatusInfo = rebloggingStatus != null | isReplyOnly;
 
                 TimelineAccount statusInfoAccount = rebloggingStatus != null ? rebloggingStatus.getAccount() : status.getRepliedToAccount();
+                Status.Visibility statusVisibility = rebloggingStatus != null ? rebloggingStatus.getVisibility() : status.getStatus().getVisibility();
 
                 if (!hasStatusInfo) {
                     hideStatusInfo();
                 } else {
-                    setStatusInfoContent(statusInfoAccount, isReplyOnly, isReplySelf, statusDisplayOptions);
+                    setStatusInfoContent(statusInfoAccount, statusVisibility, isReplyOnly, isReplySelf, statusDisplayOptions);
                 }
 
                 if (isReplyOnly) {
@@ -103,6 +104,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
     }
 
     private void setStatusInfoContent(final TimelineAccount account,
+                                      final Status.Visibility statusVisibility,
                                       final boolean isReply,
                                       final boolean isSelfReply,
                                       final StatusDisplayOptions statusDisplayOptions) {
@@ -112,7 +114,17 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         CharSequence translatedText = "";
 
         if (!isReply) {
-            translatedText = context.getString(R.string.post_boosted_format, wrappedName);
+            int format;
+            if (statusVisibility == Status.Visibility.PUBLIC) {
+                format = R.string.post_boosted_format;
+            } else if (statusVisibility == Status.Visibility.UNLISTED) {
+                format = R.string.post_boosted_unlisted_format;
+            } else if (statusVisibility == Status.Visibility.PRIVATE) {
+                format = R.string.post_boosted_private_format;
+            } else {
+                format = R.string.post_boosted_format;
+            }
+            translatedText = context.getString(format, wrappedName);
         } else if (isSelfReply) {
             translatedText = context.getString(R.string.post_replied_self);
         } else {

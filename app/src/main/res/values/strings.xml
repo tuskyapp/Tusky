@@ -85,6 +85,8 @@
 
     <string name="post_username_format">\@%1$s</string>
     <string name="post_boosted_format">%1$s boosted</string>
+    <string name="post_boosted_unlisted_format">%1$s boosted (Unlisted)</string>
+    <string name="post_boosted_private_format">%1$s boosted (Followers-Only)</string>
     <string name="post_replied">Replied</string>
     <string name="post_replied_format">In reply to %1$s</string>
     <string name="post_replied_self">Continued thread</string>
