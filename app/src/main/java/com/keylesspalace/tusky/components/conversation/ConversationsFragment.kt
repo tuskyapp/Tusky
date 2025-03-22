@@ -168,6 +168,16 @@ class ConversationsFragment :
             }
         })
 
+        // Workaround RecyclerView jumping to bottom on first load because of the load state footer
+        // https://issuetracker.google.com/issues/184874613#comment7
+        var firstLoad = true
+        adapter.addOnPagesUpdatedListener {
+            if (adapter.itemCount > 0 && firstLoad) {
+                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+                firstLoad = false
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversationFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
