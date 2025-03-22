@@ -770,4 +770,8 @@
     <string name="action_reblog_unlisted">任何人都可转嘟（但嘟文不会出现在公开时间线、探索部分以及搜索结果中）</string>
     <string name="action_reblog_private">仅关注者可转嘟</string>
     <string name="action_reblog_public">任何人都可转嘟</string>
+    <string name="poll_show_results">显示结果</string>
+    <string name="no">否</string>
+    <string name="yes">是</string>
+    <string name="confirm_dismiss_caption">放弃字幕更改？</string>
 </resources>
