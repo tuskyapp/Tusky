@@ -271,7 +271,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     binding.bottomNav.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                         height = bottomBarHeight + bottomInsets
                     }
-                    binding.bottomNav.updatePadding(bottom = bottomInsets)
                     binding.bottomTabLayout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                         bottomMargin = bottomInsets
                     }

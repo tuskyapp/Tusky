@@ -69,11 +69,12 @@
             android:layout_height="@dimen/bottomAppBarHeight"
             android:layout_gravity="bottom"
             android:backgroundTint="?attr/colorSurface"
+            app:buttonGravity="center_vertical"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:fabAlignmentMode="end"
             app:menuAlignmentMode="auto"
-            app:navigationContentDescription="@string/action_open_drawer" >
+            app:navigationContentDescription="@string/action_open_drawer">
 
             <com.keylesspalace.tusky.view.AdaptiveTabLayout
                 android:id="@+id/bottomTabLayout"
