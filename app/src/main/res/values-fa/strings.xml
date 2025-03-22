@@ -778,4 +778,8 @@
     <string name="action_reblog_private">تقویت فقط برای پیگیران</string>
     <string name="action_reblog_public">تقویت عمومی</string>
     <string name="action_reblog_unlisted">تقویت سیاهه نشده</string>
+    <string name="poll_show_results">نمایش نتیجه‌ها</string>
+    <string name="yes">بله</string>
+    <string name="confirm_dismiss_caption">دور انداختن تغییرات عنوان؟</string>
+    <string name="no">نه</string>
 </resources>

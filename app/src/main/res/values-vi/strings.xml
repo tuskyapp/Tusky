@@ -756,4 +756,8 @@
     <string name="action_reblog_unlisted">Đăng lại hạn chế</string>
     <string name="action_reblog_private">Đăng lại với người theo dõi</string>
     <string name="action_reblog_public">Đăng lại công khai</string>
+    <string name="poll_show_results">Xem kết quả</string>
+    <string name="confirm_dismiss_caption">Bỏ thay đổi chú thích?</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
 </resources>

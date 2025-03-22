@@ -798,4 +798,8 @@
     <string name="action_reblog_private">Ricondividi solo per chi ti segue</string>
     <string name="action_reblog_public">Ricondividi pubblicamente</string>
     <string name="action_reblog_unlisted">Ricondivisione non in elenco</string>
+    <string name="no">No</string>
+    <string name="poll_show_results">Mostra risultati</string>
+    <string name="yes">Sì</string>
+    <string name="confirm_dismiss_caption">Scartare le modifiche alla didascalia?</string>
 </resources>
