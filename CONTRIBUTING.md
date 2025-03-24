@@ -15,7 +15,7 @@ To add a new language, click on the 'Start a new translation' button on at the b
 ## Contributing code
 
 ### Prerequisites
-You should have a general understanding of Android development and Git. 
+You should have a general understanding of Android development and Git.
 
 ### Architecture
 We try to follow the [Guide to app architecture](https://developer.android.com/topic/architecture).
@@ -35,9 +35,16 @@ If there is untranslatable text that you don't want to keep as a string constant
 We use [Viewbinding](https://developer.android.com/topic/libraries/view-binding) to reference views. No contribution using another mechanism will be accepted.
 There are useful extensions in `src/main/java/com/keylesspalace/tusky/util/ViewExtensions.kt` that make working with viewbinding easier.
 
-### Visuals
+### Themes
 There are three themes in the app, so any visual changes should be checked with each of them to ensure they look appropriate no matter which theme is selected. Usually, you can use existing color attributes like `?attr/colorPrimary` and `?attr/textColorSecondary`.
-All icons are from the Material iconset, find new icons [here](https://fonts.google.com/icons) (Google fonts) or [here](https://fonts.google.com/icons) (community contributions).
+
+### Icons
+All icons are from the rounded variant of the Material Symbols icon set with weight 400 and grade 0.
+New icons can be found [here](https://fonts.google.com/icons?icon.style=Rounded&icon.size=24).
+Usually we prefer outlined icons, but there are cases where a filled one is a better choice.
+If the icon needs to have an active/inactive state it is a good idea to use the outlined icon for the inactive and the filled one for the active state.
+
+Icons should be imported as vector drawables and named `ic_icon_name_sizedp_modifier.xml`, e.g. `ic_home_24dp` or `ic_notifications_24dp_filled`.
 
 ### Accessibility
 We try to make Tusky as accessible as possible for as many people as possible. Please make sure that all touch targets are at least 48dpx48dp in size, Text has sufficient contrast and images or icons have a image description. See [this guide](https://developer.android.com/guide/topics/ui/accessibility/apps) for more information.
