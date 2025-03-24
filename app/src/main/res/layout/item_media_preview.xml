@@ -23,7 +23,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/status_media_preview_container"
         app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-        app:srcCompat="@drawable/ic_eye_24dp"
+        app:srcCompat="@drawable/ic_visibility_24dp"
         app:tint="?android:attr/textColorSecondary" />
 
     <TextView

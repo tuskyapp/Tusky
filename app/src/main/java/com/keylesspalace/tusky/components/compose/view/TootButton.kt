@@ -16,15 +16,11 @@
 package com.keylesspalace.tusky.components.compose.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
+import androidx.appcompat.content.res.AppCompatResources
 import com.google.android.material.button.MaterialButton
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 
 class TootButton
 @JvmOverloads constructor(
@@ -60,10 +56,7 @@ class TootButton
                 Status.Visibility.PRIVATE,
                 Status.Visibility.DIRECT -> {
                     setText(R.string.action_send)
-                    IconicsDrawable(context, GoogleMaterial.Icon.gmd_lock).apply {
-                        sizeDp = 18
-                        colorInt = Color.WHITE
-                    }
+                    AppCompatResources.getDrawable(context, R.drawable.ic_lock_24dp)
                 }
                 else -> {
                     null

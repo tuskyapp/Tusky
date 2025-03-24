@@ -564,9 +564,9 @@
     <string name="pref_title_http_proxy_port_message">Bağlantı noktası %1$d ile %2$d arasında olmalıdır</string>
     <string name="post_media_alt">Alternatif metin</string>
     <string name="a11y_label_loading_thread">Konu yükleniyor</string>
-    <string name="help_empty_home">Bu senin <b>ana ağ akışın</b>. Takip ettiğin hesapların son gönderileri burada yer alacak. 
-\n 
-\nTakip edebileceğin hesapları diğer ağ akışlarından keşfedebilirsin, örneğin kendi sunucunun yerel zaman tünelinden [iconics gmd_group]. Veya hesapları adlarıyla arayabilirsin [iconics gmd_search], örneğin Mastodon hesabımızı bulmak için Tusky adıyla araman yeterli.</string>
+    <string name="help_empty_home">Bu senin <b>ana ağ akışın</b>. Takip ettiğin hesapların son gönderileri burada yer alacak.
+\n
+\nTakip edebileceğin hesapları diğer ağ akışlarından keşfedebilirsin, örneğin kendi sunucunun yerel zaman tünelinden {{group}}. Veya hesapları adlarıyla arayabilirsin {{search}}, örneğin Mastodon hesabımızı bulmak için Tusky adıyla araman yeterli.</string>
     <string name="pref_title_reading_order">Okuma sırası</string>
     <string name="pref_reading_order_oldest_first">Önce en eski</string>
     <string name="pref_reading_order_newest_first">Önce en yeni</string>
@@ -663,15 +663,15 @@
     <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Sil</string>
     <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz\?</string>
-    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır. 
-\n 
-\nÖzel iletiler, bir gönderinin [iconics gmd_public] görünürlüğünü [iconics gmd_mail] <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur. 
-\n 
+    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır.
+\n
+\nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur.
+\n
 \nÖrneğin, bir hesabın profil görünümünde başlayabilir ve oluştur düğmesine [iconics gmd_edit] dokunabilir ve görünürlüğü değiştirebilirsiniz. </string>
-    <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz. 
-\n 
-\n Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın. 
-\n 
+    <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz.
+\n
+\n Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın.
+\n
 \n \u0020Bu listeler Hesap tercihleri [iconics gmd_account_circle] [iconics gmd_navigate_next] Sekmelerinde sekme olarak kullanılabilir. </string>
     <string name="muting_hashtag_success_format">Uyarı olarak #%1$s etiketini susturma</string>
     <string name="unmuting_hashtag_success_format">Etiket sesi kapatılıyor #%1$s</string>

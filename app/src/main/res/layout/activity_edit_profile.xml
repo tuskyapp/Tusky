@@ -36,7 +36,7 @@
                 android:background="#66000000"
                 android:contentDescription="@string/label_header"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_a_photo_32dp" />
+                app:srcCompat="@drawable/ic_add_a_photo_32dp_filled" />
 
             <ImageView
                 android:id="@+id/avatarPreview"
@@ -59,7 +59,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/headerPreview"
                 app:layout_constraintStart_toStartOf="@id/contentContainer"
                 app:layout_constraintTop_toBottomOf="@id/headerPreview"
-                app:srcCompat="@drawable/ic_add_a_photo_32dp" />
+                app:srcCompat="@drawable/ic_add_a_photo_32dp_filled" />
 
             <LinearLayout
                 android:id="@+id/contentContainer"
@@ -90,8 +90,8 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TuskyTextInput"
                     android:id="@+id/noteEditTextLayout"
+                    style="@style/TuskyTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -156,7 +156,9 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="6dp"
-                    android:text="@string/profile_metadata_add" />
+                    android:text="@string/profile_metadata_add"
+                    app:icon="@drawable/ic_add_24dp"
+                    app:iconTint="?attr/colorOnPrimary" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

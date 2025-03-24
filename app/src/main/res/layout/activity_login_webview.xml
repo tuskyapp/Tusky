@@ -48,7 +48,7 @@
             android:lineSpacingMultiplier="1.1"
             android:paddingHorizontal="24dp"
             android:paddingVertical="12dp"
-            app:drawableStartCompat="@drawable/info_24dp"
+            app:drawableStartCompat="@drawable/ic_info_24dp"
             tools:text="By logging in you agree to the rules of instance.example" />
 
     </LinearLayout>

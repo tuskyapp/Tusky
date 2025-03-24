@@ -4,5 +4,6 @@
     <item
         android:id="@+id/open_settings"
         android:title="@string/open_settings"
+        android:icon="@drawable/ic_settings_24dp"
         app:showAsAction="ifRoom" />
 </menu>

@@ -21,7 +21,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_unmute"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_unmute_24dp"
+        app:srcCompat="@drawable/ic_volume_up_24dp"
         />
 
     <TextView

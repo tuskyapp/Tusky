@@ -9,9 +9,9 @@ import android.text.style.DynamicDrawableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
 import android.text.style.URLSpan
+import androidx.appcompat.content.res.AppCompatResources
+import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.twittertext.Regex
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import java.util.regex.Pattern
 
 /**
@@ -95,23 +95,34 @@ private fun <T> Spannable.clearSpans(spanClass: Class<T>) {
     }
 }
 
+private val iconNameMapping: Map<String, Int> = mapOf(
+    "{{home}}" to R.drawable.ic_home_24dp,
+    "{{mail}}" to R.drawable.ic_mail_24dp,
+    "{{group}}" to R.drawable.ic_group_24dp,
+    "{{search}}" to R.drawable.ic_search_24dp,
+    "{{manage_accounts}}" to R.drawable.ic_manage_accounts_24dp,
+    "{{chevron_right}}" to R.drawable.ic_chevron_right_24dp,
+)
+
 /**
- * Replaces text of the form [iconics name] with their spanned counterparts (ImageSpan).
+ * Replaces text of the form {{icon_name}} with their spanned counterparts (ImageSpan). Supported icon names are above.
  */
 fun addDrawables(text: CharSequence, color: Int, size: Int, context: Context): Spannable {
     val builder = SpannableStringBuilder(text)
 
-    val pattern = Pattern.compile("\\[iconics ([0-9a-z_]+)]")
-    val matcher = pattern.matcher(builder)
-    while (matcher.find()) {
-        val resourceName = matcher.group(1)
-            ?: continue
+    iconNameMapping.forEach { iconName, icon ->
+        var index = 0
+        while (index < text.length - iconName.length && index != -1) {
+            index = text.indexOf(iconName, index)
 
-        val drawable = IconicsDrawable(context, GoogleMaterial.getIcon(resourceName))
-        drawable.setBounds(0, 0, size, size)
-        drawable.setTint(color)
-
-        builder.setSpan(ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BASELINE), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (index != -1) {
+                val drawable = AppCompatResources.getDrawable(context, icon)!!
+                drawable.setBounds(0, 0, size, size)
+                drawable.setTint(color)
+                builder.setSpan(ImageSpan(drawable, DynamicDrawableSpan.ALIGN_CENTER), index, index + iconName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                index += iconName.length
+            }
+        }
     }
 
     return builder

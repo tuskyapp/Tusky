@@ -177,10 +177,10 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
                 visibilityIcon = R.drawable.ic_lock_open_24dp;
                 break;
             case PRIVATE:
-                visibilityIcon = R.drawable.ic_lock_outline_24dp;
+                visibilityIcon = R.drawable.ic_lock_24dp;
                 break;
             case DIRECT:
-                visibilityIcon = R.drawable.ic_email_24dp;
+                visibilityIcon = R.drawable.ic_mail_24dp;
                 break;
             default:
                 return null;

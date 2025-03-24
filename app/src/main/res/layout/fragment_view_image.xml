@@ -49,14 +49,10 @@
             app:behavior_peekHeight="@dimen/media_description_sheet_peek_height"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-            <View
-                android:layout_width="24dp"
-                android:layout_height="3dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_drag_indicator_horiz_24dp"
-                android:importantForAccessibility="no" />
+            <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

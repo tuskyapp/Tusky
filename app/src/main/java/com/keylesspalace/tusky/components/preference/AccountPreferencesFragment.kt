@@ -16,7 +16,6 @@
 package com.keylesspalace.tusky.components.preference
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -24,7 +23,6 @@ import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import at.connyduck.calladapter.networkresult.fold
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.BuildConfig
@@ -54,10 +52,6 @@ import com.keylesspalace.tusky.util.getLocaleList
 import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.icon
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeRes
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -81,10 +75,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
         makePreferenceScreen {
             preference {
                 setTitle(R.string.pref_title_edit_notification_settings)
-                icon = IconicsDrawable(context, GoogleMaterial.Icon.gmd_notifications).apply {
-                    sizeRes = R.dimen.preference_icon_size
-                    colorInt = MaterialColors.getColor(context, R.attr.iconColor, Color.BLACK)
-                }
+                icon = icon(R.drawable.ic_notifications_24dp)
                 setOnPreferenceClickListener {
                     openNotificationSystemPrefs()
                     true
@@ -93,7 +84,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.title_tab_preferences)
-                icon = icon(R.drawable.ic_tabs)
+                icon = icon(R.drawable.ic_tabs_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, TabPreferenceActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -103,7 +94,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.title_followed_hashtags)
-                icon = icon(R.drawable.ic_hashtag)
+                icon = icon(R.drawable.ic_tag_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, FollowedTagsActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -113,7 +104,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.action_view_mutes)
-                icon = icon(R.drawable.ic_mute_24dp)
+                icon = icon(R.drawable.ic_volume_off_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.MUTES)
@@ -124,7 +115,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.action_view_blocks)
-                icon = icon(GoogleMaterial.Icon.gmd_block)
+                icon = icon(R.drawable.ic_block_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, AccountListActivity::class.java)
                     intent.putExtra("type", AccountListActivity.Type.BLOCKS)
@@ -135,7 +126,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.title_domain_mutes)
-                icon = icon(R.drawable.ic_mute_24dp)
+                icon = icon(R.drawable.ic_volume_off_24dp)
                 setOnPreferenceClickListener {
                     val intent = Intent(context, DomainBlocksActivity::class.java)
                     activity?.startActivityWithSlideInAnimation(intent)
@@ -145,7 +136,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
             preference {
                 setTitle(R.string.pref_title_timeline_filters)
-                icon = icon(R.drawable.ic_filter_24dp)
+                icon = icon(R.drawable.ic_filter_alt_24dp)
                 setOnPreferenceClickListener {
                     launchFilterActivity()
                     true
@@ -216,7 +207,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
                         ).toTypedArray()
                     entryValues = (listOf("") + locales.map { it.language }).toTypedArray()
                     key = PrefKeys.DEFAULT_POST_LANGUAGE
-                    icon = icon(GoogleMaterial.Icon.gmd_translate)
+                    icon = icon(R.drawable.ic_translate_24dp)
                     value = accountManager.activeAccount?.defaultPostLanguage.orEmpty()
                     isPersistent = false // This will be entirely server-driven
                     setSummaryProvider { entry }
@@ -229,7 +220,7 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
                 switchPreference {
                     setTitle(R.string.pref_default_media_sensitivity)
-                    icon = icon(R.drawable.ic_eye_24dp)
+                    icon = icon(R.drawable.ic_visibility_24dp)
                     key = PrefKeys.DEFAULT_MEDIA_SENSITIVITY
                     val sensitivity = accountManager.activeAccount?.defaultMediaSensitivity == true
                     setDefaultValue(sensitivity)
@@ -342,9 +333,9 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
     private fun getIconForVisibility(visibility: Status.Visibility): Drawable? {
         val iconRes = when (visibility) {
-            Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
+            Status.Visibility.PRIVATE -> R.drawable.ic_lock_24dp
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
-            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
+            Status.Visibility.DIRECT -> R.drawable.ic_mail_24dp
             else -> R.drawable.ic_public_24dp
         }
         return icon(iconRes)
@@ -352,9 +343,9 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
 
     private fun getIconForSensitivity(sensitive: Boolean): Drawable? {
         return if (sensitive) {
-            icon(R.drawable.ic_hide_media_24dp)
+            icon(R.drawable.ic_visibility_off_24dp)
         } else {
-            icon(R.drawable.ic_eye_24dp)
+            icon(R.drawable.ic_visibility_24dp)
         }
     }
 

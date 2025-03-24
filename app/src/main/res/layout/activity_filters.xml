@@ -53,7 +53,7 @@
         android:contentDescription="@string/filter_addition_title"
         app:layout_anchor="@id/filtersList"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_plus_24dp"
+        app:srcCompat="@drawable/ic_add_24dp"
         app:tint="?attr/colorOnPrimary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

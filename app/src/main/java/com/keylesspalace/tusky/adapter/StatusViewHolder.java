@@ -130,7 +130,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
             statusDisplayOptions.animateEmojis()
         );
         statusInfo.setText(emojifiedText);
-        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_18dp : R.drawable.ic_reblog_18dp, 0, 0, 0);
+        statusInfo.setCompoundDrawablesWithIntrinsicBounds(isReply ? R.drawable.ic_reply_18dp : R.drawable.ic_repeat_18dp, 0, 0, 0);
         statusInfo.setVisibility(View.VISIBLE);
     }
 

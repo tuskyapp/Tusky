@@ -33,7 +33,7 @@
             android:contentDescription="@string/action_add_reaction"
             android:textColor="?attr/colorOnPrimary"
             app:chipBackgroundColor="?attr/colorPrimary"
-            app:chipIcon="@drawable/ic_plus_24dp"
+            app:chipIcon="@drawable/ic_add_24dp"
             app:chipIconTint="?attr/colorOnPrimary"
             app:chipStrokeWidth="0dp"
             app:closeIconEnabled="false"

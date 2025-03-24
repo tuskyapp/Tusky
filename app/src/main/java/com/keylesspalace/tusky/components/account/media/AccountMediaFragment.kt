@@ -30,7 +30,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
@@ -43,10 +42,6 @@ import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -153,12 +148,6 @@ class AccountMediaFragment :
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_account_media, menu)
-        menu.findItem(R.id.action_refresh)?.apply {
-            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

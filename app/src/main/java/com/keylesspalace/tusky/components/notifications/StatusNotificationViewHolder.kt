@@ -235,23 +235,23 @@ internal class StatusNotificationViewHolder(
         val icon: Drawable?
         when (type) {
             Notification.Type.Favourite -> {
-                icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange)
+                icon = getIconWithColor(context, R.drawable.ic_star_24dp_filled, R.color.favoriteButtonActiveColor)
                 format = context.getString(R.string.notification_favourite_format)
             }
             Notification.Type.Reblog -> {
-                icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.tusky_blue)
+                icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.colorPrimary)
                 format = context.getString(R.string.notification_reblog_format)
             }
             Notification.Type.Status -> {
-                icon = getIconWithColor(context, R.drawable.ic_notifications_active_24dp, R.color.tusky_blue)
+                icon = getIconWithColor(context, R.drawable.ic_notifications_active_24dp, R.color.colorPrimary)
                 format = context.getString(R.string.notification_subscription_format)
             }
             Notification.Type.Update -> {
-                icon = getIconWithColor(context, R.drawable.ic_edit_24dp, R.color.tusky_blue)
+                icon = getIconWithColor(context, R.drawable.ic_edit_24dp_filled, R.color.colorPrimary)
                 format = context.getString(R.string.notification_update_format)
             }
             else -> {
-                icon = getIconWithColor(context, R.drawable.ic_star_24dp, R.color.tusky_orange)
+                icon = getIconWithColor(context, R.drawable.ic_star_24dp_filled, R.color.favoriteButtonActiveColor)
                 format = context.getString(R.string.notification_favourite_format)
             }
         }
@@ -376,7 +376,7 @@ internal class StatusNotificationViewHolder(
             binding.notificationAttachmentInfo.text = attachmentText
         } else if (status.poll != null) {
             binding.notificationAttachmentInfo.show()
-            binding.notificationAttachmentInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0)
+            binding.notificationAttachmentInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_insert_chart_24dp, 0, 0, 0)
             binding.notificationAttachmentInfo.setText(R.string.poll)
         } else {
             binding.notificationAttachmentInfo.hide()

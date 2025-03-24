@@ -684,7 +684,7 @@
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
     <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM).
 \n
-\nI messaggi privati sono creati impostando la visibilità [iconics gmd_public] di un post su [iconics gmd_mail] <i>Privato</i> e menzionando uno o più utenti nel testo.
+\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo.
 \n
 \nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità.</string>
     <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%1$s</string>

@@ -12,7 +12,7 @@
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    app:drawableStartCompat="@drawable/ic_home_24dp"
+    app:drawableStartCompat="@drawable/ic_home_24dp_filled"
     app:drawableTint="?android:attr/textColorSecondary" />
 
 

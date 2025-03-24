@@ -16,7 +16,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.R
@@ -30,10 +29,6 @@ import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -113,12 +108,6 @@ abstract class SearchFragment<T : Any> :
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_search, menu)
-        menu.findItem(R.id.action_refresh)?.apply {
-            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

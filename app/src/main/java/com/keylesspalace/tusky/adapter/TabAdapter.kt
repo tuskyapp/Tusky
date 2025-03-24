@@ -122,7 +122,7 @@ class TabAdapter(
 
                     val chip = binding.chipGroup.getChildAt(i).takeUnless { it.id == R.id.actionChip } as Chip?
                         ?: Chip(context).apply {
-                            setCloseIconResource(R.drawable.ic_cancel_24dp)
+                            setCloseIconResource(R.drawable.ic_cancel_24dp_filled)
                             isCheckable = false
                             binding.chipGroup.addView(this, binding.chipGroup.size - 1)
                         }

@@ -44,8 +44,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
-import com.google.android.material.R as materialR
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.adapter.AccountFieldEditAdapter
@@ -59,10 +57,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewmodel.EditProfileViewModel
 import com.keylesspalace.tusky.viewmodel.ProfileDataInUi
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -149,18 +143,6 @@ class EditProfileActivity : BaseActivity() {
 
         binding.fieldList.layoutManager = LinearLayoutManager(this)
         binding.fieldList.adapter = accountFieldEditAdapter
-
-        val plusDrawable = IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).apply {
-            sizeDp = 12
-            colorInt = MaterialColors.getColor(binding.addFieldButton, materialR.attr.colorOnPrimary)
-        }
-
-        binding.addFieldButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            plusDrawable,
-            null,
-            null,
-            null
-        )
 
         binding.addFieldButton.setOnClickListener {
             accountFieldEditAdapter.addField()

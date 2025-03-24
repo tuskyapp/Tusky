@@ -8,27 +8,27 @@
         android:title="@string/action_follow"
         app:showAsAction="ifRoom"
         app:iconTint="?attr/colorOnSurface"
-        android:icon="@drawable/ic_person_add_24dp" />
+        android:icon="@drawable/ic_person_add_24dp_mirrored" />
 
     <item
         android:id="@+id/action_unfollow_hashtag"
         android:title="@string/action_unfollow"
         app:showAsAction="ifRoom"
         app:iconTint="?attr/colorOnSurface"
-        android:icon="@drawable/ic_person_remove_24dp" />
+        android:icon="@drawable/ic_person_remove_24dp_mirrored" />
 
     <item
         android:id="@+id/action_mute_hashtag"
         android:title="@string/action_mute"
         app:showAsAction="ifRoom"
         app:iconTint="?attr/colorOnSurface"
-        android:icon="@drawable/ic_mute_24dp" />
+        android:icon="@drawable/ic_volume_off_24dp" />
 
     <item
         android:id="@+id/action_unmute_hashtag"
         android:title="@string/action_unmute"
         app:showAsAction="ifRoom"
         app:iconTint="?attr/colorOnSurface"
-        android:icon="@drawable/ic_unmute_24dp" />
+        android:icon="@drawable/ic_volume_up_24dp" />
 
 </menu>

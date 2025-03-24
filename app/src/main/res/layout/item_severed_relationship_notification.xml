@@ -15,7 +15,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="28dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/heart_broken_24"
+        android:src="@drawable/ic_heart_broken_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?android:textColorSecondary" />

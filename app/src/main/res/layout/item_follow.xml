@@ -20,7 +20,7 @@
         android:paddingStart="28dp"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:drawableStartCompat="@drawable/ic_person_add_24dp"
+        app:drawableStartCompat="@drawable/ic_person_add_24dp_mirrored_filled"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Someone followed you" />
