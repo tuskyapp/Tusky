@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import androidx.core.content.edit
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Constraints
@@ -42,7 +43,6 @@ import java.security.Security
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import org.conscrypt.Conscrypt
-import androidx.core.content.edit
 
 @HiltAndroidApp
 class TuskyApplication : Application(), Configuration.Provider {
@@ -128,7 +128,6 @@ class TuskyApplication : Application(), Configuration.Provider {
     private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
         preferences.edit {
-
             if (oldVersion < 2023022701) {
                 // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
 
