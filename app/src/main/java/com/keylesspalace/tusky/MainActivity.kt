@@ -189,7 +189,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private val requestNotificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.setupNotifications()
+                viewModel.setupNotifications(this)
             }
         }
 
@@ -218,6 +218,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
             requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            viewModel.setupNotifications(this)
         }
 
         if (explodeAnimationWasRequested()) {

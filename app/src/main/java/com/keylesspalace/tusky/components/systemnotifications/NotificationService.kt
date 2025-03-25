@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.components.systemnotifications
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
@@ -111,11 +112,11 @@ class NotificationService @Inject constructor(
         }
     }
 
-    suspend fun setupNotifications(account: AccountEntity?) {
+    suspend fun setupNotifications(activity: Activity) {
         resetPushWhenDistributorIsMissing()
 
         if (arePushNotificationsAvailable()) {
-            setupPushNotifications(account)
+            setupPushNotifications(activity)
         }
 
         // At least as a fallback and otherwise as main source when there are no push distributors installed:
@@ -731,20 +732,14 @@ class NotificationService @Inject constructor(
     fun arePushNotificationsAvailable(): Boolean =
         UnifiedPush.getDistributors(context).isNotEmpty()
 
-    private suspend fun setupPushNotifications(account: AccountEntity?) {
-        val relevantAccounts: List<AccountEntity> = if (account != null) {
-            listOf(account)
-        } else {
-            accountManager.accounts
-        }
-
-        relevantAccounts.forEach {
+    private suspend fun setupPushNotifications(activity: Activity) {
+        accountManager.accounts.forEach {
             val notificationGroupEnabled = Build.VERSION.SDK_INT < 28 ||
                 notificationManager.getNotificationChannelGroup(it.identifier)?.isBlocked == false
             val shouldEnable = it.notificationsEnabled && notificationGroupEnabled
 
             if (shouldEnable) {
-                setupPushNotificationsForAccount(it)
+                setupPushNotificationsForAccount(activity, it)
                 Log.d(TAG, "Enabled push notifications for account ${it.id}.")
             } else {
                 disablePushNotificationsForAccount(it)
@@ -753,7 +748,7 @@ class NotificationService @Inject constructor(
         }
     }
 
-    private suspend fun setupPushNotificationsForAccount(account: AccountEntity) {
+    private suspend fun setupPushNotificationsForAccount(activity: Activity, account: AccountEntity) {
         val currentSubscription = getActiveSubscription(account)
 
         if (currentSubscription != null) {
@@ -772,7 +767,7 @@ class NotificationService @Inject constructor(
             //   make sure this is done in any inconsistent case (is not too often and doesn't hurt).
             unregisterPushEndpoint(account)
 
-            UnifiedPush.registerAppWithDialog(context, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
+            UnifiedPush.registerAppWithDialog(activity, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
             // Will lead to call of registerPushEndpoint()
         }
     }
