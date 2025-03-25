@@ -586,6 +586,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     nameRes = R.string.add_account_name
                     descriptionRes = R.string.add_account_description
                     iconRes = R.drawable.ic_add_24dp
+                    isIconTinted = true
                 },
                 0
             )
