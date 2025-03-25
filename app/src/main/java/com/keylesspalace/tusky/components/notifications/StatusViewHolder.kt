@@ -76,7 +76,7 @@ internal class StatusViewHolder(
                         statusInfo.setText(R.string.notification_info_reply)
                     }
                 } else {
-                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_insert_chart_24dp_filled, 0, 0, 0)
+                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email_alternate_18dp, 0, 0, 0)
 
                     if (viewData.statusViewData.status.visibility == Status.Visibility.DIRECT) {
                         statusInfo.setText(R.string.notification_info_private_mention)
