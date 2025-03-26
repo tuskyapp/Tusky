@@ -17,17 +17,14 @@
 
 package com.keylesspalace.tusky.components.notifications
 
-import android.content.Context
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.format.DateUtils
 import android.text.style.StyleSpan
 import android.view.View
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import at.connyduck.sparkbutton.helpers.Utils
@@ -176,16 +173,6 @@ internal class StatusNotificationViewHolder(
         }
     }
 
-    private fun getIconWithColor(
-        context: Context,
-        @DrawableRes drawable: Int,
-        @ColorRes color: Int
-    ): Drawable? {
-        val icon = AppCompatResources.getDrawable(context, drawable)
-        icon?.setTint(context.getColor(color))
-        return icon
-    }
-
     private fun setAvatar(statusAvatarUrl: String?, isBot: Boolean, animateAvatars: Boolean, showBotOverlay: Boolean) {
         binding.notificationStatusAvatar.setPaddingRelative(0, 0, 0, 0)
         loadAvatar(
@@ -222,6 +209,7 @@ internal class StatusNotificationViewHolder(
         )
     }
 
+    @SuppressLint("UseCompatTextViewDrawableApis")
     fun setMessage(
         notificationViewData: NotificationViewData.Concrete,
         listener: LinkListener,
@@ -232,35 +220,37 @@ internal class StatusNotificationViewHolder(
         val type = notificationViewData.type
         val context = binding.notificationTopText.context
         val format: String
-        val icon: Drawable?
+        val icon: Int
+        val iconColor: Int
         when (type) {
             Notification.Type.Favourite -> {
-                icon = getIconWithColor(context, R.drawable.ic_star_24dp_filled, R.color.favoriteButtonActiveColor)
+                icon = R.drawable.ic_star_24dp_filled
+                iconColor = R.color.favoriteButtonActiveColor
                 format = context.getString(R.string.notification_favourite_format)
             }
             Notification.Type.Reblog -> {
-                icon = getIconWithColor(context, R.drawable.ic_repeat_24dp, R.color.colorPrimary)
+                icon = R.drawable.ic_repeat_24dp
+                iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_reblog_format)
             }
             Notification.Type.Status -> {
-                icon = getIconWithColor(context, R.drawable.ic_notifications_active_24dp, R.color.colorPrimary)
+                icon = R.drawable.ic_notifications_active_24dp
+                iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_subscription_format)
             }
             Notification.Type.Update -> {
-                icon = getIconWithColor(context, R.drawable.ic_edit_24dp_filled, R.color.colorPrimary)
+                icon = R.drawable.ic_edit_24dp_filled
+                iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_update_format)
             }
             else -> {
-                icon = getIconWithColor(context, R.drawable.ic_star_24dp_filled, R.color.favoriteButtonActiveColor)
+                icon = R.drawable.ic_star_24dp_filled
+                iconColor = R.color.favoriteButtonActiveColor
                 format = context.getString(R.string.notification_favourite_format)
             }
         }
-        binding.notificationTopText.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            icon,
-            null,
-            null,
-            null
-        )
+        binding.notificationTopText.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0)
+        binding.notificationTopText.compoundDrawableTintList = ColorStateList.valueOf(context.getColor(iconColor))
         val wholeMessage = String.format(format, displayName).toSpannable()
         val displayNameIndex = format.indexOf("%1\$s")
         wholeMessage.setSpan(
