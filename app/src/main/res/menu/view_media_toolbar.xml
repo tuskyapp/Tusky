@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_download"
-        android:icon="@drawable/ic_file_download_black_24dp"
+        android:icon="@drawable/ic_download_24dp"
         android:title="@string/dialog_download_image"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_share_media"
-        android:icon="@drawable/ic_menu_share_24dp"
+        android:icon="@drawable/ic_share_24dp"
         android:title="@string/action_share"
         app:showAsAction="ifRoom" />
     <item

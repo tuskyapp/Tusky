@@ -206,7 +206,7 @@ class EditFilterActivity : BaseActivity() {
             val chip = binding.keywordChips.getChildAt(index).takeUnless {
                 it.id == R.id.actionChip
             } as Chip? ?: Chip(this).apply {
-                setCloseIconResource(R.drawable.ic_cancel_24dp)
+                setCloseIconResource(R.drawable.ic_cancel_24dp_filled)
                 isCheckable = false
                 binding.keywordChips.addView(this, binding.keywordChips.size - 1)
             }

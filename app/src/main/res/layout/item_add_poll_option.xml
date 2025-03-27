@@ -28,6 +28,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/action_remove"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
 </LinearLayout>

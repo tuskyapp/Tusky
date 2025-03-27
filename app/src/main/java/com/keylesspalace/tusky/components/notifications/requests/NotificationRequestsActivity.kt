@@ -30,7 +30,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -47,13 +46,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.String
-import kotlin.getValue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -144,12 +137,6 @@ class NotificationRequestsActivity : BaseActivity(), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.activity_notification_requests, menu)
-        menu.findItem(R.id.open_settings)?.apply {
-            icon = IconicsDrawable(this@NotificationRequestsActivity, GoogleMaterial.Icon.gmd_settings).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.includedToolbar.toolbar, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

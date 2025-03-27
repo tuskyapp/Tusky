@@ -22,7 +22,7 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        app:drawableStartCompat="@drawable/ic_list"
+        app:drawableStartCompat="@drawable/ic_list_alt_24dp"
         app:drawableTint="?android:attr/textColorSecondary"
         tools:text="Example list" />
 
@@ -46,7 +46,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_add_to_list"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_plus_24dp" />
+        app:srcCompat="@drawable/ic_add_24dp" />
 
     <ImageButton
         android:id="@+id/remove_button"
@@ -57,5 +57,5 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_remove_from_list"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 </LinearLayout>

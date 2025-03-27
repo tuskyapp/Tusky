@@ -52,7 +52,7 @@ class DraftMediaAdapter(
         getItem(position)?.let { attachment ->
             if (attachment.type == DraftAttachment.Type.AUDIO) {
                 holder.imageView.clearFocus()
-                holder.imageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
+                holder.imageView.setImageResource(R.drawable.audio_file_preview)
             } else {
                 if (attachment.focus != null) {
                     holder.imageView.setFocalPoint(attachment.focus)

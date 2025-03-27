@@ -53,11 +53,11 @@ class AccountMediaGridAdapter(
     )
     private val videoIndicator = AppCompatResources.getDrawable(
         context,
-        R.drawable.ic_play_indicator
+        R.drawable.play_indicator
     )
     private val mediaHiddenDrawable = AppCompatResources.getDrawable(
         context,
-        R.drawable.ic_hide_media_24dp
+        R.drawable.ic_visibility_off_24dp
     )
 
     private val itemBgBaseHSV = FloatArray(3)
@@ -101,7 +101,7 @@ class AccountMediaGridAdapter(
                 )
 
                 Glide.with(imageView)
-                    .load(R.drawable.ic_music_box_preview_24dp)
+                    .load(R.drawable.ic_music_box_24dp)
                     .centerInside()
                     .into(imageView)
 

@@ -46,6 +46,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
 import androidx.core.content.res.use
 import androidx.core.view.ContentInfoCompat
@@ -114,10 +115,6 @@ import com.keylesspalace.tusky.util.setOnWindowInsetsChangeListener
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
 import java.io.File
@@ -410,12 +407,7 @@ class ComposeActivity :
         if (replyingStatusAuthor != null) {
             binding.composeReplyView.show()
             binding.composeReplyView.text = getString(R.string.replying_to, replyingStatusAuthor)
-            val arrowDownIcon = IconicsDrawable(
-                this,
-                GoogleMaterial.Icon.gmd_arrow_drop_down
-            ).apply {
-                sizeDp = 12
-            }
+            val arrowDownIcon = AppCompatResources.getDrawable(this, R.drawable.ic_arrow_drop_down_24dp)!!
 
             setDrawableTint(this, arrowDownIcon, android.R.attr.textColorTertiary)
             binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -440,10 +432,7 @@ class ComposeActivity :
                     )
                 } else {
                     binding.composeReplyContentView.show()
-                    val arrowUpIcon = IconicsDrawable(
-                        this,
-                        GoogleMaterial.Icon.gmd_arrow_drop_up
-                    ).apply { sizeDp = 12 }
+                    val arrowUpIcon = AppCompatResources.getDrawable(this, R.drawable.ic_arrow_drop_up_24dp)!!
 
                     setDrawableTint(this, arrowUpIcon, android.R.attr.textColorTertiary)
                     binding.composeReplyView.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -647,41 +636,6 @@ class ComposeActivity :
             displayTransientMessage(R.string.hint_media_description_missing)
         }
 
-        val textColor = MaterialColors.getColor(binding.root, android.R.attr.textColorTertiary)
-
-        val cameraIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_camera_alt).apply {
-            colorInt = textColor
-            sizeDp = 18
-        }
-        binding.actionPhotoTake.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            cameraIcon,
-            null,
-            null,
-            null
-        )
-
-        val imageIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_image).apply {
-            colorInt = textColor
-            sizeDp = 18
-        }
-        binding.actionPhotoPick.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            imageIcon,
-            null,
-            null,
-            null
-        )
-
-        val pollIcon = IconicsDrawable(this, GoogleMaterial.Icon.gmd_poll).apply {
-            colorInt = textColor
-            sizeDp = 18
-        }
-        binding.addPollTextActionTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            pollIcon,
-            null,
-            null,
-            null
-        )
-
         binding.actionPhotoTake.visible(
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null
         )
@@ -856,16 +810,16 @@ class ComposeActivity :
         } else {
             binding.composeHideMediaButton.show()
             @AttrRes val color = if (contentWarningShown) {
-                binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
+                binding.composeHideMediaButton.setImageResource(R.drawable.ic_visibility_off_24dp)
                 binding.composeHideMediaButton.isClickable = false
                 materialR.attr.colorPrimary
             } else {
                 binding.composeHideMediaButton.isClickable = true
                 if (markMediaSensitive) {
-                    binding.composeHideMediaButton.setImageResource(R.drawable.ic_hide_media_24dp)
+                    binding.composeHideMediaButton.setImageResource(R.drawable.ic_visibility_off_24dp)
                     materialR.attr.colorPrimary
                 } else {
-                    binding.composeHideMediaButton.setImageResource(R.drawable.ic_eye_24dp)
+                    binding.composeHideMediaButton.setImageResource(R.drawable.ic_visibility_24dp)
                     android.R.attr.textColorTertiary
                 }
             }
@@ -916,8 +870,8 @@ class ComposeActivity :
 
         val iconRes = when (visibility) {
             Status.Visibility.PUBLIC -> R.drawable.ic_public_24dp
-            Status.Visibility.PRIVATE -> R.drawable.ic_lock_outline_24dp
-            Status.Visibility.DIRECT -> R.drawable.ic_email_24dp
+            Status.Visibility.PRIVATE -> R.drawable.ic_lock_24dp
+            Status.Visibility.DIRECT -> R.drawable.ic_mail_24dp
             Status.Visibility.UNLISTED -> R.drawable.ic_lock_open_24dp
             else -> R.drawable.ic_lock_open_24dp
         }

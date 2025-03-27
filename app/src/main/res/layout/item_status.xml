@@ -23,7 +23,7 @@
         android:paddingStart="@dimen/status_info_padding_small"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:drawableStartCompat="@drawable/ic_reblog_18dp"
+        app:drawableStartCompat="@drawable/ic_repeat_18dp"
         app:drawableTint="?android:textColorTertiary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
@@ -359,9 +359,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_favourite"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_reblog_active_24dp"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="@drawable/ic_reblog_24dp"
+        sparkbutton:activeImage="@drawable/ic_repeat_active_24dp"
+        sparkbutton:iconSize="24dp"
+        sparkbutton:inactiveImage="@drawable/ic_repeat_24dp"
         sparkbutton:primaryColor="@color/tusky_blue"
         sparkbutton:secondaryColor="@color/tusky_blue_lighter" />
 
@@ -387,9 +387,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_bookmark"
         app:layout_constraintStart_toEndOf="@id/status_inset"
         app:layout_constraintTop_toTopOf="@id/status_inset"
-        sparkbutton:activeImage="@drawable/ic_favourite_active_24dp"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="@drawable/ic_favourite_24dp"
+        sparkbutton:activeImage="@drawable/ic_star_24dp_filled"
+        sparkbutton:iconSize="24dp"
+        sparkbutton:inactiveImage="@drawable/ic_star_24dp"
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
@@ -415,10 +415,10 @@
         app:layout_constraintEnd_toStartOf="@id/status_more"
         app:layout_constraintStart_toEndOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_bookmark_active_24dp"
-        sparkbutton:iconSize="28dp"
+        sparkbutton:activeImage="@drawable/ic_bookmark_24dp_filled"
+        sparkbutton:iconSize="24dp"
         sparkbutton:inactiveImage="@drawable/ic_bookmark_24dp"
-        sparkbutton:primaryColor="@color/tusky_green"
+        sparkbutton:primaryColor="@color/tusky_green_dark"
         sparkbutton:secondaryColor="@color/tusky_green_light" />
 
     <ImageButton

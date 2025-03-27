@@ -30,7 +30,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_unfollow"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_person_remove_24dp"
+        app:srcCompat="@drawable/ic_person_remove_24dp_mirrored"
         />
 
 </LinearLayout>

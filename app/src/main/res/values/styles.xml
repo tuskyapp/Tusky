@@ -31,7 +31,7 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splashscreen</item>
         <item name="windowSplashScreenBackground">@color/tusky_grey_20</item>
     </style>
 
@@ -110,6 +110,11 @@
         <item name="chipStyle">@style/Widget.Material3.Chip.Filter</item>
 
         <item name="preferenceTheme">@style/TuskyPreferenceTheme</item>
+
+        <item name="homeAsUpIndicator">@drawable/ic_arrow_back_24dp</item>
+        <item name="searchViewStyle">@style/TuskySearchViewStyle</item>
+
+        <item name="toolbarIconBackgroundColor">@color/toolbarIconBackgroundColor</item>
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
@@ -136,12 +141,14 @@
         <item name="dividerColor">@color/tusky_grey_20</item>
         <item name="colorOutlineVariant">@color/tusky_grey_20</item>
 
+        <item name="toolbarIconBackgroundColor">@color/transparent_tusky_grey_10</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
 
     <style name="ViewMediaActivity.AppBarLayout" parent="ThemeOverlay.AppCompat">
         <item name="android:colorControlNormal">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="TuskyDialogFragment" parent="@style/ThemeOverlay.Material3.Dialog">
@@ -243,5 +250,10 @@
     <style name="TuskyExoPlayerPlayPause" parent="ExoStyledControls.Button.Center.PlayPause">
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+    <style name="TuskySearchViewStyle" parent="Widget.Material3.SearchView">
+        <item name="searchIcon">@drawable/ic_search_24dp</item>
+        <item name="closeIcon">@drawable/ic_close_24dp</item>
     </style>
 </resources>

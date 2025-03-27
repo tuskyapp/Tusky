@@ -39,29 +39,25 @@
                 android:textStyle="bold"
                 app:tooltipText="@string/description_post_language" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageButton
                 android:id="@+id/atButton"
                 style="@style/TuskyImageButton"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:contentDescription="@string/at_symbol"
                 android:padding="8dp"
-                android:text="@string/at_symbol"
-                android:textColor="?android:textColorTertiary"
-                android:textSize="?attr/status_text_large"
-                android:textStyle="bold" />
+                app:srcCompat="@drawable/ic_email_alternate_24dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageButton
                 android:id="@+id/hashButton"
                 style="@style/TuskyImageButton"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:contentDescription="@string/hash_symbol"
                 android:padding="8dp"
-                android:text="@string/hash_symbol"
-                android:textColor="?android:textColorTertiary"
-                android:textSize="?attr/status_text_large"
-                android:textStyle="bold" />
+                app:srcCompat="@drawable/ic_tag_24dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/descriptionMissingWarningButton"
@@ -71,7 +67,7 @@
                 android:layout_gravity="end"
                 android:contentDescription="@string/hint_media_description_missing"
                 android:padding="8dp"
-                app:icon="@drawable/ic_missing_description_24dp"
+                app:icon="@drawable/ic_comments_disabled_24dp"
                 app:iconTint="@color/tusky_orange_light"
                 app:tooltipText="@string/hint_media_description_missing" />
 
@@ -226,7 +222,9 @@
             android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="@string/action_photo_take"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_medium"
+            app:drawableStartCompat="@drawable/ic_photo_camera_24dp"
+            app:drawableTint="?android:attr/textColorTertiary" />
 
         <TextView
             android:id="@+id/actionPhotoPick"
@@ -235,7 +233,9 @@
             android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="@string/action_add_media"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_medium"
+            app:drawableStartCompat="@drawable/ic_image_24dp"
+            app:drawableTint="?android:attr/textColorTertiary" />
 
         <TextView
             android:id="@+id/addPollTextActionTextView"
@@ -244,7 +244,9 @@
             android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="@string/action_add_poll"
-            android:textSize="?attr/status_text_medium" />
+            android:textSize="?attr/status_text_medium"
+            app:drawableStartCompat="@drawable/ic_insert_chart_24dp"
+            app:drawableTint="?android:attr/textColorTertiary" />
 
     </LinearLayout>
 
@@ -334,7 +336,7 @@
             android:contentDescription="@string/action_hide_media"
             android:padding="4dp"
             app:tooltipText="@string/action_hide_media"
-            tools:src="@drawable/ic_eye_24dp" />
+            tools:src="@drawable/ic_visibility_24dp" />
 
         <ImageButton
             android:id="@+id/composeContentWarningButton"
@@ -344,7 +346,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_content_warning"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_cw_24dp"
+            app:srcCompat="@drawable/ic_feedback_24dp_filled"
             app:tooltipText="@string/action_content_warning" />
 
         <ImageButton
@@ -355,7 +357,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_emoji_keyboard"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_emoji_24dp"
+            app:srcCompat="@drawable/ic_mood_24dp"
             app:tooltipText="@string/action_emoji_keyboard" />
 
         <ImageButton
@@ -366,7 +368,7 @@
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/action_schedule_post"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_access_time"
+            app:srcCompat="@drawable/ic_schedule_24dp"
             app:tooltipText="@string/action_schedule_post" />
 
         <Space
@@ -390,7 +392,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textSize="?attr/status_text_medium"
-            app:iconGravity="textStart" />
+            app:iconGravity="textStart"
+            app:iconSize="24dp" />
 
     </LinearLayout>
 

@@ -625,7 +625,7 @@
     <string name="socket_timeout_exception">Contactar con tu servidor ha tardado demasiado tiempo</string>
     <string name="help_empty_home">Esta es tu <b> cronología de inicio</b>. Muestra las publicaciones recientes de las cuentas que sigues.
 \n
-\nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia [iconics gmd_group]. O puedes buscarlas por nombre [iconics gmd_search]; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
+\nPara encontrar cuentas, puedes mirar en alguna de las otras cronologías. Por ejemplo, la cronología local de tu instancia {{group}}. O puedes buscarlas por nombre {{search}}; por ejemplo, busca Tusky para encontrar nuestra cuenta de Mastodon.</string>
     <string name="ui_error_bookmark">Fallo al añadir a marcadores: %1$s</string>
     <string name="select_list_manage">Gestionar listas</string>
     <string name="ui_error_favourite">Fallo al favoritear publicación: %1$s</string>
@@ -707,7 +707,7 @@
     <string name="list_exclusive_label">Ocultar en la cronología de tu instancia</string>
     <string name="help_empty_conversations">Aquí están tus <b>mensajes privados</b>; a veces llamados conversaciones o mensajes directos (MD).
 \n
-\nLos mensajes privados se crean fijando la visibilidad [iconics gmd_public] de una publicación a [iconics gmd_mail] <i>Directo</i> y mencionando a uno o más usuarios.
+\nLos mensajes privados se crean fijando la visibilidad {{public}} de una publicación a {{mail}} <i>Directo</i> y mencionando a uno o más usuarios.
 \n
 \nPor ejemplo puedes empezar desde el perfil de otro usuario, pulsar el botón de crear [iconics gmd_edit] y cambiar la visibilidad.</string>
     <string name="about_copied">Se copió la información de versión y dispositivo</string>

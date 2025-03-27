@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:actionLayout="@layout/search_view"
+        android:title="@string/action_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:searchIcon="@drawable/ic_search_24dp"
         app:showAsAction="always" />
 </menu>

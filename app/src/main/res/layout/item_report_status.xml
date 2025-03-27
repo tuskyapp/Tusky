@@ -146,7 +146,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_0"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_0"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_0"
-            app:srcCompat="@drawable/ic_play_indicator"
+            app:srcCompat="@drawable/play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -158,7 +158,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_1"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_1"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_1"
-            app:srcCompat="@drawable/ic_play_indicator"
+            app:srcCompat="@drawable/play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -170,7 +170,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_2"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_2"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_2"
-            app:srcCompat="@drawable/ic_play_indicator"
+            app:srcCompat="@drawable/play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -182,7 +182,7 @@
             app:layout_constraintEnd_toEndOf="@+id/status_media_preview_3"
             app:layout_constraintStart_toStartOf="@+id/status_media_preview_3"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_3"
-            app:srcCompat="@drawable/ic_play_indicator"
+            app:srcCompat="@drawable/play_indicator"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -196,7 +196,7 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/status_media_preview_container"
             app:layout_constraintTop_toTopOf="@+id/status_media_preview_container"
-            app:srcCompat="@drawable/ic_eye_24dp"
+            app:srcCompat="@drawable/ic_visibility_24dp"
             app:tint="?android:attr/textColorSecondary"
             tools:visibility="visible" />
 

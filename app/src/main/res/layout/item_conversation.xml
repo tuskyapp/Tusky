@@ -287,9 +287,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_bookmark"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_favourite_active_24dp"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="@drawable/ic_favourite_24dp"
+        sparkbutton:activeImage="@drawable/ic_star_24dp_filled"
+        sparkbutton:iconSize="24dp"
+        sparkbutton:inactiveImage="@drawable/ic_star_24dp"
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
@@ -303,10 +303,10 @@
         app:layout_constraintEnd_toStartOf="@id/status_more"
         app:layout_constraintStart_toEndOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_bookmark_active_24dp"
-        sparkbutton:iconSize="28dp"
+        sparkbutton:activeImage="@drawable/ic_bookmark_24dp_filled"
+        sparkbutton:iconSize="24dp"
         sparkbutton:inactiveImage="@drawable/ic_bookmark_24dp"
-        sparkbutton:primaryColor="@color/tusky_green"
+        sparkbutton:primaryColor="@color/tusky_green_dark"
         sparkbutton:secondaryColor="@color/tusky_green_light" />
 
     <ImageButton

@@ -20,7 +20,7 @@
         android:paddingStart="28dp"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
-        app:drawableStartCompat="@drawable/ic_person_add_24dp"
+        app:drawableStartCompat="@drawable/ic_person_add_24dp_mirrored_filled"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toStartOf="@id/acceptButton"
         app:layout_constraintStart_toEndOf="@id/displayNameTextView"
         app:layout_constraintTop_toBottomOf="@+id/notificationTextView"
-        app:srcCompat="@drawable/ic_reject_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
     <ImageButton
         android:id="@+id/acceptButton"

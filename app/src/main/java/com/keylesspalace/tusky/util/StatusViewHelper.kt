@@ -262,8 +262,9 @@ class StatusViewHelper(private val itemView: View) {
     @DrawableRes
     private fun getLabelIcon(type: Attachment.Type): Int {
         return when (type) {
-            Attachment.Type.IMAGE -> R.drawable.ic_photo_24dp
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> R.drawable.ic_videocam_24dp
+            Attachment.Type.IMAGE -> R.drawable.ic_image_24dp
+            Attachment.Type.GIFV -> R.drawable.ic_gif_box_24dp
+            Attachment.Type.VIDEO -> R.drawable.ic_slideshow_24dp
             Attachment.Type.AUDIO -> R.drawable.ic_music_box_24dp
             else -> R.drawable.ic_attach_file_24dp
         }

@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/poll_preview_padding_horizontal"
-        android:paddingVertical="@dimen/poll_preview_padding_vertical"
-        tools:parentTag="android.widget.LinearLayout">
+        android:paddingVertical="@dimen/poll_preview_padding_vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,8 +19,10 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="@string/create_poll_title"
+            android:textColor="?android:attr/textColorTertiary"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_poll_24dp" />
+            app:drawableStartCompat="@drawable/ic_insert_chart_24dp"
+            app:drawableTint="?android:attr/textColorTertiary" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pollPreviewOptions"
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             tools:text="5 Minutes" />
+        
     </LinearLayout>
 
 </merge>

@@ -124,7 +124,7 @@
                     android:contentDescription="@string/about_copy"
                     app:layout_constraintBottom_toBottomOf="@+id/accountInfo"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_content_copy_24" />
+                    app:srcCompat="@drawable/ic_content_copy_24dp" />
 
                 <TextView
                     android:id="@+id/aboutPoweredByTusky"

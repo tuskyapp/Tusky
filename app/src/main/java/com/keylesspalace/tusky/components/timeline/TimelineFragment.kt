@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
@@ -69,10 +68,6 @@ import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -307,13 +302,6 @@ class TimelineFragment :
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         if (isSwipeToRefreshEnabled) {
             menuInflater.inflate(R.menu.fragment_timeline, menu)
-            menu.findItem(R.id.action_refresh)?.apply {
-                icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
-                    sizeDp = 20
-                    colorInt =
-                        MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
-                }
-            }
         }
     }
 

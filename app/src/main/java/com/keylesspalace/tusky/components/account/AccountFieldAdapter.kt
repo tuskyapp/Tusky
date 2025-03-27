@@ -69,7 +69,7 @@ class AccountFieldAdapter(
             valueTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_check_circle,
+                R.drawable.ic_verified_18dp,
                 0
             )
         } else {

@@ -72,6 +72,6 @@
         app:layout_constraintBottom_toBottomOf="@id/blocked_user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/blocked_user_avatar"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

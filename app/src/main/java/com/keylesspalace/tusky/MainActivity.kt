@@ -104,14 +104,9 @@ import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.viewBinding
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.holder.StringHolder
-import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.AbstractDrawerItem
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -465,12 +460,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.activity_main, menu)
-        menu.findItem(R.id.action_search)?.apply {
-            icon = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_search).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.mainToolbar, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     override fun onPrepareMenu(menu: Menu) {
@@ -597,7 +586,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     identifier = DRAWER_ITEM_ADD_ACCOUNT
                     nameRes = R.string.add_account_name
                     descriptionRes = R.string.add_account_description
-                    iconicsIcon = GoogleMaterial.Icon.gmd_add
+                    iconRes = R.drawable.ic_add_24dp
+                    isIconTinted = true
                 },
                 0
             )
@@ -665,7 +655,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             addItems(
                 primaryDrawerItem {
                     nameRes = R.string.action_edit_profile
-                    iconicsIcon = GoogleMaterial.Icon.gmd_person
+                    iconRes = R.drawable.ic_person_24dp
                     onClick = {
                         val intent = Intent(context, EditProfileActivity::class.java)
                         startActivityWithSlideInAnimation(intent)
@@ -674,7 +664,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 primaryDrawerItem {
                     nameRes = R.string.action_view_favourites
                     isSelectable = false
-                    iconicsIcon = GoogleMaterial.Icon.gmd_star
+                    iconRes = R.drawable.ic_star_24dp
                     onClick = {
                         val intent = StatusListActivity.newFavouritesIntent(context)
                         startActivityWithSlideInAnimation(intent)
@@ -682,7 +672,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 primaryDrawerItem {
                     nameRes = R.string.action_view_bookmarks
-                    iconicsIcon = GoogleMaterial.Icon.gmd_bookmark
+                    iconRes = R.drawable.ic_bookmark_24dp
                     onClick = {
                         val intent = StatusListActivity.newBookmarksIntent(context)
                         startActivityWithSlideInAnimation(intent)
@@ -690,7 +680,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 primaryDrawerItem {
                     nameRes = R.string.action_view_follow_requests
-                    iconicsIcon = GoogleMaterial.Icon.gmd_person_add
+                    iconRes = R.drawable.ic_person_add_24dp_mirrored
                     onClick = {
                         val intent = AccountListActivity.newIntent(context, AccountListActivity.Type.FOLLOW_REQUESTS)
                         startActivityWithSlideInAnimation(intent)
@@ -698,14 +688,14 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 primaryDrawerItem {
                     nameRes = R.string.action_lists
-                    iconicsIcon = GoogleMaterial.Icon.gmd_list
+                    iconRes = R.drawable.ic_list_alt_24dp
                     onClick = {
                         startActivityWithSlideInAnimation(ListsActivity.newIntent(context))
                     }
                 },
                 primaryDrawerItem {
                     nameRes = R.string.action_access_drafts
-                    iconRes = R.drawable.ic_notebook
+                    iconRes = R.drawable.ic_edit_document_24dp
                     onClick = {
                         val intent = DraftsActivity.newIntent(context)
                         startActivityWithSlideInAnimation(intent)
@@ -713,7 +703,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 primaryDrawerItem {
                     nameRes = R.string.action_access_scheduled_posts
-                    iconRes = R.drawable.ic_access_time
+                    iconRes = R.drawable.ic_schedule_24dp
                     onClick = {
                         startActivityWithSlideInAnimation(ScheduledStatusActivity.newIntent(context))
                     }
@@ -721,7 +711,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 primaryDrawerItem {
                     identifier = DRAWER_ITEM_ANNOUNCEMENTS
                     nameRes = R.string.title_announcements
-                    iconRes = R.drawable.ic_bullhorn_24dp
+                    iconRes = R.drawable.ic_campaign_24dp
                     onClick = {
                         startActivityWithSlideInAnimation(AnnouncementsActivity.newIntent(context))
                     }
@@ -733,7 +723,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 DividerDrawerItem(),
                 secondaryDrawerItem {
                     nameRes = R.string.action_view_account_preferences
-                    iconRes = R.drawable.ic_account_settings
+                    iconRes = R.drawable.ic_manage_accounts_24dp
                     onClick = {
                         val intent = PreferencesActivity.newIntent(context, PreferencesActivity.ACCOUNT_PREFERENCES)
                         startActivityWithSlideInAnimation(intent)
@@ -741,7 +731,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 secondaryDrawerItem {
                     nameRes = R.string.action_view_preferences
-                    iconicsIcon = GoogleMaterial.Icon.gmd_settings
+                    iconRes = R.drawable.ic_settings_24dp
                     onClick = {
                         val intent = PreferencesActivity.newIntent(context, PreferencesActivity.GENERAL_PREFERENCES)
                         startActivityWithSlideInAnimation(intent)
@@ -749,7 +739,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 secondaryDrawerItem {
                     nameRes = R.string.about_title_activity
-                    iconicsIcon = GoogleMaterial.Icon.gmd_info
+                    iconRes = R.drawable.ic_info_24dp
                     onClick = {
                         val intent = Intent(context, AboutActivity::class.java)
                         startActivityWithSlideInAnimation(intent)
@@ -757,7 +747,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 },
                 secondaryDrawerItem {
                     nameRes = R.string.action_logout
-                    iconRes = R.drawable.ic_logout
+                    iconRes = R.drawable.ic_logout_24dp
                     onClick = ::logout
                 }
             )
@@ -767,7 +757,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     4,
                     primaryDrawerItem {
                         nameRes = R.string.action_search
-                        iconicsIcon = GoogleMaterial.Icon.gmd_search
+                        iconRes = R.drawable.ic_search_24dp
                         onClick = {
                             startActivityWithSlideInAnimation(SearchActivity.getIntent(context))
                         }
@@ -780,7 +770,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     5,
                     primaryDrawerItem {
                         nameRes = R.string.title_public_trending_hashtags
-                        iconicsIcon = GoogleMaterial.Icon.gmd_trending_up
+                        iconRes = R.drawable.ic_whatshot_24dp
                         onClick = {
                             startActivityWithSlideInAnimation(TrendingActivity.getIntent(context))
                         }
@@ -793,7 +783,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                     6,
                     primaryDrawerItem {
                         nameRes = R.string.title_public_trending_statuses
-                        iconicsIcon = GoogleMaterial.Icon.gmd_local_fire_department
+                        iconRes = R.drawable.ic_local_fire_department_24dp
                         onClick = {
                             startActivityWithSlideInAnimation(StatusListActivity.newTrendingIntent(context))
                         }
@@ -811,7 +801,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 secondaryDrawerItem {
                     nameText = "Developer tools"
                     isEnabled = true
-                    iconicsIcon = GoogleMaterial.Icon.gmd_developer_mode
+                    iconRes = R.drawable.ic_developer_mode_24dp
                     onClick = {
                         showDeveloperToolsDialog()
                     }

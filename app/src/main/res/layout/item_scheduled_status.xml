@@ -23,7 +23,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_edit"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_create_24dp" />
+        app:srcCompat="@drawable/ic_edit_24dp_filled" />
 
     <ImageButton
         android:id="@+id/delete"
@@ -35,6 +35,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_delete"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
 </LinearLayout>

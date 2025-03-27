@@ -71,7 +71,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     context,
                     NotificationChannelData.MENTION.getChannelId(senderIdentifier)
                 )
-                    .setSmallIcon(R.drawable.ic_notify)
+                    .setSmallIcon(R.drawable.tusky_notification_icon)
                     .setColor(context.getColor(R.color.tusky_blue))
                     .setGroup(senderFullName)
                     .setDefaults(0) // We don't want this to make any sound or vibration
@@ -116,7 +116,7 @@ class SendStatusBroadcastReceiver : BroadcastReceiver() {
                     context,
                     NotificationChannelData.MENTION.getChannelId(senderIdentifier)
                 )
-                    .setSmallIcon(R.drawable.ic_notify)
+                    .setSmallIcon(R.drawable.tusky_notification_icon)
                     .setColor(context.getColor(R.color.notification_color))
                     .setGroup(senderFullName)
                     .setDefaults(0) // We don't want this to make any sound or vibration

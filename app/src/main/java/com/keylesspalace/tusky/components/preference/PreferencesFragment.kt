@@ -15,10 +15,13 @@
 
 package com.keylesspalace.tusky.components.preference
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.valueOf
 import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.settings.AppTheme
@@ -32,7 +35,6 @@ import com.keylesspalace.tusky.settings.sliderPreference
 import com.keylesspalace.tusky.settings.switchPreference
 import com.keylesspalace.tusky.util.LocaleManager
 import com.keylesspalace.tusky.util.icon
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import dagger.hilt.android.AndroidEntryPoint
 import de.c1710.filemojicompat_ui.views.picker.preference.EmojiPickerPreference
 import javax.inject.Inject
@@ -46,6 +48,9 @@ class PreferencesFragment : BasePreferencesFragment() {
 
     @Inject
     lateinit var localeManager: LocaleManager
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
 
     enum class ReadingOrder {
         /** User scrolls up, reading statuses oldest to newest */
@@ -77,12 +82,12 @@ class PreferencesFragment : BasePreferencesFragment() {
                     key = PrefKeys.APP_THEME
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_app_theme)
-                    icon = icon(GoogleMaterial.Icon.gmd_palette)
+                    icon = icon(R.drawable.ic_palette_24dp)
                 }
 
                 emojiPreference(requireActivity()) {
                     setTitle(R.string.emoji_style)
-                    icon = icon(GoogleMaterial.Icon.gmd_sentiment_satisfied)
+                    icon = icon(R.drawable.ic_mood_24dp)
                 }
 
                 listPreference {
@@ -92,7 +97,7 @@ class PreferencesFragment : BasePreferencesFragment() {
                     key = PrefKeys.LANGUAGE + "_" // deliberately not the actual key, the real handling happens in LocaleManager
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_language)
-                    icon = icon(GoogleMaterial.Icon.gmd_translate)
+                    icon = icon(R.drawable.ic_translate_24dp)
                     preferenceDataStore = localeManager
                 }
 
@@ -104,9 +109,9 @@ class PreferencesFragment : BasePreferencesFragment() {
                     stepSize = 5F
                     setTitle(R.string.pref_ui_text_size)
                     format = "%.0f%%"
-                    decrementIcon = icon(GoogleMaterial.Icon.gmd_zoom_out)
-                    incrementIcon = icon(GoogleMaterial.Icon.gmd_zoom_in)
-                    icon = icon(GoogleMaterial.Icon.gmd_format_size)
+                    decrementIcon = icon(R.drawable.ic_zoom_out_24dp)
+                    incrementIcon = icon(R.drawable.ic_zoom_in_24dp)
+                    icon = icon(R.drawable.ic_format_size_24dp)
                 }
 
                 listPreference {
@@ -116,7 +121,7 @@ class PreferencesFragment : BasePreferencesFragment() {
                     key = PrefKeys.STATUS_TEXT_SIZE
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_post_text_size)
-                    icon = icon(GoogleMaterial.Icon.gmd_format_size)
+                    icon = icon(R.drawable.ic_format_size_24dp)
                 }
 
                 listPreference {
@@ -126,7 +131,7 @@ class PreferencesFragment : BasePreferencesFragment() {
                     key = PrefKeys.READING_ORDER
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_title_reading_order)
-                    icon = icon(GoogleMaterial.Icon.gmd_sort)
+                    icon = icon(R.drawable.ic_sort_24dp)
                 }
 
                 listPreference {
@@ -136,6 +141,15 @@ class PreferencesFragment : BasePreferencesFragment() {
                     key = PrefKeys.MAIN_NAV_POSITION
                     setSummaryProvider { entry }
                     setTitle(R.string.pref_main_nav_position)
+                    icon = icon(
+                        navigationPositionIcon(
+                            sharedPrefs.getString(PrefKeys.MAIN_NAV_POSITION, "top").orEmpty()
+                        )
+                    )
+                    setOnPreferenceChangeListener { _, newValue ->
+                        icon = icon(navigationPositionIcon(newValue.toString()))
+                        true
+                    }
                 }
 
                 listPreference {
@@ -282,6 +296,14 @@ class PreferencesFragment : BasePreferencesFragment() {
                     summaryProvider = ProxyPreferencesFragment.SummaryProvider
                 }
             }
+        }
+    }
+
+    @DrawableRes private fun navigationPositionIcon(position: String): Int {
+        return if (position == "bottom") {
+            R.drawable.ic_bottom_navigation_24dp
+        } else {
+            R.drawable.ic_bottom_navigation_24dp_mirrored
         }
     }
 

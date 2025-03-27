@@ -169,7 +169,6 @@ dependencies {
     implementation libs.touchimageview
 
     implementation libs.bundles.material.drawer
-    implementation libs.material.typeface
 
     implementation libs.image.cropper
 

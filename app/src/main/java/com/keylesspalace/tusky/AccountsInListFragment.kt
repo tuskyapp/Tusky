@@ -265,10 +265,10 @@ class AccountsInListFragment : DialogFragment() {
 
             holder.binding.rejectButton.apply {
                 contentDescription = if (inAList) {
-                    setImageResource(R.drawable.ic_reject_24dp)
+                    setImageResource(R.drawable.ic_close_24dp)
                     getString(R.string.action_remove_from_list)
                 } else {
-                    setImageResource(R.drawable.ic_plus_24dp)
+                    setImageResource(R.drawable.ic_add_24dp)
                     getString(R.string.action_add_to_list)
                 }
             }
