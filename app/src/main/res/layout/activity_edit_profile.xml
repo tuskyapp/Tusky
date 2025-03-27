@@ -117,6 +117,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="16dp"
                     android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:text="@string/lock_account_label"
                     android:textSize="?attr/status_text_medium" />
 
@@ -127,6 +128,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="24dp"
                     android:paddingStart="40dp"
+                    android:paddingEnd="0dp"
                     android:text="@string/lock_account_label_description"
                     android:textSize="?attr/status_text_small" />
 
