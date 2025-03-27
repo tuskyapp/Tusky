@@ -342,6 +342,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         // https://github.com/tuskyapp/Tusky/issues/3251 for details.
         tabAdapter = MainPagerAdapter(emptyList(), this@MainActivity)
         binding.viewPager.adapter = tabAdapter
+        binding.viewPager.offscreenPageLimit = 2
 
         lifecycleScope.launch {
             viewModel.tabs.collect(::setupTabs)
