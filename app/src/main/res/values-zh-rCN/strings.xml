@@ -767,9 +767,9 @@
     <string name="moderation_warning_action_mark_statuses_as_sensitive">你的一些嘟文已经被标记为敏感。</string>
     <string name="notification_channel_other_description">其他通知，比如丢失连接和管理警告</string>
     <string name="unknown_notification_type_explanation">Tusky 未识别出此通知类型，无法将它显示给你。你服务器的 web 界面也许能够做得到。同时请将此问题告知 Tusky 开发者以添加对此类通知的通知！</string>
-    <string name="action_reblog_unlisted">任何人都可转嘟（但嘟文不会出现在公开时间线、探索部分以及搜索结果中）</string>
-    <string name="action_reblog_private">仅关注者可转嘟</string>
-    <string name="action_reblog_public">任何人都可转嘟</string>
+    <string name="action_reblog_unlisted">向所有人转嘟（但嘟文不会出现在公开时间线或探索部分，以及搜索结果中）</string>
+    <string name="action_reblog_private">向关注者转嘟</string>
+    <string name="action_reblog_public">向所有人转嘟</string>
     <string name="poll_show_results">显示结果</string>
     <string name="no">否</string>
     <string name="yes">是</string>
