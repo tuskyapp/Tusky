@@ -113,11 +113,11 @@
     <string name="label_header">Bandièra</string>
     <string name="link_whats_an_instance">Que es una instància ?</string>
     <string name="login_connection">Connexion…</string>
-    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a> 
+    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a>
 \n
 \nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá \u0020anar e crear un compte enlà.
 \n
-\n 
+\n
 \n
 \nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
@@ -635,9 +635,9 @@
     <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %1$s</string>
     <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %1$s</string>
     <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
-    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz. 
-\n 
-\nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància [iconics gmd_group], siá los trapar per lor nom [iconics gmd_search], per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
+\n
+\nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància {{group}}, siá los trapar per lor nom {{search}}, per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
     <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
 \n
 \nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>

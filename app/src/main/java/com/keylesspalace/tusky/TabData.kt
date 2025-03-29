@@ -67,19 +67,19 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         HOME -> TabData(
             id = HOME,
             text = R.string.title_home,
-            icon = R.drawable.ic_home_24dp,
+            icon = R.drawable.tab_icon_home,
             fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
         )
         NOTIFICATIONS -> TabData(
             id = NOTIFICATIONS,
             text = R.string.title_notifications,
-            icon = R.drawable.ic_notifications_24dp,
+            icon = R.drawable.tab_icon_notifications,
             fragment = { NotificationsFragment.newInstance() }
         )
         LOCAL -> TabData(
             id = LOCAL,
             text = R.string.title_public_local,
-            icon = R.drawable.ic_local_24dp,
+            icon = R.drawable.tab_icon_local,
             fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
         )
         FEDERATED -> TabData(
@@ -91,19 +91,19 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         DIRECT -> TabData(
             id = DIRECT,
             text = R.string.title_direct_messages,
-            icon = R.drawable.ic_reblog_direct_24dp,
+            icon = R.drawable.tab_icon_direct,
             fragment = { ConversationsFragment.newInstance() }
         )
         TRENDING_TAGS -> TabData(
             id = TRENDING_TAGS,
             text = R.string.title_public_trending_hashtags,
-            icon = R.drawable.ic_trending_up_24px,
+            icon = R.drawable.tab_icon_trending_tags,
             fragment = { TrendingTagsFragment.newInstance() }
         )
         TRENDING_STATUSES -> TabData(
             id = TRENDING_STATUSES,
             text = R.string.title_public_trending_statuses,
-            icon = R.drawable.ic_hot_24dp,
+            icon = R.drawable.tab_icon_trending_posts,
             fragment = {
                 TimelineFragment.newInstance(
                     TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
@@ -113,7 +113,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         HASHTAG -> TabData(
             id = HASHTAG,
             text = R.string.hashtags,
-            icon = R.drawable.ic_hashtag,
+            icon = R.drawable.ic_tag_24dp,
             fragment = { args -> TimelineFragment.newHashtagInstance(args) },
             arguments = arguments,
             title = { context ->
@@ -125,7 +125,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         LIST -> TabData(
             id = LIST,
             text = R.string.list,
-            icon = R.drawable.ic_list,
+            icon = R.drawable.tab_icon_list,
             fragment = { args ->
                 TimelineFragment.newInstance(
                     TimelineViewModel.Kind.LIST,
@@ -138,7 +138,7 @@ fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabD
         BOOKMARKS -> TabData(
             id = BOOKMARKS,
             text = R.string.title_bookmarks,
-            icon = R.drawable.ic_bookmark_active_24dp,
+            icon = R.drawable.tab_icon_bookmarks,
             fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS) }
         )
         else -> throw IllegalArgumentException("unknown tab type")

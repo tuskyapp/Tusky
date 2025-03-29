@@ -38,6 +38,7 @@ import androidx.annotation.Px
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -316,8 +317,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         binding.accountToolbar.setBackgroundColor(Color.TRANSPARENT)
 
-        binding.accountToolbar.setNavigationIcon(R.drawable.ic_arrow_back_with_background)
-        binding.accountToolbar.overflowIcon = AppCompatResources.getDrawable(this, R.drawable.ic_more_with_background)
+        binding.accountToolbar.setNavigationIcon(R.drawable.toolbar_icon_arrow_back_with_background)
+        binding.accountToolbar.overflowIcon = AppCompatResources.getDrawable(this, R.drawable.toolbar_icon_more_with_background)
 
         val avatarBackground = MaterialShapeDrawable().apply {
             fillColor = ColorStateList.valueOf(toolbarColor)
@@ -518,7 +519,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         loadedAccount?.roles?.forEach { role ->
             val badgeColor = if (role.color.isNotBlank()) {
-                Color.parseColor(role.color)
+                role.color.toColorInt()
             } else {
                 // sometimes the color is not set for a role, in this case fall back to our default blue
                 getColor(R.color.tusky_blue)
@@ -527,7 +528,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             val sb = SpannableStringBuilder("${role.name} ${viewModel.domain}")
             sb.setSpan(StyleSpan(Typeface.BOLD), 0, role.name.length, 0)
 
-            val badgeView = getBadge(badgeColor, R.drawable.profile_badge_person_24dp, sb, isLight)
+            val badgeView = getBadge(badgeColor, R.drawable.ic_person_24dp, sb, isLight)
 
             binding.accountBadgeContainer.addView(badgeView)
         }
@@ -742,7 +743,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
     private fun updateMuteButton() {
         if (muting) {
-            binding.accountMuteButton.setIconResource(R.drawable.ic_unmute_24dp)
+            binding.accountMuteButton.setIconResource(R.drawable.ic_volume_up_24dp)
         } else {
             binding.accountMuteButton.hide()
         }

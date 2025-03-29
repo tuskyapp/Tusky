@@ -16,8 +16,10 @@
 package com.keylesspalace.tusky.db
 
 import androidx.room.withTransaction
+import com.keylesspalace.tusky.components.conversation.ConversationEntity
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
+import com.keylesspalace.tusky.db.entity.NotificationPolicyEntity
 import com.keylesspalace.tusky.db.entity.NotificationReportEntity
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
@@ -49,7 +51,8 @@ class DatabaseCleaner @Inject constructor(
     }
 
     /**
-     * Deletes everything from the [HomeTimelineEntity], [TimelineStatusEntity], [TimelineAccountEntity], [NotificationEntity] and [NotificationReportEntity] tables for one user.
+     * Deletes everything from the [HomeTimelineEntity], [TimelineStatusEntity], [TimelineAccountEntity], [NotificationEntity],
+     * [NotificationReportEntity],  [ConversationEntity] and [NotificationPolicyEntity] tables for one user.
      * Intended to be used when a user logs out.
      * @param tuskyAccountId id of the account for which to clean tables
      */
@@ -61,6 +64,8 @@ class DatabaseCleaner @Inject constructor(
             db.timelineDao().removeAllHomeTimelineItems(tuskyAccountId)
             db.timelineStatusDao().removeAllStatuses(tuskyAccountId)
             db.timelineAccountDao().removeAllAccounts(tuskyAccountId)
+            db.conversationDao().deleteForAccount(tuskyAccountId)
+            db.notificationPolicyDao().deleteForAccount(tuskyAccountId)
         }
     }
 }

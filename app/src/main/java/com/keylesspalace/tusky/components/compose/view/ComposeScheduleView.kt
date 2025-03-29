@@ -87,7 +87,7 @@ class ComposeScheduleView
     }
 
     private fun setEditIcons() {
-        val icon = AppCompatResources.getDrawable(context, R.drawable.ic_create_24dp) ?: return
+        val icon = AppCompatResources.getDrawable(context, R.drawable.ic_edit_24dp_filled) ?: return
         val size = binding.scheduledDateTime.lineHeight
         icon.setBounds(0, 0, size, size)
         binding.scheduledDateTime.setCompoundDrawablesRelative(null, null, icon, null)

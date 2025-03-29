@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
+import androidx.core.content.edit
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.Constraints
@@ -85,10 +86,10 @@ class TuskyApplication : Application(), Configuration.Provider {
                 // A new periodic work request is enqueued by unique name (and not tag anymore): stop the old one
                 workManager.cancelAllWorkByTag("pullNotifications")
             }
-            if (oldVersion < 2025022001 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (oldVersion < 2025032401 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // delete old now unused notification channels
                 for (channel in notificationManager.notificationChannels) {
-                    if (channel.id.startsWith("CHANNEL_SIGN_UP") || channel.id.startsWith("CHANNEL_REPORT")) {
+                    if (channel.id.startsWith("CHANNEL_SIGN_UP") || channel.id.startsWith("CHANNEL_REPORT") || channel.id.startsWith("CHANNEL_BOOST")) {
                         notificationManager.deleteNotificationChannel(channel.id)
                     }
                 }
@@ -126,37 +127,36 @@ class TuskyApplication : Application(), Configuration.Provider {
 
     private fun upgradeSharedPreferences(oldVersion: Int, newVersion: Int) {
         Log.d(TAG, "Upgrading shared preferences: $oldVersion -> $newVersion")
-        val editor = preferences.edit()
+        preferences.edit {
+            if (oldVersion < 2023022701) {
+                // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
 
-        if (oldVersion < 2023022701) {
-            // These preferences are (now) handled in AccountPreferenceHandler. Remove them from shared for clarity.
-
-            editor.remove(PrefKeys.ALWAYS_OPEN_SPOILER)
-            editor.remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
-            editor.remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
-        }
-
-        if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {
-            // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
-            // didn't have an explicit preference set use the previous default, so the
-            // theme does not unexpectedly change.
-            if (!preferences.contains(APP_THEME)) {
-                editor.putString(APP_THEME, AppTheme.NIGHT.value)
+                remove(PrefKeys.ALWAYS_OPEN_SPOILER)
+                remove(PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA)
+                remove(PrefKeys.MEDIA_PREVIEW_ENABLED)
             }
-        }
 
-        if (oldVersion < 2023112001) {
-            editor.remove(PrefKeys.TAB_FILTER_HOME_REPLIES)
-            editor.remove(PrefKeys.TAB_FILTER_HOME_BOOSTS)
-            editor.remove(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS)
-        }
+            if (oldVersion != NEW_INSTALL_SCHEMA_VERSION && oldVersion < 2023082301) {
+                // Default value for appTheme is now THEME_SYSTEM. If the user is upgrading and
+                // didn't have an explicit preference set use the previous default, so the
+                // theme does not unexpectedly change.
+                if (!preferences.contains(APP_THEME)) {
+                    putString(APP_THEME, AppTheme.NIGHT.value)
+                }
+            }
 
-        if (oldVersion < 2024060201) {
-            editor.remove(PrefKeys.Deprecated.FAB_HIDE)
-        }
+            if (oldVersion < 2023112001) {
+                remove(PrefKeys.TAB_FILTER_HOME_REPLIES)
+                remove(PrefKeys.TAB_FILTER_HOME_BOOSTS)
+                remove(PrefKeys.TAB_SHOW_HOME_SELF_BOOSTS)
+            }
 
-        editor.putInt(PrefKeys.SCHEMA_VERSION, newVersion)
-        editor.apply()
+            if (oldVersion < 2024060201) {
+                remove(PrefKeys.Deprecated.FAB_HIDE)
+            }
+
+            putInt(PrefKeys.SCHEMA_VERSION, newVersion)
+        }
     }
 
     companion object {

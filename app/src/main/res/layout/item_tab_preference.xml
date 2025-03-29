@@ -40,7 +40,7 @@
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginBottom="8dp"
-        tools:drawableStart="@drawable/ic_home_24dp"
+        tools:drawableStart="@drawable/ic_home_24dp_filled"
         tools:text="Home" />
 
     <ImageButton
@@ -54,7 +54,7 @@
         android:contentDescription="@string/action_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
@@ -71,7 +71,7 @@
             android:text="@string/add_hashtag_title"
             android:textColor="?attr/colorOnPrimary"
             app:chipBackgroundColor="?attr/colorPrimary"
-            app:chipIcon="@drawable/ic_plus_24dp"
+            app:chipIcon="@drawable/ic_add_24dp"
             app:chipIconEnabled="true"
             app:chipIconTint="?attr/colorOnPrimary"
             app:chipStrokeWidth="0dp"

@@ -384,6 +384,12 @@ class NotificationsFragment :
         viewModel.voteInPoll(choices, status)
     }
 
+    override fun onShowPollResults(position: Int) {
+        notificationsAdapter?.peek(position)?.asStatusOrNull()?.let { status ->
+            viewModel.showPollResults(status)
+        }
+    }
+
     override fun clearWarningAction(position: Int) {
         val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
         viewModel.clearWarning(status)

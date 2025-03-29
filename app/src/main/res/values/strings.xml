@@ -657,6 +657,7 @@
     <string name="poll_info_closed">closed</string>
 
     <string name="poll_vote">Vote</string>
+    <string name="poll_show_results">Show results</string>
 
     <string name="poll_ended_voted">A poll you have voted in has ended</string>
     <string name="poll_ended_created">A poll you created has ended</string>
@@ -829,9 +830,9 @@
     <string name="filter_edit_keyword_title">Edit keyword</string>
     <string name="filter_description_format">%1$s: %2$s</string>
 
-    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts you follow.\n\nTo explore accounts you can either discover them in one of the other timelines. For example the local timeline of your instance [iconics gmd_group]. Or you can search them by name [iconics gmd_search]; for example search for Tusky to find our Mastodon account.</string>
-    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).\n\nPrivate messages are created by setting the visibility [iconics gmd_public] of a post to [iconics gmd_mail] <i>Direct</i> and mentioning one or more users in the text.\n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.</string>
-    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.\n\nNOTE that you can only add accounts you follow to your lists.\n\nThese lists can be used as a tab in Account preferences [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs.</string>
+    <string name="help_empty_home">This is your <b>home timeline</b>. It shows the recent posts of the accounts you follow.\n\nTo explore accounts you can either discover them in one of the other timelines. For example the local timeline of your instance {{group}}. Or you can search them by name {{search}}; for example search for Tusky to find our Mastodon account.</string>
+    <string name="help_empty_conversations">Here are your <b>private messages</b>; sometimes called conversations or direct messages (DM).\n\nPrivate messages are created by setting the visibility {{public}} of a post to {{mail}} <i>Direct</i> and mentioning one or more users in the text.\n\nFor example you can start on the profile view of an account and tap the create button [iconics gmd_edit] and change the visibility.</string>
+    <string name="help_empty_lists">This is your <b>lists view</b>. You can define a number of private lists and add accounts to that.\n\nNOTE that you can only add accounts you follow to your lists.\n\nThese lists can be used as a tab in Account preferences {{manage_accounts}} {{chevron_right}} Tabs.</string>
 
     <string name="load_newest_notifications">Load newest notifications</string>
     <string name="about_copy">Copy version and device information</string>
@@ -912,9 +913,14 @@
     <string name="notification_info_mention">Mention</string>
     <string name="notification_info_private_reply">Private reply</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirm_dismiss_caption">Discard caption changes?</string>
+
     <string name="block_success">Blocked %1$s</string>
     <string name="mute_success">Muted %1$s</string>
     <string name="block_failure">Failed blocking %1$s: %2$s</string>
     <string name="mute_failure">Failed muting %1$s: %2$s</string>
     <string name="accept_follow_request_failure">Failed accepting follow request from %1$s: %2$s</string>
+
 </resources>

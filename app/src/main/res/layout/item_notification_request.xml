@@ -76,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="@id/notificationRequestAvatar"
         app:layout_constraintEnd_toStartOf="@id/notificationRequestAccept"
         app:layout_constraintTop_toTopOf="@id/notificationRequestAvatar"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
     <ImageButton
         android:id="@+id/notificationRequestAccept"

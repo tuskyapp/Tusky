@@ -35,9 +35,9 @@
     <color name="botBadgeForeground">@color/white</color>
     <color name="botBadgeBackground">@color/tusky_grey_10</color>
 
-    <color name="toolbar_icon_background">#CC444B5D</color>
+    <color name="toolbarIconBackgroundColor">#CC444B5D</color>
 
     <!-- colors used to show inserted/deleted text -->
-    <color name="view_edits_background_insert">@color/tusky_green</color>
+    <color name="view_edits_background_insert">@color/tusky_green_dark</color>
     <color name="view_edits_background_delete">@color/tusky_red</color>
 </resources>

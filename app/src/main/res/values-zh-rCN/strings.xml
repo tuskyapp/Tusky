@@ -628,7 +628,7 @@
     <string name="pref_title_show_stat_inline">在时间线中显示嘟文统计数字</string>
     <string name="help_empty_home">这是你的 <b>主时间线</b>。它展示你所关注账户最近发表的嘟文。
 \n
-\n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 [iconics gmd_group]。你也可以按名称 [iconics gmd_search]进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
+\n要探索账户， 你可以浏览其他时间线。比如，你的账户所在实例服务器的本地时间线 {{group}}。你也可以按名称 {{search}}进行搜索；比如，搜索Tusky 来寻找我们的 Mastodon 账户。</string>
     <string name="post_media_image">图片</string>
     <string name="select_list_manage">管理列表</string>
     <string name="load_newest_notifications">加载最新通知</string>
@@ -658,7 +658,7 @@
     <string name="dialog_save_profile_changes_message">你要保存你的个人资料更改吗？</string>
     <string name="help_empty_conversations">这是你的 <b>私信</b>；有时也称为对话或直接消息 (DM)。
 \n
-\n私信需要将嘟文的可见性 [iconics gmd_public] 设为 [iconics gmd_mail] <i>Direct</i> 并在文本中提及一名或多名用户。
+\n私信需要将嘟文的可见性 {{public}} 设为 {{mail}} <i>Direct</i> 并在文本中提及一名或多名用户。
 \n
 \n你可以在账户的个人资料视图中，轻按“创建”按钮 [iconics gmd_edit] 并更改可见性。</string>
     <string name="muting_hashtag_success_format">以警告形式对话题标签 #%1$s 静音</string>
@@ -767,7 +767,11 @@
     <string name="moderation_warning_action_mark_statuses_as_sensitive">你的一些嘟文已经被标记为敏感。</string>
     <string name="notification_channel_other_description">其他通知，比如丢失连接和管理警告</string>
     <string name="unknown_notification_type_explanation">Tusky 未识别出此通知类型，无法将它显示给你。你服务器的 web 界面也许能够做得到。同时请将此问题告知 Tusky 开发者以添加对此类通知的通知！</string>
-    <string name="action_reblog_unlisted">任何人都可转嘟（但嘟文不会出现在公开时间线、探索部分以及搜索结果中）</string>
-    <string name="action_reblog_private">仅关注者可转嘟</string>
-    <string name="action_reblog_public">任何人都可转嘟</string>
+    <string name="action_reblog_unlisted">向所有人转嘟（但嘟文不会出现在公开时间线或探索部分，以及搜索结果中）</string>
+    <string name="action_reblog_private">向关注者转嘟</string>
+    <string name="action_reblog_public">向所有人转嘟</string>
+    <string name="poll_show_results">显示结果</string>
+    <string name="no">否</string>
+    <string name="yes">是</string>
+    <string name="confirm_dismiss_caption">放弃字幕更改？</string>
 </resources>

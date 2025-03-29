@@ -206,6 +206,10 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
+        timelineCases.showPollResults(status.actionableId)
+    }
+
     suspend fun translate(status: StatusViewData.Concrete): NetworkResult<Unit> {
         updateStatusViewData(status.id) { viewData ->
             viewData.copy(translation = TranslationViewData.Loading)

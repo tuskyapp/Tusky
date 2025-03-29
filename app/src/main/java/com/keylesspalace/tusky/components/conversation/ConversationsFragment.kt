@@ -32,7 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import at.connyduck.sparkbutton.helpers.Utils
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
@@ -56,10 +55,6 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
-import com.mikepenz.iconics.utils.colorInt
-import com.mikepenz.iconics.utils.sizeDp
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -169,6 +164,16 @@ class ConversationsFragment :
             }
         })
 
+        // Workaround RecyclerView jumping to bottom on first load because of the load state footer
+        // https://issuetracker.google.com/issues/184874613#comment7
+        var firstLoad = true
+        adapter.addOnPagesUpdatedListener {
+            if (adapter.itemCount > 0 && firstLoad) {
+                (binding.recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+                firstLoad = false
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.conversationFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
@@ -194,12 +199,6 @@ class ConversationsFragment :
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.fragment_conversations, menu)
-        menu.findItem(R.id.action_refresh)?.apply {
-            icon = IconicsDrawable(requireContext(), GoogleMaterial.Icon.gmd_refresh).apply {
-                sizeDp = 20
-                colorInt = MaterialColors.getColor(binding.root, android.R.attr.textColorPrimary)
-            }
-        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -340,6 +339,12 @@ class ConversationsFragment :
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         adapter?.peek(position)?.let { conversation ->
             viewModel.voteInPoll(choices, conversation)
+        }
+    }
+
+    override fun onShowPollResults(position: Int) {
+        adapter?.peek(position)?.let { conversation ->
+            viewModel.showPollResults(conversation)
         }
     }
 

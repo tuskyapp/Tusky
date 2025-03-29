@@ -52,12 +52,8 @@ class ProgressImageView
     }
     private val captionDrawable = AppCompatResources.getDrawable(
         context,
-        R.drawable.spellcheck
-    )!!.apply {
-        setTint(
-            MaterialColors.getColor(this@ProgressImageView, android.R.attr.textColorTertiary)
-        )
-    }
+        R.drawable.ic_spellcheck_24dp
+    )!!
     private val circleRadius = Utils.dpToPx(context, 14)
     private val circleMargin = Utils.dpToPx(context, 14)
 

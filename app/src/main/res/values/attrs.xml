@@ -41,6 +41,7 @@
     <attr name="iconColor" format="reference|color" />
     <attr name="windowBackgroundColor" format="reference|color" />
     <attr name="dividerColor" format="reference|color" />
+    <attr name="toolbarIconBackgroundColor" format="reference|color" />
 
     <attr name="status_text_small" format="dimension" />
     <attr name="status_text_medium" format="dimension" />

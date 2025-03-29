@@ -154,6 +154,10 @@ abstract class TimelineViewModel(
             }
         }
 
+    fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
+        timelineCases.showPollResults(status.actionableId)
+    }
+
     abstract fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete)
 
     abstract fun changeContentShowing(isShowing: Boolean, status: StatusViewData.Concrete)

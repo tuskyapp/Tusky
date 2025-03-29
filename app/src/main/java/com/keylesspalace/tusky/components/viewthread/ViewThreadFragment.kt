@@ -48,6 +48,7 @@ import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.util.CardViewMode
 import com.keylesspalace.tusky.util.ListStatusAccessibilityDelegate
 import com.keylesspalace.tusky.util.StatusDisplayOptions
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
@@ -132,6 +133,8 @@ class ViewThreadFragment :
         this.adapter = adapter
 
         binding.swipeRefreshLayout.setOnRefreshListener(this)
+
+        binding.recyclerView.ensureBottomPadding()
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -272,8 +275,8 @@ class ViewThreadFragment :
         actionReveal.isVisible = revealButtonState != RevealButtonState.NO_BUTTON
         actionReveal.setIcon(
             when (revealButtonState) {
-                RevealButtonState.REVEAL -> R.drawable.ic_eye_24dp
-                else -> R.drawable.ic_hide_media_24dp
+                RevealButtonState.REVEAL -> R.drawable.ic_visibility_24dp
+                else -> R.drawable.ic_visibility_off_24dp
             }
         )
     }
@@ -473,6 +476,12 @@ class ViewThreadFragment :
     override fun onVoteInPoll(position: Int, choices: List<Int>) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
         viewModel.voteInPoll(choices, status)
+    }
+
+    override fun onShowPollResults(position: Int) {
+        adapter?.currentList?.getOrNull(position)?.let { status ->
+            viewModel.showPollResults(status)
+        }
     }
 
     override fun onShowEdits(position: Int) {

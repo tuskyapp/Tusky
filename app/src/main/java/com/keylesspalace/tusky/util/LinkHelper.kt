@@ -222,7 +222,7 @@ internal fun markupHiddenUrls(view: TextView, content: CharSequence): SpannableS
         // reinsert the span so it covers the original and the additional text
         spannableContent.setSpan(span, start, end + additionalText.length, 0)
 
-        val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_link)!!
+        val linkDrawable = AppCompatResources.getDrawable(view.context, R.drawable.ic_open_in_new_24dp)!!
         // ImageSpan does not always align the icon correctly in the line, let's use our custom emoji span for this
         val linkDrawableSpan = EmojiSpan(view)
         linkDrawableSpan.imageDrawable = linkDrawable

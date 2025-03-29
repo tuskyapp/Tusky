@@ -617,7 +617,7 @@
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="help_empty_home">Toto je tvá <b>domovská timeline</b>. Ukazuje poslední posty účtů které sleduješ.
 \n
-\nChceš-li prozkoumat účty, můžeš je objevit v jedné z dalších timelines. Například místní timeline vaší instance [iconics gmd_group]. Nebo je můžete hledat podle jména [ikony gmd_search]; například vyhledejte \"Tusky\" pro náš Mastodon účet.</string>
+\nChceš-li prozkoumat účty, můžeš je objevit v jedné z dalších timelines. Například místní timeline vaší instance {{group}}. Nebo je můžete hledat podle jména [ikony gmd_search]; například vyhledejte \"Tusky\" pro náš Mastodon účet.</string>
     <string name="status_created_at_now">nyní</string>
     <string name="action_refresh">Obnovit</string>
     <string name="action_browser_login">Přihlásit se s prohlížečem</string>
@@ -742,7 +742,7 @@
     <string name="action_dismiss_notification_request">Zrušit</string>
     <string name="help_empty_conversations">Zde jsou tvé <b>soukromé zprávy</b>; někdy zvané konverzace nebo přímé zprávy (direct messages, DM).
 \n
-\nSoukromé zprávy se vytvoří nastavením viditelnosti [iconics gmd_public] postu na [iconics gmd_mail] <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu.
+\nSoukromé zprávy se vytvoří nastavením viditelnosti {{public}} postu na {{mail}} <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu.
 \n
 \nNa příklad můžeš začít na profilu uživatele a tapnout na tlačítko vytvoření zprávy [iconics gmd_edit] a změnit viditelnost.</string>
     <string name="dialog_delete_filter_positive_action">Smazat</string>

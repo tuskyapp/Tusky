@@ -241,6 +241,10 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
+    fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
+        timelineCases.showPollResults(status.actionableId)
+    }
+
     fun changeExpanded(expanded: Boolean, status: StatusViewData.Concrete) {
         viewModelScope.launch {
             db.timelineStatusDao()

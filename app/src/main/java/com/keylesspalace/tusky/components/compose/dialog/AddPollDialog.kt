@@ -41,7 +41,7 @@ fun showAddPollDialog(
     val inset = context.resources.getDimensionPixelSize(R.dimen.dialog_inset)
 
     val dialog = MaterialAlertDialogBuilder(context)
-        .setIcon(R.drawable.ic_poll_24dp)
+        .setIcon(R.drawable.ic_insert_chart_24dp_filled)
         .setTitle(R.string.create_poll_title)
         .setView(binding.root)
         .setBackgroundInsetTop(inset)

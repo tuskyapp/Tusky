@@ -257,6 +257,12 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
+    override fun onShowPollResults(position: Int) {
+        adapter?.peek(position)?.asStatusOrNull()?.let { status ->
+            viewModel.showPollResults(status)
+        }
+    }
+
     override fun clearWarningAction(position: Int) {}
 
     private fun removeItem(position: Int) {

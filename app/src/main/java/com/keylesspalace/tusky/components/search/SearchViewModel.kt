@@ -171,6 +171,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
+        timelineCases.showPollResults(status.actionableId)
+    }
+
     fun favorite(statusViewData: StatusViewData.Concrete, isFavorited: Boolean) {
         updateStatus(statusViewData.status.copy(favourited = isFavorited))
         viewModelScope.launch {

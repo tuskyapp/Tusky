@@ -171,12 +171,12 @@
     <string name="label_header">Cabeçalho</string>
     <string name="link_whats_an_instance">O que é uma instância\?</string>
     <string name="login_connection">A ligar…</string>
-    <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a> 
-\n 
+    <string name="dialog_whats_an_instance">O endereço ou domínio de qualquer instância pode ser introduzido aqui, como por exemplo ciberlandia.pt, masto.pt, mastodon.social ou qualquer <a href="https://instances.social">outra!</a>
+\n
 \nSe ainda não tem uma conta, insira o nome da instância onde pretende participar e crie uma conta nela.
-\n 
+\n
 \nUma instância é o local onde sua conta é criada, mas pode facilmente seguir e comunicar com pessoas de outras instâncias como se estivessem todos no mesmo site.
-\n 
+\n
 \nMais informações disponíveis em <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">A Terminar Envio de Conteúdo Multimédia</string>
     <string name="dialog_message_uploading_media">A enviar…</string>
@@ -666,7 +666,7 @@
     <string name="following_hashtag_success_format">Agora segue a hashtag #%1$s</string>
     <string name="load_newest_notifications">Carregar as notificações mais recentes</string>
     <string name="error_missing_edits">O seu servidor sabe que esta publicação foi editada, mas não a consegue mostrar porque não tem uma cópia da edição.
-\n 
+\n
 \nIsto é <a href="https://github.com/mastodon/mastodon/issues/25398"> o problema #25398 do Mastodon </a>.</string>
     <string name="list_reply_policy_none">Ninguém</string>
     <string name="list_reply_policy_list">Membros da lista</string>
@@ -681,17 +681,17 @@
     <string name="label_filter_action">Ação de filtro</string>
     <string name="help_empty_conversations">As suas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM).
 \n
-\nAs mensagens privadas são criadas definindo a visibilidade [iconics gmd_public] de uma publicação como [iconics gmd_mail] <i>Direta</i> e mencionando um ou mais utilizadores no texto.
-\n 
+\nAs mensagens privadas são criadas definindo a visibilidade {{public}} de uma publicação como {{mail}} <i>Direta</i> e mencionando um ou mais utilizadores no texto.
+\n
 \nPor exemplo, pode entrar na vista de perfil de uma conta e pressionar o botão de criar publicação [iconics gmd_edit] e alterar a visibilidade.</string>
     <string name="help_empty_lists">Esta é a sua <b>vista de listas</b>. Pode criar várias listas privadas e adicionar contas nelas.
-\n 
+\n
 \nAtenção: apenas pode adicionar contas que segue às suas listas.
-\n 
+\n
 \nEstas listas podem ser usadas como um separador nos separadores das Configurações da Conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="help_empty_home">Esta é a sua <b>timeline inicial</b>. Ela mostra as publicações mais recentes das contas que segue.
-\n 
-\nPara explorar contas, pode descobri-las numa das outras timelines. Por exemplo, a timeline local da sua instância [iconics gmd_group]. Ou pode pesquisá-las pelo nome [iconics gmd_search]; por exemplo, pesquisando por Tusky para encontrar a nossa conta Mastodon.</string>
+\n
+\nPara explorar contas, pode descobri-las numa das outras timelines. Por exemplo, a timeline local da sua instância {{group}}. Ou pode pesquisá-las pelo nome {{search}}; por exemplo, pesquisando por Tusky para encontrar a nossa conta Mastodon.</string>
     <string name="unmuting_hashtag_success_format">Remover silêncio da hashtag #%1$s</string>
     <string name="muting_hashtag_success_format">Silenciar hashtag #%1$s como um aviso</string>
     <string name="pref_title_per_timeline_preferences">Configurações por timeline</string>

@@ -25,6 +25,7 @@ import android.text.InputFilter
 import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -84,7 +85,7 @@ class CaptionDialog : DialogFragment() {
             binding.imageDescriptionText.setText(it)
         }
 
-        isCancelable = true
+        isCancelable = false
         dialog?.setCanceledOnTouchOutside(false) // Dialog is full screen anyway. But without this, taps in navbar while keyboard is up can dismiss the dialog.
 
         val previewUri = arguments?.getParcelableCompat<Uri>(PREVIEW_URI_ARG) ?: error("Preview Uri is null")
@@ -138,6 +139,19 @@ class CaptionDialog : DialogFragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        }
+        (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
+            if (arguments?.getString(EXISTING_DESCRIPTION_ARG).orEmpty() != binding.imageDescriptionText.text.toString()) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setMessage(R.string.confirm_dismiss_caption)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        dialog?.dismiss()
+                    }
+                    .setNegativeButton(R.string.no, null)
+                    .show()
+            } else {
+                dialog?.dismiss()
+            }
         }
     }
 

@@ -70,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="@id/muted_user_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_clear_24dp"
+        app:srcCompat="@drawable/ic_close_24dp"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.materialswitch.MaterialSwitch

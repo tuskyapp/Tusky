@@ -313,7 +313,7 @@
     <string name="restart_emoji">Það þarf að endurræsa Tusky til að breytingarnar taki gildi</string>
     <string name="later">Seinna</string>
     <string name="restart">Endurræsa</string>
-    <string name="caption_systememoji">Sjálfgefið táknmyndasett á tækinu þnu</string>
+    <string name="caption_systememoji">Sjálfgefið táknmyndasett á tækinu þínu</string>
     <string name="caption_blobmoji">Blob-táknmyndasettið sem þekkt var í Android 4.4–7.1</string>
     <string name="caption_twemoji">Staðlaða Mastodon táknmyndasettið</string>
     <string name="caption_notoemoji">Núverandi táknmyndasett Google</string>
@@ -629,7 +629,7 @@
     <string name="select_list_manage">Sýsla með lista</string>
     <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með.
 \n
-\nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns [iconics gmd_group]. Eða að þú leitar að þeim eftir nafni [iconics gmd_search]; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
+\nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns {{group}}. Eða að þú leitar að þeim eftir nafni {{search}}; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
     <string name="pref_ui_text_size">Textastærð viðmóts</string>
     <string name="notification_listenable_worker_name">Bakgrunnsvirkni</string>
     <string name="notification_listenable_worker_description">Tilkynningar þegar Tusky er að vinna í bakgrunni</string>
@@ -664,7 +664,7 @@
     <string name="error_media_upload_sending_fmt">Innsendingin mistókst: %1$s</string>
     <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM).
 \n
-\nEinkaskilaboð eru gerð með því að stilla sýnileika [iconics gmd_public] færslu [iconics gmd_mail] á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum.
+\nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum.
 \n
 \nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum.</string>
     <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá.
@@ -771,4 +771,8 @@
     <string name="moderation_warning_action_suspend">Aðgangurinn þinn hefur verið settur í bið.</string>
     <string name="poll">Könnun</string>
     <string name="unknown_notification_type_explanation">Tusky þekkir ekki þessa tegund tilkynninga og getur ekki birt þér hana. Mögulega getur vefviðmót netþjónsins þíns birt þetta. Láttu hönnuði Tusky samt vita svo þeir getir bætt við stuðningi við þessa tegund tilkynninga!</string>
+    <string name="poll_show_results">Birta niðurstöður</string>
+    <string name="yes">Já</string>
+    <string name="no">Nei</string>
+    <string name="confirm_dismiss_caption">Henda breytingum á skýringatexta?</string>
 </resources>

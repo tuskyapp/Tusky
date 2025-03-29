@@ -114,6 +114,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final RecyclerView pollOptions;
     private final TextView pollDescription;
     private final Button pollButton;
+    private final Button pollResultsButton;
 
     private final MaterialCardView cardView;
     private final LinearLayout cardLayout;
@@ -173,6 +174,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         pollOptions = itemView.findViewById(R.id.status_poll_options);
         pollDescription = itemView.findViewById(R.id.status_poll_description);
         pollButton = itemView.findViewById(R.id.status_poll_button);
+        pollResultsButton = itemView.findViewById(R.id.status_poll_results_button);
 
         cardView = itemView.findViewById(R.id.status_card_view);
         cardLayout = itemView.findViewById(R.id.status_card_layout);
@@ -321,6 +323,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     private void hidePoll() {
         pollButton.setVisibility(View.GONE);
+        pollResultsButton.setVisibility(View.GONE);
         pollDescription.setVisibility(View.GONE);
         pollOptions.setVisibility(View.GONE);
     }
@@ -445,20 +448,20 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             int inactiveId;
             int activeId;
             if (visibility == Status.Visibility.PRIVATE) {
-                inactiveId = R.drawable.ic_reblog_private_24dp;
-                activeId = R.drawable.ic_reblog_private_active_24dp;
+                inactiveId = R.drawable.ic_lock_24dp;
+                activeId = R.drawable.ic_lock_24dp_filled;
             } else {
-                inactiveId = R.drawable.ic_reblog_24dp;
-                activeId = R.drawable.ic_reblog_active_24dp;
+                inactiveId = R.drawable.ic_repeat_24dp;
+                activeId = R.drawable.ic_repeat_active_24dp;
             }
             reblogButton.setInactiveImage(inactiveId);
             reblogButton.setActiveImage(activeId);
         } else {
             int disabledId;
             if (visibility == Status.Visibility.DIRECT) {
-                disabledId = R.drawable.ic_reblog_direct_24dp;
+                disabledId = R.drawable.ic_mail_24dp;
             } else {
-                disabledId = R.drawable.ic_reblog_private_24dp;
+                disabledId = R.drawable.ic_lock_24dp;
             }
             reblogButton.setInactiveImage(disabledId);
             reblogButton.setActiveImage(disabledId);
@@ -548,7 +551,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             final Attachment.Type type = attachment.getType();
             if (showingContent && (type == Attachment.Type.VIDEO || type == Attachment.Type.GIFV)) {
                 imageView.setForegroundGravity(Gravity.CENTER);
-                imageView.setForeground(AppCompatResources.getDrawable(itemView.getContext(), R.drawable.ic_play_indicator));
+                imageView.setForeground(AppCompatResources.getDrawable(itemView.getContext(), R.drawable.play_indicator));
             } else {
                 imageView.setForeground(null);
             }
@@ -590,17 +593,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     @DrawableRes
     private static int getLabelIcon(Attachment.Type type) {
-        switch (type) {
-            case IMAGE:
-                return R.drawable.ic_photo_24dp;
-            case GIFV:
-            case VIDEO:
-                return R.drawable.ic_videocam_24dp;
-            case AUDIO:
-                return R.drawable.ic_music_box_24dp;
-            default:
-                return R.drawable.ic_attach_file_24dp;
-        }
+        return switch (type) {
+            case IMAGE -> R.drawable.ic_image_24dp;
+            case GIFV -> R.drawable.ic_gif_box_24dp;
+            case VIDEO -> R.drawable.ic_slideshow_24dp;
+            case AUDIO -> R.drawable.ic_music_box_24dp;
+            default -> R.drawable.ic_attach_file_24dp;
+        };
     }
 
     private void updateMediaLabel(int index, boolean sensitive, boolean showingContent) {
@@ -1084,6 +1083,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             );
 
             pollButton.setVisibility(View.GONE);
+            pollResultsButton.setVisibility(View.GONE);
         } else {
             // voting possible
             pollAdapter.setup(
@@ -1097,6 +1097,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             );
 
             pollButton.setVisibility(View.VISIBLE);
+            pollResultsButton.setVisibility(View.VISIBLE);
 
             pollButton.setOnClickListener(v -> {
 
@@ -1111,6 +1112,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     }
                 }
 
+            });
+
+            pollResultsButton.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onShowPollResults(position);
+                }
             });
         }
 
@@ -1320,6 +1329,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         mediaContainer.setVisibility(visibility);
         pollOptions.setVisibility(visibility);
         pollButton.setVisibility(visibility);
+        pollResultsButton.setVisibility(visibility);
         pollDescription.setVisibility(visibility);
         replyButton.setVisibility(visibility);
         reblogButton.setVisibility(visibility);

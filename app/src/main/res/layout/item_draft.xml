@@ -22,7 +22,7 @@
         android:text="@string/drafts_post_failed_to_send"
         android:textColor="@color/tusky_red"
         android:textSize="?attr/status_text_medium"
-        app:drawableStartCompat="@drawable/ic_alert_circle"
+        app:drawableStartCompat="@drawable/ic_error_24dp"
         app:drawableTint="@color/tusky_red"
         app:layout_constraintEnd_toStartOf="@id/deleteButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:srcCompat="@drawable/ic_clear_24dp" />
+        app:srcCompat="@drawable/ic_close_24dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/draftMediaPreview"

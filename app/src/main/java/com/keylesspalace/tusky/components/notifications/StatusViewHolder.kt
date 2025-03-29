@@ -59,7 +59,7 @@ internal class StatusViewHolder(
             val res = itemView.resources
             if (viewData.type == Notification.Type.Poll) {
                 statusInfo.setText(if (accountId == viewData.account.id) R.string.poll_ended_created else R.string.poll_ended_voted)
-                statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_poll_24dp, 0, 0, 0)
+                statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_insert_chart_24dp_filled, 0, 0, 0)
                 statusInfo.setCompoundDrawablePadding(res.getDimensionPixelSize(R.dimen.status_info_drawable_padding_large))
                 statusInfo.setPadding(res.getDimensionPixelSize(R.dimen.status_info_padding_large), 0, 0, 0)
                 statusInfo.show()
@@ -76,7 +76,7 @@ internal class StatusViewHolder(
                         statusInfo.setText(R.string.notification_info_reply)
                     }
                 } else {
-                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_at_18dp, 0, 0, 0)
+                    statusInfo.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email_alternate_18dp, 0, 0, 0)
 
                     if (viewData.statusViewData.status.visibility == Status.Visibility.DIRECT) {
                         statusInfo.setText(R.string.notification_info_private_mention)

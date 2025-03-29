@@ -1,0 +1,7 @@
+Tusky 27.0
+- Tusky orientiert sich jetzt an das Material-3-Design
+- Unterstützung für Benachrichtigungsrichtlinien (Funktion aus Mastodon 4.3)
+- Hashtags am Ende eines Beitrags werden jetzt in einer extra Zeile angezeigt
+- Vollständige Unterstützung für faltbare Geräte
+
+Alle Änderungen sind auf https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md einsehbar (nur Englisch)

@@ -90,7 +90,7 @@ class MediaPreviewAdapter(
         holder.progressImageView.setProgress(item.uploadPercent)
         if (item.type == ComposeViewModel.QueuedMedia.Type.AUDIO) {
             // TODO: Fancy waveform display?
-            holder.progressImageView.setImageResource(R.drawable.ic_music_box_preview_24dp)
+            holder.progressImageView.setImageResource(R.drawable.audio_file_preview)
         } else {
             val imageView = holder.progressImageView
             val focus = item.focus

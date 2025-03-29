@@ -82,10 +82,11 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="6dp"
                         android:minWidth="36dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         app:icon="@drawable/ic_notifications_24dp"
                         app:iconPadding="0dp"
+                        app:iconSize="24dp"
                         app:layout_constrainedHeight="true"
                         app:layout_constraintBottom_toBottomOf="@+id/accountFollowButton"
                         app:layout_constraintEnd_toStartOf="@id/accountFollowButton"
@@ -104,7 +105,7 @@
                         android:minWidth="36dp"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
-                        app:icon="@drawable/ic_unmute_24dp"
+                        app:icon="@drawable/ic_volume_up_24dp"
                         app:iconPadding="0dp"
                         app:layout_constrainedHeight="true"
                         app:layout_constraintBottom_toBottomOf="@+id/accountFollowButton"
@@ -147,7 +148,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/accountUsernameTextView"
                         app:layout_constraintStart_toEndOf="@+id/accountUsernameTextView"
                         app:layout_constraintTop_toTopOf="@+id/accountUsernameTextView"
-                        app:srcCompat="@drawable/ic_reblog_private_24dp"
+                        app:srcCompat="@drawable/ic_lock_24dp"
                         app:tint="?android:textColorSecondary"
                         tools:visibility="visible" />
 
@@ -282,7 +283,7 @@
                             android:layout_marginTop="8dp"
                             android:drawablePadding="6dp"
                             android:textSize="?attr/status_text_medium"
-                            app:drawableStartCompat="@drawable/ic_briefcase"
+                            app:drawableStartCompat="@drawable/ic_trip_24dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="Account has moved" />
@@ -473,7 +474,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/action_mention"
-            app:srcCompat="@drawable/ic_create_24dp"
+            app:srcCompat="@drawable/ic_edit_24dp_filled"
             app:tint="?attr/colorOnPrimary" />
 
         <include layout="@layout/item_status_bottom_sheet" />

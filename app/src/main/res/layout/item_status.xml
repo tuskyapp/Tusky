@@ -23,7 +23,7 @@
         android:paddingStart="@dimen/status_info_padding_small"
         android:textColor="?android:textColorTertiary"
         android:textSize="?attr/status_text_medium"
-        app:drawableStartCompat="@drawable/ic_reblog_18dp"
+        app:drawableStartCompat="@drawable/ic_repeat_18dp"
         app:drawableTint="?android:textColorTertiary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
@@ -67,7 +67,6 @@
         android:ellipsize="end"
         android:importantForAccessibility="no"
         android:maxLines="1"
-        android:paddingEnd="@dimen/status_display_name_padding_end"
         android:textColor="?android:textColorPrimary"
         android:textSize="?attr/status_text_medium"
         android:textStyle="normal|bold"
@@ -85,6 +84,8 @@
         android:ellipsize="end"
         android:importantForAccessibility="no"
         android:maxLines="1"
+        android:paddingEnd="@dimen/status_display_name_padding_end"
+        android:paddingStart="@dimen/status_display_name_padding_end"
         android:textColor="?android:textColorSecondary"
         android:textSize="?attr/status_text_medium"
         app:layout_constraintEnd_toStartOf="@id/status_meta_info"
@@ -270,6 +271,25 @@
         app:layout_constraintStart_toStartOf="@id/status_display_name"
         app:layout_constraintTop_toBottomOf="@id/status_poll_options" />
 
+    <Button
+        android:id="@+id/status_poll_results_button"
+        style="@style/TuskyButton.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:minWidth="150dp"
+        android:minHeight="0dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:text="@string/poll_show_results"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toEndOf="@id/status_poll_button"
+        app:layout_constraintTop_toBottomOf="@id/status_poll_options" />
+
     <TextView
         android:id="@+id/status_poll_description"
         android:layout_width="0dp"
@@ -339,9 +359,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_favourite"
         app:layout_constraintStart_toEndOf="@id/status_reply"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_reblog_active_24dp"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="@drawable/ic_reblog_24dp"
+        sparkbutton:activeImage="@drawable/ic_repeat_active_24dp"
+        sparkbutton:iconSize="24dp"
+        sparkbutton:inactiveImage="@drawable/ic_repeat_24dp"
         sparkbutton:primaryColor="@color/tusky_blue"
         sparkbutton:secondaryColor="@color/tusky_blue_lighter" />
 
@@ -367,9 +387,9 @@
         app:layout_constraintEnd_toStartOf="@id/status_bookmark"
         app:layout_constraintStart_toEndOf="@id/status_inset"
         app:layout_constraintTop_toTopOf="@id/status_inset"
-        sparkbutton:activeImage="@drawable/ic_favourite_active_24dp"
-        sparkbutton:iconSize="28dp"
-        sparkbutton:inactiveImage="@drawable/ic_favourite_24dp"
+        sparkbutton:activeImage="@drawable/ic_star_24dp_filled"
+        sparkbutton:iconSize="24dp"
+        sparkbutton:inactiveImage="@drawable/ic_star_24dp"
         sparkbutton:primaryColor="@color/tusky_orange"
         sparkbutton:secondaryColor="@color/tusky_orange_light" />
 
@@ -395,10 +415,10 @@
         app:layout_constraintEnd_toStartOf="@id/status_more"
         app:layout_constraintStart_toEndOf="@id/status_favourite"
         app:layout_constraintTop_toTopOf="@id/status_reply"
-        sparkbutton:activeImage="@drawable/ic_bookmark_active_24dp"
-        sparkbutton:iconSize="28dp"
+        sparkbutton:activeImage="@drawable/ic_bookmark_24dp_filled"
+        sparkbutton:iconSize="24dp"
         sparkbutton:inactiveImage="@drawable/ic_bookmark_24dp"
-        sparkbutton:primaryColor="@color/tusky_green"
+        sparkbutton:primaryColor="@color/tusky_green_dark"
         sparkbutton:secondaryColor="@color/tusky_green_light" />
 
     <ImageButton

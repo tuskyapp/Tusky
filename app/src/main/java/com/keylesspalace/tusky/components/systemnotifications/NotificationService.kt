@@ -389,7 +389,7 @@ class NotificationService @Inject constructor(
         val text = joinNames(activeNotifications, additionalNotifications)
 
         val summaryBuilder = NotificationCompat.Builder(context, typeChannelId)
-            .setSmallIcon(R.drawable.ic_notify)
+            .setSmallIcon(R.drawable.tusky_notification_icon)
             .setContentIntent(summaryResultPendingIntent)
             .setColor(context.getColor(R.color.notification_color))
             .setAutoCancel(true)
@@ -415,7 +415,7 @@ class NotificationService @Inject constructor(
         return NotificationCompat.Builder(context, CHANNEL_BACKGROUND_TASKS)
             .setContentTitle(title)
             .setTicker(title)
-            .setSmallIcon(R.drawable.ic_notify)
+            .setSmallIcon(R.drawable.tusky_notification_icon)
             .setOngoing(true)
             .build()
     }
@@ -459,7 +459,7 @@ class NotificationService @Inject constructor(
         }
 
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notify)
+            .setSmallIcon(R.drawable.tusky_notification_icon)
             .setContentIntent(eventResultPendingIntent)
             .setColor(context.getColor(R.color.notification_color))
             .setAutoCancel(true)

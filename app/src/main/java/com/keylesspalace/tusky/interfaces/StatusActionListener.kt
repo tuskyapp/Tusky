@@ -58,6 +58,8 @@ interface StatusActionListener : LinkListener {
 
     fun onVoteInPoll(position: Int, choices: List<Int>)
 
+    fun onShowPollResults(position: Int)
+
     fun onShowEdits(position: Int) {}
 
     fun clearWarningAction(position: Int)

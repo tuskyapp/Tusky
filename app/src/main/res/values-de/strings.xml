@@ -137,12 +137,12 @@
     <string name="label_header">Titelbild</string>
     <string name="link_whats_an_instance">Was ist eine Instanz\?</string>
     <string name="login_connection">Wird verbunden …</string>
-    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a> 
-\n 
-\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten. 
-\n 
-\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website. 
-\n 
+    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a>
+\n
+\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten.
+\n
+\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website.
+\n
 \nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Hochladen der Datei wird abgeschlossen</string>
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
@@ -632,9 +632,9 @@
     <string name="filter_edit_keyword_title">Schlagwort bearbeiten</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
-    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst. 
-\n 
-\nDamit du andere Konten entdeckst, kannst du entweder andere Timelines lesen – z. B. die Lokale Timeline deiner Instanz [iconics gmd_group] \u0020– oder du suchst nach Namen [iconics gmd_search] – z. B. kannst du nach Tusky suchen, um unser Mastodon-Konto zu finden.</string>
+    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst.
+\n
+\nDamit du andere Konten entdeckst, kannst du entweder andere Timelines lesen – z. B. die Lokale Timeline deiner Instanz {{group}} \u0020– oder du suchst nach Namen {{search}} – z. B. kannst du nach Tusky suchen, um unser Mastodon-Konto zu finden.</string>
     <string name="post_media_image">Bild</string>
     <string name="pref_title_show_stat_inline">Beitragsstatistiken in der Timeline anzeigen</string>
     <string name="pref_ui_text_size">Schriftgröße der Oberfläche</string>
@@ -664,10 +664,10 @@
 \nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst.
 \n
 \nDiese Listen können als Tab in den Kontoeinstellungen [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs festgelegt werden.</string>
-    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht). 
-\n 
-\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit [iconics gmd_public] auf [iconics gmd_mail] <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden. 
-\n 
+    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
+\n
+\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
+\n
 \nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit.</string>
     <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
     <string name="error_media_playback">Wiedergabe fehlgeschlagen: %1$s</string>
@@ -738,13 +738,13 @@
     <string name="notifications_from">Benachrichtigungen von %1$s</string>
     <string name="follow_hashtag_success">Hashtag %1$s wird jetzt gefolgt</string>
     <string name="relationship_severance_event_title">Verbindung verloren</string>
-    <string name="moderation_warning_action_delete_statuses">Einige deiner Beiträge wurden entfernt.</string>
+    <string name="moderation_warning_action_delete_statuses">Einige deiner Beiträge sind entfernt worden.</string>
     <plurals name="media_attachments">
         <item quantity="one">%1$s Anhang</item>
         <item quantity="other">%1$s Anhänge</item>
     </plurals>
-    <string name="relationship_severance_event_domain_block">Ein Administrator von %1$s hat %2$s blockiert, das betrifft %3$s von deinen Folgenden und %4$s, denen du folgst.</string>
-    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert – %2$s deiner Follower und %3$s du folgst, wurden entfernt.</string>
+    <string name="relationship_severance_event_domain_block">Ein Admin von %1$s hat %2$s blockiert – darunter %3$s deiner Follower und %4$s Konten, denen du folgst.</string>
+    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert – %2$s deiner Follower und %3$s Konten, denen du folgst, wurden entfernt.</string>
     <string name="poll">Umfrage</string>
     <string name="action_reblog_private">Boost nur für Folgende</string>
     <string name="action_reblog_public">Öffentlicher Boost</string>
@@ -752,12 +752,12 @@
         <item quantity="one">%1$s Konto</item>
         <item quantity="other">%1$s Konten</item>
     </plurals>
-    <string name="moderation_warning">Du hast eine Verwarnung von den Moderator*innen erhalten.</string>
+    <string name="moderation_warning">Du wurdest von den Moderator*innen verwarnt.</string>
     <string name="moderation_warning_action_disable">Dein Konto wurde deaktiviert.</string>
-    <string name="moderation_warning_action_none">Dein Konto hat eine Verwarnung von den Moderator*innen erhalten.</string>
-    <string name="moderation_warning_action_sensitive">Deine Beiträge werden von jetzt an als sensibel markiert werden.</string>
+    <string name="moderation_warning_action_none">Dein Konto ist von den Moderator*innen verwarnt worden.</string>
+    <string name="moderation_warning_action_sensitive">Deine zukünftigen Beiträge werden mit einer Inhaltswarnung versehen.</string>
     <string name="moderation_warning_action_silence">Dein Konto wurde eingeschränkt.</string>
-    <string name="moderation_warning_action_suspend">Dein Konto wurde stillgelegt.</string>
+    <string name="moderation_warning_action_suspend">Dein Konto wurde gesperrt.</string>
     <string name="notification_info_private_mention">Private Erwähnung</string>
     <string name="notification_info_mention">Erwähnung</string>
     <string name="notification_info_private_reply">Private Antwort</string>
@@ -769,13 +769,17 @@
     <string name="post_replied_format">Antwort an %1$s</string>
     <string name="notification_channel_admin_description">Administrationsbenachrichtigungen wie neue Meldungen und Accounts</string>
     <string name="action_reblog_unlisted">Ungelisteter Boost</string>
-    <string name="relationship_severance_event_account_suspension">Ein Administrator von %1$s hat %2$s blockiert. Du wirst von diesem Profil keine Updates mehr erhalten und auch nicht mit ihm interagieren können.</string>
-    <string name="unknown_notification_type_explanation">Tusky kennt diesen Benachrichtigungstyp nicht und kann ihn nicht anzeigen. In der Webansicht deines Servers ist das vielleicht möglich. Bitte gib auch dem Tusky Team Bescheid damit sie den Typ in Zukunft unterstützen können!</string>
+    <string name="relationship_severance_event_account_suspension">Ein Admin von %1$s hat %2$s gesperrt. Du wirst von diesem Profil keine Updates mehr erhalten und auch nicht mit ihm interagieren können.</string>
+    <string name="unknown_notification_type_explanation">Dieser Benachrichtigungstyp ist Tusky unbekannt, weshalb er nicht angezeigt werden kann. Möglicherweise ist er in der Webansicht sichtbar. Bitte gib den Entwickler*innen von Tusky Bescheid, damit der Benachrichtigungstyp in Zukunft unterstützt werden kann!</string>
     <string name="notification_info_reply">Antwort</string>
     <string name="notification_channel_admin">Administration</string>
     <string name="notification_severed_relationship_name">Verlorene Verbindungen</string>
     <string name="notification_unknown_description">Unbekannter Benachrichtigungstyp</string>
-    <string name="moderation_warning_action_mark_statuses_as_sensitive">Einige deiner Beiträge wurden als sensibel markiert.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Einige deiner Beiträge wurden mit einer Inhaltswarnung versehen.</string>
     <string name="notification_moderation_warning_name">Moderationsverwarnung</string>
     <string name="notification_channel_other_description">Andere Benachrichtigungen wie verlorene Verbindungen oder Moderationsverwarnungen</string>
+    <string name="poll_show_results">Ergebnisse anzeigen</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="confirm_dismiss_caption">Änderungen an der Bildbeschreibung verwerfen?</string>
 </resources>
