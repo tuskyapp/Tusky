@@ -25,10 +25,10 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder>(
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean,
     protected val showBotOverlay: Boolean
-) : PagingDataAdapter<AccountViewData, AVH>(TimelineAccountDifferCallback) {
+) : PagingDataAdapter<AccountViewData, AVH>(AccountViewDataDifferCallback) {
 
     companion object {
-        private val TimelineAccountDifferCallback = object : DiffUtil.ItemCallback<AccountViewData>() {
+        private val AccountViewDataDifferCallback = object : DiffUtil.ItemCallback<AccountViewData>() {
             override fun areItemsTheSame(
                 oldItem: AccountViewData,
                 newItem: AccountViewData

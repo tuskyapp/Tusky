@@ -73,7 +73,7 @@ class AccountListViewModel @AssistedInject constructor(
             api.muteAccount(accountId, notifications).onFailure { e ->
                 _uiEvents.emit(
                     SnackbarEvent(
-                        message = R.string.error_blocking_domain,
+                        message = R.string.mute_failure,
                         user = "@${accountViewData.account.username}",
                         throwable = e,
                         actionText = R.string.action_retry,
