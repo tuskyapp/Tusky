@@ -39,13 +39,6 @@ class MutesAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    private val mutingNotificationsMap = HashMap<String, Boolean>()
-
-    fun updateMutingNotificationsMap(newMutingNotificationsMap: HashMap<String, Boolean>) {
-        mutingNotificationsMap.putAll(newMutingNotificationsMap)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemMutedUserBinding> {
         return BindingHolder(
             ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -53,11 +46,10 @@ class MutesAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: BindingHolder<ItemMutedUserBinding>, position: Int) {
-        getItem(position)?.let { account ->
+        getItem(position)?.let { viewData ->
+            val account = viewData.account
             val binding = viewHolder.binding
             val context = binding.root.context
-
-            val mutingNotifications = mutingNotificationsMap[account.id]
 
             val emojifiedName = account.name.emojify(
                 account.emojis,
@@ -80,13 +72,7 @@ class MutesAdapter(
 
             binding.mutedUserMuteNotifications.setOnCheckedChangeListener(null)
 
-            binding.mutedUserMuteNotifications.isChecked = if (mutingNotifications == null) {
-                binding.mutedUserMuteNotifications.isEnabled = false
-                true
-            } else {
-                binding.mutedUserMuteNotifications.isEnabled = true
-                mutingNotifications
-            }
+            binding.mutedUserMuteNotifications.isChecked = viewData.mutingNotifications
 
             binding.mutedUserUnmute.setOnClickListener {
                 accountActionListener.onMute(
@@ -106,10 +92,5 @@ class MutesAdapter(
             }
             binding.root.setOnClickListener { accountActionListener.onViewAccount(account.id) }
         }
-    }
-
-    fun updateMutingNotifications(id: String, mutingNotifications: Boolean, position: Int) {
-        mutingNotificationsMap[id] = mutingNotifications
-        notifyItemChanged(position)
     }
 }

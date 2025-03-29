@@ -45,7 +45,8 @@ class BlocksAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: BindingHolder<ItemBlockedUserBinding>, position: Int) {
-        getItem(position)?.let { account ->
+        getItem(position)?.let { viewData ->
+            val account = viewData.account
             val binding = viewHolder.binding
             val context = binding.root.context
 

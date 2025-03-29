@@ -917,10 +917,13 @@
     <string name="no">No</string>
     <string name="confirm_dismiss_caption">Discard caption changes?</string>
 
-    <string name="block_success">Blocked %1$s</string>
-    <string name="mute_success">Muted %1$s</string>
+    <string name="unblock_success">Unblocked %1$s</string>
+    <string name="unmute_success">Unmuted %1$s</string>
     <string name="block_failure">Failed blocking %1$s: %2$s</string>
     <string name="mute_failure">Failed muting %1$s: %2$s</string>
+    <string name="unblock_failure">Failed unblocking %1$s: %2$s</string>
+    <string name="unmute_failure">Failed unmuting %1$s: %2$s</string>
     <string name="accept_follow_request_failure">Failed accepting follow request from %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Failed rejecting follow request from %1$s: %2$s</string>
 
 </resources>

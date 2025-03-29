@@ -40,9 +40,9 @@ class FollowAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: AccountViewHolder, position: Int) {
-        getItem(position)?.let { account ->
+        getItem(position)?.let { viewData ->
             viewHolder.setupWithAccount(
-                account,
+                viewData.account,
                 animateAvatar,
                 animateEmojis,
                 showBotOverlay

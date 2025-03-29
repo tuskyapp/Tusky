@@ -14,37 +14,31 @@
  * see <http://www.gnu.org/licenses>. */
 package com.keylesspalace.tusky.components.accountlist.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
-import com.keylesspalace.tusky.entity.TimelineAccount
+import com.keylesspalace.tusky.components.accountlist.AccountViewData
 import com.keylesspalace.tusky.interfaces.AccountActionListener
-import com.keylesspalace.tusky.util.BindingHolder
-import com.keylesspalace.tusky.util.removeDuplicatesTo
-import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 abstract class AccountAdapter<AVH : RecyclerView.ViewHolder>(
     protected val accountActionListener: AccountActionListener,
     protected val animateAvatar: Boolean,
     protected val animateEmojis: Boolean,
     protected val showBotOverlay: Boolean
-) : PagingDataAdapter<TimelineAccount, AVH>(TimelineAccountDifferCallback) {
+) : PagingDataAdapter<AccountViewData, AVH>(TimelineAccountDifferCallback) {
 
     companion object {
-        private val TimelineAccountDifferCallback = object : DiffUtil.ItemCallback<TimelineAccount>() {
+        private val TimelineAccountDifferCallback = object : DiffUtil.ItemCallback<AccountViewData>() {
             override fun areItemsTheSame(
-                oldItem: TimelineAccount,
-                newItem: TimelineAccount
+                oldItem: AccountViewData,
+                newItem: AccountViewData
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: TimelineAccount,
-                newItem: TimelineAccount
+                oldItem: AccountViewData,
+                newItem: AccountViewData
             ): Boolean {
                 return oldItem == newItem
             }

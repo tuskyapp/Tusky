@@ -41,14 +41,14 @@ class FollowRequestsAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: FollowRequestViewHolder, position: Int) {
-        getItem(position)?.let { account ->
+        getItem(position)?.let { viewData ->
             viewHolder.setupWithAccount(
-                account = account,
+                account = viewData.account,
                 animateAvatar = animateAvatar,
                 animateEmojis = animateEmojis,
                 showBotOverlay = showBotOverlay
             )
-            viewHolder.setupActionListener(accountActionListener, account.id)
+            viewHolder.setupActionListener(accountActionListener, viewData.account.id)
         }
     }
 }
