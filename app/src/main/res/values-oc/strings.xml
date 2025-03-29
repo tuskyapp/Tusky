@@ -53,7 +53,7 @@
     <string name="action_compose">Redactar</string>
     <string name="action_login">Començar la session amb Tusky</string>
     <string name="action_logout">Tampar la session</string>
-    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s \?
+    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?
 \nAquò suprimirà totas las donadas localas del compte, tanben los borrolhons e las preferéncias.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Quitar de seguir</string>
@@ -527,10 +527,10 @@
     <string name="error_following_hashtags_unsupported">Aquesta instància pren pas en carga l’abonament a las etiquetas.</string>
     <string name="title_followed_hashtags">Etiquetas seguidas</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s pas mai seguit</string>
-    <string name="delete_scheduled_post_warning">Suprimir la publicacion programada \?</string>
+    <string name="delete_scheduled_post_warning">Suprimir la publicacion programada ?</string>
     <string name="drafts_post_reply_removed">La publicacion a la quala respondiá lo borrolhon foguèt suprimida</string>
     <string name="instance_rule_info">En vos connectant acceptatz las règlas de %1$s.</string>
-    <string name="action_unfollow_hashtag_format">Quitar de seguir #%1$s \?</string>
+    <string name="action_unfollow_hashtag_format">Quitar de seguir #%1$s ?</string>
     <string name="status_created_at_now">ara</string>
     <string name="notification_report_format">Senhalament novèl sus %1$s</string>
     <string name="notification_header_report_format">%1$s a senhalat %2$s</string>
@@ -544,7 +544,7 @@
     <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>
     <string name="follow_requests_info">Malgrat que vòstre compte siá pas verrolhat, l\'equipa de %1$s a pensat que volriatz validar manualament las demandas de d\'abonament provenent d\'aqueles comptes.</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar lo limpament per se desplaçar demest los onglets</string>
-    <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon \? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
+    <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon ? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
     <string name="pref_default_post_language">Lenga de publicacion (alinhat sul servidor)</string>
     <string name="report_category_spam">Messatge indesirable</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
@@ -638,11 +638,11 @@
     <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
 \n
 \nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància {{group}}, siá los trapar per lor nom {{search}}, per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
-    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
-\n
+    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar. 
+\n 
 \nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
-    <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
+    <string name="compose_delete_draft">Suprimir lo borrolhon ?</string>
     <string name="pref_ui_text_size">talha tèxte UI</string>
     <string name="notification_listenable_worker_name">activitat en rèireplan</string>
     <string name="notification_listenable_worker_description">Notificacions quand Tuska s’executa en rèireplan</string>
@@ -661,8 +661,8 @@
     <string name="about_copy">Copiar la version e las info aparelh</string>
     <string name="error_media_playback">La lectura a fraccasat : %1$s</string>
     <string name="dialog_delete_filter_positive_action">Suprimir</string>
-    <string name="dialog_delete_filter_text">Suprimir lo filtre « %1$s » \?</string>
-    <string name="dialog_save_profile_changes_message">Volètz enregistrar las modificacions del perfil \?</string>
+    <string name="dialog_delete_filter_text">Suprimir lo filtre « %1$s » ?</string>
+    <string name="dialog_save_profile_changes_message">Volètz enregistrar las modificacions del perfil ?</string>
     <string name="title_public_trending_statuses">Publicacions tendéncia</string>
     <string name="error_blocking_domain">Impossible de rescondre %1$s : %2$s</string>
     <string name="list_reply_policy_none">Degun</string>
