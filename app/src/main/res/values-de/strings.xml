@@ -743,8 +743,8 @@
         <item quantity="one">%1$s Anhang</item>
         <item quantity="other">%1$s Anhänge</item>
     </plurals>
-    <string name="relationship_severance_event_domain_block">Ein Admin von %1$s hat %2$s blockiert – darunter %3$s deiner Follower und %4$s Konten, denen du folgst.</string>
-    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert – %2$s deiner Follower und %3$s Konten, denen du folgst, wurden entfernt.</string>
+    <string name="relationship_severance_event_domain_block">Ein Admin von %1$s hat %2$s blockiert – darunter %3$s deiner Follower und %4$s, denen du folgst.</string>
+    <string name="relationship_severance_event_user_domain_block">Du hast %1$s blockiert – %2$s deiner Follower und %3$s, denen du folgst, wurden entfernt.</string>
     <string name="poll">Umfrage</string>
     <string name="action_reblog_private">Boost nur für Folgende</string>
     <string name="action_reblog_public">Öffentlicher Boost</string>
