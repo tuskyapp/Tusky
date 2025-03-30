@@ -32,9 +32,17 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = AccountListViewModel.Factory::class)
@@ -59,8 +67,8 @@ class AccountListViewModel @AssistedInject constructor(
     val accounts: MutableList<AccountViewData> = mutableListOf()
     var nextKey: String? = null
 
-    private val _uiEvents = MutableSharedFlow<SnackbarEvent>()
-    val uiEvents: SharedFlow<SnackbarEvent> = _uiEvents.asSharedFlow()
+    private val _uiEvents = MutableStateFlow<List<SnackbarEvent>>(emptyList())
+    val uiEvents: Flow<SnackbarEvent> = _uiEvents.map { it.firstOrNull() }.filterNotNull().distinctUntilChanged()
 
     fun invalidate() {
         factory.invalidate()
@@ -71,7 +79,7 @@ class AccountListViewModel @AssistedInject constructor(
         val accountViewData = accounts.find { it.id == accountId } ?: return
         viewModelScope.launch {
             api.muteAccount(accountId, notifications).onFailure { e ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.mute_failure,
                         user = "@${accountViewData.account.username}",
@@ -91,7 +99,7 @@ class AccountListViewModel @AssistedInject constructor(
                 accounts.add(accountViewData)
                 invalidate()
             }, { e ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.mute_failure,
                         user = "@${accountViewData.account.username}",
@@ -110,7 +118,7 @@ class AccountListViewModel @AssistedInject constructor(
             api.unmuteAccount(accountId).fold({
                 accounts.removeIf { it.id == accountId }
                 invalidate()
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.unmute_success,
                         user = "@${accountViewData.account.username}",
@@ -120,7 +128,7 @@ class AccountListViewModel @AssistedInject constructor(
                     )
                 )
             }, { error ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.unmute_failure,
                         user = "@${accountViewData.account.username}",
@@ -139,7 +147,7 @@ class AccountListViewModel @AssistedInject constructor(
             api.unblockAccount(accountId).fold({
                 accounts.removeIf { it.id == accountId }
                 invalidate()
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.unblock_success,
                         user = "@${accountViewData.account.username}",
@@ -149,7 +157,7 @@ class AccountListViewModel @AssistedInject constructor(
                     )
                 )
             }, { e ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.unblock_failure,
                         user = "@${accountViewData.account.username}",
@@ -168,7 +176,7 @@ class AccountListViewModel @AssistedInject constructor(
                 accounts.add(accountViewData)
                 invalidate()
             }, { e ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = R.string.block_failure,
                         user = "@${accountViewData.account.username}",
@@ -192,7 +200,7 @@ class AccountListViewModel @AssistedInject constructor(
                 accounts.removeIf { it.id == accountId }
                 invalidate()
             }, { e ->
-                _uiEvents.emit(
+                sendEvent(
                     SnackbarEvent(
                         message = if (accept) R.string.accept_follow_request_failure else R.string.reject_follow_request_failure,
                         user = "@${accountViewData.account.username}",
@@ -202,6 +210,20 @@ class AccountListViewModel @AssistedInject constructor(
                     )
                 )
             })
+        }
+    }
+
+    fun consumeEvent(event: SnackbarEvent) {
+        println("event consumed $event")
+        _uiEvents.update { uiEvents ->
+            uiEvents - event
+        }
+    }
+
+    private fun sendEvent(event: SnackbarEvent) {
+        println("event sent $event")
+        _uiEvents.update { uiEvents ->
+            uiEvents + event
         }
     }
 

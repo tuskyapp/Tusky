@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BottomSheetActivity
 import com.keylesspalace.tusky.PostLookupFallbackBehavior
@@ -143,6 +144,11 @@ class AccountListFragment :
                 }
                 Snackbar.make(binding.recyclerView, message, Snackbar.LENGTH_LONG)
                     .setAction(event.actionText, event.action)
+                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        override fun onDismissed(transientBottomBar: Snackbar, eventType: Int) {
+                            viewModel.consumeEvent(event)
+                        }
+                    })
                     .show()
             }
         }
