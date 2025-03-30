@@ -27,7 +27,6 @@ import com.keylesspalace.tusky.appstore.NewNotificationsEvent
 import com.keylesspalace.tusky.appstore.NotificationsLoadingEvent
 import com.keylesspalace.tusky.components.systemnotifications.NotificationService
 import com.keylesspalace.tusky.db.AccountManager
-import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.Emoji
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Status
@@ -97,8 +96,6 @@ class MainViewModel @Inject constructor(
                     accountManager.updateAccount(activeAccount, userInfo)
 
                     shareShortcutHelper.updateShortcuts()
-
-                    setupNotifications(activeAccount)
                 },
                 { throwable ->
                     Log.e(TAG, "Failed to fetch user info.", throwable)
@@ -161,19 +158,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setupNotifications(account: AccountEntity? = null) {
+    fun setupNotifications(activity: MainActivity) {
         // TODO this is only called on full app (re) start; so changes in-between (push distributor uninstalled/subscription changed, or
         //   notifications fully disabled) will get unnoticed; and also an app restart cannot be easily triggered by the user.
 
-        if (account != null) {
-            // TODO it's quite odd to separate channel creation (for an account) from the "is enabled by channels" question below
-
-            notificationService.createNotificationChannelsForAccount(account)
-        }
+        // TODO it's quite odd to separate channel creation (for an account) from the "is enabled by channels" question below
+        notificationService.createNotificationChannelsForAccount(activeAccount)
 
         if (notificationService.areNotificationsEnabledBySystem()) {
             viewModelScope.launch {
-                notificationService.setupNotifications(account)
+                notificationService.setupNotifications(activity)
             }
         } else {
             viewModelScope.launch {
