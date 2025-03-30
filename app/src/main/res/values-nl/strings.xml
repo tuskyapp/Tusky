@@ -644,10 +644,10 @@
     <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
     <string name="notification_policies_title">Meldingsbeleid</string>
     <string name="label_translated">Uit het %1$s met %2$s vertaald</string>
-    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020
-\n \u0020
-\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020
-\n \u0020
+    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 
+\n \u0020 
+\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020 
+\n \u0020 
 \nJe kunt je lijsten als tabbladen toevoegen in je account-instellingen [iconics gmd_account_circle] [iconics gmd_navigate_next] tabs. \u0020</string>
     <string name="notification_policies_filter_not_following_description">Inclusief accounts die jou korter dan 3 dagen volgen</string>
     <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020

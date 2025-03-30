@@ -704,10 +704,10 @@
     <string name="notification_summary_report_format">%1$s · %2$d postů připojeno</string>
     <string name="action_post_failed">Nahrávání selhalo</string>
     <string name="ui_error_accept_follow_request">Povolení žádosti o sledování selhalo: %1$s</string>
-    <string name="help_empty_lists">Toto je tvůj seznam <b>seznamů</b>. Můžeš si definovat různý počet soukromých seznamů a přidat do nich uživatelské účty.
-\n
-\nPoznámka: do seznamů můžeš přidat jen účty které sleduješ.
-\n
+    <string name="help_empty_lists">Toto je tvůj seznam <b>seznamů</b>. Můžeš si definovat různý počet soukromých seznamů a přidat do nich uživatelské účty. 
+\n 
+\nPoznámka: do seznamů můžeš přidat jen účty které sleduješ. 
+\n 
 \nTyto seznamy můžou být použity tako taby na tabu Nastavení účtu [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="about_copy">Zkopírovat verzi a informace o zařízení</string>
     <string name="about_copied">Verze a informace o zařízení zkopírovány</string>

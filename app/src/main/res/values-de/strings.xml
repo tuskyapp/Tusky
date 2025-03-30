@@ -659,10 +659,10 @@
     <string name="list_exclusive_label">Nicht in der Startseite anzeigen</string>
     <string name="error_media_upload_sending_fmt">Das Hochladen ist fehlgeschlagen: %1$s</string>
     <string name="label_image">Bild</string>
-    <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen.
-\n
-\nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst.
-\n
+    <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen. 
+\n 
+\nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. 
+\n 
 \nDiese Listen können als Tab in den Kontoeinstellungen [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs festgelegt werden.</string>
     <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
 \n
