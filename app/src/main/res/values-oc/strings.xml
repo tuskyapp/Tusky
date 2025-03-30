@@ -136,7 +136,7 @@
     <string name="pref_title_notification_alert_sound">Notificar amb un son</string>
     <string name="pref_title_notification_alert_vibrate">Notificra amb una vibracion</string>
     <string name="pref_title_notification_alert_light">Notificar amb lo lum led</string>
-    <string name="pref_title_notification_filters">Notificar me se</string>
+    <string name="pref_title_notification_filters">Tipes de notificacion activats</string>
     <string name="pref_title_appearance_settings">Aparéncia</string>
     <string name="pref_title_app_theme">Tèma de l’app</string>
     <string name="app_them_dark">Escur</string>
@@ -356,7 +356,7 @@
     <string name="poll_info_time_absolute">S’acaba a %1$s</string>
     <string name="poll_info_closed">acabat</string>
     <string name="poll_vote">Votar</string>
-    <string name="notification_poll_name">Sondatges</string>
+    <string name="notification_poll_name">Resultats del sondatge</string>
     <string name="notification_poll_description">Notificacion de sondatges tampats</string>
     <string name="poll_info_format"> \u0020<!-- 15 vòtes • demòra 1 ora --> \u0020%1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
@@ -716,4 +716,36 @@
     <string name="action_dismiss_notification_request">Ignorar</string>
     <string name="error_deleting_filter">Error de supression del filtre « %1$s »</string>
     <string name="error_saving_filter">Error en enregistrant lo filtre « %1$s »</string>
+    <string name="preview_card_by_author">Per %1$s</string>
+    <string name="preview_card_more_by_author">Mai de %1$s</string>
+    <string name="unknown_notification_filter_new_accounts_description">Creat las darrièrs 30 jorns</string>
+    <string name="relationship_severance_event_title">Connexion perduda</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s compte</item>
+        <item quantity="other">%1$s comptes</item>
+    </plurals>
+    <string name="notification_info_private_reply">Responsa en privat</string>
+    <string name="action_reblog_private">Partatge pels seguidors solament</string>
+    <string name="action_reblog_public">Partatge public</string>
+    <string name="action_reblog_unlisted">Partatge non listat</string>
+    <string name="notification_policies_filter_not_following_title">Personas que vos seguisson pas</string>
+    <string name="poll">Sondatge</string>
+    <string name="notification_info_reply">Respondre</string>
+    <string name="notification_info_private_mention">Mencion privada</string>
+    <string name="notification_info_mention">Mencion</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s mèdia junt</item>
+        <item quantity="other">%1$s mèdias junts</item>
+    </plurals>
+    <string name="yes">Òc</string>
+    <string name="no">Non</string>
+    <string name="notification_severed_relationship_name">Connexions perdudas</string>
+    <string name="notification_moderation_warning_name">Avertiments de moderacion</string>
+    <string name="notification_unknown_description">Tipe de notificacion desconegut</string>
+    <string name="notification_channel_other">Autre</string>
+    <string name="notification_channel_admin">Admin</string>
+    <string name="follow_hashtag_success">%1$s etiqueta seguida</string>
+    <string name="post_replied">Respondut</string>
+    <string name="post_replied_format">En responsa a %1$s</string>
+    <string name="post_replied_self">Seguida del fil</string>
 </resources>
