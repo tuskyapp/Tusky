@@ -671,7 +671,7 @@
 \n 
 \nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína. 
 \n 
-\nÞessa lista má nota sem flipa í flipum [iconics gmd_account_circle] [iconics gmd_navigate_next] Kjörstillingar aðgangs.</string>
+\nÞessa lista má nota sem flipa í Kjörstillingar aðgangs{{manage_accounts}} {{chevron_right} flipunum .</string>
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
     <string name="title_public_trending_statuses">Færslur í umræðunni</string>
