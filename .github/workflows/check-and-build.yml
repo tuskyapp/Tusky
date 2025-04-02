@@ -14,6 +14,9 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Licensee
+        run: ./gradlew licensee
+
       - name: ktlint
         run: ./gradlew clean ktlintCheck
 

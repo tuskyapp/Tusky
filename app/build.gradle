@@ -1,9 +1,12 @@
+import app.cash.licensee.SpdxId
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.licensee)
 }
 
 apply from: 'getGitSha.gradle'
@@ -126,6 +129,13 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.generateKotlin", "true")
     arg("room.incremental", "true")
+}
+
+licensee {
+    allow(SpdxId.Apache_20)
+    allow(SpdxId.MIT)
+    allowUrl('https://github.com/AOMediaCodec/libavif/blob/master/LICENSE')
+    allowUrl('https://www.bouncycastle.org/licence.html')
 }
 
 configurations {
