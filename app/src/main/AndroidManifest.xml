@@ -159,19 +159,12 @@
             android:name=".receiver.SendStatusBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
-        <receiver
-            android:exported="true"
-            android:enabled="true"
-            android:name=".receiver.UnifiedPushBroadcastReceiver"
-            tools:ignore="ExportedReceiver">
+        <service android:name=".receiver.UnifiedPushService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="org.unifiedpush.android.connector.MESSAGE"/>
-                <action android:name="org.unifiedpush.android.connector.UNREGISTERED"/>
-                <action android:name="org.unifiedpush.android.connector.NEW_ENDPOINT"/>
-                <action android:name="org.unifiedpush.android.connector.REGISTRATION_FAILED"/>
-                <action android:name="org.unifiedpush.android.connector.REGISTRATION_REFUSED"/>
+                <action android:name="org.unifiedpush.android.connector.PUSH_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
         <receiver
             android:exported="true"
             android:enabled="true"

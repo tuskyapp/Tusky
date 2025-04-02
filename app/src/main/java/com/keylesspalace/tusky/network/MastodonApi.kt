@@ -672,7 +672,8 @@ interface MastodonApi {
     suspend fun subscribePushNotifications(
         @Header("Authorization") auth: String,
         @Header(DOMAIN_HEADER) domain: String,
-        @Field("subscription[endpoint]") endPoint: String,
+        @Field("subscription[standard]") standard: Boolean,
+        @Field("subscription[endpoint]") endpoint: String,
         @Field("subscription[keys][p256dh]") keysP256DH: String,
         @Field("subscription[keys][auth]") keysAuth: String,
         // The "data[alerts][]" fields to enable / disable notifications

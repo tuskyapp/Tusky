@@ -43,10 +43,6 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Bouncy Castle -- Keep EC
--keep class org.bouncycastle.jcajce.provider.asymmetric.EC$* { *; }
--keep class org.bouncycastle.jcajce.provider.asymmetric.ec.KeyPairGeneratorSpi$EC
-
 # remove all logging from production apk
 -assumenosideeffects class android.util.Log {
     public static *** getStackTraceString(...);

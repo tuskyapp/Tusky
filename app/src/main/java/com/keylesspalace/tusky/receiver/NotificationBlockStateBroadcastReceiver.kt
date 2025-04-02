@@ -20,7 +20,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
@@ -38,7 +38,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var notificationService: NotificationService
+    lateinit var notificationHelper: NotificationHelper
 
     @Inject
     @ApplicationScope
@@ -46,7 +46,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Build.VERSION.SDK_INT < 28) return
-        if (!notificationService.arePushNotificationsAvailable()) return
+        if (!notificationHelper.arePushNotificationsAvailable()) return
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -64,7 +64,7 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
         accountManager.getAccountByIdentifier(accountIdentifier)?.let { account ->
             if (account.isPushNotificationsEnabled()) {
                 externalScope.launch {
-                    notificationService.updatePushSubscription(account)
+                    notificationHelper.updatePushSubscription(account)
                 }
             }
         }

@@ -15,9 +15,8 @@
 
 package com.keylesspalace.tusky.receiver
 
-import android.content.Context
 import android.util.Log
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
 import com.keylesspalace.tusky.network.MastodonApi
@@ -25,50 +24,49 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.unifiedpush.android.connector.MessagingReceiver
+import org.unifiedpush.android.connector.FailedReason
+import org.unifiedpush.android.connector.PushService
+import org.unifiedpush.android.connector.data.PushEndpoint
+import org.unifiedpush.android.connector.data.PushMessage
 
 @AndroidEntryPoint
-class UnifiedPushBroadcastReceiver : MessagingReceiver() {
+class UnifiedPushService : PushService() {
     @Inject
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var mastodonApi: MastodonApi
-
-    @Inject
-    lateinit var notificationService: NotificationService
+    lateinit var notificationHelper: NotificationHelper
 
     @Inject
     @ApplicationScope
     lateinit var applicationScope: CoroutineScope
 
-    override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        Log.d(TAG, "New message received for account $instance: #${message.size}")
-        val account = accountManager.getAccountById(instance.toLong())
-        account?.let {
-            notificationService.fetchNotificationsOnPushMessage(it)
+    override fun onMessage(message: PushMessage, instance: String) {
+        Log.d(TAG, "New message received for account $instance: $message")
+        accountManager.getAccountById(instance.toLong())?.let { account ->
+            notificationHelper.fetchNotificationsOnPushMessage(account)
         }
     }
 
-    override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
+    override fun onNewEndpoint(endpoint: PushEndpoint, instance: String) {
         Log.d(TAG, "Endpoint available for account $instance: $endpoint")
-        accountManager.getAccountById(instance.toLong())?.let {
-            applicationScope.launch { notificationService.registerPushEndpoint(it, endpoint) }
+        accountManager.getAccountById(instance.toLong())?.let { account ->
+            applicationScope.launch { notificationHelper.registerPushEndpoint(account, endpoint) }
         }
     }
 
-    override fun onRegistrationFailed(context: Context, instance: String) = Unit
+    override fun onRegistrationFailed(reason: FailedReason, instance: String) = Unit
 
-    override fun onUnregistered(context: Context, instance: String) {
+    override fun onUnregistered(instance: String) {
         Log.d(TAG, "Endpoint unregistered for account $instance")
-        accountManager.getAccountById(instance.toLong())?.let {
-            // It's fine if the account does not exist anymore -- that means it has been logged out
-            // TODO its not: this is the Mastodon side and should be done (unregistered)
-            applicationScope.launch { notificationService.unregisterPushEndpoint(it) }
+        accountManager.getAccountById(instance.toLong())?.let { account ->
+            // It's fine if the account does not exist anymore -- that means it has been logged out,
+            // which removes the subscription anyway
+            applicationScope.launch { notificationHelper.unregisterPushEndpoint(account) }
         }
     }
 
     companion object {
-        const val TAG = "UnifiedPushBroadcastReceiver"
+        const val TAG = "UnifiedPushService"
     }
 }

@@ -47,7 +47,8 @@ robolectric = "4.14.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.6"
 turbine = "1.2.0"
-unified-push = "2.4.0"
+unified-push-connector = "3.0.7"
+unified-push-connector-ui = "1.1.0"
 xmlwriter = "1.0.4"
 
 [plugins]
@@ -127,7 +128,8 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 sparkbutton = { module = "at.connyduck.sparkbutton:sparkbutton", version.ref = "sparkbutton" }
 touchimageview = { module = "com.github.MikeOrtiz:TouchImageView", version.ref = "touchimageview" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-unified-push = { module = "com.github.UnifiedPush:android-connector", version.ref = "unified-push" }
+unified-push-connector = { module = "org.unifiedpush.android:connector", version.ref = "unified-push-connector" }
+unified-push-connector-ui = { module = "org.unifiedpush.android:connector-ui", version.ref = "unified-push-connector-ui" }
 xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version.ref = "xmlwriter" }
 
 [bundles]
@@ -146,3 +148,4 @@ okhttp = ["okhttp-core", "okhttp-logging-interceptor"]
 retrofit = ["retrofit-core", "retrofit-converter-moshi"]
 room = ["androidx-room-ktx", "androidx-room-paging"]
 xmldiff = ["diffx", "xmlwriter"]
+unifiedpush = ["unified-push-connector", "unified-push-connector-ui"]

@@ -43,7 +43,7 @@ class NotificationFetcher @Inject constructor(
     private val mastodonApi: MastodonApi,
     private val accountManager: AccountManager,
     private val eventHub: EventHub,
-    private val notificationService: NotificationService,
+    private val notificationHelper: NotificationHelper,
 ) {
     suspend fun fetchAndShow(accountId: Long?) {
         for (account in accountManager.accounts) {
@@ -54,14 +54,14 @@ class NotificationFetcher @Inject constructor(
             if (account.notificationsEnabled) {
                 try {
                     val notifications = fetchNewNotifications(account)
-                        .filter { notificationService.filterNotification(account, it.type) }
+                        .filter { notificationHelper.filterNotification(account, it.type) }
                         .sortedWith(
                             compareBy({ it.id.length }, { it.id })
                         ) // oldest notifications first
 
                     eventHub.dispatch(NewNotificationsEvent(account.accountId, notifications))
 
-                    notificationService.show(account, notifications)
+                    notificationHelper.show(account, notifications)
                 } catch (e: Exception) {
                     Log.e(TAG, "Error while fetching notifications", e)
                 }

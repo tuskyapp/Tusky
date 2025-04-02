@@ -52,7 +52,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.notifications.requests.NotificationRequestsActivity
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.FragmentTimelineNotificationsBinding
 import com.keylesspalace.tusky.databinding.NotificationsFilterBinding
 import com.keylesspalace.tusky.entity.Status
@@ -97,7 +97,7 @@ class NotificationsFragment :
     lateinit var eventHub: EventHub
 
     @Inject
-    lateinit var notificationService: NotificationService
+    lateinit var notificationHelper: NotificationHelper
 
     private val binding by viewBinding(FragmentTimelineNotificationsBinding::bind)
 
@@ -266,7 +266,7 @@ class NotificationsFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 accountManager.activeAccount?.let { account ->
-                    notificationService.clearNotificationsForAccount(account)
+                    notificationHelper.clearNotificationsForAccount(account)
                 }
             }
         }
