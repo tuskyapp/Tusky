@@ -681,10 +681,10 @@
 \n \u0020
 \nPéldául indulhatsz egy profilról, a létrehozás gombra kattintva [iconics gmd_edit], majd a láthatóságot megváltoztatva. \u0020</string>
     <string name="title_public_trending_statuses">Felkapott bejegyzések</string>
-    <string name="help_empty_lists">Ez a <b>listanézeted</b>. Privát listákat hozhatsz létre és fiókokat adhatsz hozzájuk. \u0020
-\n \u0020
-\nMEGJEGYZÉS: Csak olyan fiókot rakhatsz a listádra, melyet követsz is. \u0020
-\n \u0020
+    <string name="help_empty_lists">Ez a <b>listanézeted</b>. Privát listákat hozhatsz létre és fiókokat adhatsz hozzájuk. \u0020 
+\n \u0020 
+\nMEGJEGYZÉS: Csak olyan fiókot rakhatsz a listádra, melyet követsz is. \u0020 
+\n \u0020 
 \n Ezeket a listákat lapokként használhatod a Fiókbeállítások [iconics gmd_account_circle] [iconics gmd_navigate_next] Lapok alatt. \u0020</string>
     <string name="error_blocking_domain">Nem sikerült némítani %1$s: %2$s</string>
     <string name="error_unblocking_domain">Nem sikerült a némítás feloldása %1$s: %2$s</string>

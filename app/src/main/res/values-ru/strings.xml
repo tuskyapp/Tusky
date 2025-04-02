@@ -139,13 +139,13 @@
     <string name="label_header">Заголовок</string>
     <string name="link_whats_an_instance">Что такое сервер?</string>
     <string name="login_connection">Подключаюсь…</string>
-    <string name="dialog_whats_an_instance">Здесь можно указать адрес или домен любого сервера, например mastodon.social, icosahedron.website, social.tchncs.de или <a href="https://instances.social">какого-нибудь ещё!</a>. \u0020
-\n \u0020
-\nЕсли у вас еще нет учетной записи, вы можете ввести название сервера, к которому хотите присоединиться, и создать на нем новую учетную запись. \u0020
-\n \u0020
-\nСервер — это тот сайт, на котором располагается ваша учетная запись, но вы можете легко общаться с людьми на других серверах и подписываться на них, как будто вы находитесь на одном и том же сайте. \u0020
-\n \u0020
-\nБолее подробную информацию можно найти на сайте <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
+    <string name="dialog_whats_an_instance">Здесь можно указать адрес или домен любого сервера, например mastodon.social, icosahedron.website, social.tchncs.de или <a href="https://instances.social">какого-нибудь ещё!</a>
+\n
+\nЕсли у вас еще нет учетной записи, вы можете ввести название сервера, к которому хотите присоединиться, и создать на нем новую учетную запись.
+\n
+\nСервер — это тот сайт, на котором располагается ваша учетная запись, но вы можете легко общаться с людьми на других серверах и подписываться на них, как будто вы находитесь на одном и том же сайте.
+\n
+\nБолее подробную информацию можно найти на сайте <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Завершение загрузки медиа</string>
     <string name="dialog_message_uploading_media">Загружаем…</string>
     <string name="dialog_download_image">Загрузить</string>
@@ -163,7 +163,7 @@
     <string name="pref_title_notification_alert_sound">Уведомить со звуком</string>
     <string name="pref_title_notification_alert_vibrate">Уведомить с вибрацией</string>
     <string name="pref_title_notification_alert_light">Уведомить со светом</string>
-    <string name="pref_title_notification_filters">Уведомлять меня если</string>
+    <string name="pref_title_notification_filters">Включенные виды уведомлений</string>
     <string name="pref_title_appearance_settings">Внешний вид</string>
     <string name="pref_title_app_theme">Тема приложения</string>
     <string name="pref_title_timelines">Ленты</string>
@@ -207,7 +207,7 @@
     <string name="notification_boost_description">Уведомлять, когда кто-то продвигает ваши посты</string>
     <string name="notification_favourite_name">Избранное</string>
     <string name="notification_favourite_description">Уведомлять, когда ваши сообщения добавляют в «избранное»</string>
-    <string name="notification_poll_name">Опросы</string>
+    <string name="notification_poll_name">Результаты опросов</string>
     <string name="notification_poll_description">Уведомлять о завершившихся опросах</string>
     <string name="notification_mention_format">%1$s упомянул(а) вас</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s и %4$d других</string>
@@ -272,7 +272,7 @@
     <string name="follows_you">Подписан(а) на вас</string>
     <string name="pref_title_alway_show_sensitive_media">Всегда показывать контент деликатного характера</string>
     <string name="title_media">Медиа</string>
-    <string name="replying_to">Ответить @%1$s</string>
+    <string name="replying_to">Ответ для @%1$s</string>
     <string name="load_more_placeholder_text">Загрузить ещё</string>
     <string name="pref_title_public_filter_keywords">Публичные ленты</string>
     <string name="pref_title_thread_filter_keywords">Разговоры</string>
@@ -397,7 +397,7 @@
     <string name="title_domain_mutes">Скрытые домены</string>
     <string name="action_view_domain_mutes">Скрытые домены</string>
     <string name="action_mute_domain">Заглушить %1$s</string>
-    <string name="confirmation_domain_unmuted">%1$s не скрыт</string>
+    <string name="confirmation_domain_unmuted">%1$s больше не скрыт</string>
     <string name="mute_domain_warning">Вы уверены, что хотите заблокировать весь %1$s? Вы не увидите контент с этого домена ни в публичных лентах, ни в своих уведомлениях. Ваши подписчики с этого домена будут удалены.</string>
     <string name="mute_domain_warning_dialog_ok">Скрыть весь домен</string>
     <string name="pref_title_animate_gif_avatars">Анимировать GIF-аватары</string>
@@ -410,7 +410,7 @@
     <string name="report_remote_instance">Переслать в %1$s</string>
     <string name="failed_report">Не удалось пожаловаться</string>
     <string name="failed_fetch_posts">Не удалось получить посты</string>
-    <string name="report_description_1">Жалоба будет отправлена модератору вашего сервера. Ниже вы можете дать объяснение о причинах жалобы на эту учетную запись:</string>
+    <string name="report_description_1">Жалоба будет отправлена модераторам вашего сервера. Ниже вы можете дать объяснение о причинах жалобы на эту учетную запись:</string>
     <string name="report_description_remote_instance">Эта учетная запись расположена на другом сервере. Переслать туда анонимную копию жалобы?</string>
     <string name="action_add_poll">Добавить опрос</string>
     <string name="pref_title_alway_open_spoiler">Всегда раскрывать посты с предупреждениями о содержании</string>
@@ -455,7 +455,7 @@
     </plurals>
     <string name="notification_follow_request_description">Уведомления о запросах на подписку</string>
     <string name="notification_follow_request_name">Запросы на подписку</string>
-    <string name="dialog_mute_warning">Заглушить @%1$s\?</string>
+    <string name="dialog_mute_warning">Заглушить @%1$s?</string>
     <string name="dialog_block_warning">Заблокировать @%1$s?</string>
     <string name="action_unmute_conversation">Не глушить обсуждение</string>
     <string name="action_mute_conversation">Заглушить обсуждение</string>
@@ -476,11 +476,11 @@
     <string name="title_announcements">Объявления</string>
     <string name="wellbeing_mode_notice">Некоторая информация, которая может повлиять на ваше самочувствие, будет скрыта. Она включает:
 \n
-\n - Уведомления о добавлении в избранное/продвижении/подписке
-\n - Количество добавлений в избранное/количество продвижений
-\n - Статистику подписчиков/постов в профилях
+\n- Уведомления о добавлении в избранное/продвижении/подписке
+\n- Количество добавлений в избранное/количество продвижений
+\n- Статистику подписчиков/постов в профилях
 \n
-\n На push-уведомления это не повлияет, однако вы можете изменить настройки уведомлений вручную.</string>
+\nНа push-уведомления это не повлияет, однако вы можете изменить настройки уведомлений вручную.</string>
     <string name="pref_title_wellbeing_mode">Самочувствие</string>
     <string name="duration_indefinite">Без ограничений</string>
     <string name="label_duration">Продолжительность</string>
@@ -529,7 +529,7 @@
     <string name="error_could_not_load_login_page">Не удалось загрузить страницу входа.</string>
     <string name="error_loading_account_details">Не удалось загрузить данные учётной записи</string>
     <string name="title_public_trending_statuses">Популярные посты</string>
-    <string name="instance_rule_info">Входя в систему, вы соглашаетесь с правилами %1$s.</string>
+    <string name="instance_rule_info">Выполняя вход, вы соглашаетесь с правилами %1$s.</string>
     <string name="instance_rule_title">Правила %1$s</string>
     <string name="pref_reading_order_oldest_first">Сначала старые</string>
     <string name="pref_title_reading_order">Порядок чтения</string>
@@ -540,7 +540,7 @@
     <string name="duration_90_days">90 дней</string>
     <string name="no_lists">У вас нет никаких списков.</string>
     <string name="delete_scheduled_post_warning">Удалить этот запланированный пост\?</string>
-    <string name="action_unfollow_hashtag_format">Отменить подписку на #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Отменить подписку на #%1$s?</string>
     <string name="failed_to_pin">Не удалось прикрепить</string>
     <string name="post_media_image">Изображение</string>
     <string name="status_filtered_show_anyway">Показать в любом случае</string>
@@ -588,19 +588,25 @@
     <string name="failed_to_add_to_list">Не удалось добавить учетную запись в список</string>
     <string name="duration_365_days">365 дней</string>
     <string name="accessibility_talking_about_tag">%1$d людей говорят о хэштеге %2$s</string>
-    <string name="error_media_playback">Воспроизведение не удалось: %1$s</string>
+    <string name="error_media_playback">Не удалось воспроизвести: %1$s</string>
     <string name="dialog_delete_filter_positive_action">Удалить</string>
     <string name="dialog_delete_filter_text">Удалить фильтр \'%1$s\'\?</string>
     <string name="duration_60_days">60 дней</string>
     <string name="pref_title_http_proxy_port_message">Порт должен находиться в диапазоне от %1$d до %2$d</string>
     <string name="action_post_failed">Загрузка не удалась</string>
     <plurals name="action_post_failed_detail">
-        <item quantity="one">Ваше сообщение не удалось загрузить и оно было сохранено в черновиках.
+        <item quantity="one">Ваше сообщение не удалось загрузить, и оно было сохранено в черновиках.
 \n
 \nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</item>
-        <item quantity="other">Ваши сообщения не удалось загрузить и они были сохранены в черновиках.
+        <item quantity="few">Ваши сообщения не удалось загрузить, и они были сохранены в черновиках.
 \n
-\nЛибо с сервером не удалось связаться, либо он отклонил сообщения.</item>
+\nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</item>
+        <item quantity="many">Ваши сообщения не удалось загрузить, и они были сохранены в черновиках.
+\n
+\nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</item>
+        <item quantity="other">Ваши сообщения не удалось загрузить, и они были сохранены в черновиках.
+\n
+\nЛибо с сервером не удалось связаться, либо он отклонил сообщение.</item>
     </plurals>
     <string name="action_post_failed_show_drafts">Показать черновики</string>
     <string name="action_post_failed_do_nothing">Отклонить</string>
@@ -611,8 +617,8 @@
     <string name="duration_180_days">180 дней</string>
     <string name="error_unmuting_hashtag_format">Не удалось перестать игнорировать #%1$s</string>
     <string name="ui_error_bookmark">Не удалось добавить пост в закладки: %1$s</string>
-    <string name="ui_error_clear_notifications">Очистка уведомлений не удалась: %1$s</string>
-    <string name="ui_error_favourite">Не удалось отдать предпочтение сообщению: %1$s</string>
+    <string name="ui_error_clear_notifications">Не удалось очистить уведомления: %1$s</string>
+    <string name="ui_error_favourite">Не удалось добавить пост в избранное: %1$s</string>
     <string name="filter_action_hide">Скрыть</string>
     <string name="label_filter_action">Действие фильтра</string>
     <string name="label_filter_context">Область применения фильтра</string>
@@ -629,9 +635,9 @@
     <string name="about_copied">Версия и информация об устройстве скопировано</string>
     <string name="action_add_reaction">добавить реакцию</string>
     <string name="select_list_manage">Управлять списками</string>
-    <string name="ui_error_reject_follow_request">Отклонение запроса на подписку не удалось: %1$s</string>
-    <string name="ui_error_accept_follow_request">Принятие запроса на подписку не удалось: %1$s</string>
-    <string name="ui_error_vote">Голосование в опросе не удалось: %1$s</string>
+    <string name="ui_error_reject_follow_request">Не удалось отклонить запрос на подписку: %1$s</string>
+    <string name="ui_error_accept_follow_request">Не удалось принять запрос на подписку: %1$s</string>
+    <string name="ui_error_vote">Не удалось проголосовать в опросе: %1$s</string>
     <string name="action_discard">Отбросить изменения</string>
     <string name="action_continue_edit">Продолжить править</string>
     <string name="notification_sign_up_name">Регистрации</string>
@@ -645,32 +651,32 @@
     <string name="notification_header_report_format">%1$s пожаловался(-лась) на %2$s</string>
     <string name="notification_report_format">Новая жалоба на %1$s</string>
     <string name="notification_summary_report_format">%1$s · %2$d постов прикреплено</string>
-    <string name="confirmation_hashtag_unfollowed">отписался от #%1$s</string>
+    <string name="confirmation_hashtag_unfollowed">#%1$s больше не отслеживается</string>
     <string name="description_post_edited">Отредактировано</string>
     <string name="title_followed_hashtags">Отслеживаемые хэштэги</string>
     <string name="error_status_source_load">Не удалось загрузить источник состояния с сервера.</string>
     <string name="action_add_or_remove_from_list">Добавить или удалить из списка</string>
     <string name="failed_to_unpin">Не удалось открепить</string>
-    <string name="muting_hashtag_success_format">Заглушить хэштег #%1$s в качестве предупреждения</string>
-    <string name="unmuting_hashtag_success_format">Включить обратно хэштег #%1$s</string>
+    <string name="muting_hashtag_success_format">Заглушить хэштег #%1$s с предупреждением</string>
+    <string name="unmuting_hashtag_success_format">Хэштег #%1$s больше не скрывается</string>
     <string name="action_view_filter">Посмотреть фильтр</string>
     <string name="following_hashtag_success_format">Теперь хэштег #%1$s отслеживается</string>
-    <string name="unfollowing_hashtag_success_format">Больше не следите за хэштегом #%1$s</string>
+    <string name="unfollowing_hashtag_success_format">Хэштег #%1$s больше не отслеживается</string>
     <string name="report_category_violation">Нарушение правил</string>
     <string name="action_set_focus">Установить точку фокуса</string>
-    <string name="help_empty_home">Это ваша <b>домашняя лента</b>. Здесь отображаются последние сообщения от пользователей, на которых вы подписаны. \u0020
-\n \u0020
+    <string name="help_empty_home">Это ваша <b>домашняя лента</b>. Здесь отображаются последние сообщения от пользователей, на которых вы подписаны.
+\n
 \nЧтобы найти людей, вы можете обнаружить профили в других лентах. Например, в местной ленте вашего сервера {{group}}. Либо вы можете поискать их по имени {{search}}; например, по имени Tusky вы найдете наш профиль Mastodon.</string>
-    <string name="help_empty_conversations">Здесь находятся ваши <b>личные сообщения</b>; иногда их называют беседами или direct messages (DM). \u0020
-\n \u0020
-\nЛичные сообщения создаются путем установки видимости {{public}} поста на {{mail}} <i>Личное упоминание</i> и упоминания одного или нескольких пользователей в тексте. \u0020
-\n \u0020
-\nНапример, вы можете зайти в профиль пользователя, нажать кнопку создания поста [iconics gmd_edit] и изменить видимость. \u0020</string>
-    <string name="help_empty_lists">Это ваш <b>раздел списков</b>. Вы можете создавать личные списки и добавлять в них пользователей. \u0020
-\n \u0020
-\n \u0020Обратите внимание, что в списки можно добавлять только тех пользователей, на которые вы подписаны. \u0020
-\n \u0020
-\n \u0020Эти списки можно использовать в качестве вкладок в меню Настройки учетной записи [iconics gmd_account_circle] [iconics gmd_navigate_next] Вкладки. \u0020</string>
+    <string name="help_empty_conversations">Здесь находятся ваши <b>личные сообщения</b>; иногда их называют беседами или direct messages (DM).
+\n
+\nЛичные сообщения создаются путем установки видимости {{public}} поста на {{mail}} <i>Личное упоминание</i> и упоминания одного или нескольких пользователей в тексте.
+\n
+\nНапример, вы можете зайти в профиль пользователя, нажать кнопку создания поста [iconics gmd_edit] и изменить видимость.</string>
+    <string name="help_empty_lists">Это ваш <b>раздел списков</b>. Вы можете создавать личные списки и добавлять в них пользователей.
+\n
+\nОбратите внимание, что в списки можно добавлять только тех пользователей, на которые вы подписаны.
+\n
+\nЭти списки можно использовать в качестве вкладок в меню Настройки учетной записи {{manage_accounts}} {{chevron_right}} Вкладки.</string>
     <string name="compose_unsaved_changes">У вас есть несохраненные изменения.</string>
     <string name="status_count_one_plus">1+</string>
     <string name="compose_save_draft_loses_media">Сохранить черновик\? (Вложения будут загружены снова при восстановлении черновика).</string>
@@ -684,9 +690,9 @@
     <string name="notification_report_description">Уведомлять о жалобах модерации</string>
     <string name="load_newest_notifications">Загрузка самых новых уведомлений</string>
     <string name="compose_delete_draft">Удалить черновик\?</string>
-    <string name="error_missing_edits">Ваш сервер знает, что это сообщение было отредактировано, но у него нет копии правок, поэтому они не могут быть вам показаны.
+    <string name="error_missing_edits">Ваш сервер знает, что это сообщение было отредактировано, но у него нет копии правок, поэтому они не могут быть показаны.
 \n
-\nЭто <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue#25398</a>.</string>
+\nЭто <a href="https://github.com/mastodon/mastodon/issues/25398">баг Mastodon №25398</a>.</string>
     <string name="list_reply_policy_none">Никому</string>
     <string name="list_reply_policy_list">Члены списка</string>
     <string name="list_reply_policy_followed">Любой пользователь на которого вы подписаны</string>
@@ -754,4 +760,54 @@
     <string name="notifications_from_people_you_may_know">Уведомления от %1$d людей, которых вы можете знать</string>
     <string name="error_deleting_filter">Не удалось удалить фильтр \'%1$s\'</string>
     <string name="error_saving_filter">Не удалось сохранить фильтр \'%1$s\'</string>
+    <string name="notification_channel_other_description">Прочие уведомления, например насчёт разорванных отношений или предупреждений от модерации</string>
+    <string name="notification_channel_admin">Администрирование</string>
+    <string name="relationship_severance_event_domain_block">Администраторы %1$s заблокировали %2$s, включая %3$s ваших подписчиков и %4$s подписок.</string>
+    <plurals name="accounts">
+        <item quantity="one">%1$s учетная запись</item>
+        <item quantity="few">%1$s учетных записи</item>
+        <item quantity="many">%1$s учетных записей</item>
+        <item quantity="other">%1$s учетных записей</item>
+    </plurals>
+    <string name="moderation_warning">Вы получили предупреждение от модерации.</string>
+    <string name="relationship_severance_event_user_domain_block">Вы заблокировали %1$s, потеряв %2$s подписчиков и %3$s подписок.</string>
+    <string name="poll">Опрос</string>
+    <plurals name="media_attachments">
+        <item quantity="one">%1$s медиафайл</item>
+        <item quantity="few">%1$s медиафайла</item>
+        <item quantity="many">%1$s медиафайлов</item>
+        <item quantity="other">%1$s медиафайлов</item>
+    </plurals>
+    <string name="notification_channel_admin_description">Административные уведомления, например насчёт новых жалоб и регистраций</string>
+    <string name="relationship_severance_event_account_suspension">Администраторы %1$s заблокировали %2$s, а значит вы больше не сможете читать этот профиль или взаимодействовать с ним.</string>
+    <string name="moderation_warning_action_sensitive">С этого момента ваши посты будут отмечены как контент деликатного характера.</string>
+    <string name="relationship_severance_event_title">Отношение разорвано</string>
+    <string name="moderation_warning_action_none">Ваша учетная запись получила предупреждение от модерации.</string>
+    <string name="unknown_notification_type_explanation">Tusky не может распознать тип этого уведомления, и потому не может его отобразить. Вы скорее всего сможете просмотреть это уведомление, воспользовавшись веб-интерфейсом вашего сервера. А если вы расскажете о проблеме разработчикам Tusky, они могут добавить поддержку таких уведомлений!</string>
+    <string name="poll_show_results">Показать результаты</string>
+    <string name="notification_info_private_reply">Приватный ответ</string>
+    <string name="notification_info_reply">Ответ</string>
+    <string name="notification_info_private_mention">Приватное упоминание</string>
+    <string name="notification_info_mention">Упоминание</string>
+    <string name="moderation_warning_action_suspend">Ваша учетная запись была заблокирована.</string>
+    <string name="moderation_warning_action_disable">Ваша учётная запись отключена.</string>
+    <string name="moderation_warning_action_silence">Ваша учетная запись была ограничена.</string>
+    <string name="moderation_warning_action_delete_statuses">Некоторые ваши посты были удалены.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Некоторые ваши посты были отмечены как контент деликатного характера.</string>
+    <string name="action_reblog_private">Продвинуть для подписчиков</string>
+    <string name="action_reblog_public">Продвинуть публично</string>
+    <string name="action_reblog_unlisted">Продвинуть не очень публично</string>
+    <string name="notification_severed_relationship_name">Разорванные отношения</string>
+    <string name="notification_moderation_warning_name">Предупреждения от модерации</string>
+    <string name="notification_unknown_description">Неизвестный тип уведомлений</string>
+    <string name="notification_channel_other">Прочее</string>
+    <string name="preview_card_by_author">От %1$s</string>
+    <string name="preview_card_more_by_author">Больше от %1$s</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="confirm_dismiss_caption">Отбросить изменения?</string>
+    <string name="follow_hashtag_success">Вы подписались на хэштег %1$s</string>
+    <string name="post_replied_format">Ответ для %1$s</string>
+    <string name="post_replied_self">Продолжение цепочки</string>
+    <string name="post_replied">Ответил(а)</string>
 </resources>

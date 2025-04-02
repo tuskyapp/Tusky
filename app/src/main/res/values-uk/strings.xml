@@ -688,10 +688,10 @@
     <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
     <string name="dialog_save_profile_changes_message">Хочете зберегти зміни у своєму профілі\?</string>
-    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи.
-\n
-\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, за якими слідкуєте.
-\n
+    <string name="help_empty_lists">Це ваше <b>подання списків</b>. Ви можете створити кілька приватних списків і додати до них облікові записи. 
+\n 
+\nЗАУВАЖТЕ, що ви можете додавати до своїх списків лише ті облікові записи, за якими слідкуєте. 
+\n 
 \nЦі списки можна використовувати як вкладку у налаштуваннях Вкладок облікового запису [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
     <string name="muting_hashtag_success_format">Сховати хештег #%1$s як попередження</string>
     <string name="unmuting_hashtag_success_format">Показувати хештег #%1$s</string>
