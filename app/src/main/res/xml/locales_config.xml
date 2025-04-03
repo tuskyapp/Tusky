@@ -49,4 +49,14 @@
     <locale android:name="zh-CN"/>
     <locale android:name="zh-HK"/>
     <locale android:name="ja"/>
+    <locale android:name="ber"/>
+    <locale android:name="el"/>
+    <locale android:name="fi"/>
+    <locale android:name="fy"/>
+    <locale android:name="in"/>
+    <locale android:name="lb"/>
+    <locale android:name="lv"/>
+    <locale android:name="ml"/>
+    <locale android:name="si"/>
+    <locale android:name="sk"/>
 </locale-config>
