@@ -278,7 +278,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         this.setTextVisible(sensitive, expanded, status, statusDisplayOptions, listener);
 
-        setupCard(status, expanded, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+        setupCard(status, expanded, !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
     }
 
     private void setTextVisible(boolean sensitive,
@@ -834,7 +834,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 hideSensitiveMediaWarning();
             }
 
-            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+            setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                 statusDisplayOptions);
@@ -859,7 +859,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     setMetaData(status, statusDisplayOptions, listener);
                     if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
                         // there is a preview card showing the published time, we need to refresh it as well
-                        setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+                        setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
                     }
                     break;
                 }
@@ -1161,6 +1161,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected void setupCard(
         final @NonNull StatusViewData.Concrete status,
         boolean expanded,
+        boolean blurMedia,
         final @NonNull CardViewMode cardViewMode,
         final @NonNull StatusDisplayOptions statusDisplayOptions,
         final @NonNull StatusActionListener listener
@@ -1240,7 +1241,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // Statuses from other activitypub sources can be marked sensitive even if there's no media,
             // so let's blur the preview in that case
             // If media previews are disabled, show placeholder for cards as well
-            if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+            if (statusDisplayOptions.mediaPreviewEnabled() && !blurMedia && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
                 int radius = context.getResources().getDimensionPixelSize(R.dimen.inner_card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();
