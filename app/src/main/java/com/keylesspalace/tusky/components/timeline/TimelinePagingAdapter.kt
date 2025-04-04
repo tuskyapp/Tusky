@@ -84,7 +84,7 @@ class TimelinePagingAdapter(
             val holder = viewHolder as PlaceholderViewHolder
             holder.setup(viewData.isLoading)
         } else if (viewData is StatusViewData.Concrete) {
-            if (viewData.filterAction == Filter.Action.WARN) {
+            if (viewData.filter?.action == Filter.Action.WARN) {
                 val holder = viewHolder as FilteredStatusViewHolder
                 holder.bind(viewData)
             } else {
@@ -104,7 +104,7 @@ class TimelinePagingAdapter(
         val viewData = getItem(position)
         return if (viewData is StatusViewData.Placeholder) {
             VIEW_TYPE_PLACEHOLDER
-        } else if (viewData?.filterAction == Filter.Action.WARN) {
+        } else if (viewData?.filter?.action == Filter.Action.WARN) {
             VIEW_TYPE_STATUS_FILTERED
         } else {
             VIEW_TYPE_STATUS

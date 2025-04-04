@@ -69,7 +69,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
             setupCollapsedState(sensitive, expanded, status, listener);
 
-            if (!showStatusInfo || status.getFilterAction() == Filter.Action.WARN) {
+            if (!showStatusInfo || (status.getFilter() != null && status.getFilter().getAction() == Filter.Action.WARN)) {
                 hideStatusInfo();
             } else {
                 Status rebloggingStatus = status.getRebloggingStatus();

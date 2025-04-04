@@ -312,6 +312,7 @@ class ViewThreadViewModel @Inject constructor(
                 isCollapsed = viewData.isCollapsed,
                 isDetailed = viewData.isDetailed,
                 translation = viewData.translation,
+                filter = viewData.filter,
             )
         }
     }
@@ -421,8 +422,8 @@ class ViewThreadViewModel @Inject constructor(
             if (status.isDetailed || status.status.account.id == activeAccount.accountId) {
                 true
             } else {
-                status.filterAction = filterModel.shouldFilterStatus(status.status)
-                status.filterAction != Filter.Action.HIDE
+                status.filter = filterModel.shouldFilterStatus(status.status)
+                status.filter?.action != Filter.Action.HIDE
             }
         }
     }
@@ -431,12 +432,14 @@ class ViewThreadViewModel @Inject constructor(
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find {
             it.id == this.id
         }
+        val filter = oldStatus?.filter ?: actionableStatus.getApplicableFilter(Filter.Kind.THREAD)
         return toViewData(
             isShowingContent = oldStatus?.isShowingContent
-                ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
+                ?: (alwaysShowSensitiveMedia || (!actionableStatus.sensitive && filter?.action != Filter.Action.BLUR)),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
             isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
-            isDetailed = oldStatus?.isDetailed ?: isDetailed
+            isDetailed = oldStatus?.isDetailed ?: isDetailed,
+            filter = filter,
         )
     }
 

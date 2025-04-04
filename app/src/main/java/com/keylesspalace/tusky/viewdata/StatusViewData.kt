@@ -42,7 +42,7 @@ sealed interface TranslationViewData {
  */
 sealed class StatusViewData {
     abstract val id: String
-    var filterAction: Filter.Action = Filter.Action.NONE
+    var filter: Filter? = null
 
     data class Concrete(
         val status: Status,

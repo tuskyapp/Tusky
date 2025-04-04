@@ -66,13 +66,13 @@ class FilterModel @Inject constructor(
         )
     }
 
-    fun shouldFilterStatus(status: Status): Filter.Action {
+    fun shouldFilterStatus(status: Status): Filter? {
         if (v1) {
             // Patterns are expensive and thread-safe, matchers are neither.
-            val matcher = pattern?.matcher("") ?: return Filter.Action.NONE
+            val matcher = pattern?.matcher("") ?: return null
 
             if (status.poll?.options?.any { matcher.reset(it.title).find() } == true) {
-                return Filter.Action.HIDE
+                return Filter("", "", listOf(kind.kind), filterAction = Filter.Action.HIDE.action)
             }
 
             val spoilerText = status.actionableStatus.spoilerText
@@ -83,21 +83,13 @@ class FilterModel @Inject constructor(
                 (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
                 (attachmentsDescriptions.isNotEmpty() && matcher.reset(attachmentsDescriptions.joinToString("\n")).find())
             ) {
-                Filter.Action.HIDE
+                return Filter("", "", listOf(kind.kind), filterAction = Filter.Action.HIDE.action)
             } else {
-                Filter.Action.NONE
+                null
             }
         }
 
-        val matchingKind = status.filtered.orEmpty().filter { result ->
-            result.filter.kinds.contains(kind)
-        }
-
-        return if (matchingKind.isEmpty()) {
-            Filter.Action.NONE
-        } else {
-            matchingKind.maxOf { it.filter.action }
-        }
+        return status.getApplicableFilter(kind)
     }
 
     private fun filterToRegexToken(filter: FilterV1): String? {

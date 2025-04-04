@@ -36,6 +36,7 @@ package com.keylesspalace.tusky.util
 
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.entity.TrendingTag
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -47,17 +48,16 @@ fun Status.toViewData(
     isExpanded: Boolean,
     isCollapsed: Boolean,
     isDetailed: Boolean = false,
+    filter: Filter?,
     translation: TranslationViewData? = null,
-): StatusViewData.Concrete {
-    return StatusViewData.Concrete(
-        status = this,
-        isShowingContent = isShowingContent,
-        isCollapsed = isCollapsed,
-        isExpanded = isExpanded,
-        isDetailed = isDetailed,
-        translation = translation,
-    )
-}
+) = StatusViewData.Concrete(
+    status = this,
+    isShowingContent = isShowingContent,
+    isCollapsed = isCollapsed,
+    isExpanded = isExpanded,
+    isDetailed = isDetailed,
+    translation = translation,
+).apply { this.filter = filter }
 
 fun List<TrendingTag>.toViewData(): List<TrendingViewData.Tag> {
     val maxTrendingValue = flatMap { tag -> tag.history }

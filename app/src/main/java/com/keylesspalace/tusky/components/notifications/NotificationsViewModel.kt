@@ -117,7 +117,7 @@ class NotificationsViewModel @Inject constructor(
                     val translation = translations[notification.status?.serverId]
                     notification.toViewData(translation = translation)
                 }.filter { notificationViewData ->
-                    shouldFilterStatus(notificationViewData) != Filter.Action.HIDE
+                    shouldFilterStatus(notificationViewData)?.action != Filter.Action.HIDE
                 }
             }
     }
@@ -165,21 +165,21 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter.Action {
+    private fun shouldFilterStatus(notificationViewData: NotificationViewData): Filter? {
         return when ((notificationViewData as? NotificationViewData.Concrete)?.type) {
             Notification.Type.Mention, Notification.Type.Poll, Notification.Type.Status, Notification.Type.Update -> {
                 val account = activeAccountFlow.value
                 notificationViewData.statusViewData?.let { statusViewData ->
                     if (statusViewData.status.account.id == account?.accountId) {
-                        return Filter.Action.NONE
+                        return null
                     }
-                    statusViewData.filterAction = filterModel.shouldFilterStatus(statusViewData.actionable)
-                    return statusViewData.filterAction
+                    statusViewData.filter = filterModel.shouldFilterStatus(statusViewData.actionable)
+                    return statusViewData.filter
                 }
-                Filter.Action.NONE
+                null
             }
 
-            else -> Filter.Action.NONE
+            else -> null
         }
     }
 

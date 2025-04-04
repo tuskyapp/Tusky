@@ -178,20 +178,18 @@ abstract class TimelineViewModel(
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 
-    protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
-        val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
+    protected fun shouldFilterStatus(status: Status): Filter? {
         return if (
             (status.isReply && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs) ||
             (status.account.id == status.reblog?.account?.id && filterRemoveSelfReblogs)
         ) {
-            Filter.Action.HIDE
+            Filter("", "", listOf(kind.toFilterKind().kind), filterAction = Filter.Action.HIDE.action)
         } else if (status.actionableStatus.account.id == activeAccountFlow.value?.accountId) {
             // Mastodon filters don't apply for own posts
-            Filter.Action.NONE
+            null
         } else {
-            statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
-            statusViewData.filterAction
+            filterModel.shouldFilterStatus(status.actionableStatus)
         }
     }
 

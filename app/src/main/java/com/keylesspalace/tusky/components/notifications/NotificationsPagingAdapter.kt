@@ -83,13 +83,13 @@ class NotificationsPagingAdapter(
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
                     Notification.Type.Mention,
-                    Notification.Type.Poll -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    Notification.Type.Poll -> if (notification.statusViewData?.filter?.action == Filter.Action.WARN) {
                         VIEW_TYPE_STATUS_FILTERED
                     } else {
                         VIEW_TYPE_STATUS
                     }
                     Notification.Type.Status,
-                    Notification.Type.Update -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    Notification.Type.Update -> if (notification.statusViewData?.filter?.action == Filter.Action.WARN) {
                         VIEW_TYPE_STATUS_FILTERED
                     } else {
                         VIEW_TYPE_STATUS_NOTIFICATION

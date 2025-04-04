@@ -20,6 +20,7 @@ data class Filter(
 ) : Parcelable {
     enum class Action(val action: String) {
         NONE("none"),
+        BLUR("blur"),
         WARN("warn"),
         HIDE("hide");
 

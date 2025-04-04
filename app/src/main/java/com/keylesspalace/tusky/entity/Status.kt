@@ -158,6 +158,9 @@ data class Status(
         return builder.toString()
     }
 
+    fun getApplicableFilter(kind: Filter.Kind): Filter? =
+        actionableStatus.filtered?.filter { it.filter.kinds.contains(kind) }?.maxByOrNull { it.filter.action }?.filter
+
     @JsonClass(generateAdapter = true)
     data class Mention(
         val id: String,
