@@ -663,7 +663,7 @@
 \n 
 \nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. 
 \n 
-\nDiese Listen können als Tab in den Kontoeinstellungen [iconics gmd_account_circle] [iconics gmd_navigate_next] Tabs festgelegt werden.</string>
+\nDiese Listen können als Tab in den Kontoeinstellungen {{manage_accounts}} {{chevron_right}} Tabs festgelegt werden.</string>
     <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
 \n
 \nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
