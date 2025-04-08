@@ -15,10 +15,13 @@
 
 package com.keylesspalace.tusky.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.databinding.ItemPollBinding
 import com.keylesspalace.tusky.entity.Emoji
@@ -94,7 +97,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         when (mode) {
             RESULT -> {
                 val percent = calculatePercent(option.votesCount, votersCount, voteCount)
-                resultTextView.text = buildDescription(option.title, percent, option.voted, resultTextView.context)
+                resultTextView.text = buildDescription(option.title, percent, option.voted, resultTextView.context, resultTextView)
                     .emojify(emojis, resultTextView, animateEmojis)
 
                 val level = percent * 100
@@ -104,8 +107,10 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                     R.color.colorBackgroundAccent
                 }
 
-                resultTextView.background.level = level
-                resultTextView.background.setTint(resultTextView.context.getColor(optionColor))
+                holder.binding.pollLayout.setBackgroundResource(R.drawable.poll_option_background)
+                holder.binding.pollLayout.background.level = level
+                holder.binding.pollLayout.background.setTint(resultTextView.context.getColor(optionColor))
+                holder.binding.root.strokeColor = holder.binding.root.context.getColor(optionColor)
                 resultTextView.setOnClickListener(resultClickListener)
             }
             SINGLE -> {
@@ -117,12 +122,27 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                         notifyItemChanged(index)
                     }
                 }
+                if (option.selected) {
+                    holder.binding.root.setCardBackgroundColor(ColorStateList.valueOf(MaterialColors.getColor(holder.binding.root, com.google.android.material.R.attr.colorSurface)))
+                    holder.binding.root.strokeColor = MaterialColors.getColor(holder.binding.root, com.google.android.material.R.attr.colorSurface)
+                } else {
+                    holder.binding.root.setCardBackgroundColor(ColorStateList.valueOf(MaterialColors.getColor(holder.binding.root, android.R.attr.colorBackground)))
+                    holder.binding.root.strokeColor = MaterialColors.getColor(holder.binding.root, R.attr.colorBackgroundAccent)
+                }
             }
             MULTIPLE -> {
                 checkBox.text = option.title.emojify(emojis, checkBox, animateEmojis)
                 checkBox.isChecked = option.selected
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
                     pollOptions[holder.bindingAdapterPosition].selected = isChecked
+                    notifyItemChanged(holder.bindingAdapterPosition)
+                }
+                if (option.selected) {
+                    holder.binding.root.setCardBackgroundColor(ColorStateList.valueOf(MaterialColors.getColor(holder.binding.root, com.google.android.material.R.attr.colorSurface)))
+                    holder.binding.root.strokeColor = MaterialColors.getColor(holder.binding.root, com.google.android.material.R.attr.colorSurface)
+                } else {
+                    holder.binding.root.setCardBackgroundColor(ColorStateList.valueOf(MaterialColors.getColor(holder.binding.root, android.R.attr.colorBackground)))
+                    holder.binding.root.strokeColor = MaterialColors.getColor(holder.binding.root, R.attr.colorBackgroundAccent)
                 }
             }
         }
