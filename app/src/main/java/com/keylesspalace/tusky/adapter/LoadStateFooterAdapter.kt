@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
 
-package com.keylesspalace.tusky.components.conversation
+package com.keylesspalace.tusky.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ import com.keylesspalace.tusky.databinding.ItemNetworkStateBinding
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.visible
 
-class ConversationLoadStateAdapter(
+class LoadStateFooterAdapter(
     private val retryCallback: () -> Unit
 ) : LoadStateAdapter<BindingHolder<ItemNetworkStateBinding>>() {
 

@@ -39,82 +39,58 @@ class MutesAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    private val mutingNotificationsMap = HashMap<String, Boolean>()
-
-    override fun createAccountViewHolder(parent: ViewGroup): BindingHolder<ItemMutedUserBinding> {
-        val binding = ItemMutedUserBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemMutedUserBinding> {
+        return BindingHolder(
+            ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
-        return BindingHolder(binding)
     }
 
-    override fun onBindAccountViewHolder(
-        viewHolder: BindingHolder<ItemMutedUserBinding>,
-        position: Int
-    ) {
-        val account = accountList[position]
-        val binding = viewHolder.binding
-        val context = binding.root.context
+    override fun onBindViewHolder(viewHolder: BindingHolder<ItemMutedUserBinding>, position: Int) {
+        getItem(position)?.let { viewData ->
+            val account = viewData.account
+            val binding = viewHolder.binding
+            val context = binding.root.context
 
-        val mutingNotifications = mutingNotificationsMap[account.id]
-
-        val emojifiedName = account.name.emojify(
-            account.emojis,
-            binding.mutedUserDisplayName,
-            animateEmojis
-        )
-        binding.mutedUserDisplayName.text = emojifiedName
-
-        val formattedUsername = context.getString(R.string.post_username_format, account.username)
-        binding.mutedUserUsername.text = formattedUsername
-
-        val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
-        loadAvatar(account.avatar, binding.mutedUserAvatar, avatarRadius, animateAvatar)
-
-        binding.mutedUserBotBadge.visible(showBotOverlay && account.bot)
-
-        val unmuteString = context.getString(R.string.action_unmute_desc, formattedUsername)
-        binding.mutedUserUnmute.contentDescription = unmuteString
-        ViewCompat.setTooltipText(binding.mutedUserUnmute, unmuteString)
-
-        binding.mutedUserMuteNotifications.setOnCheckedChangeListener(null)
-
-        binding.mutedUserMuteNotifications.isChecked = if (mutingNotifications == null) {
-            binding.mutedUserMuteNotifications.isEnabled = false
-            true
-        } else {
-            binding.mutedUserMuteNotifications.isEnabled = true
-            mutingNotifications
-        }
-
-        binding.mutedUserUnmute.setOnClickListener {
-            accountActionListener.onMute(
-                false,
-                account.id,
-                viewHolder.bindingAdapterPosition,
-                false
+            val emojifiedName = account.name.emojify(
+                account.emojis,
+                binding.mutedUserDisplayName,
+                animateEmojis
             )
-        }
-        binding.mutedUserMuteNotifications.setOnCheckedChangeListener { _, isChecked ->
-            accountActionListener.onMute(
-                true,
-                account.id,
-                viewHolder.bindingAdapterPosition,
-                isChecked
-            )
-        }
-        binding.root.setOnClickListener { accountActionListener.onViewAccount(account.id) }
-    }
+            binding.mutedUserDisplayName.text = emojifiedName
 
-    fun updateMutingNotifications(id: String, mutingNotifications: Boolean, position: Int) {
-        mutingNotificationsMap[id] = mutingNotifications
-        notifyItemChanged(position)
-    }
+            val formattedUsername = context.getString(R.string.post_username_format, account.username)
+            binding.mutedUserUsername.text = formattedUsername
 
-    fun updateMutingNotificationsMap(newMutingNotificationsMap: HashMap<String, Boolean>) {
-        mutingNotificationsMap.putAll(newMutingNotificationsMap)
-        notifyDataSetChanged()
+            val avatarRadius = context.resources.getDimensionPixelSize(R.dimen.avatar_radius_48dp)
+            loadAvatar(account.avatar, binding.mutedUserAvatar, avatarRadius, animateAvatar)
+
+            binding.mutedUserBotBadge.visible(showBotOverlay && account.bot)
+
+            val unmuteString = context.getString(R.string.action_unmute_desc, formattedUsername)
+            binding.mutedUserUnmute.contentDescription = unmuteString
+            ViewCompat.setTooltipText(binding.mutedUserUnmute, unmuteString)
+
+            binding.mutedUserMuteNotifications.setOnCheckedChangeListener(null)
+
+            binding.mutedUserMuteNotifications.isChecked = viewData.mutingNotifications
+
+            binding.mutedUserUnmute.setOnClickListener {
+                accountActionListener.onMute(
+                    false,
+                    account.id,
+                    viewHolder.bindingAdapterPosition,
+                    false
+                )
+            }
+            binding.mutedUserMuteNotifications.setOnCheckedChangeListener { _, isChecked ->
+                accountActionListener.onMute(
+                    true,
+                    account.id,
+                    viewHolder.bindingAdapterPosition,
+                    isChecked
+                )
+            }
+            binding.root.setOnClickListener { accountActionListener.onViewAccount(account.id) }
+        }
     }
 }

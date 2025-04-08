@@ -61,8 +61,11 @@ class AccountListActivity : BottomSheetActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        supportFragmentManager.commit {
-            replace(R.id.fragment_container, AccountListFragment.newInstance(type, id))
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            supportFragmentManager.commit {
+                val fragment = AccountListFragment.newInstance(type, id)
+                replace(R.id.fragment_container, fragment)
+            }
         }
     }
 
