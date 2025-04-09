@@ -68,7 +68,7 @@ fun buildDescription(title: String, percent: Int, voted: Boolean, context: Conte
         builder.append(" ✓ ")
 
         if (textView != null) {
-            val size = (textView.textSize*1.1).toInt()
+            val size = (textView.textSize * 1.1).toInt()
             val drawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_circle_24dp)!!
             drawable.setBounds(0, 0, size, size)
             drawable.setTint(MaterialColors.getColor(textView, android.R.attr.textColorPrimary))
