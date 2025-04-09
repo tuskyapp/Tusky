@@ -47,75 +47,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/status_media_label_0"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/status_media_label_container_0"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:importantForAccessibility="no"
-        android:lineSpacingMultiplier="1.1"
-        android:maxLines="10"
-        android:textSize="?attr/status_text_medium"
-        android:visibility="gone"
-        app:drawableTint="?android:attr/textColorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/status_media_label_1"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/status_media_label_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:importantForAccessibility="no"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="10"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:drawableTint="?android:attr/textColorPrimary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/status_media_label_container_1"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:importantForAccessibility="no"
-        android:lineSpacingMultiplier="1.1"
-        android:maxLines="10"
-        android:textSize="?attr/status_text_medium"
-        android:visibility="gone"
-        app:drawableTint="?android:attr/textColorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_media_label_0" />
+        app:layout_constraintTop_toBottomOf="@id/status_media_label_container_0">
 
-    <TextView
-        android:id="@+id/status_media_label_2"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/status_media_label_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:importantForAccessibility="no"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="10"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:drawableTint="?android:attr/textColorPrimary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/status_media_label_container_2"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:importantForAccessibility="no"
-        android:lineSpacingMultiplier="1.1"
-        android:maxLines="10"
-        android:textSize="?attr/status_text_medium"
-        android:visibility="gone"
-        app:drawableTint="?android:attr/textColorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_media_label_1" />
+        app:layout_constraintTop_toBottomOf="@id/status_media_label_container_1">
 
-    <TextView
-        android:id="@+id/status_media_label_3"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/status_media_label_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:importantForAccessibility="no"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="10"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:drawableTint="?android:attr/textColorPrimary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/status_media_label_container_3"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:importantForAccessibility="no"
-        android:lineSpacingMultiplier="1.1"
-        android:maxLines="10"
-        android:textSize="?attr/status_text_medium"
-        android:visibility="gone"
-        app:drawableTint="?android:attr/textColorTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_media_label_2" />
+        app:layout_constraintTop_toBottomOf="@id/status_media_label_container_2">
+
+        <TextView
+            android:id="@+id/status_media_label_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:importantForAccessibility="no"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="10"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:drawableTint="?android:attr/textColorPrimary" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </merge>

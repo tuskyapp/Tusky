@@ -102,6 +102,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView sensitiveMediaWarning;
     private final View sensitiveMediaShow;
     protected final TextView[] mediaLabels;
+    protected final MaterialCardView[] mediaLabelContainers;
     protected final CharSequence[] mediaDescriptions;
     private final MaterialButton contentWarningButton;
     private final ImageView avatarInset;
@@ -165,6 +166,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             itemView.findViewById(R.id.status_media_label_1),
             itemView.findViewById(R.id.status_media_label_2),
             itemView.findViewById(R.id.status_media_label_3)
+        };
+        mediaLabelContainers = new MaterialCardView[]{
+            itemView.findViewById(R.id.status_media_label_container_0),
+            itemView.findViewById(R.id.status_media_label_container_1),
+            itemView.findViewById(R.id.status_media_label_container_2),
+            itemView.findViewById(R.id.status_media_label_container_3)
         };
         mediaDescriptions = new CharSequence[mediaLabels.length];
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
@@ -617,7 +624,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             TextView mediaLabel = mediaLabels[i];
             if (i < attachments.size()) {
                 Attachment attachment = attachments.get(i);
-                mediaLabel.setVisibility(View.VISIBLE);
+                mediaLabelContainers[i].setVisibility(View.VISIBLE);
                 mediaDescriptions[i] = AttachmentHelper.getFormattedDescription(attachment, context);
                 updateMediaLabel(i, sensitive, showingContent);
 
@@ -627,7 +634,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 setAttachmentClickListener(mediaLabel, listener, i, mediaDescriptions[i], false);
             } else {
-                mediaLabel.setVisibility(View.GONE);
+                mediaLabelContainers[i].setVisibility(View.GONE);
             }
         }
     }
@@ -818,8 +825,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
-                for (TextView mediaLabel : mediaLabels) {
-                    mediaLabel.setVisibility(View.GONE);
+                for (MaterialCardView mediaLabelContainer : mediaLabelContainers) {
+                    mediaLabelContainer.setVisibility(View.GONE);
                 }
             } else {
                 mediaContainer.setVisibility(View.VISIBLE);
