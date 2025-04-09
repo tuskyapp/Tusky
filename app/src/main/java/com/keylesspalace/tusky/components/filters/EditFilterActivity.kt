@@ -124,14 +124,13 @@ class EditFilterActivity : BaseActivity() {
             viewModel.setTitle(editable.toString())
             validateSaveButton()
         }
-        binding.filterActionWarn.setOnCheckedChangeListener { _, checked ->
-            viewModel.setAction(
-                if (checked) {
-                    Filter.Action.WARN
-                } else {
-                    Filter.Action.HIDE
-                }
-            )
+        binding.filterActionGroup.setOnCheckedChangeListener { _, checkedId ->
+            val action = when (checkedId) {
+                R.id.filter_action_blur -> Filter.Action.BLUR
+                R.id.filter_action_hide -> Filter.Action.HIDE
+                else -> Filter.Action.WARN
+            }
+            viewModel.setAction(action)
         }
         binding.filterDurationDropDown.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             viewModel.setDuration(
@@ -178,6 +177,7 @@ class EditFilterActivity : BaseActivity() {
         lifecycleScope.launch {
             viewModel.action.collect { action ->
                 when (action) {
+                    Filter.Action.BLUR -> binding.filterActionBlur.isChecked = true
                     Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
                     else -> binding.filterActionWarn.isChecked = true
                 }
