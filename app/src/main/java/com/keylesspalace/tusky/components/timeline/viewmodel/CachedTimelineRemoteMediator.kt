@@ -161,7 +161,7 @@ class CachedTimelineRemoteMediator(
                 if (oldStatus != null) break
             }
 
-            val filter = viewModel.kind?.let { status.getApplicableFilter(it.toFilterKind()) }
+            val filter = status.getApplicableFilter(viewModel.kind.toFilterKind())
             val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
             val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR))
             val contentCollapsed = oldStatus?.contentCollapsed != false
