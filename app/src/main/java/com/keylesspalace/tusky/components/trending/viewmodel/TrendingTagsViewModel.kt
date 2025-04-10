@@ -95,7 +95,7 @@ class TrendingTagsViewModel @Inject constructor(
                     TrendingTagsUiState(emptyList(), LoadingState.LOADED)
                 } else {
                     val homeFilters = deferredFilters.await().getOrNull()?.filter { filter ->
-                        filter.context.contains(Filter.Kind.HOME.kind)
+                        filter.context.contains(Filter.Kind.HOME)
                     }
                     val tags = tagResponse
                         .filter { tag ->

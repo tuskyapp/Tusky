@@ -184,7 +184,7 @@ abstract class TimelineViewModel(
             (status.reblog != null && filterRemoveReblogs) ||
             (status.account.id == status.reblog?.account?.id && filterRemoveSelfReblogs)
         ) {
-            Filter("", "", listOf(kind.toFilterKind().kind), filterAction = Filter.Action.HIDE.action)
+            Filter("", "", listOf(kind.toFilterKind()), action = Filter.Action.HIDE)
         } else if (status.actionableStatus.account.id == activeAccountFlow.value?.accountId) {
             // Mastodon filters don't apply for own posts
             null
@@ -242,9 +242,8 @@ abstract class TimelineViewModel(
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
 
-        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean {
-            return filterContext.contains(kind.toFilterKind().kind)
-        }
+        fun filterContextMatchesKind(kind: Kind, filterContext: List<Filter.Kind>): Boolean =
+            filterContext.contains(kind.toFilterKind())
     }
 
     enum class Kind {

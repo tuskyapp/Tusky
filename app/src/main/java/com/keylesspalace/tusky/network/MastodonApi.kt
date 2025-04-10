@@ -561,8 +561,8 @@ interface MastodonApi {
     @POST("api/v2/filters")
     suspend fun createFilter(
         @Field("title") title: String,
-        @Field("context[]") context: List<String>,
-        @Field("filter_action") filterAction: String,
+        @Field("context[]") context: List<Filter.Kind>,
+        @Field("filter_action") filterAction: Filter.Action,
         @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<Filter>
 
@@ -571,8 +571,8 @@ interface MastodonApi {
     suspend fun updateFilter(
         @Path("id") id: String,
         @Field("title") title: String? = null,
-        @Field("context[]") context: List<String>? = null,
-        @Field("filter_action") filterAction: String? = null,
+        @Field("context[]") context: List<Filter.Kind>? = null,
+        @Field("filter_action") filterAction: Filter.Action? = null,
         @Field("expires_in") expires: FilterExpiration? = null
     ): NetworkResult<Filter>
 

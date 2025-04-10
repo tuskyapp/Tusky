@@ -67,7 +67,7 @@ class EditFilterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         originalFilter = intent.getParcelableExtraCompat(FILTER_TO_EDIT)
-        filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
+        filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN, listOf())
         binding.apply {
             contextSwitches = mapOf(
                 filterContextHome to Filter.Kind.HOME,
@@ -299,14 +299,14 @@ class EditFilterActivity : BaseActivity() {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
                 // Possibly affected contexts: any context affected by the original filter OR any context affected by the updated filter
-                val affectedContexts = viewModel.contexts.value.map {
-                    it.kind
-                }.union(originalFilter?.context ?: listOf()).distinct()
+                val affectedContexts = viewModel.contexts.value
+                    .union(originalFilter?.context.orEmpty())
+                    .distinct()
                 eventHub.dispatch(FilterUpdatedEvent(affectedContexts))
             } else {
                 Snackbar.make(
                     binding.root,
-                    getString(R.string.error_deleting_filter, viewModel.title.value),
+                    getString(R.string.error_saving_filter, viewModel.title.value),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

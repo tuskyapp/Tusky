@@ -72,7 +72,7 @@ class FilterModel @Inject constructor(
             val matcher = pattern?.matcher("") ?: return null
 
             if (status.poll?.options?.any { matcher.reset(it.title).find() } == true) {
-                return Filter("", "", listOf(kind.kind), filterAction = Filter.Action.HIDE.action)
+                return Filter("", "", listOf(kind), action = Filter.Action.HIDE)
             }
 
             val spoilerText = status.actionableStatus.spoilerText
@@ -83,7 +83,7 @@ class FilterModel @Inject constructor(
                 (spoilerText.isNotEmpty() && matcher.reset(spoilerText).find()) ||
                 (attachmentsDescriptions.isNotEmpty() && matcher.reset(attachmentsDescriptions.joinToString("\n")).find())
             ) {
-                return Filter("", "", listOf(kind.kind), filterAction = Filter.Action.HIDE.action)
+                return Filter("", "", listOf(kind), action = Filter.Action.HIDE)
             } else {
                 null
             }

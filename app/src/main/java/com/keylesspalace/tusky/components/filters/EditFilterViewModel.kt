@@ -60,7 +60,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         } else {
             -1
         }
-        _contexts.value = filter.kinds
+        _contexts.value = filter.context
     }
 
     fun addKeyword(keyword: FilterKeyword) {
@@ -109,10 +109,10 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
     }
 
     suspend fun saveChanges(context: Context): Boolean {
-        val contexts = _contexts.value.map { it.kind }
+        val contexts = _contexts.value
         val title = _title.value
         val durationIndex = _duration.value
-        val action = _action.value.action
+        val action = _action.value
 
         return withContext(viewModelScope.coroutineContext) {
             originalFilter?.let { filter ->
@@ -123,8 +123,8 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
 
     private suspend fun createFilter(
         title: String,
-        contexts: List<String>,
-        action: String,
+        contexts: List<Filter.Kind>,
+        action: Filter.Action,
         durationIndex: Int,
         context: Context
     ): Boolean {
@@ -149,7 +149,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
                 return (
                     throwable.isHttpNotFound() &&
                         // Endpoint not found, fall back to v1 api
-                        createFilterV1(contexts, expiration)
+                        createFilterV1(contexts.map(Filter.Kind::kind), expiration)
                     )
             }
         )
@@ -158,8 +158,8 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
     private suspend fun updateFilter(
         originalFilter: Filter,
         title: String,
-        contexts: List<String>,
-        action: String,
+        contexts: List<Filter.Kind>,
+        action: Filter.Action,
         durationIndex: Int,
         context: Context
     ): Boolean {
@@ -189,7 +189,7 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
             { throwable ->
                 if (throwable.isHttpNotFound()) {
                     // Endpoint not found, fall back to v1 api
-                    if (updateFilterV1(contexts, expiration)) {
+                    if (updateFilterV1(contexts.map(Filter.Kind::kind), expiration)) {
                         return true
                     }
                 }

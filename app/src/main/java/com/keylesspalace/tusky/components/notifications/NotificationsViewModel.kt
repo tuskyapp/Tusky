@@ -131,7 +131,7 @@ class NotificationsViewModel @Inject constructor(
                 if (event is PreferenceChangedEvent) {
                     onPreferenceChanged(event.preferenceKey)
                 }
-                if (event is FilterUpdatedEvent && event.filterContext.contains(Filter.Kind.NOTIFICATIONS.kind)) {
+                if (event is FilterUpdatedEvent && event.filterContext.contains(Filter.Kind.NOTIFICATIONS)) {
                     filterModel.init(Filter.Kind.NOTIFICATIONS)
                     refreshTrigger.value += 1
                 }
@@ -346,10 +346,7 @@ class NotificationsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val account = activeAccountFlow.value
-                if (account == null) {
-                    return@launch
-                }
+                val account = activeAccountFlow.value ?: return@launch
 
                 val statusDao = db.timelineStatusDao()
                 val accountDao = db.timelineAccountDao()
