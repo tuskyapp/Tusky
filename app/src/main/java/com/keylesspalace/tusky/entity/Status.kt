@@ -161,6 +161,9 @@ data class Status(
     fun getApplicableFilter(kind: Filter.Kind): Filter? =
         actionableStatus.filtered?.filter { it.filter.context.contains(kind) }?.maxByOrNull { it.filter.action.ordinal }?.filter
 
+    fun shouldShowContent(alwayShowSensitiveContent: Boolean, context: Filter.Kind): Boolean =
+        alwayShowSensitiveContent || (!actionableStatus.sensitive && getApplicableFilter(context)?.action != Filter.Action.BLUR)
+
     @JsonClass(generateAdapter = true)
     data class Mention(
         val id: String,

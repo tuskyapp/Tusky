@@ -207,13 +207,12 @@ class CachedTimelineViewModel @Inject constructor(
                             ?.let { rebloggedAccount ->
                                 accountDao.insert(rebloggedAccount)
                             }
-                        val filter = status.getApplicableFilter(kind.toFilterKind())
                         statusDao.insert(
                             status.actionableStatus.toEntity(
                                 tuskyAccountId = accountId,
                                 expanded = account.alwaysOpenSpoiler,
-                                contentShowing = account.alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR),
-                                contentCollapsed = true
+                                contentShowing = status.shouldShowContent(account.alwaysShowSensitiveMedia, kind.toFilterKind()),
+                                contentCollapsed = true,
                             )
                         )
                         timelineDao.insertHomeTimelineItem(

@@ -70,12 +70,11 @@ class SearchViewModel @Inject constructor(
     private val statusesPagingSourceFactory =
         SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
             it.statuses.map { status ->
-                val filter = status.getApplicableFilter(Filter.Kind.PUBLIC)
                 status.toViewData(
-                    isShowingContent = alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR),
+                    isShowingContent = status.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.PUBLIC),
                     isExpanded = alwaysOpenSpoiler,
                     isCollapsed = true,
-                    filter = filter,
+                    filter = status.getApplicableFilter(Filter.Kind.PUBLIC),
                 )
             }.apply {
                 loadedStatuses.addAll(this)

@@ -432,14 +432,12 @@ class ViewThreadViewModel @Inject constructor(
         val oldStatus = (_uiState.value as? ThreadUiState.Success)?.statusViewData?.find {
             it.id == this.id
         }
-        val filter = oldStatus?.filter ?: actionableStatus.getApplicableFilter(Filter.Kind.THREAD)
         return toViewData(
-            isShowingContent = oldStatus?.isShowingContent
-                ?: (alwaysShowSensitiveMedia || (!actionableStatus.sensitive && filter?.action != Filter.Action.BLUR)),
+            isShowingContent = oldStatus?.isShowingContent ?: actionableStatus.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.THREAD),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
             isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
             isDetailed = oldStatus?.isDetailed ?: isDetailed,
-            filter = filter,
+            filter = oldStatus?.filter ?: actionableStatus.getApplicableFilter(Filter.Kind.THREAD),
         )
     }
 

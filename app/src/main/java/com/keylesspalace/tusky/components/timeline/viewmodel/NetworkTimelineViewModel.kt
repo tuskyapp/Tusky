@@ -222,12 +222,11 @@ class NetworkTimelineViewModel @Inject constructor(
 
                 val activeAccount = accountManager.activeAccount!!
                 val data: MutableList<StatusViewData> = statuses.map { status ->
-                    val filter = status.getApplicableFilter(kind.toFilterKind())
                     status.toViewData(
-                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR),
+                        isShowingContent = status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, kind.toFilterKind()),
                         isExpanded = activeAccount.alwaysOpenSpoiler,
                         isCollapsed = true,
-                        filter = filter,
+                        filter = status.getApplicableFilter(kind.toFilterKind()),
                     )
                 }.toMutableList()
 

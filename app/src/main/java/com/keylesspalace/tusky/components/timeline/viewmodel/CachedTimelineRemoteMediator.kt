@@ -29,7 +29,6 @@ import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.db.entity.HomeTimelineData
 import com.keylesspalace.tusky.db.entity.HomeTimelineEntity
 import com.keylesspalace.tusky.db.entity.TimelineStatusEntity
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import retrofit2.HttpException
@@ -161,9 +160,8 @@ class CachedTimelineRemoteMediator(
                 if (oldStatus != null) break
             }
 
-            val filter = status.getApplicableFilter(viewModel.kind.toFilterKind())
             val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
-            val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR))
+            val contentShowing = oldStatus?.contentShowing ?: status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, viewModel.kind.toFilterKind())
             val contentCollapsed = oldStatus?.contentCollapsed != false
 
             statusDao.insert(

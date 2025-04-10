@@ -21,7 +21,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
-import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.util.toViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -76,7 +75,7 @@ class NetworkTimelineRemoteMediator(
                 }?.asStatusOrNull()
 
                 val filter = oldStatus?.filter ?: status.getApplicableFilter(viewModel.kind.toFilterKind())
-                val contentShowing = oldStatus?.isShowingContent ?: (activeAccount.alwaysShowSensitiveMedia || (!status.actionableStatus.sensitive && filter?.action != Filter.Action.BLUR))
+                val contentShowing = oldStatus?.isShowingContent ?: status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, viewModel.kind.toFilterKind())
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
                 val contentCollapsed = oldStatus?.isCollapsed != false
 

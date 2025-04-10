@@ -70,12 +70,11 @@ class NotificationRequestDetailsRemoteMediator(
         val alwaysShowSensitiveMedia = viewModel.accountManager.activeAccount?.alwaysShowSensitiveMedia == true
         val alwaysOpenSpoiler = viewModel.accountManager.activeAccount?.alwaysOpenSpoiler == false
         val notificationData = notifications.map { notification ->
-            val filter = notification.status?.getApplicableFilter(Filter.Kind.NOTIFICATIONS)
             notification.toViewData(
-                isShowingContent = alwaysShowSensitiveMedia || filter?.action != Filter.Action.BLUR,
+                isShowingContent = notification.status?.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.NOTIFICATIONS) ?: true,
                 isExpanded = alwaysOpenSpoiler,
                 isCollapsed = true,
-                filter = filter,
+                filter = notification.status?.getApplicableFilter(Filter.Kind.NOTIFICATIONS),
             )
         }
 
