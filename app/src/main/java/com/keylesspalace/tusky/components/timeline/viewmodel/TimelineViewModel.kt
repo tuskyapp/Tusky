@@ -184,7 +184,7 @@ abstract class TimelineViewModel(
             (status.reblog != null && filterRemoveReblogs) ||
             (status.account.id == status.reblog?.account?.id && filterRemoveSelfReblogs)
         ) {
-            Filter("", "", listOf(kind.toFilterKind()), action = Filter.Action.HIDE)
+            Filter(context = listOf(kind.toFilterKind()), action = Filter.Action.HIDE)
         } else if (status.actionableStatus.account.id == activeAccountFlow.value?.accountId) {
             // Mastodon filters don't apply for own posts
             null

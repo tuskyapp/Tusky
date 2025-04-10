@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class Filter(
-    val id: String,
-    val title: String,
+    val id: String = "",
+    val title: String = "",
     val context: List<Kind>,
     @Json(name = "expires_at") val expiresAt: Date? = null,
     @Json(name = "filter_action") val action: Action,

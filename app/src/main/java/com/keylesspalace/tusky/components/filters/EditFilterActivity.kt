@@ -67,7 +67,7 @@ class EditFilterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         originalFilter = intent.getParcelableExtraCompat(FILTER_TO_EDIT)
-        filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN, listOf())
+        filter = originalFilter ?: Filter(context = emptyList(), action = Filter.Action.WARN)
         binding.apply {
             contextSwitches = mapOf(
                 filterContextHome to Filter.Kind.HOME,
