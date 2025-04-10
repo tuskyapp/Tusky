@@ -14,7 +14,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -42,8 +42,8 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:indeterminate="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFilterButton"
