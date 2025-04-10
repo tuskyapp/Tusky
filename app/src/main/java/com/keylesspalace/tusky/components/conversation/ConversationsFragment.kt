@@ -242,9 +242,9 @@ class ConversationsFragment :
         }
     }
 
-    override fun onBookmark(favourite: Boolean, position: Int) {
+    override fun onBookmark(bookmark: Boolean, position: Int) {
         adapter?.peek(position)?.let { conversation ->
-            viewModel.bookmark(favourite, conversation)
+            viewModel.bookmark(bookmark, conversation)
         }
     }
 

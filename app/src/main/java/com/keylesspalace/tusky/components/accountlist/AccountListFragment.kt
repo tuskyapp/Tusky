@@ -205,8 +205,8 @@ class AccountListFragment :
         viewModel.unblock(id)
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
-        viewModel.respondToFollowRequest(accept, id)
+    override fun onRespondToFollowRequest(accept: Boolean, accountIdRequestingFollow: String, position: Int) {
+        viewModel.respondToFollowRequest(accept, accountIdRequestingFollow)
     }
 
     companion object {
