@@ -105,6 +105,9 @@ android {
     packagingOptions.resources.excludes += [
             'LICENSE_OFL',
             'LICENSE_UNICODE',
+            'META-INF/androidx/**',
+            'META-INF/NOTICE.md',
+            'DebugProbesKt.bin'
     ]
 
     bundle {
