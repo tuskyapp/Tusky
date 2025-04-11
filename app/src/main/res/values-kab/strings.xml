@@ -50,7 +50,7 @@
     <string name="no_drafts">Ur tesɛiḍ ara irewwayen.</string>
     <string name="error_generic">Tella-d tucḍa.</string>
     <string name="title_notifications">Tilɣa</string>
-    <string name="link_whats_an_instance">D acu i ttummant\?</string>
+    <string name="link_whats_an_instance">D acu i ttummant?</string>
     <string name="title_bookmarks">Ticraḍ</string>
     <string name="action_bookmark">Rnu ɣer ticraḍ</string>
     <string name="action_view_bookmarks">Ticraḍ</string>
@@ -66,8 +66,8 @@
     <string name="action_share_as">Bḍu amzun d…</string>
     <string name="send_post_link_to">Bḍu aseɣwen n tijewwiq s…</string>
     <string name="send_post_content_to">Bḍu tijewwiqt d…</string>
-    <string name="hint_domain">Anta tummant\?</string>
-    <string name="hint_compose">d-acu i gellan d amaynut\?</string>
+    <string name="hint_domain">Anta tummant?</string>
+    <string name="hint_compose">d-acu i gellan d amaynut?</string>
     <string name="hint_search">Nadi…</string>
     <string name="label_quick_reply">Tiririt…</string>
     <string name="label_avatar">Tugna n umaɣnu</string>
@@ -220,7 +220,7 @@
     <string name="abbreviated_hours_ago">%1$dsr</string>
     <string name="abbreviated_minutes_ago">%1$dtsd</string>
     <string name="abbreviated_seconds_ago">%1$dtsn</string>
-    <string name="compose_save_draft">Sekles amzun d arewway\?</string>
+    <string name="compose_save_draft">Sekles amzun d arewway?</string>
     <string name="later">Ticki</string>
     <string name="profile_badge_bot_text">Aṛubut</string>
     <string name="description_post_bookmarked">Yettwarna ɣer ticṛad</string>
