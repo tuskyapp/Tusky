@@ -291,9 +291,8 @@ class LoginActivity : BaseActivity() {
                 oauthScopes = OAUTH_SCOPES,
                 newAccount = newAccount
             )
-            finishAffinity()
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }, { e ->
             setLoading(false)

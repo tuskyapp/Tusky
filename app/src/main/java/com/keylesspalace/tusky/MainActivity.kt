@@ -95,11 +95,9 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
-import com.keylesspalace.tusky.util.ActivityConstants
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -215,14 +213,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             viewModel.setupNotifications(this)
-        }
-
-        if (explodeAnimationWasRequested()) {
-            overrideActivityTransitionCompat(
-                ActivityConstants.OVERRIDE_TRANSITION_OPEN,
-                R.anim.explode,
-                R.anim.activity_open_exit
-            )
         }
 
         selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
@@ -1118,15 +1108,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
-    private fun explodeAnimationWasRequested(): Boolean {
-        return intent.getBooleanExtra(OPEN_WITH_EXPLODE_ANIMATION, false)
-    }
-
     override fun getActionButton() = binding.composeButton
 
     companion object {
-        const val OPEN_WITH_EXPLODE_ANIMATION = "explode"
-
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14
