@@ -782,4 +782,12 @@
     <string name="yes">بله</string>
     <string name="confirm_dismiss_caption">دور انداختن تغییرات عنوان؟</string>
     <string name="no">نه</string>
+    <string name="unmute_success">خموشی %1$s رفع شد</string>
+    <string name="mute_failure">خموش کردن %1$s شکست خورد: %2$s</string>
+    <string name="unblock_failure">رفع کردن مسدودی %1$s شکست خورد: %2$s</string>
+    <string name="unmute_failure">رفع کردن خموشی %1$s شکست خورد: %2$s</string>
+    <string name="reject_follow_request_failure">رد کردن درخواست پی‌گیری %1$s شکست خورد: %2$s</string>
+    <string name="unblock_success">انسداد %1$s رفع شد</string>
+    <string name="block_failure">مسدود کردن %1$s شکست خورد: %2$s</string>
+    <string name="accept_follow_request_failure">پذیرفتن درخواست پی‌گیری %1$s شکست خورد: %2$s</string>
 </resources>

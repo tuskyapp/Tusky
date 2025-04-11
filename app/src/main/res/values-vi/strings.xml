@@ -760,4 +760,12 @@
     <string name="confirm_dismiss_caption">Bỏ thay đổi chú thích?</string>
     <string name="yes">Có</string>
     <string name="no">Không</string>
+    <string name="unmute_success">Đã bỏ ẩn %1$s</string>
+    <string name="block_failure">Chưa thể chặn %1$s: %2$s</string>
+    <string name="mute_failure">Chưa thể ẩn %1$s: %2$s</string>
+    <string name="unblock_failure">Chưa thể bỏ chặn %1$s: %2$s</string>
+    <string name="unmute_failure">Chưa thể bỏ ẩn %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Chấp nhận yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Từ chối yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
+    <string name="unblock_success">Đã bỏ chặn %1$s</string>
 </resources>

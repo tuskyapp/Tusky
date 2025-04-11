@@ -775,4 +775,12 @@
     <string name="no">Non</string>
     <string name="confirm_dismiss_caption">Desbotar cambios na descrición?</string>
     <string name="yes">Si</string>
+    <string name="unmute_success">Reactivouse a %1$s</string>
+    <string name="block_failure">Fallou o bloqueo de %1$s: %2$s</string>
+    <string name="mute_failure">Fallou o silenciamento de %1$s: %2$s</string>
+    <string name="unblock_failure">Fallou o desbloqueo de %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Fallou a aceptación da solicitude de seguimento de %1$s: %2$s</string>
+    <string name="unblock_success">Desbloqueouse a %1$s</string>
+    <string name="unmute_failure">Fallou a reactivación de %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Fallou o rexeitamento da solicitude de seguimento de %1$s: %2$s</string>
 </resources>

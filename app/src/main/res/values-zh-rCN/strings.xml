@@ -666,10 +666,10 @@
     <string name="action_view_filter">查看筛选器</string>
     <string name="following_hashtag_success_format">正在关注话题标签 #%1$s</string>
     <string name="unfollowing_hashtag_success_format">已不再关注话题标签 #%1$s</string>
-    <string name="help_empty_lists">这是你的 <b>列表视图</b>。你可以定义私人列表并添加联系人到列表中。 
-\n 
-\n请注意，你只能将你已关注的账户添加到列表中。 
-\n 
+    <string name="help_empty_lists">这是你的 <b>列表视图</b>。你可以定义私人列表并添加联系人到列表中。
+\n
+\n请注意，你只能将你已关注的账户添加到列表中。
+\n
 \n这些列表可被用作“账户选项{管理账户}} {{chevron_right}}”选项卡中的标签页。</string>
     <string name="error_blocking_domain">未能静音 %1$s: %2$s</string>
     <string name="error_unblocking_domain">未能取消对 %1$s: %2$s的静音</string>
@@ -774,4 +774,12 @@
     <string name="no">否</string>
     <string name="yes">是</string>
     <string name="confirm_dismiss_caption">放弃字幕更改？</string>
+    <string name="block_failure">封禁 %1$s 失败：%2$s</string>
+    <string name="mute_failure">静音 %1$s 失败：%2$s</string>
+    <string name="unblock_failure">解封 %1$s 失败：%2$s</string>
+    <string name="unmute_failure">未能解除对 %1$s 的静音：%2$s</string>
+    <string name="reject_follow_request_failure">拒绝 %1$s 的关注请求失败了：%2$s</string>
+    <string name="unblock_success">已解封 %1$s</string>
+    <string name="unmute_success">已解除对 %1$s 的静音操作</string>
+    <string name="accept_follow_request_failure">接受 %1$s 的关注请求失败了：%2$s</string>
 </resources>
