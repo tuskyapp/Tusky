@@ -802,4 +802,12 @@
     <string name="poll_show_results">Mostra risultati</string>
     <string name="yes">Sì</string>
     <string name="confirm_dismiss_caption">Scartare le modifiche alla didascalia?</string>
+    <string name="mute_failure">Silenziamento di %1$s fallito: %2$s</string>
+    <string name="unblock_failure">Sblocco di %1$s fallito: %2$s</string>
+    <string name="unmute_failure">Riattivazione di %1$s fallita: %2$s</string>
+    <string name="reject_follow_request_failure">Respingimento richiesta follow di %1$s fallita: %2$s</string>
+    <string name="unblock_success">Sbloccato %1$s</string>
+    <string name="unmute_success">Riattivato %1$s</string>
+    <string name="block_failure">Blocco di %1$s fallito: %2$s</string>
+    <string name="accept_follow_request_failure">Accettazione del follow di %1$s fallita: %2$s</string>
 </resources>
