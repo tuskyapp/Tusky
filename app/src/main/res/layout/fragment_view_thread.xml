@@ -35,7 +35,7 @@
                     android:background="?android:attr/colorBackground"
                     android:clipToPadding="false"
                     android:paddingBottom="@dimen/recyclerview_bottom_padding_no_actionbutton"
-                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbarStyle="outsideOverlay"
                     android:scrollbars="vertical" />
 
                 <com.keylesspalace.tusky.view.BackgroundMessageView
