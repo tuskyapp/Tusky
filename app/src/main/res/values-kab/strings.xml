@@ -416,4 +416,12 @@
     <string name="post_media_hidden_title">Amidya yeffren</string>
     <string name="title_followed_hashtags">Ihacṭagen yettwaḍefren</string>
     <string name="action_edit_image">Ẓreɣ tugna</string>
+    <string name="pref_publishing">Tuzna n yimezwer</string>
+    <string name="poll_allow_multiple_choices">Aṭas n ufran</string>
+    <string name="action_add_reaction">rnu tasedmirt</string>
+    <string name="filter_dialog_whole_word">Awal ummid</string>
+    <string name="emoji_style">Aɣanib n yimujit</string>
+    <string name="notification_update_name">Tasuffeɣt yettwaẓergen</string>
+    <string name="state_follow_requested">Aḍfarvyettwaqbal</string>
+    <string name="instance_rule_title">%1$s yilugan</string>
 </resources>
