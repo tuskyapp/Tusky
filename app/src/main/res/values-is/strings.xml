@@ -775,4 +775,12 @@
     <string name="yes">Já</string>
     <string name="no">Nei</string>
     <string name="confirm_dismiss_caption">Henda breytingum á skýringatexta?</string>
+    <string name="unblock_success">Aflæsti %1$s</string>
+    <string name="unmute_success">Hætti að þagga %1$s</string>
+    <string name="mute_failure">Mistókst að þagga %1$s: %2$s</string>
+    <string name="unblock_failure">Mistókst að aflæsa %1$s: %2$s</string>
+    <string name="unmute_failure">Mistókst að afþagga %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Mistókst að samþykkja beiðni um að fylgjast með frá %1$s: %2$s</string>
+    <string name="block_failure">Mistókst að loka á %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Mistókst að hafna beiðni um að fylgjast með frá %1$s: %2$s</string>
 </resources>
