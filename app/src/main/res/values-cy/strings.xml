@@ -353,7 +353,7 @@
     <string name="downloading_media">Yn lawrlwytho cyfryngau</string>
     <string name="download_media">Lawrlwytho cyfryngau</string>
     <string name="dialog_redraft_post_warning">Dileu ac ailddrafftio\'r neges hon?</string>
-    <string name="dialog_delete_conversation_warning">Dileu\'r sgwrs hon\?</string>
+    <string name="dialog_delete_conversation_warning">Dileu\'r sgwrs hon?</string>
     <string name="pref_title_language">Iaith</string>
     <string name="pref_title_bot_overlay">Dangos dangosydd botiau</string>
     <string name="pref_title_gradient_for_media">Dangos graddiannau lliwgar ar gyfer cyfryngau cudd</string>
@@ -702,7 +702,7 @@
 \n \u0020 
 \nDyma <a href="https://github.com/mastodon/mastodon/issues/25398">broblem Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Llwytho hysbysiadau diweddaraf</string>
-    <string name="compose_delete_draft">Dileu\'r drafft\?</string>
+    <string name="compose_delete_draft">Dileu\'r drafft?</string>
     <string name="error_media_upload_sending_fmt">Methodd llwytho i fyny: %1$s</string>
     <string name="about_device_info_title">Eich dyfais</string>
     <string name="about_device_info">%1$s %2$s
