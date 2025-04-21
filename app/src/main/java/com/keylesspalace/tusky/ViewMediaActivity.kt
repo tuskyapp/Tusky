@@ -67,7 +67,7 @@ import java.util.Locale
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
+typealias AppbarVisibilityListener = (isVisible: Boolean) -> Unit
 
 @AndroidEntryPoint
 class ViewMediaActivity :
@@ -80,11 +80,11 @@ class ViewMediaActivity :
     val toolbar: View
         get() = binding.toolbar
 
-    var isToolbarVisible = true
+    var isAppbarVisible = true
         private set
 
     private var attachments: ArrayList<AttachmentViewData>? = null
-    private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
+    private val appbarVisibilityListeners = mutableListOf<AppbarVisibilityListener>()
     private var imageUrl: String? = null
 
     private val requestDownloadMediaPermissionLauncher =
@@ -98,10 +98,10 @@ class ViewMediaActivity :
             }
         }
 
-    fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
-        this.toolbarVisibilityListeners.add(listener)
-        listener(isToolbarVisible)
-        return { toolbarVisibilityListeners.remove(listener) }
+    fun addToolbarVisibilityListener(listener: AppbarVisibilityListener): Function0<Boolean> {
+        this.appbarVisibilityListeners.add(listener)
+        listener(isAppbarVisible)
+        return { appbarVisibilityListeners.remove(listener) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -194,14 +194,14 @@ class ViewMediaActivity :
     }
 
     override fun onPhotoTap() {
-        isToolbarVisible = !isToolbarVisible
-        for (listener in toolbarVisibilityListeners) {
-            listener(isToolbarVisible)
+        isAppbarVisible = !isAppbarVisible
+        for (listener in appbarVisibilityListeners) {
+            listener(isAppbarVisible)
         }
 
-        val visibility = if (isToolbarVisible) View.VISIBLE else View.INVISIBLE
-        val alpha = if (isToolbarVisible) 1.0f else 0.0f
-        if (isToolbarVisible) {
+        val visibility = if (isAppbarVisible) View.VISIBLE else View.INVISIBLE
+        val alpha = if (isAppbarVisible) 1.0f else 0.0f
+        if (isAppbarVisible) {
             // If to be visible, need to make visible immediately and animate alpha
             binding.toolbar.alpha = 0.0f
             binding.toolbar.visibility = visibility
