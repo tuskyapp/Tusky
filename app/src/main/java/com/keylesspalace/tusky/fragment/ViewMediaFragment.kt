@@ -89,7 +89,7 @@ abstract class ViewMediaFragment : Fragment() {
             url,
             previewUrl,
             description,
-            showingDescription && mediaActivity.isAppbarVisible
+            showingDescription && mediaActivity.isToolbarVisible
         )
 
         toolbarVisibilityDisposable = (activity as ViewMediaActivity)

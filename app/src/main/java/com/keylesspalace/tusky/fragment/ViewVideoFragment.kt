@@ -234,7 +234,7 @@ class ViewVideoFragment : ViewMediaFragment() {
                             haveStarted = true
                         } else {
                             // This isn't a real "done loading"; this is a resume event after backgrounding.
-                            if (mediaActivity.isAppbarVisible) {
+                            if (mediaActivity.isToolbarVisible) {
                                 // Before suspend, the toolbar/description were visible, so description is visible already.
                                 // But media3 will have automatically hidden the video controls on suspend, so we need to match the description state.
                                 binding.videoView.showController()

@@ -38,6 +38,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -63,11 +64,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.Locale
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-typealias AppbarVisibilityListener = (isVisible: Boolean) -> Unit
+typealias ToolbarVisibilityListener = (isVisible: Boolean) -> Unit
 
 @AndroidEntryPoint
 class ViewMediaActivity :
@@ -77,14 +77,11 @@ class ViewMediaActivity :
 
     private val binding by viewBinding(ActivityViewMediaBinding::inflate)
 
-    val toolbar: View
-        get() = binding.toolbar
-
-    var isAppbarVisible = true
+    var isToolbarVisible = true
         private set
 
     private var attachments: ArrayList<AttachmentViewData>? = null
-    private val appbarVisibilityListeners = mutableListOf<AppbarVisibilityListener>()
+    private val toolbarVisibilityListeners = mutableListOf<ToolbarVisibilityListener>()
     private var imageUrl: String? = null
 
     private val requestDownloadMediaPermissionLauncher =
@@ -98,10 +95,10 @@ class ViewMediaActivity :
             }
         }
 
-    fun addToolbarVisibilityListener(listener: AppbarVisibilityListener): Function0<Boolean> {
-        this.appbarVisibilityListeners.add(listener)
-        listener(isAppbarVisible)
-        return { appbarVisibilityListeners.remove(listener) }
+    fun addToolbarVisibilityListener(listener: ToolbarVisibilityListener): Function0<Boolean> {
+        this.toolbarVisibilityListeners.add(listener)
+        listener(isToolbarVisible)
+        return { toolbarVisibilityListeners.remove(listener) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,9 +111,6 @@ class ViewMediaActivity :
         attachments = intent.getParcelableArrayListExtraCompat(EXTRA_ATTACHMENTS)
         val initialPosition = intent.getIntExtra(EXTRA_ATTACHMENT_INDEX, 0)
 
-        // Adapter is actually of existential type PageAdapter & SharedElementsTransitionListener
-        // but it cannot be expressed and if I don't specify type explicitly compilation fails
-        // (probably a bug in compiler)
         val adapter: ViewMediaAdapter = if (attachments != null) {
             val realAttachs = attachments!!.map(AttachmentViewData::attachment)
             // Setup the view pager.
@@ -139,11 +133,10 @@ class ViewMediaActivity :
 
         // Setup the toolbar.
         setSupportActionBar(binding.toolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setDisplayShowHomeEnabled(true)
-            actionBar.title = getPageTitle(initialPosition)
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            title = getPageTitle(initialPosition)
         }
         binding.toolbar.setNavigationOnClickListener { supportFinishAfterTransition() }
         binding.toolbar.setOnMenuItemClickListener { item: MenuItem ->
@@ -194,23 +187,23 @@ class ViewMediaActivity :
     }
 
     override fun onPhotoTap() {
-        isAppbarVisible = !isAppbarVisible
-        for (listener in appbarVisibilityListeners) {
-            listener(isAppbarVisible)
+        isToolbarVisible = !isToolbarVisible
+        for (listener in toolbarVisibilityListeners) {
+            listener(isToolbarVisible)
         }
 
-        val visibility = if (isAppbarVisible) View.VISIBLE else View.INVISIBLE
-        val alpha = if (isAppbarVisible) 1.0f else 0.0f
-        if (isAppbarVisible) {
+        val visibility = if (isToolbarVisible) View.VISIBLE else View.INVISIBLE
+        val alpha = if (isToolbarVisible) 1.0f else 0.0f
+        if (isToolbarVisible) {
             // If to be visible, need to make visible immediately and animate alpha
-            binding.toolbar.alpha = 0.0f
-            binding.toolbar.visibility = visibility
+            binding.appBarLayout.alpha = 0.0f
+            binding.appBarLayout.visibility = visibility
         }
 
-        binding.toolbar.animate().alpha(alpha)
+        binding.appBarLayout.animate().alpha(alpha)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    binding.toolbar.visibility = visibility
+                    binding.appBarLayout.visibility = visibility
                     animation.removeListener(this)
                 }
             })
@@ -221,20 +214,20 @@ class ViewMediaActivity :
         if (attachments == null) {
             return ""
         }
-        return String.format(Locale.getDefault(), "%d/%d", position + 1, attachments?.size)
+        return "${position + 1}/${attachments?.size}"
     }
 
     private fun downloadMedia() {
         val url = imageUrl ?: attachments!![binding.viewPager.currentItem].attachment.url
-        val filename = Uri.parse(url).lastPathSegment
+        val filename = url.toUri().lastPathSegment
         Toast.makeText(
             applicationContext,
             resources.getString(R.string.download_image, filename),
             Toast.LENGTH_SHORT
         ).show()
 
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val request = DownloadManager.Request(Uri.parse(url))
+        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        val request = DownloadManager.Request(url.toUri())
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
         downloadManager.enqueue(request)
     }
@@ -303,7 +296,7 @@ class ViewMediaActivity :
             val file = File(directory, getTemporaryMediaFilename("png"))
             val result = try {
                 val bitmap =
-                    Glide.with(applicationContext).asBitmap().load(Uri.parse(url)).submitAsync()
+                    Glide.with(applicationContext).asBitmap().load(url.toUri()).submitAsync()
                 try {
                     FileOutputStream(file).use { stream ->
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -332,7 +325,7 @@ class ViewMediaActivity :
     }
 
     private fun shareMediaFile(directory: File, url: String) {
-        val uri = Uri.parse(url)
+        val uri = url.toUri()
         val mimeTypeMap = MimeTypeMap.getSingleton()
         val extension = MimeTypeMap.getFileExtensionFromUrl(url)
         val mimeType = mimeTypeMap.getMimeTypeFromExtension(extension)
@@ -367,7 +360,7 @@ class ViewMediaActivity :
 
         @JvmStatic
         fun newIntent(
-            context: Context?,
+            context: Context,
             attachments: List<AttachmentViewData>,
             index: Int
         ): Intent {
