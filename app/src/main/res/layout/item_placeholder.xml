@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="@id/namePlaceholder"
         app:layout_constraintTop_toBottomOf="@id/contentPlaceholder"
         app:srcCompat="@drawable/ic_reply_24dp"
-        app:tint="@color/dividerColorOther"
+        app:tint="?attr/placeholderColor"
         tools:ignore="NegativeMargin" />
 
     <ImageButton
@@ -93,7 +93,7 @@
         app:layout_constraintStart_toEndOf="@id/replyButtonPlaceholder"
         app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
         app:srcCompat="@drawable/ic_repeat_24dp"
-        app:tint="@color/dividerColorOther" />
+        app:tint="?attr/placeholderColor" />
 
     <ImageButton
         android:id="@+id/favouriteButtonPlaceholder"
@@ -106,7 +106,7 @@
         app:layout_constraintStart_toEndOf="@id/reblogButtonPlaceholder"
         app:layout_constraintTop_toTopOf="@id/reblogButtonPlaceholder"
         app:srcCompat="@drawable/ic_star_24dp"
-        app:tint="@color/dividerColorOther" />
+        app:tint="?attr/placeholderColor" />
 
     <ImageButton
         android:id="@+id/status_bookmark"
@@ -120,7 +120,7 @@
         app:layout_constraintStart_toEndOf="@id/favouriteButtonPlaceholder"
         app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
         app:srcCompat="@drawable/ic_bookmark_24dp"
-        app:tint="@color/dividerColorOther"
+        app:tint="?attr/placeholderColor"
         sparkbutton:activeImage="@drawable/ic_bookmark_24dp_filled" />
 
     <ImageButton
@@ -135,6 +135,6 @@
         app:layout_constraintStart_toEndOf="@id/status_bookmark"
         app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
         app:srcCompat="@drawable/ic_more_horiz_24dp"
-        app:tint="@color/dividerColorOther" />
+        app:tint="?attr/placeholderColor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

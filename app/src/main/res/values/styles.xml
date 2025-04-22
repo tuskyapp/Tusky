@@ -115,6 +115,8 @@
         <item name="searchViewStyle">@style/TuskySearchViewStyle</item>
 
         <item name="toolbarIconBackgroundColor">@color/toolbarIconBackgroundColor</item>
+        <item name="placeholderColor">@color/placeholderColor</item>
+
     </style>
 
     <style name="TuskyBlackThemeBase" parent="TuskyBaseTheme">
@@ -142,6 +144,7 @@
         <item name="colorOutlineVariant">@color/tusky_grey_20</item>
 
         <item name="toolbarIconBackgroundColor">@color/transparent_tusky_grey_10</item>
+        <item name="placeholderColor">@color/tusky_grey_30</item>
     </style>
 
     <style name="TuskyBlackTheme" parent="TuskyBlackThemeBase" />
