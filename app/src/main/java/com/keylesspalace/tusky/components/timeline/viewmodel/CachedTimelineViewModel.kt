@@ -83,9 +83,7 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(
-            pageSize = LOAD_AT_ONCE,
-            jumpThreshold = 100,
-            maxSize = 500
+            pageSize = LOAD_AT_ONCE
         ),
         remoteMediator = CachedTimelineRemoteMediator(this, api, db),
         pagingSourceFactory = {
