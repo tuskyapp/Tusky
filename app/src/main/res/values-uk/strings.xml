@@ -465,7 +465,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Увімкнути перемикання між вкладками жестом проведення пальцем</string>
     <string name="failed_search">Не вдалося здійснити пошук</string>
     <string name="report_description_remote_instance">Обліковий запис з іншого сервера. Надіслати туди анонімізовану копію звіту також?</string>
-    <string name="report_description_1">Скаргу буде надіслано модераторам вашого сервера. Нижче ви можете надати пояснення, чому ви повідомляєте про цей обліковий запис:</string>
+    <string name="report_description_1">Скаргу буде надіслано модераторам вашого сервера. Нижче ви можете описати причину скарги на цей обліковий запис:</string>
     <string name="failed_fetch_posts">Не вдалося отримати дописи</string>
     <string name="report_remote_instance">Переслати до %1$s</string>
     <string name="compose_preview_image_description">Дії для зображення %1$s</string>
@@ -504,7 +504,7 @@
     <string name="download_failed">Не вдалося завантажити</string>
     <string name="caption_notoemoji">Поточний набір емодзі Google</string>
     <string name="caption_twemoji">Стандартний набір емодзі Mastodon</string>
-    <string name="follow_requests_info">Незважаючи на те, що ваш обліковий запис не заблоковано, співробітники %1$s вважають, що ви, можливо, захочете переглянути запити на підписку з цих акаунтів власноруч.</string>
+    <string name="follow_requests_info">Попри те, що ваш обліковий запис не заблоковано, співробітники %1$s вважають, що ви, можливо, захочете розглянути запити на підписку від цих облікових записів власноруч.</string>
     <string name="dialog_delete_conversation_warning">Видалити цю бесіду\?</string>
     <string name="action_delete_conversation">Видалити бесіду</string>
     <string name="action_unbookmark">Вилучити закладку</string>
@@ -527,7 +527,7 @@
     <string name="saving_draft">Збереження чернетки…</string>
     <string name="action_dismiss">Відхилити</string>
     <string name="action_details">Подробиці</string>
-    <string name="account_date_joined">Приєднався %1$s</string>
+    <string name="account_date_joined">Приєднується %1$s</string>
     <string name="action_edit_image">Редагувати зображення</string>
     <string name="status_count_one_plus">1+</string>
     <string name="error_image_edit_failed">Неможливо редагувати зображення.</string>
@@ -659,7 +659,7 @@
     <string name="post_media_image">Зображення</string>
     <string name="select_list_manage">Керувати списками</string>
     <string name="pref_ui_text_size">Розмір шрифту інтерфейсу</string>
-    <string name="notification_listenable_worker_name">Фонова праця</string>
+    <string name="notification_listenable_worker_name">Фонова діяльність</string>
     <string name="notification_listenable_worker_description">Сповіщення, коли Tusky працює у фоновому режимі</string>
     <string name="notification_notification_worker">Отримання сповіщень…</string>
     <string name="notification_prune_cache">Обслуговування кешу…</string>
@@ -767,7 +767,7 @@
     <string name="notification_severed_relationship_name">Розірвані з\'єднання</string>
     <string name="notification_unknown_description">Невідомий тип сповіщення</string>
     <string name="notification_channel_admin_description">Адміністративні сповіщення, наприклад, скарги або реєстрації</string>
-    <string name="relationship_severance_event_title">Зв\'язок втрачено</string>
+    <string name="relationship_severance_event_title">З\'єднання розірвано</string>
     <string name="poll">Опитування</string>
     <string name="notification_info_mention">Згадка</string>
     <string name="action_reblog_private">Поширення лише для підписників</string>
@@ -792,8 +792,8 @@
     <string name="accept_follow_request_failure">Не вдалося прийняти запит підписки від %1$s: %2$s</string>
     <string name="relationship_severance_event_user_domain_block">Ви заблокували %1$s, видаливши %2$s своїх підписників і%3$s , на яких ви підписані.</string>
     <string name="moderation_warning_action_delete_statuses">Деякі з ваших дописів були видалені.</string>
-    <string name="moderation_warning_action_sensitive">Відтепер ваші дописи будуть позначені як чутливі.</string>
-    <string name="unknown_notification_type_explanation">Tusky не розпізнає цей тип сповіщень і не може показати його вам. Можливо, веб-інтерфейс вашого сервера зможе це зробити. Будь ласка, також повідомте про це розробників Tusky, щоб вони могли додати підтримку цього типу!</string>
+    <string name="moderation_warning_action_sensitive">Відтепер ваші дописи будуть позначені делікатними.</string>
+    <string name="unknown_notification_type_explanation">Tusky не розпізнає цей тип сповіщень і не може показати його вам. Можливо, вебінтерфейс вашого сервера зможе це зробити. Будь ласка, також повідомте про це розробників Tusky, щоб вони могли додати підтримку цього типу!</string>
     <string name="unblock_success">Розблоковано %1$s</string>
     <string name="moderation_warning">Ви отримали попередження від модераторів.</string>
     <plurals name="accounts">
@@ -803,14 +803,14 @@
         <item quantity="other">%1$s облікових записів</item>
     </plurals>
     <string name="moderation_warning_action_disable">Ваш обліковий запис вимкнено.</string>
-    <string name="moderation_warning_action_mark_statuses_as_sensitive">Деякі з ваших дописів були позначені як чутливі.</string>
-    <string name="moderation_warning_action_none">Ваш акаунт отримав попередження від модераторів.</string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive">Деякі з ваших дописів були позначені делікатними.</string>
+    <string name="moderation_warning_action_none">Ваш обліковий запис отримав попередження від модераторів.</string>
     <string name="relationship_severance_event_domain_block">Адміністратор із %1$s заблокував %2$s, включно з %3$s ваших підписників і %4$s , за якими ви стежите.</string>
     <plurals name="media_attachments">
-        <item quantity="one">%1$s медіявкладень</item>
-        <item quantity="few">%1$s медіявкладення</item>
-        <item quantity="many">%1$s медіявкладень</item>
-        <item quantity="other">%1$s медіявкладень</item>
+        <item quantity="one">%1$s медіавкладення</item>
+        <item quantity="few">%1$s медіавкладення</item>
+        <item quantity="many">%1$s медіавкладень</item>
+        <item quantity="other">%1$s медіавкладень</item>
     </plurals>
     <string name="yes">Так</string>
     <string name="no">Ні</string>
