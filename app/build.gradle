@@ -25,13 +25,13 @@ final def CUSTOM_INSTANCE = ""
 final def SUPPORT_ACCOUNT_URL = "https://mastodon.social/@Tusky"
 
 android {
-    compileSdk 35
+    compileSdk 36
     namespace "com.keylesspalace.tusky"
     defaultConfig {
         applicationId APP_ID
         namespace "com.keylesspalace.tusky"
         minSdk 24
-        targetSdk 35
+        targetSdk 36
         versionCode 131
         versionName "28.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -103,11 +103,11 @@ android {
 
     // Exclude unneeded files added by libraries
     packagingOptions.resources.excludes += [
-            'LICENSE_OFL',
-            'LICENSE_UNICODE',
-            'META-INF/androidx/**',
-            'META-INF/NOTICE.md',
-            'DebugProbesKt.bin'
+        'LICENSE_OFL',
+        'LICENSE_UNICODE',
+        'META-INF/androidx/**',
+        'META-INF/NOTICE.md',
+        'DebugProbesKt.bin'
     ]
 
     bundle {
