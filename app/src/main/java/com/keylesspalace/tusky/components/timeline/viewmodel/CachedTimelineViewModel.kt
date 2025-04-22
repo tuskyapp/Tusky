@@ -32,7 +32,7 @@ import at.connyduck.calladapter.networkresult.onFailure
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.NEWEST_FIRST
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
@@ -83,7 +83,9 @@ class CachedTimelineViewModel @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val statuses = Pager(
         config = PagingConfig(
-            pageSize = LOAD_AT_ONCE
+            pageSize = LOAD_AT_ONCE,
+            jumpThreshold = 100,
+            maxSize = 500
         ),
         remoteMediator = CachedTimelineRemoteMediator(this, api, db),
         pagingSourceFactory = {
@@ -149,7 +151,7 @@ class CachedTimelineViewModel @Inject constructor(
                 val accountDao = db.timelineAccountDao()
 
                 timelineDao.insertHomeTimelineItem(
-                    Placeholder(placeholderId, loading = true).toEntity(tuskyAccountId = accountId)
+                    LoadMorePlaceholder(placeholderId, loading = true).toEntity(tuskyAccountId = accountId)
                 )
 
                 val (idAbovePlaceholder, idBelowPlaceholder) = db.withTransaction {
@@ -236,7 +238,7 @@ class CachedTimelineViewModel @Inject constructor(
                             NEWEST_FIRST -> statuses.last().id
                         }
                         timelineDao.insertHomeTimelineItem(
-                            Placeholder(
+                            LoadMorePlaceholder(
                                 idToConvert,
                                 loading = false
                             ).toEntity(accountId)
@@ -255,7 +257,7 @@ class CachedTimelineViewModel @Inject constructor(
         Log.w(TAG, "failed loading statuses", e)
         val activeAccount = accountManager.activeAccount!!
         db.timelineDao()
-            .insertHomeTimelineItem(Placeholder(placeholderId, loading = false).toEntity(activeAccount.id))
+            .insertHomeTimelineItem(LoadMorePlaceholder(placeholderId, loading = false).toEntity(activeAccount.id))
     }
 
     override fun fullReload() {

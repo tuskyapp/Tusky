@@ -15,7 +15,7 @@
 
 package com.keylesspalace.tusky.components.notifications
 
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.db.entity.NotificationDataEntity
@@ -29,7 +29,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 
-fun Placeholder.toNotificationEntity(
+fun LoadMorePlaceholder.toNotificationEntity(
     tuskyAccountId: Long
 ) = NotificationEntity(
     id = this.id,
@@ -90,7 +90,7 @@ fun NotificationDataEntity.toViewData(
     translation: TranslationViewData? = null
 ): NotificationViewData {
     if (type == null || account == null) {
-        return NotificationViewData.Placeholder(id = id, isLoading = loading)
+        return NotificationViewData.LoadMore(id = id, isLoading = loading)
     }
 
     return NotificationViewData.Concrete(

@@ -10,7 +10,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
@@ -196,7 +196,7 @@ class NotificationsRemoteMediatorTest {
             listOf(
                 fakeNotification(id = "8").toNotificationDataEntity(1),
                 fakeNotification(id = "7").toNotificationDataEntity(1),
-                Placeholder(id = "5", loading = false).toNotificationDataEntity(1),
+                LoadMorePlaceholder(id = "5", loading = false).toNotificationDataEntity(1),
                 fakeNotification(id = "3").toNotificationDataEntity(1),
                 fakeNotification(id = "2").toNotificationDataEntity(1),
                 fakeNotification(id = "1").toNotificationDataEntity(1)
@@ -449,7 +449,7 @@ class NotificationsRemoteMediatorTest {
         )
         db.insert(notificationsAlreadyInDb)
 
-        val placeholder = Placeholder(id = "6", loading = false).toNotificationEntity(1)
+        val placeholder = LoadMorePlaceholder(id = "6", loading = false).toNotificationEntity(1)
         db.notificationsDao().insertNotification(placeholder)
 
         val remoteMediator = NotificationsRemoteMediator(
@@ -493,7 +493,7 @@ class NotificationsRemoteMediatorTest {
                 fakeNotification(id = "9").toNotificationDataEntity(1),
                 fakeNotification(id = "8").toNotificationDataEntity(1),
                 fakeNotification(id = "7").toNotificationDataEntity(1),
-                Placeholder(id = "6", loading = false).toNotificationDataEntity(1),
+                LoadMorePlaceholder(id = "6", loading = false).toNotificationDataEntity(1),
                 fakeNotification(id = "1").toNotificationDataEntity(1)
             )
         )

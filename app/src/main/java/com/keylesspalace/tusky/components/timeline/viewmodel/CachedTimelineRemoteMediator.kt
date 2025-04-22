@@ -21,7 +21,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AppDatabase
@@ -113,7 +113,7 @@ class CachedTimelineRemoteMediator(
                        to guarantee the placeholder has an id that exists on the server as not all
                        servers handle client generated ids as expected */
                     timelineDao.insertHomeTimelineItem(
-                        Placeholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
+                        LoadMorePlaceholder(statuses.last().id, loading = false).toEntity(activeAccount.id)
                     )
                 }
             }

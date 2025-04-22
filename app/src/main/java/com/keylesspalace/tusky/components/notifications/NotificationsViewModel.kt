@@ -36,7 +36,7 @@ import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder
 import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.components.systemnotifications.toTypes
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
@@ -312,7 +312,7 @@ class NotificationsViewModel @Inject constructor(
                 val notificationsDao = db.notificationsDao()
 
                 notificationsDao.insertNotification(
-                    Placeholder(placeholderId, loading = true).toNotificationEntity(
+                    LoadMorePlaceholder(placeholderId, loading = true).toNotificationEntity(
                         accountId
                     )
                 )
@@ -404,7 +404,7 @@ class NotificationsViewModel @Inject constructor(
                             ReadingOrder.NEWEST_FIRST -> notifications.last().id
                         }
                         notificationsDao.insertNotification(
-                            Placeholder(
+                            LoadMorePlaceholder(
                                 idToConvert,
                                 loading = false
                             ).toNotificationEntity(accountId)
@@ -424,7 +424,7 @@ class NotificationsViewModel @Inject constructor(
         val activeAccount = accountManager.activeAccount!!
         db.notificationsDao()
             .insertNotification(
-                Placeholder(placeholderId, loading = false).toNotificationEntity(activeAccount.id)
+                LoadMorePlaceholder(placeholderId, loading = false).toNotificationEntity(activeAccount.id)
             )
     }
 

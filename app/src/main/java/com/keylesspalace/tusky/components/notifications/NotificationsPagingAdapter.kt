@@ -23,16 +23,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
 import com.keylesspalace.tusky.adapter.FollowRequestViewHolder
+import com.keylesspalace.tusky.adapter.LoadMoreViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.databinding.ItemFollowBinding
 import com.keylesspalace.tusky.databinding.ItemFollowRequestBinding
+import com.keylesspalace.tusky.databinding.ItemLoadMoreBinding
 import com.keylesspalace.tusky.databinding.ItemModerationWarningNotificationBinding
+import com.keylesspalace.tusky.databinding.ItemPlaceholderBinding
 import com.keylesspalace.tusky.databinding.ItemReportNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemSeveredRelationshipNotificationBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
 import com.keylesspalace.tusky.databinding.ItemStatusNotificationBinding
-import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.databinding.ItemUnknownNotificationBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
@@ -80,6 +82,7 @@ class NotificationsPagingAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (val notification = getItem(position)) {
+            is NotificationViewData.LoadMore -> VIEW_TYPE_LOAD_MORE
             is NotificationViewData.Concrete -> {
                 when (notification.type) {
                     Notification.Type.Mention,
@@ -105,13 +108,17 @@ class NotificationsPagingAdapter(
                     else -> VIEW_TYPE_UNKNOWN
                 }
             }
-            else -> VIEW_TYPE_PLACEHOLDER
+            null -> VIEW_TYPE_PLACEHOLDER
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
+            VIEW_TYPE_PLACEHOLDER -> PlaceholderViewHolder(
+                ItemPlaceholderBinding.inflate(inflater, parent, false),
+                mode = PlaceholderViewHolder.Mode.NOTIFICATION
+            )
             VIEW_TYPE_STATUS -> StatusViewHolder(
                 inflater.inflate(R.layout.item_status, parent, false),
                 statusListener,
@@ -137,8 +144,8 @@ class NotificationsPagingAdapter(
                 statusListener,
                 true
             )
-            VIEW_TYPE_PLACEHOLDER -> PlaceholderViewHolder(
-                ItemStatusPlaceholderBinding.inflate(inflater, parent, false),
+            VIEW_TYPE_LOAD_MORE -> LoadMoreViewHolder(
+                ItemLoadMoreBinding.inflate(inflater, parent, false),
                 statusListener
             )
             VIEW_TYPE_REPORT -> ReportNotificationViewHolder(
@@ -169,24 +176,25 @@ class NotificationsPagingAdapter(
             when (notification) {
                 is NotificationViewData.Concrete ->
                     (viewHolder as NotificationsViewHolder).bind(notification, payloads, statusDisplayOptions)
-                is NotificationViewData.Placeholder -> {
-                    (viewHolder as PlaceholderViewHolder).setup(notification.isLoading)
+                is NotificationViewData.LoadMore -> {
+                    (viewHolder as LoadMoreViewHolder).setup(notification.isLoading)
                 }
             }
         }
     }
 
     companion object {
-        private const val VIEW_TYPE_STATUS = 0
-        private const val VIEW_TYPE_STATUS_FILTERED = 1
-        private const val VIEW_TYPE_STATUS_NOTIFICATION = 2
-        private const val VIEW_TYPE_FOLLOW = 3
-        private const val VIEW_TYPE_FOLLOW_REQUEST = 4
-        private const val VIEW_TYPE_PLACEHOLDER = 5
-        private const val VIEW_TYPE_REPORT = 6
-        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 7
-        private const val VIEW_TYPE_MODERATION_WARNING = 8
-        private const val VIEW_TYPE_UNKNOWN = 9
+        private const val VIEW_TYPE_PLACEHOLDER = 0
+        private const val VIEW_TYPE_STATUS = 1
+        private const val VIEW_TYPE_STATUS_FILTERED = 2
+        private const val VIEW_TYPE_STATUS_NOTIFICATION = 3
+        private const val VIEW_TYPE_FOLLOW = 4
+        private const val VIEW_TYPE_FOLLOW_REQUEST = 5
+        private const val VIEW_TYPE_LOAD_MORE = 6
+        private const val VIEW_TYPE_REPORT = 7
+        private const val VIEW_TYPE_SEVERED_RELATIONSHIP = 8
+        private const val VIEW_TYPE_MODERATION_WARNING = 9
+        private const val VIEW_TYPE_UNKNOWN = 10
 
         val NotificationsDifferCallback = object : DiffUtil.ItemCallback<NotificationViewData>() {
             override fun areItemsTheSame(

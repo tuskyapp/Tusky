@@ -9,7 +9,7 @@ import com.keylesspalace.tusky.components.notifications.fakeReport
 import com.keylesspalace.tusky.components.notifications.insert
 import com.keylesspalace.tusky.components.notifications.toNotificationDataEntity
 import com.keylesspalace.tusky.components.notifications.toNotificationEntity
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.fakeAccount
 import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.db.AppDatabase
@@ -191,9 +191,9 @@ class NotificationsDaoTest {
         )
         db.insert(notifications)
 
-        notificationsDao.insertNotification(Placeholder(id = "99", loading = false).toNotificationEntity(1))
-        notificationsDao.insertNotification(Placeholder(id = "96", loading = false).toNotificationEntity(1))
-        notificationsDao.insertNotification(Placeholder(id = "80", loading = false).toNotificationEntity(1))
+        notificationsDao.insertNotification(LoadMorePlaceholder(id = "99", loading = false).toNotificationEntity(1))
+        notificationsDao.insertNotification(LoadMorePlaceholder(id = "96", loading = false).toNotificationEntity(1))
+        notificationsDao.insertNotification(LoadMorePlaceholder(id = "80", loading = false).toNotificationEntity(1))
 
         assertEquals("99", notificationsDao.getTopPlaceholderId(1))
     }
