@@ -648,10 +648,10 @@
 \n
 \nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. \u0020</string>
     <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể tạo nhiều danh sách riêng tư và thêm người dùng vào đó. 
-\n 
-\nChỉ những người BẠN ĐANG THEO DÕI mới có thể thêm vào danh sách. 
-\n 
-\nDanh sách có thể được sử dụng như một tab trong thiết lập {manage_accounts}} Cá nhân {{chevron_right}} Xếp tab.</string>
+\n \u0020
+\nChỉ những người BẠN ĐANG THEO DÕI mới có thể thêm vào danh sách. \u0020
+\n \u0020
+\nDanh sách có thể được sử dụng như một tab trong thiết lập {{manage_accounts}} Cá nhân {{chevron_right}} Xếp tab.</string>
     <string name="muting_hashtag_success_format">Đang ẩn hashtag #%1$s như một cảnh báo</string>
     <string name="unmuting_hashtag_success_format">Đang bỏ ẩn hashtag #%1$s</string>
     <string name="action_view_filter">Xem bộ lọc</string>

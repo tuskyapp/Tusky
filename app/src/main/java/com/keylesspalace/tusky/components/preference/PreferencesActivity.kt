@@ -41,6 +41,7 @@ import com.keylesspalace.tusky.util.getNonNullString
 import com.keylesspalace.tusky.util.setAppNightMode
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import dagger.hilt.android.AndroidEntryPoint
+import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -159,7 +160,7 @@ class PreferencesActivity :
             }
             PrefKeys.STATUS_TEXT_SIZE, PrefKeys.ABSOLUTE_TIME_VIEW, PrefKeys.SHOW_BOT_OVERLAY, PrefKeys.ANIMATE_GIF_AVATARS, PrefKeys.USE_BLURHASH,
             PrefKeys.SHOW_SELF_USERNAME, PrefKeys.SHOW_CARDS_IN_TIMELINES, PrefKeys.CONFIRM_REBLOGS, PrefKeys.CONFIRM_FAVOURITES,
-            PrefKeys.ENABLE_SWIPE_FOR_TABS, PrefKeys.MAIN_NAV_POSITION, PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {
+            EMOJI_PREFERENCE, PrefKeys.ENABLE_SWIPE_FOR_TABS, PrefKeys.MAIN_NAV_POSITION, PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
             }
         }

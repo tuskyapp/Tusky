@@ -286,9 +286,11 @@ class ViewImageFragment : ViewMediaFragment() {
             // Request image from the network on fail load image from cache
             .error(
                 glide.load(url)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .centerInside()
                     .addListener(ImageRequestListener(false, isThumbnailRequest = false))
             )
+            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             .centerInside()
             .addListener(ImageRequestListener(true, isThumbnailRequest = false))
             .into(photoView)
