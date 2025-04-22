@@ -127,11 +127,7 @@ data class AccountEntity(
     val fullName: String
         get() = "@$username@$domain"
 
-    fun isPushNotificationsEnabled(): Boolean {
-        return unifiedPushUrl.isNotEmpty()
-    }
+    fun isPushNotificationsEnabled(): Boolean = unifiedPushUrl.isNotEmpty()
 
-    fun matchesPushSubscription(endpoint: String): Boolean {
-        return unifiedPushUrl == endpoint
-    }
+    fun matchesPushSubscription(endpoint: String): Boolean = unifiedPushUrl == endpoint
 }

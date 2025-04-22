@@ -62,94 +62,100 @@ data class TabData(
 
 fun List<TabData>.hasTab(id: String): Boolean = this.any { it.id == id }
 
-fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData {
-    return when (id) {
-        HOME -> TabData(
-            id = HOME,
-            text = R.string.title_home,
-            icon = R.drawable.tab_icon_home,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
-        )
-        NOTIFICATIONS -> TabData(
-            id = NOTIFICATIONS,
-            text = R.string.title_notifications,
-            icon = R.drawable.tab_icon_notifications,
-            fragment = { NotificationsFragment.newInstance() }
-        )
-        LOCAL -> TabData(
-            id = LOCAL,
-            text = R.string.title_public_local,
-            icon = R.drawable.tab_icon_local,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
-        )
-        FEDERATED -> TabData(
-            id = FEDERATED,
-            text = R.string.title_public_federated,
-            icon = R.drawable.ic_public_24dp,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
-        )
-        DIRECT -> TabData(
-            id = DIRECT,
-            text = R.string.title_direct_messages,
-            icon = R.drawable.tab_icon_direct,
-            fragment = { ConversationsFragment.newInstance() }
-        )
-        TRENDING_TAGS -> TabData(
-            id = TRENDING_TAGS,
-            text = R.string.title_public_trending_hashtags,
-            icon = R.drawable.tab_icon_trending_tags,
-            fragment = { TrendingTagsFragment.newInstance() }
-        )
-        TRENDING_STATUSES -> TabData(
-            id = TRENDING_STATUSES,
-            text = R.string.title_public_trending_statuses,
-            icon = R.drawable.tab_icon_trending_posts,
-            fragment = {
-                TimelineFragment.newInstance(
-                    TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
-                )
+fun createTabDataFromId(id: String, arguments: List<String> = emptyList()): TabData = when (id) {
+    HOME -> TabData(
+        id = HOME,
+        text = R.string.title_home,
+        icon = R.drawable.tab_icon_home,
+        fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.HOME) }
+    )
+
+    NOTIFICATIONS -> TabData(
+        id = NOTIFICATIONS,
+        text = R.string.title_notifications,
+        icon = R.drawable.tab_icon_notifications,
+        fragment = { NotificationsFragment.newInstance() }
+    )
+
+    LOCAL -> TabData(
+        id = LOCAL,
+        text = R.string.title_public_local,
+        icon = R.drawable.tab_icon_local,
+        fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_LOCAL) }
+    )
+
+    FEDERATED -> TabData(
+        id = FEDERATED,
+        text = R.string.title_public_federated,
+        icon = R.drawable.ic_public_24dp,
+        fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.PUBLIC_FEDERATED) }
+    )
+
+    DIRECT -> TabData(
+        id = DIRECT,
+        text = R.string.title_direct_messages,
+        icon = R.drawable.tab_icon_direct,
+        fragment = { ConversationsFragment.newInstance() }
+    )
+
+    TRENDING_TAGS -> TabData(
+        id = TRENDING_TAGS,
+        text = R.string.title_public_trending_hashtags,
+        icon = R.drawable.tab_icon_trending_tags,
+        fragment = { TrendingTagsFragment.newInstance() }
+    )
+
+    TRENDING_STATUSES -> TabData(
+        id = TRENDING_STATUSES,
+        text = R.string.title_public_trending_statuses,
+        icon = R.drawable.tab_icon_trending_posts,
+        fragment = {
+            TimelineFragment.newInstance(
+                TimelineViewModel.Kind.PUBLIC_TRENDING_STATUSES
+            )
+        }
+    )
+
+    HASHTAG -> TabData(
+        id = HASHTAG,
+        text = R.string.hashtags,
+        icon = R.drawable.ic_tag_24dp,
+        fragment = { args -> TimelineFragment.newHashtagInstance(args) },
+        arguments = arguments,
+        title = { context ->
+            arguments.joinToString(separator = " ") {
+                context.getString(R.string.hashtag_format, it)
             }
-        )
-        HASHTAG -> TabData(
-            id = HASHTAG,
-            text = R.string.hashtags,
-            icon = R.drawable.ic_tag_24dp,
-            fragment = { args -> TimelineFragment.newHashtagInstance(args) },
-            arguments = arguments,
-            title = { context ->
-                arguments.joinToString(separator = " ") {
-                    context.getString(R.string.hashtag_format, it)
-                }
-            }
-        )
-        LIST -> TabData(
-            id = LIST,
-            text = R.string.list,
-            icon = R.drawable.tab_icon_list,
-            fragment = { args ->
-                TimelineFragment.newInstance(
-                    TimelineViewModel.Kind.LIST,
-                    args.getOrNull(0).orEmpty()
-                )
-            },
-            arguments = arguments,
-            title = { arguments.getOrNull(1).orEmpty() }
-        )
-        BOOKMARKS -> TabData(
-            id = BOOKMARKS,
-            text = R.string.title_bookmarks,
-            icon = R.drawable.tab_icon_bookmarks,
-            fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS) }
-        )
-        else -> throw IllegalArgumentException("unknown tab type")
-    }
+        }
+    )
+
+    LIST -> TabData(
+        id = LIST,
+        text = R.string.list,
+        icon = R.drawable.tab_icon_list,
+        fragment = { args ->
+            TimelineFragment.newInstance(
+                TimelineViewModel.Kind.LIST,
+                args.getOrNull(0).orEmpty()
+            )
+        },
+        arguments = arguments,
+        title = { arguments.getOrNull(1).orEmpty() }
+    )
+
+    BOOKMARKS -> TabData(
+        id = BOOKMARKS,
+        text = R.string.title_bookmarks,
+        icon = R.drawable.tab_icon_bookmarks,
+        fragment = { TimelineFragment.newInstance(TimelineViewModel.Kind.BOOKMARKS) }
+    )
+
+    else -> throw IllegalArgumentException("unknown tab type")
 }
 
-fun defaultTabs(): List<TabData> {
-    return listOf(
-        createTabDataFromId(HOME),
-        createTabDataFromId(NOTIFICATIONS),
-        createTabDataFromId(LOCAL),
-        createTabDataFromId(DIRECT)
-    )
-}
+fun defaultTabs(): List<TabData> = listOf(
+    createTabDataFromId(HOME),
+    createTabDataFromId(NOTIFICATIONS),
+    createTabDataFromId(LOCAL),
+    createTabDataFromId(DIRECT)
+)

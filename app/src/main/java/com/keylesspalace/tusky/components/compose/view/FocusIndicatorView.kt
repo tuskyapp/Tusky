@@ -40,9 +40,7 @@ class FocusIndicatorView
     }
 
     // Assumes setFocus called first
-    fun getFocus(): Attachment.Focus {
-        return focus!!
-    }
+    fun getFocus(): Attachment.Focus = focus!!
 
     // This needs to be consistent every time it is consulted over the lifetime of the object,
     // so base it on the view width/height whenever the first access occurs.

@@ -28,12 +28,10 @@ fun randomAlphanumericString(count: Int): String {
  * not: "ab" < "ab"
  * not: "abc" > "cb"
  */
-fun String.isLessThan(other: String): Boolean {
-    return when {
-        this.length < other.length -> true
-        this.length > other.length -> false
-        else -> this < other
-    }
+fun String.isLessThan(other: String): Boolean = when {
+    this.length < other.length -> true
+    this.length > other.length -> false
+    else -> this < other
 }
 
 /**
@@ -45,9 +43,7 @@ fun String.isLessThan(other: String): Boolean {
  * "ab"  <= "ab"
  * not: "abc" > "cb"
  */
-fun String.isLessThanOrEqual(other: String): Boolean {
-    return this == other || isLessThan(other)
-}
+fun String.isLessThanOrEqual(other: String): Boolean = this == other || isLessThan(other)
 
 fun Spanned.trimTrailingWhitespace(): Spanned {
     var i = length
@@ -62,6 +58,4 @@ fun Spanned.trimTrailingWhitespace(): Spanned {
  * So we force isolation manually
  * https://unicode.org/reports/tr9/#Explicit_Directional_Isolates
  */
-fun CharSequence.unicodeWrap(): String {
-    return "\u2068${this}\u2069"
-}
+fun CharSequence.unicodeWrap(): String = "\u2068${this}\u2069"

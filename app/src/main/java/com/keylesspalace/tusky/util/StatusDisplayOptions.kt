@@ -57,36 +57,47 @@ data class StatusDisplayOptions(
         PrefKeys.ANIMATE_GIF_AVATARS -> copy(
             animateAvatars = preferences.getBoolean(key, false)
         )
+
         PrefKeys.MEDIA_PREVIEW_ENABLED -> copy(
             mediaPreviewEnabled = account.mediaPreviewEnabled
         )
+
         PrefKeys.ABSOLUTE_TIME_VIEW -> copy(
             useAbsoluteTime = preferences.getBoolean(key, false)
         )
+
         PrefKeys.SHOW_BOT_OVERLAY -> copy(
             showBotOverlay = preferences.getBoolean(key, true)
         )
+
         PrefKeys.USE_BLURHASH -> copy(
             useBlurhash = preferences.getBoolean(key, true)
         )
+
         PrefKeys.CONFIRM_FAVOURITES -> copy(
             confirmFavourites = preferences.getBoolean(key, false)
         )
+
         PrefKeys.CONFIRM_REBLOGS -> copy(
             confirmReblogs = preferences.getBoolean(key, true)
         )
+
         PrefKeys.WELLBEING_HIDE_STATS_POSTS -> copy(
             hideStats = preferences.getBoolean(key, false)
         )
+
         PrefKeys.ANIMATE_CUSTOM_EMOJIS -> copy(
             animateEmojis = preferences.getBoolean(key, false)
         )
+
         PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA -> copy(
             showSensitiveMedia = account.alwaysShowSensitiveMedia
         )
+
         PrefKeys.ALWAYS_OPEN_SPOILER -> copy(
             openSpoiler = account.alwaysOpenSpoiler
         )
+
         else -> {
             this
         }

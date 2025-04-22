@@ -37,30 +37,28 @@ fun Uri.asRequestBody(
     contentType: MediaType? = null,
     contentLength: Long = -1L,
     uploadListener: UploadCallback? = null
-): RequestBody {
-    return object : RequestBody() {
-        override fun contentType(): MediaType? = contentType
+): RequestBody = object : RequestBody() {
+    override fun contentType(): MediaType? = contentType
 
-        override fun contentLength(): Long = contentLength
+    override fun contentLength(): Long = contentLength
 
-        override fun writeTo(sink: BufferedSink) {
-            val buffer = Buffer()
-            var uploaded: Long = 0
-            val inputStream = contentResolver.openInputStream(this@asRequestBody)
-                ?: throw FileNotFoundException("Unavailable ContentProvider")
+    override fun writeTo(sink: BufferedSink) {
+        val buffer = Buffer()
+        var uploaded: Long = 0
+        val inputStream = contentResolver.openInputStream(this@asRequestBody)
+            ?: throw FileNotFoundException("Unavailable ContentProvider")
 
-            inputStream.source().use { source ->
-                while (true) {
-                    val read = source.read(buffer, DEFAULT_CHUNK_SIZE)
-                    if (read == -1L) {
-                        break
-                    }
-                    sink.write(buffer, read)
-                    uploaded += read
-                    uploadListener?.let { if (contentLength > 0L) it.onProgressUpdate((100L * uploaded / contentLength).toInt()) }
+        inputStream.source().use { source ->
+            while (true) {
+                val read = source.read(buffer, DEFAULT_CHUNK_SIZE)
+                if (read == -1L) {
+                    break
                 }
-                uploadListener?.onProgressUpdate(100)
+                sink.write(buffer, read)
+                uploaded += read
+                uploadListener?.let { if (contentLength > 0L) it.onProgressUpdate((100L * uploaded / contentLength).toInt()) }
             }
+            uploadListener?.onProgressUpdate(100)
         }
     }
 }

@@ -84,23 +84,21 @@ class FollowedTagsActivity :
         (binding.followedTagsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
-    private fun setupAdapter(): FollowedTagsAdapter {
-        return FollowedTagsAdapter(this, viewModel).apply {
-            addLoadStateListener { loadState ->
-                binding.followedTagsProgressBar.visible(
-                    loadState.refresh == LoadState.Loading && itemCount == 0
-                )
+    private fun setupAdapter(): FollowedTagsAdapter = FollowedTagsAdapter(this, viewModel).apply {
+        addLoadStateListener { loadState ->
+            binding.followedTagsProgressBar.visible(
+                loadState.refresh == LoadState.Loading && itemCount == 0
+            )
 
-                if (loadState.refresh is LoadState.Error) {
-                    binding.followedTagsView.hide()
-                    binding.followedTagsMessageView.show()
-                    val errorState = loadState.refresh as LoadState.Error
-                    binding.followedTagsMessageView.setup(errorState.error) { retry() }
-                    Log.w(TAG, "error loading followed hashtags", errorState.error)
-                } else {
-                    binding.followedTagsView.show()
-                    binding.followedTagsMessageView.hide()
-                }
+            if (loadState.refresh is LoadState.Error) {
+                binding.followedTagsView.hide()
+                binding.followedTagsMessageView.show()
+                val errorState = loadState.refresh as LoadState.Error
+                binding.followedTagsMessageView.setup(errorState.error) { retry() }
+                Log.w(TAG, "error loading followed hashtags", errorState.error)
+            } else {
+                binding.followedTagsView.show()
+                binding.followedTagsMessageView.hide()
             }
         }
     }

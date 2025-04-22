@@ -108,12 +108,10 @@ class TrendingTagsFragment :
     private fun setupLayoutManager(adapter: TrendingTagsAdapter, columnCount: Int) {
         binding.recyclerView.layoutManager = GridLayoutManager(context, columnCount).apply {
             spanSizeLookup = object : SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return when (adapter.getItemViewType(position)) {
-                        TrendingTagsAdapter.VIEW_TYPE_HEADER -> columnCount
-                        TrendingTagsAdapter.VIEW_TYPE_TAG -> 1
-                        else -> -1
-                    }
+                override fun getSpanSize(position: Int): Int = when (adapter.getItemViewType(position)) {
+                    TrendingTagsAdapter.VIEW_TYPE_HEADER -> columnCount
+                    TrendingTagsAdapter.VIEW_TYPE_TAG -> 1
+                    else -> -1
                 }
             }
         }
@@ -217,9 +215,7 @@ class TrendingTagsFragment :
         ) { refreshContent() }
     }
 
-    private fun actionButtonPresent(): Boolean {
-        return (activity as? ActionButtonActivity?)?.actionButton != null
-    }
+    private fun actionButtonPresent(): Boolean = (activity as? ActionButtonActivity?)?.actionButton != null
 
     private var talkBackWasEnabled = false
 

@@ -199,6 +199,7 @@ class ComposeViewModel @Inject constructor(
                                     QueuedMedia.State.UNPROCESSED
                                 }
                             )
+
                         is UploadEvent.ErrorEvent -> {
                             _media.update { mediaList -> mediaList.filter { it.localId != mediaItem.localId } }
                             _uploadError.emit(event.error)
@@ -280,11 +281,13 @@ class ComposeViewModel @Inject constructor(
                 } else {
                     ConfirmationKind.SAVE_OR_DISCARD
                 }
+
                 ComposeKind.EDIT_DRAFT -> if (isEmpty(currentContent, contentWarning)) {
                     ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT
                 } else {
                     ConfirmationKind.UPDATE_OR_DISCARD
                 }
+
                 ComposeKind.EDIT_POSTED -> ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES
                 ComposeKind.EDIT_SCHEDULED -> ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES
             }
@@ -303,9 +306,7 @@ class ComposeViewModel @Inject constructor(
         return modifiedInitialState || textChanged || contentWarningChanged || mediaChanged || pollChanged || didScheduledTimeChange
     }
 
-    private fun isEmpty(content: String?, contentWarning: String?): Boolean {
-        return !modifiedInitialState && (content.isNullOrBlank() && contentWarning.isNullOrBlank() && _media.value.isEmpty() && _poll.value == null)
-    }
+    private fun isEmpty(content: String?, contentWarning: String?): Boolean = !modifiedInitialState && (content.isNullOrBlank() && contentWarning.isNullOrBlank() && _media.value.isEmpty() && _poll.value == null)
 
     fun contentWarningChanged(value: Boolean) {
         _showContentWarning.value = value
@@ -431,6 +432,7 @@ class ComposeViewModel @Inject constructor(
                         emptyList()
                     })
             }
+
             '#' -> runBlocking {
                 api.search(
                     query = token,
@@ -597,6 +599,7 @@ class ComposeViewModel @Inject constructor(
             VIDEO,
             AUDIO
         }
+
         enum class State {
             UPLOADING,
             UNPROCESSED,

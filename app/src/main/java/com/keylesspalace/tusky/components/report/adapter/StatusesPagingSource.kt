@@ -29,10 +29,8 @@ class StatusesPagingSource(
     private val mastodonApi: MastodonApi
 ) : PagingSource<String, Status>() {
 
-    override fun getRefreshKey(state: PagingState<String, Status>): String? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.id
-        }
+    override fun getRefreshKey(state: PagingState<String, Status>): String? = state.anchorPosition?.let { anchorPosition ->
+        state.closestItemToPosition(anchorPosition)?.id
     }
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Status> {
@@ -73,22 +71,18 @@ class StatusesPagingSource(
         }
     }
 
-    private suspend fun getSingleStatus(statusId: String): Status {
-        return mastodonApi.status(statusId).getOrThrow()
-    }
+    private suspend fun getSingleStatus(statusId: String): Status = mastodonApi.status(statusId).getOrThrow()
 
     private suspend fun getStatusList(
         minId: String? = null,
         maxId: String? = null,
         limit: Int
-    ): List<Status> {
-        return mastodonApi.accountStatuses(
-            accountId = accountId,
-            maxId = maxId,
-            sinceId = null,
-            minId = minId,
-            limit = limit,
-            excludeReblogs = true
-        ).getOrThrow()
-    }
+    ): List<Status> = mastodonApi.accountStatuses(
+        accountId = accountId,
+        maxId = maxId,
+        sinceId = null,
+        minId = minId,
+        limit = limit,
+        excludeReblogs = true
+    ).getOrThrow()
 }

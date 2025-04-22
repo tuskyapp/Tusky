@@ -157,14 +157,10 @@ abstract class BottomSheetActivity : BaseActivity() {
     }
 
     @VisibleForTesting
-    fun getCancelSearchRequested(url: String): Boolean {
-        return url != searchUrl
-    }
+    fun getCancelSearchRequested(url: String): Boolean = url != searchUrl
 
     @VisibleForTesting
-    fun isSearching(): Boolean {
-        return searchUrl != null
-    }
+    fun isSearching(): Boolean = searchUrl != null
 
     @VisibleForTesting
     fun onEndSearch(url: String?) {

@@ -30,7 +30,6 @@ import com.keylesspalace.tusky.util.getErrorString
 import com.keylesspalace.tusky.util.viewBinding
 import com.keylesspalace.tusky.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -58,12 +57,12 @@ class NotificationPoliciesActivity : BaseActivity() {
                 binding.preferenceFragment.visible(state is NotificationPolicyState.Loaded)
                 binding.messageView.visible(state !is NotificationPolicyState.Loading && state !is NotificationPolicyState.Loaded)
                 when (state) {
-                    is NotificationPolicyState.Loading -> { }
+                    is NotificationPolicyState.Loading -> {}
 
                     is NotificationPolicyState.Error ->
                         binding.messageView.setup(state.throwable) { viewModel.loadPolicy() }
 
-                    is NotificationPolicyState.Loaded -> { }
+                    is NotificationPolicyState.Loaded -> {}
 
                     NotificationPolicyState.Unsupported ->
                         binding.messageView.setup(R.drawable.errorphant_error, R.string.notification_policies_not_supported) { viewModel.loadPolicy() }

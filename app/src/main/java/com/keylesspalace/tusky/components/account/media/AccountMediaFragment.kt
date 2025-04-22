@@ -133,10 +133,12 @@ class AccountMediaFragment :
                             )
                         }
                     }
+
                     is LoadState.Error -> {
                         binding.statusView.show()
                         binding.statusView.setup((loadState.refresh as LoadState.Error).error)
                     }
+
                     is LoadState.Loading -> {
                         binding.progressBar.show()
                     }
@@ -155,15 +157,14 @@ class AccountMediaFragment :
         menuInflater.inflate(R.menu.fragment_account_media, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                refreshContent()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            refreshContent()
+            true
         }
+
+        else -> false
     }
 
     private fun onAttachmentClick(selected: AttachmentViewData, view: View) {
@@ -199,6 +200,7 @@ class AccountMediaFragment :
                     startActivity(intent)
                 }
             }
+
             Attachment.Type.UNKNOWN -> {
                 context?.openLink(selected.attachment.unknownUrl)
             }

@@ -200,6 +200,7 @@ class HtmlDiffOutput : XMLDiffOutput {
                 token.toXML(xml)
                 xml.closeElement()
             }
+
             else -> {
                 // Only include inserted content
                 if (operator === Operator.INS) {

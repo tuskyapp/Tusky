@@ -50,8 +50,7 @@ fun ViewGroup.expandTouchSizeToFillRow(children: List<View>) {
     }
 }
 
-private class CompositeTouchDelegate(view: View, private val delegates: List<TouchDelegate>) :
-    TouchDelegate(Rect(), view) {
+private class CompositeTouchDelegate(view: View, private val delegates: List<TouchDelegate>) : TouchDelegate(Rect(), view) {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x

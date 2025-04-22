@@ -263,7 +263,8 @@ class NotificationRequestDetailsViewModel @AssistedInject constructor(
         private const val TAG = "NotificationRequestsViewModel"
     }
 
-    @AssistedFactory interface Factory {
+    @AssistedFactory
+    interface Factory {
         fun create(
             @Assisted("notificationRequestId") notificationRequestId: String,
             @Assisted("accountId") accountId: String

@@ -40,9 +40,7 @@ object CryptoUtil {
         return ret
     }
 
-    fun secureRandomBytesEncoded(len: Int): String {
-        return Base64.encodeToString(secureRandomBytes(len), BASE64_FLAGS)
-    }
+    fun secureRandomBytesEncoded(len: Int): String = Base64.encodeToString(secureRandomBytes(len), BASE64_FLAGS)
 
     data class EncodedKeyPair(val pubkey: String, val privKey: String)
 

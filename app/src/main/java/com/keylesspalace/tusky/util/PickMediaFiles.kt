@@ -23,15 +23,13 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 
 class PickMediaFiles : ActivityResultContract<Boolean, List<Uri>>() {
-    override fun createIntent(context: Context, input: Boolean): Intent {
-        return Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("*/*")
-            .apply {
-                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*", "audio/*"))
-                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
-            }
-    }
+    override fun createIntent(context: Context, input: Boolean): Intent = Intent(Intent.ACTION_GET_CONTENT)
+        .addCategory(Intent.CATEGORY_OPENABLE)
+        .setType("*/*")
+        .apply {
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*", "audio/*"))
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
+        }
 
     override fun parseResult(resultCode: Int, intent: Intent?): List<Uri> {
         if (resultCode == Activity.RESULT_OK) {

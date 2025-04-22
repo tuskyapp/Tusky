@@ -51,10 +51,8 @@ class AccountFieldEditAdapter(
         notifyDataSetChanged()
     }
 
-    fun getFieldData(): List<StringField> {
-        return fieldData.map {
-            StringField(it.first, it.second)
-        }
+    fun getFieldData(): List<StringField> = fieldData.map {
+        StringField(it.first, it.second)
     }
 
     fun addField() {

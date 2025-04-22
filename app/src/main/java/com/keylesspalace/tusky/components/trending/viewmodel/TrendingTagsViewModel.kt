@@ -101,7 +101,7 @@ class TrendingTagsViewModel @Inject constructor(
                         .filter { tag ->
                             homeFilters?.none { filter ->
                                 filter.keywords.any { keyword -> keyword.keyword.equals(tag.name, ignoreCase = true) }
-                            } ?: false
+                            } == true
                         }
                         .sortedByDescending { tag -> tag.history.sumOf { it.uses.toLongOrNull() ?: 0 } }
                         .toViewData()

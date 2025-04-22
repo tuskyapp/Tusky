@@ -86,10 +86,9 @@ class NotificationRequestsAdapter(
 
     companion object {
         val NOTIFICATION_REQUEST_COMPARATOR = object : DiffUtil.ItemCallback<NotificationRequest>() {
-            override fun areItemsTheSame(oldItem: NotificationRequest, newItem: NotificationRequest): Boolean =
-                oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: NotificationRequest, newItem: NotificationRequest): Boolean =
-                oldItem == newItem
+            override fun areItemsTheSame(oldItem: NotificationRequest, newItem: NotificationRequest): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: NotificationRequest, newItem: NotificationRequest): Boolean = oldItem == newItem
         }
     }
 }

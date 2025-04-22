@@ -90,6 +90,7 @@ abstract class TimelineViewModel(
                         is PreferenceChangedEvent -> {
                             onPreferenceChanged(event.preferenceKey)
                         }
+
                         is FilterUpdatedEvent -> {
                             if (filterContextMatchesKind(this@TimelineViewModel.kind, event.filterContext)) {
                                 filterModel.init(kind.toFilterKind())
@@ -138,21 +139,20 @@ abstract class TimelineViewModel(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
-        viewModelScope.launch {
-            val poll = status.status.actionableStatus.poll ?: run {
-                Log.w(TAG, "No poll on status ${status.id}")
-                return@launch
-            }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        val poll = status.status.actionableStatus.poll ?: run {
+            Log.w(TAG, "No poll on status ${status.id}")
+            return@launch
+        }
 
-            try {
-                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
-            } catch (t: Exception) {
-                ifExpected(t) {
-                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
-                }
+        try {
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
             }
         }
+    }
 
     fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
         timelineCases.showPollResults(status.actionableId)
@@ -244,9 +244,7 @@ abstract class TimelineViewModel(
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
 
-        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean {
-            return filterContext.contains(kind.toFilterKind().kind)
-        }
+        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean = filterContext.contains(kind.toFilterKind().kind)
     }
 
     enum class Kind {
@@ -262,13 +260,11 @@ abstract class TimelineViewModel(
         BOOKMARKS,
         PUBLIC_TRENDING_STATUSES;
 
-        fun toFilterKind(): Filter.Kind {
-            return when (valueOf(name)) {
-                HOME, LIST -> Filter.Kind.HOME
-                PUBLIC_FEDERATED, PUBLIC_LOCAL, TAG, FAVOURITES, PUBLIC_TRENDING_STATUSES -> Filter.Kind.PUBLIC
-                USER, USER_WITH_REPLIES, USER_PINNED -> Filter.Kind.ACCOUNT
-                else -> Filter.Kind.PUBLIC
-            }
+        fun toFilterKind(): Filter.Kind = when (valueOf(name)) {
+            HOME, LIST -> Filter.Kind.HOME
+            PUBLIC_FEDERATED, PUBLIC_LOCAL, TAG, FAVOURITES, PUBLIC_TRENDING_STATUSES -> Filter.Kind.PUBLIC
+            USER, USER_WITH_REPLIES, USER_PINNED -> Filter.Kind.ACCOUNT
+            else -> Filter.Kind.PUBLIC
         }
     }
 }

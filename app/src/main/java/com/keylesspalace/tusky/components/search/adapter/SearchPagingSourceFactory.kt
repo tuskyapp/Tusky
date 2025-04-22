@@ -30,16 +30,14 @@ class SearchPagingSourceFactory<T : Any>(
 
     private var currentSource: SearchPagingSource<T>? = null
 
-    override fun invoke(): SearchPagingSource<T> {
-        return SearchPagingSource(
-            mastodonApi = mastodonApi,
-            searchType = searchType,
-            searchRequest = searchRequest,
-            initialItems = initialItems,
-            parser = parser
-        ).also { source ->
-            currentSource = source
-        }
+    override fun invoke(): SearchPagingSource<T> = SearchPagingSource(
+        mastodonApi = mastodonApi,
+        searchType = searchType,
+        searchRequest = searchRequest,
+        initialItems = initialItems,
+        parser = parser
+    ).also { source ->
+        currentSource = source
     }
 
     fun newSearch(newSearchRequest: String) {

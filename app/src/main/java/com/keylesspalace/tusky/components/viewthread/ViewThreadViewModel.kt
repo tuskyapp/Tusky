@@ -179,15 +179,13 @@ class ViewThreadViewModel @Inject constructor(
         loadThread(id)
     }
 
-    fun detailedStatus(): StatusViewData.Concrete? {
-        return when (val uiState = _uiState.value) {
-            is ThreadUiState.Success -> uiState.statusViewData.find { status ->
-                status.isDetailed
-            }
-
-            is ThreadUiState.LoadingThread -> uiState.statusViewDatum
-            else -> null
+    fun detailedStatus(): StatusViewData.Concrete? = when (val uiState = _uiState.value) {
+        is ThreadUiState.Success -> uiState.statusViewData.find { status ->
+            status.isDetailed
         }
+
+        is ThreadUiState.LoadingThread -> uiState.statusViewDatum
+        else -> null
     }
 
     fun reblog(reblog: Boolean, status: StatusViewData.Concrete, visibility: Status.Visibility = Status.Visibility.PUBLIC): Job = viewModelScope.launch {
@@ -220,26 +218,25 @@ class ViewThreadViewModel @Inject constructor(
         }
     }
 
-    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job =
-        viewModelScope.launch {
-            val poll = status.status.actionableStatus.poll ?: run {
-                Log.w(TAG, "No poll on status ${status.id}")
-                return@launch
-            }
+    fun voteInPoll(choices: List<Int>, status: StatusViewData.Concrete): Job = viewModelScope.launch {
+        val poll = status.status.actionableStatus.poll ?: run {
+            Log.w(TAG, "No poll on status ${status.id}")
+            return@launch
+        }
 
-            val votedPoll = poll.votedCopy(choices)
-            updateStatus(status.id) { status ->
-                status.copy(poll = votedPoll)
-            }
+        val votedPoll = poll.votedCopy(choices)
+        updateStatus(status.id) { status ->
+            status.copy(poll = votedPoll)
+        }
 
-            try {
-                timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
-            } catch (t: Exception) {
-                ifExpected(t) {
-                    Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
-                }
+        try {
+            timelineCases.voteInPoll(status.actionableId, poll.id, choices).getOrThrow()
+        } catch (t: Exception) {
+            ifExpected(t) {
+                Log.d(TAG, "Failed to vote in poll: " + status.actionableId, t)
             }
         }
+    }
 
     fun showPollResults(status: StatusViewData.Concrete) = viewModelScope.launch {
         updateStatus(status.id) { it.copy(poll = it.poll?.copy(voted = true)) }
@@ -416,14 +413,12 @@ class ViewThreadViewModel @Inject constructor(
         return RevealButtonState.NO_BUTTON
     }
 
-    private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> {
-        return filter { status ->
-            if (status.isDetailed || status.status.account.id == activeAccount.accountId) {
-                true
-            } else {
-                status.filterAction = filterModel.shouldFilterStatus(status.status)
-                status.filterAction != Filter.Action.HIDE
-            }
+    private fun List<StatusViewData.Concrete>.filter(): List<StatusViewData.Concrete> = filter { status ->
+        if (status.isDetailed || status.status.account.id == activeAccount.accountId) {
+            true
+        } else {
+            status.filterAction = filterModel.shouldFilterStatus(status.status)
+            status.filterAction != Filter.Action.HIDE
         }
     }
 

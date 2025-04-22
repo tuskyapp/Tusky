@@ -26,7 +26,8 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 
 internal class UnknownNotificationViewHolder(
     private val binding: ItemUnknownNotificationBinding,
-) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,

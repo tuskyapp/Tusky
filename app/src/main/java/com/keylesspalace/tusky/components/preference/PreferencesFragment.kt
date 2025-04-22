@@ -21,7 +21,6 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.valueOf
 import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.settings.AppTheme
@@ -299,12 +298,11 @@ class PreferencesFragment : BasePreferencesFragment() {
         }
     }
 
-    @DrawableRes private fun navigationPositionIcon(position: String): Int {
-        return if (position == "bottom") {
-            R.drawable.ic_bottom_navigation_24dp
-        } else {
-            R.drawable.ic_bottom_navigation_24dp_mirrored
-        }
+    @DrawableRes
+    private fun navigationPositionIcon(position: String): Int = if (position == "bottom") {
+        R.drawable.ic_bottom_navigation_24dp
+    } else {
+        R.drawable.ic_bottom_navigation_24dp_mirrored
     }
 
     override fun onResume() {
@@ -319,8 +317,6 @@ class PreferencesFragment : BasePreferencesFragment() {
     }
 
     companion object {
-        fun newInstance(): PreferencesFragment {
-            return PreferencesFragment()
-        }
+        fun newInstance(): PreferencesFragment = PreferencesFragment()
     }
 }

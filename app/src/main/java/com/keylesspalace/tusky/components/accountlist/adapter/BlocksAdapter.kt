@@ -38,11 +38,9 @@ class BlocksAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemBlockedUserBinding> {
-        return BindingHolder(
-            ItemBlockedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemBlockedUserBinding> = BindingHolder(
+        ItemBlockedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
     override fun onBindViewHolder(viewHolder: BindingHolder<ItemBlockedUserBinding>, position: Int) {
         getItem(position)?.let { viewData ->

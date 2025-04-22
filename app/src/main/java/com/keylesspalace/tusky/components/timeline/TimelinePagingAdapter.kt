@@ -58,12 +58,14 @@ class TimelinePagingAdapter(
                     statusListener
                 )
             }
+
             VIEW_TYPE_PLACEHOLDER -> {
                 PlaceholderViewHolder(
                     ItemStatusPlaceholderBinding.inflate(inflater, viewGroup, false),
                     statusListener
                 )
             }
+
             else -> {
                 StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
             }
@@ -120,9 +122,7 @@ class TimelinePagingAdapter(
             override fun areItemsTheSame(
                 oldItem: StatusViewData,
                 newItem: StatusViewData
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: StatusViewData,
@@ -131,14 +131,12 @@ class TimelinePagingAdapter(
                 return false // Items are different always. It allows to refresh timestamp on every view holder update
             }
 
-            override fun getChangePayload(oldItem: StatusViewData, newItem: StatusViewData): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    StatusBaseViewHolder.Key.KEY_CREATED
-                } else {
-                    // If items are different - update the whole view holder
-                    null
-                }
+            override fun getChangePayload(oldItem: StatusViewData, newItem: StatusViewData): Any? = if (oldItem == newItem) {
+                // If items are equal - update timestamp only
+                StatusBaseViewHolder.Key.KEY_CREATED
+            } else {
+                // If items are different - update the whole view holder
+                null
             }
         }
     }

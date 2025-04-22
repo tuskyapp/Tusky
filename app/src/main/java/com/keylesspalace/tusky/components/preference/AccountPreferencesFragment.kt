@@ -341,12 +341,10 @@ class AccountPreferencesFragment : BasePreferencesFragment() {
         return icon(iconRes)
     }
 
-    private fun getIconForSensitivity(sensitive: Boolean): Drawable? {
-        return if (sensitive) {
-            icon(R.drawable.ic_visibility_off_24dp)
-        } else {
-            icon(R.drawable.ic_visibility_24dp)
-        }
+    private fun getIconForSensitivity(sensitive: Boolean): Drawable? = if (sensitive) {
+        icon(R.drawable.ic_visibility_off_24dp)
+    } else {
+        icon(R.drawable.ic_visibility_24dp)
     }
 
     private fun launchFilterActivity() {

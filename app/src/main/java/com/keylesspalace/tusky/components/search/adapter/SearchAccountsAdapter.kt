@@ -24,8 +24,7 @@ import com.keylesspalace.tusky.databinding.ItemAccountBinding
 import com.keylesspalace.tusky.entity.TimelineAccount
 import com.keylesspalace.tusky.interfaces.LinkListener
 
-class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean, private val showBotOverlay: Boolean) :
-    PagingDataAdapter<TimelineAccount, AccountViewHolder>(ACCOUNT_COMPARATOR) {
+class SearchAccountsAdapter(private val linkListener: LinkListener, private val animateAvatars: Boolean, private val animateEmojis: Boolean, private val showBotOverlay: Boolean) : PagingDataAdapter<TimelineAccount, AccountViewHolder>(ACCOUNT_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val binding = ItemAccountBinding.inflate(

@@ -64,20 +64,17 @@ class NotificationPolicyUsecase @Inject constructor(
         forNewAccounts: String? = null,
         forPrivateMentions: String? = null,
         forLimitedAccounts: String? = null
-    ): NetworkResult<NotificationPolicy> {
-        return api.updateNotificationPolicy(
-            forNotFollowing = forNotFollowing,
-            forNotFollowers = forNotFollowers,
-            forNewAccounts = forNewAccounts,
-            forPrivateMentions = forPrivateMentions,
-            forLimitedAccounts = forLimitedAccounts
-        ).onSuccess { notificationPolicy ->
-            _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
-        }
+    ): NetworkResult<NotificationPolicy> = api.updateNotificationPolicy(
+        forNotFollowing = forNotFollowing,
+        forNotFollowers = forNotFollowers,
+        forNewAccounts = forNewAccounts,
+        forPrivateMentions = forPrivateMentions,
+        forLimitedAccounts = forLimitedAccounts
+    ).onSuccess { notificationPolicy ->
+        _state.value = NotificationPolicyState.Loaded(false, notificationPolicy)
     }
 
-    suspend fun updateCounts(notificationCount: Int) =
-        db.notificationPolicyDao().updateCounts(accountId, notificationCount)
+    suspend fun updateCounts(notificationCount: Int) = db.notificationPolicyDao().updateCounts(accountId, notificationCount)
 }
 
 sealed interface NotificationPolicyState {
@@ -87,6 +84,7 @@ sealed interface NotificationPolicyState {
     data class Error(
         val throwable: Throwable
     ) : NotificationPolicyState
+
     data class Loaded(
         val refreshing: Boolean,
         val policy: NotificationPolicy

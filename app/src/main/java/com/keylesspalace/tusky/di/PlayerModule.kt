@@ -63,83 +63,73 @@ import okhttp3.OkHttpClient
 @OptIn(UnstableApi::class)
 object PlayerModule {
     @Provides
-    fun provideAudioSink(@ApplicationContext context: Context): AudioSink {
-        return DefaultAudioSink.Builder(context)
-            .build()
-    }
+    fun provideAudioSink(@ApplicationContext context: Context): AudioSink = DefaultAudioSink.Builder(context)
+        .build()
 
     @Provides
     fun provideRenderersFactory(
         @ApplicationContext context: Context,
         audioSink: AudioSink
-    ): RenderersFactory {
-        return RenderersFactory { eventHandler,
-                                  videoRendererEventListener,
-                                  audioRendererEventListener,
-                                  textRendererOutput,
-                                  metadataRendererOutput ->
-            arrayOf(
-                MediaCodecVideoRenderer(
-                    context,
-                    MediaCodecSelector.DEFAULT,
-                    DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS,
-                    // enableDecoderFallback = true, helps playing videos even if one decoder fails
-                    true,
-                    eventHandler,
-                    videoRendererEventListener,
-                    DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY
-                ),
-                MediaCodecAudioRenderer(
-                    context,
-                    MediaCodecSelector.DEFAULT,
-                    // enableDecoderFallback = true
-                    true,
-                    eventHandler,
-                    audioRendererEventListener,
-                    audioSink
-                ),
-                TextRenderer(
-                    textRendererOutput,
-                    eventHandler.looper
-                ),
-                MetadataRenderer(
-                    metadataRendererOutput,
-                    eventHandler.looper
-                )
+    ): RenderersFactory = RenderersFactory {
+            eventHandler,
+            videoRendererEventListener,
+            audioRendererEventListener,
+            textRendererOutput,
+            metadataRendererOutput
+        ->
+        arrayOf(
+            MediaCodecVideoRenderer(
+                context,
+                MediaCodecSelector.DEFAULT,
+                DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS,
+                // enableDecoderFallback = true, helps playing videos even if one decoder fails
+                true,
+                eventHandler,
+                videoRendererEventListener,
+                DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY
+            ),
+            MediaCodecAudioRenderer(
+                context,
+                MediaCodecSelector.DEFAULT,
+                // enableDecoderFallback = true
+                true,
+                eventHandler,
+                audioRendererEventListener,
+                audioSink
+            ),
+            TextRenderer(
+                textRendererOutput,
+                eventHandler.looper
+            ),
+            MetadataRenderer(
+                metadataRendererOutput,
+                eventHandler.looper
             )
-        }
+        )
     }
 
     @Provides
-    fun providesSubtitleParserFactory(): SubtitleParser.Factory {
-        return object : SubtitleParser.Factory {
-            override fun supportsFormat(format: Format): Boolean {
-                return when (format.sampleMimeType) {
-                    MimeTypes.TEXT_VTT,
-                    MimeTypes.APPLICATION_MP4VTT,
-                    MimeTypes.APPLICATION_TTML -> true
+    fun providesSubtitleParserFactory(): SubtitleParser.Factory = object : SubtitleParser.Factory {
+        override fun supportsFormat(format: Format): Boolean = when (format.sampleMimeType) {
+            MimeTypes.TEXT_VTT,
+            MimeTypes.APPLICATION_MP4VTT,
+            MimeTypes.APPLICATION_TTML -> true
 
-                    else -> false
-                }
-            }
+            else -> false
+        }
 
-            override fun getCueReplacementBehavior(format: Format): Int {
-                return when (val mimeType = format.sampleMimeType) {
-                    MimeTypes.TEXT_VTT -> WebvttParser.CUE_REPLACEMENT_BEHAVIOR
-                    MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser.CUE_REPLACEMENT_BEHAVIOR
-                    MimeTypes.APPLICATION_TTML -> TtmlParser.CUE_REPLACEMENT_BEHAVIOR
-                    else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
-                }
-            }
+        override fun getCueReplacementBehavior(format: Format): Int = when (val mimeType = format.sampleMimeType) {
+            MimeTypes.TEXT_VTT -> WebvttParser.CUE_REPLACEMENT_BEHAVIOR
+            MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser.CUE_REPLACEMENT_BEHAVIOR
+            MimeTypes.APPLICATION_TTML -> TtmlParser.CUE_REPLACEMENT_BEHAVIOR
+            else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
+        }
 
-            override fun create(format: Format): SubtitleParser {
-                return when (val mimeType = format.sampleMimeType) {
-                    MimeTypes.TEXT_VTT -> WebvttParser()
-                    MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser()
-                    MimeTypes.APPLICATION_TTML -> TtmlParser()
-                    else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
-                }
-            }
+        override fun create(format: Format): SubtitleParser = when (val mimeType = format.sampleMimeType) {
+            MimeTypes.TEXT_VTT -> WebvttParser()
+            MimeTypes.APPLICATION_MP4VTT -> Mp4WebvttParser()
+            MimeTypes.APPLICATION_TTML -> TtmlParser()
+            else -> throw IllegalArgumentException("Unsupported MIME type: $mimeType")
         }
     }
 
@@ -164,9 +154,7 @@ object PlayerModule {
     fun provideDataSourceFactory(
         @ApplicationContext context: Context,
         okHttpClient: OkHttpClient
-    ): DataSource.Factory {
-        return DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient))
-    }
+    ): DataSource.Factory = DefaultDataSource.Factory(context, OkHttpDataSource.Factory(okHttpClient))
 
     @Provides
     fun provideMediaSourceFactory(
@@ -182,11 +170,9 @@ object PlayerModule {
         @ApplicationContext context: Context,
         renderersFactory: RenderersFactory,
         mediaSourceFactory: MediaSource.Factory
-    ): ExoPlayer {
-        return ExoPlayer.Builder(context, renderersFactory, mediaSourceFactory)
-            .setLooper(Looper.getMainLooper())
-            .setHandleAudioBecomingNoisy(true) // automatically pause when unplugging headphones
-            .setWakeMode(C.WAKE_MODE_NONE) // playback is always in the foreground
-            .build()
-    }
+    ): ExoPlayer = ExoPlayer.Builder(context, renderersFactory, mediaSourceFactory)
+        .setLooper(Looper.getMainLooper())
+        .setHandleAudioBecomingNoisy(true) // automatically pause when unplugging headphones
+        .setWakeMode(C.WAKE_MODE_NONE) // playback is always in the foreground
+        .build()
 }

@@ -38,11 +38,9 @@ import com.keylesspalace.tusky.entity.Emoji
  * @param emojis a list of the custom emojis
  * @param view a reference to the a view the emojis will be shown in (should be the TextView, but parents of the TextView are also acceptable)
  * @return the text with the shortcodes replaced by EmojiSpans
-*/
-fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): CharSequence {
-    return view.updateEmojiTargets {
-        emojify(emojis, animate)
-    }
+ */
+fun CharSequence.emojify(emojis: List<Emoji>, view: View, animate: Boolean): CharSequence = view.updateEmojiTargets {
+    emojify(emojis, animate)
 }
 
 class EmojiTargetScope<T : View>(val view: T) {
@@ -184,52 +182,50 @@ class EmojiSpan(view: View) : ReplacementSpan() {
         }
     }
 
-    fun createGlideTarget(view: View, animate: Boolean): Target<Drawable> {
-        return object : CustomTarget<Drawable>(emojiSize, emojiSize) {
-            override fun onStart() {
-                (imageDrawable as? Animatable)?.start()
-            }
+    fun createGlideTarget(view: View, animate: Boolean): Target<Drawable> = object : CustomTarget<Drawable>(emojiSize, emojiSize) {
+        override fun onStart() {
+            (imageDrawable as? Animatable)?.start()
+        }
 
-            override fun onStop() {
-                (imageDrawable as? Animatable)?.stop()
-            }
+        override fun onStop() {
+            (imageDrawable as? Animatable)?.stop()
+        }
 
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                // Nothing to do
-            }
+        override fun onLoadFailed(errorDrawable: Drawable?) {
+            // Nothing to do
+        }
 
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                if (animate && resource is Animatable) {
-                    resource.callback = object : Drawable.Callback {
-                        override fun invalidateDrawable(who: Drawable) {
-                            view.invalidate()
-                        }
-
-                        override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
-                            view.postDelayed(what, `when`)
-                        }
-
-                        override fun unscheduleDrawable(who: Drawable, what: Runnable) {
-                            view.removeCallbacks(what)
-                        }
+        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+            if (animate && resource is Animatable) {
+                resource.callback = object : Drawable.Callback {
+                    override fun invalidateDrawable(who: Drawable) {
+                        view.invalidate()
                     }
-                    resource.start()
-                }
 
-                imageDrawable = resource
-                view.invalidate()
-            }
+                    override fun scheduleDrawable(who: Drawable, what: Runnable, `when`: Long) {
+                        view.postDelayed(what, `when`)
+                    }
 
-            override fun onLoadCleared(placeholder: Drawable?) {
-                imageDrawable?.let { currentDrawable ->
-                    if (currentDrawable is Animatable) {
-                        currentDrawable.stop()
-                        currentDrawable.callback = null
+                    override fun unscheduleDrawable(who: Drawable, what: Runnable) {
+                        view.removeCallbacks(what)
                     }
                 }
-                imageDrawable = null
-                view.invalidate()
+                resource.start()
             }
+
+            imageDrawable = resource
+            view.invalidate()
+        }
+
+        override fun onLoadCleared(placeholder: Drawable?) {
+            imageDrawable?.let { currentDrawable ->
+                if (currentDrawable is Animatable) {
+                    currentDrawable.stop()
+                    currentDrawable.callback = null
+                }
+            }
+            imageDrawable = null
+            view.invalidate()
         }
     }
 }

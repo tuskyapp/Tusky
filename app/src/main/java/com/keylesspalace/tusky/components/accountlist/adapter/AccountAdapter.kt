@@ -32,16 +32,12 @@ abstract class AccountAdapter<AVH : RecyclerView.ViewHolder>(
             override fun areItemsTheSame(
                 oldItem: AccountViewData,
                 newItem: AccountViewData
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: AccountViewData,
                 newItem: AccountViewData
-            ): Boolean {
-                return oldItem == newItem
-            }
+            ): Boolean = oldItem == newItem
         }
     }
 }

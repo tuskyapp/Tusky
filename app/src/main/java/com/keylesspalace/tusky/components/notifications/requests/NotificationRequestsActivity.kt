@@ -51,7 +51,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationRequestsActivity : BaseActivity(), MenuProvider {
+class NotificationRequestsActivity :
+    BaseActivity(),
+    MenuProvider {
 
     private val viewModel: NotificationRequestsViewModel by viewModels()
 
@@ -108,29 +110,27 @@ class NotificationRequestsActivity : BaseActivity(), MenuProvider {
         (binding.notificationRequestsView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
-    private fun setupAdapter(): NotificationRequestsAdapter {
-        return NotificationRequestsAdapter(
-            onAcceptRequest = viewModel::acceptNotificationRequest,
-            onDismissRequest = viewModel::dismissNotificationRequest,
-            onOpenDetails = ::onOpenRequestDetails,
-            animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
-            animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
-        ).apply {
-            addLoadStateListener { loadState ->
-                binding.notificationRequestsProgressBar.visible(
-                    loadState.refresh == LoadState.Loading && itemCount == 0
-                )
+    private fun setupAdapter(): NotificationRequestsAdapter = NotificationRequestsAdapter(
+        onAcceptRequest = viewModel::acceptNotificationRequest,
+        onDismissRequest = viewModel::dismissNotificationRequest,
+        onOpenDetails = ::onOpenRequestDetails,
+        animateAvatar = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
+        animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false)
+    ).apply {
+        addLoadStateListener { loadState ->
+            binding.notificationRequestsProgressBar.visible(
+                loadState.refresh == LoadState.Loading && itemCount == 0
+            )
 
-                if (loadState.refresh is LoadState.Error) {
-                    binding.notificationRequestsView.hide()
-                    binding.notificationRequestsMessageView.show()
-                    val errorState = loadState.refresh as LoadState.Error
-                    binding.notificationRequestsMessageView.setup(errorState.error) { retry() }
-                    Log.w(TAG, "error loading notification requests", errorState.error)
-                } else {
-                    binding.notificationRequestsView.show()
-                    binding.notificationRequestsMessageView.hide()
-                }
+            if (loadState.refresh is LoadState.Error) {
+                binding.notificationRequestsView.hide()
+                binding.notificationRequestsMessageView.show()
+                val errorState = loadState.refresh as LoadState.Error
+                binding.notificationRequestsMessageView.setup(errorState.error) { retry() }
+                Log.w(TAG, "error loading notification requests", errorState.error)
+            } else {
+                binding.notificationRequestsView.show()
+                binding.notificationRequestsMessageView.hide()
             }
         }
     }
@@ -139,15 +139,14 @@ class NotificationRequestsActivity : BaseActivity(), MenuProvider {
         menuInflater.inflate(R.menu.activity_notification_requests, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.open_settings -> {
-                val intent = NotificationPoliciesActivity.newIntent(this)
-                startActivityWithSlideInAnimation(intent)
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.open_settings -> {
+            val intent = NotificationPoliciesActivity.newIntent(this)
+            startActivityWithSlideInAnimation(intent)
+            true
         }
+
+        else -> false
     }
 
     private fun onOpenRequestDetails(reqeuest: NotificationRequest) {
@@ -169,19 +168,15 @@ class NotificationRequestsActivity : BaseActivity(), MenuProvider {
     )
 
     class NotificationRequestDetailsResultContract : ActivityResultContract<NotificationRequestDetailsResultContractInput, String?>() {
-        override fun createIntent(context: Context, input: NotificationRequestDetailsResultContractInput): Intent {
-            return NotificationRequestDetailsActivity.newIntent(
-                notificationRequestId = input.notificationRequestId,
-                accountId = input.accountId,
-                accountName = input.accountName,
-                accountEmojis = input.accountEmojis,
-                context = context
-            )
-        }
+        override fun createIntent(context: Context, input: NotificationRequestDetailsResultContractInput): Intent = NotificationRequestDetailsActivity.newIntent(
+            notificationRequestId = input.notificationRequestId,
+            accountId = input.accountId,
+            accountName = input.accountName,
+            accountEmojis = input.accountEmojis,
+            context = context
+        )
 
-        override fun parseResult(resultCode: Int, intent: Intent?): String? {
-            return intent?.getStringExtra(NotificationRequestDetailsActivity.EXTRA_NOTIFICATION_REQUEST_ID)
-        }
+        override fun parseResult(resultCode: Int, intent: Intent?): String? = intent?.getStringExtra(NotificationRequestDetailsActivity.EXTRA_NOTIFICATION_REQUEST_ID)
     }
 
     companion object {

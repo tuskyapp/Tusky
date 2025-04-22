@@ -305,21 +305,19 @@ class TimelineFragment :
         }
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                if (isSwipeToRefreshEnabled) {
-                    binding.swipeRefreshLayout.isRefreshing = true
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            if (isSwipeToRefreshEnabled) {
+                binding.swipeRefreshLayout.isRefreshing = true
 
-                    refreshContent()
-                    true
-                } else {
-                    false
-                }
+                refreshContent()
+                true
+            } else {
+                false
             }
-
-            else -> false
         }
+
+        else -> false
     }
 
     /**
@@ -519,7 +517,8 @@ class TimelineFragment :
     }
 
     override fun onViewTag(tag: String) {
-        if (viewModel.kind == TimelineViewModel.Kind.TAG && viewModel.tags.size == 1 &&
+        if (viewModel.kind == TimelineViewModel.Kind.TAG &&
+            viewModel.tags.size == 1 &&
             viewModel.tags.contains(tag)
         ) {
             // If already viewing a tag page, then ignore any request to view that tag again.

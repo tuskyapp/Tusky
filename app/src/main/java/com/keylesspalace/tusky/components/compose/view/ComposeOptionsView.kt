@@ -21,10 +21,11 @@ import android.widget.RadioGroup
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Status
 
-class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : RadioGroup(
-    context,
-    attrs
-) {
+class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    RadioGroup(
+        context,
+        attrs
+    ) {
 
     var listener: ComposeOptionsListener? = null
 
@@ -35,12 +36,16 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
             val visibility = when (checkedId) {
                 R.id.publicRadioButton ->
                     Status.Visibility.PUBLIC
+
                 R.id.unlistedRadioButton ->
                     Status.Visibility.UNLISTED
+
                 R.id.privateRadioButton ->
                     Status.Visibility.PRIVATE
+
                 R.id.directRadioButton ->
                     Status.Visibility.DIRECT
+
                 else ->
                     Status.Visibility.PUBLIC
             }
@@ -52,12 +57,16 @@ class ComposeOptionsView @JvmOverloads constructor(context: Context, attrs: Attr
         val selectedButton = when (visibility) {
             Status.Visibility.PUBLIC ->
                 R.id.publicRadioButton
+
             Status.Visibility.UNLISTED ->
                 R.id.unlistedRadioButton
+
             Status.Visibility.PRIVATE ->
                 R.id.privateRadioButton
+
             Status.Visibility.DIRECT ->
                 R.id.directRadioButton
+
             else ->
                 R.id.directRadioButton
         }

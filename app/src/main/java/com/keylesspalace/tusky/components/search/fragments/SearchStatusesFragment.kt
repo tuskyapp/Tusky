@@ -71,7 +71,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), StatusActionListener {
+class SearchStatusesFragment :
+    SearchFragment<StatusViewData.Concrete>(),
+    StatusActionListener {
     @Inject
     lateinit var accountManager: AccountManager
 
@@ -521,11 +523,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    private fun accountIsInMentions(account: AccountEntity?, mentions: List<Mention>): Boolean {
-        return mentions.firstOrNull {
-            account?.username == it.username && account.domain == Uri.parse(it.url)?.host
-        } != null
-    }
+    private fun accountIsInMentions(account: AccountEntity?, mentions: List<Mention>): Boolean = mentions.firstOrNull {
+        account?.username == it.username && account.domain == Uri.parse(it.url)?.host
+    } != null
 
     private fun showOpenAsDialog(statusUrl: String, dialogTitle: CharSequence?) {
         bottomSheetActivity?.showAccountChooserDialog(

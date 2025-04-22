@@ -48,7 +48,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelectionFragment.ListSelectionListener {
+class TabPreferenceActivity :
+    BaseActivity(),
+    ItemInteractionListener,
+    ListSelectionFragment.ListSelectionListener {
 
     @Inject
     lateinit var mastodonApi: MastodonApi
@@ -115,17 +118,11 @@ class TabPreferenceActivity : BaseActivity(), ItemInteractionListener, ListSelec
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
-            ): Int {
-                return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
-            }
+            ): Int = makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END)
 
-            override fun isLongPressDragEnabled(): Boolean {
-                return true
-            }
+            override fun isLongPressDragEnabled(): Boolean = true
 
-            override fun isItemViewSwipeEnabled(): Boolean {
-                return MIN_TAB_COUNT < currentTabs.size
-            }
+            override fun isItemViewSwipeEnabled(): Boolean = MIN_TAB_COUNT < currentTabs.size
 
             override fun onMove(
                 recyclerView: RecyclerView,

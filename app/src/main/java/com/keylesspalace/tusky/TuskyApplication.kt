@@ -45,7 +45,9 @@ import javax.inject.Inject
 import org.conscrypt.Conscrypt
 
 @HiltAndroidApp
-class TuskyApplication : Application(), Configuration.Provider {
+class TuskyApplication :
+    Application(),
+    Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory

@@ -33,15 +33,13 @@ class GuardedAdapter<T> private constructor(
     private val delegate: JsonAdapter<T>
 ) : JsonAdapter<T>() {
 
-    override fun fromJson(reader: JsonReader): T? {
-        return try {
-            reader.peekJson().use { delegate.fromJson(it) }
-        } catch (e: Exception) {
-            Log.w("GuardedAdapter", "failed to read json", e)
-            null
-        } finally {
-            reader.skipValue()
-        }
+    override fun fromJson(reader: JsonReader): T? = try {
+        reader.peekJson().use { delegate.fromJson(it) }
+    } catch (e: Exception) {
+        Log.w("GuardedAdapter", "failed to read json", e)
+        null
+    } finally {
+        reader.skipValue()
     }
 
     override fun toJson(writer: JsonWriter, value: T?) {

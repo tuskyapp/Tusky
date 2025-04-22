@@ -281,25 +281,23 @@ class ViewThreadFragment :
         )
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_reveal -> {
-                viewModel.toggleRevealButton()
-                true
-            }
-
-            R.id.action_open_in_web -> {
-                context?.openLink(requireArguments().getString(URL_EXTRA)!!)
-                true
-            }
-
-            R.id.action_refresh -> {
-                onRefresh()
-                true
-            }
-
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_reveal -> {
+            viewModel.toggleRevealButton()
+            true
         }
+
+        R.id.action_open_in_web -> {
+            context?.openLink(requireArguments().getString(URL_EXTRA)!!)
+            true
+        }
+
+        R.id.action_refresh -> {
+            onRefresh()
+            true
+        }
+
+        else -> false
     }
 
     /**
@@ -312,18 +310,17 @@ class ViewThreadFragment :
      * any time `view` is hidden.
      */
     @CheckResult
-    private fun getProgressBarJob(view: View, delayMs: Long) =
-        viewLifecycleOwner.lifecycleScope.launch(
-            start = CoroutineStart.LAZY
-        ) {
-            try {
-                delay(delayMs)
-                view.show()
-                awaitCancellation()
-            } finally {
-                view.hide()
-            }
+    private fun getProgressBarJob(view: View, delayMs: Long) = viewLifecycleOwner.lifecycleScope.launch(
+        start = CoroutineStart.LAZY
+    ) {
+        try {
+            delay(delayMs)
+            view.show()
+            awaitCancellation()
+        } finally {
+            view.hide()
         }
+    }
 
     override fun onRefresh() {
         viewModel.refresh(thisThreadsStatusId)

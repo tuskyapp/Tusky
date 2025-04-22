@@ -27,11 +27,9 @@ class FailingCall(private val request: Request) : Call {
 
     private var isExecuted: Boolean = false
 
-    override fun cancel() { }
+    override fun cancel() {}
 
-    override fun clone(): Call {
-        return FailingCall(request())
-    }
+    override fun clone(): Call = FailingCall(request())
 
     override fun enqueue(responseCallback: Callback) {
         isExecuted = true
@@ -49,17 +47,13 @@ class FailingCall(private val request: Request) : Call {
 
     override fun request(): Request = request
 
-    override fun timeout(): Timeout {
-        return Timeout.NONE
-    }
+    override fun timeout(): Timeout = Timeout.NONE
 
-    private fun failingResponse(): Response {
-        return Response.Builder()
-            .request(request)
-            .code(400)
-            .message("Bad Request")
-            .protocol(Protocol.HTTP_1_1)
-            .body("".toResponseBody())
-            .build()
-    }
+    private fun failingResponse(): Response = Response.Builder()
+        .request(request)
+        .code(400)
+        .message("Bad Request")
+        .protocol(Protocol.HTTP_1_1)
+        .body("".toResponseBody())
+        .build()
 }

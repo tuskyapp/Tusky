@@ -122,19 +122,17 @@ fun setClickableText(
  * @param trailingHashtagsFromContent The list of trailing hashtags scraped from the post content
  * @param listener to notify about particular spans that are clicked
  */
-private fun buildTrailingHashtagText(tagsFromServer: List<HashTag>?, trailingHashtagsFromContent: List<HashTag>, listener: LinkListener): SpannableStringBuilder {
-    return SpannableStringBuilder().apply {
-        // we apply the tags scraped from the content first to preserve the casing
-        // (tags from the server are often downcased)
-        val additionalTags = tagsFromServer?.let {
-            it.filter { serverTag ->
-                trailingHashtagsFromContent.none {
-                    serverTag.name.equals(normalizeToASCII(it.name), ignoreCase = true)
-                }
+private fun buildTrailingHashtagText(tagsFromServer: List<HashTag>?, trailingHashtagsFromContent: List<HashTag>, listener: LinkListener): SpannableStringBuilder = SpannableStringBuilder().apply {
+    // we apply the tags scraped from the content first to preserve the casing
+    // (tags from the server are often downcased)
+    val additionalTags = tagsFromServer?.let {
+        it.filter { serverTag ->
+            trailingHashtagsFromContent.none {
+                serverTag.name.equals(normalizeToASCII(it.name), ignoreCase = true)
             }
-        } ?: emptyList()
-        appendTags(trailingHashtagsFromContent.plus(additionalTags), listener)
-    }
+        }
+    } ?: emptyList()
+    appendTags(trailingHashtagsFromContent.plus(additionalTags), listener)
 }
 
 /**
@@ -304,10 +302,8 @@ private fun getCustomSpanForMentionUrl(
     url: String,
     mentionId: String,
     listener: LinkListener
-): ClickableSpan {
-    return object : MentionSpan(url) {
-        override fun onClick(view: View) = listener.onViewAccount(mentionId)
-    }
+): ClickableSpan = object : MentionSpan(url) {
+    override fun onClick(view: View) = listener.onViewAccount(mentionId)
 }
 
 private fun SpannableStringBuilder.styleQuoteSpans(view: TextView) {
@@ -377,10 +373,8 @@ fun setClickableMentions(view: TextView, mentions: List<Mention>?, listener: Lin
     view.movementMethod = NoTrailingSpaceLinkMovementMethod
 }
 
-fun createClickableText(text: String, link: String): CharSequence {
-    return SpannableStringBuilder(text).apply {
-        setSpan(NoUnderlineURLSpan(link), 0, text.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-    }
+fun createClickableText(text: String, link: String): CharSequence = SpannableStringBuilder(text).apply {
+    setSpan(NoUnderlineURLSpan(link), 0, text.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
 }
 
 /**

@@ -56,7 +56,8 @@ internal class StatusNotificationViewHolder(
     private val binding: ItemStatusNotificationBinding,
     private val statusActionListener: StatusActionListener,
     private val absoluteTimeFormatter: AbsoluteTimeFormatter
-) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
     private val avatarRadius48dp = itemView.context.resources.getDimensionPixelSize(
         R.dimen.avatar_radius_48dp
     )
@@ -228,21 +229,25 @@ internal class StatusNotificationViewHolder(
                 iconColor = R.color.favoriteButtonActiveColor
                 format = context.getString(R.string.notification_favourite_format)
             }
+
             Notification.Type.Reblog -> {
                 icon = R.drawable.ic_repeat_24dp
                 iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_reblog_format)
             }
+
             Notification.Type.Status -> {
                 icon = R.drawable.ic_notifications_active_24dp
                 iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_subscription_format)
             }
+
             Notification.Type.Update -> {
                 icon = R.drawable.ic_edit_24dp_filled
                 iconColor = R.color.colorPrimary
                 format = context.getString(R.string.notification_update_format)
             }
+
             else -> {
                 icon = R.drawable.ic_star_24dp_filled
                 iconColor = R.color.favoriteButtonActiveColor

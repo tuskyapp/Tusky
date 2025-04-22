@@ -23,8 +23,11 @@ import android.widget.MultiAutoCompleteTextView
 class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
 
     private fun isMentionOrHashtagAllowedCharacter(character: Char): Boolean {
-        return Character.isLetterOrDigit(character) || character == '_' || // simple usernames
-            character == '-' || // extended usernames
+        return Character.isLetterOrDigit(character) ||
+            character == '_' ||
+            // simple usernames
+            character == '-' ||
+            // extended usernames
             character == '.' // domain dot
     }
 
@@ -69,7 +72,8 @@ class ComposeTokenizer : MultiAutoCompleteTextView.Tokenizer {
 
         if (i < 1 ||
             (character != '@' && character != '#' && character != ':') ||
-            i > 1 && !Character.isWhitespace(text[i - 2])
+            i > 1 &&
+            !Character.isWhitespace(text[i - 2])
         ) {
             return cursor
         }

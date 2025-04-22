@@ -69,15 +69,11 @@ object NetworkModule {
 
     @Provides
     @Named("defaultPort")
-    fun providesDefaultPort(): Int {
-        return 443
-    }
+    fun providesDefaultPort(): Int = 443
 
     @Provides
     @Named("defaultScheme")
-    fun providesDefaultScheme(): String {
-        return "https://"
-    }
+    fun providesDefaultScheme(): String = "https://"
 
     @Provides
     @Singleton
@@ -149,23 +145,19 @@ object NetworkModule {
     fun providesRetrofit(
         httpClient: OkHttpClient,
         moshi: Moshi
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://${MastodonApi.PLACEHOLDER_DOMAIN}")
-            .client(httpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl("https://${MastodonApi.PLACEHOLDER_DOMAIN}")
+        .client(httpClient)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+        .build()
 
     @Provides
     fun providesMastodonApi(
         httpClient: OkHttpClient,
         retrofit: Retrofit,
         accountManager: AccountManager
-    ): MastodonApi {
-        return apiForAccount(accountManager.activeAccount, httpClient, retrofit)
-    }
+    ): MastodonApi = apiForAccount(accountManager.activeAccount, httpClient, retrofit)
 
     @Provides
     fun providesMediaUploadApi(

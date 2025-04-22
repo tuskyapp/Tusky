@@ -40,9 +40,11 @@ class AccountMediaRemoteMediator(
                 LoadType.REFRESH -> {
                     api.accountStatuses(viewModel.accountId, onlyMedia = true)
                 }
+
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 LoadType.APPEND -> {
                     val maxId = state.lastItemOrNull()?.statusId
                     if (maxId != null) {

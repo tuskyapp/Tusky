@@ -112,8 +112,6 @@ class ProxyPreferencesFragment : BasePreferencesFragment() {
     }
 
     companion object {
-        fun newInstance(): ProxyPreferencesFragment {
-            return ProxyPreferencesFragment()
-        }
+        fun newInstance(): ProxyPreferencesFragment = ProxyPreferencesFragment()
     }
 }

@@ -18,34 +18,29 @@ enum class DefaultReplyVisibility(val int: Int) {
             DIRECT -> "direct"
         }
 
-    fun toVisibilityOr(default: Status.Visibility): Status.Visibility {
-        return when (this) {
-            PUBLIC -> Status.Visibility.PUBLIC
-            UNLISTED -> Status.Visibility.UNLISTED
-            PRIVATE -> Status.Visibility.PRIVATE
-            DIRECT -> Status.Visibility.DIRECT
-            else -> default
-        }
+    fun toVisibilityOr(default: Status.Visibility): Status.Visibility = when (this) {
+        PUBLIC -> Status.Visibility.PUBLIC
+        UNLISTED -> Status.Visibility.UNLISTED
+        PRIVATE -> Status.Visibility.PRIVATE
+        DIRECT -> Status.Visibility.DIRECT
+        else -> default
     }
 
     companion object {
-        fun fromInt(int: Int): DefaultReplyVisibility {
-            return when (int) {
-                4 -> DIRECT
-                3 -> PRIVATE
-                2 -> UNLISTED
-                1 -> PUBLIC
-                else -> MATCH_DEFAULT_POST_VISIBILITY
-            }
+        fun fromInt(int: Int): DefaultReplyVisibility = when (int) {
+            4 -> DIRECT
+            3 -> PRIVATE
+            2 -> UNLISTED
+            1 -> PUBLIC
+            else -> MATCH_DEFAULT_POST_VISIBILITY
         }
-        fun fromStringValue(s: String): DefaultReplyVisibility {
-            return when (s) {
-                "public" -> PUBLIC
-                "unlisted" -> UNLISTED
-                "private" -> PRIVATE
-                "direct" -> DIRECT
-                else -> MATCH_DEFAULT_POST_VISIBILITY
-            }
+
+        fun fromStringValue(s: String): DefaultReplyVisibility = when (s) {
+            "public" -> PUBLIC
+            "unlisted" -> UNLISTED
+            "private" -> PRIVATE
+            "direct" -> DIRECT
+            else -> MATCH_DEFAULT_POST_VISIBILITY
         }
     }
 }

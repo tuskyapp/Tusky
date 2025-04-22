@@ -32,18 +32,17 @@ class TrendingTagsAdapter(
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            VIEW_TYPE_TAG -> {
-                val binding =
-                    ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
-                TrendingTagViewHolder(binding)
-            }
-            else -> {
-                val binding =
-                    ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
-                TrendingDateViewHolder(binding)
-            }
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+        VIEW_TYPE_TAG -> {
+            val binding =
+                ItemTrendingCellBinding.inflate(LayoutInflater.from(viewGroup.context))
+            TrendingTagViewHolder(binding)
+        }
+
+        else -> {
+            val binding =
+                ItemTrendingDateBinding.inflate(LayoutInflater.from(viewGroup.context))
+            TrendingDateViewHolder(binding)
         }
     }
 
@@ -61,12 +60,10 @@ class TrendingTagsAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (getItem(position) is TrendingViewData.Tag) {
-            VIEW_TYPE_TAG
-        } else {
-            VIEW_TYPE_HEADER
-        }
+    override fun getItemViewType(position: Int): Int = if (getItem(position) is TrendingViewData.Tag) {
+        VIEW_TYPE_TAG
+    } else {
+        VIEW_TYPE_HEADER
     }
 
     companion object {
@@ -77,16 +74,12 @@ class TrendingTagsAdapter(
             override fun areItemsTheSame(
                 oldItem: TrendingViewData,
                 newItem: TrendingViewData
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: TrendingViewData,
                 newItem: TrendingViewData
-            ): Boolean {
-                return oldItem == newItem
-            }
+            ): Boolean = oldItem == newItem
         }
     }
 }

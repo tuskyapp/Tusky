@@ -26,23 +26,20 @@ import com.keylesspalace.tusky.util.getTuskyDisplayName
 import com.keylesspalace.tusky.util.modernLanguageCode
 import java.util.Locale
 
-class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) : ArrayAdapter<Locale>(
-    context,
-    resource,
-    locales
-) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return (super.getView(position, convertView, parent) as TextView).apply {
-            setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
-            typeface = Typeface.DEFAULT_BOLD
-            text = super.getItem(position)?.modernLanguageCode?.uppercase()
-        }
+class LocaleAdapter(context: Context, resource: Int, locales: List<Locale>) :
+    ArrayAdapter<Locale>(
+        context,
+        resource,
+        locales
+    ) {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View = (super.getView(position, convertView, parent) as TextView).apply {
+        setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
+        typeface = Typeface.DEFAULT_BOLD
+        text = super.getItem(position)?.modernLanguageCode?.uppercase()
     }
 
-    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return (super.getDropDownView(position, convertView, parent) as TextView).apply {
-            setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
-            text = super.getItem(position)?.getTuskyDisplayName(context)
-        }
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View = (super.getDropDownView(position, convertView, parent) as TextView).apply {
+        setTextColor(MaterialColors.getColor(this, android.R.attr.textColorTertiary))
+        text = super.getItem(position)?.getTuskyDisplayName(context)
     }
 }

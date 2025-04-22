@@ -28,7 +28,8 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 class FilteredStatusViewHolder(
     private val binding: ItemStatusFilteredBinding,
     listener: StatusActionListener
-) : NotificationsViewHolder, RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     init {
         binding.statusFilterShowAnyway.setOnClickListener {

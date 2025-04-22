@@ -37,35 +37,31 @@ import javax.inject.Singleton
 object StorageModule {
 
     @Provides
-    fun providesSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(appContext)
-    }
+    fun providesSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext)
 
     @Provides
     @Singleton
-    fun providesDatabase(@ApplicationContext appContext: Context, converters: Converters): AppDatabase {
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
-            .addTypeConverter(converters)
-            .addMigrations(
-                AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
-                AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
-                AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
-                AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
-                AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15, AppDatabase.MIGRATION_15_16,
-                AppDatabase.MIGRATION_16_17, AppDatabase.MIGRATION_17_18, AppDatabase.MIGRATION_18_19,
-                AppDatabase.MIGRATION_19_20, AppDatabase.MIGRATION_20_21, AppDatabase.MIGRATION_21_22,
-                AppDatabase.MIGRATION_22_23, AppDatabase.MIGRATION_23_24, AppDatabase.MIGRATION_24_25,
-                AppDatabase.Migration25_26(appContext.getExternalFilesDir("Tusky")),
-                AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
-                AppDatabase.MIGRATION_29_30, AppDatabase.MIGRATION_30_31, AppDatabase.MIGRATION_31_32,
-                AppDatabase.MIGRATION_32_33, AppDatabase.MIGRATION_33_34, AppDatabase.MIGRATION_34_35,
-                AppDatabase.MIGRATION_35_36, AppDatabase.MIGRATION_36_37, AppDatabase.MIGRATION_37_38,
-                AppDatabase.MIGRATION_38_39, AppDatabase.MIGRATION_39_40, AppDatabase.MIGRATION_40_41,
-                AppDatabase.MIGRATION_41_42, AppDatabase.MIGRATION_42_43, AppDatabase.MIGRATION_43_44,
-                AppDatabase.MIGRATION_44_45, AppDatabase.MIGRATION_45_46, AppDatabase.MIGRATION_46_47,
-                AppDatabase.MIGRATION_47_48, AppDatabase.MIGRATION_52_53, AppDatabase.MIGRATION_54_56,
-                AppDatabase.MIGRATION_58_60, AppDatabase.MIGRATION_60_62
-            )
-            .build()
-    }
+    fun providesDatabase(@ApplicationContext appContext: Context, converters: Converters): AppDatabase = Room.databaseBuilder(appContext, AppDatabase::class.java, "tuskyDB")
+        .addTypeConverter(converters)
+        .addMigrations(
+            AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4, AppDatabase.MIGRATION_4_5,
+            AppDatabase.MIGRATION_5_6, AppDatabase.MIGRATION_6_7, AppDatabase.MIGRATION_7_8,
+            AppDatabase.MIGRATION_8_9, AppDatabase.MIGRATION_9_10, AppDatabase.MIGRATION_10_11,
+            AppDatabase.MIGRATION_11_12, AppDatabase.MIGRATION_12_13, AppDatabase.MIGRATION_10_13,
+            AppDatabase.MIGRATION_13_14, AppDatabase.MIGRATION_14_15, AppDatabase.MIGRATION_15_16,
+            AppDatabase.MIGRATION_16_17, AppDatabase.MIGRATION_17_18, AppDatabase.MIGRATION_18_19,
+            AppDatabase.MIGRATION_19_20, AppDatabase.MIGRATION_20_21, AppDatabase.MIGRATION_21_22,
+            AppDatabase.MIGRATION_22_23, AppDatabase.MIGRATION_23_24, AppDatabase.MIGRATION_24_25,
+            AppDatabase.Migration25_26(appContext.getExternalFilesDir("Tusky")),
+            AppDatabase.MIGRATION_26_27, AppDatabase.MIGRATION_27_28, AppDatabase.MIGRATION_28_29,
+            AppDatabase.MIGRATION_29_30, AppDatabase.MIGRATION_30_31, AppDatabase.MIGRATION_31_32,
+            AppDatabase.MIGRATION_32_33, AppDatabase.MIGRATION_33_34, AppDatabase.MIGRATION_34_35,
+            AppDatabase.MIGRATION_35_36, AppDatabase.MIGRATION_36_37, AppDatabase.MIGRATION_37_38,
+            AppDatabase.MIGRATION_38_39, AppDatabase.MIGRATION_39_40, AppDatabase.MIGRATION_40_41,
+            AppDatabase.MIGRATION_41_42, AppDatabase.MIGRATION_42_43, AppDatabase.MIGRATION_43_44,
+            AppDatabase.MIGRATION_44_45, AppDatabase.MIGRATION_45_46, AppDatabase.MIGRATION_46_47,
+            AppDatabase.MIGRATION_47_48, AppDatabase.MIGRATION_52_53, AppDatabase.MIGRATION_54_56,
+            AppDatabase.MIGRATION_58_60, AppDatabase.MIGRATION_60_62
+        )
+        .build()
 }

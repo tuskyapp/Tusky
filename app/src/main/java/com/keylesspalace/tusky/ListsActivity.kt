@@ -192,12 +192,14 @@ class ListsActivity : BaseActivity() {
                     viewModel.retryLoading()
                 }
             }
+
             ERROR_OTHER -> {
                 binding.messageView.show()
                 binding.messageView.setup(R.drawable.errorphant_error, R.string.error_generic) {
                     viewModel.retryLoading()
                 }
             }
+
             LOADED ->
                 if (state.lists.isEmpty()) {
                     binding.messageView.show()
@@ -252,24 +254,17 @@ class ListsActivity : BaseActivity() {
     }
 
     private object ListsDiffer : DiffUtil.ItemCallback<MastoList>() {
-        override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: MastoList, newItem: MastoList): Boolean = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: MastoList, newItem: MastoList): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: MastoList, newItem: MastoList): Boolean = oldItem == newItem
     }
 
-    private inner class ListsAdapter :
-        ListAdapter<MastoList, BindingHolder<ItemListBinding>>(ListsDiffer) {
+    private inner class ListsAdapter : ListAdapter<MastoList, BindingHolder<ItemListBinding>>(ListsDiffer) {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): BindingHolder<ItemListBinding> {
-            return BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        }
+        ): BindingHolder<ItemListBinding> = BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
         override fun onBindViewHolder(holder: BindingHolder<ItemListBinding>, position: Int) {
             val item = getItem(position)

@@ -30,9 +30,7 @@ class SearchPagingSource<T : Any>(
     private val parser: (SearchResult) -> List<T>
 ) : PagingSource<Int, T>() {
 
-    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         if (searchRequest.isEmpty()) {

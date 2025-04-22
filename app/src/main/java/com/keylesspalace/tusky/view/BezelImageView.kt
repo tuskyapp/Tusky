@@ -33,8 +33,7 @@ class BezelImageView @JvmOverloads constructor(
         outlineProvider = CustomOutline(w, h)
     }
 
-    private class CustomOutline(var width: Int, var height: Int) :
-        ViewOutlineProvider() {
+    private class CustomOutline(var width: Int, var height: Int) : ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline) {
             outline.setRoundRect(
                 0,

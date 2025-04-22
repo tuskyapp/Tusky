@@ -42,7 +42,6 @@ import java.net.URLEncoder
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.forEach
 import org.json.JSONArray
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -53,46 +52,32 @@ class Converters @Inject constructor(
 ) {
 
     @TypeConverter
-    fun jsonToEmojiList(emojiListJson: String?): List<Emoji> {
-        return emojiListJson?.let { moshi.adapter<List<Emoji>?>().fromJson(it) }.orEmpty()
-    }
+    fun jsonToEmojiList(emojiListJson: String?): List<Emoji> = emojiListJson?.let { moshi.adapter<List<Emoji>?>().fromJson(it) }.orEmpty()
 
     @TypeConverter
-    fun emojiListToJson(emojiList: List<Emoji>): String {
-        return moshi.adapter<List<Emoji>>().toJson(emojiList)
-    }
+    fun emojiListToJson(emojiList: List<Emoji>): String = moshi.adapter<List<Emoji>>().toJson(emojiList)
 
     @TypeConverter
-    fun visibilityToInt(visibility: Status.Visibility?): Int {
-        return visibility?.int ?: Status.Visibility.UNKNOWN.int
-    }
+    fun visibilityToInt(visibility: Status.Visibility?): Int = visibility?.int ?: Status.Visibility.UNKNOWN.int
 
     @TypeConverter
-    fun intToVisibility(visibility: Int): Status.Visibility {
-        return Status.Visibility.fromInt(visibility)
-    }
+    fun intToVisibility(visibility: Int): Status.Visibility = Status.Visibility.fromInt(visibility)
 
     @TypeConverter
-    fun defaultReplyVisibilityToInt(visibility: DefaultReplyVisibility?): Int {
-        return visibility?.int ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.int
-    }
+    fun defaultReplyVisibilityToInt(visibility: DefaultReplyVisibility?): Int = visibility?.int ?: DefaultReplyVisibility.MATCH_DEFAULT_POST_VISIBILITY.int
 
     @TypeConverter
-    fun intToDefaultReplyVisibility(visibility: Int): DefaultReplyVisibility {
-        return DefaultReplyVisibility.fromInt(visibility)
-    }
+    fun intToDefaultReplyVisibility(visibility: Int): DefaultReplyVisibility = DefaultReplyVisibility.fromInt(visibility)
 
     @TypeConverter
-    fun stringToTabData(str: String?): List<TabData>? {
-        return str?.split(";")
-            ?.map {
-                val data = it.split(":")
-                createTabDataFromId(
-                    data[0],
-                    data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") }
-                )
-            }
-    }
+    fun stringToTabData(str: String?): List<TabData>? = str?.split(";")
+        ?.map {
+            val data = it.split(":")
+            createTabDataFromId(
+                data[0],
+                data.drop(1).map { s -> URLDecoder.decode(s, "UTF-8") }
+            )
+        }
 
     @TypeConverter
     fun tabDataToString(tabData: List<TabData>?): String? {
@@ -103,134 +88,82 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun accountToJson(account: ConversationAccountEntity?): String {
-        return moshi.adapter<ConversationAccountEntity?>().toJson(account)
-    }
+    fun accountToJson(account: ConversationAccountEntity?): String = moshi.adapter<ConversationAccountEntity?>().toJson(account)
 
     @TypeConverter
-    fun jsonToAccount(accountJson: String?): ConversationAccountEntity? {
-        return accountJson?.let { moshi.adapter<ConversationAccountEntity?>().fromJson(it) }
-    }
+    fun jsonToAccount(accountJson: String?): ConversationAccountEntity? = accountJson?.let { moshi.adapter<ConversationAccountEntity?>().fromJson(it) }
 
     @TypeConverter
-    fun accountListToJson(accountList: List<ConversationAccountEntity>): String {
-        return moshi.adapter<List<ConversationAccountEntity>>().toJson(accountList)
-    }
+    fun accountListToJson(accountList: List<ConversationAccountEntity>): String = moshi.adapter<List<ConversationAccountEntity>>().toJson(accountList)
 
     @TypeConverter
-    fun jsonToAccountList(accountListJson: String?): List<ConversationAccountEntity> {
-        return accountListJson?.let { moshi.adapter<List<ConversationAccountEntity>?>().fromJson(it) }.orEmpty()
-    }
+    fun jsonToAccountList(accountListJson: String?): List<ConversationAccountEntity> = accountListJson?.let { moshi.adapter<List<ConversationAccountEntity>?>().fromJson(it) }.orEmpty()
 
     @TypeConverter
-    fun attachmentListToJson(attachmentList: List<Attachment>): String {
-        return moshi.adapter<List<Attachment>>().toJson(attachmentList)
-    }
+    fun attachmentListToJson(attachmentList: List<Attachment>): String = moshi.adapter<List<Attachment>>().toJson(attachmentList)
 
     @TypeConverter
-    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment> {
-        return attachmentListJson?.let { moshi.adapter<List<Attachment>?>().fromJson(it) }.orEmpty()
-    }
+    fun jsonToAttachmentList(attachmentListJson: String?): List<Attachment> = attachmentListJson?.let { moshi.adapter<List<Attachment>?>().fromJson(it) }.orEmpty()
 
     @TypeConverter
-    fun mentionListToJson(mentionArray: List<Status.Mention>): String {
-        return moshi.adapter<List<Status.Mention>>().toJson(mentionArray)
-    }
+    fun mentionListToJson(mentionArray: List<Status.Mention>): String = moshi.adapter<List<Status.Mention>>().toJson(mentionArray)
 
     @TypeConverter
-    fun jsonToMentionArray(mentionListJson: String?): List<Status.Mention> {
-        return mentionListJson?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) }.orEmpty()
-    }
+    fun jsonToMentionArray(mentionListJson: String?): List<Status.Mention> = mentionListJson?.let { moshi.adapter<List<Status.Mention>?>().fromJson(it) }.orEmpty()
 
     @TypeConverter
-    fun tagListToJson(tagArray: List<HashTag>?): String {
-        return moshi.adapter<List<HashTag>?>().toJson(tagArray)
-    }
+    fun tagListToJson(tagArray: List<HashTag>?): String = moshi.adapter<List<HashTag>?>().toJson(tagArray)
 
     @TypeConverter
-    fun jsonToTagArray(tagListJson: String?): List<HashTag>? {
-        return tagListJson?.let { moshi.adapter<List<HashTag>?>().fromJson(it) }
-    }
+    fun jsonToTagArray(tagListJson: String?): List<HashTag>? = tagListJson?.let { moshi.adapter<List<HashTag>?>().fromJson(it) }
 
     @TypeConverter
-    fun dateToLong(date: Date?): Long? {
-        return date?.time
-    }
+    fun dateToLong(date: Date?): Long? = date?.time
 
     @TypeConverter
-    fun longToDate(date: Long?): Date? {
-        return date?.let { Date(it) }
-    }
+    fun longToDate(date: Long?): Date? = date?.let { Date(it) }
 
     @TypeConverter
-    fun pollToJson(poll: Poll?): String {
-        return moshi.adapter<Poll?>().toJson(poll)
-    }
+    fun pollToJson(poll: Poll?): String = moshi.adapter<Poll?>().toJson(poll)
 
     @TypeConverter
-    fun jsonToPoll(pollJson: String?): Poll? {
-        return pollJson?.let { moshi.adapter<Poll?>().fromJson(it) }
-    }
+    fun jsonToPoll(pollJson: String?): Poll? = pollJson?.let { moshi.adapter<Poll?>().fromJson(it) }
 
     @TypeConverter
-    fun newPollToJson(newPoll: NewPoll?): String {
-        return moshi.adapter<NewPoll?>().toJson(newPoll)
-    }
+    fun newPollToJson(newPoll: NewPoll?): String = moshi.adapter<NewPoll?>().toJson(newPoll)
 
     @TypeConverter
-    fun jsonToNewPoll(newPollJson: String?): NewPoll? {
-        return newPollJson?.let { moshi.adapter<NewPoll?>().fromJson(it) }
-    }
+    fun jsonToNewPoll(newPollJson: String?): NewPoll? = newPollJson?.let { moshi.adapter<NewPoll?>().fromJson(it) }
 
     @TypeConverter
-    fun draftAttachmentListToJson(draftAttachments: List<DraftAttachment>): String {
-        return moshi.adapter<List<DraftAttachment>>().toJson(draftAttachments)
-    }
+    fun draftAttachmentListToJson(draftAttachments: List<DraftAttachment>): String = moshi.adapter<List<DraftAttachment>>().toJson(draftAttachments)
 
     @TypeConverter
-    fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment> {
-        return draftAttachmentListJson?.let { moshi.adapter<List<DraftAttachment>?>().fromJson(it) }.orEmpty()
-    }
+    fun jsonToDraftAttachmentList(draftAttachmentListJson: String?): List<DraftAttachment> = draftAttachmentListJson?.let { moshi.adapter<List<DraftAttachment>?>().fromJson(it) }.orEmpty()
 
     @TypeConverter
-    fun filterResultListToJson(filterResults: List<FilterResult>?): String {
-        return moshi.adapter<List<FilterResult>?>().toJson(filterResults)
-    }
+    fun filterResultListToJson(filterResults: List<FilterResult>?): String = moshi.adapter<List<FilterResult>?>().toJson(filterResults)
 
     @TypeConverter
-    fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? {
-        return filterResultListJson?.let { moshi.adapter<List<FilterResult>?>().fromJson(it) }
-    }
+    fun jsonToFilterResultList(filterResultListJson: String?): List<FilterResult>? = filterResultListJson?.let { moshi.adapter<List<FilterResult>?>().fromJson(it) }
 
     @TypeConverter
-    fun cardToJson(card: PreviewCard?): String {
-        return moshi.adapter<PreviewCard?>().toJson(card)
-    }
+    fun cardToJson(card: PreviewCard?): String = moshi.adapter<PreviewCard?>().toJson(card)
 
     @TypeConverter
-    fun jsonToCard(cardJson: String?): PreviewCard? {
-        return cardJson?.let { moshi.adapter<PreviewCard?>().fromJson(cardJson) }
-    }
+    fun jsonToCard(cardJson: String?): PreviewCard? = cardJson?.let { moshi.adapter<PreviewCard?>().fromJson(cardJson) }
 
     @TypeConverter
-    fun stringListToJson(list: List<String>?): String? {
-        return moshi.adapter<List<String>?>().toJson(list)
-    }
+    fun stringListToJson(list: List<String>?): String? = moshi.adapter<List<String>?>().toJson(list)
 
     @TypeConverter
-    fun jsonToStringList(listJson: String?): List<String>? {
-        return listJson?.let { moshi.adapter<List<String>?>().fromJson(it) }
-    }
+    fun jsonToStringList(listJson: String?): List<String>? = listJson?.let { moshi.adapter<List<String>?>().fromJson(it) }
 
     @TypeConverter
-    fun applicationToJson(application: Status.Application?): String {
-        return moshi.adapter<Status.Application?>().toJson(application)
-    }
+    fun applicationToJson(application: Status.Application?): String = moshi.adapter<Status.Application?>().toJson(application)
 
     @TypeConverter
-    fun jsonToApplication(applicationJson: String?): Status.Application? {
-        return applicationJson?.let { moshi.adapter<Status.Application?>().fromJson(it) }
-    }
+    fun jsonToApplication(applicationJson: String?): Status.Application? = applicationJson?.let { moshi.adapter<Status.Application?>().fromJson(it) }
 
     @TypeConverter
     fun notificationChannelDataListToJson(data: Set<NotificationChannelData>?): String {
@@ -260,32 +193,20 @@ class Converters @Inject constructor(
     }
 
     @TypeConverter
-    fun relationshipSeveranceEventToJson(event: RelationshipSeveranceEvent?): String {
-        return moshi.adapter<RelationshipSeveranceEvent?>().toJson(event)
-    }
+    fun relationshipSeveranceEventToJson(event: RelationshipSeveranceEvent?): String = moshi.adapter<RelationshipSeveranceEvent?>().toJson(event)
 
     @TypeConverter
-    fun jsonToRelationshipSeveranceEvent(eventJson: String?): RelationshipSeveranceEvent? {
-        return eventJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
-    }
+    fun jsonToRelationshipSeveranceEvent(eventJson: String?): RelationshipSeveranceEvent? = eventJson?.let { moshi.adapter<RelationshipSeveranceEvent?>().fromJson(it) }
 
     @TypeConverter
-    fun accountWarningToJson(accountWarning: AccountWarning?): String {
-        return moshi.adapter<AccountWarning?>().toJson(accountWarning)
-    }
+    fun accountWarningToJson(accountWarning: AccountWarning?): String = moshi.adapter<AccountWarning?>().toJson(accountWarning)
 
     @TypeConverter
-    fun jsonToAccountWarning(accountWarningJson: String?): AccountWarning? {
-        return accountWarningJson?.let { moshi.adapter<AccountWarning?>().fromJson(it) }
-    }
+    fun jsonToAccountWarning(accountWarningJson: String?): AccountWarning? = accountWarningJson?.let { moshi.adapter<AccountWarning?>().fromJson(it) }
 
     @TypeConverter
-    fun accountWarningToJson(notificationType: Notification.Type): String {
-        return notificationType.name
-    }
+    fun accountWarningToJson(notificationType: Notification.Type): String = notificationType.name
 
     @TypeConverter
-    fun jsonToNotificationType(notificationTypeJson: String): Notification.Type {
-        return notificationTypeFromString(notificationTypeJson)
-    }
+    fun jsonToNotificationType(notificationTypeJson: String): Notification.Type = notificationTypeFromString(notificationTypeJson)
 }

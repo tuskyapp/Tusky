@@ -125,6 +125,7 @@ class MainViewModel @Inject constructor(
                     is AnnouncementReadEvent -> {
                         _unreadAnnouncementsCount.value--
                     }
+
                     is NewNotificationsEvent -> {
                         if (event.accountId == activeAccount.accountId) {
                             val hasDirectMessageNotification =
@@ -137,11 +138,13 @@ class MainViewModel @Inject constructor(
                             }
                         }
                     }
+
                     is NotificationsLoadingEvent -> {
                         if (event.accountId == activeAccount.accountId) {
                             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }
                         }
                     }
+
                     is ConversationsLoadingEvent -> {
                         if (event.accountId == activeAccount.accountId) {
                             accountManager.updateAccount(activeAccount) { copy(hasDirectMessageBadge = false) }

@@ -207,10 +207,8 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
-        return viewModelScope.async {
-            timelineCases.delete(id)
-        }
+    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> = viewModelScope.async {
+        timelineCases.delete(id)
     }
 
     fun muteConversation(statusViewData: StatusViewData.Concrete, mute: Boolean) {
@@ -220,8 +218,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun supportsTranslation(): Boolean =
-        instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
+    fun supportsTranslation(): Boolean = instanceInfoRepository.cachedInstanceInfoOrFallback.translationEnabled == true
 
     suspend fun translate(statusViewData: StatusViewData.Concrete): NetworkResult<Unit> {
         updateStatusViewData(statusViewData.copy(translation = TranslationViewData.Loading))

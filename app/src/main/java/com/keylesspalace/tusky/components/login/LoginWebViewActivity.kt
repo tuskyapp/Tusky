@@ -73,9 +73,7 @@ class OauthLogin : ActivityResultContract<LoginData, LoginResult>() {
         private const val RESULT_EXTRA = "result"
         private const val DATA_EXTRA = "data"
 
-        fun parseData(intent: Intent): LoginData {
-            return intent.getParcelableExtraCompat(DATA_EXTRA)!!
-        }
+        fun parseData(intent: Intent): LoginData = intent.getParcelableExtraCompat(DATA_EXTRA)!!
 
         fun makeResultIntent(result: LoginResult): Intent {
             val intent = Intent()
@@ -162,9 +160,7 @@ class LoginWebViewActivity : BaseActivity() {
             override fun shouldOverrideUrlLoading(
                 view: WebView,
                 request: WebResourceRequest
-            ): Boolean {
-                return shouldOverrideUrlLoading(request.url)
-            }
+            ): Boolean = shouldOverrideUrlLoading(request.url)
 
             /* overriding this deprecated method is necessary for it to work on api levels < 24 */
             @Suppress("OVERRIDE_DEPRECATION")
@@ -173,19 +169,17 @@ class LoginWebViewActivity : BaseActivity() {
                 return shouldOverrideUrlLoading(url)
             }
 
-            fun shouldOverrideUrlLoading(url: Uri): Boolean {
-                return if (url.scheme == oauthUrl.scheme && url.host == oauthUrl.host) {
-                    val error = url.getQueryParameter("error")
-                    if (error != null) {
-                        sendResult(LoginResult.Err(error))
-                    } else {
-                        val code = url.getQueryParameter("code").orEmpty()
-                        sendResult(LoginResult.Ok(code))
-                    }
-                    true
+            fun shouldOverrideUrlLoading(url: Uri): Boolean = if (url.scheme == oauthUrl.scheme && url.host == oauthUrl.host) {
+                val error = url.getQueryParameter("error")
+                if (error != null) {
+                    sendResult(LoginResult.Err(error))
                 } else {
-                    false
+                    val code = url.getQueryParameter("code").orEmpty()
+                    sendResult(LoginResult.Ok(code))
                 }
+                true
+            } else {
+                false
             }
         }
 
@@ -234,7 +228,7 @@ class LoginWebViewActivity : BaseActivity() {
     override fun requiresLogin() = false
 
     private fun sendResult(result: LoginResult) {
-        setResult(Activity.RESULT_OK, OauthLogin.makeResultIntent(result))
+        setResult(RESULT_OK, OauthLogin.makeResultIntent(result))
         finish()
     }
 }

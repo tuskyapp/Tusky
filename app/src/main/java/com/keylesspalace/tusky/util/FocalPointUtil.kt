@@ -90,12 +90,10 @@ object FocalPointUtil {
         viewHeight: Float,
         imageWidth: Float,
         imageHeight: Float
-    ): Float {
-        return if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
-            viewWidth / imageWidth
-        } else { // horizontal crop:
-            viewHeight / imageHeight
-        }
+    ): Float = if (isVerticalCrop(viewWidth, viewHeight, imageWidth, imageHeight)) {
+        viewWidth / imageWidth
+    } else { // horizontal crop:
+        viewHeight / imageHeight
     }
 
     /**
@@ -120,9 +118,7 @@ object FocalPointUtil {
      * the right side +1, to a representation with the left side being 0 and the right side
      * being +1.
      */
-    fun focalXToCoordinate(x: Float): Float {
-        return (x + 1) / 2
-    }
+    fun focalXToCoordinate(x: Float): Float = (x + 1) / 2
 
     /**
      * Transform the focal y component to the corresponding coordinate on the image.
@@ -131,9 +127,7 @@ object FocalPointUtil {
      * the top side +1, to a representation with the top side being 0 and the bottom side
      * being +1.
      */
-    fun focalYToCoordinate(y: Float): Float {
-        return (-y + 1) / 2
-    }
+    fun focalYToCoordinate(y: Float): Float = (-y + 1) / 2
 
     /**
      * Calculate the relative offset needed to focus on the focal point in one direction.

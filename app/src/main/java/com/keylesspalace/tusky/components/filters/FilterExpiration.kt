@@ -15,8 +15,6 @@
 
 package com.keylesspalace.tusky.components.filters
 
-import kotlin.jvm.JvmInline
-
 /**
  * Custom class to have typesafety for filter expirations.
  * Retrofit will call toString when sending this class as part of a form-urlencoded body.
@@ -24,9 +22,7 @@ import kotlin.jvm.JvmInline
 @JvmInline
 value class FilterExpiration private constructor(val seconds: Int) {
 
-    override fun toString(): String {
-        return if (seconds < 0) "" else seconds.toString()
-    }
+    override fun toString(): String = if (seconds < 0) "" else seconds.toString()
 
     companion object {
         val unchanged: FilterExpiration? = null

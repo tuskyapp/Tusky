@@ -73,11 +73,9 @@ class AccountListActivity : BottomSheetActivity() {
         private const val EXTRA_TYPE = "type"
         private const val EXTRA_ID = "id"
 
-        fun newIntent(context: Context, type: Type, id: String? = null): Intent {
-            return Intent(context, AccountListActivity::class.java).apply {
-                putExtra(EXTRA_TYPE, type)
-                putExtra(EXTRA_ID, id)
-            }
+        fun newIntent(context: Context, type: Type, id: String? = null): Intent = Intent(context, AccountListActivity::class.java).apply {
+            putExtra(EXTRA_TYPE, type)
+            putExtra(EXTRA_ID, id)
         }
     }
 }

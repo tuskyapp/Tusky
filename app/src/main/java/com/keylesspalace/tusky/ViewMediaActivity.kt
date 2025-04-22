@@ -233,7 +233,7 @@ class ViewMediaActivity :
             Toast.LENGTH_SHORT
         ).show()
 
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
         downloadManager.enqueue(request)
@@ -277,6 +277,7 @@ class ViewMediaActivity :
                 Attachment.Type.AUDIO,
                 Attachment.Type.VIDEO,
                 Attachment.Type.GIFV -> shareMediaFile(directory, attachment.url)
+
                 else -> Log.e(TAG, "Unknown media format for sharing.")
             }
         }
@@ -339,7 +340,7 @@ class ViewMediaActivity :
         val filename = getTemporaryMediaFilename(extension)
         val file = File(directory, filename)
 
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(uri)
         request.setDestinationUri(Uri.fromFile(file))
         request.setVisibleInDownloadsUi(false)

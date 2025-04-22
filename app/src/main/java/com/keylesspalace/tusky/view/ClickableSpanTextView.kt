@@ -266,6 +266,7 @@ class ClickableSpanTextView @JvmOverloads constructor(
                 clickedSpan?.let { Log.v(TAG, "padding click: ${(clickedSpan as URLSpan).url}") }
                 return super.onTouchEvent(event)
             }
+
             ACTION_UP -> {
                 clickedSpan?.let {
                     clickedSpan = null
@@ -277,10 +278,12 @@ class ClickableSpanTextView @JvmOverloads constructor(
                 }
                 return super.onTouchEvent(event)
             }
+
             ACTION_CANCEL -> {
                 clickedSpan = null
                 return super.onTouchEvent(event)
             }
+
             else -> return super.onTouchEvent(event)
         }
     }

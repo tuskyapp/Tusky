@@ -106,9 +106,7 @@ class NotificationPoliciesFragment : PreferenceFragmentCompat() {
     }
 
     companion object {
-        fun newInstance(): NotificationPoliciesFragment {
-            return NotificationPoliciesFragment()
-        }
+        fun newInstance(): NotificationPoliciesFragment = NotificationPoliciesFragment()
 
         private const val KEY_NOT_FOLLOWING = "NOT_FOLLOWING"
         private const val KEY_NOT_FOLLOWERS = "NOT_FOLLOWERS"

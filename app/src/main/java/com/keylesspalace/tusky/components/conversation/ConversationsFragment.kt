@@ -201,16 +201,14 @@ class ConversationsFragment :
         menuInflater.inflate(R.menu.fragment_conversations, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                refreshContent()
-                true
-            }
-
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            refreshContent()
+            true
         }
+
+        else -> false
     }
 
     private fun setupRecyclerView(adapter: ConversationAdapter) {

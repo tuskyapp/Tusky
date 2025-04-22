@@ -78,35 +78,38 @@ class NotificationsPagingAdapter(
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (val notification = getItem(position)) {
-            is NotificationViewData.Concrete -> {
-                when (notification.type) {
-                    Notification.Type.Mention,
-                    Notification.Type.Poll -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
-                        VIEW_TYPE_STATUS_FILTERED
-                    } else {
-                        VIEW_TYPE_STATUS
-                    }
-                    Notification.Type.Status,
-                    Notification.Type.Update -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
-                        VIEW_TYPE_STATUS_FILTERED
-                    } else {
-                        VIEW_TYPE_STATUS_NOTIFICATION
-                    }
-                    Notification.Type.Favourite,
-                    Notification.Type.Reblog -> VIEW_TYPE_STATUS_NOTIFICATION
-                    Notification.Type.Follow,
-                    Notification.Type.SignUp -> VIEW_TYPE_FOLLOW
-                    Notification.Type.FollowRequest -> VIEW_TYPE_FOLLOW_REQUEST
-                    Notification.Type.Report -> VIEW_TYPE_REPORT
-                    Notification.Type.SeveredRelationship -> VIEW_TYPE_SEVERED_RELATIONSHIP
-                    Notification.Type.ModerationWarning -> VIEW_TYPE_MODERATION_WARNING
-                    else -> VIEW_TYPE_UNKNOWN
+    override fun getItemViewType(position: Int): Int = when (val notification = getItem(position)) {
+        is NotificationViewData.Concrete -> {
+            when (notification.type) {
+                Notification.Type.Mention,
+                Notification.Type.Poll -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    VIEW_TYPE_STATUS_FILTERED
+                } else {
+                    VIEW_TYPE_STATUS
                 }
+
+                Notification.Type.Status,
+                Notification.Type.Update -> if (notification.statusViewData?.filterAction == Filter.Action.WARN) {
+                    VIEW_TYPE_STATUS_FILTERED
+                } else {
+                    VIEW_TYPE_STATUS_NOTIFICATION
+                }
+
+                Notification.Type.Favourite,
+                Notification.Type.Reblog -> VIEW_TYPE_STATUS_NOTIFICATION
+
+                Notification.Type.Follow,
+                Notification.Type.SignUp -> VIEW_TYPE_FOLLOW
+
+                Notification.Type.FollowRequest -> VIEW_TYPE_FOLLOW_REQUEST
+                Notification.Type.Report -> VIEW_TYPE_REPORT
+                Notification.Type.SeveredRelationship -> VIEW_TYPE_SEVERED_RELATIONSHIP
+                Notification.Type.ModerationWarning -> VIEW_TYPE_MODERATION_WARNING
+                else -> VIEW_TYPE_UNKNOWN
             }
-            else -> VIEW_TYPE_PLACEHOLDER
         }
+
+        else -> VIEW_TYPE_PLACEHOLDER
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -117,43 +120,52 @@ class NotificationsPagingAdapter(
                 statusListener,
                 accountId
             )
+
             VIEW_TYPE_STATUS_FILTERED -> FilteredStatusViewHolder(
                 ItemStatusFilteredBinding.inflate(inflater, parent, false),
                 statusListener
             )
+
             VIEW_TYPE_STATUS_NOTIFICATION -> StatusNotificationViewHolder(
                 ItemStatusNotificationBinding.inflate(inflater, parent, false),
                 statusListener,
                 absoluteTimeFormatter
             )
+
             VIEW_TYPE_FOLLOW -> FollowViewHolder(
                 ItemFollowBinding.inflate(inflater, parent, false),
                 accountActionListener,
                 statusListener
             )
+
             VIEW_TYPE_FOLLOW_REQUEST -> FollowRequestViewHolder(
                 ItemFollowRequestBinding.inflate(inflater, parent, false),
                 accountActionListener,
                 statusListener,
                 true
             )
+
             VIEW_TYPE_PLACEHOLDER -> PlaceholderViewHolder(
                 ItemStatusPlaceholderBinding.inflate(inflater, parent, false),
                 statusListener
             )
+
             VIEW_TYPE_REPORT -> ReportNotificationViewHolder(
                 ItemReportNotificationBinding.inflate(inflater, parent, false),
                 notificationActionListener,
                 accountActionListener
             )
+
             VIEW_TYPE_SEVERED_RELATIONSHIP -> SeveredRelationshipNotificationViewHolder(
                 ItemSeveredRelationshipNotificationBinding.inflate(inflater, parent, false),
                 instanceName
             )
+
             VIEW_TYPE_MODERATION_WARNING -> ModerationWarningViewHolder(
                 ItemModerationWarningNotificationBinding.inflate(inflater, parent, false),
                 instanceName
             )
+
             else -> UnknownNotificationViewHolder(
                 ItemUnknownNotificationBinding.inflate(inflater, parent, false)
             )
@@ -169,6 +181,7 @@ class NotificationsPagingAdapter(
             when (notification) {
                 is NotificationViewData.Concrete ->
                     (viewHolder as NotificationsViewHolder).bind(notification, payloads, statusDisplayOptions)
+
                 is NotificationViewData.Placeholder -> {
                     (viewHolder as PlaceholderViewHolder).setup(notification.isLoading)
                 }
@@ -192,9 +205,7 @@ class NotificationsPagingAdapter(
             override fun areItemsTheSame(
                 oldItem: NotificationViewData,
                 newItem: NotificationViewData
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: NotificationViewData,
@@ -206,14 +217,12 @@ class NotificationsPagingAdapter(
             override fun getChangePayload(
                 oldItem: NotificationViewData,
                 newItem: NotificationViewData
-            ): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    StatusBaseViewHolder.Key.KEY_CREATED
-                } else {
-                    // If items are different - update the whole view holder
-                    null
-                }
+            ): Any? = if (oldItem == newItem) {
+                // If items are equal - update timestamp only
+                StatusBaseViewHolder.Key.KEY_CREATED
+            } else {
+                // If items are different - update the whole view holder
+                null
             }
         }
     }

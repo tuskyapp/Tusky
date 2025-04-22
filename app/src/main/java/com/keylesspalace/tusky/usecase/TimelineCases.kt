@@ -45,50 +45,42 @@ class TimelineCases @Inject constructor(
     private val eventHub: EventHub
 ) {
 
-    suspend fun reblog(statusId: String, reblog: Boolean, visibility: Status.Visibility = Status.Visibility.PUBLIC): NetworkResult<Status> {
-        return if (reblog) {
-            mastodonApi.reblogStatus(statusId, visibility.stringValue)
+    suspend fun reblog(statusId: String, reblog: Boolean, visibility: Status.Visibility = Status.Visibility.PUBLIC): NetworkResult<Status> = if (reblog) {
+        mastodonApi.reblogStatus(statusId, visibility.stringValue)
+    } else {
+        mastodonApi.unreblogStatus(statusId)
+    }.onSuccess { status ->
+        if (status.reblog != null) {
+            // when reblogging, the Mastodon Api does not return the reblogged status directly
+            // but the newly created status with reblog set to the reblogged status
+            eventHub.dispatch(StatusChangedEvent(status.reblog))
         } else {
-            mastodonApi.unreblogStatus(statusId)
-        }.onSuccess { status ->
-            if (status.reblog != null) {
-                // when reblogging, the Mastodon Api does not return the reblogged status directly
-                // but the newly created status with reblog set to the reblogged status
-                eventHub.dispatch(StatusChangedEvent(status.reblog))
-            } else {
-                eventHub.dispatch(StatusChangedEvent(status))
-            }
-        }
-    }
-
-    suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> {
-        return if (favourite) {
-            mastodonApi.favouriteStatus(statusId)
-        } else {
-            mastodonApi.unfavouriteStatus(statusId)
-        }.onSuccess { status ->
             eventHub.dispatch(StatusChangedEvent(status))
         }
     }
 
-    suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> {
-        return if (bookmark) {
-            mastodonApi.bookmarkStatus(statusId)
-        } else {
-            mastodonApi.unbookmarkStatus(statusId)
-        }.onSuccess { status ->
-            eventHub.dispatch(StatusChangedEvent(status))
-        }
+    suspend fun favourite(statusId: String, favourite: Boolean): NetworkResult<Status> = if (favourite) {
+        mastodonApi.favouriteStatus(statusId)
+    } else {
+        mastodonApi.unfavouriteStatus(statusId)
+    }.onSuccess { status ->
+        eventHub.dispatch(StatusChangedEvent(status))
     }
 
-    suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> {
-        return if (mute) {
-            mastodonApi.muteConversation(statusId)
-        } else {
-            mastodonApi.unmuteConversation(statusId)
-        }.onSuccess { status ->
-            eventHub.dispatch(StatusChangedEvent(status))
-        }
+    suspend fun bookmark(statusId: String, bookmark: Boolean): NetworkResult<Status> = if (bookmark) {
+        mastodonApi.bookmarkStatus(statusId)
+    } else {
+        mastodonApi.unbookmarkStatus(statusId)
+    }.onSuccess { status ->
+        eventHub.dispatch(StatusChangedEvent(status))
+    }
+
+    suspend fun muteConversation(statusId: String, mute: Boolean): NetworkResult<Status> = if (mute) {
+        mastodonApi.muteConversation(statusId)
+    } else {
+        mastodonApi.unmuteConversation(statusId)
+    }.onSuccess { status ->
+        eventHub.dispatch(StatusChangedEvent(status))
     }
 
     suspend fun mute(statusId: String, notifications: Boolean, duration: Int?) {
@@ -109,25 +101,21 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
-        return mastodonApi.deleteStatus(statusId)
-            .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
-            .onFailure { Log.w(TAG, "Failed to delete status", it) }
-    }
+    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> = mastodonApi.deleteStatus(statusId)
+        .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
+        .onFailure { Log.w(TAG, "Failed to delete status", it) }
 
-    suspend fun pin(statusId: String, pin: Boolean): NetworkResult<Status> {
-        return if (pin) {
-            mastodonApi.pinStatus(statusId)
-        } else {
-            mastodonApi.unpinStatus(statusId)
-        }.fold({ status ->
-            eventHub.dispatch(StatusChangedEvent(status))
-            NetworkResult.success(status)
-        }, { e ->
-            Log.w(TAG, "Failed to change pin state", e)
-            NetworkResult.failure(TimelineError(e.getServerErrorMessage()))
-        })
-    }
+    suspend fun pin(statusId: String, pin: Boolean): NetworkResult<Status> = if (pin) {
+        mastodonApi.pinStatus(statusId)
+    } else {
+        mastodonApi.unpinStatus(statusId)
+    }.fold({ status ->
+        eventHub.dispatch(StatusChangedEvent(status))
+        NetworkResult.success(status)
+    }, { e ->
+        Log.w(TAG, "Failed to change pin state", e)
+        NetworkResult.failure(TimelineError(e.getServerErrorMessage()))
+    })
 
     suspend fun voteInPoll(
         statusId: String,
@@ -149,9 +137,7 @@ class TimelineCases @Inject constructor(
 
     suspend fun translate(
         statusId: String
-    ): NetworkResult<Translation> {
-        return mastodonApi.translate(statusId, Locale.getDefault().language)
-    }
+    ): NetworkResult<Translation> = mastodonApi.translate(statusId, Locale.getDefault().language)
 
     companion object {
         private const val TAG = "TimelineCases"

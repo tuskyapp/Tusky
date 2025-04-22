@@ -192,6 +192,7 @@ class EditProfileActivity : BaseActivity() {
                             }
                         }
                     }
+
                     is Error -> {
                         Snackbar.make(
                             binding.avatarButton,
@@ -203,7 +204,8 @@ class EditProfileActivity : BaseActivity() {
                             }
                             .show()
                     }
-                    is Loading -> { }
+
+                    is Loading -> {}
                 }
             }
         }
@@ -230,9 +232,11 @@ class EditProfileActivity : BaseActivity() {
                     is Success -> {
                         finish()
                     }
+
                     is Loading -> {
                         binding.saveProgressBar.visibility = View.VISIBLE
                     }
+
                     is Error -> {
                         onSaveFailure(it.errorMessage)
                     }
@@ -321,6 +325,7 @@ class EditProfileActivity : BaseActivity() {
                     }
                 )
             }
+
             PickType.HEADER -> {
                 cropImage.launch(
                     options {

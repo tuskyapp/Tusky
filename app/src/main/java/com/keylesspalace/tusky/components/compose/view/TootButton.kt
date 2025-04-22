@@ -49,15 +49,18 @@ class TootButton
                     setText(R.string.action_send_public)
                     null
                 }
+
                 Status.Visibility.UNLISTED -> {
                     setText(R.string.action_send)
                     null
                 }
+
                 Status.Visibility.PRIVATE,
                 Status.Visibility.DIRECT -> {
                     setText(R.string.action_send)
                     AppCompatResources.getDrawable(context, R.drawable.ic_lock_24dp)
                 }
+
                 else -> {
                     null
                 }

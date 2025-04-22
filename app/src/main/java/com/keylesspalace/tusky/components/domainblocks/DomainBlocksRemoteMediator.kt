@@ -29,15 +29,13 @@ class DomainBlocksRemoteMediator(
         }
     }
 
-    private suspend fun request(loadType: LoadType): Response<List<String>>? {
-        return when (loadType) {
-            LoadType.PREPEND -> null
-            LoadType.APPEND -> api.domainBlocks(maxId = repository.nextKey)
-            LoadType.REFRESH -> {
-                repository.nextKey = null
-                repository.domains.clear()
-                api.domainBlocks()
-            }
+    private suspend fun request(loadType: LoadType): Response<List<String>>? = when (loadType) {
+        LoadType.PREPEND -> null
+        LoadType.APPEND -> api.domainBlocks(maxId = repository.nextKey)
+        LoadType.REFRESH -> {
+            repository.nextKey = null
+            repository.domains.clear()
+            api.domainBlocks()
         }
     }
 

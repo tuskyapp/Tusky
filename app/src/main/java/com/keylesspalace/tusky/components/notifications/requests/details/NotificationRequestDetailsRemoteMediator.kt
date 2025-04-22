@@ -45,15 +45,13 @@ class NotificationRequestDetailsRemoteMediator(
         }
     }
 
-    private suspend fun request(loadType: LoadType): Response<List<Notification>>? {
-        return when (loadType) {
-            LoadType.PREPEND -> null
-            LoadType.APPEND -> viewModel.api.notifications(maxId = viewModel.nextKey, accountId = viewModel.accountId)
-            LoadType.REFRESH -> {
-                viewModel.nextKey = null
-                viewModel.notificationData.clear()
-                viewModel.api.notifications(accountId = viewModel.accountId)
-            }
+    private suspend fun request(loadType: LoadType): Response<List<Notification>>? = when (loadType) {
+        LoadType.PREPEND -> null
+        LoadType.APPEND -> viewModel.api.notifications(maxId = viewModel.nextKey, accountId = viewModel.accountId)
+        LoadType.REFRESH -> {
+            viewModel.nextKey = null
+            viewModel.notificationData.clear()
+            viewModel.api.notifications(accountId = viewModel.accountId)
         }
     }
 

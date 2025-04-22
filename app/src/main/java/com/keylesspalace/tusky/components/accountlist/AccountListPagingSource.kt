@@ -24,11 +24,9 @@ class AccountListPagingSource(
 ) : PagingSource<String, AccountViewData>() {
     override fun getRefreshKey(state: PagingState<String, AccountViewData>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, AccountViewData> {
-        return if (params is LoadParams.Refresh) {
-            LoadResult.Page(accounts, null, nextKey)
-        } else {
-            LoadResult.Page(emptyList(), null, null)
-        }
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, AccountViewData> = if (params is LoadParams.Refresh) {
+        LoadResult.Page(accounts, null, nextKey)
+    } else {
+        LoadResult.Page(emptyList(), null, null)
     }
 }

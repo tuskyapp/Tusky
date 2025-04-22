@@ -176,14 +176,13 @@ class CaptionDialog : DialogFragment() {
     }
 
     companion object {
-        fun newInstance(localId: Int, existingDescription: String?, previewUri: Uri) =
-            CaptionDialog().apply {
-                arguments = bundleOf(
-                    LOCAL_ID_ARG to localId,
-                    EXISTING_DESCRIPTION_ARG to existingDescription,
-                    PREVIEW_URI_ARG to previewUri
-                )
-            }
+        fun newInstance(localId: Int, existingDescription: String?, previewUri: Uri) = CaptionDialog().apply {
+            arguments = bundleOf(
+                LOCAL_ID_ARG to localId,
+                EXISTING_DESCRIPTION_ARG to existingDescription,
+                PREVIEW_URI_ARG to previewUri
+            )
+        }
 
         private const val DESCRIPTION_KEY = "description"
         private const val EXISTING_DESCRIPTION_ARG = "existing_description"

@@ -89,7 +89,7 @@ class SendStatusService : Service() {
     private val sendJobs = ConcurrentHashMap<Int, Job>()
 
     private val notificationManager by unsafeLazy {
-        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
 
     override fun onBind(intent: Intent): IBinder? = null
@@ -196,7 +196,7 @@ class SendStatusService : Service() {
                         if (!mediaItem.processed) {
                             when (mastodonApi.getMedia(mediaItem.id!!).code()) {
                                 200 -> mediaItem.processed = true // success
-                                206 -> { } // media is still being processed, continue checking
+                                206 -> {} // media is still being processed, continue checking
                                 else -> { // some kind of server error, retrying probably doesn't make sense
                                     failSending(statusId)
                                     stopSelfWhenDone()

@@ -27,7 +27,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object NotificationManagerModule {
     @Provides
-    fun providesNotificationManager(@ApplicationContext appContext: Context): NotificationManager {
-        return appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    fun providesNotificationManager(@ApplicationContext appContext: Context): NotificationManager = appContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }

@@ -234,7 +234,5 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    fun isStatusChecked(id: String): Boolean {
-        return selectedIds.contains(id)
-    }
+    fun isStatusChecked(id: String): Boolean = selectedIds.contains(id)
 }

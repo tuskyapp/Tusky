@@ -20,9 +20,7 @@ package com.keylesspalace.tusky.util
 /**
  * Copies elements to destination, removing duplicates and preserving original order.
  */
-fun <T, C : MutableCollection<in T>> Iterable<T>.removeDuplicatesTo(destination: C): C {
-    return filterTo(destination, HashSet<T>()::add)
-}
+fun <T, C : MutableCollection<in T>> Iterable<T>.removeDuplicatesTo(destination: C): C = filterTo(destination, HashSet<T>()::add)
 
 inline fun <T> List<T>.withoutFirstWhich(predicate: (T) -> Boolean): List<T> {
     val index = indexOfFirst(predicate)

@@ -37,16 +37,14 @@ data class AttachmentViewData(
         fun list(
             status: StatusViewData.Concrete,
             alwaysShowSensitiveMedia: Boolean = false
-        ): List<AttachmentViewData> {
-            return status.attachments.map { attachment ->
-                AttachmentViewData(
-                    attachment = attachment,
-                    statusId = status.actionableId,
-                    statusUrl = status.actionable.url!!,
-                    sensitive = status.actionable.sensitive,
-                    isRevealed = alwaysShowSensitiveMedia || !status.actionable.sensitive
-                )
-            }
+        ): List<AttachmentViewData> = status.attachments.map { attachment ->
+            AttachmentViewData(
+                attachment = attachment,
+                statusId = status.actionableId,
+                statusUrl = status.actionable.url!!,
+                sensitive = status.actionable.sensitive,
+                isRevealed = alwaysShowSensitiveMedia || !status.actionable.sensitive
+            )
         }
     }
 }

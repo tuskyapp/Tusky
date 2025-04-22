@@ -68,9 +68,7 @@ class DraftsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getStatus(statusId: String): NetworkResult<Status> {
-        return api.status(statusId)
-    }
+    suspend fun getStatus(statusId: String): NetworkResult<Status> = api.status(statusId)
 
     override fun onCleared() {
         viewModelScope.launch {

@@ -23,7 +23,8 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
 private class ViewLifecycleLazy<T : Any>(
     private val fragment: Fragment,
     private val initializer: (View) -> T
-) : Lazy<T>, LifecycleEventObserver {
+) : Lazy<T>,
+    LifecycleEventObserver {
     private var cached: T? = null
 
     override val value: T
@@ -47,5 +48,4 @@ private class ViewLifecycleLazy<T : Any>(
     }
 }
 
-fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T): Lazy<T> =
-    ViewLifecycleLazy(this, viewBindingFactory)
+fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T): Lazy<T> = ViewLifecycleLazy(this, viewBindingFactory)

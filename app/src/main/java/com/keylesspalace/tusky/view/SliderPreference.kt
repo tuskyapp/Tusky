@@ -122,9 +122,7 @@ class SliderPreference @JvmOverloads constructor(
         a.recycle()
     }
 
-    override fun onGetDefaultValue(a: TypedArray, i: Int): Any {
-        return a.getFloat(i, DEFAULT_VALUE)
-    }
+    override fun onGetDefaultValue(a: TypedArray, i: Int): Any = a.getFloat(i, DEFAULT_VALUE)
 
     override fun onSetInitialValue(defaultValue: Any?) {
         value = getPersistedFloat((defaultValue ?: DEFAULT_VALUE) as Float)

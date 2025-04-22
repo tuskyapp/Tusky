@@ -366,6 +366,7 @@ class ComposeActivity :
                                 viewModel.pickMedia(uri)
                             }
                         }
+
                         Intent.ACTION_SEND_MULTIPLE -> {
                             intent.getParcelableArrayListExtraCompat<Uri>(Intent.EXTRA_STREAM)
                                 ?.map { uri ->
@@ -573,9 +574,11 @@ class ComposeActivity :
                         val formattedSize = decimalFormat.format(allowedSizeInMb)
                         getString(R.string.error_multimedia_size_limit, formattedSize)
                     }
+
                     is VideoOrImageException -> getString(
                         R.string.error_media_upload_image_or_video
                     )
+
                     is CouldNotOpenFileException -> getString(R.string.error_media_upload_opening)
                     is MediaTypeException -> getString(R.string.error_media_upload_opening)
                     else -> getString(
@@ -611,7 +614,8 @@ class ComposeActivity :
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 updateOnBackPressedCallbackState()
             }
-            override fun onSlide(bottomSheet: View, slideOffset: Float) { }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         }
         composeOptionsBehavior.addBottomSheetCallback(bottomSheetCallback)
         addMediaBehavior.addBottomSheetCallback(bottomSheetCallback)
@@ -792,6 +796,7 @@ class ComposeActivity :
         bar.setAnchorView(R.id.composeBottomBar)
         bar.show()
     }
+
     private fun displayTransientMessage(@StringRes stringId: Int) {
         displayTransientMessage(getString(stringId))
     }
@@ -1013,13 +1018,11 @@ class ComposeActivity :
     }
 
     @VisibleForTesting
-    fun calculateTextLength(): Int {
-        return statusLength(
-            binding.composeEditField.text,
-            binding.composeContentWarningField.text,
-            charactersReservedPerUrl
-        )
-    }
+    fun calculateTextLength(): Int = statusLength(
+        binding.composeEditField.text,
+        binding.composeContentWarningField.text,
+        charactersReservedPerUrl
+    )
 
     @VisibleForTesting
     val selectedLanguage: String?
@@ -1046,11 +1049,9 @@ class ComposeActivity :
         updateVisibleCharactersLeft()
     }
 
-    private fun verifyScheduledTime(): Boolean {
-        return binding.composeScheduleView.verifyScheduledTime(
-            binding.composeScheduleView.getDateTime(viewModel.scheduledAt.value)
-        )
-    }
+    private fun verifyScheduledTime(): Boolean = binding.composeScheduleView.verifyScheduledTime(
+        binding.composeScheduleView.getDateTime(viewModel.scheduledAt.value)
+    )
 
     private fun onSendClicked() {
         if (verifyScheduledTime()) {
@@ -1248,12 +1249,16 @@ class ComposeActivity :
                 viewModel.stopUploads()
                 finish()
             }
+
             ConfirmationKind.SAVE_OR_DISCARD ->
                 getSaveAsDraftOrDiscardDialog(contentText, contentWarning).show()
+
             ConfirmationKind.UPDATE_OR_DISCARD ->
                 getUpdateDraftOrDiscardDialog(contentText, contentWarning).show()
+
             ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_CHANGES ->
                 getContinueEditingOrDiscardDialog().show()
+
             ConfirmationKind.CONTINUE_EDITING_OR_DISCARD_DRAFT ->
                 getDeleteEmptyDraftOrContinueEditing().show()
         }
@@ -1314,34 +1319,30 @@ class ComposeActivity :
      * User is editing a post (scheduled, or posted), and can either go back to editing, or
      * discard the changes.
      */
-    private fun getContinueEditingOrDiscardDialog(): MaterialAlertDialogBuilder {
-        return MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.compose_unsaved_changes)
-            .setPositiveButton(R.string.action_continue_edit) { _, _ ->
-                // Do nothing, dialog will dismiss, user can continue editing
-            }
-            .setNegativeButton(R.string.action_discard) { _, _ ->
-                viewModel.stopUploads()
-                finish()
-            }
-    }
+    private fun getContinueEditingOrDiscardDialog(): MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+        .setMessage(R.string.compose_unsaved_changes)
+        .setPositiveButton(R.string.action_continue_edit) { _, _ ->
+            // Do nothing, dialog will dismiss, user can continue editing
+        }
+        .setNegativeButton(R.string.action_discard) { _, _ ->
+            viewModel.stopUploads()
+            finish()
+        }
 
     /**
      * User is editing an existing draft and making it empty.
      * The user can either delete the empty draft or go back to editing.
      */
-    private fun getDeleteEmptyDraftOrContinueEditing(): MaterialAlertDialogBuilder {
-        return MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.compose_delete_draft)
-            .setPositiveButton(R.string.action_delete) { _, _ ->
-                viewModel.deleteDraft()
-                viewModel.stopUploads()
-                finish()
-            }
-            .setNegativeButton(R.string.action_continue_edit) { _, _ ->
-                // Do nothing, dialog will dismiss, user can continue editing
-            }
-    }
+    private fun getDeleteEmptyDraftOrContinueEditing(): MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(this)
+        .setMessage(R.string.compose_delete_draft)
+        .setPositiveButton(R.string.action_delete) { _, _ ->
+            viewModel.deleteDraft()
+            viewModel.stopUploads()
+            finish()
+        }
+        .setNegativeButton(R.string.action_continue_edit) { _, _ ->
+            // Do nothing, dialog will dismiss, user can continue editing
+        }
 
     private fun deleteDraftAndFinish() {
         viewModel.deleteDraft()
@@ -1355,9 +1356,7 @@ class ComposeActivity :
         }
     }
 
-    override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-        return viewModel.searchAutocompleteSuggestions(token)
-    }
+    override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> = viewModel.searchAutocompleteSuggestions(token)
 
     override fun onEmojiSelected(shortcode: String) {
         replaceTextAtCaret(":$shortcode: ")
@@ -1447,15 +1446,11 @@ class ComposeActivity :
          * @return an Intent to start the ComposeActivity
          */
         @JvmStatic
-        fun startIntent(context: Context, options: ComposeOptions): Intent {
-            return Intent(context, ComposeActivity::class.java).apply {
-                putExtra(COMPOSE_OPTIONS_EXTRA, options)
-            }
+        fun startIntent(context: Context, options: ComposeOptions): Intent = Intent(context, ComposeActivity::class.java).apply {
+            putExtra(COMPOSE_OPTIONS_EXTRA, options)
         }
 
-        fun canHandleMimeType(mimeType: String?): Boolean {
-            return mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
-        }
+        fun canHandleMimeType(mimeType: String?): Boolean = mimeType != null && (mimeType.startsWith("image/") || mimeType.startsWith("video/") || mimeType.startsWith("audio/") || mimeType == "text/plain")
 
         /**
          * Calculate the effective status length.
@@ -1492,6 +1487,7 @@ class ComposeActivity :
                                     ?: span.url.length
                                 )
                         }
+
                         else -> {
                             // Expected to be negative if the URL length < maxUrlLength
                             span.url.perceivedCharacterLength() - urlLength

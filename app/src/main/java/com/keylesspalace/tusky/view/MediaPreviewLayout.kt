@@ -13,8 +13,7 @@ import kotlin.math.roundToInt
 /**
  * Lays out a set of [MediaPreviewImageView]s keeping their aspect ratios into account.
  */
-class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
-    ViewGroup(context, attrs) {
+class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
     private val spacing = context.resources.getDimensionPixelOffset(R.dimen.preview_image_spacing)
 
@@ -51,6 +50,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                 val aspect = aspectRatios[0]
                 totalHeight += getChildAt(0).measureToAspect(width, aspect)
             }
+
             2 -> {
                 val aspect1 = aspectRatios[0]
                 val aspect2 = aspectRatios[1]
@@ -70,6 +70,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                     getChildAt(1).measureExactly(halfWidth, height)
                 }
             }
+
             3 -> {
                 val aspect1 = aspectRatios[0]
                 val aspect2 = aspectRatios[1]
@@ -97,6 +98,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                     getChildAt(2).measureExactly(halfWidth, halfHeight)
                 }
             }
+
             4 -> {
                 val aspect1 = aspectRatios[0]
                 val aspect2 = aspectRatios[1]
@@ -128,6 +130,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
             1 -> {
                 getChildAt(0).layout(0, 0, width, height)
             }
+
             2 -> {
                 if (measuredOrientation == LinearLayout.VERTICAL) {
                     val y = imageViewCache[0].measuredHeight
@@ -143,6 +146,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                     getChildAt(1).layout(halfWidth + spacing, 0, width, height)
                 }
             }
+
             3 -> {
                 if (measuredOrientation == LinearLayout.VERTICAL) {
                     val y = getChildAt(0).measuredHeight
@@ -162,6 +166,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
                     )
                 }
             }
+
             4 -> {
                 val topHeight = (getChildAt(0).measuredHeight + getChildAt(1).measuredHeight) / 2
                 getChildAt(0).layout(0, 0, halfWidth, topHeight)
@@ -196,9 +201,7 @@ class MediaPreviewLayout(context: Context, attrs: AttributeSet? = null) :
     }
 }
 
-private fun rowHeight(halfWidth: Int, aspect1: Double, aspect2: Double): Int {
-    return ((halfWidth / aspect1 + halfWidth / aspect2) / 2).roundToInt()
-}
+private fun rowHeight(halfWidth: Int, aspect1: Double, aspect2: Double): Int = ((halfWidth / aspect1 + halfWidth / aspect2) / 2).roundToInt()
 
 private fun View.measureToAspect(width: Int, aspect: Double): Int {
     val height = (width / aspect).roundToInt()

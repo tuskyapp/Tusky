@@ -41,15 +41,18 @@ class ThreadAdapter(
         return when (viewType) {
             VIEW_TYPE_STATUS ->
                 StatusViewHolder(inflater.inflate(R.layout.item_status, parent, false))
+
             VIEW_TYPE_STATUS_FILTERED ->
                 FilteredStatusViewHolder(
                     ItemStatusFilteredBinding.inflate(inflater, parent, false),
                     statusActionListener
                 )
+
             VIEW_TYPE_STATUS_DETAILED ->
                 StatusDetailedViewHolder(
                     inflater.inflate(R.layout.item_status_detailed, parent, false)
                 )
+
             else -> error("Unknown item type: $viewType")
         }
     }
@@ -87,9 +90,7 @@ class ThreadAdapter(
             override fun areItemsTheSame(
                 oldItem: StatusViewData.Concrete,
                 newItem: StatusViewData.Concrete
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: StatusViewData.Concrete,
@@ -101,14 +102,12 @@ class ThreadAdapter(
             override fun getChangePayload(
                 oldItem: StatusViewData.Concrete,
                 newItem: StatusViewData.Concrete
-            ): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    StatusBaseViewHolder.Key.KEY_CREATED
-                } else {
-                    // If items are different - update the whole view holder
-                    null
-                }
+            ): Any? = if (oldItem == newItem) {
+                // If items are equal - update timestamp only
+                StatusBaseViewHolder.Key.KEY_CREATED
+            } else {
+                // If items are different - update the whole view holder
+                null
             }
         }
     }

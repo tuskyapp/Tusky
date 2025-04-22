@@ -42,7 +42,8 @@ class FollowRequestViewHolder(
     private val accountListener: AccountActionListener,
     private val linkListener: LinkListener,
     private val showHeader: Boolean
-) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,

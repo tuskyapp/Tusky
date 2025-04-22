@@ -16,12 +16,10 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 suspend fun <R> RequestBuilder<R>.submitAsync(
     width: Int = Target.SIZE_ORIGINAL,
     height: Int = Target.SIZE_ORIGINAL
-): R {
-    return suspendCancellableCoroutine { continuation ->
-        val target = addListener(ContinuationRequestListener(continuation))
-            .submit(width, height)
-        continuation.invokeOnCancellation { target.cancel(true) }
-    }
+): R = suspendCancellableCoroutine { continuation ->
+    val target = addListener(ContinuationRequestListener(continuation))
+        .submit(width, height)
+    continuation.invokeOnCancellation { target.cancel(true) }
 }
 
 private class ContinuationRequestListener<R>(continuation: Continuation<R>) : RequestListener<R> {

@@ -60,6 +60,7 @@ abstract class ViewMediaFragment : Fragment() {
                 Attachment.Type.VIDEO,
                 Attachment.Type.GIFV,
                 Attachment.Type.AUDIO -> ViewVideoFragment()
+
                 else -> ViewImageFragment() // it probably won't show anything, but its better than crashing
             }
             fragment.arguments = arguments

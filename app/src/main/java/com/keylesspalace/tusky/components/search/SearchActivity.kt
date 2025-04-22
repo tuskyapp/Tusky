@@ -38,7 +38,10 @@ import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTextListener {
+class SearchActivity :
+    BottomSheetActivity(),
+    MenuProvider,
+    SearchView.OnQueryTextListener {
 
     private val viewModel: SearchViewModel by viewModels()
 
@@ -67,8 +70,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         val enableSwipeForTabs = preferences.getBoolean(PrefKeys.ENABLE_SWIPE_FOR_TABS, true)
         binding.pages.isUserInputEnabled = enableSwipeForTabs
 
-        TabLayoutMediator(binding.tabs, binding.pages) {
-                tab, position ->
+        TabLayoutMediator(binding.tabs, binding.pages) { tab, position ->
             tab.text = getPageTitle(position)
         }.attach()
     }
@@ -87,17 +89,13 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         setupClearFocusOnClickListeners()
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return false
-    }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
 
-    private fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> getString(R.string.title_posts)
-            1 -> getString(R.string.title_accounts)
-            2 -> getString(R.string.title_hashtags_dialog)
-            else -> throw IllegalArgumentException("Unknown page index: $position")
-        }
+    private fun getPageTitle(position: Int): CharSequence = when (position) {
+        0 -> getString(R.string.title_posts)
+        1 -> getString(R.string.title_accounts)
+        2 -> getString(R.string.title_hashtags_dialog)
+        else -> throw IllegalArgumentException("Unknown page index: $position")
     }
 
     private fun handleIntent(intent: Intent) {
@@ -137,7 +135,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         searchView.setSearchableInfo(
             (
                 getSystemService(
-                    Context.SEARCH_SERVICE
+                    SEARCH_SERVICE
                 ) as? SearchManager
                 )?.getSearchableInfo(componentName)
         )
@@ -176,9 +174,7 @@ class SearchActivity : BottomSheetActivity(), MenuProvider, SearchView.OnQueryTe
         if (viewModel.currentSearchFieldContent == "") searchView.requestFocus()
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
+    override fun onQueryTextSubmit(query: String?): Boolean = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.currentSearchFieldContent = newText

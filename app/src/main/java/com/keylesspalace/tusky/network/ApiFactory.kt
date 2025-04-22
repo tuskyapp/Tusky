@@ -20,36 +20,34 @@ inline fun <reified T> apiForAccount(
     retrofit: Retrofit,
     scheme: String = "https://",
     port: Int? = null
-): T {
-    return retrofit.newBuilder()
-        .apply {
-            if (account != null) {
-                baseUrl("$scheme${account.domain}${ if (port == null) "" else ":$port"}")
-            }
+): T = retrofit.newBuilder()
+    .apply {
+        if (account != null) {
+            baseUrl("$scheme${account.domain}${if (port == null) "" else ":$port"}")
         }
-        .callFactory { originalRequest ->
-            var request = originalRequest
+    }
+    .callFactory { originalRequest ->
+        var request = originalRequest
 
-            val domainHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
-            if (domainHeader != null) {
-                request = originalRequest.newBuilder()
-                    .url(
-                        originalRequest.url.newBuilder().host(domainHeader).build()
-                    )
-                    .removeHeader(MastodonApi.DOMAIN_HEADER)
-                    .build()
-            } else if (account != null && request.url.host == account.domain) {
-                request = request.newBuilder()
-                    .header("Authorization", "Bearer ${account.accessToken}")
-                    .build()
-            }
-
-            if (request.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
-                FailingCall(request)
-            } else {
-                httpClient.newCall(request)
-            }
+        val domainHeader = originalRequest.header(MastodonApi.DOMAIN_HEADER)
+        if (domainHeader != null) {
+            request = originalRequest.newBuilder()
+                .url(
+                    originalRequest.url.newBuilder().host(domainHeader).build()
+                )
+                .removeHeader(MastodonApi.DOMAIN_HEADER)
+                .build()
+        } else if (account != null && request.url.host == account.domain) {
+            request = request.newBuilder()
+                .header("Authorization", "Bearer ${account.accessToken}")
+                .build()
         }
-        .build()
-        .create()
-}
+
+        if (request.url.host == MastodonApi.PLACEHOLDER_DOMAIN) {
+            FailingCall(request)
+        } else {
+            httpClient.newCall(request)
+        }
+    }
+    .build()
+    .create()

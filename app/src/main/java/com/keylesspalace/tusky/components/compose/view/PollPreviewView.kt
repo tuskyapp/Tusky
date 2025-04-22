@@ -31,8 +31,7 @@ class PollPreviewView @JvmOverloads constructor(
     context: Context?,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = materialR.attr.materialCardViewOutlinedStyle
-) :
-    MaterialCardView(context, attrs, defStyleAttr) {
+) : MaterialCardView(context, attrs, defStyleAttr) {
 
     private val adapter = PreviewPollOptionsAdapter()
 

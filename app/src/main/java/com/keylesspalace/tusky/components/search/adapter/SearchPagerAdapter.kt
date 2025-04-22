@@ -24,13 +24,11 @@ import com.keylesspalace.tusky.components.search.fragments.SearchStatusesFragmen
 
 class SearchPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> SearchStatusesFragment.newInstance()
-            1 -> SearchAccountsFragment.newInstance()
-            2 -> SearchHashtagsFragment.newInstance()
-            else -> throw IllegalArgumentException("Unknown page index: $position")
-        }
+    override fun createFragment(position: Int): Fragment = when (position) {
+        0 -> SearchStatusesFragment.newInstance()
+        1 -> SearchAccountsFragment.newInstance()
+        2 -> SearchHashtagsFragment.newInstance()
+        else -> throw IllegalArgumentException("Unknown page index: $position")
     }
 
     override fun getItemCount() = 3

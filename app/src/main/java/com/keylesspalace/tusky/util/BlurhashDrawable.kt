@@ -29,11 +29,7 @@ class BlurhashDrawable(
     context.resources,
     BlurHashDecoder.decode(blurhash, 32, 32, 1f)
 ) {
-    override fun equals(other: Any?): Boolean {
-        return (other as? BlurhashDrawable)?.blurhash == blurhash
-    }
+    override fun equals(other: Any?): Boolean = (other as? BlurhashDrawable)?.blurhash == blurhash
 
-    override fun hashCode(): Int {
-        return blurhash.hashCode()
-    }
+    override fun hashCode(): Int = blurhash.hashCode()
 }

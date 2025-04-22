@@ -96,26 +96,22 @@ data class Status(
             }
 
         companion object {
-            fun fromInt(int: Int): Visibility {
-                return when (int) {
-                    4 -> DIRECT
-                    3 -> PRIVATE
-                    2 -> UNLISTED
-                    1 -> PUBLIC
-                    0 -> UNKNOWN
-                    else -> UNKNOWN
-                }
+            fun fromInt(int: Int): Visibility = when (int) {
+                4 -> DIRECT
+                3 -> PRIVATE
+                2 -> UNLISTED
+                1 -> PUBLIC
+                0 -> UNKNOWN
+                else -> UNKNOWN
             }
 
-            fun fromStringValue(s: String): Visibility {
-                return when (s) {
-                    "public" -> PUBLIC
-                    "unlisted" -> UNLISTED
-                    "private" -> PRIVATE
-                    "direct" -> DIRECT
-                    "unknown" -> UNKNOWN
-                    else -> UNKNOWN
-                }
+            fun fromStringValue(s: String): Visibility = when (s) {
+                "public" -> PUBLIC
+                "unlisted" -> UNLISTED
+                "private" -> PRIVATE
+                "direct" -> DIRECT
+                "unknown" -> UNKNOWN
+                else -> UNKNOWN
             }
         }
     }
@@ -125,19 +121,17 @@ data class Status(
             return (visibility != Visibility.DIRECT && visibility != Visibility.UNKNOWN)
         }
 
-    fun toDeletedStatus(): DeletedStatus {
-        return DeletedStatus(
-            text = getEditableText(),
-            inReplyToId = inReplyToId,
-            spoilerText = spoilerText,
-            visibility = visibility,
-            sensitive = sensitive,
-            attachments = attachments,
-            poll = poll,
-            createdAt = createdAt,
-            language = language
-        )
-    }
+    fun toDeletedStatus(): DeletedStatus = DeletedStatus(
+        text = getEditableText(),
+        inReplyToId = inReplyToId,
+        spoilerText = spoilerText,
+        visibility = visibility,
+        sensitive = sensitive,
+        attachments = attachments,
+        poll = poll,
+        createdAt = createdAt,
+        language = language
+    )
 
     private fun getEditableText(): String {
         val contentSpanned = content.parseAsMastodonHtml()

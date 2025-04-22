@@ -27,6 +27,7 @@ data class Filter(
             fun from(action: String): Action = entries.firstOrNull { it.action == action } ?: WARN
         }
     }
+
     enum class Kind(val kind: String) {
         HOME("home"),
         NOTIFICATIONS("notifications"),

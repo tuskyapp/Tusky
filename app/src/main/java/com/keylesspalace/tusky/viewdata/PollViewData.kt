@@ -43,13 +43,11 @@ data class PollOptionViewData(
     var voted: Boolean
 )
 
-fun calculatePercent(fraction: Int?, totalVoters: Int?, totalVotes: Int): Int {
-    return if (fraction == null || fraction == 0) {
-        0
-    } else {
-        val total = totalVoters ?: totalVotes
-        (fraction / total.toDouble() * 100).roundToInt()
-    }
+fun calculatePercent(fraction: Int?, totalVoters: Int?, totalVotes: Int): Int = if (fraction == null || fraction == 0) {
+    0
+} else {
+    val total = totalVoters ?: totalVotes
+    (fraction / total.toDouble() * 100).roundToInt()
 }
 
 fun buildDescription(title: String, percent: Int, voted: Boolean, context: Context): Spanned {
@@ -83,11 +81,9 @@ fun Poll?.toViewData(): PollViewData? {
     )
 }
 
-fun PollOption.toViewData(voted: Boolean): PollOptionViewData {
-    return PollOptionViewData(
-        title = title,
-        votesCount = votesCount ?: 0,
-        selected = false,
-        voted = voted
-    )
-}
+fun PollOption.toViewData(voted: Boolean): PollOptionViewData = PollOptionViewData(
+    title = title,
+    votesCount = votesCount ?: 0,
+    selected = false,
+    voted = voted
+)

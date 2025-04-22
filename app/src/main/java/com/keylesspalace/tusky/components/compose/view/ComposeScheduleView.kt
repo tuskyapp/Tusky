@@ -135,12 +135,10 @@ class ComposeScheduleView
         picker.show((context as AppCompatActivity).supportFragmentManager, "date_picker")
     }
 
-    private fun getTimeFormat(context: Context): Int {
-        return if (android.text.format.DateFormat.is24HourFormat(context)) {
-            TimeFormat.CLOCK_24H
-        } else {
-            TimeFormat.CLOCK_12H
-        }
+    private fun getTimeFormat(context: Context): Int = if (android.text.format.DateFormat.is24HourFormat(context)) {
+        TimeFormat.CLOCK_24H
+    } else {
+        TimeFormat.CLOCK_12H
     }
 
     private fun openPickTimeDialog() {

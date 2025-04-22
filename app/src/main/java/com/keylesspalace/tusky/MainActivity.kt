@@ -131,7 +131,10 @@ import kotlinx.coroutines.launch
 
 @OptionalInject
 @AndroidEntryPoint
-class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
+class MainActivity :
+    BottomSheetActivity(),
+    ActionButtonActivity,
+    MenuProvider {
 
     @Inject
     lateinit var eventHub: EventHub
@@ -462,14 +465,13 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_search -> {
-                startActivity(SearchActivity.getIntent(this@MainActivity))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onMenuItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_search -> {
+            startActivity(SearchActivity.getIntent(this@MainActivity))
+            true
         }
+
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
@@ -492,6 +494,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 }
                 return true
             }
+
             KeyEvent.KEYCODE_SEARCH -> {
                 startActivityWithSlideInAnimation(SearchActivity.getIntent(this))
                 return true
@@ -782,26 +785,24 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
-    private fun showDeveloperToolsDialog(): AlertDialog {
-        return MaterialAlertDialogBuilder(this)
-            .setTitle("Developer Tools")
-            .setItems(
-                arrayOf("Create \"Load more\" gap")
-            ) { _, which ->
-                Log.d(TAG, "Developer tools: $which")
-                when (which) {
-                    0 -> {
-                        Log.d(TAG, "Creating \"Load more\" gap")
-                        lifecycleScope.launch {
-                            developerToolsUseCase.createLoadMoreGap(
-                                activeAccount.id
-                            )
-                        }
+    private fun showDeveloperToolsDialog(): AlertDialog = MaterialAlertDialogBuilder(this)
+        .setTitle("Developer Tools")
+        .setItems(
+            arrayOf("Create \"Load more\" gap")
+        ) { _, which ->
+            Log.d(TAG, "Developer tools: $which")
+            when (which) {
+                0 -> {
+                    Log.d(TAG, "Creating \"Load more\" gap")
+                    lifecycleScope.launch {
+                        developerToolsUseCase.createLoadMoreGap(
+                            activeAccount.id
+                        )
                     }
                 }
             }
-            .show()
-    }
+        }
+        .show()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(binding.mainDrawer.saveInstanceState(outState))
@@ -827,8 +828,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         tabAdapter.tabs = tabs
         tabAdapter.notifyItemRangeChanged(0, tabs.size)
 
-        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) {
-                tab: TabLayout.Tab, position: Int ->
+        tabLayoutMediator = TabLayoutMediator(activeTabLayout, binding.viewPager, true) { tab: TabLayout.Tab, position: Int ->
             tab.icon = AppCompatResources.getDrawable(this@MainActivity, tabs[position].icon)
             tab.contentDescription = tabs[position].title(this)
             if (tabs[position].id == DIRECT) {
@@ -1106,11 +1106,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
          * Switches the active account to the provided accountId and then stays on MainActivity
          */
         @JvmStatic
-        fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent {
-            return Intent(context, MainActivity::class.java).apply {
-                putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
+        fun accountSwitchIntent(context: Context, tuskyAccountId: Long): Intent = Intent(context, MainActivity::class.java).apply {
+            putExtra(TUSKY_ACCOUNT_ID, tuskyAccountId)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
         /**
@@ -1121,10 +1119,8 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             context: Context,
             tuskyAccountId: Long,
             type: Notification.Type
-        ): Intent {
-            return accountSwitchIntent(context, tuskyAccountId).apply {
-                putExtra(NOTIFICATION_TYPE, type.name)
-            }
+        ): Intent = accountSwitchIntent(context, tuskyAccountId).apply {
+            putExtra(NOTIFICATION_TYPE, type.name)
         }
 
         /**
@@ -1140,53 +1136,43 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
             tuskyAccountId: Long = -1,
             notificationTag: String? = null,
             notificationId: Int = -1
-        ): Intent {
-            return accountSwitchIntent(context, tuskyAccountId).apply {
-                action = Intent.ACTION_SEND // so it can be opened via shortcuts
-                putExtra(COMPOSE_OPTIONS, options)
-                putExtra(NOTIFICATION_TAG, notificationTag)
-                putExtra(NOTIFICATION_ID, notificationId)
-            }
+        ): Intent = accountSwitchIntent(context, tuskyAccountId).apply {
+            action = Intent.ACTION_SEND // so it can be opened via shortcuts
+            putExtra(COMPOSE_OPTIONS, options)
+            putExtra(NOTIFICATION_TAG, notificationTag)
+            putExtra(NOTIFICATION_ID, notificationId)
         }
 
         /**
          * switches the active account to the accountId and then tries to resolve and show the provided url
          */
         @JvmStatic
-        fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent {
-            return accountSwitchIntent(context, tuskyAccountId).apply {
-                putExtra(REDIRECT_URL, url)
-            }
+        fun redirectIntent(context: Context, tuskyAccountId: Long, url: String): Intent = accountSwitchIntent(context, tuskyAccountId).apply {
+            putExtra(REDIRECT_URL, url)
         }
 
         /**
          * switches the active account to the provided accountId and then opens drafts
          */
-        fun draftIntent(context: Context, tuskyAccountId: Long): Intent {
-            return accountSwitchIntent(context, tuskyAccountId).apply {
-                putExtra(OPEN_DRAFTS, true)
-            }
+        fun draftIntent(context: Context, tuskyAccountId: Long): Intent = accountSwitchIntent(context, tuskyAccountId).apply {
+            putExtra(OPEN_DRAFTS, true)
         }
     }
 }
 
-private inline fun primaryDrawerItem(block: PrimaryDrawerItem.() -> Unit): PrimaryDrawerItem {
-    return PrimaryDrawerItem()
-        .apply {
-            isSelectable = false
-            isIconTinted = true
-        }
-        .apply(block)
-}
+private inline fun primaryDrawerItem(block: PrimaryDrawerItem.() -> Unit): PrimaryDrawerItem = PrimaryDrawerItem()
+    .apply {
+        isSelectable = false
+        isIconTinted = true
+    }
+    .apply(block)
 
-private inline fun secondaryDrawerItem(block: SecondaryDrawerItem.() -> Unit): SecondaryDrawerItem {
-    return SecondaryDrawerItem()
-        .apply {
-            isSelectable = false
-            isIconTinted = true
-        }
-        .apply(block)
-}
+private inline fun secondaryDrawerItem(block: SecondaryDrawerItem.() -> Unit): SecondaryDrawerItem = SecondaryDrawerItem()
+    .apply {
+        isSelectable = false
+        isIconTinted = true
+    }
+    .apply(block)
 
 private var AbstractDrawerItem<*, *>.onClick: () -> Unit
     get() = throw UnsupportedOperationException()

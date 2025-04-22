@@ -154,10 +154,12 @@ class PreferencesActivity :
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.recreate()
             }
+
             PrefKeys.UI_TEXT_SCALE_RATIO -> {
                 restartActivitiesOnBackPressedCallback.isEnabled = true
                 this.recreate()
             }
+
             PrefKeys.STATUS_TEXT_SIZE, PrefKeys.ABSOLUTE_TIME_VIEW, PrefKeys.SHOW_BOT_OVERLAY, PrefKeys.ANIMATE_GIF_AVATARS, PrefKeys.USE_BLURHASH,
             PrefKeys.SHOW_SELF_USERNAME, PrefKeys.SHOW_CARDS_IN_TIMELINES, PrefKeys.CONFIRM_REBLOGS, PrefKeys.CONFIRM_FAVOURITES,
             EMOJI_PREFERENCE, PrefKeys.ENABLE_SWIPE_FOR_TABS, PrefKeys.MAIN_NAV_POSITION, PrefKeys.HIDE_TOP_TOOLBAR, PrefKeys.SHOW_STATS_INLINE -> {

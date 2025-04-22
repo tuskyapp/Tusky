@@ -40,14 +40,12 @@ class AbsoluteTimeFormatter @JvmOverloads constructor(private val tz: TimeZone =
     }
 
     @JvmOverloads
-    fun format(time: Date?, shortFormat: Boolean = true, now: Date = Date()): String {
-        return when {
-            time == null -> "??"
-            isSameDate(time, now, tz) -> sameDaySdf.format(time)
-            isSameYear(time, now, tz) -> sameYearSdf.format(time)
-            shortFormat -> otherYearSdf.format(time)
-            else -> otherYearCompleteSdf.format(time)
-        }
+    fun format(time: Date?, shortFormat: Boolean = true, now: Date = Date()): String = when {
+        time == null -> "??"
+        isSameDate(time, now, tz) -> sameDaySdf.format(time)
+        isSameYear(time, now, tz) -> sameYearSdf.format(time)
+        shortFormat -> otherYearSdf.format(time)
+        else -> otherYearCompleteSdf.format(time)
     }
 
     companion object {

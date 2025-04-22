@@ -101,6 +101,7 @@ class ListStatusAccessibilityDelegate(
                     interrupt()
                     statusActionListener.onReply(pos)
                 }
+
                 R.id.action_favourite -> statusActionListener.onFavourite(true, pos)
                 R.id.action_unfavourite -> statusActionListener.onFavourite(false, pos)
                 R.id.action_bookmark -> statusActionListener.onBookmark(true, pos)
@@ -117,22 +118,27 @@ class ListStatusAccessibilityDelegate(
                             ).actionable.account.id
                     )
                 }
+
                 R.id.action_open_media_1 -> {
                     interrupt()
                     statusActionListener.onViewMedia(pos, 0, null)
                 }
+
                 R.id.action_open_media_2 -> {
                     interrupt()
                     statusActionListener.onViewMedia(pos, 1, null)
                 }
+
                 R.id.action_open_media_3 -> {
                     interrupt()
                     statusActionListener.onViewMedia(pos, 2, null)
                 }
+
                 R.id.action_open_media_4 -> {
                     interrupt()
                     statusActionListener.onViewMedia(pos, 3, null)
                 }
+
                 R.id.action_expand_cw -> {
                     // Toggling it directly to avoid animations
                     // which cannot be disabled for detailed status for some reason
@@ -143,10 +149,12 @@ class ListStatusAccessibilityDelegate(
                     // to be possible.
                     forceFocus(host)
                 }
+
                 R.id.action_collapse_cw -> {
                     statusActionListener.onExpandedChange(false, pos)
                     interrupt()
                 }
+
                 R.id.action_links -> showLinksDialog(host)
                 R.id.action_mentions -> showMentionsDialog(host)
                 R.id.action_hashtags -> showHashtagsDialog(host)
@@ -154,17 +162,21 @@ class ListStatusAccessibilityDelegate(
                     interrupt()
                     statusActionListener.onOpenReblog(pos)
                 }
+
                 R.id.action_open_reblogged_by -> {
                     interrupt()
                     statusActionListener.onShowReblogs(pos)
                 }
+
                 R.id.action_open_faved_by -> {
                     interrupt()
                     statusActionListener.onShowFavs(pos)
                 }
+
                 R.id.action_more -> {
                     statusActionListener.onMore(host, pos)
                 }
+
                 else -> return super.performAccessibilityAction(host, action, args)
             }
             return true
@@ -224,9 +236,7 @@ class ListStatusAccessibilityDelegate(
                 .let { forceFocus(it.listView) }
         }
 
-        private fun getStatus(childView: View): StatusViewData {
-            return statusProvider.getStatus(recyclerView.getChildAdapterPosition(childView))!!
-        }
+        private fun getStatus(childView: View): StatusViewData = statusProvider.getStatus(recyclerView.getChildAdapterPosition(childView))!!
     }
 
     private fun getLinks(status: StatusViewData.Concrete): Sequence<LinkSpanInfo> {

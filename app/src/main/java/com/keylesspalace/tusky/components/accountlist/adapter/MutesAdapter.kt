@@ -39,11 +39,9 @@ class MutesAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemMutedUserBinding> {
-        return BindingHolder(
-            ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder<ItemMutedUserBinding> = BindingHolder(
+        ItemMutedUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
     override fun onBindViewHolder(viewHolder: BindingHolder<ItemMutedUserBinding>, position: Int) {
         getItem(position)?.let { viewData ->

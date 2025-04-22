@@ -254,6 +254,7 @@ class EditsTagHandler(val context: Context) : TuskyTagHandler() {
                     )
                 }
             }
+
             INSERTED_TEXT_EL -> {
                 if (opening) {
                     start(output as SpannableStringBuilder, Ins())
@@ -265,6 +266,7 @@ class EditsTagHandler(val context: Context) : TuskyTagHandler() {
                     )
                 }
             }
+
             else -> super.handleTag(opening, tag, output, xmlReader)
         }
     }

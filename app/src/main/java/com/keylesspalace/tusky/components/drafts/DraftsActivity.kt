@@ -44,7 +44,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DraftsActivity : BaseActivity(), DraftActionListener {
+class DraftsActivity :
+    BaseActivity(),
+    DraftActionListener {
 
     @Inject
     lateinit var draftsAlert: DraftsAlert

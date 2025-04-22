@@ -29,9 +29,7 @@ data class FilterV1(
     @Json(name = "whole_word") val wholeWord: Boolean
 ) {
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
+    override fun hashCode(): Int = id.hashCode()
 
     override fun equals(other: Any?): Boolean {
         if (other !is FilterV1) {
@@ -40,20 +38,18 @@ data class FilterV1(
         return other.id == id
     }
 
-    fun toFilter(): Filter {
-        return Filter(
-            id = id,
-            title = phrase,
-            context = context,
-            expiresAt = expiresAt,
-            filterAction = Filter.Action.WARN.action,
-            keywords = listOf(
-                FilterKeyword(
-                    id = id,
-                    keyword = phrase,
-                    wholeWord = wholeWord
-                )
+    fun toFilter(): Filter = Filter(
+        id = id,
+        title = phrase,
+        context = context,
+        expiresAt = expiresAt,
+        filterAction = Filter.Action.WARN.action,
+        keywords = listOf(
+            FilterKeyword(
+                id = id,
+                keyword = phrase,
+                wholeWord = wholeWord
             )
         )
-    }
+    )
 }

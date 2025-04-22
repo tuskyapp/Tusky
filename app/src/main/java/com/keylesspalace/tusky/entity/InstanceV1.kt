@@ -38,9 +38,7 @@ data class InstanceV1(
     @Json(name = "upload_limit") val uploadLimit: Int? = null,
     val rules: List<InstanceRules> = emptyList()
 ) {
-    override fun hashCode(): Int {
-        return uri.hashCode()
-    }
+    override fun hashCode(): Int = uri.hashCode()
 
     override fun equals(other: Any?): Boolean {
         if (other !is InstanceV1) {

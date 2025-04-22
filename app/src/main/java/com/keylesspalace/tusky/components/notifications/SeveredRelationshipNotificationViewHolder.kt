@@ -24,7 +24,8 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 class SeveredRelationshipNotificationViewHolder(
     private val binding: ItemSeveredRelationshipNotificationBinding,
     private val instanceName: String
-) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,

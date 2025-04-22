@@ -59,9 +59,7 @@ class ConversationAdapter(
             override fun areItemsTheSame(
                 oldItem: ConversationViewData,
                 newItem: ConversationViewData
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: ConversationViewData,
@@ -73,14 +71,12 @@ class ConversationAdapter(
             override fun getChangePayload(
                 oldItem: ConversationViewData,
                 newItem: ConversationViewData
-            ): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    StatusBaseViewHolder.Key.KEY_CREATED
-                } else {
-                    // If items are different - update the whole view holder
-                    null
-                }
+            ): Any? = if (oldItem == newItem) {
+                // If items are equal - update timestamp only
+                StatusBaseViewHolder.Key.KEY_CREATED
+            } else {
+                // If items are different - update the whole view holder
+                null
             }
         }
     }

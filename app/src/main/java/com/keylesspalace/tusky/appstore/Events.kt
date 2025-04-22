@@ -23,5 +23,6 @@ data class NewNotificationsEvent(
     val accountId: String,
     val notifications: List<Notification>
 ) : Event
+
 data class ConversationsLoadingEvent(val accountId: String) : Event
 data class NotificationsLoadingEvent(val accountId: String) : Event

@@ -32,16 +32,12 @@ class ScheduledStatusAdapter(
     val listener: ScheduledStatusActionListener
 ) : PagingDataAdapter<ScheduledStatus, BindingHolder<ItemScheduledStatusBinding>>(
     object : DiffUtil.ItemCallback<ScheduledStatus>() {
-        override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: ScheduledStatus, newItem: ScheduledStatus): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
             oldItem: ScheduledStatus,
             newItem: ScheduledStatus
-        ): Boolean {
-            return oldItem == newItem
-        }
+        ): Boolean = oldItem == newItem
     }
 ) {
 

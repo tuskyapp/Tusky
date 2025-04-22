@@ -25,11 +25,9 @@ class NotificationRequestDetailsPagingSource(
 ) : PagingSource<String, NotificationViewData>() {
     override fun getRefreshKey(state: PagingState<String, NotificationViewData>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, NotificationViewData> {
-        return if (params is LoadParams.Refresh) {
-            LoadResult.Page(notifications.toList(), null, nextKey)
-        } else {
-            LoadResult.Page(emptyList(), null, null)
-        }
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, NotificationViewData> = if (params is LoadParams.Refresh) {
+        LoadResult.Page(notifications.toList(), null, nextKey)
+    } else {
+        LoadResult.Page(emptyList(), null, null)
     }
 }

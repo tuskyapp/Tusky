@@ -23,7 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FiltersActivity : BaseActivity(), FiltersListener {
+class FiltersActivity :
+    BaseActivity(),
+    FiltersListener {
 
     private val binding by viewBinding(ActivityFiltersBinding::inflate)
     private val viewModel: FiltersViewModel by viewModels()
@@ -85,6 +87,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                         }
                         binding.messageView.show()
                     }
+
                     FiltersViewModel.LoadingState.ERROR_OTHER -> {
                         binding.messageView.setup(
                             R.drawable.errorphant_error,
@@ -94,6 +97,7 @@ class FiltersActivity : BaseActivity(), FiltersListener {
                         }
                         binding.messageView.show()
                     }
+
                     FiltersViewModel.LoadingState.LOADED -> {
                         binding.filtersList.adapter = FiltersAdapter(this@FiltersActivity, state.filters)
                         if (state.filters.isEmpty()) {

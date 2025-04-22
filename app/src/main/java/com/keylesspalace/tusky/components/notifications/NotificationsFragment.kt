@@ -218,10 +218,12 @@ class NotificationsFragment :
                             binding.statusView.setup(R.drawable.elephant_friend_empty, R.string.message_empty)
                         }
                     }
+
                     is LoadState.Error -> {
                         binding.statusView.show()
                         binding.statusView.setup((loadState.refresh as LoadState.Error).error) { onRefresh() }
                     }
+
                     is LoadState.Loading -> {
                         binding.progressBar.show()
                     }
@@ -561,14 +563,17 @@ class NotificationsFragment :
             onRefresh()
             true
         }
+
         R.id.action_edit_notification_filter -> {
             showFilterMenu()
             true
         }
+
         R.id.action_clear_notifications -> {
             confirmClearNotifications()
             true
         }
+
         else -> false
     }
 

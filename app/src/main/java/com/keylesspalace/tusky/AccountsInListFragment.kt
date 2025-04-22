@@ -163,21 +163,18 @@ class AccountsInListFragment : DialogFragment() {
     }
 
     private object AccountDiffer : DiffUtil.ItemCallback<TimelineAccount>() {
-        override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: TimelineAccount, newItem: TimelineAccount): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
             oldItem: TimelineAccount,
             newItem: TimelineAccount
-        ): Boolean {
-            return oldItem == newItem
-        }
+        ): Boolean = oldItem == newItem
     }
 
-    inner class Adapter : ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(
-        AccountDiffer
-    ) {
+    inner class Adapter :
+        ListAdapter<TimelineAccount, BindingHolder<ItemFollowRequestBinding>>(
+            AccountDiffer
+        ) {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -214,18 +211,15 @@ class AccountsInListFragment : DialogFragment() {
     }
 
     private object SearchDiffer : DiffUtil.ItemCallback<AccountInfo>() {
-        override fun areItemsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem.first.id == newItem.first.id
-        }
+        override fun areItemsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean = oldItem.first.id == newItem.first.id
 
-        override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: AccountInfo, newItem: AccountInfo): Boolean = oldItem == newItem
     }
 
-    inner class SearchAdapter : ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(
-        SearchDiffer
-    ) {
+    inner class SearchAdapter :
+        ListAdapter<AccountInfo, BindingHolder<ItemFollowRequestBinding>>(
+            SearchDiffer
+        ) {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,

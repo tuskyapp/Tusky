@@ -40,29 +40,24 @@ class ComposeAutoCompleteAdapter(
     private val showBotBadge: Boolean,
     // if true, @ # : are returned in the result, otherwise only the raw value
     private val withDecoration: Boolean = true,
-) : BaseAdapter(), Filterable {
+) : BaseAdapter(),
+    Filterable {
 
     private var resultList: List<AutocompleteResult> = emptyList()
 
     override fun getCount() = resultList.size
 
-    override fun getItem(index: Int): AutocompleteResult {
-        return resultList[index]
-    }
+    override fun getItem(index: Int): AutocompleteResult = resultList[index]
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getFilter() = object : Filter() {
 
-        override fun convertResultToString(resultValue: Any): CharSequence {
-            return when (resultValue) {
-                is AutocompleteResult.AccountResult -> if (withDecoration) "@${resultValue.account.username}" else resultValue.account.username
-                is AutocompleteResult.HashtagResult -> if (withDecoration) "#${resultValue.hashtag}" else resultValue.hashtag
-                is AutocompleteResult.EmojiResult -> if (withDecoration) ":${resultValue.emoji.shortcode}:" else resultValue.emoji.shortcode
-                else -> ""
-            }
+        override fun convertResultToString(resultValue: Any): CharSequence = when (resultValue) {
+            is AutocompleteResult.AccountResult -> if (withDecoration) "@${resultValue.account.username}" else resultValue.account.username
+            is AutocompleteResult.HashtagResult -> if (withDecoration) "#${resultValue.hashtag}" else resultValue.hashtag
+            is AutocompleteResult.EmojiResult -> if (withDecoration) ":${resultValue.emoji.shortcode}:" else resultValue.emoji.shortcode
+            else -> ""
         }
 
         @WorkerThread
@@ -120,10 +115,12 @@ class ComposeAutoCompleteAdapter(
                 )
                 binding.avatarBadge.visible(showBotBadge && account.bot)
             }
+
             is ItemAutocompleteHashtagBinding -> {
                 val result = getItem(position) as AutocompleteResult.HashtagResult
                 binding.root.text = context.getString(R.string.hashtag_format, result.hashtag)
             }
+
             is ItemAutocompleteEmojiBinding -> {
                 val emojiResult = getItem(position) as AutocompleteResult.EmojiResult
                 val (shortcode, url) = emojiResult.emoji
@@ -138,12 +135,10 @@ class ComposeAutoCompleteAdapter(
 
     override fun getViewTypeCount() = 3
 
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is AutocompleteResult.AccountResult -> ACCOUNT_VIEW_TYPE
-            is AutocompleteResult.HashtagResult -> HASHTAG_VIEW_TYPE
-            is AutocompleteResult.EmojiResult -> EMOJI_VIEW_TYPE
-        }
+    override fun getItemViewType(position: Int): Int = when (getItem(position)) {
+        is AutocompleteResult.AccountResult -> ACCOUNT_VIEW_TYPE
+        is AutocompleteResult.HashtagResult -> HASHTAG_VIEW_TYPE
+        is AutocompleteResult.EmojiResult -> EMOJI_VIEW_TYPE
     }
 
     sealed interface AutocompleteResult {

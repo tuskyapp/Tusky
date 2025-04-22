@@ -33,16 +33,12 @@ class AccountMediaGridAdapter(
         override fun areItemsTheSame(
             oldItem: AttachmentViewData,
             newItem: AttachmentViewData
-        ): Boolean {
-            return oldItem.attachment.id == newItem.attachment.id
-        }
+        ): Boolean = oldItem.attachment.id == newItem.attachment.id
 
         override fun areContentsTheSame(
             oldItem: AttachmentViewData,
             newItem: AttachmentViewData
-        ): Boolean {
-            return oldItem == newItem
-        }
+        ): Boolean = oldItem == newItem
     }
 ) {
 

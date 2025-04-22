@@ -23,13 +23,11 @@ import com.keylesspalace.tusky.components.report.fragments.ReportNoteFragment
 import com.keylesspalace.tusky.components.report.fragments.ReportStatusesFragment
 
 class ReportPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> ReportStatusesFragment.newInstance()
-            1 -> ReportNoteFragment.newInstance()
-            2 -> ReportDoneFragment.newInstance()
-            else -> throw IllegalArgumentException("Unknown page index: $position")
-        }
+    override fun createFragment(position: Int): Fragment = when (position) {
+        0 -> ReportStatusesFragment.newInstance()
+        1 -> ReportNoteFragment.newInstance()
+        2 -> ReportDoneFragment.newInstance()
+        else -> throw IllegalArgumentException("Unknown page index: $position")
     }
 
     override fun getItemCount() = 3

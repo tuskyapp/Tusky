@@ -9,11 +9,9 @@ class DomainBlocksPagingSource(
 ) : PagingSource<String, String>() {
     override fun getRefreshKey(state: PagingState<String, String>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, String> {
-        return if (params is LoadParams.Refresh) {
-            LoadResult.Page(domains, null, nextKey)
-        } else {
-            LoadResult.Page(emptyList(), null, null)
-        }
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, String> = if (params is LoadParams.Refresh) {
+        LoadResult.Page(domains, null, nextKey)
+    } else {
+        LoadResult.Page(emptyList(), null, null)
     }
 }

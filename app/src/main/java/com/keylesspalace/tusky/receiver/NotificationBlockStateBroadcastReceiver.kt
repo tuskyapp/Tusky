@@ -55,9 +55,11 @@ class NotificationBlockStateBroadcastReceiver : BroadcastReceiver() {
                 val channelId = intent.getStringExtra(NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
                 nm.getNotificationChannel(channelId).group
             }
+
             NotificationManager.ACTION_NOTIFICATION_CHANNEL_GROUP_BLOCK_STATE_CHANGED -> {
                 intent.getStringExtra(NotificationManager.EXTRA_NOTIFICATION_CHANNEL_GROUP_ID)
             }
+
             else -> null
         } ?: return
 

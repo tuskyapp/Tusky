@@ -27,10 +27,8 @@ val Locale.modernLanguageCode: String
         return this.toLanguageTag().split('-', limit = 2)[0]
     }
 
-fun Locale.getTuskyDisplayName(context: Context): String {
-    return context.getString(
-        R.string.language_display_name_format,
-        displayLanguage,
-        getDisplayLanguage(this)
-    )
-}
+fun Locale.getTuskyDisplayName(context: Context): String = context.getString(
+    R.string.language_display_name_format,
+    displayLanguage,
+    getDisplayLanguage(this)
+)

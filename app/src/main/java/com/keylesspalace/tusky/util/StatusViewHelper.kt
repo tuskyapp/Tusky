@@ -248,26 +248,23 @@ class StatusViewHelper(private val itemView: View) {
         mediaLabel.setOnClickListener { listener.onViewMedia(null, 0) }
     }
 
-    private fun getLabelTypeText(context: Context, type: Attachment.Type): String {
-        return when (type) {
-            Attachment.Type.IMAGE -> context.getString(R.string.post_media_images)
-            Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(
-                R.string.post_media_video
-            )
-            Attachment.Type.AUDIO -> context.getString(R.string.post_media_audio)
-            else -> context.getString(R.string.post_media_attachments)
-        }
+    private fun getLabelTypeText(context: Context, type: Attachment.Type): String = when (type) {
+        Attachment.Type.IMAGE -> context.getString(R.string.post_media_images)
+        Attachment.Type.GIFV, Attachment.Type.VIDEO -> context.getString(
+            R.string.post_media_video
+        )
+
+        Attachment.Type.AUDIO -> context.getString(R.string.post_media_audio)
+        else -> context.getString(R.string.post_media_attachments)
     }
 
     @DrawableRes
-    private fun getLabelIcon(type: Attachment.Type): Int {
-        return when (type) {
-            Attachment.Type.IMAGE -> R.drawable.ic_image_24dp
-            Attachment.Type.GIFV -> R.drawable.ic_gif_box_24dp
-            Attachment.Type.VIDEO -> R.drawable.ic_slideshow_24dp
-            Attachment.Type.AUDIO -> R.drawable.ic_music_box_24dp
-            else -> R.drawable.ic_attach_file_24dp
-        }
+    private fun getLabelIcon(type: Attachment.Type): Int = when (type) {
+        Attachment.Type.IMAGE -> R.drawable.ic_image_24dp
+        Attachment.Type.GIFV -> R.drawable.ic_gif_box_24dp
+        Attachment.Type.VIDEO -> R.drawable.ic_slideshow_24dp
+        Attachment.Type.AUDIO -> R.drawable.ic_music_box_24dp
+        else -> R.drawable.ic_attach_file_24dp
     }
 
     fun setupPollReadonly(

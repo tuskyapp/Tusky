@@ -54,9 +54,7 @@ fun <T> T.makeFocusDialog(
                 model: Any?,
                 target: Target<Drawable?>,
                 isFirstResource: Boolean
-            ): Boolean {
-                return false
-            }
+            ): Boolean = false
 
             override fun onResourceReady(
                 resource: Drawable,

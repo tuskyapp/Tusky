@@ -102,11 +102,9 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         _contexts.value = _contexts.value.filter { it != context }
     }
 
-    fun validate(): Boolean {
-        return _title.value.isNotBlank() &&
-            _keywords.value.isNotEmpty() &&
-            _contexts.value.isNotEmpty()
-    }
+    fun validate(): Boolean = _title.value.isNotBlank() &&
+        _keywords.value.isNotEmpty() &&
+        _contexts.value.isNotEmpty()
 
     suspend fun saveChanges(context: Context): Boolean {
         val contexts = _contexts.value.map { it.kind }
@@ -198,11 +196,9 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
         )
     }
 
-    private suspend fun createFilterV1(context: List<String>, expiration: FilterExpiration?): Boolean {
-        return _keywords.value.map { keyword ->
-            api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiration)
-        }.none { it.isFailure }
-    }
+    private suspend fun createFilterV1(context: List<String>, expiration: FilterExpiration?): Boolean = _keywords.value.map { keyword ->
+        api.createFilterV1(keyword.keyword, context, false, keyword.wholeWord, expiration)
+    }.none { it.isFailure }
 
     private suspend fun updateFilterV1(context: List<String>, expiration: FilterExpiration?): Boolean {
         val results = _keywords.value.map { keyword ->
@@ -233,14 +229,12 @@ class EditFilterViewModel @Inject constructor(val api: MastodonApi) : ViewModel(
     companion object {
         // Mastodon *stores* the absolute date in the filter,
         // but create/edit take a number of seconds (relative to the time the operation is posted)
-        private fun getExpirationForDurationIndex(index: Int, context: Context): FilterExpiration? {
-            return when (index) {
-                -1 -> FilterExpiration.unchanged
-                0 -> FilterExpiration.never
-                else -> FilterExpiration.seconds(
-                    context.resources.getIntArray(R.array.filter_duration_values)[index]
-                )
-            }
+        private fun getExpirationForDurationIndex(index: Int, context: Context): FilterExpiration? = when (index) {
+            -1 -> FilterExpiration.unchanged
+            0 -> FilterExpiration.never
+            else -> FilterExpiration.seconds(
+                context.resources.getIntArray(R.array.filter_duration_values)[index]
+            )
         }
     }
 }

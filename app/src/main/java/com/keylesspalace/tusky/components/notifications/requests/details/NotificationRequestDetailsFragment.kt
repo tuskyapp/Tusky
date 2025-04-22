@@ -51,12 +51,15 @@ import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.getValue
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationRequestDetailsFragment : SFragment(R.layout.fragment_notification_request_details), StatusActionListener, NotificationActionListener, AccountActionListener {
+class NotificationRequestDetailsFragment :
+    SFragment(R.layout.fragment_notification_request_details),
+    StatusActionListener,
+    NotificationActionListener,
+    AccountActionListener {
 
     @Inject
     lateinit var preferences: SharedPreferences

@@ -10,12 +10,10 @@ class SingleImagePagerAdapter(
     private val imageUrl: String
 ) : ViewMediaAdapter(activity) {
 
-    override fun createFragment(position: Int): Fragment {
-        return if (position == 0) {
-            ViewMediaFragment.newSingleImageInstance(imageUrl)
-        } else {
-            throw IllegalStateException()
-        }
+    override fun createFragment(position: Int): Fragment = if (position == 0) {
+        ViewMediaFragment.newSingleImageInstance(imageUrl)
+    } else {
+        throw IllegalStateException()
     }
 
     override fun getItemCount() = 1

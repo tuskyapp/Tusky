@@ -25,12 +25,10 @@ class NetworkTimelinePagingSource(
 
     override fun getRefreshKey(state: PagingState<String, StatusViewData>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, StatusViewData> {
-        return if (params is LoadParams.Refresh) {
-            val list = viewModel.statusData.toList()
-            LoadResult.Page(list, null, viewModel.nextKey)
-        } else {
-            LoadResult.Page(emptyList(), null, null)
-        }
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, StatusViewData> = if (params is LoadParams.Refresh) {
+        val list = viewModel.statusData.toList()
+        LoadResult.Page(list, null, viewModel.nextKey)
+    } else {
+        LoadResult.Page(emptyList(), null, null)
     }
 }

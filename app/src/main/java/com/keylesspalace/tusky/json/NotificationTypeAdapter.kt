@@ -25,9 +25,7 @@ import com.squareup.moshi.JsonWriter
 
 class NotificationTypeAdapter : JsonAdapter<Notification.Type>() {
 
-    override fun fromJson(reader: JsonReader): Notification.Type {
-        return notificationTypeFromString(reader.nextString())
-    }
+    override fun fromJson(reader: JsonReader): Notification.Type = notificationTypeFromString(reader.nextString())
 
     override fun toJson(writer: JsonWriter, value: Notification.Type?) {
         writer.value(value?.name)

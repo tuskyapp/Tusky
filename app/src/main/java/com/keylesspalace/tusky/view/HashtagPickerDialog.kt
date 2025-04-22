@@ -50,20 +50,18 @@ fun Context.showHashtagPickerDialog(
     val autocompleteTextView = dialogBinding.pickHashtagEditText
 
     val autoCompleteProvider = object : ComposeAutoCompleteAdapter.AutocompletionProvider {
-        override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> {
-            return runBlocking {
-                api.search(query = token, type = SearchType.Hashtag.apiParameter, limit = 5)
-                    .fold({ searchResult ->
-                        searchResult.hashtags.map {
-                            ComposeAutoCompleteAdapter.AutocompleteResult.HashtagResult(
-                                it.name
-                            )
-                        }
-                    }, { e ->
-                        Log.e("HashtagPickerDialog", "Autocomplete search for $token failed", e)
-                        emptyList()
-                    })
-            }
+        override fun search(token: String): List<ComposeAutoCompleteAdapter.AutocompleteResult> = runBlocking {
+            api.search(query = token, type = SearchType.Hashtag.apiParameter, limit = 5)
+                .fold({ searchResult ->
+                    searchResult.hashtags.map {
+                        ComposeAutoCompleteAdapter.AutocompleteResult.HashtagResult(
+                            it.name
+                        )
+                    }
+                }, { e ->
+                    Log.e("HashtagPickerDialog", "Autocomplete search for $token failed", e)
+                    emptyList()
+                })
         }
     }
 

@@ -247,9 +247,7 @@ class EditProfileViewModel @Inject constructor(
         return DiffProfileData(displayName, note, locked, fields, headerFile, avatarFile)
     }
 
-    private fun getCacheFileForName(filename: String): File {
-        return File(application.cacheDir, filename)
-    }
+    private fun getCacheFileForName(filename: String): File = File(application.cacheDir, filename)
 
     private data class DiffProfileData(
         val displayName: String?,
@@ -259,8 +257,12 @@ class EditProfileViewModel @Inject constructor(
         val headerFile: File?,
         val avatarFile: File?
     ) {
-        fun hasChanges() = displayName != null || note != null || locked != null ||
-            avatarFile != null || headerFile != null || fields != null
+        fun hasChanges() = displayName != null ||
+            note != null ||
+            locked != null ||
+            avatarFile != null ||
+            headerFile != null ||
+            fields != null
     }
 
     companion object {

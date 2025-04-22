@@ -53,9 +53,7 @@ class SearchStatusesAdapter(
             override fun areItemsTheSame(
                 oldItem: StatusViewData.Concrete,
                 newItem: StatusViewData.Concrete
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
+            ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: StatusViewData.Concrete,
@@ -67,14 +65,12 @@ class SearchStatusesAdapter(
             override fun getChangePayload(
                 oldItem: StatusViewData.Concrete,
                 newItem: StatusViewData.Concrete
-            ): Any? {
-                return if (oldItem == newItem) {
-                    // If items are equal - update timestamp only
-                    StatusBaseViewHolder.Key.KEY_CREATED
-                } else {
-                    // If items are different - update the whole view holder
-                    null
-                }
+            ): Any? = if (oldItem == newItem) {
+                // If items are equal - update timestamp only
+                StatusBaseViewHolder.Key.KEY_CREATED
+            } else {
+                // If items are different - update the whole view holder
+                null
             }
         }
     }

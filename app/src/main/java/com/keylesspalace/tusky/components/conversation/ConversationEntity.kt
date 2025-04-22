@@ -40,15 +40,13 @@ data class ConversationEntity(
     val unread: Boolean,
     @Embedded(prefix = "s_") val lastStatus: ConversationStatusEntity
 ) {
-    fun toViewData(): ConversationViewData {
-        return ConversationViewData(
-            id = id,
-            order = order,
-            accounts = accounts,
-            unread = unread,
-            lastStatus = lastStatus.toViewData()
-        )
-    }
+    fun toViewData(): ConversationViewData = ConversationViewData(
+        id = id,
+        order = order,
+        accounts = accounts,
+        unread = unread,
+        lastStatus = lastStatus.toViewData()
+    )
 }
 
 @JsonClass(generateAdapter = true)
@@ -60,18 +58,16 @@ data class ConversationAccountEntity(
     val avatar: String,
     val emojis: List<Emoji>
 ) {
-    fun toAccount(): TimelineAccount {
-        return TimelineAccount(
-            id = id,
-            localUsername = localUsername,
-            username = username,
-            displayName = displayName,
-            note = "",
-            url = "",
-            avatar = avatar,
-            emojis = emojis
-        )
-    }
+    fun toAccount(): TimelineAccount = TimelineAccount(
+        id = id,
+        localUsername = localUsername,
+        username = username,
+        displayName = displayName,
+        note = "",
+        url = "",
+        avatar = avatar,
+        emojis = emojis
+    )
 }
 
 @TypeConverters(Converters::class)
@@ -102,44 +98,42 @@ data class ConversationStatusEntity(
     val language: String?
 ) {
 
-    fun toViewData(): StatusViewData.Concrete {
-        return StatusViewData.Concrete(
-            status = Status(
-                id = id,
-                url = url,
-                account = account.toAccount(),
-                inReplyToId = inReplyToId,
-                inReplyToAccountId = inReplyToAccountId,
-                content = content,
-                reblog = null,
-                createdAt = createdAt,
-                editedAt = editedAt,
-                emojis = emojis,
-                reblogsCount = 0,
-                favouritesCount = favouritesCount,
-                repliesCount = repliesCount,
-                reblogged = false,
-                favourited = favourited,
-                bookmarked = bookmarked,
-                sensitive = sensitive,
-                spoilerText = spoilerText,
-                visibility = Status.Visibility.DIRECT,
-                attachments = attachments,
-                mentions = mentions,
-                tags = tags.orEmpty(),
-                application = null,
-                pinned = false,
-                muted = muted,
-                poll = poll,
-                card = null,
-                language = language,
-                filtered = emptyList()
-            ),
-            isExpanded = expanded,
-            isShowingContent = showingHiddenContent,
-            isCollapsed = collapsed
-        )
-    }
+    fun toViewData(): StatusViewData.Concrete = StatusViewData.Concrete(
+        status = Status(
+            id = id,
+            url = url,
+            account = account.toAccount(),
+            inReplyToId = inReplyToId,
+            inReplyToAccountId = inReplyToAccountId,
+            content = content,
+            reblog = null,
+            createdAt = createdAt,
+            editedAt = editedAt,
+            emojis = emojis,
+            reblogsCount = 0,
+            favouritesCount = favouritesCount,
+            repliesCount = repliesCount,
+            reblogged = false,
+            favourited = favourited,
+            bookmarked = bookmarked,
+            sensitive = sensitive,
+            spoilerText = spoilerText,
+            visibility = Status.Visibility.DIRECT,
+            attachments = attachments,
+            mentions = mentions,
+            tags = tags.orEmpty(),
+            application = null,
+            pinned = false,
+            muted = muted,
+            poll = poll,
+            card = null,
+            language = language,
+            filtered = emptyList()
+        ),
+        isExpanded = expanded,
+        isShowingContent = showingHiddenContent,
+        isCollapsed = collapsed
+    )
 }
 
 fun TimelineAccount.toEntity() = ConversationAccountEntity(
@@ -151,33 +145,32 @@ fun TimelineAccount.toEntity() = ConversationAccountEntity(
     emojis = emojis
 )
 
-fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) =
-    ConversationStatusEntity(
-        id = id,
-        url = url,
-        inReplyToId = inReplyToId,
-        inReplyToAccountId = inReplyToAccountId,
-        account = account.toEntity(),
-        content = content,
-        createdAt = createdAt,
-        editedAt = editedAt,
-        emojis = emojis,
-        favouritesCount = favouritesCount,
-        repliesCount = repliesCount,
-        favourited = favourited,
-        bookmarked = bookmarked,
-        sensitive = sensitive,
-        spoilerText = spoilerText,
-        attachments = attachments,
-        mentions = mentions,
-        tags = tags,
-        showingHiddenContent = contentShowing,
-        expanded = expanded,
-        collapsed = contentCollapsed,
-        muted = muted,
-        poll = poll,
-        language = language
-    )
+fun Status.toEntity(expanded: Boolean, contentShowing: Boolean, contentCollapsed: Boolean) = ConversationStatusEntity(
+    id = id,
+    url = url,
+    inReplyToId = inReplyToId,
+    inReplyToAccountId = inReplyToAccountId,
+    account = account.toEntity(),
+    content = content,
+    createdAt = createdAt,
+    editedAt = editedAt,
+    emojis = emojis,
+    favouritesCount = favouritesCount,
+    repliesCount = repliesCount,
+    favourited = favourited,
+    bookmarked = bookmarked,
+    sensitive = sensitive,
+    spoilerText = spoilerText,
+    attachments = attachments,
+    mentions = mentions,
+    tags = tags,
+    showingHiddenContent = contentShowing,
+    expanded = expanded,
+    collapsed = contentCollapsed,
+    muted = muted,
+    poll = poll,
+    language = language
+)
 
 fun Conversation.toEntity(
     accountId: Long,

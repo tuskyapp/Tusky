@@ -404,33 +404,28 @@ class StatusListActivity : BottomSheetActivity() {
         private const val EXTRA_HASHTAG = "tag"
         const val TAG = "StatusListActivity"
 
-        fun newFavouritesIntent(context: Context) =
-            Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
-            }
+        fun newFavouritesIntent(context: Context) = Intent(context, StatusListActivity::class.java).apply {
+            putExtra(EXTRA_KIND, Kind.FAVOURITES.name)
+        }
 
-        fun newBookmarksIntent(context: Context) =
-            Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
-            }
+        fun newBookmarksIntent(context: Context) = Intent(context, StatusListActivity::class.java).apply {
+            putExtra(EXTRA_KIND, Kind.BOOKMARKS.name)
+        }
 
-        fun newListIntent(context: Context, listId: String, listTitle: String) =
-            Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.LIST.name)
-                putExtra(EXTRA_LIST_ID, listId)
-                putExtra(EXTRA_LIST_TITLE, listTitle)
-            }
+        fun newListIntent(context: Context, listId: String, listTitle: String) = Intent(context, StatusListActivity::class.java).apply {
+            putExtra(EXTRA_KIND, Kind.LIST.name)
+            putExtra(EXTRA_LIST_ID, listId)
+            putExtra(EXTRA_LIST_TITLE, listTitle)
+        }
 
         @JvmStatic
-        fun newHashtagIntent(context: Context, hashtag: String) =
-            Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.TAG.name)
-                putExtra(EXTRA_HASHTAG, hashtag)
-            }
+        fun newHashtagIntent(context: Context, hashtag: String) = Intent(context, StatusListActivity::class.java).apply {
+            putExtra(EXTRA_KIND, Kind.TAG.name)
+            putExtra(EXTRA_HASHTAG, hashtag)
+        }
 
-        fun newTrendingIntent(context: Context) =
-            Intent(context, StatusListActivity::class.java).apply {
-                putExtra(EXTRA_KIND, Kind.PUBLIC_TRENDING_STATUSES.name)
-            }
+        fun newTrendingIntent(context: Context) = Intent(context, StatusListActivity::class.java).apply {
+            putExtra(EXTRA_KIND, Kind.PUBLIC_TRENDING_STATUSES.name)
+        }
     }
 }

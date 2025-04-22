@@ -22,10 +22,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.util.await
 
-internal suspend fun Activity.showDeleteFilterDialog(filterTitle: String): Int {
-    return MaterialAlertDialogBuilder(this)
-        .setMessage(getString(R.string.dialog_delete_filter_text, filterTitle))
-        .setCancelable(true)
-        .create()
-        .await(R.string.dialog_delete_filter_positive_action, android.R.string.cancel)
-}
+internal suspend fun Activity.showDeleteFilterDialog(filterTitle: String): Int = MaterialAlertDialogBuilder(this)
+    .setMessage(getString(R.string.dialog_delete_filter_text, filterTitle))
+    .setCancelable(true)
+    .create()
+    .await(R.string.dialog_delete_filter_positive_action, android.R.string.cancel)

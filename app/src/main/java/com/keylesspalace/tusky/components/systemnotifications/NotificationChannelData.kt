@@ -72,15 +72,9 @@ enum class NotificationChannelData(
         R.string.notification_channel_other_description
     );
 
-    fun getChannelId(account: AccountEntity): String {
-        return getChannelId(account.identifier)
-    }
+    fun getChannelId(account: AccountEntity): String = getChannelId(account.identifier)
 
-    fun getChannelId(accountIdentifier: String): String {
-        return "CHANNEL_${name}$accountIdentifier"
-    }
+    fun getChannelId(accountIdentifier: String): String = "CHANNEL_${name}$accountIdentifier"
 }
 
-fun Set<NotificationChannelData>.toTypes(): Set<Notification.Type> {
-    return flatMap { channelData -> channelData.notificationTypes }.toSet()
-}
+fun Set<NotificationChannelData>.toTypes(): Set<Notification.Type> = flatMap { channelData -> channelData.notificationTypes }.toSet()

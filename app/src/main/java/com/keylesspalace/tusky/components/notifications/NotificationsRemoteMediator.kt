@@ -95,9 +95,11 @@ class NotificationsRemoteMediator(
                 LoadType.REFRESH -> {
                     api.notifications(sinceId = topPlaceholderId, limit = state.config.pageSize, excludes = excludes)
                 }
+
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 LoadType.APPEND -> {
                     val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.id
                     api.notifications(maxId = maxId, limit = state.config.pageSize, excludes = excludes)
@@ -170,7 +172,7 @@ class NotificationsRemoteMediator(
             notification.status?.let { status ->
                 val expanded = oldStatus?.expanded ?: activeAccount.alwaysOpenSpoiler
                 val contentShowing = oldStatus?.contentShowing ?: (activeAccount.alwaysShowSensitiveMedia || !status.sensitive)
-                val contentCollapsed = oldStatus?.contentCollapsed ?: true
+                val contentCollapsed = oldStatus?.contentCollapsed != false
 
                 val statusToInsert = status.reblog ?: status
                 accountDao.insert(statusToInsert.account.toEntity(activeAccount.id))

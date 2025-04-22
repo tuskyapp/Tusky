@@ -48,15 +48,13 @@ class AccountListRemoteMediator(
         }
     }
 
-    private suspend fun request(loadType: LoadType): Response<List<TimelineAccount>>? {
-        return when (loadType) {
-            LoadType.PREPEND -> null
-            LoadType.APPEND -> getFetchCallByListType(fromId = viewModel.nextKey)
-            LoadType.REFRESH -> {
-                viewModel.nextKey = null
-                viewModel.accounts.clear()
-                getFetchCallByListType(null)
-            }
+    private suspend fun request(loadType: LoadType): Response<List<TimelineAccount>>? = when (loadType) {
+        LoadType.PREPEND -> null
+        LoadType.APPEND -> getFetchCallByListType(fromId = viewModel.nextKey)
+        LoadType.REFRESH -> {
+            viewModel.nextKey = null
+            viewModel.accounts.clear()
+            getFetchCallByListType(null)
         }
     }
 
@@ -89,31 +87,30 @@ class AccountListRemoteMediator(
         return MediatorResult.Success(endOfPaginationReached = viewModel.nextKey == null)
     }
 
-    private fun requireId(type: Type, id: String?): String {
-        return requireNotNull(id) { "id must not be null for type " + type.name }
-    }
+    private fun requireId(type: Type, id: String?): String = requireNotNull(id) { "id must not be null for type " + type.name }
 
-    private suspend fun getFetchCallByListType(fromId: String?): Response<List<TimelineAccount>> {
-        return when (viewModel.type) {
-            Type.FOLLOWS -> {
-                val accountId = requireId(viewModel.type, viewModel.accountId)
-                api.accountFollowing(accountId, fromId)
-            }
-            Type.FOLLOWERS -> {
-                val accountId = requireId(viewModel.type, viewModel.accountId)
-                api.accountFollowers(accountId, fromId)
-            }
-            Type.BLOCKS -> api.blocks(fromId)
-            Type.MUTES -> api.mutes(fromId)
-            Type.FOLLOW_REQUESTS -> api.followRequests(fromId)
-            Type.REBLOGGED -> {
-                val statusId = requireId(viewModel.type, viewModel.accountId)
-                api.statusRebloggedBy(statusId, fromId)
-            }
-            Type.FAVOURITED -> {
-                val statusId = requireId(viewModel.type, viewModel.accountId)
-                api.statusFavouritedBy(statusId, fromId)
-            }
+    private suspend fun getFetchCallByListType(fromId: String?): Response<List<TimelineAccount>> = when (viewModel.type) {
+        Type.FOLLOWS -> {
+            val accountId = requireId(viewModel.type, viewModel.accountId)
+            api.accountFollowing(accountId, fromId)
+        }
+
+        Type.FOLLOWERS -> {
+            val accountId = requireId(viewModel.type, viewModel.accountId)
+            api.accountFollowers(accountId, fromId)
+        }
+
+        Type.BLOCKS -> api.blocks(fromId)
+        Type.MUTES -> api.mutes(fromId)
+        Type.FOLLOW_REQUESTS -> api.followRequests(fromId)
+        Type.REBLOGGED -> {
+            val statusId = requireId(viewModel.type, viewModel.accountId)
+            api.statusRebloggedBy(statusId, fromId)
+        }
+
+        Type.FAVOURITED -> {
+            val statusId = requireId(viewModel.type, viewModel.accountId)
+            api.statusFavouritedBy(statusId, fromId)
         }
     }
 }

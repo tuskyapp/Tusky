@@ -122,6 +122,7 @@ class AccountListFragment :
                 binding.recyclerView.adapter = ConcatAdapter(headerAdapter, followRequestsAdapter)
                 followRequestsAdapter
             }
+
             else -> FollowAdapter(this, animateAvatar, animateEmojis, showBotOverlay)
         }
 
@@ -214,12 +215,10 @@ class AccountListFragment :
         private const val ARG_TYPE = "type"
         private const val ARG_ID = "id"
 
-        fun newInstance(type: Type, id: String? = null): AccountListFragment {
-            return AccountListFragment().apply {
-                arguments = Bundle(2).apply {
-                    putSerializable(ARG_TYPE, type)
-                    putString(ARG_ID, id)
-                }
+        fun newInstance(type: Type, id: String? = null): AccountListFragment = AccountListFragment().apply {
+            arguments = Bundle(2).apply {
+                putSerializable(ARG_TYPE, type)
+                putString(ARG_ID, id)
             }
         }
     }

@@ -38,9 +38,7 @@ private const val LENGTH_DEFAULT = 500
  * @param message The message to trim.
  * @return Whether the message should be trimmed or not.
  */
-fun shouldTrimStatus(message: Spanned): Boolean {
-    return message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length < 0.75
-}
+fun shouldTrimStatus(message: Spanned): Boolean = message.isNotEmpty() && LENGTH_DEFAULT.toFloat() / message.length < 0.75
 
 /**
  * A customized version of {@link android.text.InputFilter.LengthFilter} which allows smarter

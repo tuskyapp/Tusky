@@ -108,6 +108,4 @@ data class Notification(
  * which leds to crash since those subclasses are referenced here */
 val visibleNotificationTypes = listOf(Mention, Reblog, Favourite, Follow, FollowRequest, Type.Poll, Type.Status, SignUp, Update, Type.Report, SeveredRelationship, ModerationWarning)
 
-fun notificationTypeFromString(s: String): Type {
-    return visibleNotificationTypes.firstOrNull { it.name == s.lowercase() } ?: Unknown(s)
-}
+fun notificationTypeFromString(s: String): Type = visibleNotificationTypes.firstOrNull { it.name == s.lowercase() } ?: Unknown(s)

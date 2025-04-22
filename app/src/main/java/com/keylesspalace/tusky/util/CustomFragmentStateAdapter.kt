@@ -23,6 +23,5 @@ abstract class CustomFragmentStateAdapter(
     private val activity: FragmentActivity
 ) : FragmentStateAdapter(activity) {
 
-    fun getFragment(position: Int): Fragment? =
-        activity.supportFragmentManager.findFragmentByTag("f" + getItemId(position))
+    fun getFragment(position: Int): Fragment? = activity.supportFragmentManager.findFragmentByTag("f" + getItemId(position))
 }

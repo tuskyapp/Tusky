@@ -126,24 +126,28 @@ class NetworkTimelineViewModel @Inject constructor(
                     removeAllByAccountId(id)
                 }
             }
+
             is BlockEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     val id = event.accountId
                     removeAllByAccountId(id)
                 }
             }
+
             is MuteEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     val id = event.accountId
                     removeAllByAccountId(id)
                 }
             }
+
             is DomainMuteEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     val instance = event.instance
                     removeAllByInstance(instance)
                 }
             }
+
             is StatusDeletedEvent -> {
                 if (kind != Kind.USER && kind != Kind.USER_WITH_REPLIES && kind != Kind.USER_PINNED) {
                     removeStatusWithId(event.statusId)
@@ -231,10 +235,10 @@ class NetworkTimelineViewModel @Inject constructor(
                     val firstId = statuses.first().id
                     val lastId = statuses.last().id
                     val overlappedFrom = statusData.indexOfFirst {
-                        it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) ?: false
+                        it.asStatusOrNull()?.id?.isLessThanOrEqual(firstId) == true
                     }
                     val overlappedTo = statusData.indexOfFirst {
-                        it.asStatusOrNull()?.id?.isLessThan(lastId) ?: false
+                        it.asStatusOrNull()?.id?.isLessThan(lastId) == true
                     }
 
                     if (overlappedFrom < overlappedTo) {
@@ -255,13 +259,15 @@ class NetworkTimelineViewModel @Inject constructor(
 
                         statusData.removeAll { status ->
                             when (status) {
-                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
-                                    firstId
-                                )
+                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) &&
+                                    status.id.isLessThanOrEqual(
+                                        firstId
+                                    )
 
-                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
-                                    firstId
-                                )
+                                is StatusViewData.Concrete -> lastId.isLessThan(status.id) &&
+                                    status.id.isLessThanOrEqual(
+                                        firstId
+                                    )
                             }
                         }
                     } else {
@@ -347,52 +353,50 @@ class NetworkTimelineViewModel @Inject constructor(
         fromId: String?,
         uptoId: String?,
         limit: Int
-    ): Response<List<Status>> {
-        return when (kind) {
-            Kind.HOME -> api.homeTimeline(maxId = fromId, sinceId = uptoId, limit = limit)
-            Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
-            Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
-            Kind.TAG -> {
-                val firstHashtag = tags[0]
-                val additionalHashtags = tags.subList(1, tags.size)
-                api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
-            }
-
-            Kind.USER -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = true,
-                onlyMedia = null,
-                pinned = null
-            )
-
-            Kind.USER_PINNED -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = true
-            )
-
-            Kind.USER_WITH_REPLIES -> api.accountStatuses(
-                id!!,
-                fromId,
-                uptoId,
-                limit,
-                excludeReplies = null,
-                onlyMedia = null,
-                pinned = null
-            )
-
-            Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
-            Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
-            Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
-            Kind.PUBLIC_TRENDING_STATUSES -> api.trendingStatuses(limit = limit, offset = fromId)
+    ): Response<List<Status>> = when (kind) {
+        Kind.HOME -> api.homeTimeline(maxId = fromId, sinceId = uptoId, limit = limit)
+        Kind.PUBLIC_FEDERATED -> api.publicTimeline(null, fromId, uptoId, limit)
+        Kind.PUBLIC_LOCAL -> api.publicTimeline(true, fromId, uptoId, limit)
+        Kind.TAG -> {
+            val firstHashtag = tags[0]
+            val additionalHashtags = tags.subList(1, tags.size)
+            api.hashtagTimeline(firstHashtag, additionalHashtags, null, fromId, uptoId, limit)
         }
+
+        Kind.USER -> api.accountStatuses(
+            id!!,
+            fromId,
+            uptoId,
+            limit,
+            excludeReplies = true,
+            onlyMedia = null,
+            pinned = null
+        )
+
+        Kind.USER_PINNED -> api.accountStatuses(
+            id!!,
+            fromId,
+            uptoId,
+            limit,
+            excludeReplies = null,
+            onlyMedia = null,
+            pinned = true
+        )
+
+        Kind.USER_WITH_REPLIES -> api.accountStatuses(
+            id!!,
+            fromId,
+            uptoId,
+            limit,
+            excludeReplies = null,
+            onlyMedia = null,
+            pinned = null
+        )
+
+        Kind.FAVOURITES -> api.favourites(fromId, uptoId, limit)
+        Kind.BOOKMARKS -> api.bookmarks(fromId, uptoId, limit)
+        Kind.LIST -> api.listTimeline(id!!, fromId, uptoId, limit)
+        Kind.PUBLIC_TRENDING_STATUSES -> api.trendingStatuses(limit = limit, offset = fromId)
     }
 
     private fun StatusViewData.Concrete.update() {

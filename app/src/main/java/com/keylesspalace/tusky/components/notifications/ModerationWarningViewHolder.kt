@@ -25,7 +25,8 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 class ModerationWarningViewHolder(
     private val binding: ItemModerationWarningNotificationBinding,
     private val instanceDomain: String
-) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,

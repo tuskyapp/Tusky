@@ -126,15 +126,14 @@ class ScheduledStatusActivity :
         menuInflater.inflate(R.menu.activity_scheduled_status, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                refreshStatuses()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            refreshStatuses()
+            true
         }
+
+        else -> false
     }
 
     private fun refreshStatuses() {

@@ -42,7 +42,8 @@ open class MediaPreviewImageView
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr), RequestListener<Drawable> {
+) : AppCompatImageView(context, attrs, defStyleAttr),
+    RequestListener<Drawable> {
     private var focus: Attachment.Focus? = null
     private var focalMatrix: Matrix? = null
 
@@ -75,12 +76,10 @@ open class MediaPreviewImageView
      * if we simply passed that on, so instead we pretend that CENTER_CROP is still used here
      * even if we have a focus point set.
      */
-    override fun getScaleType(): ScaleType {
-        return if (focus != null) {
-            ScaleType.CENTER_CROP
-        } else {
-            super.getScaleType()
-        }
+    override fun getScaleType(): ScaleType = if (focus != null) {
+        ScaleType.CENTER_CROP
+    } else {
+        super.getScaleType()
     }
 
     /**
@@ -101,9 +100,7 @@ open class MediaPreviewImageView
         model: Any?,
         target: Target<Drawable>,
         isFirstResource: Boolean
-    ): Boolean {
-        return false
-    }
+    ): Boolean = false
 
     override fun onResourceReady(
         resource: Drawable,

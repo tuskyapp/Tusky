@@ -107,7 +107,11 @@ import kotlin.math.abs
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider, LinkListener {
+class AccountActivity :
+    BottomSheetActivity(),
+    ActionButtonActivity,
+    MenuProvider,
+    LinkListener {
 
     @Inject
     lateinit var draftsAlert: DraftsAlert
@@ -393,6 +397,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                         onAccountChanged(it.data)
                         binding.swipeToRefreshLayout.isEnabled = true
                     }
+
                     is Error -> {
                         Snackbar.make(
                             binding.accountCoordinatorLayout,
@@ -403,7 +408,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                             .show()
                         binding.swipeToRefreshLayout.isEnabled = true
                     }
-                    is Loading -> { }
+
+                    is Loading -> {}
                 }
             }
         }
@@ -664,9 +670,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                             viewModel.changeFollowState()
                         }
                     }
+
                     FollowState.REQUESTED -> {
                         showFollowRequestPendingDialog()
                     }
+
                     FollowState.FOLLOWING -> {
                         showUnfollowWarningDialog()
                     }
@@ -692,7 +700,8 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
 
         // because subscribing is Pleroma extension, enable it __only__ when we have non-null subscribing field
         // it's also now supported in Mastodon 3.3.0rc but called notifying and use different API call
-        if (!viewModel.isSelf && followState == FollowState.FOLLOWING &&
+        if (!viewModel.isSelf &&
+            followState == FollowState.FOLLOWING &&
             (relation.subscribing != null || relation.notifying != null)
         ) {
             binding.accountSubscribeButton.show()
@@ -732,9 +741,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
             FollowState.NOT_FOLLOWING -> {
                 binding.accountFollowButton.setText(R.string.action_follow)
             }
+
             FollowState.REQUESTED -> {
                 binding.accountFollowButton.setText(R.string.state_follow_requested)
             }
+
             FollowState.FOLLOWING -> {
                 binding.accountFollowButton.setText(R.string.action_unfollow)
             }
@@ -822,9 +833,11 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     domain.isEmpty() || viewModel.isFromOwnDomain -> {
                         menu.removeItem(R.id.action_mute_domain)
                     }
+
                     blockingDomain -> {
                         muteDomain.title = getString(R.string.action_unmute_domain, domain)
                     }
+
                     else -> {
                         muteDomain.title = getString(R.string.action_mute_domain, domain)
                     }
@@ -959,6 +972,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 }
                 return true
             }
+
             R.id.action_open_as -> {
                 loadedAccount?.let { loadedAccount ->
                     showAccountChooserDialog(
@@ -972,6 +986,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                     )
                 }
             }
+
             R.id.action_share_account_link -> {
                 // If the account isn't loaded yet, eat the input.
                 loadedAccount?.let { loadedAccount ->
@@ -989,6 +1004,7 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 }
                 return true
             }
+
             R.id.action_share_account_username -> {
                 // If the account isn't loaded yet, eat the input.
                 loadedAccount?.let { loadedAccount ->
@@ -1006,30 +1022,37 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
                 }
                 return true
             }
+
             R.id.action_block -> {
                 toggleBlock()
                 return true
             }
+
             R.id.action_mute -> {
                 toggleMute()
                 return true
             }
+
             R.id.action_add_or_remove_from_list -> {
                 ListSelectionFragment.newInstance(viewModel.accountId).show(supportFragmentManager, null)
                 return true
             }
+
             R.id.action_mute_domain -> {
                 toggleBlockDomain(domain)
                 return true
             }
+
             R.id.action_show_reblogs -> {
                 viewModel.changeShowReblogsState()
                 return true
             }
+
             R.id.action_refresh -> {
                 onRefresh()
                 return true
             }
+
             R.id.action_report -> {
                 loadedAccount?.let { loadedAccount ->
                     startActivity(
@@ -1042,23 +1065,19 @@ class AccountActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvide
         return false
     }
 
-    override fun getActionButton(): FloatingActionButton? {
-        return if (!blocking) {
-            binding.accountFloatingActionButton
-        } else {
-            null
-        }
+    override fun getActionButton(): FloatingActionButton? = if (!blocking) {
+        binding.accountFloatingActionButton
+    } else {
+        null
     }
 
-    private fun getFullUsername(account: Account): String {
-        return if (account.isRemote) {
-            "@" + account.username
-        } else {
-            val localUsername = account.localUsername
-            // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
-            val domain = accountManager.activeAccount!!.domain
-            "@$localUsername@$domain"
-        }
+    private fun getFullUsername(account: Account): String = if (account.isRemote) {
+        "@" + account.username
+    } else {
+        val localUsername = account.localUsername
+        // Note: !! here will crash if this pane is ever shown to a logged-out user. With AccountActivity this is believed to be impossible.
+        val domain = accountManager.activeAccount!!.domain
+        "@$localUsername@$domain"
     }
 
     private fun getBadge(

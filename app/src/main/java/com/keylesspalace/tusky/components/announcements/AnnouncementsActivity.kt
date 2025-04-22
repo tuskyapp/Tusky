@@ -119,9 +119,11 @@ class AnnouncementsActivity :
                         }
                         adapter.updateList(it.data ?: listOf())
                     }
+
                     is Loading -> {
                         binding.errorMessageView.hide()
                     }
+
                     is Error -> {
                         binding.progressBar.hide()
                         binding.swipeRefreshLayout.isRefreshing = false
@@ -151,15 +153,14 @@ class AnnouncementsActivity :
         menuInflater.inflate(R.menu.activity_announcements, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                refreshAnnouncements()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            refreshAnnouncements()
+            true
         }
+
+        else -> false
     }
 
     private fun refreshAnnouncements() {

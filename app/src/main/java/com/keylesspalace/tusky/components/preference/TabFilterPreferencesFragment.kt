@@ -82,8 +82,6 @@ class TabFilterPreferencesFragment : BasePreferencesFragment() {
     }
 
     companion object {
-        fun newInstance(): TabFilterPreferencesFragment {
-            return TabFilterPreferencesFragment()
-        }
+        fun newInstance(): TabFilterPreferencesFragment = TabFilterPreferencesFragment()
     }
 }

@@ -29,15 +29,13 @@ class FollowedTagsRemoteMediator(
         }
     }
 
-    private suspend fun request(loadType: LoadType): Response<List<HashTag>>? {
-        return when (loadType) {
-            LoadType.PREPEND -> null
-            LoadType.APPEND -> api.followedTags(maxId = viewModel.nextKey)
-            LoadType.REFRESH -> {
-                viewModel.nextKey = null
-                viewModel.tags.clear()
-                api.followedTags()
-            }
+    private suspend fun request(loadType: LoadType): Response<List<HashTag>>? = when (loadType) {
+        LoadType.PREPEND -> null
+        LoadType.APPEND -> api.followedTags(maxId = viewModel.nextKey)
+        LoadType.REFRESH -> {
+            viewModel.nextKey = null
+            viewModel.tags.clear()
+            api.followedTags()
         }
     }
 

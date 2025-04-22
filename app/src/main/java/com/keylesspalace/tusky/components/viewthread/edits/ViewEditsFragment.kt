@@ -96,6 +96,7 @@ class ViewEditsFragment :
                         binding.statusView.hide()
                         binding.initialProgressBar.show()
                     }
+
                     EditsUiState.Refreshing -> {}
                     is EditsUiState.Error -> {
                         Log.w(TAG, "failed to load edits", uiState.throwable)
@@ -112,6 +113,7 @@ class ViewEditsFragment :
                                     R.string.error_missing_edits
                                 )
                             }
+
                             else -> {
                                 binding.statusView.setup(uiState.throwable) {
                                     viewModel.loadEdits(statusId, force = true)
@@ -119,6 +121,7 @@ class ViewEditsFragment :
                             }
                         }
                     }
+
                     is EditsUiState.Success -> {
                         binding.swipeRefreshLayout.isRefreshing = false
                         binding.recyclerView.show()
@@ -159,15 +162,14 @@ class ViewEditsFragment :
         menuInflater.inflate(R.menu.fragment_view_edits, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                onRefresh()
-                true
-            }
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            onRefresh()
+            true
         }
+
+        else -> false
     }
 
     override fun onResume() {

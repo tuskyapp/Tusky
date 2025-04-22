@@ -92,28 +92,26 @@ class InstanceInfoRepository @Inject constructor(
      * Will always try to fetch the most up-to-date data from the api, falls back to cache in case it is not available.
      * Never throws, returns defaults of vanilla Mastodon in case of error.
      */
-    suspend fun getUpdatedInstanceInfoOrFallback(): InstanceInfo =
-        withContext(Dispatchers.IO) {
-            fetchAndPersistInstanceInfo()
-                .getOrElse { throwable ->
-                    Log.w(
-                        TAG,
-                        "failed to load instance, falling back to cache and default values",
-                        throwable
-                    )
-                    dao.getInstanceInfo(instanceName)
-                }
-        }.toInfoOrDefault()
+    suspend fun getUpdatedInstanceInfoOrFallback(): InstanceInfo = withContext(Dispatchers.IO) {
+        fetchAndPersistInstanceInfo()
+            .getOrElse { throwable ->
+                Log.w(
+                    TAG,
+                    "failed to load instance, falling back to cache and default values",
+                    throwable
+                )
+                dao.getInstanceInfo(instanceName)
+            }
+    }.toInfoOrDefault()
 
     suspend fun saveFilterV2Support(filterV2Supported: Boolean) = dao.setFilterV2Support(instanceName, filterV2Supported)
 
     suspend fun isFilterV2Supported(): Boolean = dao.getFilterV2Support(instanceName)
 
-    private suspend fun InstanceInfoRepository.fetchAndPersistInstanceInfo(): NetworkResult<InstanceInfoEntity> =
-        fetchRemoteInstanceInfo()
-            .onSuccess { instanceInfoEntity ->
-                dao.upsert(instanceInfoEntity)
-            }
+    private suspend fun InstanceInfoRepository.fetchAndPersistInstanceInfo(): NetworkResult<InstanceInfoEntity> = fetchRemoteInstanceInfo()
+        .onSuccess { instanceInfoEntity ->
+            dao.upsert(instanceInfoEntity)
+        }
 
     private suspend fun fetchRemoteInstanceInfo(): NetworkResult<InstanceInfoEntity> {
         val instance = this.instanceName
@@ -176,33 +174,32 @@ class InstanceInfoRepository @Inject constructor(
         translationEnabled = this.configuration?.translation?.enabled
     )
 
-    private fun InstanceV1.toEntity(instanceName: String) =
-        InstanceInfoEntity(
-            instance = instanceName,
-            maximumTootCharacters = this.configuration?.statuses?.maxCharacters
-                ?: this.maxTootChars,
-            maxPollOptions = this.configuration?.polls?.maxOptions
-                ?: this.pollConfiguration?.maxOptions,
-            maxPollOptionLength = this.configuration?.polls?.maxCharactersPerOption
-                ?: this.pollConfiguration?.maxOptionChars,
-            minPollDuration = this.configuration?.polls?.minExpiration
-                ?: this.pollConfiguration?.minExpiration,
-            maxPollDuration = this.configuration?.polls?.maxExpiration
-                ?: this.pollConfiguration?.maxExpiration,
-            charactersReservedPerUrl = this.configuration?.statuses?.charactersReservedPerUrl,
-            version = this.version,
-            videoSizeLimit = this.configuration?.mediaAttachments?.videoSizeLimit
-                ?: this.uploadLimit,
-            imageSizeLimit = this.configuration?.mediaAttachments?.imageSizeLimit
-                ?: this.uploadLimit,
-            imageMatrixLimit = this.configuration?.mediaAttachments?.imageMatrixLimit,
-            maxMediaAttachments = this.configuration?.statuses?.maxMediaAttachments
-                ?: this.maxMediaAttachments,
-            maxFields = this.pleroma?.metadata?.fieldLimits?.maxFields,
-            maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
-            maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
-            translationEnabled = null,
-        )
+    private fun InstanceV1.toEntity(instanceName: String) = InstanceInfoEntity(
+        instance = instanceName,
+        maximumTootCharacters = this.configuration?.statuses?.maxCharacters
+            ?: this.maxTootChars,
+        maxPollOptions = this.configuration?.polls?.maxOptions
+            ?: this.pollConfiguration?.maxOptions,
+        maxPollOptionLength = this.configuration?.polls?.maxCharactersPerOption
+            ?: this.pollConfiguration?.maxOptionChars,
+        minPollDuration = this.configuration?.polls?.minExpiration
+            ?: this.pollConfiguration?.minExpiration,
+        maxPollDuration = this.configuration?.polls?.maxExpiration
+            ?: this.pollConfiguration?.maxExpiration,
+        charactersReservedPerUrl = this.configuration?.statuses?.charactersReservedPerUrl,
+        version = this.version,
+        videoSizeLimit = this.configuration?.mediaAttachments?.videoSizeLimit
+            ?: this.uploadLimit,
+        imageSizeLimit = this.configuration?.mediaAttachments?.imageSizeLimit
+            ?: this.uploadLimit,
+        imageMatrixLimit = this.configuration?.mediaAttachments?.imageMatrixLimit,
+        maxMediaAttachments = this.configuration?.statuses?.maxMediaAttachments
+            ?: this.maxMediaAttachments,
+        maxFields = this.pleroma?.metadata?.fieldLimits?.maxFields,
+        maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
+        maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
+        translationEnabled = null,
+    )
 
     companion object {
         private const val TAG = "InstanceInfoRepo"

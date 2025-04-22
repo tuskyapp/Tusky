@@ -155,20 +155,18 @@ class NotificationFetcher @Inject constructor(
         return notifications
     }
 
-    private suspend fun fetchMarker(authHeader: String, account: AccountEntity): Marker? {
-        return try {
-            val allMarkers = mastodonApi.markersWithAuth(
-                authHeader,
-                account.domain,
-                listOf("notifications")
-            )
-            val notificationMarker = allMarkers["notifications"]
-            Log.d(TAG, "Fetched marker for ${account.fullName}: $notificationMarker")
-            notificationMarker
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to fetch marker", e)
-            null
-        }
+    private suspend fun fetchMarker(authHeader: String, account: AccountEntity): Marker? = try {
+        val allMarkers = mastodonApi.markersWithAuth(
+            authHeader,
+            account.domain,
+            listOf("notifications")
+        )
+        val notificationMarker = allMarkers["notifications"]
+        Log.d(TAG, "Fetched marker for ${account.fullName}: $notificationMarker")
+        notificationMarker
+    } catch (e: Exception) {
+        Log.e(TAG, "Failed to fetch marker", e)
+        null
     }
 
     companion object {

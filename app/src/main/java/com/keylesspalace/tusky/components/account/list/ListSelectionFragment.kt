@@ -132,6 +132,7 @@ class ListSelectionFragment : DialogFragment() {
                             }
                             .show()
                     }
+
                     ActionError.Type.REMOVE -> {
                         Snackbar.make(
                             binding.root,
@@ -177,26 +178,19 @@ class ListSelectionFragment : DialogFragment() {
         override fun areItemsTheSame(
             oldItem: AccountListState,
             newItem: AccountListState
-        ): Boolean {
-            return oldItem.list.id == newItem.list.id
-        }
+        ): Boolean = oldItem.list.id == newItem.list.id
 
         override fun areContentsTheSame(
             oldItem: AccountListState,
             newItem: AccountListState
-        ): Boolean {
-            return oldItem == newItem
-        }
+        ): Boolean = oldItem == newItem
     }
 
-    inner class Adapter :
-        ListAdapter<AccountListState, BindingHolder<ItemListBinding>>(Differ) {
+    inner class Adapter : ListAdapter<AccountListState, BindingHolder<ItemListBinding>>(Differ) {
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): BindingHolder<ItemListBinding> {
-            return BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        }
+        ): BindingHolder<ItemListBinding> = BindingHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
         override fun onBindViewHolder(holder: BindingHolder<ItemListBinding>, position: Int) {
             val item = getItem(position)

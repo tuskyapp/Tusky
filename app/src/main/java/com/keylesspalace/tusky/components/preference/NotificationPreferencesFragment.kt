@@ -215,8 +215,6 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
     }
 
     companion object {
-        fun newInstance(): NotificationPreferencesFragment {
-            return NotificationPreferencesFragment()
-        }
+        fun newInstance(): NotificationPreferencesFragment = NotificationPreferencesFragment()
     }
 }

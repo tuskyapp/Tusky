@@ -48,16 +48,14 @@ fun Status.toViewData(
     isCollapsed: Boolean,
     isDetailed: Boolean = false,
     translation: TranslationViewData? = null,
-): StatusViewData.Concrete {
-    return StatusViewData.Concrete(
-        status = this,
-        isShowingContent = isShowingContent,
-        isCollapsed = isCollapsed,
-        isExpanded = isExpanded,
-        isDetailed = isDetailed,
-        translation = translation,
-    )
-}
+): StatusViewData.Concrete = StatusViewData.Concrete(
+    status = this,
+    isShowingContent = isShowingContent,
+    isCollapsed = isCollapsed,
+    isExpanded = isExpanded,
+    isDetailed = isDetailed,
+    translation = translation,
+)
 
 fun List<TrendingTag>.toViewData(): List<TrendingViewData.Tag> {
     val maxTrendingValue = flatMap { tag -> tag.history }
@@ -77,6 +75,4 @@ fun List<TrendingTag>.toViewData(): List<TrendingViewData.Tag> {
     }
 }
 
-fun CombinedLoadStates.isAnyLoading(): Boolean {
-    return this.refresh == LoadState.Loading || this.append == LoadState.Loading || this.prepend == LoadState.Loading
-}
+fun CombinedLoadStates.isAnyLoading(): Boolean = this.refresh == LoadState.Loading || this.append == LoadState.Loading || this.prepend == LoadState.Loading

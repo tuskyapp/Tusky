@@ -30,44 +30,38 @@ data class Placeholder(
     val loading: Boolean
 )
 
-fun TimelineAccount.toEntity(tuskyAccountId: Long): TimelineAccountEntity {
-    return TimelineAccountEntity(
-        serverId = id,
-        tuskyAccountId = tuskyAccountId,
-        localUsername = localUsername,
-        username = username,
-        displayName = name,
-        url = url,
-        avatar = avatar,
-        emojis = emojis,
-        note = note,
-        bot = bot
-    )
-}
+fun TimelineAccount.toEntity(tuskyAccountId: Long): TimelineAccountEntity = TimelineAccountEntity(
+    serverId = id,
+    tuskyAccountId = tuskyAccountId,
+    localUsername = localUsername,
+    username = username,
+    displayName = name,
+    url = url,
+    avatar = avatar,
+    emojis = emojis,
+    note = note,
+    bot = bot
+)
 
-fun TimelineAccountEntity.toAccount(): TimelineAccount {
-    return TimelineAccount(
-        id = serverId,
-        localUsername = localUsername,
-        username = username,
-        displayName = displayName,
-        note = note,
-        url = url,
-        avatar = avatar,
-        bot = bot,
-        emojis = emojis
-    )
-}
+fun TimelineAccountEntity.toAccount(): TimelineAccount = TimelineAccount(
+    id = serverId,
+    localUsername = localUsername,
+    username = username,
+    displayName = displayName,
+    note = note,
+    url = url,
+    avatar = avatar,
+    bot = bot,
+    emojis = emojis
+)
 
-fun Placeholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity {
-    return HomeTimelineEntity(
-        id = this.id,
-        tuskyAccountId = tuskyAccountId,
-        statusId = null,
-        reblogAccountId = null,
-        loading = this.loading
-    )
-}
+fun Placeholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity = HomeTimelineEntity(
+    id = this.id,
+    tuskyAccountId = tuskyAccountId,
+    statusId = null,
+    reblogAccountId = null,
+    loading = this.loading
+)
 
 fun Status.toEntity(
     tuskyAccountId: Long,

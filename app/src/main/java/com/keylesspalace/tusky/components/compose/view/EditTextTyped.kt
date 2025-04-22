@@ -31,8 +31,7 @@ import androidx.emoji2.viewsintegration.EmojiEditTextHelper
 class EditTextTyped @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null
-) :
-    AppCompatMultiAutoCompleteTextView(context, attributeSet) {
+) : AppCompatMultiAutoCompleteTextView(context, attributeSet) {
 
     private val emojiEditTextHelper: EmojiEditTextHelper = EmojiEditTextHelper(this)
 

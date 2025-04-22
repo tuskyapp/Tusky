@@ -62,10 +62,8 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
         notifyDataSetChanged()
     }
 
-    fun getSelected(): List<Int> {
-        return pollOptions.filter { it.selected }
-            .map { pollOptions.indexOf(it) }
-    }
+    fun getSelected(): List<Int> = pollOptions.filter { it.selected }
+        .map { pollOptions.indexOf(it) }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -108,6 +106,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                 resultTextView.background.setTint(resultTextView.context.getColor(optionColor))
                 resultTextView.setOnClickListener(resultClickListener)
             }
+
             SINGLE -> {
                 radioButton.text = option.title.emojify(emojis, radioButton, animateEmojis)
                 radioButton.isChecked = option.selected
@@ -118,6 +117,7 @@ class PollAdapter : RecyclerView.Adapter<BindingHolder<ItemPollBinding>>() {
                     }
                 }
             }
+
             MULTIPLE -> {
                 checkBox.text = option.title.emojify(emojis, checkBox, animateEmojis)
                 checkBox.isChecked = option.selected

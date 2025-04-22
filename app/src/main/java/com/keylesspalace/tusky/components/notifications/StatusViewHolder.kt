@@ -31,7 +31,8 @@ internal class StatusViewHolder(
     itemView: View,
     private val statusActionListener: StatusActionListener,
     private val accountId: String
-) : NotificationsViewHolder, StatusViewHolder(itemView) {
+) : StatusViewHolder(itemView),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,

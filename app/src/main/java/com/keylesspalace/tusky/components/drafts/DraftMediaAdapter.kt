@@ -31,22 +31,16 @@ class DraftMediaAdapter(
     private val attachmentClick: () -> Unit
 ) : ListAdapter<DraftAttachment, DraftMediaAdapter.DraftMediaViewHolder>(
     object : DiffUtil.ItemCallback<DraftAttachment>() {
-        override fun areItemsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean {
-            return oldItem == newItem
-        }
+        override fun areItemsTheSame(oldItem: DraftAttachment, newItem: DraftAttachment): Boolean = oldItem == newItem
 
         override fun areContentsTheSame(
             oldItem: DraftAttachment,
             newItem: DraftAttachment
-        ): Boolean {
-            return oldItem == newItem
-        }
+        ): Boolean = oldItem == newItem
     }
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DraftMediaViewHolder {
-        return DraftMediaViewHolder(MediaPreviewImageView(parent.context))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DraftMediaViewHolder = DraftMediaViewHolder(MediaPreviewImageView(parent.context))
 
     override fun onBindViewHolder(holder: DraftMediaViewHolder, position: Int) {
         getItem(position)?.let { attachment ->
@@ -74,8 +68,7 @@ class DraftMediaAdapter(
         }
     }
 
-    inner class DraftMediaViewHolder(val imageView: MediaPreviewImageView) :
-        RecyclerView.ViewHolder(imageView) {
+    inner class DraftMediaViewHolder(val imageView: MediaPreviewImageView) : RecyclerView.ViewHolder(imageView) {
         init {
             val thumbnailViewSize =
                 imageView.context.resources.getDimensionPixelSize(

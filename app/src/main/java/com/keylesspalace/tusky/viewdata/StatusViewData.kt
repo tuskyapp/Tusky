@@ -114,9 +114,7 @@ sealed class StatusViewData {
             get() = status.inReplyToAccountId == status.account.id
 
         /** Helper for Java */
-        fun copyWithCollapsed(isCollapsed: Boolean): Concrete {
-            return copy(isCollapsed = isCollapsed)
-        }
+        fun copyWithCollapsed(isCollapsed: Boolean): Concrete = copy(isCollapsed = isCollapsed)
 
         private fun Attachment.translated(translation: Translation): Attachment {
             val translatedDescription =
@@ -125,12 +123,11 @@ sealed class StatusViewData {
             return copy(description = translatedDescription)
         }
 
-        private inline fun <T> T.translated(mapper: T.(Translation) -> T): T =
-            if (translation is TranslationViewData.Loaded) {
-                mapper(translation.data)
-            } else {
-                this
-            }
+        private inline fun <T> T.translated(mapper: T.(Translation) -> T): T = if (translation is TranslationViewData.Loaded) {
+            mapper(translation.data)
+        } else {
+            this
+        }
     }
 
     data class Placeholder(

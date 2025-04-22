@@ -159,9 +159,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun activityTransitionWasRequested(): Boolean {
-        return intent.getBooleanExtra(OPEN_WITH_SLIDE_IN, false)
-    }
+    private fun activityTransitionWasRequested(): Boolean = intent.getBooleanExtra(OPEN_WITH_SLIDE_IN, false)
 
     override fun attachBaseContext(newBase: Context) {
         // injected preferences not yet available at this point of the lifecycle
@@ -240,6 +238,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 listener.onAccountSelected(activeAccount!!)
                 return
             }
+
             2 -> if (!showActiveAccount) {
                 for (account in accounts) {
                     if (activeAccount !== account) {

@@ -66,7 +66,5 @@ class NotificationPolicySummaryAdapter(
         }
     }
 
-    private fun NotificationPolicyEntity?.shouldShowInfo(): Boolean {
-        return this != null && this.pendingNotificationsCount > 0
-    }
+    private fun NotificationPolicyEntity?.shouldShowInfo(): Boolean = this != null && this.pendingNotificationsCount > 0
 }

@@ -32,7 +32,8 @@ class ReportNotificationViewHolder(
     private val binding: ItemReportNotificationBinding,
     private val listener: NotificationActionListener,
     private val accountActionListener: AccountActionListener
-) : RecyclerView.ViewHolder(binding.root), NotificationsViewHolder {
+) : RecyclerView.ViewHolder(binding.root),
+    NotificationsViewHolder {
 
     override fun bind(
         viewData: NotificationViewData.Concrete,
@@ -87,13 +88,11 @@ class ReportNotificationViewHolder(
         itemView.setOnClickListener { listener.onViewReport(report.id) }
     }
 
-    private fun getTranslatedCategory(context: Context, rawCategory: String): String {
-        return when (rawCategory) {
-            "violation" -> context.getString(R.string.report_category_violation)
-            "spam" -> context.getString(R.string.report_category_spam)
-            "legal" -> context.getString(R.string.report_category_legal)
-            "other" -> context.getString(R.string.report_category_other)
-            else -> rawCategory
-        }
+    private fun getTranslatedCategory(context: Context, rawCategory: String): String = when (rawCategory) {
+        "violation" -> context.getString(R.string.report_category_violation)
+        "spam" -> context.getString(R.string.report_category_spam)
+        "legal" -> context.getString(R.string.report_category_legal)
+        "other" -> context.getString(R.string.report_category_other)
+        else -> rawCategory
     }
 }

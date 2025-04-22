@@ -421,11 +421,9 @@ class NotificationService @Inject constructor(
             .build()
     }
 
-    private fun getChannelId(account: AccountEntity, type: Notification.Type): String? {
-        return NotificationChannelData.entries.find { data ->
-            data.notificationTypes.contains(type)
-        }?.getChannelId(account)
-    }
+    private fun getChannelId(account: AccountEntity, type: Notification.Type): String? = NotificationChannelData.entries.find { data ->
+        data.notificationTypes.contains(type)
+    }?.getChannelId(account)
 
     /**
      * Return all active notifications, ignoring notifications that:
@@ -433,11 +431,9 @@ class NotificationService @Inject constructor(
      * - belong to a different type
      * - are summary notifications
      */
-    private fun getActiveNotifications(accountId: Long, typeChannelId: String): List<StatusBarNotification> {
-        return notificationManager.activeNotifications.filter {
-            val channelId = it.notification.group
-            it.id == accountId.toInt() && channelId == typeChannelId && it.tag != "$GROUP_SUMMARY_TAG.$channelId"
-        }
+    private fun getActiveNotifications(accountId: Long, typeChannelId: String): List<StatusBarNotification> = notificationManager.activeNotifications.filter {
+        val channelId = it.notification.group
+        it.id == accountId.toInt() && channelId == typeChannelId && it.tag != "$GROUP_SUMMARY_TAG.$channelId"
     }
 
     private fun getNotificationBuilder(notification: Notification, account: AccountEntity, channelId: String): NotificationCompat.Builder {
@@ -491,6 +487,7 @@ class NotificationService @Inject constructor(
             } else {
                 context.getString(R.string.poll_ended_voted)
             }
+
             Notification.Type.SignUp -> return context.getString(R.string.notification_sign_up_format, accountName)
             Notification.Type.Update -> return context.getString(R.string.notification_update_format, accountName)
             Notification.Type.Report -> return context.getString(R.string.notification_report_format, account.domain)
@@ -510,6 +507,7 @@ class NotificationService @Inject constructor(
             } else {
                 notification.status?.content?.parseAsMastodonHtml()?.toString()
             }
+
             Notification.Type.Poll -> if (!notification.status?.spoilerText.isNullOrEmpty() && !alwaysOpenSpoiler) {
                 return notification.status.spoilerText
             } else {
@@ -532,11 +530,13 @@ class NotificationService @Inject constructor(
 
                 return builder.toString()
             }
+
             Notification.Type.Report -> return context.getString(
                 R.string.notification_header_report_format,
                 notification.account.name.unicodeWrap(),
                 notification.report!!.targetAccount.name.unicodeWrap()
             )
+
             Notification.Type.SeveredRelationship -> return severedRelationShipText(context, notification.event!!, account.domain)
             Notification.Type.ModerationWarning -> return context.getString(notification.moderationWarning!!.action.text)
             else -> return null
@@ -700,12 +700,10 @@ class NotificationService @Inject constructor(
         )
     }
 
-    private fun pendingIntentFlags(mutable: Boolean): Int {
-        return if (mutable) {
-            PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0)
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        }
+    private fun pendingIntentFlags(mutable: Boolean): Int = if (mutable) {
+        PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0)
+    } else {
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     }
 
     suspend fun disableAllNotifications() {
@@ -729,8 +727,7 @@ class NotificationService @Inject constructor(
     // Push notification section
     //
 
-    fun arePushNotificationsAvailable(): Boolean =
-        UnifiedPush.getDistributors(context).isNotEmpty()
+    fun arePushNotificationsAvailable(): Boolean = UnifiedPush.getDistributors(context).isNotEmpty()
 
     private suspend fun setupPushNotifications(activity: Activity) {
         accountManager.accounts.forEach {
@@ -846,15 +843,13 @@ class NotificationService @Inject constructor(
         enqueueOneTimeWorker(account)
     }
 
-    private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> =
-        buildMap {
-            visibleNotificationTypes.forEach {
-                put(it.name, filterNotification(account, it))
-            }
+    private fun buildAlertsMap(account: AccountEntity): Map<String, Boolean> = buildMap {
+        visibleNotificationTypes.forEach {
+            put(it.name, filterNotification(account, it))
         }
+    }
 
-    private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> =
-        buildAlertsMap(account).mapKeys { "data[alerts][${it.key}]" }
+    private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> = buildAlertsMap(account).mapKeys { "data[alerts][${it.key}]" }
 
     // Called by UnifiedPush callback in UnifiedPushBroadcastReceiver
     suspend fun registerPushEndpoint(
@@ -975,25 +970,23 @@ class NotificationService @Inject constructor(
             context: Context,
             event: RelationshipSeveranceEvent,
             instanceName: String
-        ): String {
-            return when (event.type) {
-                RelationshipSeveranceEvent.Type.DOMAIN_BLOCK -> {
-                    val followers = numberFormat.format(event.followersCount)
-                    val following = numberFormat.format(event.followingCount)
-                    val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
-                    context.getString(R.string.relationship_severance_event_domain_block, instanceName, event.targetName, followers, followingText)
-                }
+        ): String = when (event.type) {
+            RelationshipSeveranceEvent.Type.DOMAIN_BLOCK -> {
+                val followers = numberFormat.format(event.followersCount)
+                val following = numberFormat.format(event.followingCount)
+                val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
+                context.getString(R.string.relationship_severance_event_domain_block, instanceName, event.targetName, followers, followingText)
+            }
 
-                RelationshipSeveranceEvent.Type.USER_DOMAIN_BLOCK -> {
-                    val followers = numberFormat.format(event.followersCount)
-                    val following = numberFormat.format(event.followingCount)
-                    val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
-                    context.getString(R.string.relationship_severance_event_user_domain_block, event.targetName, followers, followingText)
-                }
+            RelationshipSeveranceEvent.Type.USER_DOMAIN_BLOCK -> {
+                val followers = numberFormat.format(event.followersCount)
+                val following = numberFormat.format(event.followingCount)
+                val followingText = context.resources.getQuantityString(R.plurals.accounts, event.followingCount, following)
+                context.getString(R.string.relationship_severance_event_user_domain_block, event.targetName, followers, followingText)
+            }
 
-                RelationshipSeveranceEvent.Type.ACCOUNT_SUSPENSION -> {
-                    context.getString(R.string.relationship_severance_event_account_suspension, instanceName, event.targetName)
-                }
+            RelationshipSeveranceEvent.Type.ACCOUNT_SUSPENSION -> {
+                context.getString(R.string.relationship_severance_event_account_suspension, instanceName, event.targetName)
             }
         }
     }

@@ -52,18 +52,14 @@ class DomainBlocksRepository @Inject constructor(
         factory.invalidate()
     }
 
-    suspend fun block(domain: String): NetworkResult<Unit> {
-        return api.blockDomain(domain).onSuccess {
-            domains.add(domain)
-            factory.invalidate()
-        }
+    suspend fun block(domain: String): NetworkResult<Unit> = api.blockDomain(domain).onSuccess {
+        domains.add(domain)
+        factory.invalidate()
     }
 
-    suspend fun unblock(domain: String): NetworkResult<Unit> {
-        return api.unblockDomain(domain).onSuccess {
-            domains.remove(domain)
-            factory.invalidate()
-        }
+    suspend fun unblock(domain: String): NetworkResult<Unit> = api.unblockDomain(domain).onSuccess {
+        domains.remove(domain)
+        factory.invalidate()
     }
 
     companion object {

@@ -9,19 +9,16 @@ import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.util.BindingHolder
 import com.keylesspalace.tusky.util.getRelativeTimeSpanString
 
-class FiltersAdapter(val listener: FiltersListener, val filters: List<Filter>) :
-    RecyclerView.Adapter<BindingHolder<ItemRemovableBinding>>() {
+class FiltersAdapter(val listener: FiltersListener, val filters: List<Filter>) : RecyclerView.Adapter<BindingHolder<ItemRemovableBinding>>() {
 
     override fun getItemCount(): Int = filters.size
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BindingHolder<ItemRemovableBinding> {
-        return BindingHolder(
-            ItemRemovableBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-    }
+    ): BindingHolder<ItemRemovableBinding> = BindingHolder(
+        ItemRemovableBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
     override fun onBindViewHolder(holder: BindingHolder<ItemRemovableBinding>, position: Int) {
         val binding = holder.binding

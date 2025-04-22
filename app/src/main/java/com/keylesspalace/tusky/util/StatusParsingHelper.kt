@@ -30,18 +30,16 @@ import org.xml.sax.XMLReader
  * parse a String containing html from the Mastodon api to Spanned
  */
 @JvmOverloads
-fun String.parseAsMastodonHtml(tagHandler: TagHandler? = tuskyTagHandler): Spanned {
-    return this.replace("<br> ", "<br>&nbsp;")
-        .replace("<br /> ", "<br />&nbsp;")
-        .replace("<br/> ", "<br/>&nbsp;")
-        .replace("<br>\n", "<br/>") // pixelfed quirk https://github.com/tuskyapp/Tusky/issues/4663
-        .replace("\n", "<br/>")
-        .replace("  ", "&nbsp;&nbsp;")
-        .parseAsHtml(tagHandler = tagHandler)
+fun String.parseAsMastodonHtml(tagHandler: TagHandler? = tuskyTagHandler): Spanned = this.replace("<br> ", "<br>&nbsp;")
+    .replace("<br /> ", "<br />&nbsp;")
+    .replace("<br/> ", "<br/>&nbsp;")
+    .replace("<br>\n", "<br/>") // pixelfed quirk https://github.com/tuskyapp/Tusky/issues/4663
+    .replace("\n", "<br/>")
+    .replace("  ", "&nbsp;&nbsp;")
+    .parseAsHtml(tagHandler = tagHandler)
         /* Html.fromHtml returns trailing whitespace if the html ends in a </p> tag, which
          * most status contents do, so it should be trimmed. */
-        .trimTrailingWhitespace()
-}
+    .trimTrailingWhitespace()
 
 val tuskyTagHandler = TuskyTagHandler()
 

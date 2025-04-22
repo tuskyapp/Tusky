@@ -121,16 +121,14 @@ class ReportStatusesFragment :
         menuInflater.inflate(R.menu.fragment_report_statuses, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                onRefresh()
-                true
-            }
-
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            onRefresh()
+            true
         }
+
+        else -> false
     }
 
     override fun onRefresh() {
@@ -142,7 +140,7 @@ class ReportStatusesFragment :
     private fun initStatusesView() {
         val statusDisplayOptions = StatusDisplayOptions(
             animateAvatars = false,
-            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled ?: true,
+            mediaPreviewEnabled = accountManager.activeAccount?.mediaPreviewEnabled != false,
             useAbsoluteTime = preferences.getBoolean(PrefKeys.ABSOLUTE_TIME_VIEW, false),
             showBotOverlay = false,
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
@@ -218,9 +216,7 @@ class ReportStatusesFragment :
         viewModel.setStatusChecked(status, isChecked)
     }
 
-    override fun isStatusChecked(id: String): Boolean {
-        return viewModel.isStatusChecked(id)
-    }
+    override fun isStatusChecked(id: String): Boolean = viewModel.isStatusChecked(id)
 
     override fun onViewAccount(id: String) = startActivity(
         AccountActivity.getIntent(requireContext(), id)

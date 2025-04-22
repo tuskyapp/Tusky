@@ -574,10 +574,8 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         private fun accountIsInMentions(
             account: AccountEntity?,
             mentions: List<Status.Mention>
-        ): Boolean {
-            return mentions.any { mention ->
-                account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
-            }
+        ): Boolean = mentions.any { mention ->
+            account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
         }
     }
 }

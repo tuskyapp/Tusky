@@ -110,16 +110,14 @@ abstract class SearchFragment<T : Any> :
         menuInflater.inflate(R.menu.fragment_search, menu)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.action_refresh -> {
-                binding.swipeRefreshLayout.isRefreshing = true
-                onRefresh()
-                true
-            }
-
-            else -> false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.action_refresh -> {
+            binding.swipeRefreshLayout.isRefreshing = true
+            onRefresh()
+            true
         }
+
+        else -> false
     }
 
     private fun initAdapter(): PagingDataAdapter<T, *> {

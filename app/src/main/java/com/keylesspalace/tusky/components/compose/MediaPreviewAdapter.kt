@@ -80,9 +80,7 @@ class MediaPreviewAdapter(
     private val thumbnailViewSize =
         context.resources.getDimensionPixelSize(R.dimen.compose_media_preview_size)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
-        return PreviewViewHolder(ProgressImageView(parent.context))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder = PreviewViewHolder(ProgressImageView(parent.context))
 
     override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
         val item = getItem(position)
@@ -119,8 +117,7 @@ class MediaPreviewAdapter(
         }
     }
 
-    inner class PreviewViewHolder(val progressImageView: ProgressImageView) :
-        RecyclerView.ViewHolder(progressImageView) {
+    inner class PreviewViewHolder(val progressImageView: ProgressImageView) : RecyclerView.ViewHolder(progressImageView) {
         init {
             val layoutParams = ConstraintLayout.LayoutParams(thumbnailViewSize, thumbnailViewSize)
             val margin = itemView.context.resources

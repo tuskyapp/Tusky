@@ -30,10 +30,8 @@ class ScheduledStatusPagingSourceFactory(
 
     private var pagingSource: ScheduledStatusPagingSource? = null
 
-    override fun invoke(): ScheduledStatusPagingSource {
-        return ScheduledStatusPagingSource(mastodonApi, scheduledTootsCache).also {
-            pagingSource = it
-        }
+    override fun invoke(): ScheduledStatusPagingSource = ScheduledStatusPagingSource(mastodonApi, scheduledTootsCache).also {
+        pagingSource = it
     }
 
     fun remove(status: ScheduledStatus) {
@@ -47,33 +45,29 @@ class ScheduledStatusPagingSource(
     private val scheduledStatusesCache: MutableList<ScheduledStatus>
 ) : PagingSource<String, ScheduledStatus>() {
 
-    override fun getRefreshKey(state: PagingState<String, ScheduledStatus>): String? {
-        return null
-    }
+    override fun getRefreshKey(state: PagingState<String, ScheduledStatus>): String? = null
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, ScheduledStatus> {
-        return if (params is LoadParams.Refresh && scheduledStatusesCache.isNotEmpty()) {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, ScheduledStatus> = if (params is LoadParams.Refresh && scheduledStatusesCache.isNotEmpty()) {
+        LoadResult.Page(
+            data = scheduledStatusesCache,
+            prevKey = null,
+            nextKey = scheduledStatusesCache.lastOrNull()?.id
+        )
+    } else {
+        try {
+            val result = mastodonApi.scheduledStatuses(
+                maxId = params.key,
+                limit = params.loadSize
+            ).getOrThrow()
+
             LoadResult.Page(
-                data = scheduledStatusesCache,
+                data = result,
                 prevKey = null,
-                nextKey = scheduledStatusesCache.lastOrNull()?.id
+                nextKey = result.lastOrNull()?.id
             )
-        } else {
-            try {
-                val result = mastodonApi.scheduledStatuses(
-                    maxId = params.key,
-                    limit = params.loadSize
-                ).getOrThrow()
-
-                LoadResult.Page(
-                    data = result,
-                    prevKey = null,
-                    nextKey = result.lastOrNull()?.id
-                )
-            } catch (e: Exception) {
-                Log.w("ScheduledStatuses", "Error loading scheduled statuses", e)
-                LoadResult.Error(e)
-            }
+        } catch (e: Exception) {
+            Log.w("ScheduledStatuses", "Error loading scheduled statuses", e)
+            LoadResult.Error(e)
         }
     }
 }

@@ -34,24 +34,22 @@ data class ConversationViewData(
         expanded: Boolean = lastStatus.isExpanded,
         collapsed: Boolean = lastStatus.isCollapsed,
         showingHiddenContent: Boolean = lastStatus.isShowingContent
-    ): ConversationEntity {
-        return ConversationEntity(
-            accountId = accountId,
-            id = id,
-            order = order,
-            accounts = accounts,
-            unread = unread,
-            lastStatus = lastStatus.toConversationStatusEntity(
-                favourited = favourited,
-                bookmarked = bookmarked,
-                muted = muted,
-                poll = poll,
-                expanded = expanded,
-                collapsed = collapsed,
-                showingHiddenContent = showingHiddenContent
-            )
+    ): ConversationEntity = ConversationEntity(
+        accountId = accountId,
+        id = id,
+        order = order,
+        accounts = accounts,
+        unread = unread,
+        lastStatus = lastStatus.toConversationStatusEntity(
+            favourited = favourited,
+            bookmarked = bookmarked,
+            muted = muted,
+            poll = poll,
+            expanded = expanded,
+            collapsed = collapsed,
+            showingHiddenContent = showingHiddenContent
         )
-    }
+    )
 }
 
 fun StatusViewData.Concrete.toConversationStatusEntity(
@@ -62,31 +60,29 @@ fun StatusViewData.Concrete.toConversationStatusEntity(
     expanded: Boolean = isExpanded,
     collapsed: Boolean = isCollapsed,
     showingHiddenContent: Boolean = isShowingContent
-): ConversationStatusEntity {
-    return ConversationStatusEntity(
-        id = id,
-        url = status.url,
-        inReplyToId = status.inReplyToId,
-        inReplyToAccountId = status.inReplyToAccountId,
-        account = status.account.toEntity(),
-        content = status.content,
-        createdAt = status.createdAt,
-        editedAt = status.editedAt,
-        emojis = status.emojis,
-        favouritesCount = status.favouritesCount,
-        repliesCount = status.repliesCount,
-        favourited = favourited,
-        bookmarked = bookmarked,
-        sensitive = status.sensitive,
-        spoilerText = status.spoilerText,
-        attachments = status.attachments,
-        mentions = status.mentions,
-        tags = status.tags,
-        showingHiddenContent = showingHiddenContent,
-        expanded = expanded,
-        collapsed = collapsed,
-        muted = muted,
-        poll = poll,
-        language = status.language
-    )
-}
+): ConversationStatusEntity = ConversationStatusEntity(
+    id = id,
+    url = status.url,
+    inReplyToId = status.inReplyToId,
+    inReplyToAccountId = status.inReplyToAccountId,
+    account = status.account.toEntity(),
+    content = status.content,
+    createdAt = status.createdAt,
+    editedAt = status.editedAt,
+    emojis = status.emojis,
+    favouritesCount = status.favouritesCount,
+    repliesCount = status.repliesCount,
+    favourited = favourited,
+    bookmarked = bookmarked,
+    sensitive = status.sensitive,
+    spoilerText = status.spoilerText,
+    attachments = status.attachments,
+    mentions = status.mentions,
+    tags = status.tags,
+    showingHiddenContent = showingHiddenContent,
+    expanded = expanded,
+    collapsed = collapsed,
+    muted = muted,
+    poll = poll,
+    language = status.language
+)

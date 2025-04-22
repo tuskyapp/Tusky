@@ -207,19 +207,15 @@ class AccountManager @Inject constructor(
     /**
      * @return true if at least one account has notifications enabled
      */
-    fun areNotificationsEnabled(): Boolean {
-        return accounts.any { it.notificationsEnabled }
-    }
+    fun areNotificationsEnabled(): Boolean = accounts.any { it.notificationsEnabled }
 
     /**
      * Finds an account by its database id
      * @param accountId the id of the account
      * @return the requested account or null if it was not found
      */
-    fun getAccountById(accountId: Long): AccountEntity? {
-        return accounts.find { (id) ->
-            id == accountId
-        }
+    fun getAccountById(accountId: Long): AccountEntity? = accounts.find { (id) ->
+        id == accountId
     }
 
     /**
@@ -227,10 +223,8 @@ class AccountManager @Inject constructor(
      * @param identifier the string identifier of the account
      * @return the requested account or null if it was not found
      */
-    fun getAccountByIdentifier(identifier: String): AccountEntity? {
-        return accounts.find {
-            identifier == it.identifier
-        }
+    fun getAccountByIdentifier(identifier: String): AccountEntity? = accounts.find {
+        identifier == it.identifier
     }
 
     /**

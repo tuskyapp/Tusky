@@ -89,9 +89,11 @@ class CachedTimelineRemoteMediator(
                 LoadType.REFRESH -> {
                     api.homeTimeline(sinceId = topPlaceholderId, limit = state.config.pageSize)
                 }
+
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
+
                 LoadType.APPEND -> {
                     val maxId = state.pages.findLast { it.data.isNotEmpty() }?.data?.lastOrNull()?.status?.serverId
                     api.homeTimeline(maxId = maxId, limit = state.config.pageSize)

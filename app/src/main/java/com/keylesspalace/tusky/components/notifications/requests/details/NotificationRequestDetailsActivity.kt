@@ -33,7 +33,6 @@ import com.keylesspalace.tusky.util.getParcelableArrayListExtraCompat
 import com.keylesspalace.tusky.util.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import kotlin.getValue
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

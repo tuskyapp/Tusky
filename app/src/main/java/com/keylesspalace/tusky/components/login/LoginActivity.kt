@@ -115,9 +115,7 @@ class LoginActivity : BaseActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
-    override fun requiresLogin(): Boolean {
-        return false
-    }
+    override fun requiresLogin(): Boolean = false
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add(R.string.action_browser_login)?.apply {
@@ -313,9 +311,7 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun isAdditionalLogin(): Boolean {
-        return intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_ADDITIONAL_LOGIN
-    }
+    private fun isAdditionalLogin(): Boolean = intent.getIntExtra(LOGIN_MODE, MODE_DEFAULT) == MODE_ADDITIONAL_LOGIN
 
     companion object {
         private const val TAG = "LoginActivity" // logging tag

@@ -246,7 +246,10 @@ class ViewVideoFragment : ViewMediaFragment() {
                             }
                         }
                     }
-                    else -> { /* do nothing */ }
+
+                    else -> {
+                        /* do nothing */
+                    }
                 }
             }
 
@@ -423,7 +426,7 @@ class ViewVideoFragment : ViewMediaFragment() {
         handler.removeCallbacks(hideToolbar)
     }
 
-    override fun onTransitionEnd() { }
+    override fun onTransitionEnd() {}
 
     companion object {
         private const val TAG = "ViewVideoFragment"
