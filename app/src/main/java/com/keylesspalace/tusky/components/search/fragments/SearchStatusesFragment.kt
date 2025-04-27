@@ -265,9 +265,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     override fun clearWarningAction(position: Int) {}
 
-    private fun removeItem(position: Int) {
+    private fun removeItem(position: Int, deleteMedia: Boolean) {
         adapter?.peek(position)?.let {
-            viewModel.removeItem(it)
+            viewModel.removeItem(it, deleteMedia)
         }
     }
 
@@ -578,8 +578,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             MaterialAlertDialogBuilder(it)
                 .setMessage(R.string.dialog_delete_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    viewModel.deleteStatusAsync(id)
-                    removeItem(position)
+                    viewModel.deleteStatusAsync(id, true)
+                    removeItem(position, true)
                 }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
@@ -592,9 +592,9 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 .setMessage(R.string.dialog_redraft_post_warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.deleteStatusAsync(id).await().fold(
+                        viewModel.deleteStatusAsync(id, false).await().fold(
                             { deletedStatus ->
-                                removeItem(position)
+                                removeItem(position, false)
 
                                 val redraftStatus = if (deletedStatus.isEmpty) {
                                     status.toDeletedStatus()

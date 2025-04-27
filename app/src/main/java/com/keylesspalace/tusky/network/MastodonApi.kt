@@ -250,7 +250,10 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    suspend fun deleteStatus(@Path("id") statusId: String): NetworkResult<DeletedStatus>
+    suspend fun deleteStatus(
+        @Path("id") statusId: String,
+        @Query("delete_media") deleteMedia: Boolean? = null
+    ): NetworkResult<DeletedStatus>
 
     @FormUrlEncoded
     @POST("api/v1/statuses/{id}/reblog")

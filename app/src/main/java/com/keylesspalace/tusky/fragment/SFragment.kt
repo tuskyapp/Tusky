@@ -432,7 +432,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val result = timelineCases.delete(id).exceptionOrNull()
+                    val result = timelineCases.delete(id, true).exceptionOrNull()
                     if (result != null) {
                         Log.w("SFragment", "error deleting status", result)
                         Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
@@ -456,7 +456,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    timelineCases.delete(id).fold(
+                    timelineCases.delete(id, false).fold(
                         { deletedStatus ->
                             removeItem(position)
                             val sourceStatus = if (deletedStatus.isEmpty) {

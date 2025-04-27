@@ -109,8 +109,8 @@ class TimelineCases @Inject constructor(
         }
     }
 
-    suspend fun delete(statusId: String): NetworkResult<DeletedStatus> {
-        return mastodonApi.deleteStatus(statusId)
+    suspend fun delete(statusId: String, deleteMedia: Boolean): NetworkResult<DeletedStatus> {
+        return mastodonApi.deleteStatus(statusId, deleteMedia)
             .onSuccess { eventHub.dispatch(StatusDeletedEvent(statusId)) }
             .onFailure { Log.w(TAG, "Failed to delete status", it) }
     }
