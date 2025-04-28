@@ -34,10 +34,6 @@ data class StatusDisplayOptions(
     val useBlurhash: Boolean,
     @get:JvmName("cardViewMode")
     val cardViewMode: CardViewMode,
-    @get:JvmName("confirmReblogs")
-    val confirmReblogs: Boolean,
-    @get:JvmName("confirmFavourites")
-    val confirmFavourites: Boolean,
     @get:JvmName("hideStats")
     val hideStats: Boolean,
     @get:JvmName("animateEmojis")
@@ -69,12 +65,6 @@ data class StatusDisplayOptions(
         PrefKeys.USE_BLURHASH -> copy(
             useBlurhash = preferences.getBoolean(key, true)
         )
-        PrefKeys.CONFIRM_FAVOURITES -> copy(
-            confirmFavourites = preferences.getBoolean(key, false)
-        )
-        PrefKeys.CONFIRM_REBLOGS -> copy(
-            confirmReblogs = preferences.getBoolean(key, true)
-        )
         PrefKeys.WELLBEING_HIDE_STATS_POSTS -> copy(
             hideStats = preferences.getBoolean(key, false)
         )
@@ -93,21 +83,6 @@ data class StatusDisplayOptions(
     }
 
     companion object {
-        /** Preference keys that, if changed, affect StatusDisplayOptions */
-        val prefKeys = setOf(
-            PrefKeys.ABSOLUTE_TIME_VIEW,
-            PrefKeys.ALWAYS_SHOW_SENSITIVE_MEDIA,
-            PrefKeys.ALWAYS_OPEN_SPOILER,
-            PrefKeys.ANIMATE_CUSTOM_EMOJIS,
-            PrefKeys.ANIMATE_GIF_AVATARS,
-            PrefKeys.CONFIRM_FAVOURITES,
-            PrefKeys.CONFIRM_REBLOGS,
-            PrefKeys.MEDIA_PREVIEW_ENABLED,
-            PrefKeys.SHOW_BOT_OVERLAY,
-            PrefKeys.USE_BLURHASH,
-            PrefKeys.WELLBEING_HIDE_STATS_POSTS
-        )
-
         fun from(preferences: SharedPreferences, account: AccountEntity) = StatusDisplayOptions(
             animateAvatars = preferences.getBoolean(PrefKeys.ANIMATE_GIF_AVATARS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
@@ -116,8 +91,6 @@ data class StatusDisplayOptions(
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
             showSensitiveMedia = account.alwaysShowSensitiveMedia,

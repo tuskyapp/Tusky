@@ -19,8 +19,19 @@ import com.keylesspalace.tusky.entity.Status
 
 interface StatusActionListener : LinkListener {
     fun onReply(position: Int)
-    fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility = Status.Visibility.PUBLIC)
-    fun onFavourite(favourite: Boolean, position: Int)
+
+    /**
+     * Reblog the post at [position]
+     * @param visibility The visibility to use for the reblog, if the user has already chosen it, null otherwise
+     * @param animationCallback A callback that needs to be called when the spark button should play its animation.
+     */
+    fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit = {})
+
+    /**
+     * Favourite the post at [position]
+     * @param animationCallback A callback that needs to be called when the spark button should play its animation.
+     */
+    fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit = {})
     fun onBookmark(bookmark: Boolean, position: Int)
     fun onMore(view: View, position: Int)
     fun onViewMedia(position: Int, attachmentIndex: Int, view: View?)

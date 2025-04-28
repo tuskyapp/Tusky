@@ -55,6 +55,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmReblog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -115,8 +116,6 @@ class ViewThreadFragment :
             } else {
                 CardViewMode.NONE
             },
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
@@ -334,9 +333,18 @@ class ViewThreadFragment :
         super.reply(viewData.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
-        viewModel.reblog(reblog, status, visibility)
+
+        if (reblog && visibility == null) {
+            confirmReblog(preferences) { visibility ->
+                viewModel.reblog(true, status, visibility)
+                animationCallback()
+            }
+        } else {
+            viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
+            animationCallback()
+        }
     }
 
     override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit) =
@@ -369,9 +377,18 @@ class ViewThreadFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int) {
+    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
-        viewModel.favorite(favourite, status)
+
+        if (favourite) {
+            confirmReblog(preferences) { visibility ->
+                viewModel.favorite(true, status)
+                animationCallback()
+            }
+        } else {
+            viewModel.favorite(false, status)
+            animationCallback()
+        }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {

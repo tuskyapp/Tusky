@@ -80,7 +80,9 @@ import java.util.List;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
+import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import kotlin.jvm.functions.Function0;
 
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
@@ -674,16 +676,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 // return true to play animation
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    if (statusDisplayOptions.confirmReblogs()) {
-                        showConfirmReblog(listener, buttonState, position);
-                        return false;
-                    } else {
-                        listener.onReblog(!buttonState, position, Status.Visibility.PUBLIC);
-                        return true;
-                    }
-                } else {
-                    return false;
+                    listener.onReblog(!buttonState, position, null, () -> {
+                        if (!buttonState) { reblogButton.playAnimation(); }
+                        reblogButton.setChecked(!buttonState);
+                        return Unit.INSTANCE;
+                    });
                 }
+                return false;
             });
         }
 
@@ -692,16 +691,13 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // return true to play animation
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                if (statusDisplayOptions.confirmFavourites()) {
-                    showConfirmFavourite(listener, buttonState, position);
-                    return false;
-                } else {
-                    listener.onFavourite(!buttonState, position);
-                    return true;
-                }
-            } else {
-                return true;
+                listener.onFavourite(!buttonState, position, () -> {
+                    if (!buttonState) { favouriteButton.playAnimation(); }
+                    favouriteButton.setChecked(!buttonState);
+                    return Unit.INSTANCE;
+                });
             }
+            return false;
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
@@ -730,62 +726,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         };
         content.setOnClickListener(viewThreadListener);
         itemView.setOnClickListener(viewThreadListener);
-    }
-
-    private void showConfirmReblog(StatusActionListener listener,
-                                   boolean buttonState,
-                                   int position) {
-        PopupMenu popup = new PopupMenu(itemView.getContext(), reblogButton);
-        popup.inflate(R.menu.status_reblog);
-        Menu menu = popup.getMenu();
-        if (buttonState) {
-            menu.setGroupVisible(R.id.menu_action_reblog_group, false);
-        } else {
-            menu.findItem(R.id.menu_action_unreblog).setVisible(false);
-        }
-        popup.setOnMenuItemClickListener(item -> {
-            if (buttonState) {
-                listener.onReblog(false, position, Status.Visibility.PUBLIC);
-            } else {
-                Status.Visibility visibility;
-                if (item.getItemId() == R.id.menu_action_reblog_public) {
-                    visibility = Status.Visibility.PUBLIC;
-                } else if (item.getItemId() == R.id.menu_action_reblog_unlisted) {
-                    visibility = Status.Visibility.UNLISTED;
-                } else if (item.getItemId() == R.id.menu_action_reblog_private) {
-                    visibility = Status.Visibility.PRIVATE;
-                } else {
-                    visibility = Status.Visibility.PUBLIC;
-                }
-                listener.onReblog(true, position, visibility);
-                reblogButton.playAnimation();
-                reblogButton.setChecked(true);
-            }
-            return true;
-        });
-        popup.show();
-    }
-
-    private void showConfirmFavourite(StatusActionListener listener,
-                                      boolean buttonState,
-                                      int position) {
-        PopupMenu popup = new PopupMenu(itemView.getContext(), favouriteButton);
-        popup.inflate(R.menu.status_favourite);
-        Menu menu = popup.getMenu();
-        if (buttonState) {
-            menu.findItem(R.id.menu_action_favourite).setVisible(false);
-        } else {
-            menu.findItem(R.id.menu_action_unfavourite).setVisible(false);
-        }
-        popup.setOnMenuItemClickListener(item -> {
-            listener.onFavourite(!buttonState, position);
-            if (!buttonState) {
-                favouriteButton.playAnimation();
-                favouriteButton.setChecked(true);
-            }
-            return true;
-        });
-        popup.show();
     }
 
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
