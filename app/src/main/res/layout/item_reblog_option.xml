@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><!-- when using ConstraintLayout the dropdown this view is shown in gets sized wrong,
+<?xml version="1.0" encoding="utf-8"?>
+<!-- when using ConstraintLayout the dropdown this view is shown in gets sized wrong,
      but it works with RelativeLayout ¯\_(ツ)_/¯ -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="12dp"
     android:minHeight="72dp"
+    android:paddingHorizontal="12dp"
     android:paddingVertical="6dp">
 
     <ImageView
@@ -52,4 +53,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Everywhere" />
     </LinearLayout>
+
 </RelativeLayout>
