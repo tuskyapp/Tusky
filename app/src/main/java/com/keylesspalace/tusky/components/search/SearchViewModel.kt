@@ -121,9 +121,9 @@ class SearchViewModel @Inject constructor(
         hashtagsPagingSourceFactory.newSearch(query)
     }
 
-    fun removeItem(statusViewData: StatusViewData.Concrete) {
+    fun removeItem(statusViewData: StatusViewData.Concrete, deleteMedia: Boolean) {
         viewModelScope.launch {
-            if (timelineCases.delete(statusViewData.id).isSuccess) {
+            if (timelineCases.delete(statusViewData.id, deleteMedia).isSuccess) {
                 if (loadedStatuses.remove(statusViewData)) {
                     statusesPagingSourceFactory.invalidate()
                 }
@@ -207,9 +207,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
+    fun deleteStatusAsync(id: String, deleteMedia: Boolean): Deferred<NetworkResult<DeletedStatus>> {
         return viewModelScope.async {
-            timelineCases.delete(id)
+            timelineCases.delete(id, deleteMedia)
         }
     }
 
