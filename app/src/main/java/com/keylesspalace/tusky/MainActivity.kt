@@ -126,7 +126,6 @@ import com.mikepenz.materialdrawer.util.updateBadge
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
-import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -161,9 +160,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private lateinit var header: AccountHeaderView
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
-
-    // We need to know if the emoji pack has been changed
-    private var selectedEmojiPack: String? = null
 
     /** Mediate between binding.viewPager and the chosen tab layout */
     private var tabLayoutMediator: TabLayoutMediator? = null
@@ -214,8 +210,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         } else {
             viewModel.setupNotifications(this)
         }
-
-        selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
 
         var showNotificationTab = false
 
@@ -475,20 +469,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
-        if (currentEmojiPack != selectedEmojiPack) {
-            Log.d(
-                TAG,
-                "onResume: EmojiPack has been changed from %s to %s"
-                    .format(selectedEmojiPack, currentEmojiPack)
-            )
-            selectedEmojiPack = currentEmojiPack
-            recreate()
         }
     }
 

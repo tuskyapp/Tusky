@@ -250,7 +250,10 @@ interface MastodonApi {
     ): Response<List<TimelineAccount>>
 
     @DELETE("api/v1/statuses/{id}")
-    suspend fun deleteStatus(@Path("id") statusId: String): NetworkResult<DeletedStatus>
+    suspend fun deleteStatus(
+        @Path("id") statusId: String,
+        @Query("delete_media") deleteMedia: Boolean? = null
+    ): NetworkResult<DeletedStatus>
 
     @FormUrlEncoded
     @POST("api/v1/statuses/{id}/reblog")
@@ -561,8 +564,8 @@ interface MastodonApi {
     @POST("api/v2/filters")
     suspend fun createFilter(
         @Field("title") title: String,
-        @Field("context[]") context: List<String>,
-        @Field("filter_action") filterAction: String,
+        @Field("context[]") context: List<Filter.Kind>,
+        @Field("filter_action") filterAction: Filter.Action,
         @Field("expires_in") expiresIn: FilterExpiration?
     ): NetworkResult<Filter>
 
@@ -571,8 +574,8 @@ interface MastodonApi {
     suspend fun updateFilter(
         @Path("id") id: String,
         @Field("title") title: String? = null,
-        @Field("context[]") context: List<String>? = null,
-        @Field("filter_action") filterAction: String? = null,
+        @Field("context[]") context: List<Filter.Kind>? = null,
+        @Field("filter_action") filterAction: Filter.Action? = null,
         @Field("expires_in") expires: FilterExpiration? = null
     ): NetworkResult<Filter>
 

@@ -1,43 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="?android:attr/colorBackground"
+    app:strokeColor="?attr/colorBackgroundAccent">
 
-    <TextView
-        android:id="@+id/status_poll_option_result"
+    <FrameLayout
+        android:id="@+id/pollLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/poll_option_background"
-        android:maxLines="3"
-        android:ellipsize="end"
-        android:paddingStart="6dp"
-        android:paddingTop="2dp"
-        android:paddingEnd="6dp"
-        android:paddingBottom="2dp"
-        android:textAlignment="viewStart"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        tools:text="40%" />
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="4dp">
 
-    <RadioButton
-        android:id="@+id/status_poll_radio_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        app:buttonTint="@color/compound_button_color"
-        tools:text="Option 1" />
+        <TextView
+            android:id="@+id/status_poll_option_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="3"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:textAlignment="viewStart"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            tools:text="40%" />
 
-    <CheckBox
-        android:id="@+id/status_poll_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="?attr/status_text_medium"
-        app:buttonTint="@color/compound_button_color"
-        tools:text="Option 1" />
+        <RadioButton
+            android:id="@+id/status_poll_radio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.1"
+            android:paddingStart="4dp"
+            android:paddingEnd="0dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:buttonTint="@color/compound_button_color"
+            tools:text="Option 1" />
 
-</FrameLayout>
+        <CheckBox
+            android:id="@+id/status_poll_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.1"
+            android:paddingStart="4dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="2dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="?attr/status_text_medium"
+            app:buttonTint="@color/compound_button_color"
+            tools:text="Option 1" />
+
+    </FrameLayout>
+</com.google.android.material.card.MaterialCardView>

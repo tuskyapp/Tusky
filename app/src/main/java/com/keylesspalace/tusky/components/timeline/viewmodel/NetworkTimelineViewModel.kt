@@ -102,7 +102,9 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
+                statusViewData.asStatusOrNull()?.actionable?.let {
+                    shouldFilterStatus(it)?.action != Filter.Action.HIDE
+                } ?: true
             }
         }
         .flowOn(Dispatchers.Default)
@@ -198,9 +200,9 @@ class NetworkTimelineViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val placeholderIndex =
-                    statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
+                    statusData.indexOfFirst { it is StatusViewData.LoadMore && it.id == placeholderId }
                 statusData[placeholderIndex] =
-                    StatusViewData.Placeholder(placeholderId, isLoading = true)
+                    StatusViewData.LoadMore(placeholderId, isLoading = true)
 
                 val idAbovePlaceholder = statusData.getOrNull(placeholderIndex - 1)?.id
 
@@ -221,9 +223,10 @@ class NetworkTimelineViewModel @Inject constructor(
                 val activeAccount = accountManager.activeAccount!!
                 val data: MutableList<StatusViewData> = statuses.map { status ->
                     status.toViewData(
-                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                        isShowingContent = status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, kind.toFilterKind()),
                         isExpanded = activeAccount.alwaysOpenSpoiler,
-                        isCollapsed = true
+                        isCollapsed = true,
+                        filter = status.getApplicableFilter(kind.toFilterKind()),
                     )
                 }.toMutableList()
 
@@ -255,7 +258,7 @@ class NetworkTimelineViewModel @Inject constructor(
 
                         statusData.removeAll { status ->
                             when (status) {
-                                is StatusViewData.Placeholder -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
+                                is StatusViewData.LoadMore -> lastId.isLessThan(status.id) && status.id.isLessThanOrEqual(
                                     firstId
                                 )
 
@@ -266,7 +269,7 @@ class NetworkTimelineViewModel @Inject constructor(
                         }
                     } else {
                         data[data.size - 1] =
-                            StatusViewData.Placeholder(statuses.last().id, isLoading = false)
+                            StatusViewData.LoadMore(statuses.last().id, isLoading = false)
                     }
                 }
 
@@ -285,8 +288,8 @@ class NetworkTimelineViewModel @Inject constructor(
         Log.w("NetworkTimelineVM", "failed loading statuses", e)
 
         val index =
-            statusData.indexOfFirst { it is StatusViewData.Placeholder && it.id == placeholderId }
-        statusData[index] = StatusViewData.Placeholder(placeholderId, isLoading = false)
+            statusData.indexOfFirst { it is StatusViewData.LoadMore && it.id == placeholderId }
+        statusData[index] = StatusViewData.LoadMore(placeholderId, isLoading = false)
 
         currentSource?.invalidate()
     }

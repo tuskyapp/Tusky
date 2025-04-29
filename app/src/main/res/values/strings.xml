@@ -817,9 +817,11 @@
 
     <string name="hint_filter_title">My filter</string>
     <string name="label_filter_title">Title</string>
+    <string name="filter_action_blur">Blur</string>
     <string name="filter_action_warn">Warn</string>
     <string name="filter_action_hide">Hide</string>
-    <string name="filter_description_warn">Hide with a warning</string>
+    <string name="filter_description_blur">Hide media with a warning</string>
+    <string name="filter_description_warn">Hide entire post with a warning</string>
     <string name="filter_description_hide">Hide completely</string>
     <string name="label_filter_action">Filter action</string>
     <string name="label_filter_context">Filter contexts</string>

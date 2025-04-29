@@ -33,6 +33,7 @@ import java.util.Date
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -127,8 +128,7 @@ class FilterV1Test {
 
     @Test
     fun shouldNotFilter() {
-        assertEquals(
-            Filter.Action.NONE,
+        assertNull(
             filterModel.shouldFilterStatus(
                 mockStatus(content = "should not be filtered")
             )
@@ -141,7 +141,7 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWord three")
-            )
+            )?.action
         )
     }
 
@@ -151,7 +151,7 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWordPart three")
-            )
+            )?.action
         )
     }
 
@@ -161,14 +161,13 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWholeWord three")
-            )
+            )?.action
         )
     }
 
     @Test
     fun shouldNotFilter_whenContentDoesNotMatchWholeWord() {
-        assertEquals(
-            Filter.Action.NONE,
+        assertNull(
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two badWholeWordTest three")
             )
@@ -184,7 +183,7 @@ class FilterV1Test {
                     content = "should not be filtered",
                     spoilerText = "badWord should be filtered"
                 )
-            )
+            )?.action
         )
     }
 
@@ -198,7 +197,7 @@ class FilterV1Test {
                     spoilerText = "should not be filtered",
                     pollOptions = listOf("should not be filtered", "badWord")
                 )
-            )
+            )?.action
         )
     }
 
@@ -212,7 +211,7 @@ class FilterV1Test {
                     spoilerText = "should not be filtered",
                     attachmentsDescriptions = listOf("should not be filtered", "badWord")
                 )
-            )
+            )?.action
         )
     }
 
@@ -222,7 +221,7 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "one two someone@twitter.com three")
-            )
+            )?.action
         )
     }
 
@@ -232,7 +231,7 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "#hashtag one two three")
-            )
+            )?.action
         )
     }
 
@@ -242,14 +241,13 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "<p><a href=\"https://foo.bar/tags/hashtag\" class=\"mention hashtag\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">#<span>hashtag</span></a>one two three</p>")
-            )
+            )?.action
         )
     }
 
     @Test
     fun shouldNotFilterHtmlAttributes() {
-        assertEquals(
-            Filter.Action.NONE,
+        assertNull(
             filterModel.shouldFilterStatus(
                 mockStatus(content = "<p><a href=\"https://foo.bar/\">https://foo.bar/</a> one two three</p>")
             )
@@ -258,8 +256,7 @@ class FilterV1Test {
 
     @Test
     fun shouldNotFilter_whenFilterIsExpired() {
-        assertEquals(
-            Filter.Action.NONE,
+        assertNull(
             filterModel.shouldFilterStatus(
                 mockStatus(content = "content matching expired filter should not be filtered")
             )
@@ -272,7 +269,7 @@ class FilterV1Test {
             Filter.Action.HIDE,
             filterModel.shouldFilterStatus(
                 mockStatus(content = "content matching unexpired filter should be filtered")
-            )
+            )?.action
         )
     }
 

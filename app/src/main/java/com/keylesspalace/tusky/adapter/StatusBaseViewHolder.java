@@ -45,6 +45,7 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Emoji;
 import com.keylesspalace.tusky.entity.HashTag;
@@ -104,6 +105,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView sensitiveMediaWarning;
     private final View sensitiveMediaShow;
     protected final TextView[] mediaLabels;
+    protected final MaterialCardView[] mediaLabelContainers;
     protected final CharSequence[] mediaDescriptions;
     private final MaterialButton contentWarningButton;
     private final ImageView avatarInset;
@@ -167,6 +169,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             itemView.findViewById(R.id.status_media_label_1),
             itemView.findViewById(R.id.status_media_label_2),
             itemView.findViewById(R.id.status_media_label_3)
+        };
+        mediaLabelContainers = new MaterialCardView[]{
+            itemView.findViewById(R.id.status_media_label_container_0),
+            itemView.findViewById(R.id.status_media_label_container_1),
+            itemView.findViewById(R.id.status_media_label_container_2),
+            itemView.findViewById(R.id.status_media_label_container_3)
         };
         mediaDescriptions = new CharSequence[mediaLabels.length];
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
@@ -279,7 +287,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         this.setTextVisible(sensitive, expanded, status, statusDisplayOptions, listener);
 
-        setupCard(status, expanded, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+        setupCard(status, expanded, !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
     }
 
     private void setTextVisible(boolean sensitive,
@@ -525,7 +533,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         boolean sensitive,
         final @NonNull StatusActionListener listener,
         boolean showingContent,
-        boolean useBlurhash
+        boolean useBlurhash,
+        Filter filter
     ) {
 
         mediaPreview.setVisibility(View.VISIBLE);
@@ -561,7 +570,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             final CharSequence formattedDescription = AttachmentHelper.getFormattedDescription(attachment, imageView.getContext());
             setAttachmentClickListener(imageView, listener, i, formattedDescription, true);
 
-            if (sensitive) {
+            if (filter != null) {
+                sensitiveMediaWarning.setText(sensitiveMediaWarning.getContext().getString(R.string.status_filter_placeholder_label_format, filter.getTitle()));
+            } else if (sensitive) {
                 sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
             } else {
                 sensitiveMediaWarning.setText(R.string.post_media_hidden_title);
@@ -619,7 +630,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             TextView mediaLabel = mediaLabels[i];
             if (i < attachments.size()) {
                 Attachment attachment = attachments.get(i);
-                mediaLabel.setVisibility(View.VISIBLE);
+                mediaLabelContainers[i].setVisibility(View.VISIBLE);
                 mediaDescriptions[i] = AttachmentHelper.getFormattedDescription(attachment, context);
                 updateMediaLabel(i, sensitive, showingContent);
 
@@ -629,7 +640,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 setAttachmentClickListener(mediaLabel, listener, i, mediaDescriptions[i], false);
             } else {
-                mediaLabel.setVisibility(View.GONE);
+                mediaLabelContainers[i].setVisibility(View.GONE);
             }
         }
     }
@@ -752,14 +763,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 mediaContainer.setVisibility(View.VISIBLE);
 
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash(), status.getFilter());
 
                 if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
-                for (TextView mediaLabel : mediaLabels) {
-                    mediaLabel.setVisibility(View.GONE);
+                for (MaterialCardView mediaLabelContainer : mediaLabelContainers) {
+                    mediaLabelContainer.setVisibility(View.GONE);
                 }
             } else {
                 mediaContainer.setVisibility(View.VISIBLE);
@@ -770,7 +781,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 hideSensitiveMediaWarning();
             }
 
-            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+            setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                 statusDisplayOptions);
@@ -795,7 +806,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     setMetaData(status, statusDisplayOptions, listener);
                     if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
                         // there is a preview card showing the published time, we need to refresh it as well
-                        setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+                        setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
                     }
                     break;
                 }
@@ -970,7 +981,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
                     int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotersCount(), poll.getVotesCount());
-                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context);
+                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context, null);
                 } else {
                     args[i] = "";
                 }
@@ -1097,6 +1108,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected void setupCard(
         final @NonNull StatusViewData.Concrete status,
         boolean expanded,
+        boolean blurMedia,
         final @NonNull CardViewMode cardViewMode,
         final @NonNull StatusDisplayOptions statusDisplayOptions,
         final @NonNull StatusActionListener listener
@@ -1176,7 +1188,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // Statuses from other activitypub sources can be marked sensitive even if there's no media,
             // so let's blur the preview in that case
             // If media previews are disabled, show placeholder for cards as well
-            if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+            if (statusDisplayOptions.mediaPreviewEnabled() && !blurMedia && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
                 int radius = context.getResources().getDimensionPixelSize(R.dimen.inner_card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();

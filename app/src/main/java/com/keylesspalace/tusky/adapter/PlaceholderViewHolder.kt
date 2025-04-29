@@ -1,4 +1,4 @@
-/* Copyright 2021 Tusky Contributors
+/* Copyright 2025 Tusky Contributors
  *
  * This file is a part of Tusky.
  *
@@ -12,35 +12,40 @@
  *
  * You should have received a copy of the GNU General Public License along with Tusky; if not,
  * see <http://www.gnu.org/licenses>. */
+
 package com.keylesspalace.tusky.adapter
 
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePaddingRelative
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
-import com.keylesspalace.tusky.interfaces.StatusActionListener
-import com.keylesspalace.tusky.util.hide
+import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.databinding.ItemPlaceholderBinding
 import com.keylesspalace.tusky.util.visible
 
-/**
- * Placeholder for missing parts in timelines.
- *
- * Displays a "Load more" button to load the gap, or a
- * circular progress bar if the missing page is being loaded.
- */
 class PlaceholderViewHolder(
-    private val binding: ItemStatusPlaceholderBinding,
-    listener: StatusActionListener
+    binding: ItemPlaceholderBinding,
+    mode: Mode,
 ) : RecyclerView.ViewHolder(binding.root) {
-
     init {
-        binding.loadMoreButton.setOnClickListener {
-            binding.loadMoreButton.hide()
-            binding.loadMoreProgressBar.show()
-            listener.onLoadMore(bindingAdapterPosition)
+        val res = binding.root.context.resources
+        binding.topPlaceholder.visible(mode != Mode.STATUS)
+        binding.reblogButtonPlaceholder.visible(mode != Mode.CONVERSATION)
+        if (mode == Mode.NOTIFICATION) {
+            binding.topPlaceholder.updatePaddingRelative(
+                start = res.getDimensionPixelSize(R.dimen.status_info_padding_large)
+            )
+        }
+        if (mode == Mode.CONVERSATION) {
+            binding.moreButtonPlaceHolder.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                marginEnd = res.getDimensionPixelSize(R.dimen.conversation_placeholder_more_button_inset)
+            }
         }
     }
 
-    fun setup(loading: Boolean) {
-        binding.loadMoreButton.visible(!loading)
-        binding.loadMoreProgressBar.visible(loading)
+    enum class Mode {
+        STATUS,
+        NOTIFICATION,
+        CONVERSATION
     }
 }

@@ -304,9 +304,9 @@ class NotificationRequestDetailsFragment : SFragment(R.layout.fragment_notificat
         // not needed, blocking via the more menu on statuses is handled in SFragment
     }
 
-    override fun onRespondToFollowRequest(accept: Boolean, id: String, position: Int) {
+    override fun onRespondToFollowRequest(accept: Boolean, accountIdRequestingFollow: String, position: Int) {
         val notification = adapter?.peek(position) ?: return
-        viewModel.respondToFollowRequest(accept, accountId = id, notification = notification)
+        viewModel.respondToFollowRequest(accept, accountId = accountIdRequestingFollow, notification = notification)
     }
 
     override fun onDestroyView() {

@@ -96,7 +96,7 @@ public class ConversationViewHolder extends StatusBaseViewHolder {
                 mediaContainer.setVisibility(View.VISIBLE);
 
                 setMediaPreviews(attachments, sensitive, listener, statusViewData.isShowingContent(),
-                        statusDisplayOptions.useBlurhash());
+                        statusDisplayOptions.useBlurhash(), statusViewData.getFilter());
 
                 if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();

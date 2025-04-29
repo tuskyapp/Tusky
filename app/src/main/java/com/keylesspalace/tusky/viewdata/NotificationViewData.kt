@@ -25,7 +25,7 @@ sealed class NotificationViewData {
     abstract val id: String
 
     abstract fun asStatusOrNull(): StatusViewData.Concrete?
-    abstract fun asPlaceholderOrNull(): Placeholder?
+    abstract fun asPlaceholderOrNull(): LoadMore?
 
     data class Concrete(
         override val id: String,
@@ -41,7 +41,7 @@ sealed class NotificationViewData {
         override fun asPlaceholderOrNull() = null
     }
 
-    data class Placeholder(
+    data class LoadMore(
         override val id: String,
         val isLoading: Boolean
     ) : NotificationViewData() {

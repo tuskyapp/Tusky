@@ -94,6 +94,8 @@ class NetworkTimelineRemoteMediatorTest {
             on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn null
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
+
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
                 listOf(
                     fakeStatus("7"),
@@ -147,6 +149,8 @@ class NetworkTimelineRemoteMediatorTest {
             on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "0"
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
+
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
                 listOf(
                     fakeStatus("5"),
@@ -201,6 +205,8 @@ class NetworkTimelineRemoteMediatorTest {
             on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "0"
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
+
             onBlocking { fetchStatusesForKind(null, null, 20) } doReturn Response.success(
                 listOf(
                     fakeStatus("10"),
@@ -231,7 +237,7 @@ class NetworkTimelineRemoteMediatorTest {
         val newStatusData = mutableListOf(
             fakeStatusViewData("10"),
             fakeStatusViewData("9"),
-            StatusViewData.Placeholder("7", false),
+            StatusViewData.LoadMore("7", false),
             fakeStatusViewData("3"),
             fakeStatusViewData("2"),
             fakeStatusViewData("1")
@@ -256,6 +262,8 @@ class NetworkTimelineRemoteMediatorTest {
             on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "3"
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
+
             onBlocking { fetchStatusesForKind("3", null, 20) } doReturn Response.success(
                 listOf(
                     fakeStatus("3"),
@@ -311,6 +319,8 @@ class NetworkTimelineRemoteMediatorTest {
             on { activeAccountFlow } doReturn MutableStateFlow(account)
             on { statusData } doReturn statuses
             on { nextKey } doReturn "3"
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
+
             onBlocking { fetchStatusesForKind("3", null, 20) } doReturn Response.success(
                 listOf(
                     fakeStatus("3"),

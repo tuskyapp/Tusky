@@ -78,7 +78,7 @@ class ConversationsFragment :
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private var adapter: ConversationAdapter? = null
+    private var adapter: ConversationPagingAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -97,7 +97,7 @@ class ConversationsFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        val adapter = ConversationAdapter(statusDisplayOptions, this)
+        val adapter = ConversationPagingAdapter(statusDisplayOptions, this)
         this.adapter = adapter
 
         setupRecyclerView(adapter)
@@ -212,7 +212,7 @@ class ConversationsFragment :
         }
     }
 
-    private fun setupRecyclerView(adapter: ConversationAdapter) {
+    private fun setupRecyclerView(adapter: ConversationPagingAdapter) {
         binding.recyclerView.ensureBottomPadding(fab = true)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -249,9 +249,9 @@ class ConversationsFragment :
         }
     }
 
-    override fun onBookmark(favourite: Boolean, position: Int) {
+    override fun onBookmark(bookmark: Boolean, position: Int) {
         adapter?.peek(position)?.let { conversation ->
-            viewModel.bookmark(favourite, conversation)
+            viewModel.bookmark(bookmark, conversation)
         }
     }
 
@@ -379,7 +379,7 @@ class ConversationsFragment :
             .show()
     }
 
-    private fun onPreferenceChanged(adapter: ConversationAdapter, key: String) {
+    private fun onPreferenceChanged(adapter: ConversationPagingAdapter, key: String) {
         when (key) {
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled

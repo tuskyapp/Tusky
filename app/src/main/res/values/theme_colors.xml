@@ -37,6 +37,8 @@
 
     <color name="toolbarIconBackgroundColor">#CCEBEFF4</color>
 
+    <color name="placeholderColor">@color/tusky_grey_90</color>
+
     <!-- colors used to show inserted/deleted text -->
     <color name="view_edits_background_insert">@color/tusky_green_lighter</color>
     <color name="view_edits_background_delete">@color/tusky_red_lighter</color>
