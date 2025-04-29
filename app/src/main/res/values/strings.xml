@@ -933,5 +933,5 @@
     <string name="reblog_privacy_followers_only_description">Only your followers can see your boost</string>
 
     <string name="reblog_confirm">Boost this post?</string>
-    <string name="favourite_confirm">Favourite this post?</string>
+    <string name="favourite_confirm">Favorite this post?</string>
 </resources>
