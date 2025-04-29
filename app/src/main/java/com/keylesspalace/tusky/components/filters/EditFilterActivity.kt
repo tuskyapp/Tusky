@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.entity.Filter
@@ -55,6 +56,9 @@ class EditFilterActivity : BaseActivity() {
 
     @Inject
     lateinit var eventHub: EventHub
+
+    @Inject
+    lateinit var instanceInfoRepository: InstanceInfoRepository
 
     private val binding by viewBinding(ActivityEditFilterBinding::inflate)
     private val viewModel: EditFilterViewModel by viewModels()
@@ -124,6 +128,10 @@ class EditFilterActivity : BaseActivity() {
             viewModel.setTitle(editable.toString())
             validateSaveButton()
         }
+
+        // blur filter is supported in mastodon api version 5+
+        val blurFilterSupported = instanceInfoRepository.cachedInstanceInfoOrFallback.mastodonApiVersion?.let { it >= 5 } == true
+        binding.filterActionBlur.visible(blurFilterSupported)
         binding.filterActionGroup.setOnCheckedChangeListener { _, checkedId ->
             val action = when (checkedId) {
                 R.id.filter_action_blur -> Filter.Action.BLUR
