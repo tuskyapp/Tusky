@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
@@ -138,6 +139,8 @@ class TimelineFragment :
 
     /** The user's preferred reading order */
     private lateinit var readingOrder: ReadingOrder
+
+    private var buttonToAnimate: SparkButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -296,6 +299,7 @@ class TimelineFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -403,17 +407,22 @@ class TimelineFragment :
         super.reply(status.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        buttonToAnimate = button
 
         if (reblog && visibility == null) {
             confirmReblog(preferences) { visibility ->
                 viewModel.reblog(true, status, visibility)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
-            animationCallback()
+            if (reblog) {
+                buttonToAnimate?.playAnimation()
+            }
+            buttonToAnimate?.isChecked = reblog
         }
     }
 
@@ -436,17 +445,17 @@ class TimelineFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
+        buttonToAnimate = button
 
         if (favourite) {
             confirmFavourite(preferences) {
                 viewModel.favorite(true, status)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
             }
         } else {
             viewModel.favorite(false, status)
-            animationCallback()
         }
     }
 

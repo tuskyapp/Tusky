@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
@@ -98,6 +99,8 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
             pendingMediaDownloads = null
         }
 
+    private var buttonToAnimate: SparkButton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pendingMediaDownloads = savedInstanceState?.getStringArrayList(PENDING_MEDIA_DOWNLOADS_STATE_KEY)
@@ -155,6 +158,11 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         return adapter
     }
 
+    override fun onDestroyView() {
+        buttonToAnimate = null
+        super.onDestroyView()
+    }
+
     override fun onRefresh() {
         viewModel.clearStatusCache()
         super.onRefresh()
@@ -172,17 +180,18 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
 
         if (favourite) {
             confirmReblog(preferences) { visibility ->
                 viewModel.favorite(status, true)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.favorite(status, false)
-            animationCallback()
+            buttonToAnimate?.isChecked = false
         }
     }
 
@@ -278,16 +287,22 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         }
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         adapter?.peek(position)?.let { status ->
+            buttonToAnimate = button
+
             if (reblog && visibility == null) {
                 confirmReblog(preferences) { visibility ->
                     viewModel.reblog(status, true, visibility)
-                    animationCallback()
+                    buttonToAnimate?.playAnimation()
+                    buttonToAnimate?.isChecked = true
                 }
             } else {
                 viewModel.reblog(status, reblog, visibility ?: Status.Visibility.PUBLIC)
-                animationCallback()
+                if (reblog) {
+                    buttonToAnimate?.playAnimation()
+                }
+                buttonToAnimate?.isChecked = false
             }
         }
     }

@@ -681,32 +681,22 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
                 // return true to play animation
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onReblog(!buttonState, position, null, () -> {
-                        if (!buttonState) { reblogButton.playAnimation(); }
-                        reblogButton.setChecked(!buttonState);
-                        return Unit.INSTANCE;
-                    });
+                    listener.onReblog(!buttonState, position, null, button);
                 }
                 return false;
             });
         }
 
-
         favouriteButton.setEventListener((button, buttonState) -> {
             // return true to play animation
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                listener.onFavourite(!buttonState, position, () -> {
-                    if (!buttonState) { favouriteButton.playAnimation(); }
-                    favouriteButton.setChecked(!buttonState);
-                    return Unit.INSTANCE;
-                });
+                listener.onFavourite(!buttonState, position, button);
             }
             return false;
         });

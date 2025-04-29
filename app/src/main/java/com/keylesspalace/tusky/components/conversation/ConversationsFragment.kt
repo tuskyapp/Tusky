@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
@@ -79,6 +80,8 @@ class ConversationsFragment :
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
     private var adapter: ConversationPagingAdapter? = null
+
+    private var buttonToAnimate: SparkButton? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -193,6 +196,7 @@ class ConversationsFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -231,20 +235,23 @@ class ConversationsFragment :
         adapter?.refresh()
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         // its impossible to reblog private messages
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         adapter?.peek(position)?.let { conversation ->
+            buttonToAnimate = button
+
             if (favourite) {
                 confirmFavourite(preferences) {
                     viewModel.favourite(true, conversation)
-                    animationCallback()
+                    buttonToAnimate?.playAnimation()
+                    buttonToAnimate?.isChecked = true
                 }
             } else {
                 viewModel.favourite(false, conversation)
-                animationCallback()
+                buttonToAnimate?.isChecked = false
             }
         }
     }

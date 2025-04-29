@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -88,6 +89,8 @@ class ViewThreadFragment :
 
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
+
+    private var buttonToAnimate: SparkButton? = null
 
     /**
      * State of the "reveal" menu item that shows/hides content that is behind a content
@@ -265,6 +268,7 @@ class ViewThreadFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -333,17 +337,22 @@ class ViewThreadFragment :
         super.reply(viewData.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
+        buttonToAnimate = button
 
         if (reblog && visibility == null) {
             confirmReblog(preferences) { visibility ->
                 viewModel.reblog(true, status, visibility)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
-            animationCallback()
+            if (reblog) {
+                buttonToAnimate?.playAnimation()
+            }
+            buttonToAnimate?.isChecked = false
         }
     }
 
@@ -377,17 +386,19 @@ class ViewThreadFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
+        buttonToAnimate = button
 
         if (favourite) {
             confirmReblog(preferences) { visibility ->
                 viewModel.favorite(true, status)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.favorite(false, status)
-            animationCallback()
+            buttonToAnimate?.isChecked = false
         }
     }
 

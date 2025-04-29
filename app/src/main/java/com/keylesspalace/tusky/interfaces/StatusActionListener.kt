@@ -15,6 +15,7 @@
 package com.keylesspalace.tusky.interfaces
 
 import android.view.View
+import at.connyduck.sparkbutton.SparkButton
 import com.keylesspalace.tusky.entity.Status
 
 interface StatusActionListener : LinkListener {
@@ -23,15 +24,15 @@ interface StatusActionListener : LinkListener {
     /**
      * Reblog the post at [position]
      * @param visibility The visibility to use for the reblog, if the user has already chosen it, null otherwise
-     * @param animationCallback A callback that needs to be called when the spark button should play its animation.
+     * @param button Optional button to animate
      */
-    fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit = {})
+    fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton? = null)
 
     /**
      * Favourite the post at [position]
-     * @param animationCallback A callback that needs to be called when the spark button should play its animation.
+     * @param button Optional button to animate
      */
-    fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit = {})
+    fun onFavourite(favourite: Boolean, position: Int, button: SparkButton? = null)
     fun onBookmark(bookmark: Boolean, position: Int)
     fun onMore(view: View, position: Int)
     fun onViewMedia(position: Int, attachmentIndex: Int, view: View?)

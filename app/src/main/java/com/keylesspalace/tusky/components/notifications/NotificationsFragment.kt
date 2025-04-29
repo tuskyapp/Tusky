@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -114,6 +115,8 @@ class NotificationsFragment :
     /** see [com.keylesspalace.tusky.components.timeline.TimelineFragment] for explanation of the load more mechanism */
     private var loadMorePosition: Int? = null
     private var statusIdBelowLoadMore: String? = null
+
+    private var buttonToAnimate: SparkButton? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -284,6 +287,7 @@ class NotificationsFragment :
         // Clear the adapters to prevent leaking the View
         notificationsAdapter = null
         notificationsPolicyAdapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -336,17 +340,22 @@ class NotificationsFragment :
         viewModel.remove(notification.id)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, animationCallback: () -> Unit) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
+        buttonToAnimate = button
 
         if (reblog && visibility == null) {
             confirmReblog(preferences) { visibility ->
                 viewModel.reblog(true, status, visibility)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
-            animationCallback()
+            if (reblog) {
+                buttonToAnimate?.playAnimation()
+            }
+            buttonToAnimate?.isChecked = reblog
         }
     }
 
@@ -378,18 +387,19 @@ class NotificationsFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int, animationCallback: () -> Unit) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = notificationsAdapter?.peek(position)?.asStatusOrNull() ?: return
-        viewModel.favorite(favourite, status)
+        buttonToAnimate = button
 
         if (favourite) {
             confirmFavourite(preferences) {
                 viewModel.favorite(true, status)
-                animationCallback()
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.favorite(false, status)
-            animationCallback()
+            buttonToAnimate?.isChecked = false
         }
     }
 
