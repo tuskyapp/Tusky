@@ -56,6 +56,7 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
 import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmReblog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
@@ -391,7 +392,7 @@ class ViewThreadFragment :
         buttonToAnimate = button
 
         if (favourite) {
-            confirmReblog(preferences) { visibility ->
+            confirmFavourite(preferences) {
                 viewModel.favorite(true, status)
                 buttonToAnimate?.playAnimation()
                 buttonToAnimate?.isChecked = true

@@ -62,6 +62,7 @@ import com.keylesspalace.tusky.util.copyToClipboard
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
 import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmReblog
 import com.keylesspalace.tusky.view.showMuteAccountDialog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
@@ -184,7 +185,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
 
         if (favourite) {
-            confirmReblog(preferences) { visibility ->
+            confirmFavourite(preferences) {
                 viewModel.favorite(status, true)
                 buttonToAnimate?.playAnimation()
                 buttonToAnimate?.isChecked = true
