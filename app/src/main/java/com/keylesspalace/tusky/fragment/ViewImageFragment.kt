@@ -28,8 +28,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.displayCutout
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -115,14 +115,18 @@ class ViewImageFragment : ViewMediaFragment() {
         val descriptionBottomSheet = BottomSheetBehavior.from(binding.captionSheet)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val topInsets = insets.getInsets(displayCutout()).top
             val bottomInsets = insets.getInsets(systemBars()).bottom
             val mediaDescriptionBottomPadding = requireContext().resources.getDimensionPixelSize(R.dimen.media_description_sheet_bottom_padding)
             val mediaDescriptionPeekHeight = requireContext().resources.getDimensionPixelSize(R.dimen.media_description_sheet_peek_height)
-            val imageViewBottomMargin = requireContext().resources.getDimensionPixelSize(R.dimen.media_image_view_bottom_margin)
             binding.mediaDescription.updatePadding(bottom = mediaDescriptionBottomPadding + bottomInsets)
             descriptionBottomSheet.setPeekHeight(mediaDescriptionPeekHeight + bottomInsets, false)
-            binding.photoView.updateLayoutParams<ViewGroup.MarginLayoutParams> { bottomMargin = imageViewBottomMargin + bottomInsets }
-            insets.inset(0, 0, 0, bottomInsets)
+            binding.photoView.updatePadding(
+                top = topInsets,
+                bottom = bottomInsets
+            )
+            binding.photoView.invalidate()
+            insets.inset(0, topInsets, 0, bottomInsets)
         }
 
         val singleTapDetector = GestureDetector(

@@ -398,7 +398,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         val (attachment) = attachments[urlIndex]
         when (attachment.type) {
             Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                val intent = newIntent(context, attachments, urlIndex)
+                val intent = newIntent(requireContext(), attachments, urlIndex)
                 if (view != null) {
                     val url = attachment.url
                     view.transitionName = url

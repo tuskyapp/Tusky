@@ -182,7 +182,7 @@ class AccountMediaFragment :
             Attachment.Type.VIDEO,
             Attachment.Type.AUDIO -> {
                 val intent = ViewMediaActivity.newIntent(
-                    context,
+                    view.context,
                     attachmentsFromSameStatus,
                     currentIndex
                 )

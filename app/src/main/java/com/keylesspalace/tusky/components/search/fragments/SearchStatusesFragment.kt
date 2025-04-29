@@ -197,7 +197,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
                 Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                     val attachments = AttachmentViewData.list(status)
                     val intent = ViewMediaActivity.newIntent(
-                        context,
+                        requireContext(),
                         attachments,
                         attachmentIndex
                     )
