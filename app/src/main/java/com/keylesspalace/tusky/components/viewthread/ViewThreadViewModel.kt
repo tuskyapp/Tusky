@@ -312,6 +312,7 @@ class ViewThreadViewModel @Inject constructor(
                 isCollapsed = viewData.isCollapsed,
                 isDetailed = viewData.isDetailed,
                 translation = viewData.translation,
+                filter = viewData.filter,
             )
         }
     }
@@ -421,8 +422,8 @@ class ViewThreadViewModel @Inject constructor(
             if (status.isDetailed || status.status.account.id == activeAccount.accountId) {
                 true
             } else {
-                status.filterAction = filterModel.shouldFilterStatus(status.status)
-                status.filterAction != Filter.Action.HIDE
+                status.filter = filterModel.shouldFilterStatus(status.status)
+                status.filter?.action != Filter.Action.HIDE
             }
         }
     }
@@ -432,11 +433,11 @@ class ViewThreadViewModel @Inject constructor(
             it.id == this.id
         }
         return toViewData(
-            isShowingContent = oldStatus?.isShowingContent
-                ?: (alwaysShowSensitiveMedia || !actionableStatus.sensitive),
+            isShowingContent = oldStatus?.isShowingContent ?: actionableStatus.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.THREAD),
             isExpanded = oldStatus?.isExpanded ?: alwaysOpenSpoiler,
             isCollapsed = oldStatus?.isCollapsed ?: !isDetailed,
-            isDetailed = oldStatus?.isDetailed ?: isDetailed
+            isDetailed = oldStatus?.isDetailed ?: isDetailed,
+            filter = oldStatus?.filter ?: actionableStatus.getApplicableFilter(Filter.Kind.THREAD),
         )
     }
 

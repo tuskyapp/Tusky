@@ -145,7 +145,8 @@ class InstanceInfoRepository @Inject constructor(
         maxFieldNameLength = this?.maxFieldNameLength,
         maxFieldValueLength = this?.maxFieldValueLength,
         version = this?.version,
-        translationEnabled = this?.translationEnabled
+        translationEnabled = this?.translationEnabled,
+        mastodonApiVersion = this?.mastodonApiVersion,
     )
 
     private fun Instance.toEntity() = InstanceInfoEntity(
@@ -173,7 +174,8 @@ class InstanceInfoRepository @Inject constructor(
         maxFields = this.configuration?.accounts?.maxProfileFields ?: this.pleroma?.metadata?.fieldLimits?.maxFields,
         maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
         maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
-        translationEnabled = this.configuration?.translation?.enabled
+        translationEnabled = this.configuration?.translation?.enabled,
+        mastodonApiVersion = this.apiVersions?.mastodon,
     )
 
     private fun InstanceV1.toEntity(instanceName: String) =
@@ -202,6 +204,7 @@ class InstanceInfoRepository @Inject constructor(
             maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
             maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
             translationEnabled = null,
+            mastodonApiVersion = null,
         )
 
     companion object {

@@ -74,14 +74,16 @@ class NetworkTimelineRemoteMediator(
                     s.asStatusOrNull()?.id == status.id
                 }?.asStatusOrNull()
 
-                val contentShowing = oldStatus?.isShowingContent ?: (activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive)
+                val filter = oldStatus?.filter ?: status.getApplicableFilter(viewModel.kind.toFilterKind())
+                val contentShowing = oldStatus?.isShowingContent ?: status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, viewModel.kind.toFilterKind())
                 val expanded = oldStatus?.isExpanded ?: activeAccount.alwaysOpenSpoiler
                 val contentCollapsed = oldStatus?.isCollapsed != false
 
                 status.toViewData(
                     isShowingContent = contentShowing,
                     isExpanded = expanded,
-                    isCollapsed = contentCollapsed
+                    isCollapsed = contentCollapsed,
+                    filter = filter,
                 )
             }
 

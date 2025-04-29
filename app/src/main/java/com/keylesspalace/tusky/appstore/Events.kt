@@ -1,6 +1,7 @@
 package com.keylesspalace.tusky.appstore
 
 import com.keylesspalace.tusky.entity.Account
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.Status
@@ -18,7 +19,7 @@ data class PollVoteEvent(val statusId: String, val poll: Poll) : Event
 data class PollShowResultsEvent(val statusId: String) : Event
 data class DomainMuteEvent(val instance: String) : Event
 data class AnnouncementReadEvent(val announcementId: String) : Event
-data class FilterUpdatedEvent(val filterContext: List<String>) : Event
+data class FilterUpdatedEvent(val filterContext: List<Filter.Kind>) : Event
 data class NewNotificationsEvent(
     val accountId: String,
     val notifications: List<Notification>

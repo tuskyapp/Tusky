@@ -178,20 +178,18 @@ abstract class TimelineViewModel(
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 
-    protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter.Action {
-        val status = statusViewData.asStatusOrNull()?.status ?: return Filter.Action.NONE
+    protected fun shouldFilterStatus(status: Status): Filter? {
         return if (
             (status.isReply && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs) ||
             (status.account.id == status.reblog?.account?.id && filterRemoveSelfReblogs)
         ) {
-            Filter.Action.HIDE
+            Filter(context = listOf(kind.toFilterKind()), action = Filter.Action.HIDE)
         } else if (status.actionableStatus.account.id == activeAccountFlow.value?.accountId) {
             // Mastodon filters don't apply for own posts
-            Filter.Action.NONE
+            null
         } else {
-            statusViewData.filterAction = filterModel.shouldFilterStatus(status.actionableStatus)
-            statusViewData.filterAction
+            filterModel.shouldFilterStatus(status.actionableStatus)
         }
     }
 
@@ -244,9 +242,8 @@ abstract class TimelineViewModel(
         private const val TAG = "TimelineVM"
         internal const val LOAD_AT_ONCE = 30
 
-        fun filterContextMatchesKind(kind: Kind, filterContext: List<String>): Boolean {
-            return filterContext.contains(kind.toFilterKind().kind)
-        }
+        fun filterContextMatchesKind(kind: Kind, filterContext: List<Filter.Kind>): Boolean =
+            filterContext.contains(kind.toFilterKind())
     }
 
     enum class Kind {
