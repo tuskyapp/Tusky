@@ -20,6 +20,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.keylesspalace.tusky.components.notifications.toViewData
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.util.HttpHeaderLink
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -70,9 +71,10 @@ class NotificationRequestDetailsRemoteMediator(
         val alwaysOpenSpoiler = viewModel.accountManager.activeAccount?.alwaysOpenSpoiler == false
         val notificationData = notifications.map { notification ->
             notification.toViewData(
-                isShowingContent = alwaysShowSensitiveMedia,
+                isShowingContent = notification.status?.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.NOTIFICATIONS) ?: true,
                 isExpanded = alwaysOpenSpoiler,
-                true
+                isCollapsed = true,
+                filter = notification.status?.getApplicableFilter(Filter.Kind.NOTIFICATIONS),
             )
         }
 

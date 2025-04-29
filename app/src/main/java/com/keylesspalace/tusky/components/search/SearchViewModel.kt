@@ -30,6 +30,7 @@ import com.keylesspalace.tusky.components.search.adapter.SearchPagingSourceFacto
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.entity.DeletedStatus
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Status
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.usecase.TimelineCases
@@ -70,9 +71,10 @@ class SearchViewModel @Inject constructor(
         SearchPagingSourceFactory(mastodonApi, SearchType.Status, loadedStatuses) {
             it.statuses.map { status ->
                 status.toViewData(
-                    isShowingContent = alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                    isShowingContent = status.shouldShowContent(alwaysShowSensitiveMedia, Filter.Kind.PUBLIC),
                     isExpanded = alwaysOpenSpoiler,
-                    isCollapsed = true
+                    isCollapsed = true,
+                    filter = status.getApplicableFilter(Filter.Kind.PUBLIC),
                 )
             }.apply {
                 loadedStatuses.addAll(this)
@@ -121,9 +123,9 @@ class SearchViewModel @Inject constructor(
         hashtagsPagingSourceFactory.newSearch(query)
     }
 
-    fun removeItem(statusViewData: StatusViewData.Concrete) {
+    fun removeItem(statusViewData: StatusViewData.Concrete, deleteMedia: Boolean) {
         viewModelScope.launch {
-            if (timelineCases.delete(statusViewData.id).isSuccess) {
+            if (timelineCases.delete(statusViewData.id, deleteMedia).isSuccess) {
                 if (loadedStatuses.remove(statusViewData)) {
                     statusesPagingSourceFactory.invalidate()
                 }
@@ -207,9 +209,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteStatusAsync(id: String): Deferred<NetworkResult<DeletedStatus>> {
+    fun deleteStatusAsync(id: String, deleteMedia: Boolean): Deferred<NetworkResult<DeletedStatus>> {
         return viewModelScope.async {
-            timelineCases.delete(id)
+            timelineCases.delete(id, deleteMedia)
         }
     }
 

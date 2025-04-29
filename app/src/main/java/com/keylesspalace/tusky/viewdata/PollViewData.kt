@@ -16,9 +16,16 @@
 package com.keylesspalace.tusky.viewdata
 
 import android.content.Context
+import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.DynamicDrawableSpan
+import android.text.style.ImageSpan
+import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.parseAsHtml
+import androidx.core.text.set
+import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Poll
 import com.keylesspalace.tusky.entity.PollOption
@@ -52,13 +59,21 @@ fun calculatePercent(fraction: Int?, totalVoters: Int?, totalVotes: Int): Int {
     }
 }
 
-fun buildDescription(title: String, percent: Int, voted: Boolean, context: Context): Spanned {
+fun buildDescription(title: String, percent: Int, voted: Boolean, context: Context, textView: TextView? = null): Spanned {
     val builder =
         SpannableStringBuilder(
             context.getString(R.string.poll_percent_format, percent).parseAsHtml()
         )
     if (voted) {
         builder.append(" ✓ ")
+
+        if (textView != null) {
+            val size = (textView.textSize * 1.1).toInt()
+            val drawable = AppCompatResources.getDrawable(context, R.drawable.ic_check_circle_24dp)!!
+            drawable.setBounds(0, 0, size, size)
+            drawable.setTint(MaterialColors.getColor(textView, android.R.attr.textColorPrimary))
+            builder.setSpan(ImageSpan(drawable, DynamicDrawableSpan.ALIGN_CENTER), builder.length - 2, builder.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
     } else {
         builder.append(" ")
     }

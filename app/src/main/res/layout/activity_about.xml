@@ -130,23 +130,25 @@
                     android:id="@+id/aboutPoweredByTusky"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_content_margin"
                     android:layout_marginTop="16dp"
                     android:text="@string/about_powered_by_tusky"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
-                    app:layout_constraintStart_toStartOf="@+id/deviceInfo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/accountInfo" />
 
                 <com.keylesspalace.tusky.view.ClickableSpanTextView
                     android:id="@+id/aboutLicenseInfoTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/text_content_margin"
                     android:layout_marginTop="24dp"
                     android:hyphenationFrequency="full"
                     android:lineSpacingMultiplier="1.2"
                     android:textIsSelectable="true"
-                    app:layout_constraintEnd_toEndOf="@+id/copyDeviceInfo"
-                    app:layout_constraintStart_toStartOf="@+id/accountInfo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/aboutPoweredByTusky"
                     tools:text="@string/about_tusky_license" />
 

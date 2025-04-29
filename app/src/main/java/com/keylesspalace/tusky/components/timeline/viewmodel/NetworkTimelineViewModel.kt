@@ -102,7 +102,9 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                shouldFilterStatus(statusViewData) != Filter.Action.HIDE
+                statusViewData.asStatusOrNull()?.actionable?.let {
+                    shouldFilterStatus(it)?.action != Filter.Action.HIDE
+                } ?: true
             }
         }
         .flowOn(Dispatchers.Default)
@@ -221,9 +223,10 @@ class NetworkTimelineViewModel @Inject constructor(
                 val activeAccount = accountManager.activeAccount!!
                 val data: MutableList<StatusViewData> = statuses.map { status ->
                     status.toViewData(
-                        isShowingContent = activeAccount.alwaysShowSensitiveMedia || !status.actionableStatus.sensitive,
+                        isShowingContent = status.shouldShowContent(activeAccount.alwaysShowSensitiveMedia, kind.toFilterKind()),
                         isExpanded = activeAccount.alwaysOpenSpoiler,
-                        isCollapsed = true
+                        isCollapsed = true,
+                        filter = status.getApplicableFilter(kind.toFilterKind()),
                     )
                 }.toMutableList()
 

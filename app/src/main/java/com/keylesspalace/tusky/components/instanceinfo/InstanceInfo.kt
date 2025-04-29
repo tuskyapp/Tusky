@@ -31,4 +31,5 @@ data class InstanceInfo(
     val maxFieldValueLength: Int?,
     val version: String?,
     val translationEnabled: Boolean?,
+    val mastodonApiVersion: Int?,
 )

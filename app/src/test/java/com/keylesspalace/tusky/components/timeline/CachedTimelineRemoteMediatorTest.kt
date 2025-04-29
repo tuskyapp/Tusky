@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineRemoteMediator
 import com.keylesspalace.tusky.components.timeline.viewmodel.CachedTimelineViewModel
+import com.keylesspalace.tusky.components.timeline.viewmodel.TimelineViewModel
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.AppDatabase
 import com.keylesspalace.tusky.db.Converters
@@ -531,6 +532,7 @@ class CachedTimelineRemoteMediatorTest {
         return mock {
             on { accountManager } doReturn accManager
             on { activeAccountFlow } doReturn MutableStateFlow(account)
+            on { kind } doReturn TimelineViewModel.Kind.PUBLIC_FEDERATED
         }
     }
 }

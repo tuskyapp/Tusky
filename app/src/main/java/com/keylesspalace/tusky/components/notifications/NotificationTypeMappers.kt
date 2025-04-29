@@ -22,6 +22,7 @@ import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
 import com.keylesspalace.tusky.db.entity.NotificationReportEntity
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.util.toViewData
@@ -61,6 +62,7 @@ fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
+    filter: Filter?,
 ): NotificationViewData.Concrete = NotificationViewData.Concrete(
     id = id,
     type = type,
@@ -68,7 +70,8 @@ fun Notification.toViewData(
     statusViewData = status?.toViewData(
         isShowingContent = isShowingContent,
         isExpanded = isExpanded,
-        isCollapsed = isCollapsed
+        isCollapsed = isCollapsed,
+        filter = filter,
     ),
     report = report,
     moderationWarning = moderationWarning,

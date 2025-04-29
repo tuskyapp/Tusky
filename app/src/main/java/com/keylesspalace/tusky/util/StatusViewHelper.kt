@@ -348,7 +348,8 @@ class StatusViewHelper(private val itemView: View) {
                         options[i].title,
                         percent,
                         options[i].voted,
-                        pollResults[i].context
+                        pollResults[i].context,
+                        pollResults[i]
                     )
                 pollResults[i].text = pollOptionText.emojify(emojis, pollResults[i], animateEmojis)
                 pollResults[i].visibility = View.VISIBLE

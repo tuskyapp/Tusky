@@ -43,7 +43,7 @@ class FiltersAdapter(val listener: FiltersListener, val filters: List<Filter>) :
         binding.textSecondary.text = context.getString(
             R.string.filter_description_format,
             actions.getOrNull(filter.action.ordinal - 1),
-            filter.context.map { contexts.getOrNull(Filter.Kind.from(it).ordinal) }.joinToString("/")
+            filter.context.map { contexts.getOrNull(it.ordinal) }.joinToString("/")
         )
 
         binding.delete.setOnClickListener {
