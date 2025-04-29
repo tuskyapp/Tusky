@@ -26,7 +26,7 @@ import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 import java.util.Date
 
-data class Placeholder(
+data class LoadMorePlaceholder(
     val id: String,
     val loading: Boolean
 )
@@ -60,7 +60,7 @@ fun TimelineAccountEntity.toAccount(): TimelineAccount {
     )
 }
 
-fun Placeholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity {
+fun LoadMorePlaceholder.toEntity(tuskyAccountId: Long): HomeTimelineEntity {
     return HomeTimelineEntity(
         id = this.id,
         tuskyAccountId = tuskyAccountId,
@@ -150,7 +150,7 @@ fun HomeTimelineData.toViewData(
     filter: Filter? = null,
 ): StatusViewData {
     if (this.account == null || this.status == null) {
-        return StatusViewData.Placeholder(this.id, loading)
+        return StatusViewData.LoadMore(this.id, loading)
     }
 
     val originalStatus = status.toStatus(account)

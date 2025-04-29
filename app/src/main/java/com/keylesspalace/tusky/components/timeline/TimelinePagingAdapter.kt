@@ -22,11 +22,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.adapter.FilteredStatusViewHolder
+import com.keylesspalace.tusky.adapter.LoadMoreViewHolder
 import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
 import com.keylesspalace.tusky.adapter.StatusViewHolder
+import com.keylesspalace.tusky.databinding.ItemLoadMoreBinding
+import com.keylesspalace.tusky.databinding.ItemPlaceholderBinding
 import com.keylesspalace.tusky.databinding.ItemStatusFilteredBinding
-import com.keylesspalace.tusky.databinding.ItemStatusPlaceholderBinding
 import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
@@ -49,23 +51,29 @@ class TimelinePagingAdapter(
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(viewGroup.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
+            VIEW_TYPE_PLACEHOLDER -> {
+                PlaceholderViewHolder(
+                    ItemPlaceholderBinding.inflate(inflater, parent, false),
+                    mode = PlaceholderViewHolder.Mode.STATUS
+                )
+            }
             VIEW_TYPE_STATUS_FILTERED -> {
                 FilteredStatusViewHolder(
-                    ItemStatusFilteredBinding.inflate(inflater, viewGroup, false),
+                    ItemStatusFilteredBinding.inflate(inflater, parent, false),
                     statusListener
                 )
             }
-            VIEW_TYPE_PLACEHOLDER -> {
-                PlaceholderViewHolder(
-                    ItemStatusPlaceholderBinding.inflate(inflater, viewGroup, false),
+            VIEW_TYPE_LOAD_MORE -> {
+                LoadMoreViewHolder(
+                    ItemLoadMoreBinding.inflate(inflater, parent, false),
                     statusListener
                 )
             }
             else -> {
-                StatusViewHolder(inflater.inflate(R.layout.item_status, viewGroup, false))
+                StatusViewHolder(inflater.inflate(R.layout.item_status, parent, false))
             }
         }
     }
@@ -80,8 +88,8 @@ class TimelinePagingAdapter(
         payloads: List<Any>
     ) {
         val viewData = getItem(position)
-        if (viewData is StatusViewData.Placeholder) {
-            val holder = viewHolder as PlaceholderViewHolder
+        if (viewData is StatusViewData.LoadMore) {
+            val holder = viewHolder as LoadMoreViewHolder
             holder.setup(viewData.isLoading)
         } else if (viewData is StatusViewData.Concrete) {
             if (viewData.filter?.action == Filter.Action.WARN) {
@@ -102,21 +110,21 @@ class TimelinePagingAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val viewData = getItem(position)
-        return if (viewData is StatusViewData.Placeholder) {
-            VIEW_TYPE_PLACEHOLDER
-        } else if (viewData?.filter?.action == Filter.Action.WARN) {
-            VIEW_TYPE_STATUS_FILTERED
-        } else {
-            VIEW_TYPE_STATUS
+        return when {
+            viewData == null -> VIEW_TYPE_PLACEHOLDER
+            viewData is StatusViewData.LoadMore -> VIEW_TYPE_LOAD_MORE
+            viewData.filter?.action == Filter.Action.WARN -> VIEW_TYPE_STATUS_FILTERED
+            else -> VIEW_TYPE_STATUS
         }
     }
 
     companion object {
-        private const val VIEW_TYPE_STATUS = 0
-        private const val VIEW_TYPE_STATUS_FILTERED = 1
-        private const val VIEW_TYPE_PLACEHOLDER = 2
+        private const val VIEW_TYPE_PLACEHOLDER = 0
+        private const val VIEW_TYPE_STATUS = 1
+        private const val VIEW_TYPE_STATUS_FILTERED = 2
+        private const val VIEW_TYPE_LOAD_MORE = 3
 
-        val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
+        private val TimelineDifferCallback = object : DiffUtil.ItemCallback<StatusViewData>() {
             override fun areItemsTheSame(
                 oldItem: StatusViewData,
                 newItem: StatusViewData

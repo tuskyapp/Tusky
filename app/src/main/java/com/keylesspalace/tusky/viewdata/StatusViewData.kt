@@ -38,7 +38,7 @@ sealed interface TranslationViewData {
  * Created by charlag on 11/07/2017.
  *
  * Class to represent data required to display either a notification or a placeholder.
- * It is either a [StatusViewData.Concrete] or a [StatusViewData.Placeholder].
+ * It is either a [StatusViewData.Concrete] or a [StatusViewData.LoadMore].
  */
 sealed class StatusViewData {
     abstract val id: String
@@ -133,12 +133,12 @@ sealed class StatusViewData {
             }
     }
 
-    data class Placeholder(
+    data class LoadMore(
         override val id: String,
         val isLoading: Boolean
     ) : StatusViewData()
 
     fun asStatusOrNull() = this as? Concrete
 
-    fun asPlaceholderOrNull() = this as? Placeholder
+    fun asPlaceholderOrNull() = this as? LoadMore
 }

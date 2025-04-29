@@ -2,7 +2,7 @@ package com.keylesspalace.tusky.components.notifications
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.fakeAccount
 import com.keylesspalace.tusky.components.timeline.fakeStatus
 import com.keylesspalace.tusky.components.timeline.toEntity
@@ -66,7 +66,7 @@ fun Notification.toNotificationDataEntity(
     moderationWarning = null,
 )
 
-fun Placeholder.toNotificationDataEntity(
+fun LoadMorePlaceholder.toNotificationDataEntity(
     tuskyAccountId: Long
 ) = NotificationDataEntity(
     tuskyAccountId = tuskyAccountId,

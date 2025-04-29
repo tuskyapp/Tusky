@@ -98,4 +98,6 @@
 
     <dimen name="dialog_activity_vertical_inset">64dp</dimen>
 
+    <dimen name="conversation_placeholder_more_button_inset">14dp</dimen>
+
 </resources>
