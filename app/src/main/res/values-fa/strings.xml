@@ -621,7 +621,7 @@
     <string name="label_filter_title">عنوان</string>
     <string name="filter_action_warn">هشدار</string>
     <string name="filter_action_hide">نهفتن</string>
-    <string name="filter_description_warn">نهفتن با هشدار</string>
+    <string name="filter_description_warn">نهفتن کل فرسته با هشدار</string>
     <string name="filter_description_hide">نهفتن کامل</string>
     <string name="label_filter_action">کنش پالایه</string>
     <string name="label_filter_context">بافتارهای پالایه</string>
@@ -790,4 +790,6 @@
     <string name="unblock_success">انسداد %1$s رفع شد</string>
     <string name="block_failure">مسدود کردن %1$s شکست خورد: %2$s</string>
     <string name="accept_follow_request_failure">پذیرفتن درخواست پی‌گیری %1$s شکست خورد: %2$s</string>
+    <string name="filter_action_blur">تار</string>
+    <string name="filter_description_blur">نهفتن رسانه با هشدار</string>
 </resources>
