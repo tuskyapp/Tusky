@@ -18,6 +18,8 @@ data class Filter(
     val keywords: List<FilterKeyword> = emptyList(),
     // val statuses: List<FilterStatus>,
 ) : Parcelable {
+
+    @JsonClass(generateAdapter = false)
     enum class Action(val action: String) {
         @Json(name = "none")
         NONE("none"),
@@ -38,6 +40,8 @@ data class Filter(
             fun from(action: String): Action = entries.firstOrNull { it.action == action } ?: WARN
         }
     }
+
+    @JsonClass(generateAdapter = false)
     enum class Kind(val kind: String) {
         @Json(name = "home")
         HOME("home"),
