@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
@@ -54,6 +55,7 @@ import com.keylesspalace.tusky.util.isAnyLoading
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -79,6 +81,8 @@ class ConversationsFragment :
 
     private var adapter: ConversationPagingAdapter? = null
 
+    private var buttonToAnimate: SparkButton? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
@@ -89,8 +93,6 @@ class ConversationsFragment :
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
@@ -194,6 +196,7 @@ class ConversationsFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -232,13 +235,24 @@ class ConversationsFragment :
         adapter?.refresh()
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         // its impossible to reblog private messages
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         adapter?.peek(position)?.let { conversation ->
-            viewModel.favourite(favourite, conversation)
+            buttonToAnimate = button
+
+            if (favourite) {
+                confirmFavourite(preferences) {
+                    viewModel.favourite(true, conversation)
+                    buttonToAnimate?.playAnimation()
+                    buttonToAnimate?.isChecked = true
+                }
+            } else {
+                viewModel.favourite(false, conversation)
+                buttonToAnimate?.isChecked = false
+            }
         }
     }
 

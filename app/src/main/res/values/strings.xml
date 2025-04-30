@@ -928,4 +928,10 @@
     <string name="accept_follow_request_failure">Failed accepting follow request from %1$s: %2$s</string>
     <string name="reject_follow_request_failure">Failed rejecting follow request from %1$s: %2$s</string>
 
+    <string name="reblog_privacy_public_description">Everyone can see your boost</string>
+    <string name="reblog_privacy_unlisted_description">Same as public but it will never be shown in public timelines</string>
+    <string name="reblog_privacy_followers_only_description">Only your followers can see your boost</string>
+
+    <string name="reblog_confirm">Boost this post?</string>
+    <string name="favourite_confirm">Favorite this post?</string>
 </resources>

@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -74,7 +75,7 @@ import kotlinx.coroutines.launch
  * up what needs to be where. */
 abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     protected abstract fun removeItem(position: Int)
-    protected abstract fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility)
+    protected abstract fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?)
 
     /** `null` if translation is not supported on this screen */
     protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
@@ -318,12 +319,12 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
                 }
 
                 R.id.status_unreblog_private -> {
-                    onReblog(false, position, Status.Visibility.PUBLIC)
+                    onReblog(false, position, Status.Visibility.PRIVATE, null)
                     return@setOnMenuItemClickListener true
                 }
 
                 R.id.status_reblog_private -> {
-                    onReblog(true, position, Status.Visibility.PUBLIC)
+                    onReblog(true, position, Status.Visibility.PRIVATE, null)
                     return@setOnMenuItemClickListener true
                 }
 
