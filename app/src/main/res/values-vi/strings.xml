@@ -601,7 +601,7 @@
     <string name="label_filter_title">Tên bộ lọc</string>
     <string name="filter_action_warn">Cảnh báo ở</string>
     <string name="filter_action_hide">Lọc ở</string>
-    <string name="filter_description_warn">Ẩn kèm theo cảnh báo</string>
+    <string name="filter_description_warn">Ẩn cả tút kèm cảnh báo</string>
     <string name="filter_description_hide">Ẩn hoàn toàn</string>
     <string name="label_filter_action">Hành động</string>
     <string name="label_filter_context">Nơi áp dụng</string>
@@ -768,4 +768,6 @@
     <string name="accept_follow_request_failure">Chấp nhận yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
     <string name="reject_follow_request_failure">Từ chối yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
     <string name="unblock_success">Đã bỏ chặn %1$s</string>
+    <string name="filter_action_blur">Làm mờ</string>
+    <string name="filter_description_blur">Ẩn media kèm cảnh báo</string>
 </resources>
