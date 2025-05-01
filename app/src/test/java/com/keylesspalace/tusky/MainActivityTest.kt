@@ -3,7 +3,6 @@ package com.keylesspalace.tusky
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -164,9 +163,6 @@ class MainActivityTest {
             }
         })
         val viewModel = MainViewModel(
-            context = mock {
-                on { getSystemService(Context.NOTIFICATION_SERVICE) } doReturn mock<NotificationManager>()
-            },
             api = api,
             eventHub = eventHub,
             accountManager = accountManager,
