@@ -19,7 +19,6 @@ import android.Manifest
 import android.app.DownloadManager
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -30,6 +29,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
@@ -554,7 +554,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
 
     private fun accountIsInMentions(account: AccountEntity?, mentions: List<Mention>): Boolean {
         return mentions.firstOrNull {
-            account?.username == it.username && account.domain == Uri.parse(it.url)?.host
+            account?.username == it.username && account.domain == it.url.toUri().host
         } != null
     }
 
@@ -575,7 +575,7 @@ class SearchStatusesFragment : SearchFragment<StatusViewData.Concrete>(), Status
         val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
         for (url in mediaUrls) {
-            val uri = Uri.parse(url)
+            val uri = url.toUri()
             val request = DownloadManager.Request(uri)
             request.setDestinationInExternalPublicDir(
                 Environment.DIRECTORY_DOWNLOADS,

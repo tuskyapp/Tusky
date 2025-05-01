@@ -9,7 +9,7 @@ import kotlin.random.Random
 private const val POSSIBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 const val HASHTAG_EXPRESSION = "([\\w_]*[\\p{Alpha}_][\\w_]*)"
-val hashtagPattern = Pattern.compile(HASHTAG_EXPRESSION, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE)
+val hashtagPattern: Pattern = Pattern.compile(HASHTAG_EXPRESSION, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE)
 
 fun randomAlphanumericString(count: Int): String {
     val chars = CharArray(count)

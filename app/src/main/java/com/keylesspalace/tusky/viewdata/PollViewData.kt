@@ -24,7 +24,6 @@ import android.text.style.ImageSpan
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.parseAsHtml
-import androidx.core.text.set
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.entity.Poll

@@ -95,9 +95,6 @@
     <string name="title_home">Home</string>
     <string name="notification_subscription_format">%1$s just posted</string>
     <string name="action_post_failed">Upload failed</string>
-    <string name="action_post_failed_detail">Your post failed to upload and has been saved to drafts.
-\n
-\nEither the server could not be contacted, or it rejected the post.</string>
     <string name="report_comment_hint">Additional comments?</string>
     <string name="action_quick_reply">Quick Reply</string>
     <string name="action_reblog">Boost</string>

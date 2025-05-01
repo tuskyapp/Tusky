@@ -127,7 +127,7 @@ class SendStatusService : Service() {
                     cancelSendingIntent(sendingNotificationId)
                 )
 
-            if (statusesToSend.size == 0 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (statusesToSend.isEmpty() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
                 startForeground(sendingNotificationId, builder.build())
             } else {

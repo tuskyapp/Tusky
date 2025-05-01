@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
@@ -45,10 +43,10 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
-import com.keylesspalace.tusky.entity.Filter;
-import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.HashTag;
+import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.entity.Translation;
@@ -81,9 +79,7 @@ import java.util.List;
 
 import at.connyduck.sparkbutton.SparkButton;
 import at.connyduck.sparkbutton.helpers.Utils;
-import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
-import kotlin.jvm.functions.Function0;
 
 public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     public static class Key {
@@ -534,7 +530,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         final @NonNull StatusActionListener listener,
         boolean showingContent,
         boolean useBlurhash,
-        Filter filter
+        final @NonNull Filter filter
     ) {
 
         mediaPreview.setVisibility(View.VISIBLE);

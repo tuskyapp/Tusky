@@ -112,9 +112,9 @@ class ConversationsViewModel @Inject constructor(
 
     fun showPollResults(conversation: ConversationViewData) = viewModelScope.launch {
         conversation.lastStatus.status.poll?.let { poll ->
-            conversation.toEntity(accountId = accountId, poll = poll.copy(voted = true)).let {
-                saveConversationToDb(it)
-            }
+            saveConversationToDb(
+                conversation.toEntity(accountId = accountId, poll = poll.copy(voted = true))
+            )
         }
     }
 

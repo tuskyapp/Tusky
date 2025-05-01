@@ -17,13 +17,13 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -89,9 +89,8 @@ class StatusViewHelper(private val itemView: View) {
         }
 
         val mediaPreviewUnloaded =
-            ColorDrawable(
-                MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK)
-            )
+            MaterialColors.getColor(context, R.attr.colorBackgroundAccent, Color.BLACK)
+                .toDrawable()
 
         val n = min(attachments.size, Status.MAX_MEDIA_ATTACHMENTS)
 

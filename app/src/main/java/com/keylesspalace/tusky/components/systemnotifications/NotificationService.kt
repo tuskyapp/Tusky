@@ -24,6 +24,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.NotificationWithIdAndTag
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.Data
@@ -783,9 +784,9 @@ class NotificationService @Inject constructor(
 
         Log.w(TAG, "Previous push provider ($lastUsedPushProvider) uninstalled. Resetting all accounts.")
 
-        val editor = preferences.edit()
-        editor.remove(PrefKeys.LAST_USED_PUSH_PROVDER)
-        editor.apply()
+        preferences.edit {
+            remove(PrefKeys.LAST_USED_PUSH_PROVDER)
+        }
 
         applicationScope.launch {
             accountManager.accounts.forEach {
@@ -895,9 +896,9 @@ class NotificationService @Inject constructor(
             UnifiedPush.getAckDistributor(context)?.let {
                 Log.d(TAG, "Saving distributor to preferences: $it")
 
-                val editor = preferences.edit()
-                editor.putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
-                editor.apply()
+                preferences.edit {
+                    putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
+                }
 
                 // TODO once this is selected it cannot be changed (except by wiping the application or uninstalling the provider)
             }
