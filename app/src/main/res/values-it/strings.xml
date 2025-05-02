@@ -335,12 +335,10 @@
     <string name="description_post_media_no_description_placeholder">Nessuna descrizione</string>
     <string name="description_post_reblogged">Ribloggato</string>
     <string name="description_post_favourited">Messo nei preferiti</string>
-    <string name="description_visibility_public">        Pubblico
-    </string>
+    <string name="description_visibility_public">Pubblico</string>
     <string name="description_visibility_unlisted">Non in elenco</string>
     <string name="description_visibility_private">Solo seguaci</string>
-    <string name="description_visibility_direct">        Diretti
-    </string>
+    <string name="description_visibility_direct">Diretti</string>
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
