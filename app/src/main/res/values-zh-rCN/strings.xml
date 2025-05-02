@@ -334,16 +334,10 @@
     <string name="description_post_media_no_description_placeholder">没有描述信息</string>
     <string name="description_post_reblogged">被转嘟</string>
     <string name="description_post_favourited">被喜欢</string>
-    <string name="description_visibility_public">
-        公开
-    </string>
-    <string name="description_visibility_unlisted">
-        不公开
-    </string>
+    <string name="description_visibility_public">公开</string>
+    <string name="description_visibility_unlisted">不公开</string>
     <string name="description_visibility_private">仅关注者</string>
-    <string name="description_visibility_direct">
-        私信
-    </string>
+    <string name="description_visibility_direct">私信</string>
     <string name="hint_list_name">列表名</string>
     <string name="pick_hashtag_hint">话题名（不含前面的 # 号）</string>
     <string name="notifications_clear">删除</string>
