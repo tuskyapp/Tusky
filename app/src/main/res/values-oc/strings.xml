@@ -113,19 +113,19 @@
     <string name="label_header">Bandièra</string>
     <string name="link_whats_an_instance">Que es una instància ?</string>
     <string name="login_connection">Connexion…</string>
-    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a>
-\n
-\nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá \u0020anar e crear un compte enlà.
-\n
-\n
-\n
+    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a> 
+\n 
+\nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá \u0020anar e crear un compte enlà. 
+\n 
+\n 
+\n 
 \nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
     <string name="dialog_message_uploading_media">Mandadís…</string>
     <string name="dialog_download_image">Telecargar</string>
     <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
-    <string name="dialog_delete_post_warning">Suprimir aqueste tut \?</string>
+    <string name="dialog_delete_post_warning">Suprimir aqueste tut ?</string>
     <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
     <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
     <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
@@ -342,7 +342,7 @@
     <string name="compose_shortcut_long_label">Escriure una publicacion</string>
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="action_delete_and_redraft">Suprimir e reformular</string>
-    <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut \?</string>
+    <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut ?</string>
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
     <string name="notifications_clear">Suprimir</string>
     <string name="notifications_apply_filter">Filtrar</string>
@@ -635,8 +635,8 @@
     <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %1$s</string>
     <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %1$s</string>
     <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
-    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
-\n
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz. 
+\n 
 \nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància {{group}}, siá los trapar per lor nom {{search}}, per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
     <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar. 
 \n 
@@ -748,4 +748,46 @@
     <string name="post_replied">Respondut</string>
     <string name="post_replied_format">En responsa a %1$s</string>
     <string name="post_replied_self">Seguida del fil</string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="mute_failure"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="help_empty_conversations"></string>
+    <string name="help_empty_lists"></string>
+    <string name="notification_policies_filter_dont_follow_description"></string>
+    <string name="notification_policies_filter_not_following_description"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
+    <string name="unknown_notification_filter_moderated_accounts_description"></string>
+    <string name="notification_policies_not_supported"></string>
+    <string name="notifications_from_people_you_may_know"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="moderation_warning"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <string name="unblock_failure"></string>
+    <string name="unmute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="notification_channel_admin_description"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <string name="poll_show_results"></string>
+    <string name="accept_notification_request"></string>
+    <string name="dismiss_notification_request"></string>
+    <string name="confirm_dismiss_caption"></string>
+    <string name="notification_channel_other_description"></string>
 </resources>
