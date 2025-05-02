@@ -646,7 +646,7 @@
     <string name="hint_filter_title">I miei filtri</string>
     <string name="action_add">Aggiungi</string>
     <string name="pref_title_show_stat_inline">Mostra le statistiche del post nella timeline</string>
-    <string name="filter_description_warn">Nascondi con un avviso</string>
+    <string name="filter_description_warn">Nascondi l\'intero post con un avviso</string>
     <string name="filter_keyword_display_format">%1$s (parola intera)</string>
     <string name="filter_description_hide">Nascondi completamente</string>
     <string name="label_filter_action">Azioni del filtro</string>
@@ -810,4 +810,11 @@
     <string name="unmute_success">Riattivato %1$s</string>
     <string name="block_failure">Blocco di %1$s fallito: %2$s</string>
     <string name="accept_follow_request_failure">Accettazione del follow di %1$s fallita: %2$s</string>
+    <string name="filter_description_blur">Nascondi media con un avviso</string>
+    <string name="reblog_privacy_followers_only_description">Solo chi ti segue può vedere le tue ricondivisioni</string>
+    <string name="reblog_confirm">Ricondividere questo post?</string>
+    <string name="favourite_confirm">Mettere questo post tra i preferiti?</string>
+    <string name="filter_action_blur">Sfoca</string>
+    <string name="reblog_privacy_unlisted_description">Uguale a \"Pubblico\" ma non verrà mai mostrato nelle timeline pubbliche</string>
+    <string name="reblog_privacy_public_description">Tutti possono vedere la tua ricondivisione</string>
 </resources>
