@@ -14,7 +14,7 @@
     <string name="notification_mention_format">%1$s nhắc tới bạn</string>
     <string name="notification_mention_name">Nhắc đến tôi</string>
     <string name="notification_follow_request_format">%1$s yêu cầu theo dõi bạn</string>
-    <string name="notification_follow_format">%1$s theo dõi bạn</string>
+    <string name="notification_follow_format">%1$s đang theo dõi bạn</string>
     <string name="notification_favourite_format">%1$s thích tút của bạn</string>
     <string name="notification_reblog_format">%1$s đăng lại tút của bạn</string>
     <string name="post_lookup_error_format">Lỗi khi tìm tút %1$s</string>
@@ -601,7 +601,7 @@
     <string name="label_filter_title">Tên bộ lọc</string>
     <string name="filter_action_warn">Cảnh báo ở</string>
     <string name="filter_action_hide">Lọc ở</string>
-    <string name="filter_description_warn">Ẩn kèm theo cảnh báo</string>
+    <string name="filter_description_warn">Ẩn cả tút kèm cảnh báo</string>
     <string name="filter_description_hide">Ẩn hoàn toàn</string>
     <string name="label_filter_action">Hành động</string>
     <string name="label_filter_context">Nơi áp dụng</string>
@@ -768,4 +768,11 @@
     <string name="accept_follow_request_failure">Chấp nhận yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
     <string name="reject_follow_request_failure">Từ chối yêu cầu theo dõi thất bại từ %1$s: %2$s</string>
     <string name="unblock_success">Đã bỏ chặn %1$s</string>
+    <string name="filter_action_blur">Làm mờ</string>
+    <string name="filter_description_blur">Ẩn media kèm cảnh báo</string>
+    <string name="reblog_confirm">Đăng lại tút này?</string>
+    <string name="favourite_confirm">Thích tút này?</string>
+    <string name="reblog_privacy_followers_only_description">Chỉ người theo dõi thấy lượt đăng lại</string>
+    <string name="reblog_privacy_public_description">Ai cũng có thể thấy lượt đăng lại</string>
+    <string name="reblog_privacy_unlisted_description">Ai cũng thấy, nhưng không hiện trên bảng tin</string>
 </resources>
