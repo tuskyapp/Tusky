@@ -621,7 +621,7 @@
     <string name="label_filter_title">Titel</string>
     <string name="filter_action_warn">Warnen</string>
     <string name="filter_action_hide">Ausblenden</string>
-    <string name="filter_description_warn">Mit einer Warnung ausblenden</string>
+    <string name="filter_description_warn">Vollständigen Beitrag mit einer Warnung ausblenden</string>
     <string name="filter_description_hide">Vollständig ausblenden</string>
     <string name="label_filter_context">Nach Bereich filtern</string>
     <string name="label_filter_action">Filteraktion</string>
@@ -782,4 +782,19 @@
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="confirm_dismiss_caption">Änderungen an der Bildbeschreibung verwerfen?</string>
+    <string name="mute_failure">Fehler beim stummschalten von %1$s: %2$s</string>
+    <string name="unblock_success">%1$s entblockt</string>
+    <string name="unmute_success">%1$s nicht mehr stummgeschalten</string>
+    <string name="block_failure">Fehler beim blockieren von %1$s: %2$s</string>
+    <string name="filter_action_blur">Medien ausblenden</string>
+    <string name="filter_description_blur">Medien mit einer Warnung ausblenden, ohne den Text selbst auszublenden</string>
+    <string name="unblock_failure">Fehler beim entblocken von %1$s: %2$s</string>
+    <string name="unmute_failure">Failed beim Aufheben der Stummschalteung von %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Fehler beim Annehmen der Folgeanfrage von %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Fehler beim Ablehnen der Folgeanfrage von %1$s: %2$s</string>
+    <string name="reblog_privacy_unlisted_description">Gleich wie Öffentlich, ohne in öffentlichen Timelines angezeigt zu werden</string>
+    <string name="reblog_confirm">Diesen Beitrag teilen?</string>
+    <string name="favourite_confirm">Diesen Beitrag favorisieren?</string>
+    <string name="reblog_privacy_public_description">Alle können sehen dass du den Beitrag teilst</string>
+    <string name="reblog_privacy_followers_only_description">Nur deine Follower können sehen dass du den Beitrag teilst</string>
 </resources>

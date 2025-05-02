@@ -105,4 +105,7 @@
     <string name="action_unreblog">Remove boost</string>
     <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
     <string name="action_share_account_link">Share a link to this account</string>
+    <string name="favourite_confirm">Favourite this post?</string>
+    <string name="pref_title_confirm_favourites">Show confirmation before favouriting</string>
+    <string name="ui_error_favourite">Favouriting post failed: %1$s</string>
 </resources>
