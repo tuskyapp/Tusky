@@ -266,12 +266,12 @@
     <string name="notification_boost_description">Brathan nuair a thèid post agad brosnachadh</string>
     <string name="dialog_redraft_post_warning">A bheil thu airson am post seo a sguabadh às is dreachd ùr a dhèanamh air?</string>
     <string name="dialog_delete_post_warning">A bheil thu airson am post seo a sguabadh às?</string>
-    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a> \u0020
-\n \u0020
-\nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann. \u0020
-\n \u0020
-\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">’S urrainn dhut seòladh no àrainn-lìn aig ionstans sam bith a chur a-steach an-seo, can mastodon.social, icosahedron.website, social.tchncs.de agus <a href="https://instances.social">a bharrachd!</a> \u0020 
+\n \u0020 
+\nMur eil cunntas agad fhathast, cuir a-steach ainm an ionstans sa bheil thu airson ballrachd fhaighinn airson cunntas a chruthachadh ann. \u0020 
+\n \u0020 
+\n’S e an t-aon àite far an cruthaich thu cunntas a th’ ann an ionstans ud ’s a nì an t-òstadh dhan chunntas agad. Gidheadh, ’s urrainn dhut conaltradh le daoine a tha air ionstans eile agus leantainn orra mar gun robh sibh air an aon làrach. \u0020 
+\n \u0020 
 \nGheibh thu barrachd fiosrachaidh air <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="send_post_content_to">Co-roinn am post le…</string>
     <string name="send_post_link_to">Co-roinn URL a’ phuist le…</string>
@@ -651,8 +651,8 @@
     <string name="filter_keyword_addition_title">Cuir facal-luirg ris</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="label_filter_title">Tiotal</string>
-    <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu.
-\n
+    <string name="help_empty_home">Seo <b>loidhne-ama do dhachaigh</b>. Seallaidh i na postaichean o chionn goirid aig na cunntasan a leanas tu. 
+\n 
 \nAirson cunntasan a rùrachadh, lorg iad air tè dhe na loidhnichean-ama eile; mar eisimpleir, loidhne-ama ionadail an ionstans agad {{group}}. Air neo lorg cunntasan a-rèir ainm {{search}}; mar eisimpleir, lorg “Tusky” ach am faigh thu grèim air a’ chunntas againne air Mastodon.</string>
     <string name="compose_delete_draft">A bheil thu airson an dreachd a sguabadh às?</string>
     <string name="load_newest_notifications">Luchdaich na brathan as ùire</string>
@@ -693,15 +693,15 @@
     <string name="reply_sending">’Ga chur…</string>
     <string name="reply_sending_long">Tha an fhreagairt agad ’ga cur.</string>
     <string name="pref_default_reply_privacy">Prìobhaideachd nam freagairtean (gun sioncronachadh leis an fhrithealaiche)</string>
-    <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. \u0020
-\n
-\nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd {{public}} puist air {{mail}} <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. \u0020
-\n
+    <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. \u0020 
+\n 
+\nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd {{public}} puist air {{mail}} <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. \u0020 
+\n 
 \nMar eisimpleir, ’s urrainn dhut tòiseachadh air sealladh pròifil cunntais agus gnogag a thoirt air putan a’ chruthachaidh [iconics gmd_edit] agus an fhaicsinneachd atharrachadh. \u0020</string>
-    <string name="help_empty_lists">Seo <b>sealladh nan liostaichean</b> agad. ’S urrainn dhut iomadh liosta phrìobhaideach a chruthachadh ’s cunntasan a chur riutha. \u0020
-\n
-\n \u0020THOIR AN AIRE nach urrainn dhut ach cunntasan a leanas tu a chur ris na liostaichean agad. \u0020
-\n
+    <string name="help_empty_lists">Seo <b>sealladh nan liostaichean</b> agad. ’S urrainn dhut iomadh liosta phrìobhaideach a chruthachadh ’s cunntasan a chur riutha. \u0020 
+\n 
+\n \u0020THOIR AN AIRE nach urrainn dhut ach cunntasan a leanas tu a chur ris na liostaichean agad. \u0020 
+\n 
 \n \u0020’S urrainn dhut na liostaichean seo a chleachdadh ’nan tabaichean ann an “Roghainnean a’ chunntais” [iconics gmd_account_circle] [iconics gmd_navigate_next] “Tabaichean”. \u0020</string>
     <string name="list_reply_policy_list">Buill na liosta</string>
     <string name="list_reply_policy_followed">Cleachdaiche sam bith a leanas mi</string>
@@ -728,4 +728,94 @@
     <string name="error_deleting_filter">Mearachd le sguabadh às na criathraige “%1$s”</string>
     <string name="error_saving_filter">Mearachd le sàbhaladh na criathraige “%1$s”</string>
     <string name="title_public_trending_statuses">Postaichean a’ treandadh</string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="mute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="poll"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="unblock_failure"></string>
+    <string name="notification_policies_filter_out"></string>
+    <string name="filtered_notifications_title"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="preview_card_by_author"></string>
+    <string name="preview_card_more_by_author"></string>
+    <string name="notification_policies_title"></string>
+    <string name="notification_policies_filter_dont_follow_title"></string>
+    <string name="notification_policies_filter_dont_follow_description"></string>
+    <string name="notification_policies_filter_not_following_title"></string>
+    <string name="notification_policies_filter_not_following_description"></string>
+    <string name="unknown_notification_filter_new_accounts_description"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
+    <string name="unknown_notification_filter_moderated_accounts_description"></string>
+    <string name="notification_policies_not_supported"></string>
+    <string name="filtered_notifications"></string>
+    <string name="notifications_from_people_you_may_know"></string>
+    <string name="notification_policy_accept"></string>
+    <string name="notification_policy_filter"></string>
+    <string name="notification_policy_ignore"></string>
+    <string name="accept_notification_request"></string>
+    <string name="relationship_severance_event_title"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="moderation_warning"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <string name="notification_info_reply"></string>
+    <string name="notification_info_private_mention"></string>
+    <string name="notification_info_mention"></string>
+    <string name="notification_info_private_reply"></string>
+    <string name="unmute_failure"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <string name="poll_show_results"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="action_reblog_private"></string>
+    <string name="action_reblog_public"></string>
+    <string name="action_reblog_unlisted"></string>
+    <string name="notification_moderation_warning_name"></string>
+    <string name="notification_unknown_description"></string>
+    <string name="notification_channel_other"></string>
+    <string name="notification_channel_other_description"></string>
+    <string name="notification_channel_admin"></string>
+    <string name="notification_channel_admin_description"></string>
+    <plurals name="accounts">
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="notification_severed_relationship_name"></string>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <plurals name="media_attachments">
+        <item quantity="one"></item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="confirm_dismiss_caption"></string>
+    <string name="unknown_notification_filter_new_accounts_title"></string>
+    <string name="unknown_notification_filter_moderated_accounts"></string>
+    <string name="follow_hashtag_success"></string>
+    <string name="post_replied"></string>
+    <string name="post_replied_format"></string>
+    <string name="post_replied_self"></string>
+    <string name="dismiss_notification_request"></string>
+    <string name="open_settings"></string>
+    <string name="notifications_from"></string>
+    <string name="action_accept_notification_request"></string>
+    <string name="action_dismiss_notification_request"></string>
 </resources>
