@@ -618,7 +618,7 @@
     <string name="label_filter_title">Título</string>
     <string name="filter_action_warn">Aviso</string>
     <string name="filter_action_hide">Agochar</string>
-    <string name="filter_description_warn">Agochar cun aviso</string>
+    <string name="filter_description_warn">Ocultar toda a publicación cun aviso</string>
     <string name="filter_description_hide">Agochar completamente</string>
     <string name="label_filter_action">Acción do filtro</string>
     <string name="label_filter_context">Ámbitos para o filtro</string>
@@ -783,4 +783,11 @@
     <string name="unblock_success">Desbloqueouse a %1$s</string>
     <string name="unmute_failure">Fallou a reactivación de %1$s: %2$s</string>
     <string name="reject_follow_request_failure">Fallou o rexeitamento da solicitude de seguimento de %1$s: %2$s</string>
+    <string name="filter_action_blur">Esvaecer</string>
+    <string name="filter_description_blur">Ocultar multimedia cun aviso</string>
+    <string name="reblog_privacy_followers_only_description">Só as túas seguidras verán a promoción</string>
+    <string name="reblog_confirm">Promover a publicación?</string>
+    <string name="favourite_confirm">Favorecer a publicación?</string>
+    <string name="reblog_privacy_unlisted_description">Igual que público pero non se mostra en cronoloxías públicas</string>
+    <string name="reblog_privacy_public_description">Todo o mundo pode ver a promoción</string>
 </resources>
