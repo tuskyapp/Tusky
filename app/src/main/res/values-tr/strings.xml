@@ -124,19 +124,19 @@
     <string name="label_header">Başlık</string>
     <string name="link_whats_an_instance">Sunucu nedir\?</string>
     <string name="login_connection">Bağlantı kuruluyor…</string>
-    <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir adresi veya etki alanını buraya girilebilirsiniz. örneğin: https://mastodon.social, https://mastodon.online, https://qoto.org vb. <a href="https://instances.social">daha fazlası!</a> \u0020
-\n \u0020
-\nHenüz hesabınız yoksa, katılmak istediğiniz sunucunun adını girebilir ve orada bir hesap oluşturabilirsiniz. \u0020
-\n \u0020
-\nSunucu, hesabınızın barındırıldığı tek yerdir, ancak aynı sitedeymişsiniz gibi diğer sunuculardaki kişilerle kolayca iletişim kurabilir ve onları takip edebilirsiniz. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">Mastodon gibi herhangi bir adresi veya etki alanını buraya girilebilirsiniz. örneğin: https://mastodon.social, https://mastodon.online, https://qoto.org vb. <a href="https://instances.social">daha fazlası!</a> \u0020 
+\n \u0020 
+\nHenüz hesabınız yoksa, katılmak istediğiniz sunucunun adını girebilir ve orada bir hesap oluşturabilirsiniz. \u0020 
+\n \u0020 
+\nSunucu, hesabınızın barındırıldığı tek yerdir, ancak aynı sitedeymişsiniz gibi diğer sunuculardaki kişilerle kolayca iletişim kurabilir ve onları takip edebilirsiniz. \u0020 
+\n \u0020 
 \n Daha fazla bilgiyi <a href="https://joinmastodon.org">joinmastodon.org</a> adresinde bulabilirsiniz. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Medya yüklemesi tamamlanıyor</string>
     <string name="dialog_message_uploading_media">Yükleniyor…</string>
     <string name="dialog_download_image">İndir</string>
     <string name="dialog_message_cancel_follow_request">Takip isteğini iptal et\?</string>
     <string name="dialog_unfollow_warning">Takibi bırakmak istiyor musunuz\?</string>
-    <string name="dialog_delete_post_warning">Bu durumu silmek istiyor musunuz\?</string>
+    <string name="dialog_delete_post_warning">Bu durumu silmek istiyor musunuz?</string>
     <string name="visibility_public">Herkese Açık: Herkese açık ağ akışında göster</string>
     <string name="visibility_unlisted">Listelenmemiş: Herkese açık ağ akışında gösterme</string>
     <string name="visibility_private">Özel: Sadece takipçiler ve bahsedilenlere açık</string>
@@ -398,7 +398,7 @@
     <string name="action_access_scheduled_posts">Zamanlanmış yayınlar</string>
     <string name="action_schedule_post">Gönderi tarihini ayarla</string>
     <string name="action_reset_schedule">Sıfırla</string>
-    <string name="dialog_redraft_post_warning">Bu durumu silip yeniden düzenlemek istiyor musunuz\?</string>
+    <string name="dialog_redraft_post_warning">Bu durumu silip yeniden düzenlemek istiyor musunuz?</string>
     <string name="pref_title_bot_overlay">Botlar için işaret göster</string>
     <string name="about_powered_by_tusky">Tusky tarafından desteklenmektedir</string>
     <string name="description_post_bookmarked">Yerimine eklendi</string>
@@ -564,8 +564,8 @@
     <string name="pref_title_http_proxy_port_message">Bağlantı noktası %1$d ile %2$d arasında olmalıdır</string>
     <string name="post_media_alt">Alternatif metin</string>
     <string name="a11y_label_loading_thread">Konu yükleniyor</string>
-    <string name="help_empty_home">Bu senin <b>ana ağ akışın</b>. Takip ettiğin hesapların son gönderileri burada yer alacak.
-\n
+    <string name="help_empty_home">Bu senin <b>ana ağ akışın</b>. Takip ettiğin hesapların son gönderileri burada yer alacak. 
+\n 
 \nTakip edebileceğin hesapları diğer ağ akışlarından keşfedebilirsin, örneğin kendi sunucunun yerel zaman tünelinden {{group}}. Veya hesapları adlarıyla arayabilirsin {{search}}, örneğin Mastodon hesabımızı bulmak için Tusky adıyla araman yeterli.</string>
     <string name="pref_title_reading_order">Okuma sırası</string>
     <string name="pref_reading_order_oldest_first">Önce en eski</string>
@@ -663,15 +663,15 @@
     <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'\?</string>
     <string name="dialog_delete_filter_positive_action">Sil</string>
     <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz\?</string>
-    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır.
-\n
-\nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur.
-\n
+    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır. 
+\n 
+\nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur. 
+\n 
 \nÖrneğin, bir hesabın profil görünümünde başlayabilir ve oluştur düğmesine [iconics gmd_edit] dokunabilir ve görünürlüğü değiştirebilirsiniz. </string>
-    <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz.
-\n
-\n Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın.
-\n
+    <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz. 
+\n 
+\n Yalnızca takip ettiğiniz hesapları listelerinize ekleyebileceğinizi unutmayın. 
+\n 
 \n \u0020Bu listeler Hesap tercihleri [iconics gmd_account_circle] [iconics gmd_navigate_next] Sekmelerinde sekme olarak kullanılabilir. </string>
     <string name="muting_hashtag_success_format">Uyarı olarak #%1$s etiketini susturma</string>
     <string name="unmuting_hashtag_success_format">Etiket sesi kapatılıyor #%1$s</string>
@@ -778,4 +778,23 @@
     <string name="post_replied">Yanıtladı</string>
     <string name="post_replied_format">Yanıt olarak %1$s</string>
     <string name="post_replied_self">Devam eden konu</string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="mute_failure"></string>
+    <string name="unblock_failure"></string>
+    <string name="unmute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <string name="poll_show_results"></string>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <string name="confirm_dismiss_caption"></string>
 </resources>
