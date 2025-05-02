@@ -368,9 +368,7 @@
     <string name="compose_shortcut_short_label">新嘟文</string>
     <string name="pref_title_bot_overlay">顯示機器人標誌</string>
     <string name="notification_clear_text">你確定要永久清空通知列表嗎？</string>
-    <string name="poll_info_format">
-        <!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%1$s 次投票</item>
     </plurals>
