@@ -130,12 +130,12 @@
     <string name="label_header">Fejléc</string>
     <string name="link_whats_an_instance">Mi az a példány\?</string>
     <string name="login_connection">Csatlakozás…</string>
-    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a> \u0020
-\n \u0020
-\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. \u0020
-\n \u0020
-\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">Bármely példány címét vagy domain nevét beírhatod ide, mint a mastodon.social, az icosahedron.website, a social.tchncs.de és <a href="https://instances.social">mások!</a> \u0020 
+\n \u0020 
+\nHa még nincs fiókod, beírhatod annak a példánynak a címét, amelyhez csatlakoznál, majd azon létrehozhatsz egy fiókot. \u0020 
+\n \u0020 
+\nA példány az a hely, ahol a fiókadataidat tárolják, de ettől még ugyanúgy kommunikálhatsz más példányokon lévő emberekkel, mintha ugyanazon az oldalon lennétek. \u0020 
+\n \u0020 
 \nTöbb információt találhatsz itt: <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Média feltöltés befejezése</string>
     <string name="dialog_message_uploading_media">Feltöltés…</string>
@@ -632,8 +632,8 @@
     <string name="filter_keyword_addition_title">Kulcsszó hozzáadása</string>
     <string name="filter_edit_keyword_title">Kulcsszó szerkesztése</string>
     <string name="filter_description_format">%1$s: %2$s</string>
-    <string name="help_empty_home">Ez a <b>kezdőlapod idővonala</b>. Megjeleníti a követett fiókok legfrissebb bejegyzéseit. \u0020
-\n \u0020
+    <string name="help_empty_home">Ez a <b>kezdőlapod idővonala</b>. Megjeleníti a követett fiókok legfrissebb bejegyzéseit. \u0020 
+\n \u0020 
 \nMás fiókokat más idővonalakon fedezhetsz fel. Például a példányod helyi idővonalán {{group}}. Vagy megkeresheted őket név szerint {{search}}; például keress rá a Tuskyra, hogy megtaláld a Mastodon-fiókunkat.</string>
     <string name="post_media_image">Kép</string>
     <string name="select_list_manage">Listák kezelése</string>
@@ -675,16 +675,16 @@
     <string name="unmuting_hashtag_success_format">#%1$s hashtag némításának feloldása</string>
     <string name="muting_hashtag_success_format">#%1$s hashtag elnémítása figyelmeztetésként</string>
     <string name="unfollowing_hashtag_success_format">Már nem követed a(z) #%1$s hashtaget</string>
-    <string name="help_empty_conversations">It találhatóak a <b>privát üzeneteid</b>; melyeket néha beszélgetéseknek vagy közvetlen üzeneteknek hívunk (DM). \u0020
-\n \u0020
-\nPrivát üzeneteket az ilyen bejegyzések láthatóságának {{public}} publikusról {{mail}} <i>közvetlenre</i> állításával, és egy vagy több felhasználó megemlítésével hozhatsz létre. \u0020
-\n \u0020
+    <string name="help_empty_conversations">It találhatóak a <b>privát üzeneteid</b>; melyeket néha beszélgetéseknek vagy közvetlen üzeneteknek hívunk (DM). \u0020 
+\n \u0020 
+\nPrivát üzeneteket az ilyen bejegyzések láthatóságának {{public}} publikusról {{mail}} <i>közvetlenre</i> állításával, és egy vagy több felhasználó megemlítésével hozhatsz létre. \u0020 
+\n \u0020 
 \nPéldául indulhatsz egy profilról, a létrehozás gombra kattintva [iconics gmd_edit], majd a láthatóságot megváltoztatva. \u0020</string>
     <string name="title_public_trending_statuses">Felkapott bejegyzések</string>
-    <string name="help_empty_lists">Ez a <b>listanézeted</b>. Privát listákat hozhatsz létre és fiókokat adhatsz hozzájuk. \u0020 
-\n \u0020 
-\nMEGJEGYZÉS: Csak olyan fiókot rakhatsz a listádra, melyet követsz is. \u0020 
-\n \u0020 
+    <string name="help_empty_lists">Ez a <b>listanézeted</b>. Privát listákat hozhatsz létre és fiókokat adhatsz hozzájuk. \u0020 \u0020
+\n \u0020 \u0020
+\nMEGJEGYZÉS: Csak olyan fiókot rakhatsz a listádra, melyet követsz is. \u0020 \u0020
+\n \u0020 \u0020
 \n Ezeket a listákat lapokként használhatod a Fiókbeállítások [iconics gmd_account_circle] [iconics gmd_navigate_next] Lapok alatt. \u0020</string>
     <string name="error_blocking_domain">Nem sikerült némítani %1$s: %2$s</string>
     <string name="error_unblocking_domain">Nem sikerült a némítás feloldása %1$s: %2$s</string>
@@ -711,4 +711,90 @@
     <string name="error_deleting_filter">Hiba a(z) „%1$s” szűrő törlésekor</string>
     <string name="error_saving_filter">Hiba a(z) „%1$s” szűrő mentésekor</string>
     <string name="confirmation_hashtag_copied">„#%1$s” másolva</string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="poll"></string>
+    <string name="poll_show_results"></string>
+    <string name="notification_policies_filter_dont_follow_description"></string>
+    <string name="mute_failure"></string>
+    <string name="unblock_failure"></string>
+    <string name="unmute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="preview_card_by_author"></string>
+    <string name="preview_card_more_by_author"></string>
+    <string name="notification_policies_title"></string>
+    <string name="notification_policies_filter_out"></string>
+    <string name="notification_policies_filter_dont_follow_title"></string>
+    <string name="notification_policies_filter_not_following_title"></string>
+    <string name="notification_policies_filter_not_following_description"></string>
+    <string name="unknown_notification_filter_new_accounts_title"></string>
+    <string name="unknown_notification_filter_new_accounts_description"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
+    <string name="unknown_notification_filter_moderated_accounts_description"></string>
+    <string name="notification_policies_not_supported"></string>
+    <string name="filtered_notifications"></string>
+    <string name="notifications_from_people_you_may_know"></string>
+    <string name="notification_policy_filter"></string>
+    <string name="notification_policy_ignore"></string>
+    <string name="filtered_notifications_title"></string>
+    <string name="accept_notification_request"></string>
+    <string name="dismiss_notification_request"></string>
+    <string name="open_settings"></string>
+    <string name="notifications_from"></string>
+    <string name="action_accept_notification_request"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="moderation_warning"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <plurals name="accounts">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="notification_info_private_reply"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <string name="notification_info_reply"></string>
+    <string name="notification_info_private_mention"></string>
+    <string name="notification_info_mention"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
+    <string name="unknown_notification_filter_moderated_accounts"></string>
+    <string name="action_reblog_private"></string>
+    <string name="action_reblog_public"></string>
+    <string name="action_reblog_unlisted"></string>
+    <string name="notification_severed_relationship_name"></string>
+    <string name="notification_moderation_warning_name"></string>
+    <string name="notification_unknown_description"></string>
+    <string name="notification_channel_other"></string>
+    <string name="notification_channel_other_description"></string>
+    <string name="notification_channel_admin"></string>
+    <string name="notification_channel_admin_description"></string>
+    <string name="notification_policy_accept"></string>
+    <string name="action_dismiss_notification_request"></string>
+    <string name="relationship_severance_event_title"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <plurals name="media_attachments">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <string name="confirm_dismiss_caption"></string>
+    <string name="post_replied"></string>
+    <string name="post_replied_format"></string>
+    <string name="post_replied_self"></string>
+    <string name="follow_hashtag_success"></string>
 </resources>
