@@ -6,6 +6,28 @@
 
 ### Significant bug fixes
 
+## v29.0
+
+### New features and other improvements
+
+- New iconset https://github.com/tuskyapp/Tusky/pull/5012
+- The layout of polls has been improved and a "show results" button was added https://github.com/tuskyapp/Tusky/pull/4980 https://github.com/tuskyapp/Tusky/pull/5047 https://github.com/tuskyapp/Tusky/pull/5095
+- Support for the "blur" filter action (Mastodon 4.4 feature) https://github.com/tuskyapp/Tusky/pull/5038
+- The quality of the image viewer has been improved https://github.com/tuskyapp/Tusky/pull/5068 https://github.com/tuskyapp/Tusky/pull/5067
+- An additional dialog will now prevent accidentally dismissing the media caption dialog https://github.com/tuskyapp/Tusky/pull/4999
+- Tusky will now send a `delete_media` parameter when deleting a post to help servers clean up their media faster (Mastodon 4.4 feature) https://github.com/tuskyapp/Tusky/pull/5082
+- Boosts and favorites are now confirmed via a bottom sheet instead of a drop down https://github.com/tuskyapp/Tusky/pull/5084
+- All account list views now have better error handling https://github.com/tuskyapp/Tusky/pull/5028
+- Support for Android 16 https://github.com/tuskyapp/Tusky/pull/5071
+- Several internal code improvements https://github.com/tuskyapp/Tusky/pull/5036 https://github.com/tuskyapp/Tusky/pull/5094 https://github.com/tuskyapp/Tusky/pull/5055 https://github.com/tuskyapp/Tusky/pull/5024
+- Improved localizations
+
+### Significant bug fixes
+
+- caches are now correctly deleted when logging out https://github.com/tuskyapp/Tusky/pull/4997 https://github.com/tuskyapp/Tusky/pull/5004
+- several layout fixes on Android 15+ https://github.com/tuskyapp/Tusky/pull/5053 https://github.com/tuskyapp/Tusky/pull/5041 https://github.com/tuskyapp/Tusky/pull/5003
+- fixes a crash that occurs when Tusky is used on a device with two or more UnifiedPush providers https://github.com/tuskyapp/Tusky/pull/5015
+
 ## v28.0
 
 ### New features and other improvements

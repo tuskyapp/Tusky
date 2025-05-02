@@ -1,0 +1,10 @@
+Tusky 29.0
+
+- New iconset
+- The layout of polls has been improved and a "show results" button was added
+- Support for the "blur" filter action (Mastodon 4.4 feature)
+- The quality of the image viewer has been improved
+- An additional dialog will now prevent accidentally dismissing the media caption dialog
+- Boosts and favorites are now confirmed via a bottom sheet instead of a drop down
+
+See https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md for the full changelog
