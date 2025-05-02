@@ -328,19 +328,13 @@
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
     <string name="description_post_media">Media: %1$s</string>
     <string name="description_post_cw">Innehållsvarning: %1$s</string>
-    <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
-    </string>
-    <string name="description_post_reblogged">        Knuffad
-    </string>
+    <string name="description_post_media_no_description_placeholder">Ingen beskrivning</string>
+    <string name="description_post_reblogged">Knuffad</string>
     <string name="description_post_favourited">Favoritmarkerat</string>
-    <string name="description_visibility_public">        Publik
-    </string>
-    <string name="description_visibility_unlisted">        Olistad
-    </string>
-    <string name="description_visibility_private">        Följare
-    </string>
-    <string name="description_visibility_direct">        Direkt
-    </string>
+    <string name="description_visibility_public">Publik</string>
+    <string name="description_visibility_unlisted">Olistad</string>
+    <string name="description_visibility_private">Följare</string>
+    <string name="description_visibility_direct">Direkt</string>
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
@@ -353,7 +347,7 @@
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
     <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent?</string>
     <string name="action_delete_and_redraft">Radera och skriv på nytt</string>
-    <string name="dialog_redraft_post_warning">Radera och skriv ny toot\?</string>
+    <string name="dialog_redraft_post_warning">Radera och skriv ny toot?</string>
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s röst</item>
@@ -629,8 +623,8 @@
     <string name="filter_description_hide">Dölj helt</string>
     <string name="action_add">Lägg till</string>
     <string name="filter_keyword_display_format">%1$s (helt ord)</string>
-    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer.
-\n
+    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer. 
+\n 
 \nFör att utforska konton kan du antingen upptäcka dem i någon av de andra tidslinjerna. Till exempel den lokala tidslinjen för din instans {{group}}. Eller så kan du söka efter dem efter namn [ikonics gmd_search]; sök till exempel efter Tusky för att hitta vårt Mastodon-konto.</string>
     <string name="pref_ui_text_size">UI textstorlek</string>
     <string name="notification_listenable_worker_name">Bakgrundsaktivitet</string>
@@ -665,10 +659,10 @@
     <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
     <string name="dialog_delete_filter_positive_action">Radera</string>
     <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
-    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem.
-\n
-\n OBS att du bara kan lägga till konton på dina listor som du följer.
-\n
+    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem. 
+\n 
+\n OBS att du bara kan lägga till konton på dina listor som du följer. 
+\n 
 \n De här listorna kan användas som en flik i Kontospecifika inställningar [iconics gmd_account_circle] [iconics gmd_navigate_next] Flikar. </string>
     <string name="muting_hashtag_success_format">Tystar hasttaggen #%1$s som en varning</string>
     <string name="unmuting_hashtag_success_format">Slutar tysta hashtaggen #%1$s</string>
@@ -676,10 +670,10 @@
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
     <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
-    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM).
-\n
-\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten.
-\n
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
+\n 
+\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten. 
+\n 
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %1$s</string>
     <string name="title_public_trending_statuses">Populära inlägg</string>
@@ -725,4 +719,82 @@
     <string name="post_privacy_direct">Direkt</string>
     <string name="error_deleting_filter">Kunde inte radera filtret \'%1$s\'</string>
     <string name="error_saving_filter">Kunde inte spara filtret \'%1$s\'</string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
+    <string name="unknown_notification_filter_moderated_accounts"></string>
+    <string name="unknown_notification_filter_moderated_accounts_description"></string>
+    <string name="notification_policies_not_supported"></string>
+    <string name="filtered_notifications"></string>
+    <string name="notifications_from_people_you_may_know"></string>
+    <string name="notification_policy_accept"></string>
+    <string name="notification_policy_filter"></string>
+    <string name="notification_policy_ignore"></string>
+    <string name="filtered_notifications_title"></string>
+    <string name="accept_notification_request"></string>
+    <string name="dismiss_notification_request"></string>
+    <string name="open_settings"></string>
+    <string name="notifications_from"></string>
+    <string name="action_accept_notification_request"></string>
+    <string name="action_dismiss_notification_request"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="mute_failure"></string>
+    <string name="unblock_failure"></string>
+    <string name="unmute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="poll"></string>
+    <string name="poll_show_results"></string>
+    <string name="action_reblog_private"></string>
+    <string name="action_reblog_public"></string>
+    <string name="action_reblog_unlisted"></string>
+    <string name="notification_severed_relationship_name"></string>
+    <string name="notification_moderation_warning_name"></string>
+    <string name="notification_unknown_description"></string>
+    <string name="notification_channel_other"></string>
+    <string name="notification_channel_other_description"></string>
+    <string name="notification_channel_admin"></string>
+    <string name="notification_channel_admin_description"></string>
+    <string name="preview_card_more_by_author"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="preview_card_by_author"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
+    <string name="relationship_severance_event_title"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="moderation_warning"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <plurals name="accounts">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <string name="notification_info_reply"></string>
+    <string name="notification_info_private_mention"></string>
+    <string name="notification_info_mention"></string>
+    <string name="notification_info_private_reply"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <plurals name="media_attachments">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <string name="confirm_dismiss_caption"></string>
+    <string name="follow_hashtag_success"></string>
+    <string name="post_replied"></string>
+    <string name="post_replied_format"></string>
+    <string name="post_replied_self"></string>
 </resources>
