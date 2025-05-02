@@ -61,9 +61,9 @@ class ViewThreadViewModel @Inject constructor(
     private val api: MastodonApi,
     private val filterModel: FilterModel,
     private val timelineCases: TimelineCases,
-    eventHub: EventHub,
-    private val accountManager: AccountManager,
     private val db: AppDatabase,
+    eventHub: EventHub,
+    accountManager: AccountManager,
 ) : ViewModel() {
 
     private val activeAccount = accountManager.activeAccount!!

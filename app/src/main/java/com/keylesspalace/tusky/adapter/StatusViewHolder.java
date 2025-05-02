@@ -146,7 +146,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.GONE);
     }
 
-    protected TextView getStatusInfo() {
+    protected @NonNull TextView getStatusInfo() {
         return statusInfo;
     }
 

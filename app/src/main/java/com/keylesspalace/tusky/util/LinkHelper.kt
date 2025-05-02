@@ -413,7 +413,7 @@ private fun openLinkInBrowser(uri: Uri?, context: Context) {
     try {
         context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        Log.w(TAG, "Activity was not found for intent, $intent")
+        Log.w(TAG, "Activity was not found for intent, $intent", e)
     }
 }
 
@@ -430,6 +430,8 @@ fun openLinkInCustomTab(uri: Uri, context: Context) {
         materialR.attr.colorSurface,
         Color.BLACK
     )
+
+    @Suppress("DEPRECATION")
     val navigationbarColor = MaterialColors.getColor(
         context,
         android.R.attr.navigationBarColor,
@@ -454,7 +456,7 @@ fun openLinkInCustomTab(uri: Uri, context: Context) {
     try {
         customTabsIntent.launchUrl(context, uri)
     } catch (e: ActivityNotFoundException) {
-        Log.w(TAG, "Activity was not found for intent $customTabsIntent")
+        Log.w(TAG, "Activity was not found for intent $customTabsIntent", e)
         openLinkInBrowser(uri, context)
     }
 }
@@ -480,7 +482,7 @@ fun looksLikeMastodonUrl(urlString: String): Boolean {
     val uri: URI
     try {
         uri = URI(urlString)
-    } catch (e: URISyntaxException) {
+    } catch (_: URISyntaxException) {
         return false
     }
 

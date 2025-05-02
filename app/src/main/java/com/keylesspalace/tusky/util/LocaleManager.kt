@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 import androidx.core.os.LocaleListCompat
 import androidx.preference.PreferenceDataStore
 import com.keylesspalace.tusky.R
@@ -44,9 +45,9 @@ class LocaleManager @Inject constructor(
                 // hand over the old setting to the system and save a dummy value in Shared Preferences
                 applyLanguageToApp(language)
 
-                preferences.edit()
-                    .putString(PrefKeys.LANGUAGE, HANDLED_BY_SYSTEM)
-                    .apply()
+                preferences.edit {
+                    putString(PrefKeys.LANGUAGE, HANDLED_BY_SYSTEM)
+                }
             }
         } else {
             // on Android < 13 we have to apply the language at every app start
@@ -58,9 +59,9 @@ class LocaleManager @Inject constructor(
         // if we are on Android < 13 we have to save the selected language so we can apply it at appstart
         // on Android 13+ the system handles it for us
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            preferences.edit()
-                .putString(PrefKeys.LANGUAGE, value)
-                .apply()
+            preferences.edit {
+                putString(PrefKeys.LANGUAGE, value)
+            }
         }
         applyLanguageToApp(value)
     }

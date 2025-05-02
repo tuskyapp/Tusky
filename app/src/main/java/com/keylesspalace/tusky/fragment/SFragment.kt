@@ -18,7 +18,6 @@ import android.Manifest
 import android.app.DownloadManager
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -31,6 +30,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
@@ -543,7 +543,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
         for (url in mediaUrls) {
-            val uri = Uri.parse(url)
+            val uri = url.toUri()
             downloadManager.enqueue(
                 DownloadManager.Request(uri).apply {
                     setDestinationInExternalPublicDir(
@@ -569,7 +569,6 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
     }
 
     companion object {
-        private const val TAG = "SFragment"
         private const val PENDING_MEDIA_DOWNLOADS_STATE_KEY = "pending_media_downloads"
 
         private fun accountIsInMentions(
@@ -577,7 +576,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             mentions: List<Status.Mention>
         ): Boolean {
             return mentions.any { mention ->
-                account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
+                account?.username == mention.username && account.domain == mention.url.toUri().host
             }
         }
     }

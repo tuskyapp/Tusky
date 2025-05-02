@@ -25,7 +25,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Animatable
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -49,6 +48,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
@@ -1021,7 +1021,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                         transition: Transition<in Bitmap>?
                     ) {
                         activeToolbar.navigationIcon = FixedSizeDrawable(
-                            BitmapDrawable(resources, resource),
+                            resource.toDrawable(resources),
                             navIconSize,
                             navIconSize
                         )

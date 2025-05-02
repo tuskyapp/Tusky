@@ -22,7 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.use
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.settings.AppTheme
 
@@ -30,12 +29,6 @@ import com.keylesspalace.tusky.settings.AppTheme
  * Provides runtime compatibility to obtain theme information and re-theme views, especially where
  * the ability to do so is not supported in resource files.
  */
-
-fun getDimension(context: Context, @AttrRes attribute: Int): Int {
-    return context.obtainStyledAttributes(intArrayOf(attribute)).use { array ->
-        array.getDimensionPixelSize(0, -1)
-    }
-}
 
 fun setDrawableTint(context: Context, drawable: Drawable, @AttrRes attribute: Int) {
     drawable.setTint(MaterialColors.getColor(context, attribute, Color.BLACK))

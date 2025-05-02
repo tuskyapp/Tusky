@@ -2,7 +2,6 @@ package com.keylesspalace.tusky.components.viewthread.edits
 
 import android.content.Context
 import android.graphics.Typeface.DEFAULT_BOLD
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.SpannableStringBuilder
@@ -12,6 +11,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -188,7 +188,7 @@ class ViewEditsAdapter(
                 val placeholder: Drawable = if (blurhash != null && useBlurhash) {
                     BlurhashDrawable(context, blurhash)
                 } else {
-                    ColorDrawable(MaterialColors.getColor(imageView, R.attr.colorBackgroundAccent))
+                    MaterialColors.getColor(imageView, R.attr.colorBackgroundAccent).toDrawable()
                 }
 
                 if (attachment.previewUrl.isNullOrEmpty()) {

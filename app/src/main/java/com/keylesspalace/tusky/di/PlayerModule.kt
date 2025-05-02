@@ -79,16 +79,14 @@ object PlayerModule {
                                   textRendererOutput,
                                   metadataRendererOutput ->
             arrayOf(
-                MediaCodecVideoRenderer(
-                    context,
-                    MediaCodecSelector.DEFAULT,
-                    DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS,
-                    // enableDecoderFallback = true, helps playing videos even if one decoder fails
-                    true,
-                    eventHandler,
-                    videoRendererEventListener,
-                    DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY
-                ),
+                MediaCodecVideoRenderer.Builder(context)
+                    .setMediaCodecSelector(MediaCodecSelector.DEFAULT)
+                    .setAllowedJoiningTimeMs(DefaultRenderersFactory.DEFAULT_ALLOWED_VIDEO_JOINING_TIME_MS)
+                    .setEnableDecoderFallback(true)
+                    .setEventHandler(eventHandler)
+                    .setEventListener(videoRendererEventListener)
+                    .setMaxDroppedFramesToNotify(DefaultRenderersFactory.MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY)
+                    .build(),
                 MediaCodecAudioRenderer(
                     context,
                     MediaCodecSelector.DEFAULT,
