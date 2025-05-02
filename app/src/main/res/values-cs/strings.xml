@@ -671,7 +671,7 @@
         <item quantity="one">Nahrávání tvého postu selhalo a post byl uložen mezi koncepty.
 \n
 \nServer buď nemohl být kontaktován, nebo post odmítl.</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="other">Nahrávání tvých postuů selhalo a posty byly uloženy mezi koncepty.
 \n
 \nServer buď nemohl být kontaktován, nebo posty odmítl.</item>
@@ -753,65 +753,4 @@
     <string name="preview_card_by_author">Od %1$s</string>
     <string name="preview_card_more_by_author">Více od %1$s</string>
     <string name="post_replied_self">Pokračování vlákna</string>
-    <string name="reject_follow_request_failure"></string>
-    <string name="action_reblog_private"></string>
-    <string name="action_reblog_public"></string>
-    <string name="notification_moderation_warning_name"></string>
-    <string name="unknown_notification_type_explanation"></string>
-    <string name="notification_info_mention"></string>
-    <string name="notification_info_private_reply"></string>
-    <string name="reblog_privacy_public_description"></string>
-    <string name="reblog_privacy_unlisted_description"></string>
-    <string name="reblog_privacy_followers_only_description"></string>
-    <string name="reblog_confirm"></string>
-    <string name="action_reblog_unlisted"></string>
-    <string name="filter_action_blur"></string>
-    <string name="filter_description_blur"></string>
-    <string name="unblock_success"></string>
-    <string name="unmute_success"></string>
-    <string name="block_failure"></string>
-    <string name="mute_failure"></string>
-    <string name="unblock_failure"></string>
-    <string name="unmute_failure"></string>
-    <string name="accept_follow_request_failure"></string>
-    <string name="notification_unknown_description"></string>
-    <string name="notification_channel_other"></string>
-    <string name="notification_channel_other_description"></string>
-    <string name="notification_channel_admin"></string>
-    <string name="notification_channel_admin_description"></string>
-    <string name="poll_show_results"></string>
-    <string name="relationship_severance_event_title"></string>
-    <string name="relationship_severance_event_account_suspension"></string>
-    <string name="relationship_severance_event_domain_block"></string>
-    <string name="moderation_warning_action_disable"></string>
-    <string name="relationship_severance_event_user_domain_block"></string>
-    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
-    <string name="moderation_warning_action_none"></string>
-    <string name="moderation_warning_action_sensitive"></string>
-    <string name="moderation_warning_action_silence"></string>
-    <string name="moderation_warning_action_suspend"></string>
-    <string name="notification_info_reply"></string>
-    <string name="notification_info_private_mention"></string>
-    <string name="no"></string>
-    <string name="favourite_confirm"></string>
-    <plurals name="media_attachments">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <string name="follow_hashtag_success"></string>
-    <string name="post_replied"></string>
-    <string name="post_replied_format"></string>
-    <string name="pref_title_per_timeline_preferences"></string>
-    <string name="notification_severed_relationship_name"></string>
-    <string name="moderation_warning"></string>
-    <string name="moderation_warning_action_delete_statuses"></string>
-    <string name="poll"></string>
-    <string name="yes"></string>
-    <string name="confirm_dismiss_caption"></string>
-    <plurals name="accounts">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other"></item>
-    </plurals>
 </resources>

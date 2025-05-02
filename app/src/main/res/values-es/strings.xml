@@ -595,7 +595,7 @@
         <item quantity="one">No se ha podido subir tu publicación y se ha guardado en Borradores.
 \n
 \nO no se ha podido contactar con el servidor, o ha rechazado tu publicación.</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">Tus publicaciones no se han podido subir y se han guardado en Borradores.
 \n
 \nO no se ha podido contactar con el servidor, o ha rechazado tus publicaciones.</item>
@@ -773,38 +773,4 @@
     <string name="pref_match_default_post_privacy">Usar la visibilidad predefinida</string>
     <string name="following_hashtag_success_format">Ahora sigues la etiqueta #%1$s</string>
     <string name="app_theme_system_black">Usar tema del sistema (negro)</string>
-    <string name="unmute_failure"></string>
-    <string name="accept_follow_request_failure"></string>
-    <string name="reject_follow_request_failure"></string>
-    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
-    <string name="relationship_severance_event_title"></string>
-    <string name="unblock_success"></string>
-    <string name="unmute_success"></string>
-    <string name="block_failure"></string>
-    <string name="mute_failure"></string>
-    <string name="unblock_failure"></string>
-    <string name="filter_action_blur"></string>
-    <string name="filter_description_blur"></string>
-    <string name="preview_card_by_author"></string>
-    <string name="poll_show_results"></string>
-    <string name="reblog_privacy_public_description"></string>
-    <string name="reblog_privacy_unlisted_description"></string>
-    <string name="reblog_privacy_followers_only_description"></string>
-    <string name="reblog_confirm"></string>
-    <string name="favourite_confirm"></string>
-    <string name="action_reblog_unlisted"></string>
-    <string name="notification_severed_relationship_name"></string>
-    <string name="notification_channel_other"></string>
-    <string name="notification_channel_other_description"></string>
-    <string name="notification_channel_admin"></string>
-    <string name="notification_channel_admin_description"></string>
-    <string name="unknown_notification_filter_moderated_accounts"></string>
-    <string name="accept_notification_request"></string>
-    <string name="dismiss_notification_request"></string>
-    <string name="post_replied"></string>
-    <string name="help_empty_lists"></string>
-    <string name="yes"></string>
-    <string name="no"></string>
-    <string name="confirm_dismiss_caption"></string>
-    <string name="post_replied_self"></string>
 </resources>

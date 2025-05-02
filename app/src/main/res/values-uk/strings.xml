@@ -815,11 +815,4 @@
     <string name="yes">Так</string>
     <string name="no">Ні</string>
     <string name="confirm_dismiss_caption">Відкинути зміну підписання?</string>
-    <string name="filter_action_blur"></string>
-    <string name="filter_description_blur"></string>
-    <string name="reblog_privacy_public_description"></string>
-    <string name="reblog_privacy_unlisted_description"></string>
-    <string name="reblog_privacy_followers_only_description"></string>
-    <string name="reblog_confirm"></string>
-    <string name="favourite_confirm"></string>
 </resources>

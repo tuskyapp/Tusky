@@ -272,7 +272,7 @@
     <string name="compose_active_account_description">Publier en tant que %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
         <item quantity="one">Décrire pour les malvoyants (%1$d caractère maximum)</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">Décrire pour les malvoyants (%1$d caractères maximum)</item>
     </plurals>
     <string name="action_set_caption">Mettre une légende</string>
@@ -602,7 +602,7 @@
         <item quantity="one">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
@@ -723,82 +723,4 @@
     <string name="unknown_notification_filter_new_accounts_description">Créé durant les 30 derniers jours</string>
     <string name="notification_policy_filter">Filtrer</string>
     <string name="notification_policy_ignore">Ignorer</string>
-    <string name="error_media_playback"></string>
-    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
-    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
-    <string name="unknown_notification_filter_moderated_accounts"></string>
-    <string name="unknown_notification_filter_moderated_accounts_description"></string>
-    <string name="preview_card_more_by_author"></string>
-    <string name="help_empty_lists"></string>
-    <string name="unblock_success"></string>
-    <string name="unmute_success"></string>
-    <string name="block_failure"></string>
-    <string name="mute_failure"></string>
-    <string name="unblock_failure"></string>
-    <string name="filter_action_blur"></string>
-    <string name="filter_description_blur"></string>
-    <string name="list_reply_policy_followed"></string>
-    <string name="preview_card_by_author"></string>
-    <string name="filtered_notifications_title"></string>
-    <string name="dismiss_notification_request"></string>
-    <string name="open_settings"></string>
-    <string name="notifications_from"></string>
-    <string name="action_accept_notification_request"></string>
-    <string name="action_dismiss_notification_request"></string>
-    <string name="relationship_severance_event_title"></string>
-    <string name="relationship_severance_event_account_suspension"></string>
-    <string name="relationship_severance_event_domain_block"></string>
-    <string name="relationship_severance_event_user_domain_block"></string>
-    <string name="moderation_warning_action_delete_statuses"></string>
-    <string name="moderation_warning_action_disable"></string>
-    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
-    <string name="moderation_warning_action_none"></string>
-    <string name="moderation_warning_action_suspend"></string>
-    <string name="unknown_notification_type_explanation"></string>
-    <string name="poll"></string>
-    <string name="unmute_failure"></string>
-    <string name="notification_unknown_description"></string>
-    <string name="notification_channel_other"></string>
-    <string name="notification_channel_other_description"></string>
-    <string name="notification_channel_admin"></string>
-    <string name="notification_channel_admin_description"></string>
-    <string name="accept_follow_request_failure"></string>
-    <string name="reject_follow_request_failure"></string>
-    <string name="notification_info_reply"></string>
-    <string name="notification_info_private_mention"></string>
-    <string name="notification_info_mention"></string>
-    <string name="poll_show_results"></string>
-    <string name="yes"></string>
-    <string name="help_empty_conversations"></string>
-    <string name="notification_policies_not_supported"></string>
-    <string name="filtered_notifications"></string>
-    <string name="moderation_warning"></string>
-    <string name="moderation_warning_action_sensitive"></string>
-    <string name="moderation_warning_action_silence"></string>
-    <string name="accept_notification_request"></string>
-    <string name="reblog_privacy_public_description"></string>
-    <string name="reblog_privacy_unlisted_description"></string>
-    <string name="reblog_privacy_followers_only_description"></string>
-    <string name="reblog_confirm"></string>
-    <string name="favourite_confirm"></string>
-    <string name="action_reblog_private"></string>
-    <string name="action_reblog_public"></string>
-    <string name="action_reblog_unlisted"></string>
-    <string name="notification_severed_relationship_name"></string>
-    <string name="notification_moderation_warning_name"></string>
-    <string name="error_missing_edits"></string>
-    <string name="follow_hashtag_success"></string>
-    <string name="notification_info_private_reply"></string>
-    <plurals name="accounts">
-        <item quantity="one"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <plurals name="media_attachments">
-        <item quantity="one"></item>
-        <item quantity="many"></item>
-        <item quantity="other"></item>
-    </plurals>
-    <string name="no"></string>
-    <string name="confirm_dismiss_caption"></string>
 </resources>
