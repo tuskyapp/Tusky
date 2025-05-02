@@ -248,7 +248,7 @@
         <item quantity="many">%1$s голосів</item>
         <item quantity="other">%1$s голосів</item>
     </plurals>
-    <string name="poll_info_format"> \u0020<!-- 15 голосів • 1 година залишилась --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="description_post_media_no_description_placeholder">Без опису</string>
     <string name="description_post_cw">Попередження про матеріали: %1$s</string>
     <string name="description_post_media">Медіа: %1$s</string>
@@ -641,7 +641,7 @@
     <string name="label_filter_title">Заголовок</string>
     <string name="filter_action_warn">Попередження</string>
     <string name="filter_action_hide">Сховати</string>
-    <string name="filter_description_warn">Сховати з попередженням</string>
+    <string name="filter_description_warn">Сховати весь допис із попередженням</string>
     <string name="filter_description_hide">Сховати повністю</string>
     <string name="label_filter_action">Фільтрувати дію</string>
     <string name="label_filter_context">Фільтрувати контексти</string>
