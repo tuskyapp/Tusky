@@ -136,12 +136,12 @@
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een server?</string>
     <string name="login_connection">Aan het verbinden…</string>
-    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> \u0020
-\n \u0020
-\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. \u0020
-\n \u0020
-\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> \u0020 
+\n \u0020 
+\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. \u0020 
+\n \u0020 
+\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. \u0020 
+\n \u0020 
 \n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
@@ -644,20 +644,20 @@
     <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
     <string name="notification_policies_title">Meldingsbeleid</string>
     <string name="label_translated">Uit het %1$s met %2$s vertaald</string>
-    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 
-\n \u0020 
-\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020 
-\n \u0020 
+    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 \u0020
+\n \u0020 \u0020
+\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020 \u0020
+\n \u0020 \u0020
 \nJe kunt je lijsten als tabbladen toevoegen in je account-instellingen [iconics gmd_account_circle] [iconics gmd_navigate_next] tabs. \u0020</string>
     <string name="notification_policies_filter_not_following_description">Inclusief accounts die jou korter dan 3 dagen volgen</string>
-    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020
-\n
+    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020 
+\n 
 \nOm andere accounts te ontdekken, kan je andere tijdlijnen bekijken, bijvoorbeeld je lokale tijdlijn van jouw server {{group}}. Of je kan zoeken op naam {{search}}, bijvoorbeeld typ \"tusky\" in het zoekveld om onze Mastodonaccount te vinden.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Gefilterd, tenzij het een reactie is op je eigen vermelding, of als je het account volgt</string>
-    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM).
-\n
-\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020
-\n
+    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). 
+\n 
+\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020 
+\n 
 \nBijvoorbeeld: je kan op het profiel van een account op de toot-knop [iconics gmd_edit] klikken en dan de zichtbaarheid veranderen. \u0020</string>
     <string name="post_privacy_direct">Direct</string>
     <string name="pref_default_reply_privacy_explanation">De gekozen zichtbaarheid hangt af van het bericht waarop je reageert.</string>
@@ -736,4 +736,65 @@
     <string name="error_media_playback">Afspelen mislukt: %1$s</string>
     <string name="label_filter_context">Inhoud filteren</string>
     <string name="pref_title_show_self_boosts">Boosts van jezelf tonen</string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="relationship_severance_event_title"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="moderation_warning"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <plurals name="accounts">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <string name="notification_info_reply"></string>
+    <string name="notification_info_private_mention"></string>
+    <string name="notification_info_mention"></string>
+    <string name="notification_info_private_reply"></string>
+    <string name="mute_failure"></string>
+    <string name="unblock_failure"></string>
+    <string name="unmute_failure"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <plurals name="media_attachments">
+        <item quantity="one"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="poll_show_results"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <string name="action_reblog_private"></string>
+    <string name="action_reblog_public"></string>
+    <string name="action_reblog_unlisted"></string>
+    <string name="notification_severed_relationship_name"></string>
+    <string name="notification_moderation_warning_name"></string>
+    <string name="notification_unknown_description"></string>
+    <string name="notification_channel_other"></string>
+    <string name="notification_channel_other_description"></string>
+    <string name="notification_channel_admin"></string>
+    <string name="notification_channel_admin_description"></string>
+    <string name="preview_card_by_author"></string>
+    <string name="preview_card_more_by_author"></string>
+    <string name="poll"></string>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <string name="confirm_dismiss_caption"></string>
+    <string name="follow_hashtag_success"></string>
+    <string name="post_replied"></string>
+    <string name="post_replied_format"></string>
+    <string name="post_replied_self"></string>
 </resources>
