@@ -615,7 +615,7 @@
     <string name="label_filter_title">标题</string>
     <string name="filter_action_warn">警告</string>
     <string name="filter_action_hide">隐藏</string>
-    <string name="filter_description_warn">隐藏但显示警告信息</string>
+    <string name="filter_description_warn">隐藏整条嘟文但显示警告信息</string>
     <string name="label_filter_action">过滤操作</string>
     <string name="label_filter_context">筛选器上下文</string>
     <string name="action_add">添加</string>
@@ -782,4 +782,11 @@
     <string name="unblock_success">已解封 %1$s</string>
     <string name="unmute_success">已解除对 %1$s 的静音操作</string>
     <string name="accept_follow_request_failure">接受 %1$s 的关注请求失败了：%2$s</string>
+    <string name="filter_description_blur">隐藏媒体但显示警告</string>
+    <string name="filter_action_blur">模糊</string>
+    <string name="reblog_privacy_public_description">所有人都可看到你的转嘟</string>
+    <string name="reblog_privacy_unlisted_description">和“公开”一样，区别是永远不会显示在公共时间线中</string>
+    <string name="reblog_privacy_followers_only_description">只有你的关注者可以看到你的转嘟</string>
+    <string name="reblog_confirm">转发此嘟文？</string>
+    <string name="favourite_confirm">收藏此嘟文？</string>
 </resources>
