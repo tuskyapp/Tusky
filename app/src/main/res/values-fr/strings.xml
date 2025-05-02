@@ -333,15 +333,13 @@
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <string name="description_post_media">Média : %1$s</string>
-    <string name="description_post_cw">        Avertissement : %1$s
-    </string>
+    <string name="description_post_cw">Avertissement : %1$s</string>
     <string name="description_post_media_no_description_placeholder">Aucune description</string>
     <string name="description_post_reblogged">Partagé</string>
     <string name="description_post_favourited">Mis en favoris</string>
     <string name="description_visibility_public">Public</string>
     <string name="description_visibility_unlisted">Non listé</string>
-    <string name="description_visibility_private">        Abonné·e·s
-    </string>
+    <string name="description_visibility_private">Abonné·e·s</string>
     <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="pick_hashtag_hint">Hashtag sans #</string>
@@ -635,8 +633,8 @@
     <string name="pref_title_show_stat_inline">Montrer les statistiques des statuts dans les fils</string>
     <string name="accessibility_talking_about_tag">%1$d personnes parlent du hashtag %2$s</string>
     <string name="total_usage">utilisations</string>
-    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez.
-\n
+    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez. 
+\n 
 \nPour trouver des comptes vous pouvez soit les découvrir dans l\'un des autres fils, par exemple le fil local de votre instance {{group}} ; soit les chercher par leur nom {{search}}, par exemple cherchez « Tusky » pour trouver notre compte Mastodon.</string>
     <string name="action_add">Ajouter</string>
     <string name="label_filter_keywords">Mots-clés ou phrases à filtrer</string>
@@ -724,4 +722,82 @@
     <string name="unknown_notification_filter_new_accounts_description">Créé durant les 30 derniers jours</string>
     <string name="notification_policy_filter">Filtrer</string>
     <string name="notification_policy_ignore">Ignorer</string>
+    <string name="error_media_playback"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_title"></string>
+    <string name="unknown_notification_filter_unsolicited_private_mentions_description"></string>
+    <string name="unknown_notification_filter_moderated_accounts"></string>
+    <string name="unknown_notification_filter_moderated_accounts_description"></string>
+    <string name="preview_card_more_by_author"></string>
+    <string name="help_empty_lists"></string>
+    <string name="unblock_success"></string>
+    <string name="unmute_success"></string>
+    <string name="block_failure"></string>
+    <string name="mute_failure"></string>
+    <string name="unblock_failure"></string>
+    <string name="filter_action_blur"></string>
+    <string name="filter_description_blur"></string>
+    <string name="list_reply_policy_followed"></string>
+    <string name="preview_card_by_author"></string>
+    <string name="filtered_notifications_title"></string>
+    <string name="dismiss_notification_request"></string>
+    <string name="open_settings"></string>
+    <string name="notifications_from"></string>
+    <string name="action_accept_notification_request"></string>
+    <string name="action_dismiss_notification_request"></string>
+    <string name="relationship_severance_event_title"></string>
+    <string name="relationship_severance_event_account_suspension"></string>
+    <string name="relationship_severance_event_domain_block"></string>
+    <string name="relationship_severance_event_user_domain_block"></string>
+    <string name="moderation_warning_action_delete_statuses"></string>
+    <string name="moderation_warning_action_disable"></string>
+    <string name="moderation_warning_action_mark_statuses_as_sensitive"></string>
+    <string name="moderation_warning_action_none"></string>
+    <string name="moderation_warning_action_suspend"></string>
+    <string name="unknown_notification_type_explanation"></string>
+    <string name="poll"></string>
+    <string name="unmute_failure"></string>
+    <string name="notification_unknown_description"></string>
+    <string name="notification_channel_other"></string>
+    <string name="notification_channel_other_description"></string>
+    <string name="notification_channel_admin"></string>
+    <string name="notification_channel_admin_description"></string>
+    <string name="accept_follow_request_failure"></string>
+    <string name="reject_follow_request_failure"></string>
+    <string name="notification_info_reply"></string>
+    <string name="notification_info_private_mention"></string>
+    <string name="notification_info_mention"></string>
+    <string name="poll_show_results"></string>
+    <string name="yes"></string>
+    <string name="help_empty_conversations"></string>
+    <string name="notification_policies_not_supported"></string>
+    <string name="filtered_notifications"></string>
+    <string name="moderation_warning"></string>
+    <string name="moderation_warning_action_sensitive"></string>
+    <string name="moderation_warning_action_silence"></string>
+    <string name="accept_notification_request"></string>
+    <string name="reblog_privacy_public_description"></string>
+    <string name="reblog_privacy_unlisted_description"></string>
+    <string name="reblog_privacy_followers_only_description"></string>
+    <string name="reblog_confirm"></string>
+    <string name="favourite_confirm"></string>
+    <string name="action_reblog_private"></string>
+    <string name="action_reblog_public"></string>
+    <string name="action_reblog_unlisted"></string>
+    <string name="notification_severed_relationship_name"></string>
+    <string name="notification_moderation_warning_name"></string>
+    <string name="error_missing_edits"></string>
+    <string name="follow_hashtag_success"></string>
+    <string name="notification_info_private_reply"></string>
+    <plurals name="accounts">
+        <item quantity="one"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <plurals name="media_attachments">
+        <item quantity="one"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="no"></string>
+    <string name="confirm_dismiss_caption"></string>
 </resources>
