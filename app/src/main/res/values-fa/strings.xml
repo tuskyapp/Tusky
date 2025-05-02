@@ -406,7 +406,7 @@
     <string name="mute_domain_warning">مطمئنید می‌خواهید تمام %1$s را مسدود کنید؟ محتوای آن دامنه را در هیچ‌یک از خط زمانی‌ها یا در آگاهی‌هایتان نخواهید دید. پی‌گیرانتان از آن دامنه، برداشته خواهند شد.</string>
     <string name="filter_dialog_whole_word_description">هنگامی که کلیدواژه یا عبارت، فقط حروف‌عددی باشد، فقط اگر با تمام واژه مطابق باشد، اعمال خواهد شد</string>
     <string name="filter_add_description">عبارت پالایش</string>
-    <string name="poll_info_format"> \u0020.<!-- ۱۵ رأی • ۱ ساعت مانده --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="report_description_1">گزارش به ناظرهای کارسازتان ارسال خواهد شد. در زیر می‌توانید توضیحی در باب چرایی گزارش این حساب بنویسید:</string>
     <string name="report_description_remote_instance">این حساب از کارسازی دیگر است. رونوشتی ناشناس از گزارش، به آن‌جا نیز ارسال شود؟</string>
     <string name="post_lookup_error_format">خطا در یافتن فرستهٔ %1$s</string>
