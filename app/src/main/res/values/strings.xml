@@ -642,9 +642,8 @@
     <string name="notification_clear_text">Are you sure you want to permanently clear all your notifications?</string>
     <string name="compose_preview_image_description">Actions for image %1$s</string>
 
-    <string name="poll_info_format">
-        <!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <!-- 15 votes • 1 hour left -->
+    <string name="poll_info_format">%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vote</item>
         <item quantity="other">%1$s votes</item>
