@@ -19,7 +19,6 @@ import android.util.Log
 import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.di.ApplicationScope
-import com.keylesspalace.tusky.network.MastodonApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope

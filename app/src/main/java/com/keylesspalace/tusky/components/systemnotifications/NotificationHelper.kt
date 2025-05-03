@@ -24,6 +24,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.NotificationWithIdAndTag
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.Data
@@ -76,7 +77,6 @@ import org.unifiedpush.android.connector.data.PushEndpoint
 import org.unifiedpush.android.connector.ui.SelectDistributorDialogsBuilder
 import org.unifiedpush.android.connector.ui.UnifiedPushFunctions
 import retrofit2.HttpException
-import androidx.core.content.edit
 
 @Singleton
 class NotificationHelper @Inject constructor(
@@ -912,7 +912,8 @@ class NotificationHelper @Inject constructor(
             accountManager.updateAccount(account) {
                 copy(
                     pushPubKey = pubKeySet.pubKey,
-                    pushPrivKey = "", // TODO
+                    // TODO
+                    pushPrivKey = "",
                     pushAuth = pubKeySet.auth,
                     pushServerKey = it.serverKey,
                     unifiedPushUrl = endpoint.url
