@@ -435,7 +435,7 @@
     <string name="action_access_scheduled_posts">Post programmati</string>
     <string name="action_schedule_post">Programma un post</string>
     <string name="action_reset_schedule">Ripristina</string>
-    <string name="poll_info_format"> \u0020<!-- 15 voti • 1 ora mancante --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="no_drafts">Non hai bozze.</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s persona</item>
