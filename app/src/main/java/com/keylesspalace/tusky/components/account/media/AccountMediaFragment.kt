@@ -35,8 +35,10 @@ import com.keylesspalace.tusky.ViewMediaActivity
 import com.keylesspalace.tusky.databinding.FragmentTimelineBinding
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.entity.Attachment
+import com.keylesspalace.tusky.interfaces.ActionButtonActivity
 import com.keylesspalace.tusky.interfaces.RefreshableFragment
 import com.keylesspalace.tusky.settings.PrefKeys
+import com.keylesspalace.tusky.util.ensureBottomPadding
 import com.keylesspalace.tusky.util.hide
 import com.keylesspalace.tusky.util.openLink
 import com.keylesspalace.tusky.util.show
@@ -77,6 +79,9 @@ class AccountMediaFragment :
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         val useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true)
+
+        val hasFab = (activity as? ActionButtonActivity?)?.actionButton != null
+        binding.recyclerView.ensureBottomPadding(fab = hasFab)
 
         val adapter = AccountMediaGridAdapter(
             useBlurhash = useBlurhash,
@@ -177,7 +182,7 @@ class AccountMediaFragment :
             Attachment.Type.VIDEO,
             Attachment.Type.AUDIO -> {
                 val intent = ViewMediaActivity.newIntent(
-                    context,
+                    view.context,
                     attachmentsFromSameStatus,
                     currentIndex
                 )

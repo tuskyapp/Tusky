@@ -39,6 +39,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.ViewConfiguration
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.graphics.withSave
 import androidx.core.view.doOnLayout
 import com.keylesspalace.tusky.BuildConfig
 import com.keylesspalace.tusky.R
@@ -379,15 +380,15 @@ class ClickableSpanTextView @JvmOverloads constructor(
         // Paint span boundaries. Optimised out on release builds, or debug builds where
         // showSpanBoundaries is false.
         if (BuildConfig.DEBUG && showSpanBoundaries) {
-            canvas.save()
-            for (entry in delegateRects) {
-                canvas.drawRect(entry.key, paddingDebugPaint)
-            }
+            canvas.withSave {
+                for (entry in delegateRects) {
+                    drawRect(entry.key, paddingDebugPaint)
+                }
 
-            for (entry in spanRects) {
-                canvas.drawRect(entry.key, spanDebugPaint)
+                for (entry in spanRects) {
+                    drawRect(entry.key, spanDebugPaint)
+                }
             }
-            canvas.restore()
         }
     }
 

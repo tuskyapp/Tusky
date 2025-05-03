@@ -19,15 +19,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.keylesspalace.tusky.R
+import com.keylesspalace.tusky.adapter.PlaceholderViewHolder
 import com.keylesspalace.tusky.adapter.StatusBaseViewHolder
+import com.keylesspalace.tusky.databinding.ItemPlaceholderBinding
 import com.keylesspalace.tusky.interfaces.StatusActionListener
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 
-class ConversationAdapter(
+class ConversationPagingAdapter(
     private var statusDisplayOptions: StatusDisplayOptions,
     private val listener: StatusActionListener
-) : PagingDataAdapter<ConversationViewData, ConversationViewHolder>(CONVERSATION_COMPARATOR) {
+) : PagingDataAdapter<ConversationViewData, RecyclerView.ViewHolder>(CONVERSATION_COMPARATOR) {
 
     var mediaPreviewEnabled: Boolean
         get() = statusDisplayOptions.mediaPreviewEnabled
@@ -37,25 +40,42 @@ class ConversationAdapter(
             )
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder {
-        val view = LayoutInflater.from(
-            parent.context
-        ).inflate(R.layout.item_conversation, parent, false)
-        return ConversationViewHolder(view, statusDisplayOptions, listener)
+    override fun getItemViewType(position: Int): Int {
+        return if (getItem(position) == null) {
+            VIEW_TYPE_PLACEHOLDER
+        } else {
+            VIEW_TYPE_CONVERSATION
+        }
     }
 
-    override fun onBindViewHolder(holder: ConversationViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return if (viewType == VIEW_TYPE_CONVERSATION) {
+            ConversationViewHolder(layoutInflater.inflate(R.layout.item_conversation, parent, false), statusDisplayOptions, listener)
+        } else {
+            PlaceholderViewHolder(
+                ItemPlaceholderBinding.inflate(layoutInflater, parent, false),
+                mode = PlaceholderViewHolder.Mode.CONVERSATION
+            )
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         onBindViewHolder(holder, position, emptyList())
     }
 
-    override fun onBindViewHolder(holder: ConversationViewHolder, position: Int, payloads: List<Any>) {
-        getItem(position)?.let { conversationViewData ->
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
+        val conversationViewData = getItem(position)
+        if (holder is ConversationViewHolder && conversationViewData != null) {
             holder.setupWithConversation(conversationViewData, payloads)
         }
     }
 
     companion object {
-        val CONVERSATION_COMPARATOR = object : DiffUtil.ItemCallback<ConversationViewData>() {
+        private const val VIEW_TYPE_PLACEHOLDER = 0
+        private const val VIEW_TYPE_CONVERSATION = 1
+
+        private val CONVERSATION_COMPARATOR = object : DiffUtil.ItemCallback<ConversationViewData>() {
             override fun areItemsTheSame(
                 oldItem: ConversationViewData,
                 newItem: ConversationViewData

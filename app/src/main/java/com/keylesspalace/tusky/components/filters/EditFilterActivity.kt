@@ -35,6 +35,7 @@ import com.keylesspalace.tusky.BaseActivity
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.FilterUpdatedEvent
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.databinding.ActivityEditFilterBinding
 import com.keylesspalace.tusky.databinding.DialogFilterBinding
 import com.keylesspalace.tusky.entity.Filter
@@ -56,6 +57,9 @@ class EditFilterActivity : BaseActivity() {
     @Inject
     lateinit var eventHub: EventHub
 
+    @Inject
+    lateinit var instanceInfoRepository: InstanceInfoRepository
+
     private val binding by viewBinding(ActivityEditFilterBinding::inflate)
     private val viewModel: EditFilterViewModel by viewModels()
 
@@ -67,7 +71,7 @@ class EditFilterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         originalFilter = intent.getParcelableExtraCompat(FILTER_TO_EDIT)
-        filter = originalFilter ?: Filter("", "", listOf(), null, Filter.Action.WARN.action, listOf())
+        filter = originalFilter ?: Filter(context = emptyList(), action = Filter.Action.WARN)
         binding.apply {
             contextSwitches = mapOf(
                 filterContextHome to Filter.Kind.HOME,
@@ -124,14 +128,17 @@ class EditFilterActivity : BaseActivity() {
             viewModel.setTitle(editable.toString())
             validateSaveButton()
         }
-        binding.filterActionWarn.setOnCheckedChangeListener { _, checked ->
-            viewModel.setAction(
-                if (checked) {
-                    Filter.Action.WARN
-                } else {
-                    Filter.Action.HIDE
-                }
-            )
+
+        // blur filter is supported in mastodon api version 5+
+        val blurFilterSupported = instanceInfoRepository.cachedInstanceInfoOrFallback.mastodonApiVersion?.let { it >= 5 } == true
+        binding.filterActionBlur.visible(blurFilterSupported)
+        binding.filterActionGroup.setOnCheckedChangeListener { _, checkedId ->
+            val action = when (checkedId) {
+                R.id.filter_action_blur -> Filter.Action.BLUR
+                R.id.filter_action_hide -> Filter.Action.HIDE
+                else -> Filter.Action.WARN
+            }
+            viewModel.setAction(action)
         }
         binding.filterDurationDropDown.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             viewModel.setDuration(
@@ -178,6 +185,7 @@ class EditFilterActivity : BaseActivity() {
         lifecycleScope.launch {
             viewModel.action.collect { action ->
                 when (action) {
+                    Filter.Action.BLUR -> binding.filterActionBlur.isChecked = true
                     Filter.Action.HIDE -> binding.filterActionHide.isChecked = true
                     else -> binding.filterActionWarn.isChecked = true
                 }
@@ -299,14 +307,14 @@ class EditFilterActivity : BaseActivity() {
             if (viewModel.saveChanges(this@EditFilterActivity)) {
                 finish()
                 // Possibly affected contexts: any context affected by the original filter OR any context affected by the updated filter
-                val affectedContexts = viewModel.contexts.value.map {
-                    it.kind
-                }.union(originalFilter?.context ?: listOf()).distinct()
+                val affectedContexts = viewModel.contexts.value
+                    .union(originalFilter?.context.orEmpty())
+                    .distinct()
                 eventHub.dispatch(FilterUpdatedEvent(affectedContexts))
             } else {
                 Snackbar.make(
                     binding.root,
-                    getString(R.string.error_deleting_filter, viewModel.title.value),
+                    getString(R.string.error_saving_filter, viewModel.title.value),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

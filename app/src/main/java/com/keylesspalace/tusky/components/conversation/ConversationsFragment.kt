@@ -31,10 +31,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.StatusListActivity
+import com.keylesspalace.tusky.adapter.LoadStateFooterAdapter
 import com.keylesspalace.tusky.appstore.ConversationsLoadingEvent
 import com.keylesspalace.tusky.appstore.EventHub
 import com.keylesspalace.tusky.appstore.PreferenceChangedEvent
@@ -53,6 +55,7 @@ import com.keylesspalace.tusky.util.isAnyLoading
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -76,7 +79,9 @@ class ConversationsFragment :
 
     private val binding by viewBinding(FragmentTimelineBinding::bind)
 
-    private var adapter: ConversationAdapter? = null
+    private var adapter: ConversationPagingAdapter? = null
+
+    private var buttonToAnimate: SparkButton? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
@@ -88,8 +93,6 @@ class ConversationsFragment :
             showBotOverlay = preferences.getBoolean(PrefKeys.SHOW_BOT_OVERLAY, true),
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
@@ -97,7 +100,7 @@ class ConversationsFragment :
             openSpoiler = accountManager.activeAccount!!.alwaysOpenSpoiler
         )
 
-        val adapter = ConversationAdapter(statusDisplayOptions, this)
+        val adapter = ConversationPagingAdapter(statusDisplayOptions, this)
         this.adapter = adapter
 
         setupRecyclerView(adapter)
@@ -193,6 +196,7 @@ class ConversationsFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -212,7 +216,7 @@ class ConversationsFragment :
         }
     }
 
-    private fun setupRecyclerView(adapter: ConversationAdapter) {
+    private fun setupRecyclerView(adapter: ConversationPagingAdapter) {
         binding.recyclerView.ensureBottomPadding(fab = true)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -224,26 +228,37 @@ class ConversationsFragment :
         (binding.recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.recyclerView.adapter =
-            adapter.withLoadStateFooter(ConversationLoadStateAdapter(adapter::retry))
+            adapter.withLoadStateFooter(LoadStateFooterAdapter(adapter::retry))
     }
 
     private fun refreshContent() {
         adapter?.refresh()
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         // its impossible to reblog private messages
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         adapter?.peek(position)?.let { conversation ->
-            viewModel.favourite(favourite, conversation)
+            buttonToAnimate = button
+
+            if (favourite) {
+                confirmFavourite(preferences) {
+                    viewModel.favourite(true, conversation)
+                    buttonToAnimate?.playAnimation()
+                    buttonToAnimate?.isChecked = true
+                }
+            } else {
+                viewModel.favourite(false, conversation)
+                buttonToAnimate?.isChecked = false
+            }
         }
     }
 
-    override fun onBookmark(favourite: Boolean, position: Int) {
+    override fun onBookmark(bookmark: Boolean, position: Int) {
         adapter?.peek(position)?.let { conversation ->
-            viewModel.bookmark(favourite, conversation)
+            viewModel.bookmark(bookmark, conversation)
         }
     }
 
@@ -371,7 +386,7 @@ class ConversationsFragment :
             .show()
     }
 
-    private fun onPreferenceChanged(adapter: ConversationAdapter, key: String) {
+    private fun onPreferenceChanged(adapter: ConversationPagingAdapter, key: String) {
         when (key) {
             PrefKeys.MEDIA_PREVIEW_ENABLED -> {
                 val enabled = accountManager.activeAccount!!.mediaPreviewEnabled

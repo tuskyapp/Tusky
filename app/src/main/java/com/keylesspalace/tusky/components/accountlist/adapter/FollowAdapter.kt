@@ -34,18 +34,20 @@ class FollowAdapter(
     showBotOverlay = showBotOverlay
 ) {
 
-    override fun createAccountViewHolder(parent: ViewGroup): AccountViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val binding = ItemAccountBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AccountViewHolder(binding)
     }
 
-    override fun onBindAccountViewHolder(viewHolder: AccountViewHolder, position: Int) {
-        viewHolder.setupWithAccount(
-            accountList[position],
-            animateAvatar,
-            animateEmojis,
-            showBotOverlay
-        )
-        viewHolder.setupActionListener(accountActionListener)
+    override fun onBindViewHolder(viewHolder: AccountViewHolder, position: Int) {
+        getItem(position)?.let { viewData ->
+            viewHolder.setupWithAccount(
+                viewData.account,
+                animateAvatar,
+                animateEmojis,
+                showBotOverlay
+            )
+            viewHolder.setupActionListener(accountActionListener)
+        }
     }
 }

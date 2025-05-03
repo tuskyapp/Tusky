@@ -17,7 +17,8 @@ data class Instance(
 //    val registrations: Registrations,
 //    val contact: Contact,
     val rules: List<Rule> = emptyList(),
-    val pleroma: PleromaConfiguration? = null
+    val pleroma: PleromaConfiguration? = null,
+    @Json(name = "api_versions") val apiVersions: ApiVersions? = null,
 ) {
     @JsonClass(generateAdapter = true)
     data class Usage(val users: Users) {
@@ -46,7 +47,7 @@ data class Instance(
         val statuses: Statuses? = null,
         @Json(name = "media_attachments") val mediaAttachments: MediaAttachments? = null,
         val polls: Polls? = null,
-        val translation: Translation? = null
+        val translation: Translation? = null,
     ) {
         @JsonClass(generateAdapter = true)
         data class Urls(@Json(name = "streaming_api") val streamingApi: String? = null)
@@ -105,4 +106,7 @@ data class Instance(
 
     @JsonClass(generateAdapter = true)
     data class Rule(val id: String, val text: String)
+
+    @JsonClass(generateAdapter = true)
+    data class ApiVersions(val mastodon: Int? = null)
 }

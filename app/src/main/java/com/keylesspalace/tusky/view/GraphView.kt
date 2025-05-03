@@ -21,12 +21,12 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.Rect
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.core.content.res.use
+import androidx.core.text.layoutDirection
 import com.google.android.material.R as materialR
 import com.google.android.material.color.MaterialColors
 import com.keylesspalace.tusky.R
@@ -103,7 +103,7 @@ class GraphView @JvmOverloads constructor(
 
     init {
         initFromXML(attrs)
-        isRtlLayout = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == LAYOUT_DIRECTION_RTL
+        isRtlLayout = Locale.getDefault().layoutDirection == LAYOUT_DIRECTION_RTL
     }
 
     private fun initFromXML(attr: AttributeSet?) {

@@ -21,7 +21,6 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.valueOf
 import com.keylesspalace.tusky.components.systemnotifications.NotificationChannelData
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.settings.AppTheme

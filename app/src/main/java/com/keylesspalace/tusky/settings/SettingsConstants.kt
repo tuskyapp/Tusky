@@ -106,6 +106,9 @@ object PrefKeys {
     /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
     const val UI_TEXT_SCALE_RATIO = "uiTextScaleRatio"
 
+    /** UI text scaling factor, stored as float, 100 = 100% = no scaling */
+    const val REBLOG_PRIVACY = "reblogPrivacy"
+
     object Deprecated {
         const val FAB_HIDE = "fabHide"
     }

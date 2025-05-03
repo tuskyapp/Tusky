@@ -18,7 +18,6 @@ import android.Manifest
 import android.app.DownloadManager
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -31,10 +30,12 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import at.connyduck.calladapter.networkresult.fold
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.BaseActivity
@@ -74,7 +75,7 @@ import kotlinx.coroutines.launch
  * up what needs to be where. */
 abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     protected abstract fun removeItem(position: Int)
-    protected abstract fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility)
+    protected abstract fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?)
 
     /** `null` if translation is not supported on this screen */
     protected abstract val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit)?
@@ -318,12 +319,12 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
                 }
 
                 R.id.status_unreblog_private -> {
-                    onReblog(false, position, Status.Visibility.PUBLIC)
+                    onReblog(false, position, Status.Visibility.PRIVATE, null)
                     return@setOnMenuItemClickListener true
                 }
 
                 R.id.status_reblog_private -> {
-                    onReblog(true, position, Status.Visibility.PUBLIC)
+                    onReblog(true, position, Status.Visibility.PRIVATE, null)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -398,7 +399,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         val (attachment) = attachments[urlIndex]
         when (attachment.type) {
             Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
-                val intent = newIntent(context, attachments, urlIndex)
+                val intent = newIntent(requireContext(), attachments, urlIndex)
                 if (view != null) {
                     val url = attachment.url
                     view.transitionName = url
@@ -432,7 +433,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             .setMessage(R.string.dialog_delete_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val result = timelineCases.delete(id).exceptionOrNull()
+                    val result = timelineCases.delete(id, true).exceptionOrNull()
                     if (result != null) {
                         Log.w("SFragment", "error deleting status", result)
                         Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
@@ -456,7 +457,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             .setMessage(R.string.dialog_redraft_post_warning)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 viewLifecycleOwner.lifecycleScope.launch {
-                    timelineCases.delete(id).fold(
+                    timelineCases.delete(id, false).fold(
                         { deletedStatus ->
                             removeItem(position)
                             val sourceStatus = if (deletedStatus.isEmpty) {
@@ -542,7 +543,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
         val downloadManager: DownloadManager = requireContext().getSystemService()!!
 
         for (url in mediaUrls) {
-            val uri = Uri.parse(url)
+            val uri = url.toUri()
             downloadManager.enqueue(
                 DownloadManager.Request(uri).apply {
                     setDestinationInExternalPublicDir(
@@ -568,7 +569,6 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
     }
 
     companion object {
-        private const val TAG = "SFragment"
         private const val PENDING_MEDIA_DOWNLOADS_STATE_KEY = "pending_media_downloads"
 
         private fun accountIsInMentions(
@@ -576,7 +576,7 @@ abstract class SFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayo
             mentions: List<Status.Mention>
         ): Boolean {
             return mentions.any { mention ->
-                account?.username == mention.username && account.domain == Uri.parse(mention.url)?.host
+                account?.username == mention.username && account.domain == mention.url.toUri().host
             }
         }
     }

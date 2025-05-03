@@ -55,7 +55,7 @@
     <string name="action_login">ورود با تاسکی</string>
     <string name="action_logout">خروج</string>
     <string name="action_follow">پیگیری</string>
-    <string name="action_unfollow">ناپیگیری</string>
+    <string name="action_unfollow">ناپی‌گیری</string>
     <string name="action_block">انسداد</string>
     <string name="action_unblock">رفع انسداد</string>
     <string name="action_hide_reblogs">نهفتن تقویت‌ها</string>
@@ -125,7 +125,7 @@
     <string name="dialog_message_uploading_media">در حال بارگذاری…</string>
     <string name="dialog_download_image">بارگیری</string>
     <string name="dialog_message_cancel_follow_request">درخواست دنبال کردن را لغو می‌کنید؟</string>
-    <string name="dialog_unfollow_warning">ناپیگیری این حساب؟</string>
+    <string name="dialog_unfollow_warning">ناپی‌گیری این حساب؟</string>
     <string name="dialog_delete_post_warning">حذف این فرسته؟</string>
     <string name="visibility_public">عمومی: فرستادن به خط زمانی‌های عمومی</string>
     <string name="visibility_unlisted">فهرست‌نشده: نشان ندادن در خط زمانی‌های عمومی</string>
@@ -782,4 +782,12 @@
     <string name="yes">بله</string>
     <string name="confirm_dismiss_caption">دور انداختن تغییرات عنوان؟</string>
     <string name="no">نه</string>
+    <string name="unmute_success">خموشی %1$s رفع شد</string>
+    <string name="mute_failure">خموش کردن %1$s شکست خورد: %2$s</string>
+    <string name="unblock_failure">رفع کردن مسدودی %1$s شکست خورد: %2$s</string>
+    <string name="unmute_failure">رفع کردن خموشی %1$s شکست خورد: %2$s</string>
+    <string name="reject_follow_request_failure">رد کردن درخواست پی‌گیری %1$s شکست خورد: %2$s</string>
+    <string name="unblock_success">انسداد %1$s رفع شد</string>
+    <string name="block_failure">مسدود کردن %1$s شکست خورد: %2$s</string>
+    <string name="accept_follow_request_failure">پذیرفتن درخواست پی‌گیری %1$s شکست خورد: %2$s</string>
 </resources>

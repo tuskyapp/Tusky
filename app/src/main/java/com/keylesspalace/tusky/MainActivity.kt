@@ -25,7 +25,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Animatable
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -49,6 +48,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
@@ -95,11 +95,9 @@ import com.keylesspalace.tusky.pager.MainPagerAdapter
 import com.keylesspalace.tusky.settings.PrefKeys
 import com.keylesspalace.tusky.usecase.DeveloperToolsUseCase
 import com.keylesspalace.tusky.usecase.LogoutUsecase
-import com.keylesspalace.tusky.util.ActivityConstants
 import com.keylesspalace.tusky.util.emojify
 import com.keylesspalace.tusky.util.getParcelableExtraCompat
 import com.keylesspalace.tusky.util.hide
-import com.keylesspalace.tusky.util.overrideActivityTransitionCompat
 import com.keylesspalace.tusky.util.reduceSwipeSensitivity
 import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
@@ -128,7 +126,6 @@ import com.mikepenz.materialdrawer.util.updateBadge
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.migration.OptionalInject
-import de.c1710.filemojicompat_ui.helpers.EMOJI_PREFERENCE
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -163,9 +160,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
     private lateinit var header: AccountHeaderView
 
     private var onTabSelectedListener: OnTabSelectedListener? = null
-
-    // We need to know if the emoji pack has been changed
-    private var selectedEmojiPack: String? = null
 
     /** Mediate between binding.viewPager and the chosen tab layout */
     private var tabLayoutMediator: TabLayoutMediator? = null
@@ -216,16 +210,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         } else {
             viewModel.setupNotifications(this)
         }
-
-        if (explodeAnimationWasRequested()) {
-            overrideActivityTransitionCompat(
-                ActivityConstants.OVERRIDE_TRANSITION_OPEN,
-                R.anim.explode,
-                R.anim.activity_open_exit
-            )
-        }
-
-        selectedEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
 
         var showNotificationTab = false
 
@@ -485,20 +469,6 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val currentEmojiPack = preferences.getString(EMOJI_PREFERENCE, "")
-        if (currentEmojiPack != selectedEmojiPack) {
-            Log.d(
-                TAG,
-                "onResume: EmojiPack has been changed from %s to %s"
-                    .format(selectedEmojiPack, currentEmojiPack)
-            )
-            selectedEmojiPack = currentEmojiPack
-            recreate()
         }
     }
 
@@ -1051,7 +1021,7 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
                         transition: Transition<in Bitmap>?
                     ) {
                         activeToolbar.navigationIcon = FixedSizeDrawable(
-                            BitmapDrawable(resources, resource),
+                            resource.toDrawable(resources),
                             navIconSize,
                             navIconSize
                         )
@@ -1118,15 +1088,9 @@ class MainActivity : BottomSheetActivity(), ActionButtonActivity, MenuProvider {
         }
     }
 
-    private fun explodeAnimationWasRequested(): Boolean {
-        return intent.getBooleanExtra(OPEN_WITH_EXPLODE_ANIMATION, false)
-    }
-
     override fun getActionButton() = binding.composeButton
 
     companion object {
-        const val OPEN_WITH_EXPLODE_ANIMATION = "explode"
-
         private const val TAG = "MainActivity" // logging tag
         private const val DRAWER_ITEM_ADD_ACCOUNT: Long = -13
         private const val DRAWER_ITEM_ANNOUNCEMENTS: Long = 14

@@ -83,7 +83,7 @@ class ReportStatusesFragment :
         when (status.attachments[idx].type) {
             Attachment.Type.GIFV, Attachment.Type.VIDEO, Attachment.Type.IMAGE, Attachment.Type.AUDIO -> {
                 val attachments = AttachmentViewData.list(status)
-                val intent = ViewMediaActivity.newIntent(context, attachments, idx)
+                val intent = ViewMediaActivity.newIntent(requireContext(), attachments, idx)
                 if (v != null) {
                     val url = status.attachments[idx].url
                     ViewCompat.setTransitionName(v, url)
@@ -147,8 +147,6 @@ class ReportStatusesFragment :
             showBotOverlay = false,
             useBlurhash = preferences.getBoolean(PrefKeys.USE_BLURHASH, true),
             cardViewMode = CardViewMode.NONE,
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),

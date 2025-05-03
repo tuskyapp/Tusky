@@ -15,13 +15,14 @@
 
 package com.keylesspalace.tusky.components.notifications
 
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toAccount
 import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.db.entity.NotificationDataEntity
 import com.keylesspalace.tusky.db.entity.NotificationEntity
 import com.keylesspalace.tusky.db.entity.NotificationReportEntity
 import com.keylesspalace.tusky.db.entity.TimelineAccountEntity
+import com.keylesspalace.tusky.entity.Filter
 import com.keylesspalace.tusky.entity.Notification
 import com.keylesspalace.tusky.entity.Report
 import com.keylesspalace.tusky.util.toViewData
@@ -29,7 +30,7 @@ import com.keylesspalace.tusky.viewdata.NotificationViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
 
-fun Placeholder.toNotificationEntity(
+fun LoadMorePlaceholder.toNotificationEntity(
     tuskyAccountId: Long
 ) = NotificationEntity(
     id = this.id,
@@ -61,6 +62,7 @@ fun Notification.toViewData(
     isShowingContent: Boolean,
     isExpanded: Boolean,
     isCollapsed: Boolean,
+    filter: Filter?,
 ): NotificationViewData.Concrete = NotificationViewData.Concrete(
     id = id,
     type = type,
@@ -68,7 +70,8 @@ fun Notification.toViewData(
     statusViewData = status?.toViewData(
         isShowingContent = isShowingContent,
         isExpanded = isExpanded,
-        isCollapsed = isCollapsed
+        isCollapsed = isCollapsed,
+        filter = filter,
     ),
     report = report,
     moderationWarning = moderationWarning,
@@ -90,7 +93,7 @@ fun NotificationDataEntity.toViewData(
     translation: TranslationViewData? = null
 ): NotificationViewData {
     if (type == null || account == null) {
-        return NotificationViewData.Placeholder(id = id, isLoading = loading)
+        return NotificationViewData.LoadMore(id = id, isLoading = loading)
     }
 
     return NotificationViewData.Concrete(

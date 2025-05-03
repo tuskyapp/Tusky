@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
@@ -45,9 +43,10 @@ import com.keylesspalace.tusky.ViewMediaActivity;
 import com.keylesspalace.tusky.entity.Attachment;
 import com.keylesspalace.tusky.entity.Attachment.Focus;
 import com.keylesspalace.tusky.entity.Attachment.MetaData;
-import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Emoji;
+import com.keylesspalace.tusky.entity.Filter;
 import com.keylesspalace.tusky.entity.HashTag;
+import com.keylesspalace.tusky.entity.PreviewCard;
 import com.keylesspalace.tusky.entity.Status;
 import com.keylesspalace.tusky.entity.TimelineAccount;
 import com.keylesspalace.tusky.entity.Translation;
@@ -102,6 +101,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     private final TextView sensitiveMediaWarning;
     private final View sensitiveMediaShow;
     protected final TextView[] mediaLabels;
+    protected final MaterialCardView[] mediaLabelContainers;
     protected final CharSequence[] mediaDescriptions;
     private final MaterialButton contentWarningButton;
     private final ImageView avatarInset;
@@ -165,6 +165,12 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             itemView.findViewById(R.id.status_media_label_1),
             itemView.findViewById(R.id.status_media_label_2),
             itemView.findViewById(R.id.status_media_label_3)
+        };
+        mediaLabelContainers = new MaterialCardView[]{
+            itemView.findViewById(R.id.status_media_label_container_0),
+            itemView.findViewById(R.id.status_media_label_container_1),
+            itemView.findViewById(R.id.status_media_label_container_2),
+            itemView.findViewById(R.id.status_media_label_container_3)
         };
         mediaDescriptions = new CharSequence[mediaLabels.length];
         contentWarningDescription = itemView.findViewById(R.id.status_content_warning_description);
@@ -277,7 +283,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
         this.setTextVisible(sensitive, expanded, status, statusDisplayOptions, listener);
 
-        setupCard(status, expanded, statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+        setupCard(status, expanded, !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
     }
 
     private void setTextVisible(boolean sensitive,
@@ -523,7 +529,8 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         boolean sensitive,
         final @NonNull StatusActionListener listener,
         boolean showingContent,
-        boolean useBlurhash
+        boolean useBlurhash,
+        final @NonNull Filter filter
     ) {
 
         mediaPreview.setVisibility(View.VISIBLE);
@@ -559,7 +566,9 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             final CharSequence formattedDescription = AttachmentHelper.getFormattedDescription(attachment, imageView.getContext());
             setAttachmentClickListener(imageView, listener, i, formattedDescription, true);
 
-            if (sensitive) {
+            if (filter != null) {
+                sensitiveMediaWarning.setText(sensitiveMediaWarning.getContext().getString(R.string.status_filter_placeholder_label_format, filter.getTitle()));
+            } else if (sensitive) {
                 sensitiveMediaWarning.setText(R.string.post_sensitive_media_title);
             } else {
                 sensitiveMediaWarning.setText(R.string.post_media_hidden_title);
@@ -617,7 +626,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             TextView mediaLabel = mediaLabels[i];
             if (i < attachments.size()) {
                 Attachment attachment = attachments.get(i);
-                mediaLabel.setVisibility(View.VISIBLE);
+                mediaLabelContainers[i].setVisibility(View.VISIBLE);
                 mediaDescriptions[i] = AttachmentHelper.getFormattedDescription(attachment, context);
                 updateMediaLabel(i, sensitive, showingContent);
 
@@ -627,7 +636,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
                 setAttachmentClickListener(mediaLabel, listener, i, mediaDescriptions[i], false);
             } else {
-                mediaLabel.setVisibility(View.GONE);
+                mediaLabelContainers[i].setVisibility(View.GONE);
             }
         }
     }
@@ -668,40 +677,24 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
         if (reblogButton != null) {
             reblogButton.setEventListener((button, buttonState) -> {
                 // return true to play animation
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    if (statusDisplayOptions.confirmReblogs()) {
-                        showConfirmReblog(listener, buttonState, position);
-                        return false;
-                    } else {
-                        listener.onReblog(!buttonState, position, Status.Visibility.PUBLIC);
-                        return true;
-                    }
-                } else {
-                    return false;
+                    listener.onReblog(!buttonState, position, null, button);
                 }
+                return false;
             });
         }
-
 
         favouriteButton.setEventListener((button, buttonState) -> {
             // return true to play animation
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                if (statusDisplayOptions.confirmFavourites()) {
-                    showConfirmFavourite(listener, buttonState, position);
-                    return false;
-                } else {
-                    listener.onFavourite(!buttonState, position);
-                    return true;
-                }
-            } else {
-                return true;
+                listener.onFavourite(!buttonState, position, button);
             }
+            return false;
         });
 
         bookmarkButton.setEventListener((button, buttonState) -> {
@@ -732,62 +725,6 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(viewThreadListener);
     }
 
-    private void showConfirmReblog(StatusActionListener listener,
-                                   boolean buttonState,
-                                   int position) {
-        PopupMenu popup = new PopupMenu(itemView.getContext(), reblogButton);
-        popup.inflate(R.menu.status_reblog);
-        Menu menu = popup.getMenu();
-        if (buttonState) {
-            menu.setGroupVisible(R.id.menu_action_reblog_group, false);
-        } else {
-            menu.findItem(R.id.menu_action_unreblog).setVisible(false);
-        }
-        popup.setOnMenuItemClickListener(item -> {
-            if (buttonState) {
-                listener.onReblog(false, position, Status.Visibility.PUBLIC);
-            } else {
-                Status.Visibility visibility;
-                if (item.getItemId() == R.id.menu_action_reblog_public) {
-                    visibility = Status.Visibility.PUBLIC;
-                } else if (item.getItemId() == R.id.menu_action_reblog_unlisted) {
-                    visibility = Status.Visibility.UNLISTED;
-                } else if (item.getItemId() == R.id.menu_action_reblog_private) {
-                    visibility = Status.Visibility.PRIVATE;
-                } else {
-                    visibility = Status.Visibility.PUBLIC;
-                }
-                listener.onReblog(true, position, visibility);
-                reblogButton.playAnimation();
-                reblogButton.setChecked(true);
-            }
-            return true;
-        });
-        popup.show();
-    }
-
-    private void showConfirmFavourite(StatusActionListener listener,
-                                      boolean buttonState,
-                                      int position) {
-        PopupMenu popup = new PopupMenu(itemView.getContext(), favouriteButton);
-        popup.inflate(R.menu.status_favourite);
-        Menu menu = popup.getMenu();
-        if (buttonState) {
-            menu.findItem(R.id.menu_action_favourite).setVisible(false);
-        } else {
-            menu.findItem(R.id.menu_action_unfavourite).setVisible(false);
-        }
-        popup.setOnMenuItemClickListener(item -> {
-            listener.onFavourite(!buttonState, position);
-            if (!buttonState) {
-                favouriteButton.playAnimation();
-                favouriteButton.setChecked(true);
-            }
-            return true;
-        });
-        popup.show();
-    }
-
     public void setupWithStatus(@NonNull StatusViewData.Concrete status,
                                 @NonNull final StatusActionListener listener,
                                 @NonNull StatusDisplayOptions statusDisplayOptions,
@@ -812,14 +749,14 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             } else if (statusDisplayOptions.mediaPreviewEnabled() && hasPreviewableAttachment(attachments)) {
                 mediaContainer.setVisibility(View.VISIBLE);
 
-                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash());
+                setMediaPreviews(attachments, sensitive, listener, status.isShowingContent(), statusDisplayOptions.useBlurhash(), status.getFilter());
 
                 if (attachments.isEmpty()) {
                     hideSensitiveMediaWarning();
                 }
                 // Hide the unused label.
-                for (TextView mediaLabel : mediaLabels) {
-                    mediaLabel.setVisibility(View.GONE);
+                for (MaterialCardView mediaLabelContainer : mediaLabelContainers) {
+                    mediaLabelContainer.setVisibility(View.GONE);
                 }
             } else {
                 mediaContainer.setVisibility(View.VISIBLE);
@@ -830,7 +767,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                 hideSensitiveMediaWarning();
             }
 
-            setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+            setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
 
             setupButtons(listener, actionable.getAccount().getId(), status.getContent().toString(),
                 statusDisplayOptions);
@@ -855,7 +792,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
                     setMetaData(status, statusDisplayOptions, listener);
                     if (status.getStatus().getCard() != null && status.getStatus().getCard().getPublishedAt() != null) {
                         // there is a preview card showing the published time, we need to refresh it as well
-                        setupCard(status, status.isExpanded(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
+                        setupCard(status, status.isExpanded(), !status.isShowingContent(), statusDisplayOptions.cardViewMode(), statusDisplayOptions, listener);
                     }
                     break;
                 }
@@ -1030,7 +967,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             for (int i = 0; i < args.length; i++) {
                 if (i < options.size()) {
                     int percent = PollViewDataKt.calculatePercent(options.get(i).getVotesCount(), poll.getVotersCount(), poll.getVotesCount());
-                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context);
+                    args[i] = buildDescription(options.get(i).getTitle(), percent, options.get(i).getVoted(), context, null);
                 } else {
                     args[i] = "";
                 }
@@ -1157,6 +1094,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
     protected void setupCard(
         final @NonNull StatusViewData.Concrete status,
         boolean expanded,
+        boolean blurMedia,
         final @NonNull CardViewMode cardViewMode,
         final @NonNull StatusDisplayOptions statusDisplayOptions,
         final @NonNull StatusActionListener listener
@@ -1236,7 +1174,7 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
             // Statuses from other activitypub sources can be marked sensitive even if there's no media,
             // so let's blur the preview in that case
             // If media previews are disabled, show placeholder for cards as well
-            if (statusDisplayOptions.mediaPreviewEnabled() && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
+            if (statusDisplayOptions.mediaPreviewEnabled() && !blurMedia && !actionable.getSensitive() && !TextUtils.isEmpty(card.getImage())) {
 
                 int radius = context.getResources().getDimensionPixelSize(R.dimen.inner_card_radius);
                 ShapeAppearanceModel.Builder cardImageShape = ShapeAppearanceModel.builder();

@@ -22,7 +22,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.keylesspalace.tusky.components.systemnotifications.toTypes
-import com.keylesspalace.tusky.components.timeline.Placeholder
+import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toEntity
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -119,7 +119,7 @@ class NotificationsRemoteMediator(
                        to guarantee the placeholder has an id that exists on the server as not all
                        servers handle client generated ids as expected */
                     notificationsDao.insertNotification(
-                        Placeholder(notifications.last().id, loading = false).toNotificationEntity(activeAccount.id)
+                        LoadMorePlaceholder(notifications.last().id, loading = false).toNotificationEntity(activeAccount.id)
                     )
                 }
             }

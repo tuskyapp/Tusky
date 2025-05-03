@@ -39,6 +39,7 @@
 
     <string-array name="language_entries">
         <item>@string/system_default</item>
+        <item>Bahasa Indonesia</item>
         <item>Català</item>
         <item>Čeština</item>
         <item>Cymraeg</item>
@@ -49,11 +50,14 @@
         <item>Español</item>
         <item>Euskara</item>
         <item>Français</item>
+        <item>Frysk</item>
         <item>Gaeilge</item>
         <item>Gàidhlig</item>
         <item>Galego</item>
         <item>íslenska</item>
         <item>Italiano</item>
+        <item>latviešu valoda</item>
+        <item>Lëtzebuergesch</item>
         <item>Magyar</item>
         <item>Nederlands</item>
         <item>Norsk</item>
@@ -61,7 +65,9 @@
         <item>Polski</item>
         <item>Português (Brasil)</item>
         <item>Português (Portugal)</item>
-        <item>Slovenščina</item>
+        <item>slovenski jezik</item>
+        <item>slovenský jazyk</item>
+        <item>Suomi</item>
         <item>Svenska</item>
         <item>Taqbaylit</item>
         <item>Tiếng Việt</item>
@@ -87,10 +93,15 @@
         <item>中文(简体)</item>
         <item>中文(香港)</item>
         <item>日本語</item>
+        <item>ⵜⴰⵎⴰⵣⵉⵖⵜ</item>
+        <item>Ελληνικά</item>
+        <item>മലയാളം</item>
+        <item>සිංහල</item>
     </string-array>
 
     <string-array name="language_values">
         <item>default</item>
+        <item>in</item>
         <item>ca</item>
         <item>cs</item>
         <item>cy</item>
@@ -101,11 +112,14 @@
         <item>es</item>
         <item>eu</item>
         <item>fr</item>
+        <item>fy</item>
         <item>ga</item>
         <item>gd</item>
         <item>gl</item>
         <item>is</item>
         <item>it</item>
+        <item>lv</item>
+        <item>lb</item>
         <item>hu</item>
         <item>nl</item>
         <item>nb-NO</item>
@@ -114,6 +128,8 @@
         <item>pt-BR</item>
         <item>pt-PT</item>
         <item>sl</item>
+        <item>sk</item>
+        <item>fi</item>
         <item>sv</item>
         <item>kab</item>
         <item>vi</item>
@@ -139,6 +155,10 @@
         <item>zh-CN</item>
         <item>zh-HK</item>
         <item>ja</item>
+        <item>ber</item>
+        <item>el</item>
+        <item>ml</item>
+        <item>si</item>
     </string-array>
 
     <string-array name="pref_main_nav_position_options">

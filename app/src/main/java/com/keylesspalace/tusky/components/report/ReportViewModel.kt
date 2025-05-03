@@ -87,7 +87,7 @@ class ReportViewModel @Inject constructor(
         .map { pagingData ->
             /* TODO: refactor reports to use the isShowingContent / isExpanded / isCollapsed attributes from StatusViewData.Concrete
              instead of StatusViewState */
-            pagingData.map { status -> status.toViewData(false, false, false) }
+            pagingData.map { status -> status.toViewData(false, false, false, filter = null) }
         }
         .cachedIn(viewModelScope)
 

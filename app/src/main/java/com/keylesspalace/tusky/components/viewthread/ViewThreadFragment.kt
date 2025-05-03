@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.accountlist.AccountListActivity
@@ -55,6 +56,8 @@ import com.keylesspalace.tusky.util.show
 import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmReblog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData.Companion.list
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -88,6 +91,8 @@ class ViewThreadFragment :
     private var alwaysShowSensitiveMedia = false
     private var alwaysOpenSpoiler = false
 
+    private var buttonToAnimate: SparkButton? = null
+
     /**
      * State of the "reveal" menu item that shows/hides content that is behind a content
      * warning. Setting this invalidates the menu to redraw the menu item.
@@ -115,8 +120,6 @@ class ViewThreadFragment :
             } else {
                 CardViewMode.NONE
             },
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
@@ -266,6 +269,7 @@ class ViewThreadFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -334,9 +338,23 @@ class ViewThreadFragment :
         super.reply(viewData.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
-        viewModel.reblog(reblog, status, visibility)
+        buttonToAnimate = button
+
+        if (reblog && visibility == null) {
+            confirmReblog(preferences) { visibility ->
+                viewModel.reblog(true, status, visibility)
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
+            }
+        } else {
+            viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
+            if (reblog) {
+                buttonToAnimate?.playAnimation()
+            }
+            buttonToAnimate?.isChecked = false
+        }
     }
 
     override val onMoreTranslate: ((translate: Boolean, position: Int) -> Unit) =
@@ -369,9 +387,20 @@ class ViewThreadFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = adapter?.currentList?.getOrNull(position) ?: return
-        viewModel.favorite(favourite, status)
+        buttonToAnimate = button
+
+        if (favourite) {
+            confirmFavourite(preferences) {
+                viewModel.favorite(true, status)
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
+            }
+        } else {
+            viewModel.favorite(false, status)
+            buttonToAnimate?.isChecked = false
+        }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {

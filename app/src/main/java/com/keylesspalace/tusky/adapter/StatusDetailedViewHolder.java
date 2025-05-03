@@ -149,7 +149,7 @@ public class StatusDetailedViewHolder extends StatusBaseViewHolder {
             status;
 
         super.setupWithStatus(uncollapsedStatus, listener, statusDisplayOptions, payloads, showStatusInfo);
-        setupCard(uncollapsedStatus, status.isExpanded(), CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
+        setupCard(uncollapsedStatus, status.isExpanded(), !status.isShowingContent(), CardViewMode.FULL_WIDTH, statusDisplayOptions, listener); // Always show card for detailed status
         if (payloads.isEmpty()) {
             Status actionable = uncollapsedStatus.getActionable();
 

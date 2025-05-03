@@ -204,7 +204,7 @@ class StatusListActivity : BottomSheetActivity() {
                 { filters ->
                     mutedFilter = filters.firstOrNull { filter ->
                         // TODO shouldn't this be an exact match (only one keyword; exactly the hashtag)?
-                        filter.context.contains(Filter.Kind.HOME.kind) && filter.title == hashedTag
+                        filter.context.contains(Filter.Kind.HOME) && filter.title == hashedTag
                     }
                     updateTagMuteState(mutedFilter != null)
                 },
@@ -250,8 +250,8 @@ class StatusListActivity : BottomSheetActivity() {
 
             mastodonApi.createFilter(
                 title = "#$tag",
-                context = listOf(Filter.Kind.HOME.kind),
-                filterAction = Filter.Action.WARN.action,
+                context = listOf(Filter.Kind.HOME),
+                filterAction = Filter.Action.WARN,
                 expiresIn = FilterExpiration.never
             ).fold(
                 { filter ->
@@ -286,7 +286,7 @@ class StatusListActivity : BottomSheetActivity() {
                         ).fold(
                             { filter ->
                                 mutedFilterV1 = filter
-                                eventHub.dispatch(FilterUpdatedEvent(filter.context))
+                                eventHub.dispatch(FilterUpdatedEvent(filter.context.map { Filter.Kind.valueOf(it) }))
                                 filterCreateSuccess = true
                             },
                             { throwable2 ->
@@ -344,7 +344,7 @@ class StatusListActivity : BottomSheetActivity() {
                     // This filter exists in multiple contexts, just remove the home context
                     mastodonApi.updateFilter(
                         id = filter.id,
-                        context = filter.context.filter { it != Filter.Kind.HOME.kind }
+                        context = filter.context.filterNot { it == Filter.Kind.HOME }
                     )
                 } else {
                     mastodonApi.deleteFilter(filter.id)
@@ -356,7 +356,7 @@ class StatusListActivity : BottomSheetActivity() {
                         mastodonApi.updateFilterV1(
                             id = filter.id,
                             phrase = filter.phrase,
-                            context = filter.context.filter { it != Filter.Kind.HOME.kind },
+                            context = filter.context.filterNot { it == Filter.Kind.HOME.kind },
                             irreversible = null,
                             wholeWord = null,
                             expiresIn = FilterExpiration.never
@@ -372,7 +372,7 @@ class StatusListActivity : BottomSheetActivity() {
             result?.fold(
                 {
                     updateTagMuteState(false)
-                    eventHub.dispatch(FilterUpdatedEvent(listOf(Filter.Kind.HOME.kind)))
+                    eventHub.dispatch(FilterUpdatedEvent(listOf(Filter.Kind.HOME)))
                     mutedFilterV1 = null
                     mutedFilter = null
 

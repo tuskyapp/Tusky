@@ -40,20 +40,18 @@ data class FilterV1(
         return other.id == id
     }
 
-    fun toFilter(): Filter {
-        return Filter(
-            id = id,
-            title = phrase,
-            context = context,
-            expiresAt = expiresAt,
-            filterAction = Filter.Action.WARN.action,
-            keywords = listOf(
-                FilterKeyword(
-                    id = id,
-                    keyword = phrase,
-                    wholeWord = wholeWord
-                )
+    fun toFilter() = Filter(
+        id = id,
+        title = phrase,
+        context = context.map(Filter.Kind::from),
+        expiresAt = expiresAt,
+        action = Filter.Action.WARN,
+        keywords = listOf(
+            FilterKeyword(
+                id = id,
+                keyword = phrase,
+                wholeWord = wholeWord
             )
         )
-    }
+    )
 }

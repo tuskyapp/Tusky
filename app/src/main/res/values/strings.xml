@@ -642,9 +642,8 @@
     <string name="notification_clear_text">Are you sure you want to permanently clear all your notifications?</string>
     <string name="compose_preview_image_description">Actions for image %1$s</string>
 
-    <string name="poll_info_format">
-        <!-- 15 votes • 1 hour left -->
-        %1$s • %2$s</string>
+    <!-- 15 votes • 1 hour left -->
+    <string name="poll_info_format">%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vote</item>
         <item quantity="other">%1$s votes</item>
@@ -817,9 +816,11 @@
 
     <string name="hint_filter_title">My filter</string>
     <string name="label_filter_title">Title</string>
+    <string name="filter_action_blur">Blur</string>
     <string name="filter_action_warn">Warn</string>
     <string name="filter_action_hide">Hide</string>
-    <string name="filter_description_warn">Hide with a warning</string>
+    <string name="filter_description_blur">Hide media with a warning</string>
+    <string name="filter_description_warn">Hide entire post with a warning</string>
     <string name="filter_description_hide">Hide completely</string>
     <string name="label_filter_action">Filter action</string>
     <string name="label_filter_context">Filter contexts</string>
@@ -916,4 +917,20 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirm_dismiss_caption">Discard caption changes?</string>
+
+    <string name="unblock_success">Unblocked %1$s</string>
+    <string name="unmute_success">Unmuted %1$s</string>
+    <string name="block_failure">Failed blocking %1$s: %2$s</string>
+    <string name="mute_failure">Failed muting %1$s: %2$s</string>
+    <string name="unblock_failure">Failed unblocking %1$s: %2$s</string>
+    <string name="unmute_failure">Failed unmuting %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Failed accepting follow request from %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Failed rejecting follow request from %1$s: %2$s</string>
+
+    <string name="reblog_privacy_public_description">Everyone can see your boost</string>
+    <string name="reblog_privacy_unlisted_description">Same as public but it will never be shown in public timelines</string>
+    <string name="reblog_privacy_followers_only_description">Only your followers can see your boost</string>
+
+    <string name="reblog_confirm">Boost this post?</string>
+    <string name="favourite_confirm">Favorite this post?</string>
 </resources>

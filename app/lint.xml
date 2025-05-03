@@ -63,6 +63,9 @@
     <!-- This is heavily used by the viewbinding helper -->
     <issue id="SyntheticAccessor" severity="ignore" />
 
+    <!-- We already have Renovate reminding us of new versions -->
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+
     <!-- Things we would actually question in a code review -->
     <issue id="MissingPermission" severity="error" />
     <issue id="InvalidPackage" severity="error" />
@@ -70,12 +73,7 @@
     <issue id="UseCompatTextViewDrawableXml" severity="error" />
     <issue id="Recycle" severity="error" />
     <issue id="KeyboardInaccessibleWidget" severity="error" />
-
-    <!-- these three don't work with Kotlin 2.1 for some reason
-         https://github.com/tuskyapp/Tusky/pull/4774 -->
-    <issue id="StateFlowValueCalledInComposition" severity="ignore" />
-    <issue id="CoroutineCreationDuringComposition" severity="ignore" />
-    <issue id="FlowOperatorInvokedInComposition" severity="ignore" />
+    <issue id="UnknownNullness" severity="error" />
 
     <!-- Mark all other lint issues as warnings -->
     <issue id="all" severity="warning" />

@@ -146,6 +146,7 @@ class InstanceInfoRepository @Inject constructor(
         maxFieldValueLength = this?.maxFieldValueLength,
         version = this?.version,
         translationEnabled = this?.translationEnabled,
+        mastodonApiVersion = this?.mastodonApiVersion,
         vapidKey = this?.vapidKey
     )
 
@@ -175,6 +176,7 @@ class InstanceInfoRepository @Inject constructor(
         maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
         maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
         translationEnabled = this.configuration?.translation?.enabled,
+        mastodonApiVersion = this.apiVersions?.mastodon,
         vapidKey = this.configuration?.vapid?.publicKey
     )
 
@@ -204,6 +206,7 @@ class InstanceInfoRepository @Inject constructor(
             maxFieldNameLength = this.pleroma?.metadata?.fieldLimits?.nameLength,
             maxFieldValueLength = this.pleroma?.metadata?.fieldLimits?.valueLength,
             translationEnabled = null,
+            mastodonApiVersion = null,
             vapidKey = null
         )
 

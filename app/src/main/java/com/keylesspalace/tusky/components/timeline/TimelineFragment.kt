@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import at.connyduck.calladapter.networkresult.onFailure
+import at.connyduck.sparkbutton.SparkButton
 import at.connyduck.sparkbutton.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import com.keylesspalace.tusky.R
@@ -65,6 +66,8 @@ import com.keylesspalace.tusky.util.startActivityWithSlideInAnimation
 import com.keylesspalace.tusky.util.unsafeLazy
 import com.keylesspalace.tusky.util.updateRelativeTimePeriodically
 import com.keylesspalace.tusky.util.viewBinding
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmFavourite
+import com.keylesspalace.tusky.view.ConfirmationBottomSheet.Companion.confirmReblog
 import com.keylesspalace.tusky.viewdata.AttachmentViewData
 import com.keylesspalace.tusky.viewdata.StatusViewData
 import com.keylesspalace.tusky.viewdata.TranslationViewData
@@ -137,6 +140,8 @@ class TimelineFragment :
     /** The user's preferred reading order */
     private lateinit var readingOrder: ReadingOrder
 
+    private var buttonToAnimate: SparkButton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -184,8 +189,6 @@ class TimelineFragment :
             } else {
                 CardViewMode.NONE
             },
-            confirmReblogs = preferences.getBoolean(PrefKeys.CONFIRM_REBLOGS, true),
-            confirmFavourites = preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false),
             hideStats = preferences.getBoolean(PrefKeys.WELLBEING_HIDE_STATS_POSTS, false),
             animateEmojis = preferences.getBoolean(PrefKeys.ANIMATE_CUSTOM_EMOJIS, false),
             showStatsInline = preferences.getBoolean(PrefKeys.SHOW_STATS_INLINE, false),
@@ -296,6 +299,7 @@ class TimelineFragment :
     override fun onDestroyView() {
         // Clear the adapter to prevent leaking the View
         adapter = null
+        buttonToAnimate = null
         super.onDestroyView()
     }
 
@@ -403,9 +407,23 @@ class TimelineFragment :
         super.reply(status.status)
     }
 
-    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility) {
+    override fun onReblog(reblog: Boolean, position: Int, visibility: Status.Visibility?, button: SparkButton?) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
-        viewModel.reblog(reblog, status, visibility)
+        buttonToAnimate = button
+
+        if (reblog && visibility == null) {
+            confirmReblog(preferences) { visibility ->
+                viewModel.reblog(true, status, visibility)
+                buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
+            }
+        } else {
+            viewModel.reblog(reblog, status, visibility ?: Status.Visibility.PUBLIC)
+            if (reblog) {
+                buttonToAnimate?.playAnimation()
+            }
+            buttonToAnimate?.isChecked = reblog
+        }
     }
 
     private fun onTranslate(position: Int) {
@@ -427,9 +445,18 @@ class TimelineFragment :
         viewModel.untranslate(status)
     }
 
-    override fun onFavourite(favourite: Boolean, position: Int) {
+    override fun onFavourite(favourite: Boolean, position: Int, button: SparkButton?) {
         val status = adapter?.peek(position)?.asStatusOrNull() ?: return
-        viewModel.favorite(favourite, status)
+        buttonToAnimate = button
+
+        if (favourite) {
+            confirmFavourite(preferences) {
+                viewModel.favorite(true, status)
+                buttonToAnimate?.playAnimation()
+            }
+        } else {
+            viewModel.favorite(false, status)
+        }
     }
 
     override fun onBookmark(bookmark: Boolean, position: Int) {

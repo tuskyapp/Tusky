@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="noHideDescendants">
+
+    <TextView
+        android:id="@+id/topPlaceholder"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/text_placeholder"
+        android:lines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/avatarPlaceholder"
+        android:layout_width="@dimen/timeline_status_avatar_width"
+        android:layout_height="@dimen/timeline_status_avatar_height"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="@dimen/account_avatar_margin"
+        android:importantForAccessibility="no"
+        android:src="@drawable/text_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topPlaceholder" />
+
+    <TextView
+        android:id="@+id/namePlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/text_placeholder"
+        android:lines="1"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/avatarPlaceholder"
+        app:layout_constraintTop_toBottomOf="@id/topPlaceholder" />
+
+    <TextView
+        android:id="@+id/contentPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/text_placeholder"
+        android:lines="3"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="?attr/status_text_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/avatarPlaceholder"
+        app:layout_constraintTop_toBottomOf="@id/namePlaceholder" />
+
+
+    <ImageButton
+        android:id="@+id/replyButtonPlaceholder"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-14dp"
+        android:layout_marginTop="2dp"
+        android:clickable="false"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/reblogButtonPlaceholder"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/namePlaceholder"
+        app:layout_constraintTop_toBottomOf="@id/contentPlaceholder"
+        app:srcCompat="@drawable/ic_reply_24dp"
+        app:tint="?attr/placeholderColor"
+        tools:ignore="NegativeMargin" />
+
+    <ImageButton
+        android:id="@+id/reblogButtonPlaceholder"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toStartOf="@id/favouriteButtonPlaceholder"
+        app:layout_constraintStart_toEndOf="@id/replyButtonPlaceholder"
+        app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
+        app:srcCompat="@drawable/ic_repeat_24dp"
+        app:tint="?attr/placeholderColor" />
+
+    <ImageButton
+        android:id="@+id/favouriteButtonPlaceholder"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toStartOf="@id/status_bookmark"
+        app:layout_constraintStart_toEndOf="@id/reblogButtonPlaceholder"
+        app:layout_constraintTop_toTopOf="@id/reblogButtonPlaceholder"
+        app:srcCompat="@drawable/ic_star_24dp"
+        app:tint="?attr/placeholderColor" />
+
+    <ImageButton
+        android:id="@+id/status_bookmark"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:clipToPadding="false"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toStartOf="@id/moreButtonPlaceHolder"
+        app:layout_constraintStart_toEndOf="@id/favouriteButtonPlaceholder"
+        app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
+        app:srcCompat="@drawable/ic_bookmark_24dp"
+        app:tint="?attr/placeholderColor"
+        sparkbutton:activeImage="@drawable/ic_bookmark_24dp_filled" />
+
+    <ImageButton
+        android:id="@+id/moreButtonPlaceHolder"
+        style="@style/TuskyImageButton"
+        android:layout_width="52dp"
+        android:layout_height="48dp"
+        android:clickable="false"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/replyButtonPlaceholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/status_bookmark"
+        app:layout_constraintTop_toTopOf="@id/replyButtonPlaceholder"
+        app:srcCompat="@drawable/ic_more_horiz_24dp"
+        app:tint="?attr/placeholderColor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

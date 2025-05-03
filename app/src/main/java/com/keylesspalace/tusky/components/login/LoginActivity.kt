@@ -24,6 +24,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
@@ -138,7 +139,7 @@ class LoginActivity : BaseActivity() {
 
         try {
             HttpUrl.Builder().host(domain).scheme("https").build()
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             setLoading(false)
             binding.domainTextInputLayout.error = getString(R.string.error_invalid_domain)
             return
@@ -161,11 +162,11 @@ class LoginActivity : BaseActivity() {
             ).fold(
                 { credentials ->
                     // Save credentials so we can access them after we opened another activity for auth.
-                    preferences.edit()
-                        .putString(DOMAIN, domain)
-                        .putString(CLIENT_ID, credentials.clientId)
-                        .putString(CLIENT_SECRET, credentials.clientSecret)
-                        .apply()
+                    preferences.edit {
+                        putString(DOMAIN, domain)
+                        putString(CLIENT_ID, credentials.clientId)
+                        putString(CLIENT_SECRET, credentials.clientSecret)
+                    }
 
                     redirectUserToAuthorizeAndLogin(domain, credentials.clientId, openInWebView)
                 },
@@ -291,9 +292,8 @@ class LoginActivity : BaseActivity() {
                 oauthScopes = OAUTH_SCOPES,
                 newAccount = newAccount
             )
-            finishAffinity()
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra(MainActivity.OPEN_WITH_EXPLODE_ANIMATION, true)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }, { e ->
             setLoading(false)

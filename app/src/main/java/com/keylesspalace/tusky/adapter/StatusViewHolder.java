@@ -69,7 +69,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
 
             setupCollapsedState(sensitive, expanded, status, listener);
 
-            if (!showStatusInfo || status.getFilterAction() == Filter.Action.WARN) {
+            if (!showStatusInfo || (status.getFilter() != null && status.getFilter().getAction() == Filter.Action.WARN)) {
                 hideStatusInfo();
             } else {
                 Status rebloggingStatus = status.getRebloggingStatus();
@@ -146,7 +146,7 @@ public class StatusViewHolder extends StatusBaseViewHolder {
         statusInfo.setVisibility(View.GONE);
     }
 
-    protected TextView getStatusInfo() {
+    protected @NonNull TextView getStatusInfo() {
         return statusInfo;
     }
 

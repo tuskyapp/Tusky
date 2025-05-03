@@ -667,11 +667,11 @@
 \nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum.
 \n
 \nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum.</string>
-    <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá. 
-\n 
-\nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína. 
-\n 
-\nÞessa lista má nota sem flipa í Kjörstillingar aðgangs{{manage_accounts}} {{chevron_right} flipunum .</string>
+    <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá.
+\n
+\nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína.
+\n
+\nÞessa lista má nota sem flipa í Kjörstillingar aðgangs{{manage_accounts}} {{chevron_right} flipunum.</string>
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
     <string name="title_public_trending_statuses">Færslur í umræðunni</string>
@@ -775,4 +775,12 @@
     <string name="yes">Já</string>
     <string name="no">Nei</string>
     <string name="confirm_dismiss_caption">Henda breytingum á skýringatexta?</string>
+    <string name="unblock_success">Aflæsti %1$s</string>
+    <string name="unmute_success">Hætti að þagga %1$s</string>
+    <string name="mute_failure">Mistókst að þagga %1$s: %2$s</string>
+    <string name="unblock_failure">Mistókst að aflæsa %1$s: %2$s</string>
+    <string name="unmute_failure">Mistókst að afþagga %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Mistókst að samþykkja beiðni um að fylgjast með frá %1$s: %2$s</string>
+    <string name="block_failure">Mistókst að loka á %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Mistókst að hafna beiðni um að fylgjast með frá %1$s: %2$s</string>
 </resources>

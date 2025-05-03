@@ -19,13 +19,13 @@ package com.keylesspalace.tusky.util
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.Log
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.Person
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
@@ -67,7 +67,7 @@ class ShareShortcutHelper @Inject constructor(
                 }
 
                 // inset the loaded bitmap inside a 108dp transparent canvas so it looks good as adaptive icon
-                val outBmp = Bitmap.createBitmap(outerSize, outerSize, Bitmap.Config.ARGB_8888)
+                val outBmp = createBitmap(outerSize, outerSize)
 
                 val canvas = Canvas(outBmp)
                 val borderSize = (outerSize - innerSize) / 2
