@@ -347,7 +347,7 @@
     <string name="compose_shortcut_short_label">发表嘟文</string>
     <string name="pref_title_bot_overlay">显示机器人标志</string>
     <string name="notification_clear_text">你确定要永久清空通知列表吗？</string>
-    <string name="poll_info_format"> \u0020<!-- 15 票 • 剩余 1 小时 --> %1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="other">%1$s 次投票</item>
     </plurals>
