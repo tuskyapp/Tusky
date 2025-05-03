@@ -62,7 +62,7 @@
     <string name="action_compose">Componi</string>
     <string name="action_login">Accedi con Tusky</string>
     <string name="action_logout">Disconnettiti</string>
-    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s\? Questo cancellerà tutti i dati locali dell\'account, incluse bozze e preferenze.</string>
+    <string name="action_logout_confirm">Sei sicuro di volerti disconnettere dall\'account %1$s? Questo cancellerà tutti i dati locali dell\'account, incluse bozze e preferenze.</string>
     <string name="action_follow">Segui</string>
     <string name="action_unfollow">Smetti di seguire</string>
     <string name="action_block">Blocca</string>
@@ -136,19 +136,19 @@
     <string name="label_header">Intestazione</string>
     <string name="link_whats_an_instance">Cos\'è un\'istanza?</string>
     <string name="login_connection">Connessione…</string>
-    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a>
-\n
-\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account.
-\n
-\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito.
-\n
+    <string name="dialog_whats_an_instance">L\'indirizzo o il dominio di qualsiasi istanza può essere inserito qui, come mastodon.social, icosahedron.website, social.tchncs.de, e <a href="https://instances.social">altro!</a> 
+\n 
+\nSe non hai ancora un account, puoi inserire il nome di un\'istanza alla quale vuoi iscriverti e creare un account. 
+\n 
+\nUn\'istanza è il luogo dove l\'account è custodito, ma puoi facilmente comunicare e seguire gente su altre istanze come se fossero sullo stesso sito. 
+\n 
 \nPiù info possono essere trovate su <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Terminando il caricamento dei media</string>
     <string name="dialog_message_uploading_media">Caricamento…</string>
     <string name="dialog_download_image">Scarica</string>
     <string name="dialog_message_cancel_follow_request">Revocare la richiesta di seguire?</string>
     <string name="dialog_unfollow_warning">Smettere di seguire questo account?</string>
-    <string name="dialog_delete_post_warning">Eliminare questo post\?</string>
+    <string name="dialog_delete_post_warning">Eliminare questo post?</string>
     <string name="visibility_public">Pubblico: visibile sulle timeline pubbliche</string>
     <string name="visibility_unlisted">Non in elenco: non visibile sulle timeline pubbliche</string>
     <string name="visibility_private">Solo chi ti segue: visibile solo da chi ti segue</string>
@@ -215,9 +215,7 @@
     <string name="description_account_locked">Account bloccato</string>
     <string name="about_title_activity">A proposito</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky è un programma libero ed open source.
-		È distribuito con licenza GNU General Public License Version 3.
-		Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="about_tusky_license">Tusky è un programma libero ed open source. È distribuito con licenza GNU General Public License Version 3. Puoi leggere la licenza qui: https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -337,12 +335,10 @@
     <string name="description_post_media_no_description_placeholder">Nessuna descrizione</string>
     <string name="description_post_reblogged">Ribloggato</string>
     <string name="description_post_favourited">Messo nei preferiti</string>
-    <string name="description_visibility_public">        Pubblico
-    </string>
+    <string name="description_visibility_public">Pubblico</string>
     <string name="description_visibility_unlisted">Non in elenco</string>
     <string name="description_visibility_private">Solo seguaci</string>
-    <string name="description_visibility_direct">        Diretti
-    </string>
+    <string name="description_visibility_direct">Diretti</string>
     <string name="hint_list_name">Nome della lista</string>
     <string name="download_media">Scarica media</string>
     <string name="downloading_media">Scaricando media</string>
@@ -353,9 +349,9 @@
     <string name="notifications_apply_filter">Filtra</string>
     <string name="filter_apply">Applica</string>
     <string name="pref_title_bot_overlay">Mostra indicatore bot</string>
-    <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche\?</string>
+    <string name="notification_clear_text">Sei sicuro di voler permanentemente eliminare tutte le tue notifiche?</string>
     <string name="action_delete_and_redraft">Cancella e riscrivi</string>
-    <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo post\?</string>
+    <string name="dialog_redraft_post_warning">Cancellare e riscrivere questo post?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s voto</item>
         <item quantity="many">%1$s voti</item>
@@ -368,7 +364,7 @@
     <string name="action_view_domain_mutes">Domini nascosti</string>
     <string name="action_mute_domain">Silenzia %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s mostrati</string>
-    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s\? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
+    <string name="mute_domain_warning">Sei sicuro di voler bloccare tutto %1$s? Non vedrai nessun contenuto da quel dominio in nessuna timeline pubblica o nelle tue notifiche. I tuoi seguaci che stanno in quel dominio saranno rimossi.</string>
     <string name="mute_domain_warning_dialog_ok">Nascondi l\'intero dominio</string>
     <string name="pref_title_animate_gif_avatars">Riproduci avatar animati</string>
     <string name="notification_poll_name">Risultati del sondaggio</string>
@@ -419,7 +415,7 @@
     <string name="failed_report">Segnalazione fallita</string>
     <string name="failed_fetch_posts">Scaricamento dei post fallito</string>
     <string name="report_description_1">La segnalazione sarà inviata al moderatore del tuo server. Puoi spiegare perché stai segnalando l\'utente qui sotto:</string>
-    <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì\?</string>
+    <string name="report_description_remote_instance">L\'utente è su un altro server. Mandare una copia della segnalazione anche lì?</string>
     <string name="title_accounts">Utenti</string>
     <string name="failed_search">Errore durante la ricerca</string>
     <string name="create_poll_title">Sondaggio</string>
@@ -439,7 +435,7 @@
     <string name="action_access_scheduled_posts">Post programmati</string>
     <string name="action_schedule_post">Programma un post</string>
     <string name="action_reset_schedule">Ripristina</string>
-    <string name="poll_info_format"> \u0020<!-- 15 voti • 1 ora mancante --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="no_drafts">Non hai bozze.</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s persona</item>
@@ -448,8 +444,8 @@
     </plurals>
     <string name="hashtags">Hashtag</string>
     <string name="add_hashtag_title">Aggiungi hashtag</string>
-    <string name="dialog_mute_warning">Silenziare @%1$s\?</string>
-    <string name="dialog_block_warning">Bloccare @%1$s\?</string>
+    <string name="dialog_mute_warning">Silenziare @%1$s?</string>
+    <string name="dialog_block_warning">Bloccare @%1$s?</string>
     <string name="action_unmute_domain">Smetti di silenziare %1$s</string>
     <string name="action_unmute_conversation">Smetti di silenziare la conversazione</string>
     <string name="action_mute_conversation">Silenzia conversazione</string>
@@ -488,14 +484,14 @@
     <string name="drafts_post_reply_removed">Il post a cui hai scritto una bozza di risposta è stato rimosso</string>
     <string name="draft_deleted">Bozza eliminata</string>
     <string name="drafts_post_failed_to_send">L\'invio di questo post è fallito!</string>
-    <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %1$s\?</string>
+    <string name="dialog_delete_list_warning">Sei sicuro di voler cancellare la lista %1$s?</string>
     <string name="duration_indefinite">Indefinita</string>
     <string name="label_duration">Durata</string>
     <string name="post_media_attachments">Allegati</string>
     <string name="post_media_audio">Audio</string>
     <string name="pref_title_animate_custom_emojis">Riproduci emoji animate</string>
     <string name="action_subscribe_account">Iscriviti</string>
-    <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione\?</string>
+    <string name="dialog_delete_conversation_warning">Rimuovere questa conversazione?</string>
     <string name="drafts_failed_loading_reply">Errore nel recupero delle informazioni sulla risposta</string>
     <string name="action_unsubscribe_account">Disiscriviti</string>
     <string name="action_delete_conversation">Elimina conversazione</string>
@@ -536,7 +532,7 @@
     <string name="error_unfollowing_hashtag_format">Errore smettendo di provare a seguire #%1$s</string>
     <string name="status_count_one_plus">1+</string>
     <string name="error_loading_account_details">Caricamento dettagli utente fallito</string>
-    <string name="delete_scheduled_post_warning">Cancellare questo post programmato\?</string>
+    <string name="delete_scheduled_post_warning">Cancellare questo post programmato?</string>
     <string name="instance_rule_title">Regole di %1$s</string>
     <string name="instance_rule_info">Facendo il log in accetti le regole di %1$s.</string>
     <string name="set_focus_description">Tappa o crea un cerchio per scegliere il punto focale che sarà sempre visibile nelle anteprime.</string>
@@ -550,7 +546,7 @@
     <string name="action_add_or_remove_from_list">Aggiunti o rimuovi dalla lista</string>
     <string name="failed_to_add_to_list">Aggiunta dell\'account alla lista fallita</string>
     <string name="failed_to_remove_from_list">Rimozione dell\'account dalla lista fallita</string>
-    <string name="compose_save_draft_loses_media">Salvare bozza\? (gli allegati verranno ricaricati quando ripristini la bozza.)</string>
+    <string name="compose_save_draft_loses_media">Salvare bozza? (gli allegati verranno ricaricati quando ripristini la bozza.)</string>
     <string name="failed_to_pin">Fissaggio fallito</string>
     <string name="hint_media_description_missing">I media dovrebbero avere una descrizione.</string>
     <string name="no_lists">Non hai alcuna lista.</string>
@@ -584,7 +580,7 @@
     <string name="status_edit_info">%1$s ha modificato</string>
     <string name="status_created_info">%1$s ha creato</string>
     <string name="report_category_other">Altro</string>
-    <string name="action_unfollow_hashtag_format">Smettere di seguire #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Smettere di seguire #%1$s?</string>
     <string name="action_post_failed">Caricamento fallito</string>
     <string name="action_browser_login">Accedi dal browser</string>
     <string name="a11y_label_loading_thread">Carico il thread</string>
@@ -620,8 +616,8 @@
     <string name="total_accounts">Account totali</string>
     <string name="action_refresh">Ricarica</string>
     <string name="title_public_trending_hashtags">Hashtag di tendenza</string>
-    <string name="help_empty_home">Questa è la tua <b>Timeline principale</b>. Mostra i post più recenti degli account che segui.
-\n
+    <string name="help_empty_home">Questa è la tua <b>Timeline principale</b>. Mostra i post più recenti degli account che segui. 
+\n 
 \nPer esplorare gli account puoi scoprirli in una delle altre timeline. Per esempio la timeline locale della tua istanza {{group}}. O puoi cercarli per fine {{search}}; per esempio cerca \"Tusky\" per trovare il nostro account Mastodon.</string>
     <string name="notification_unknown_name">Sconosciuto</string>
     <string name="post_media_image">Immagine</string>
@@ -646,7 +642,7 @@
     <string name="hint_filter_title">I miei filtri</string>
     <string name="action_add">Aggiungi</string>
     <string name="pref_title_show_stat_inline">Mostra le statistiche del post nella timeline</string>
-    <string name="filter_description_warn">Nascondi con un avviso</string>
+    <string name="filter_description_warn">Nascondi l\'intero post con un avviso</string>
     <string name="filter_keyword_display_format">%1$s (parola intera)</string>
     <string name="filter_description_hide">Nascondi completamente</string>
     <string name="label_filter_action">Azioni del filtro</string>
@@ -656,9 +652,9 @@
     <string name="filter_edit_keyword_title">Modifica parola chiave</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="load_newest_notifications">Carica le notifiche più recenti</string>
-    <string name="compose_delete_draft">Cancellare bozza\?</string>
-    <string name="error_missing_edits">Il tuo server sa che questo post è stato modificato, ma non ha una copia delle modifiche, quindi non ti può essere mostrato.
-\n
+    <string name="compose_delete_draft">Cancellare bozza?</string>
+    <string name="error_missing_edits">Il tuo server sa che questo post è stato modificato, ma non ha una copia delle modifiche, quindi non ti può essere mostrato. 
+\n 
 \nQuesto è il <a href="https://github.com/mastodon/mastodon/issues/25398">problema Mastodon #25398</a>.</string>
     <string name="pref_ui_text_size">Dimensione testo dell\'UI</string>
     <string name="notification_listenable_worker_name">Attività in secondo piano</string>
@@ -674,28 +670,28 @@
 \nVersione: %3$s</string>
     <string name="list_exclusive_label">Nascondi dalla timeline principale</string>
     <string name="error_media_playback">Playback fallito: %1$s</string>
-    <string name="dialog_delete_filter_text">Cancellare filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Cancellare filtro \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Cancella</string>
     <string name="about_copy">Copia versione e informazioni dispositivo</string>
     <string name="about_copied">Versione e informazioni dispositivo copiate</string>
-    <string name="dialog_save_profile_changes_message">Vuoi salvare le modifiche al tuo profilo\?</string>
+    <string name="dialog_save_profile_changes_message">Vuoi salvare le modifiche al tuo profilo?</string>
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %1$s</string>
     <string name="label_image">Immagine</string>
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
-    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM).
-\n
-\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo.
-\n
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). 
+\n 
+\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo. 
+\n 
 \nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità.</string>
     <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%1$s</string>
     <string name="unmuting_hashtag_success_format">Riattivazione dell\'hashtag #%1$s</string>
     <string name="action_view_filter">Vedi filtro</string>
     <string name="following_hashtag_success_format">Ora segui l\'hashtag #%1$s</string>
     <string name="muting_hashtag_success_format">Hashtag #%1$s silenziato come avvertimento</string>
-    <string name="help_empty_lists">Questa è la <b>vista delle tue liste</b>. Puoi definire un numero di liste private a cui aggiungere account.
-\n
-\nRICORDA che puoi aggiungere alle liste solo account che già segui.
-\n
+    <string name="help_empty_lists">Questa è la <b>vista delle tue liste</b>. Puoi definire un numero di liste private a cui aggiungere account. 
+\n 
+\nRICORDA che puoi aggiungere alle liste solo account che già segui. 
+\n 
 \nQueste liste possono essere utilizzate come scheda dalle Impostazioni account {{manage_accounts}} {{chevron_right}} Schede.</string>
     <string name="title_public_trending_statuses">Post di tendenza</string>
     <string name="error_blocking_domain">Silenziamento di %1$s fallito: %2$s</string>
@@ -810,4 +806,11 @@
     <string name="unmute_success">Riattivato %1$s</string>
     <string name="block_failure">Blocco di %1$s fallito: %2$s</string>
     <string name="accept_follow_request_failure">Accettazione del follow di %1$s fallita: %2$s</string>
+    <string name="filter_description_blur">Nascondi media con un avviso</string>
+    <string name="reblog_privacy_followers_only_description">Solo chi ti segue può vedere le tue ricondivisioni</string>
+    <string name="reblog_confirm">Ricondividere questo post?</string>
+    <string name="favourite_confirm">Mettere questo post tra i preferiti?</string>
+    <string name="filter_action_blur">Sfoca</string>
+    <string name="reblog_privacy_unlisted_description">Uguale a \"Pubblico\" ma non verrà mai mostrato nelle timeline pubbliche</string>
+    <string name="reblog_privacy_public_description">Tutti possono vedere la tua ricondivisione</string>
 </resources>

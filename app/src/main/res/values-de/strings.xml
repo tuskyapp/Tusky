@@ -52,7 +52,7 @@
     <string name="notification_favourite_format">%1$s favorisierte deinen Beitrag</string>
     <string name="notification_follow_format">%1$s folgt dir</string>
     <string name="report_username_format">\@%1$s melden</string>
-    <string name="report_comment_hint">Ergänzende Hinweise\?</string>
+    <string name="report_comment_hint">Ergänzende Hinweise?</string>
     <string name="action_quick_reply">Schnell antworten</string>
     <string name="action_reply">Antworten</string>
     <string name="action_reblog">Teilen</string>
@@ -63,7 +63,7 @@
     <string name="action_compose">Beitrag erstellen</string>
     <string name="action_login">Mit Tusky anmelden</string>
     <string name="action_logout">Abmelden</string>
-    <string name="action_logout_confirm">Möchtest du %1$s wirklich abmelden\? Dadurch werden alle lokalen Daten des Profils, wie Entwürfe und Einstellungen, gelöscht.</string>
+    <string name="action_logout_confirm">Möchtest du %1$s wirklich abmelden? Dadurch werden alle lokalen Daten des Profils, wie Entwürfe und Einstellungen, gelöscht.</string>
     <string name="action_follow">Folgen</string>
     <string name="action_unfollow">Entfolgen</string>
     <string name="action_block">Blockieren</string>
@@ -135,20 +135,20 @@
     <string name="label_quick_reply">Antworten …</string>
     <string name="label_avatar">Profilbild</string>
     <string name="label_header">Titelbild</string>
-    <string name="link_whats_an_instance">Was ist eine Instanz\?</string>
+    <string name="link_whats_an_instance">Was ist eine Instanz?</string>
     <string name="login_connection">Wird verbunden …</string>
-    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a>
-\n
-\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten.
-\n
-\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website.
-\n
+    <string name="dialog_whats_an_instance">Die Adresse oder Domain einer Instanz kann hier eingegeben werden, wie z. B. mastodon.social, icosahedron.website, social.tchncs.de, oder<a href="https://instances.social">weitere!</a> 
+\n 
+\nWenn du bis jetzt kein Konto hast, kannst du hier den Namen einer Instanz eingeben und dort ein Konto einrichten. 
+\n 
+\nEine Instanz ist ein einzelner Ort, an dem dein Konto gehostet ist, aber du kannst dennoch mit anderen Leuten interagieren, als wärt ihr alle auf derselben Website. 
+\n 
 \nWeitere Informationen gibt es auf <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Hochladen der Datei wird abgeschlossen</string>
     <string name="dialog_message_uploading_media">Wird hochgeladen …</string>
     <string name="dialog_download_image">Herunterladen</string>
     <string name="dialog_message_cancel_follow_request">Follow-Anfrage zurückziehen?</string>
-    <string name="dialog_unfollow_warning">Dieses Profil entfolgen\?</string>
+    <string name="dialog_unfollow_warning">Dieses Profil entfolgen?</string>
     <string name="dialog_delete_post_warning">Diesen Beitrag löschen?</string>
     <string name="visibility_public">Öffentlich: Für alle sichtbar</string>
     <string name="visibility_unlisted">Nicht gelistet: Nicht in der öffentlichen Timeline sichtbar</string>
@@ -301,11 +301,11 @@
     <string name="conversation_1_recipients">%1$s</string>
     <string name="conversation_2_recipients">%1$s und %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s und %3$d mehr</string>
-    <string name="description_post_media_no_description_placeholder">        Keine Beschreibung    </string>
-    <string name="description_post_favourited">Favorisiert    </string>
-    <string name="description_visibility_public">Öffentlich    </string>
+    <string name="description_post_media_no_description_placeholder">Keine Beschreibung</string>
+    <string name="description_post_favourited">Favorisiert</string>
+    <string name="description_visibility_public">Öffentlich</string>
     <string name="description_visibility_private">Follower</string>
-    <string name="description_visibility_direct">Direkt    </string>
+    <string name="description_visibility_direct">Direkt</string>
     <string name="hint_list_name">Listenname</string>
     <string name="download_media">Dateien herunterladen</string>
     <string name="downloading_media">Dateien werden heruntergeladen</string>
@@ -328,7 +328,7 @@
     <string name="description_post_reblogged">Geteilt</string>
     <string name="description_visibility_unlisted">Nicht gelistet</string>
     <string name="action_delete_and_redraft">Löschen und neu erstellen</string>
-    <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen\?</string>
+    <string name="dialog_redraft_post_warning">Diesen Beitrag löschen und neu erstellen?</string>
     <string name="notification_poll_name">Umfrageergebnisse</string>
     <string name="notification_poll_description">Benachrichtigungen über beendete Umfragen</string>
     <string name="notifications_clear">Löschen</string>
@@ -337,7 +337,7 @@
     <string name="compose_shortcut_long_label">Beitrag erstellen</string>
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
-    <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest\?</string>
+    <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest?</string>
     <string name="poll_info_format"> \u0020<!-- 15 Stimmen • noch 1 Stunde --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s Stimme</item>
@@ -368,7 +368,7 @@
     <string name="action_view_domain_mutes">Ausgeblendete Domains</string>
     <string name="action_mute_domain">%1$s stummschalten</string>
     <string name="confirmation_domain_unmuted">%1$s nicht mehr ausgeblendet</string>
-    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %1$s blockieren möchtest\? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
+    <string name="mute_domain_warning">Bist du dir sicher, dass du alles von %1$s blockieren möchtest? Du wirst keine Inhalte dieser Domain in irgendwelchen öffentlichen Timelines oder in deinen Benachrichtigungen sehen. Deine Follower von dieser Domain werden entfernt.</string>
     <string name="mute_domain_warning_dialog_ok">Gesamte Domain ausblenden</string>
     <string name="pref_title_animate_gif_avatars">GIF-Profilbilder animieren</string>
     <string name="filter_dialog_whole_word">Ganzes Wort</string>
@@ -381,7 +381,7 @@
     <string name="report_remote_instance">An %1$s weiterleiten</string>
     <string name="failed_report">Melden fehlgeschlagen</string>
     <string name="report_description_1">Die Meldung wird an die Moderator*innen deines Servers geschickt. Du kannst hier eine Erklärung angeben, warum du dieses Konto meldest:</string>
-    <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie der Meldung auch dorthin geschickt werden\?</string>
+    <string name="report_description_remote_instance">Dieses Konto ist von einem anderen Server. Soll eine anonymisierte Kopie der Meldung auch dorthin geschickt werden?</string>
     <string name="create_poll_title">Umfrage</string>
     <string name="duration_5_min">5 Minuten</string>
     <string name="duration_30_min">30 Minuten</string>
@@ -421,8 +421,8 @@
     <string name="warning_scheduling_interval">Das Datum des geplanten Beitrags muss mindestens 5 Minuten in der Zukunft liegen.</string>
     <string name="notification_follow_request_description">Benachrichtigungen über neue Follower-Anfragen</string>
     <string name="notification_follow_request_name">Follower-Anfragen</string>
-    <string name="dialog_mute_warning">\@%1$s stummschalten\?</string>
-    <string name="dialog_block_warning">\@%1$s blockieren\?</string>
+    <string name="dialog_mute_warning">\@%1$s stummschalten?</string>
+    <string name="dialog_block_warning">\@%1$s blockieren?</string>
     <string name="action_unmute_conversation">Stummschaltung der Unterhaltung aufheben</string>
     <string name="action_mute_conversation">Unterhaltung stummschalten</string>
     <string name="notification_follow_request_format">%1$s möchte dir folgen</string>
@@ -458,7 +458,7 @@
     <string name="drafts_post_reply_removed">Der Beitrag, auf den du antworten wolltest, wurde gelöscht</string>
     <string name="draft_deleted">Entwurf gelöscht</string>
     <string name="drafts_post_failed_to_send">Dieser Beitrag konnte nicht gesendet werden!</string>
-    <string name="dialog_delete_list_warning">Möchtest du die Liste %1$s wirklich löschen\?</string>
+    <string name="dialog_delete_list_warning">Möchtest du die Liste %1$s wirklich löschen?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Du kannst nicht mehr als %1$d Anhang hochladen.</item>
         <item quantity="other">Du kannst nicht mehr als %1$d Anhänge hochladen.</item>
@@ -495,7 +495,7 @@
     <string name="abbreviated_in_seconds">in %1$d Sek.</string>
     <string name="action_unbookmark">Lesezeichen entfernen</string>
     <string name="pref_title_confirm_favourites">Vor dem Favorisieren bestätigen</string>
-    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen\?</string>
+    <string name="dialog_delete_conversation_warning">Diese Unterhaltung wirklich löschen?</string>
     <string name="action_delete_conversation">Unterhaltung löschen</string>
     <string name="duration_30_days">30 Tage</string>
     <string name="duration_60_days">60 Tage</string>
@@ -524,11 +524,11 @@
     <string name="error_multimedia_size_limit">Video- und Audiodateien dürfen nicht größer als %1$s MB sein.</string>
     <string name="error_following_hashtag_format">Fehler beim Folgen von #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Fehler beim Entfolgen von #%1$s</string>
-    <string name="delete_scheduled_post_warning">Diesen geplanten Beitrag löschen\?</string>
+    <string name="delete_scheduled_post_warning">Diesen geplanten Beitrag löschen?</string>
     <string name="instance_rule_title">%1$s-Regeln</string>
     <string name="instance_rule_info">Mit dem Anmelden stimmst du den Regeln von %1$s zu.</string>
     <string name="set_focus_description">Tippe oder ziehe den Kreis auf die Stelle, die in Vorschaubildern immer sichtbar sein soll.</string>
-    <string name="compose_save_draft_loses_media">Entwurf speichern\? (Anhänge werden erneut hochgeladen, sobald du den Entwurf wiederherstellst.)</string>
+    <string name="compose_save_draft_loses_media">Entwurf speichern? (Anhänge werden erneut hochgeladen, sobald du den Entwurf wiederherstellst.)</string>
     <string name="duration_no_change">(Keine Änderung)</string>
     <string name="pref_title_show_self_username">Profilname in der Hauptnavigation anzeigen</string>
     <string name="failed_to_pin">Anheften fehlgeschlagen</string>
@@ -554,7 +554,7 @@
     <string name="report_category_other">Sonstiges</string>
     <string name="error_following_hashtags_unsupported">Diese Instanz unterstützt das Folgen von Hashtags nicht.</string>
     <string name="title_followed_hashtags">Gefolgte Hashtags</string>
-    <string name="action_unfollow_hashtag_format">#%1$s entfolgen\?</string>
+    <string name="action_unfollow_hashtag_format">#%1$s entfolgen?</string>
     <string name="description_post_edited">Bearbeitet</string>
     <string name="a11y_label_loading_thread">Thread wird geladen …</string>
     <string name="mute_notifications_switch">Benachrichtigungen stummschalten</string>
@@ -621,7 +621,7 @@
     <string name="label_filter_title">Titel</string>
     <string name="filter_action_warn">Warnen</string>
     <string name="filter_action_hide">Ausblenden</string>
-    <string name="filter_description_warn">Mit einer Warnung ausblenden</string>
+    <string name="filter_description_warn">Vollständigen Beitrag mit einer Warnung ausblenden</string>
     <string name="filter_description_hide">Vollständig ausblenden</string>
     <string name="label_filter_context">Nach Bereich filtern</string>
     <string name="label_filter_action">Filteraktion</string>
@@ -632,8 +632,8 @@
     <string name="filter_edit_keyword_title">Schlagwort bearbeiten</string>
     <string name="filter_description_format">%1$s: %2$s</string>
     <string name="status_filtered_show_anyway">Trotzdem anzeigen</string>
-    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst.
-\n
+    <string name="help_empty_home">Dies ist deine <b>Startseite</b>. Sie zeigt die neuesten Beiträge von Konten, denen du folgst. 
+\n 
 \nDamit du andere Konten entdeckst, kannst du entweder andere Timelines lesen – z. B. die Lokale Timeline deiner Instanz {{group}} \u0020– oder du suchst nach Namen {{search}} – z. B. kannst du nach Tusky suchen, um unser Mastodon-Konto zu finden.</string>
     <string name="post_media_image">Bild</string>
     <string name="pref_title_show_stat_inline">Beitragsstatistiken in der Timeline anzeigen</string>
@@ -643,9 +643,9 @@
     <string name="notification_listenable_worker_name">Hintergrundaktivität</string>
     <string name="notification_notification_worker">Benachrichtigungen werden abgerufen …</string>
     <string name="load_newest_notifications">Neueste Benachrichtigungen laden</string>
-    <string name="compose_delete_draft">Entwurf löschen\?</string>
-    <string name="error_missing_edits">Deinem Server ist bekannt, dass dieser Beitrag bearbeitet wurde. Allerdings besitzt er keine Kopien der Änderungen, weshalb diese nicht angezeigt werden können.
-\n
+    <string name="compose_delete_draft">Entwurf löschen?</string>
+    <string name="error_missing_edits">Deinem Server ist bekannt, dass dieser Beitrag bearbeitet wurde. Allerdings besitzt er keine Kopien der Änderungen, weshalb diese nicht angezeigt werden können. 
+\n 
 \nHierbei handelt es sich um <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon Issue #25398</a>.</string>
     <string name="about_device_info_title">Dein Gerät</string>
     <string name="about_device_info">%1$s %2$s
@@ -659,21 +659,21 @@
     <string name="list_exclusive_label">Nicht in der Startseite anzeigen</string>
     <string name="error_media_upload_sending_fmt">Das Hochladen ist fehlgeschlagen: %1$s</string>
     <string name="label_image">Bild</string>
-    <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen. 
-\n 
-\nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. 
-\n 
+    <string name="help_empty_lists">Das ist deine <b>Listenansicht</b>. Du kannst private Listen erstellen und diese Profile hinzufügen. \u0020
+\n \u0020
+\nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. \u0020
+\n \u0020
 \nDiese Listen können als Tab in den Kontoeinstellungen {{manage_accounts}} {{chevron_right}} Tabs festgelegt werden.</string>
-    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
-\n
-\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
-\n
+    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht). 
+\n 
+\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden. 
+\n 
 \nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit.</string>
     <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
     <string name="error_media_playback">Wiedergabe fehlgeschlagen: %1$s</string>
     <string name="dialog_delete_filter_positive_action">Entfernen</string>
-    <string name="dialog_delete_filter_text">Filter »%1$s« entfernen\?</string>
-    <string name="dialog_save_profile_changes_message">Möchtest du deine Änderungen am Profil speichern\?</string>
+    <string name="dialog_delete_filter_text">Filter »%1$s« entfernen?</string>
+    <string name="dialog_save_profile_changes_message">Möchtest du deine Änderungen am Profil speichern?</string>
     <string name="unmuting_hashtag_success_format">Hashtag #%1$s nicht mehr stummschalten</string>
     <string name="action_view_filter">Filter ansehen</string>
     <string name="muting_hashtag_success_format">Hashtag #%1$s als Warnung stummschalten</string>
@@ -782,4 +782,19 @@
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="confirm_dismiss_caption">Änderungen an der Bildbeschreibung verwerfen?</string>
+    <string name="mute_failure">Fehler beim stummschalten von %1$s: %2$s</string>
+    <string name="unblock_success">%1$s entblockt</string>
+    <string name="unmute_success">%1$s nicht mehr stummgeschalten</string>
+    <string name="block_failure">Fehler beim blockieren von %1$s: %2$s</string>
+    <string name="filter_action_blur">Medien ausblenden</string>
+    <string name="filter_description_blur">Medien mit einer Warnung ausblenden, ohne den Text selbst auszublenden</string>
+    <string name="unblock_failure">Fehler beim entblocken von %1$s: %2$s</string>
+    <string name="unmute_failure">Failed beim Aufheben der Stummschalteung von %1$s: %2$s</string>
+    <string name="accept_follow_request_failure">Fehler beim Annehmen der Folgeanfrage von %1$s: %2$s</string>
+    <string name="reject_follow_request_failure">Fehler beim Ablehnen der Folgeanfrage von %1$s: %2$s</string>
+    <string name="reblog_privacy_unlisted_description">Gleich wie Öffentlich, ohne in öffentlichen Timelines angezeigt zu werden</string>
+    <string name="reblog_confirm">Diesen Beitrag teilen?</string>
+    <string name="favourite_confirm">Diesen Beitrag favorisieren?</string>
+    <string name="reblog_privacy_public_description">Alle können sehen dass du den Beitrag teilst</string>
+    <string name="reblog_privacy_followers_only_description">Nur deine Follower können sehen dass du den Beitrag teilst</string>
 </resources>

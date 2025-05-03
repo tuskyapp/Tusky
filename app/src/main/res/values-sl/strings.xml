@@ -48,7 +48,7 @@
     <string name="notification_favourite_format">%1$s je vzljubil vaš tut</string>
     <string name="notification_follow_format">%1$s vam sledi</string>
     <string name="report_username_format">Prijavi @%1$s</string>
-    <string name="report_comment_hint">Dodatni komentarji\?</string>
+    <string name="report_comment_hint">Dodatni komentarji?</string>
     <string name="action_quick_reply">Hiter odgovor</string>
     <string name="action_reply">Odgovori</string>
     <string name="action_reblog">Spodbudi</string>
@@ -58,7 +58,7 @@
     <string name="action_compose">Sestavi</string>
     <string name="action_login">Prijavite se z Mastodonom</string>
     <string name="action_logout">Odjava</string>
-    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s\? To bo izbrisalo vse lokalne podatke o računu, vključno z osnutki in preferencami.</string>
+    <string name="action_logout_confirm">Ali ste prepričani, da se želite odjaviti iz računa %1$s? To bo izbrisalo vse lokalne podatke o računu, vključno z osnutki in preferencami.</string>
     <string name="action_follow">Sledi</string>
     <string name="action_unfollow">Prenehaj slediti</string>
     <string name="action_block">Blokiraj</string>
@@ -117,7 +117,7 @@
     <string name="send_post_content_to">Deli tut z…</string>
     <string name="send_media_to">Deli medij z…</string>
     <string name="confirmation_reported">Pošlji!</string>
-    <string name="hint_compose">Kaj se dogaja\?</string>
+    <string name="hint_compose">Kaj se dogaja?</string>
     <string name="hint_content_warning">Opozorilo o vsebini</string>
     <string name="hint_display_name">Prikazano ime</string>
     <string name="hint_note">Bio</string>
@@ -135,21 +135,21 @@
     <string name="title_hashtags_dialog">Ključniki</string>
     <string name="confirmation_unblocked">Odblokiran uporabnik</string>
     <string name="confirmation_unmuted">Prekinjeno utišanje uporabnika</string>
-    <string name="hint_domain">Katero vozlišče\?</string>
-    <string name="link_whats_an_instance">Kaj je instanca\?</string>
-    <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a> 
-\n 
-\nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun. 
-\n 
-\nVozlišče je ena lokacija, kjer je gostovanje vašega računa, vendar lahko preprosto komunicirate in sledite ljudem na drugih vozliščih, kot da bi bili na isti lokaciji. 
-\n 
+    <string name="hint_domain">Katero vozlišče?</string>
+    <string name="link_whats_an_instance">Kaj je instanca?</string>
+    <string name="dialog_whats_an_instance">Tu lahko vnesete naslov ali domeno katerega koli vozlišča, na primer mastodon.social, icosahedron.website, social.tchncs.de in <a href="https://instances.social"> več! </a> \u0020
+\n \u0020
+\nČe še nimate računa, lahko vnesete ime vozlišča, kateremu bi se radi pridružili, in tam ustvarite račun. \u0020
+\n \u0020
+\nVozlišče je ena lokacija, kjer je gostovanje vašega računa, vendar lahko preprosto komunicirate in sledite ljudem na drugih vozliščih, kot da bi bili na isti lokaciji. \u0020
+\n \u0020
 \nVeč informacij najdete na naslovu <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Dokončanje pošiljanja medija</string>
     <string name="dialog_message_uploading_media">Pošiljanje…</string>
     <string name="dialog_download_image">Prejmi</string>
-    <string name="dialog_message_cancel_follow_request">Želite preklicati to zahtevo\?</string>
-    <string name="dialog_unfollow_warning">Prenehajte slediti temu računu\?</string>
-    <string name="dialog_delete_post_warning">Želite izbrisati ta tut\?</string>
+    <string name="dialog_message_cancel_follow_request">Želite preklicati to zahtevo?</string>
+    <string name="dialog_unfollow_warning">Prenehajte slediti temu računu?</string>
+    <string name="dialog_delete_post_warning">Želite izbrisati ta tut?</string>
     <string name="visibility_public">Javno: Objavi v javnih časovnicah</string>
     <string name="visibility_unlisted">Ni prikazano: Ne prikaže v javnih časovnicah</string>
     <string name="visibility_private">Samo sledilci: Objavi samo sledilcem</string>
@@ -196,6 +196,9 @@
     <string name="notification_summary_medium">%1$s, %2$s in %3$s</string>
     <string name="notification_summary_small">%1$s in %2$s</string>
     <plurals name="notification_title_summary">
+        <item quantity="one"/>
+        <item quantity="two"/>
+        <item quantity="few"/>
         <item quantity="other">%1$d novih interakcij</item>
     </plurals>
     <string name="description_account_locked">Zaklenjen račun</string>
@@ -249,6 +252,9 @@
     <string name="action_remove_from_list">Odstrani račun iz seznama</string>
     <string name="compose_active_account_description">Objavljanje z računom %1$s</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"/>
+        <item quantity="two"/>
+        <item quantity="few"/>
         <item quantity="other">Opišite za slabovidne
 \n(omejitev znakov - %1$d)</item>
     </plurals>
@@ -256,7 +262,7 @@
     <string name="action_remove">Odstrani</string>
     <string name="lock_account_label">Zakleni račun</string>
     <string name="lock_account_label_description">Zahtevana je ročna potrditev sledilcev</string>
-    <string name="compose_save_draft">Shrani osnutek\?</string>
+    <string name="compose_save_draft">Shrani osnutek?</string>
     <string name="send_post_notification_title">Pošiljanje tuta…</string>
     <string name="send_post_notification_error_title">napaka pri pošiljanju tuta</string>
     <string name="send_post_notification_channel_name">Pošiljanje tutov</string>
@@ -295,10 +301,10 @@
     <string name="unpin_action">Odpni</string>
     <string name="pin_action">Pripni</string>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Spodbuda</item>
-        <item quantity="two">&lt;b&gt;%1$s&lt;/b&gt; Spodbudi</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; Spodbude</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Spodbud</item>
+        <item quantity="one"><b>%1$s</b> Spodbuda</item>
+        <item quantity="two"><b>%1$s</b> Spodbudi</item>
+        <item quantity="few"><b>%1$s</b> Spodbude</item>
+        <item quantity="other"><b>%1$s</b> Spodbud</item>
     </plurals>
     <string name="title_reblogged_by">Spodbudil/a</string>
     <string name="title_favourited_by">Vzljubil/a</string>
@@ -322,9 +328,9 @@
     <string name="compose_shortcut_long_label">Sestavi tut</string>
     <string name="compose_shortcut_short_label">Sestavi</string>
     <string name="pref_title_bot_overlay">Prikaži kazalnik za robote</string>
-    <string name="notification_clear_text">Ali ste prepričani, da želite trajno izbrisati vsa obvestila\?</string>
+    <string name="notification_clear_text">Ali ste prepričani, da želite trajno izbrisati vsa obvestila?</string>
     <string name="action_delete_and_redraft">Izbriši in preoblikuj</string>
-    <string name="dialog_redraft_post_warning">Izbriši in preoblikuj tut\?</string>
+    <string name="dialog_redraft_post_warning">Izbriši in preoblikuj tut?</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s glas</item>
@@ -389,12 +395,12 @@
     <string name="failed_report">Prijava je bila neuspešna</string>
     <string name="failed_fetch_posts">Statusov ni bilo mogoče pridobiti</string>
     <string name="report_description_1">Poročilo bo poslano moderatorju strežnika. Spodaj lahko navedete, zakaj prijavljate ta račun:</string>
-    <string name="report_description_remote_instance">Račun je iz drugega strežnika. Pošljem anonimno kopijo poročila tudi na drugi strežnik\?</string>
+    <string name="report_description_remote_instance">Račun je iz drugega strežnika. Pošljem anonimno kopijo poročila tudi na drugi strežnik?</string>
     <string name="title_domain_mutes">Skrite domene</string>
     <string name="action_view_domain_mutes">Skrite domene</string>
     <string name="action_mute_domain">Utišaj %1$s</string>
     <string name="confirmation_domain_unmuted">Domena %1$s odrita</string>
-    <string name="mute_domain_warning">Ali ste prepričani, da želite blokirati vse iz domene %1$s\? Vsebine iz te domene ne boste videli v nobeni javni časovnici ali v obvestilih. Vaši sledilci iz te domene bodo odstranjeni.</string>
+    <string name="mute_domain_warning">Ali ste prepričani, da želite blokirati vse iz domene %1$s? Vsebine iz te domene ne boste videli v nobeni javni časovnici ali v obvestilih. Vaši sledilci iz te domene bodo odstranjeni.</string>
     <string name="mute_domain_warning_dialog_ok">Skrij celotno domeno</string>
     <string name="filter_dialog_whole_word">Cela beseda</string>
     <string name="filter_dialog_whole_word_description">Če je ključna beseda ali fraza samo alfanumerična, bo uporabljena le, če se ujema s celotno besedo</string>

@@ -111,18 +111,18 @@
     <string name="label_header">Nagłówek</string>
     <string name="link_whats_an_instance">Czym jest instancja?</string>
     <string name="login_connection">Łączenie…</string>
-    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> 
-\n 
-\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować. 
-\n 
-\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie. 
-\n 
+    <string name="dialog_whats_an_instance">Tutaj można wprowadzić domenę lub adres instancji, np. mastodon.social, icosahedron.website, social.tchncs.de, i <a href="https://instances.social">wiele więcej!</a> \u0020
+\n \u0020
+\nJeżeli nie posiadasz jeszcze konta, wprowadź tu nazwę instancji, na której chcesz się zarejestrować. \u0020
+\n \u0020
+\nInstancja jest miejscem, na którym znajduje się twoje konto, lecz możesz prosto komunikować się z ludźmi na innych instancjach i obserwować ich, tak jakbyście byli na jednej stronie. \u0020
+\n \u0020
 \nWięcej informacji można znaleźć na <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Kończenie wysyłania treści</string>
     <string name="dialog_message_uploading_media">Wysyłanie…</string>
     <string name="dialog_download_image">Pobierz</string>
-    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o obserwację\?</string>
-    <string name="dialog_unfollow_warning">Czy chcesz przestać obserwować to konto\?</string>
+    <string name="dialog_message_cancel_follow_request">Czy chcesz anulować prośbę o obserwację?</string>
+    <string name="dialog_unfollow_warning">Czy chcesz przestać obserwować to konto?</string>
     <string name="visibility_public">Publiczne: Opublikuj na publicznych osiach czasu</string>
     <string name="visibility_unlisted">Niepubliczne: Nie wyświetlaj na publicznych osiach czasu</string>
     <string name="visibility_private">Tylko obserwający: Widoczne tylko dla obserwujących</string>
@@ -189,12 +189,10 @@
            to show we do not mean the software is gratis. Source: https://www.gnu.org/philosophy/free-sw.html
          * the url can be changed to link to the localized version of the license.
     -->
-    <string name="about_project_site">        Strona projektu:\n
-        https://tusky.app
-    </string>
-    <string name="about_bug_feature_request_site">        Zgłoszenia błędów i propozycje funkcji:\n
-        https://github.com/tuskyapp/Tusky/issues
-    </string>
+    <string name="about_project_site">Strona projektu:
+\n https://tusky.app</string>
+    <string name="about_bug_feature_request_site">Zgłoszenia błędów i propozycje funkcji:
+\n https://github.com/tuskyapp/Tusky/issues</string>
     <string name="about_tusky_account">Profil Tusky’ego</string>
     <string name="post_share_content">Udostępnij zawartość wpisu</string>
     <string name="post_share_link">Udostępnij link do postu</string>
@@ -226,7 +224,7 @@
     <string name="action_remove">Usuń</string>
     <string name="lock_account_label">Zablokuj konto</string>
     <string name="lock_account_label_description">Wymaga od Ciebie ręcznej akceptacji próśb o obserwacje</string>
-    <string name="compose_save_draft">Czy chcesz zapisać jako szkic\?</string>
+    <string name="compose_save_draft">Czy chcesz zapisać jako szkic?</string>
     <string name="send_post_notification_title">Wysyłanie wpisu…</string>
     <string name="send_post_notification_error_title">Wystąpił błąd podczas wysyłania wpisu</string>
     <string name="send_post_notification_channel_name">Wysyłanie wpisów</string>
@@ -290,9 +288,9 @@
     <string name="downloading_media">Pobieranie mediów</string>
     <string name="send_media_to">Wyślij media do…</string>
     <string name="confirmation_domain_unmuted">Domena %1$s nie jest już schowana</string>
-    <string name="dialog_delete_post_warning">Usunąć ten wpis\?</string>
-    <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis\?</string>
-    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s\? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
+    <string name="dialog_delete_post_warning">Usunąć ten wpis?</string>
+    <string name="dialog_redraft_post_warning">Usunąć i napisać ponownie ten wpis?</string>
+    <string name="mute_domain_warning">Czy jesteś pewien/pewna że chcesz zablokować wszystko z domeny %1$s? Nie będziesz widzieć zawartości z tej domeny w żadnej osi czasu ani w twoich powiadomieniach. Twoi obserwujący z tej domeny będą usunięci.</string>
     <string name="mute_domain_warning_dialog_ok">Schowaj całą domenę</string>
     <string name="pref_title_timelines">Osi czasu</string>
     <string name="pref_title_timeline_filters">Filtry</string>
@@ -350,9 +348,10 @@
         <item quantity="other"><b>%1$s</b> polubień</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; podbicie</item>
-        <item quantity="few">&lt;b&gt;%1$s&lt;/b&gt; podbicia</item>
-        <item quantity="many">&lt;b&gt;%1$s&lt;/b&gt; podbić</item>
+        <item quantity="one"><b>%1$s</b> podbicie</item>
+        <item quantity="few"><b>%1$s</b> podbicia</item>
+        <item quantity="many"><b>%1$s</b> podbić</item>
+        <item quantity="other"><b>%1$s</b> podbić</item>
     </plurals>
     <string name="title_reblogged_by">Podbite przez</string>
     <string name="title_favourited_by">Polubione przez</string>
@@ -376,7 +375,7 @@
     <string name="filter_apply">Zastosuj</string>
     <string name="compose_shortcut_long_label">Stwórz wpis</string>
     <string name="compose_shortcut_short_label">Nowy wpis</string>
-    <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia\?</string>
+    <string name="notification_clear_text">Czy jesteś pewien/pewna, że chcesz wyczyścić wszystkie swoje powiadomienia?</string>
     <string name="compose_preview_image_description">Opcje dla obrazu %1$s</string>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -423,7 +422,7 @@
     <string name="failed_report">Zgłoszenie nie powiodło się</string>
     <string name="failed_fetch_posts">Pobieranie wpisów nie powiodło się</string>
     <string name="report_description_1">Zgłoszenie zostanie przesłąne do moderatora twojego serwera. Możesz podać przyczynę zgłoszenia tego konta poniżej:</string>
-    <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer\?</string>
+    <string name="report_description_remote_instance">To konto jest na innym serwerze. Czy przesłać anonimizowaną kopię zgłoszenia na ten serwer?</string>
     <string name="title_accounts">Konta</string>
     <string name="failed_search">Wyszukiwanie nie powidło się</string>
     <string name="create_poll_title">Głosowanie</string>
@@ -457,8 +456,8 @@
     <string name="notification_follow_request_name">Prośby o obserwację</string>
     <string name="pref_title_confirm_reblogs">Pytaj o potwierdzenie przed podbiciem</string>
     <string name="add_hashtag_title">Dodaj hashtag</string>
-    <string name="dialog_mute_warning">Wyciszyć @%1$s\?</string>
-    <string name="dialog_block_warning">Zablokować @%1$s\?</string>
+    <string name="dialog_mute_warning">Wyciszyć @%1$s?</string>
+    <string name="dialog_block_warning">Zablokować @%1$s?</string>
     <string name="action_unmute_conversation">Cofnij wyciszenie rozmowy</string>
     <string name="action_mute_conversation">Wycisz rozmowę</string>
     <plurals name="poll_info_people">
@@ -484,7 +483,7 @@
     </plurals>
     <string name="drafts_failed_loading_reply">Nie udało się załadować informacji o odpowiedzi</string>
     <string name="drafts_post_failed_to_send">Przesłanie wpisu nie powiodło się!</string>
-    <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %1$s\?</string>
+    <string name="dialog_delete_list_warning">Czy na pewno chcesz usunąć listę %1$s?</string>
     <string name="no_announcements">Nie ma ogłoszeń.</string>
     <string name="limit_notifications">Ogranicz liczbę powiadomień o zmianach na osi czasu</string>
     <string name="label_duration">Czas trwania</string>
@@ -516,7 +515,7 @@
     <string name="notification_subscription_description">Powiadomienia o opublikowaniu nowego wpisu przez kogoś, kogo obserwujesz</string>
     <string name="pref_main_nav_position">Pozycja głównego paska nawigacji</string>
     <string name="pref_title_animate_custom_emojis">Animuj niestandardowe emoji</string>
-    <string name="dialog_delete_conversation_warning">Usunąć tą konwersację\?</string>
+    <string name="dialog_delete_conversation_warning">Usunąć tą konwersację?</string>
     <string name="action_delete_conversation">Usuń konwersację</string>
     <string name="notification_subscription_format">%1$s opublikował/a post</string>
     <string name="notification_follow_request_format">%1$s poprosił/a o możliwość obserwowania Cię</string>
@@ -555,7 +554,7 @@
     <string name="action_add_or_remove_from_list">Dodaj lub usuń z listy</string>
     <string name="failed_to_add_to_list">Nie udało się dodać konta do listy</string>
     <string name="failed_to_remove_from_list">Nie udało się usunąć konta z listy</string>
-    <string name="action_unfollow_hashtag_format">Odobserwuj #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Odobserwuj #%1$s?</string>
     <string name="pref_default_post_language">Domyślny język wpisów</string>
     <string name="pref_show_self_username_never">Nigdy</string>
     <string name="pref_show_self_username_always">Zawsze</string>
@@ -567,7 +566,7 @@
     <string name="notification_report_name">Zgłoszenia</string>
     <string name="notification_report_description">Powiadomienia o zgłoszeniach moderacyjnych</string>
     <string name="action_set_focus">Wybierz punkt centralny</string>
-    <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic\? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
+    <string name="compose_save_draft_loses_media">Czy chcesz zapisać jako szkic? (Załączniki zostaną załadowane ponownie po przywróceniu szkicu.)</string>
     <string name="error_following_hashtags_unsupported">Ta instancja nie wspiera obserwowania hashtagów.</string>
     <string name="title_followed_hashtags">Obserwowane hashtagi</string>
     <string name="a11y_label_loading_thread">Ładowanie wątku</string>
@@ -594,7 +593,7 @@
     <string name="description_post_edited">Edytowano</string>
     <string name="report_category_other">Inne</string>
     <string name="post_edited">Edytowano %1$s</string>
-    <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis\?</string>
+    <string name="delete_scheduled_post_warning">Usunąć ten zaplanowany wpis?</string>
     <string name="pref_title_reading_order">Kolejność czytania</string>
     <string name="pref_summary_http_proxy_missing">&lt;nieustawiony&gt;</string>
     <string name="pref_summary_http_proxy_invalid">&lt;niepoprawny&gt;</string>
@@ -603,9 +602,9 @@
         <item quantity="one">Wystąpił problem podczas publikacji posta, ale został on zapisany w szkicach.
 \n
 \nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił post.</item>
-        <item quantity="other">Wystąpił problem podczas publikacji Twojego posta i został on zapisany w szkicach.
-\n
-\nAlbo wystąpił problem z połączeniem z serwerem, albo serwer odrzucił Twój post.</item>
+        <item quantity="few"/>
+        <item quantity="many"/>
+        <item quantity="other"/>
     </plurals>
     <string name="error_muting_hashtag_format">Wystąpił błąd podczas wyciszania #%1$s</string>
     <string name="error_unmuting_hashtag_format">Wystąpił błąd podczas zdejmowania wyciszenia #%1$s</string>

@@ -62,7 +62,7 @@
     <string name="action_compose">Skriv</string>
     <string name="action_login">Logga in med Tusky</string>
     <string name="action_logout">Logga ut</string>
-    <string name="action_logout_confirm">Är du säker på att du vill logga ut från %1$s\? Alla lokala data om kontot kommer att raderas, inklusive utkast och inställningar.</string>
+    <string name="action_logout_confirm">Är du säker på att du vill logga ut från %1$s? Alla lokala data om kontot kommer att raderas, inklusive utkast och inställningar.</string>
     <string name="action_follow">Följ</string>
     <string name="action_unfollow">Avfölj</string>
     <string name="action_block">Blockera</string>
@@ -136,18 +136,18 @@
     <string name="label_header">Bakgrundsbild</string>
     <string name="link_whats_an_instance">Vad är en instans?</string>
     <string name="login_connection">Ansluter…</string>
-    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a>
-\n
-\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där.
-\n
-\nEn instans är den plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt.
-\n
+    <string name="dialog_whats_an_instance">Adressen eller domänen för varje instans kan anges här, till exempel mastodon.social, icosahedron.website, social.tchncs.de och <a href="https://instances.social"> mer! </a> 
+\n 
+\nOm du inte har något konto kan du ange namnet på instansen du vill ansluta till och skapa ett konto där. 
+\n 
+\nEn instans är den plats där ditt konto finns, men du kan enkelt kommunicera med och följa andra personer på andra instanser, som om du var på samma sajt. 
+\n 
 \nMer information finns på <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Uppladdning av media</string>
     <string name="dialog_message_uploading_media">Laddar upp…</string>
     <string name="dialog_download_image">Ladda ned</string>
     <string name="dialog_message_cancel_follow_request">Återkalla följningsförfrågan?</string>
-    <string name="dialog_unfollow_warning">Sluta följ detta konto\?</string>
+    <string name="dialog_unfollow_warning">Sluta följ detta konto?</string>
     <string name="dialog_delete_post_warning">Radera denna toot?</string>
     <string name="visibility_public">Offentlig: Skicka till offentliga tidslinjer</string>
     <string name="visibility_unlisted">Olistad: Visa inte i offentliga tidslinjer</string>
@@ -314,8 +314,8 @@
     <string name="unpin_action">Ta bort nål</string>
     <string name="pin_action">Nåla fast</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favorit</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favoriter</item>
+        <item quantity="one"><b>%1$s</b> Favorit</item>
+        <item quantity="other"><b>%1$s</b> Favoriter</item>
     </plurals>
     <plurals name="reblogs">
         <item quantity="one"><b>%1$s</b> Knuff</item>
@@ -328,19 +328,13 @@
     <string name="conversation_more_recipients">%1$s, %2$s och %3$d mer</string>
     <string name="description_post_media">Media: %1$s</string>
     <string name="description_post_cw">Innehållsvarning: %1$s</string>
-    <string name="description_post_media_no_description_placeholder">        Ingen beskrivning
-    </string>
-    <string name="description_post_reblogged">        Knuffad
-    </string>
+    <string name="description_post_media_no_description_placeholder">Ingen beskrivning</string>
+    <string name="description_post_reblogged">Knuffad</string>
     <string name="description_post_favourited">Favoritmarkerat</string>
-    <string name="description_visibility_public">        Publik
-    </string>
-    <string name="description_visibility_unlisted">        Olistad
-    </string>
-    <string name="description_visibility_private">        Följare
-    </string>
-    <string name="description_visibility_direct">        Direkt
-    </string>
+    <string name="description_visibility_public">Publik</string>
+    <string name="description_visibility_unlisted">Olistad</string>
+    <string name="description_visibility_private">Följare</string>
+    <string name="description_visibility_direct">Direkt</string>
     <string name="hint_list_name">Listnamn</string>
     <string name="download_media">Ladda ned media</string>
     <string name="downloading_media">Laddar ned media</string>
@@ -351,9 +345,9 @@
     <string name="notifications_apply_filter">Filtrera</string>
     <string name="filter_apply">Utför</string>
     <string name="pref_title_bot_overlay">Visa robotindikator</string>
-    <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent\?</string>
+    <string name="notification_clear_text">Är du säker på att du vill rensa dina aviseringar permanent?</string>
     <string name="action_delete_and_redraft">Radera och skriv på nytt</string>
-    <string name="dialog_redraft_post_warning">Radera och skriv ny toot\?</string>
+    <string name="dialog_redraft_post_warning">Radera och skriv ny toot?</string>
     <string name="poll_info_format"> <!-- 15 röster • 1 timme kvar --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s röst</item>
@@ -389,7 +383,7 @@
     <string name="action_view_domain_mutes">Dolda domäner</string>
     <string name="action_mute_domain">Tysta %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s inte tystad längre</string>
-    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %1$s\? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
+    <string name="mute_domain_warning">Är du säker på att du vill blockera allt från %1$s? Du kommer inte kunna se något innehåll från denna domän i publika tidslinjer eller i dina notifieringar. Dina följare på domänen kommer inte att bli borttagna.</string>
     <string name="mute_domain_warning_dialog_ok">Dölj hela domänen</string>
     <string name="caption_notoemoji">Google\'s nuvarande emojis</string>
     <string name="button_continue">Fortsätt</string>
@@ -401,7 +395,7 @@
     <string name="failed_report">Misslyckades att anmäla</string>
     <string name="failed_fetch_posts">Misslyckades att hämta status</string>
     <string name="report_description_1">Anmälan kommer att skickas till din servermoderator. Du kan beskriva varför du anmäler kontot nedan:</string>
-    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också\?</string>
+    <string name="report_description_remote_instance">Kontot är från en annan server. Skicka en anonym kopia av anmälan dit också?</string>
     <string name="filter_dialog_whole_word">Helt ord</string>
     <string name="filter_dialog_whole_word_description">När nyckelordet eller frasen enbart är alfanumerisk, appliceras den om den matchar hela ordet</string>
     <string name="pref_title_alway_open_spoiler">Expandera alltid inlägg med innehållsvarningar</string>
@@ -446,8 +440,8 @@
     </plurals>
     <string name="notification_follow_request_description">Aviseringar om följarförfrågningar</string>
     <string name="notification_follow_request_name">Följförfrågningar</string>
-    <string name="dialog_mute_warning">Tysta @%1$s\?</string>
-    <string name="dialog_block_warning">Blockera @%1$s\?</string>
+    <string name="dialog_mute_warning">Tysta @%1$s?</string>
+    <string name="dialog_block_warning">Blockera @%1$s?</string>
     <string name="action_unmute_conversation">Aktivera ljud på konversation</string>
     <string name="notification_follow_request_format">%1$s vill följa dig</string>
     <string name="add_hashtag_title">Lägg till hashtag</string>
@@ -483,11 +477,11 @@
         <item quantity="one">Du kan inte ladda upp fler än %1$d mediebilaga.</item>
         <item quantity="other">Du kan inte ladda upp fler än %1$d mediebilagor.</item>
     </plurals>
-    <string name="delete_scheduled_post_warning">Radera detta schemalagda inlägg\?</string>
+    <string name="delete_scheduled_post_warning">Radera detta schemalagda inlägg?</string>
     <string name="instance_rule_info">Genom att logga in accepterar du reglerna på %1$s.</string>
     <string name="instance_rule_title">%1$s regler</string>
     <string name="error_unfollowing_hashtag_format">Kunde inte avfölja #%1$s</string>
-    <string name="dialog_delete_conversation_warning">Radera denna konversation\?</string>
+    <string name="dialog_delete_conversation_warning">Radera denna konversation?</string>
     <string name="pref_show_self_username_always">Alltid</string>
     <string name="set_focus_description">Tryck eller dra cirkeln för att välja fokuspunkten som alltid kommer synas i miniatyrbilder.</string>
     <string name="label_duration">Varaktighet</string>
@@ -509,7 +503,7 @@
     <string name="duration_no_change">(Ingen ändring)</string>
     <string name="pref_title_show_self_username">Visa användarnamn i verktygsrader</string>
     <string name="pref_title_confirm_favourites">Visa bekräftelse före favoritmarkering</string>
-    <string name="dialog_delete_list_warning">Vill du verkligen radera listan %1$s\?</string>
+    <string name="dialog_delete_list_warning">Vill du verkligen radera listan %1$s?</string>
     <string name="drafts_post_failed_to_send">Det här inlägget kunde inte skickas!</string>
     <string name="drafts_failed_loading_reply">Kunde inte ladda information om svar</string>
     <string name="draft_deleted">Utkast raderat</string>
@@ -538,7 +532,7 @@
     <string name="error_loading_account_details">Kunde inte ladda kontodetaljer</string>
     <string name="title_login">Logga in</string>
     <string name="error_could_not_load_login_page">Kunde inte ladda inloggningssidan.</string>
-    <string name="compose_save_draft_loses_media">Spara utkast\? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
+    <string name="compose_save_draft_loses_media">Spara utkast? (Bilagor kommer att laddas upp igen när du återställer utkastet.)</string>
     <string name="failed_to_pin">Kunde inte fästa</string>
     <string name="failed_to_unpin">Kunde inte lossa</string>
     <string name="action_add_reaction">lägg till reaktion</string>
@@ -547,7 +541,7 @@
     <string name="failed_to_add_to_list">Kunde inte lägga till kontot till listan</string>
     <string name="failed_to_remove_from_list">Kunde inte ta bort kontot från listan</string>
     <string name="no_lists">Du har inga listor.</string>
-    <string name="action_unfollow_hashtag_format">Sluta följa #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Sluta följa #%1$s?</string>
     <string name="status_created_at_now">nu</string>
     <string name="notification_report_format">Ny rapport för %1$s</string>
     <string name="notification_header_report_format">%1$s rapporterade %2$s</string>
@@ -629,8 +623,8 @@
     <string name="filter_description_hide">Dölj helt</string>
     <string name="action_add">Lägg till</string>
     <string name="filter_keyword_display_format">%1$s (helt ord)</string>
-    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer.
-\n
+    <string name="help_empty_home">Detta är din <b>hemtidslinje</b>. Den visar de senaste inläggen för konton du följer. 
+\n 
 \nFör att utforska konton kan du antingen upptäcka dem i någon av de andra tidslinjerna. Till exempel den lokala tidslinjen för din instans {{group}}. Eller så kan du söka efter dem efter namn [ikonics gmd_search]; sök till exempel efter Tusky för att hitta vårt Mastodon-konto.</string>
     <string name="pref_ui_text_size">UI textstorlek</string>
     <string name="notification_listenable_worker_name">Bakgrundsaktivitet</string>
@@ -649,9 +643,9 @@
     <string name="label_filter_context">Filtrera sammanhang</string>
     <string name="title_public_trending_hashtags">Populära hashtaggar</string>
     <string name="load_newest_notifications">Ladda de nyaste aviseringarna</string>
-    <string name="compose_delete_draft">Ta bort utkast\?</string>
-    <string name="error_missing_edits">Din server vet att det här inlägget har redigerats, men har ingen kopia av ändringarna, så de kan inte visas för dig.
-\n
+    <string name="compose_delete_draft">Ta bort utkast?</string>
+    <string name="error_missing_edits">Din server vet att det här inlägget har redigerats, men har ingen kopia av ändringarna, så de kan inte visas för dig. 
+\n 
 \nDet är <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon problem #25398</a>.</string>
     <string name="about_device_info_title">Din enhet</string>
     <string name="about_device_info">%1$s %2$s
@@ -664,22 +658,22 @@
     <string name="about_copy">Kopiera versions- och enhetsinformation</string>
     <string name="list_exclusive_label">Dölj på hem-tidslinjen</string>
     <string name="dialog_delete_filter_positive_action">Radera</string>
-    <string name="dialog_delete_filter_text">Radera filter \'%1$s\'\?</string>
-    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem.
-\n
-\n OBS att du bara kan lägga till konton på dina listor som du följer.
-\n
+    <string name="dialog_delete_filter_text">Radera filter \'%1$s\'?</string>
+    <string name="help_empty_lists">Här finns dina <b>listor</b>. Du kan skapa flera privata listor, och lägga till konton på dem. 
+\n 
+\n OBS att du bara kan lägga till konton på dina listor som du följer. 
+\n 
 \n De här listorna kan användas som en flik i Kontospecifika inställningar [iconics gmd_account_circle] [iconics gmd_navigate_next] Flikar. </string>
     <string name="muting_hashtag_success_format">Tystar hasttaggen #%1$s som en varning</string>
     <string name="unmuting_hashtag_success_format">Slutar tysta hashtaggen #%1$s</string>
     <string name="following_hashtag_success_format">Följer hashtaggen #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
-    <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil\?</string>
-    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM).
-\n
-\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten.
-\n
+    <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil?</string>
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
+\n 
+\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten. 
+\n 
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %1$s</string>
     <string name="title_public_trending_statuses">Populära inlägg</string>

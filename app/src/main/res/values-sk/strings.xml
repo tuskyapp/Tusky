@@ -27,7 +27,7 @@
     <string name="report_username_format">Nahlásiť užívateľa @%1$s</string>
     <string name="action_quick_reply">Rýchla odpoveď</string>
     <string name="action_reply">Odpovedať</string>
-    <string name="link_whats_an_instance">Čo je server\?</string>
+    <string name="link_whats_an_instance">Čo je server?</string>
     <string name="title_favourites">Obľúbené</string>
     <string name="about_title_activity">O aplikácii</string>
     <string name="error_network">Vyskytla sa chyba v sieti. Prosím skontrolujte svoje pripojenie a skúste to znova.</string>
@@ -60,7 +60,7 @@
     <string name="action_open_as">Otvoriť ako %1$s</string>
     <string name="confirmation_reported">Odoslané!</string>
     <string name="confirmation_unblocked">Užívateľ bol odblokovaný</string>
-    <string name="hint_domain">Ktorý server\?</string>
+    <string name="hint_domain">Ktorý server?</string>
     <string name="hint_display_name">Zobrazované meno</string>
     <string name="hint_note">O vás</string>
     <string name="hint_search">Hľadať…</string>
@@ -81,8 +81,8 @@
     <string name="action_send_public">TOOT!</string>
     <string name="action_toggle_visibility">Viditeľnosť príspevku</string>
     <string name="action_schedule_post">Naplánovať toot</string>
-    <string name="dialog_delete_post_warning">Vymazať tento toot\?</string>
-    <string name="dialog_redraft_post_warning">Vymazať a prepísať tento toot\?</string>
+    <string name="dialog_delete_post_warning">Vymazať tento toot?</string>
+    <string name="dialog_redraft_post_warning">Vymazať a prepísať tento toot?</string>
     <string name="post_share_content">Zdieľať obsah tootu</string>
     <string name="post_share_link">Zdieľať odkaz tootu</string>
     <string name="send_post_notification_title">Odosielanie tootu…</string>
@@ -95,7 +95,7 @@
     <string name="label_avatar">Avatar</string>
     <string name="action_remove">Odstrániť</string>
     <string name="lock_account_label">Uzamknúť účet</string>
-    <string name="compose_save_draft">Uložiť koncept\?</string>
+    <string name="compose_save_draft">Uložiť koncept?</string>
     <string name="send_post_notification_channel_name">Odosielanie tootov</string>
     <string name="send_post_notification_cancel_title">Odosielanie bolo zrušené</string>
     <string name="performing_lookup_title">Vyhľadávanie…</string>
@@ -156,6 +156,7 @@
         <item quantity="one">Váš príspevok sa nepodarilo nahrať a bol uložený medzi koncepty.
 \n
 \nServer sa buď nepodarilo kontaktovať, alebo príspevok odmietol.</item>
+        <item quantity="few"/>
         <item quantity="other">Váše príspevky sa nepodarilo nahrať a boli uložené medzi koncepty.
 \n
 \nServer sa buď nepodarilo kontaktovať, alebo príspevky odmietol.</item>
