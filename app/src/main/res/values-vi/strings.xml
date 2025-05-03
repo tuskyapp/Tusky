@@ -347,7 +347,7 @@
     <plurals name="poll_info_votes">
         <item quantity="other">%1$s người bình chọn</item>
     </plurals>
-    <string name="poll_info_format"> \u0020<!-- 15 bình chọn • còn 1 giờ --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="compose_preview_image_description">Mô tả cho hình %1$s</string>
     <string name="compose_shortcut_short_label">Soạn</string>
     <string name="compose_shortcut_long_label">Soạn tút</string>
