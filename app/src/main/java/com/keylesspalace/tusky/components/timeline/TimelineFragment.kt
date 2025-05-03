@@ -453,6 +453,7 @@ class TimelineFragment :
             confirmFavourite(preferences) {
                 viewModel.favorite(true, status)
                 buttonToAnimate?.playAnimation()
+                buttonToAnimate?.isChecked = true
             }
         } else {
             viewModel.favorite(false, status)
