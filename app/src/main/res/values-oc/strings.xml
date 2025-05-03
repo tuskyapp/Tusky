@@ -53,7 +53,7 @@
     <string name="action_compose">Redactar</string>
     <string name="action_login">Començar la session amb Tusky</string>
     <string name="action_logout">Tampar la session</string>
-    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s \?
+    <string name="action_logout_confirm">Volètz vertadièrament vos desconnectar del compte %1$s ?
 \nAquò suprimirà totas las donadas localas del compte, tanben los borrolhons e las preferéncias.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Quitar de seguir</string>
@@ -113,19 +113,19 @@
     <string name="label_header">Bandièra</string>
     <string name="link_whats_an_instance">Que es una instància ?</string>
     <string name="login_connection">Connexion…</string>
-    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a>
-\n
-\nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá \u0020anar e crear un compte enlà.
-\n
-\n
-\n
+    <string name="dialog_whats_an_instance">Aquí podètz picar l\'adreça o domini de quina que siá instància, \u0020coma mastodont.cat, mastodon.social, icosahedron.website o \u0020<a href="https://instances.social">fòrca mai !</a> 
+\n 
+\nSi encara non avètz cap de compte, podètz picar lo nom de l’instància ont vos agradariá \u0020anar e crear un compte enlà. 
+\n 
+\n 
+\n 
 \nAvètz mas d’informacins a <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Finalizacion del mandadís del mèdia</string>
     <string name="dialog_message_uploading_media">Mandadís…</string>
     <string name="dialog_download_image">Telecargar</string>
     <string name="dialog_message_cancel_follow_request">Anullar la demandar d’abonament ?</string>
     <string name="dialog_unfollow_warning">Volètz quitar de seguir aqueste compte ?</string>
-    <string name="dialog_delete_post_warning">Suprimir aqueste tut \?</string>
+    <string name="dialog_delete_post_warning">Suprimir aqueste tut ?</string>
     <string name="visibility_public">Publica : es visibla a la cronologia publica</string>
     <string name="visibility_unlisted">Pas listada :es pas visibla a las cronologias publicas</string>
     <string name="visibility_private">Solament seguidors : pas que visibla pels vòstres seguidors</string>
@@ -342,13 +342,13 @@
     <string name="compose_shortcut_long_label">Escriure una publicacion</string>
     <string name="compose_shortcut_short_label">Redactar</string>
     <string name="action_delete_and_redraft">Suprimir e reformular</string>
-    <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut \?</string>
+    <string name="dialog_redraft_post_warning">Suprimir e reformular aqueste tut ?</string>
     <string name="app_theme_system">Utilizar lo tèma sistèma</string>
     <string name="notifications_clear">Suprimir</string>
     <string name="notifications_apply_filter">Filtrar</string>
     <string name="filter_apply">Aplicar</string>
     <string name="pref_title_bot_overlay">Mostrar coma indicator pels robòts</string>
-    <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent \?</string>
+    <string name="notification_clear_text">Netejar totas las notificacions d’un biais permanent ?</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s vòte</item>
         <item quantity="other">%1$s votes</item>
@@ -390,12 +390,12 @@
     <string name="failed_report">Fracàs del senhalament</string>
     <string name="failed_fetch_posts">Recuperacion dels estatuts impossibla</string>
     <string name="report_description_1">Lo senhalament serà enviat a vòstres moderators de servidor. Podètz fornir una explicacion de perque senhalatz lo compte çai-jos :</string>
-    <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament \?</string>
+    <string name="report_description_remote_instance">Aqueste compte es en un autre servidor. Enviar una còpia anonimizada del senhalament ?</string>
     <string name="title_domain_mutes">Domenis resconduts</string>
     <string name="action_view_domain_mutes">Domenis resconduts</string>
     <string name="action_mute_domain">Rescondre %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s es pas mai rescondut</string>
-    <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %1$s \? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
+    <string name="mute_domain_warning">Volètz vertadièrament blocar complètament %1$s ? Veiretz pas mai de contengut venent d’aqueste domeni, nimai los flux d’actualitat o las notificacion. Vòstres seguidors d’aqueste domeni seràn tirats.</string>
     <string name="mute_domain_warning_dialog_ok">Rescondre tot lo domeni</string>
     <string name="filter_dialog_whole_word">Mot complèt</string>
     <string name="filter_dialog_whole_word_description">Quand un mot clau o una frasa es solament alfanumeric, serà pas qu’aplicat se correspond al mot complèt</string>
@@ -437,14 +437,14 @@
     <string name="notification_follow_request_format">%1$s a demandat a vos seguir</string>
     <string name="pref_title_show_cards_in_timelines">Mostrar los apercebuts dels ligams</string>
     <string name="notification_subscription_description">Notificacions quand qualqu’un que seguissètz publica una publicacion novèla</string>
-    <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion \?</string>
+    <string name="dialog_delete_conversation_warning">Suprimir aquesta conversacion ?</string>
     <string name="notification_subscription_format">%1$s ven de publicar</string>
     <string name="action_unsubscribe_account">Quitar de seguir</string>
     <string name="action_subscribe_account">Seguir</string>
     <string name="draft_deleted">Borrolhon suprimit</string>
     <string name="drafts_failed_loading_reply">Fracàs del cargament de las info de responsa</string>
     <string name="drafts_post_failed_to_send">Fracàs de l’enviament !</string>
-    <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %1$s \?</string>
+    <string name="dialog_delete_list_warning">Volètz vertadièrament suprimir la lista %1$s ?</string>
     <string name="review_notifications">Repassar las notificacions</string>
     <string name="account_note_saved">Enregistrat !</string>
     <string name="account_note_hint">Vòstra nòta privada tocant aqueste compte</string>
@@ -465,8 +465,8 @@
     <string name="pref_main_nav_position">Posicion de navigacion principala</string>
     <string name="pref_title_animate_custom_emojis">Emoji animats personalizats</string>
     <string name="pref_title_gradient_for_media">Afichar un degradat colorat pels mèdias amagats</string>
-    <string name="dialog_mute_warning">Amagar @%1$s \?</string>
-    <string name="dialog_block_warning">Blocar @%1$s \?</string>
+    <string name="dialog_mute_warning">Amagar @%1$s ?</string>
+    <string name="dialog_block_warning">Blocar @%1$s ?</string>
     <string name="dialog_mute_hide_notifications">Amagar las notificacions</string>
     <string name="action_unmute_conversation">Amagar pas mai la conversacion</string>
     <string name="action_mute_conversation">Amagar la conversacion</string>
@@ -527,10 +527,10 @@
     <string name="error_following_hashtags_unsupported">Aquesta instància pren pas en carga l’abonament a las etiquetas.</string>
     <string name="title_followed_hashtags">Etiquetas seguidas</string>
     <string name="confirmation_hashtag_unfollowed">#%1$s pas mai seguit</string>
-    <string name="delete_scheduled_post_warning">Suprimir la publicacion programada \?</string>
+    <string name="delete_scheduled_post_warning">Suprimir la publicacion programada ?</string>
     <string name="drafts_post_reply_removed">La publicacion a la quala respondiá lo borrolhon foguèt suprimida</string>
     <string name="instance_rule_info">En vos connectant acceptatz las règlas de %1$s.</string>
-    <string name="action_unfollow_hashtag_format">Quitar de seguir #%1$s \?</string>
+    <string name="action_unfollow_hashtag_format">Quitar de seguir #%1$s ?</string>
     <string name="status_created_at_now">ara</string>
     <string name="notification_report_format">Senhalament novèl sus %1$s</string>
     <string name="notification_header_report_format">%1$s a senhalat %2$s</string>
@@ -544,7 +544,7 @@
     <string name="notification_update_description">Notificacions quand una publicacion ont avètz reagit es modificada</string>
     <string name="follow_requests_info">Malgrat que vòstre compte siá pas verrolhat, l\'equipa de %1$s a pensat que volriatz validar manualament las demandas de d\'abonament provenent d\'aqueles comptes.</string>
     <string name="pref_title_enable_swipe_for_tabs">Activar lo limpament per se desplaçar demest los onglets</string>
-    <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon \? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
+    <string name="compose_save_draft_loses_media">Enregistrar lo borrolhon ? (Las pèças juntas seràn enviadas tornamai quand restauretz lo borrolhon.)</string>
     <string name="pref_default_post_language">Lenga de publicacion (alinhat sul servidor)</string>
     <string name="report_category_spam">Messatge indesirable</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
@@ -635,14 +635,14 @@
     <string name="ui_error_accept_follow_request">Fracàs de l’acceptacion de la demanda : %1$s</string>
     <string name="ui_error_reject_follow_request">Fracàs del refús de la demanda : %1$s</string>
     <string name="pref_title_show_stat_inline">Mostrar las estatisticas dins la cronologia</string>
-    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz.
-\n
+    <string name="help_empty_home">Aquò es vòstra <b>cronologia</b>. Mòstra las publicacions recentas dels comptes que seguissètz. 
+\n 
 \nPer explorar mai de compte podètz siá los descobrir dins d’autres fils, per exemple lo fil local de vòstra instància {{group}}, siá los trapar per lor nom {{search}}, per exemple « Tusky » per trobar nòstre compte Mastodon.</string>
-    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar.
-\n
+    <string name="error_missing_edits">Vòstre servidor sap qu’aquesta publicacion foguèt modificada mas ten pas cap de còpia de las modificacions doncas vos las pòt afichar. 
+\n 
 \nAquò es un problèma de <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon #25398</a>.</string>
     <string name="load_newest_notifications">Cargar las notificacions mai recentas</string>
-    <string name="compose_delete_draft">Suprimir lo borrolhon \?</string>
+    <string name="compose_delete_draft">Suprimir lo borrolhon ?</string>
     <string name="pref_ui_text_size">talha tèxte UI</string>
     <string name="notification_listenable_worker_name">activitat en rèireplan</string>
     <string name="notification_listenable_worker_description">Notificacions quand Tuska s’executa en rèireplan</string>
@@ -661,8 +661,8 @@
     <string name="about_copy">Copiar la version e las info aparelh</string>
     <string name="error_media_playback">La lectura a fraccasat : %1$s</string>
     <string name="dialog_delete_filter_positive_action">Suprimir</string>
-    <string name="dialog_delete_filter_text">Suprimir lo filtre « %1$s » \?</string>
-    <string name="dialog_save_profile_changes_message">Volètz enregistrar las modificacions del perfil \?</string>
+    <string name="dialog_delete_filter_text">Suprimir lo filtre « %1$s » ?</string>
+    <string name="dialog_save_profile_changes_message">Volètz enregistrar las modificacions del perfil ?</string>
     <string name="title_public_trending_statuses">Publicacions tendéncia</string>
     <string name="error_blocking_domain">Impossible de rescondre %1$s : %2$s</string>
     <string name="list_reply_policy_none">Degun</string>

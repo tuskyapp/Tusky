@@ -84,16 +84,16 @@
     <string name="action_open_as">Atvērt kā %1$s</string>
     <string name="confirmation_unblocked">Lietotājs atbloķēts</string>
     <string name="hint_note">Biogrāfija</string>
-    <string name="hint_domain">Kura instance\?</string>
+    <string name="hint_domain">Kura instance?</string>
     <string name="hint_content_warning">Satura brīdinājums</string>
     <string name="label_avatar">Avatars</string>
     <string name="login_connection">Savienojas…</string>
     <string name="search_no_results">Nav rezultātu</string>
-    <string name="link_whats_an_instance">Kas ir instance\?</string>
+    <string name="link_whats_an_instance">Kas ir instance?</string>
     <string name="label_quick_reply">Atbildēt…</string>
     <string name="dialog_download_image">Lejupielādēt</string>
-    <string name="dialog_delete_post_warning">Dzēst šo ierakstu\?</string>
-    <string name="dialog_delete_conversation_warning">Dzēst šo sarunu\?</string>
+    <string name="dialog_delete_post_warning">Dzēst šo ierakstu?</string>
+    <string name="dialog_delete_conversation_warning">Dzēst šo sarunu?</string>
     <string name="pref_title_language">Valoda</string>
     <string name="pref_title_post_tabs">Cilnes</string>
     <string name="pref_title_post_filter">Laika līnijas filtrēšana</string>
@@ -133,7 +133,7 @@
     <string name="action_edit_image">Labot attēlu</string>
     <string name="send_post_notification_title">Sūta ierakstu…</string>
     <string name="send_post_notification_cancel_title">Sūtīšana atcelta</string>
-    <string name="compose_save_draft_loses_media">Vai saglabāt melnrakstu (atjaunojot melnrakstu, pielikumi tiks augšupielādēti vēlreiz)\?</string>
+    <string name="compose_save_draft_loses_media">Vai saglabāt melnrakstu (atjaunojot melnrakstu, pielikumi tiks augšupielādēti vēlreiz)?</string>
     <string name="later">Vēlāk</string>
     <string name="restart">Sākt no jauna</string>
     <string name="system_default">Sistēmas noklusējuma</string>
@@ -162,7 +162,7 @@
     <string name="poll_info_closed">slēgta</string>
     <string name="poll_vote">Balsot</string>
     <string name="create_poll_title">Aptauja</string>
-    <string name="report_description_remote_instance">Konts ir no cita servera. Vai nosūtīt arī tam anonīmu ziņojuma kopiju\?</string>
+    <string name="report_description_remote_instance">Konts ir no cita servera. Vai nosūtīt arī tam anonīmu ziņojuma kopiju?</string>
     <string name="duration_30_min">30 minūtes</string>
     <string name="duration_indefinite">Bezgalīgi</string>
     <string name="duration_1_hour">1 stundu</string>
@@ -183,7 +183,7 @@
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_violation">Noteikumu pārkāpums</string>
     <string name="report_category_other">Cits</string>
-    <string name="delete_scheduled_post_warning">Vai dzēst šo ieplānoto ierakstu\?</string>
+    <string name="delete_scheduled_post_warning">Vai dzēst šo ieplānoto ierakstu?</string>
     <string name="error_generic">Notika kļūda.</string>
     <string name="error_media_upload_sending">Augšupielāde neizdevās.</string>
     <string name="error_rename_list">Nevarēja pārsaukt sarakstu</string>
@@ -219,16 +219,16 @@
     <string name="list">Saraksts</string>
     <string name="account_note_saved">Saglabāts!</string>
     <string name="title_posts_with_replies">Ar atbildēm</string>
-    <string name="report_comment_hint">Papildu komentāri\?</string>
+    <string name="report_comment_hint">Papildu komentāri?</string>
     <string name="action_view_follow_requests">Sekošanas pieprasījumi</string>
     <string name="action_add_reaction">pievienot reakciju</string>
-    <string name="hint_compose">Kas notiek\?</string>
-    <string name="dialog_block_warning">Bloķēt @%1$s\?</string>
+    <string name="hint_compose">Kas notiek?</string>
+    <string name="dialog_block_warning">Bloķēt @%1$s?</string>
     <string name="notification_follow_request_name">Sekošanas pieprasījumi</string>
     <string name="notification_subscription_name">Jauni ieraksti</string>
     <string name="follows_you">Seko tev</string>
     <string name="load_more_placeholder_text">Ielādēt vairāk</string>
-    <string name="compose_save_draft">Saglabāt melnrakstu\?</string>
+    <string name="compose_save_draft">Saglabāt melnrakstu?</string>
     <string name="download_failed">Lejupielāde neizdevās</string>
     <string name="duration_14_days">14 dienas</string>
     <string name="duration_90_days">90 dienas</string>
@@ -257,7 +257,7 @@
     <string name="pref_title_http_proxy_server">HTTP starpniekserveris</string>
     <string name="pref_title_http_proxy_port_message">Portam būtu jābūt starp %1$d un %2$d</string>
     <string name="action_view_account_preferences">Konta iestatījumi</string>
-    <string name="mute_domain_warning">Vai tiešām vēlaties bloķēt visu %1$s\? Šī domēna saturs netiks rādīts ne publiskajās laika līnijās, ne paziņojumos. Jūsu sekotāji no šī domēna tiks noņemti.</string>
+    <string name="mute_domain_warning">Vai tiešām vēlaties bloķēt visu %1$s? Šī domēna saturs netiks rādīts ne publiskajās laika līnijās, ne paziņojumos. Jūsu sekotāji no šī domēna tiks noņemti.</string>
     <string name="send_post_notification_saved_content">Ieraksta kopija tika saglabāta tavos melnrakstos</string>
     <string name="restart_emoji">Lai pielietotu šīs izmaiņas, ir jāpārstartē Tusky</string>
     <string name="error_status_source_load">Neizdevās ielādēt statusa avotu no servera.</string>
@@ -278,7 +278,7 @@
     <string name="action_share_as">Dalīties, izmantojot…</string>
     <string name="send_post_content_to">Dalīties ar ierakstu…</string>
     <string name="hint_display_name">Nosaukums</string>
-    <string name="dialog_mute_warning">Vai apklusināt @%1$s\?</string>
+    <string name="dialog_mute_warning">Vai apklusināt @%1$s?</string>
     <string name="dialog_mute_hide_notifications">Paslēpt paziņojumus</string>
     <string name="mute_domain_warning_dialog_ok">Paslēpt visu domēnu</string>
     <string name="pref_title_edit_notification_settings">Paziņojumi</string>
@@ -298,7 +298,7 @@
     <string name="unreblog_private">Atcelt pastiprināšanu</string>
     <string name="unpin_action">Atspraust</string>
     <string name="pin_action">Piespraust</string>
-    <string name="action_unfollow_hashtag_format">Vai pārtraukt sekot #%1$s\?</string>
+    <string name="action_unfollow_hashtag_format">Vai pārtraukt sekot #%1$s?</string>
     <string name="about_tusky_account">Tusky profils</string>
     <string name="performing_lookup_title">Meklē…</string>
     <string name="mute_notifications_switch">Apklusināt paziņojumus</string>
@@ -317,7 +317,7 @@
     <string name="action_continue_edit">Turpināt labošanu</string>
     <string name="pref_title_notification_alert_vibrate">Paziņot ar vibrāciju</string>
     <string name="pref_title_notification_alert_light">Paziņot ar gaismu</string>
-    <string name="dialog_unfollow_warning">Vai pārtraukt sekot šim kontam\?</string>
+    <string name="dialog_unfollow_warning">Vai pārtraukt sekot šim kontam?</string>
     <string name="pref_title_appearance_settings">Izskats</string>
     <string name="pref_title_timelines">Laika līnijas</string>
     <string name="app_them_dark">Tumša</string>
@@ -341,7 +341,7 @@
     <string name="notification_follow_request_format">%1$s lūdza atļauju tev sekot</string>
     <string name="notification_summary_report_format">%1$s · pievienoti %2$d ieraksti</string>
     <string name="action_compose">Rakstīt</string>
-    <string name="action_logout_confirm">Vai tiešām vēlies iziet no konta %1$s\?</string>
+    <string name="action_logout_confirm">Vai tiešām vēlies iziet no konta %1$s?</string>
     <string name="action_add_media">Pievienot multividi</string>
     <string name="action_open_drawer">Atvērt izvēlni</string>
     <string name="action_open_media_n">Atvērt multividi #%1$d</string>
@@ -359,7 +359,7 @@
     <string name="warning_scheduling_interval">Mastodon minimālais ieplānošanas intervāls ir 5 minūtes.</string>
     <string name="no_scheduled_posts">Tev nav ieplānotu ziņu.</string>
     <string name="account_note_hint">Tava privātā piezīme par šo kontu</string>
-    <string name="dialog_delete_list_warning">Vai tiešām vēlies dzēst sarakstu %1$s\?</string>
+    <string name="dialog_delete_list_warning">Vai tiešām vēlies dzēst sarakstu %1$s?</string>
     <string name="follow_requests_info">Lai arī tavs konts nav privāts, %1$s amatpersonas uzskatīja, ka, iespējams, vēlēsies manuāli pārskatīt sekošanas pieprasījumus no šiem kontiem.</string>
     <string name="instance_rule_info">Pieslēdzoties tu piekrīti %1$s noteikumiem.</string>
     <string name="compose_active_account_description">Publicē kā %1$s</string>
@@ -376,11 +376,12 @@
     <string name="description_post_media">Multivide: %1$s</string>
     <string name="description_poll">Aptauja ar izvēlēm: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="poll_info_format"> <!-- 15 balsis • atlikusi 1 stunda --> %1$s • %2$s</string>
-    <string name="notification_clear_text">Vai tiešām vēlies neatgriezeniski notīrīt visus paziņojumus\?</string>
+    <string name="notification_clear_text">Vai tiešām vēlies neatgriezeniski notīrīt visus paziņojumus?</string>
     <string name="poll_ended_created">Tevis izveidotā aptauja ir noslēgusies</string>
     <string name="compose_preview_image_description">Darības ar attēlu %1$s</string>
     <string name="tusky_compose_post_quicksetting_label">Rakstīt ziņu</string>
     <string name="about_bug_feature_request_site">"Kļūdu ziņojumi un jaunas funkcionalitātes pieprasījumi:
+\n
 \n  https://github.com/tuskyapp/Tusky/issues"</string>
     <string name="action_mention">Pieminēt</string>
     <string name="pref_title_gradient_for_media">Rādīt krāsainus gradientus paslēptajai multividei</string>
@@ -429,8 +430,8 @@
     <string name="drafts_failed_loading_reply">Neizdevās ielādēt atbildes informāciju</string>
     <string name="action_delete_and_redraft">Dzēst un sākt no jauna</string>
     <string name="action_dismiss">Aizvākt</string>
-    <string name="dialog_message_cancel_follow_request">Vai atcelt sekošanas pieprasījumu\?</string>
-    <string name="dialog_redraft_post_warning">Vai dzēst šo ierakstu un sākt no jauna\?</string>
+    <string name="dialog_message_cancel_follow_request">Vai atcelt sekošanas pieprasījumu?</string>
+    <string name="dialog_redraft_post_warning">Vai dzēst šo ierakstu un sākt no jauna?</string>
     <string name="about_powered_by_tusky">Darbību nodrošina Tusky</string>
     <string name="hint_search_people_list">Meklēt personas, kurām seko</string>
     <string name="send_post_notification_error_title">Sūtot ziņu, radās kļūda</string>
@@ -538,6 +539,7 @@
     <string name="abbreviated_in_seconds">pēc %1$ds</string>
     <string name="pref_title_alway_open_spoiler">Vienmēr izvērst ziņas, kas atzīmētas ar satura brīdinājumu</string>
     <plurals name="action_post_failed_detail">
+        <item quantity="zero"/>
         <item quantity="one">Neizdevās augšupielādēt tavu ierakstu un tas tika saglabāts melnrakstos.
 \n
 \nVai nu neizdevās sazināties ar serveri, vai arī tas noraidīja ierakstu.</item>
@@ -554,12 +556,12 @@
 \n
 \n Pašpiegādātie paziņojumi netiks ietekmēti, bet paziņojumu preferences var pārskatīt manuāli.</string>
     <string name="description_browser_login">Var atbalstīt papildu autentifikācijas metodes, bet ir nepieciešama atbalstīta pārlūkprogramma.</string>
-    <string name="dialog_whats_an_instance">Šeit var ievadīt jebkuras instances adresi vai domēnu, piemēram, mastodon.social, icosahedron.website, social.tchncs.de un <a href="https://instances.social">citus!</a> 
-\n 
-\nJa tev vēl nav konta, vari ievadīt tās instances nosaukumu, kurai vēlies pievienoties un izveidot kontu. 
-\n 
-\nInstance ir vieta, kur tiek mitināts tavs konts, taču tu vari viegli sazināties ar cilvēkiem citās instancēs un sekot tiem, it kā atrastos tajā pašā vietnē. 
-\n 
+    <string name="dialog_whats_an_instance">Šeit var ievadīt jebkuras instances adresi vai domēnu, piemēram, mastodon.social, icosahedron.website, social.tchncs.de un <a href="https://instances.social">citus!</a> \u0020
+\n \u0020
+\nJa tev vēl nav konta, vari ievadīt tās instances nosaukumu, kurai vēlies pievienoties un izveidot kontu. \u0020
+\n \u0020
+\nInstance ir vieta, kur tiek mitināts tavs konts, taču tu vari viegli sazināties ar cilvēkiem citās instancēs un sekot tiem, it kā atrastos tajā pašā vietnē. \u0020
+\n \u0020
 \nVairāk informācijas var atrast <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="failed_fetch_posts">Neizdevās iegūt ierakstus</string>
     <string name="accessibility_talking_about_tag">%1$d cilvēki runā par tēmturi %2$s</string>

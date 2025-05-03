@@ -127,12 +127,12 @@
     <string name="label_header">ヘッダー</string>
     <string name="link_whats_an_instance">インスタンスとは？</string>
     <string name="login_connection">接続中…</string>
-    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a> のような、あらゆるインスタンスのアドレスやドメインを入力できます。 
-\n 
-\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで そのインスタンスにアカウントを作成できます。 
-\n 
-\nインスタンスはあなたのアカウントが提供される単独の場所ですが、他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 
-\n 
+    <string name="dialog_whats_an_instance">mastodon.social, icosahedron.website, social.tchncs.deや<a href="https://instances.social">その他</a> のような、あらゆるインスタンスのアドレスやドメインを入力できます。 \u0020
+\n \u0020
+\nまだアカウントをお持ちでない場合は、参加したいインスタンスの名前を入力することで そのインスタンスにアカウントを作成できます。 \u0020
+\n \u0020
+\nインスタンスはあなたのアカウントが提供される単独の場所ですが、他のインスタンスのユーザーとあたかも同じ場所にいるように簡単にコミュニケーションをとったりフォローしたりできます。 \u0020
+\n \u0020
 \nさらに詳しい情報は<a href="https://joinmastodon.org">joinmastodon.org</a>でご覧いただけます。 </string>
     <string name="dialog_title_finishing_media_upload">メディアをアップロードしています</string>
     <string name="dialog_message_uploading_media">アップロード中…</string>
@@ -292,19 +292,16 @@
     <string name="unpin_action">固定表示を解除</string>
     <string name="pin_action">プロフィールに固定</string>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; お気に入り</item>
+        <item quantity="other"><b>%1$s</b> お気に入り</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; ブースト</item>
+        <item quantity="other"><b>%1$s</b> ブースト</item>
     </plurals>
     <string name="title_reblogged_by">ブーストした人物</string>
     <string name="title_favourited_by">お気に入りした人物</string>
-    <string name="description_visibility_public">        公開
-    </string>
-    <string name="description_visibility_unlisted">        未収載
-    </string>
-    <string name="description_visibility_direct">        ダイレクト
-    </string>
+    <string name="description_visibility_public">公開</string>
+    <string name="description_visibility_unlisted">未収載</string>
+    <string name="description_visibility_direct">ダイレクト</string>
     <string name="hint_list_name">リスト名</string>
     <string name="error_network">ネットワークエラーが発生しました。接続を確認してもう一度試してください。</string>
     <string name="post_username_format">\@%1$s</string>
@@ -627,8 +624,8 @@
     <string name="load_newest_notifications">最新の通知を読み込む</string>
     <string name="compose_delete_draft">下書きを削除しますか？</string>
     <string name="error_media_upload_sending_fmt">アップロードに失敗しました: %1$s</string>
-    <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。
-\n
+    <string name="error_missing_edits">あなたのサーバーは、この投稿が変更されたことを把握していますが、編集履歴のコピーを備えていないので、表示できません。 
+\n 
 \nこれは<a href="https://github.com/mastodon/mastodon/issues/25398">Mastodonのissue #25398</a>です。</string>
     <string name="title_public_trending_statuses">トレンドの投稿</string>
     <string name="about_device_info">%1$s %2$s

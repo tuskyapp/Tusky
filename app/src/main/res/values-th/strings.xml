@@ -12,7 +12,7 @@
     <string name="pref_title_enable_swipe_for_tabs">เปิดใช้งานการเลื่อนนิ้วเพื่อสลับระหว่างแท็บ</string>
     <string name="failed_search">ค้นหาล้มเหลว</string>
     <string name="title_accounts">บัญชี</string>
-    <string name="report_description_remote_instance">บัญชีนี้มาจากเซิร์ฟเวอร์อื่น ส่งสำเนารายงานที่ไม่ระบุชื่อไปที่นั่นด้วยหรือไม่\?</string>
+    <string name="report_description_remote_instance">บัญชีนี้มาจากเซิร์ฟเวอร์อื่น ส่งสำเนารายงานที่ไม่ระบุชื่อไปที่นั่นด้วยหรือไม่?</string>
     <string name="report_description_1">รายงานจะถูกส่งไปยังผู้ดูแลเซิร์ฟเวอร์ของคุณ สามารถให้คำอธิบายว่าทำไมจึงรายงานบัญชีนี้ด้านล่าง:</string>
     <string name="failed_fetch_posts">ดึงข้อมูลสถานะล้มเหลว</string>
     <string name="failed_report">รายงานล้มเหลว</string>
@@ -47,7 +47,7 @@
     </plurals>
     <string name="poll_info_format"> <!-- 15 votes • 1 hour left --> %1$s • %2$s</string>
     <string name="compose_preview_image_description">การกระทำสำหรับภาพ %1$s</string>
-    <string name="notification_clear_text">ต้องการลบการแจ้งเตือนทั้งหมดอย่างสมบูรณ์\?</string>
+    <string name="notification_clear_text">ต้องการลบการแจ้งเตือนทั้งหมดอย่างสมบูรณ์?</string>
     <string name="compose_shortcut_short_label">เขียน</string>
     <string name="compose_shortcut_long_label">เขียน Toot</string>
     <string name="filter_apply">ใช้งาน</string>
@@ -76,10 +76,10 @@
     <string name="title_favourited_by">ชื่นชอบโดย</string>
     <string name="title_reblogged_by">บูสต์โดย</string>
     <plurals name="reblogs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; บูสต์</item>
+        <item quantity="other"><b>%1$s</b> บูสต์</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; ชื่นชอบ</item>
+        <item quantity="other"><b>%1$s</b> ชื่นชอบ</item>
     </plurals>
     <string name="pin_action">ปักหมุด</string>
     <string name="unpin_action">เลิกปักหมุด</string>
@@ -119,7 +119,7 @@
     <string name="send_post_notification_channel_name">ส่ง Toot</string>
     <string name="send_post_notification_error_title">การส่ง Toot เกิดข้อผิดผลาด</string>
     <string name="send_post_notification_title">กำลังส่ง Toot…</string>
-    <string name="compose_save_draft">บันทึกฉบับร่าง\?</string>
+    <string name="compose_save_draft">บันทึกฉบับร่าง?</string>
     <string name="lock_account_label_description">ต้องอนุมัติผู้ติดตามด้วยตัวเอง</string>
     <string name="lock_account_label">ล็อกบัญชี</string>
     <string name="action_remove">ลบ</string>
@@ -246,23 +246,23 @@
     <string name="visibility_private">เฉพาะผู้ติดตาม:โพสต์ให้เฉพาะผู้ติดตามเห็น</string>
     <string name="visibility_unlisted">ไม่อยู่ในรายการ:ไม่แสดงในไทม์ไลน์สาธารณะ</string>
     <string name="visibility_public">สาธารณะ:โพสต์ในไทม์ไลน์สาธารณะ</string>
-    <string name="dialog_mute_warning">ปิดเสียง @%1$s\?</string>
-    <string name="dialog_block_warning">บล็อก @%1$s\?</string>
+    <string name="dialog_mute_warning">ปิดเสียง @%1$s?</string>
+    <string name="dialog_block_warning">บล็อก @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">ซ่อนทั้งโดเมน</string>
-    <string name="mute_domain_warning">ต้องการบล็อกทุกอย่างจาก %1$s \? คุณจะไม่เห็นเนื้อหาจากโดเมนนั้นในไทม์ไลน์สาธารณะหรือในการแจ้งเตือน ผู้ติดตามของคุณจากโดเมนนั้นจะถูกลบออก</string>
-    <string name="dialog_redraft_post_warning">ลบ แล้ว ร่าง Toot นี้ใหม่\?</string>
-    <string name="dialog_delete_post_warning">ลบ Toot นี้\?</string>
-    <string name="dialog_unfollow_warning">เลิกติดตามผู้ใช้นี้\?</string>
-    <string name="dialog_message_cancel_follow_request">ยกเลิกคำขอติดตาม\?</string>
+    <string name="mute_domain_warning">ต้องการบล็อกทุกอย่างจาก %1$s ? คุณจะไม่เห็นเนื้อหาจากโดเมนนั้นในไทม์ไลน์สาธารณะหรือในการแจ้งเตือน ผู้ติดตามของคุณจากโดเมนนั้นจะถูกลบออก</string>
+    <string name="dialog_redraft_post_warning">ลบ แล้ว ร่าง Toot นี้ใหม่?</string>
+    <string name="dialog_delete_post_warning">ลบ Toot นี้?</string>
+    <string name="dialog_unfollow_warning">เลิกติดตามผู้ใช้นี้?</string>
+    <string name="dialog_message_cancel_follow_request">ยกเลิกคำขอติดตาม?</string>
     <string name="dialog_download_image">ดาวน์โหลด</string>
     <string name="dialog_message_uploading_media">กำลังอัปโหลด…</string>
     <string name="dialog_title_finishing_media_upload">กำลังอัปโหลดสื่อใกล้เสร็จ</string>
-    <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a> 
-\n 
-\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น 
-\n 
-\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน 
-\n 
+    <string name="dialog_whats_an_instance">ใส่ที่อยู่หรือโดเมนของ Instance ได้ที่นี่ เช่น mastodon.social icosahedron.website social.tchncs.de และ <a href="https://instances.social">อีกมากมาย!</a> \u0020
+\n \u0020
+\nถ้ายังไม่มีบัญชี สามารถใส่ชื่อ Instance ที่ต้องการจะร่วมแล้วสร้างบัญชีที่นั่น \u0020
+\n \u0020
+\nInstance คือที่ที่หนึ่งไว้โฮสต์บัญชีคุณ แต่คุณยังสามารถสื่อสาร ติดตามบุคคลบน Instance อื่นได้เหมือนอยู่บนไซต์เดียวกัน \u0020
+\n \u0020
 \nพบข้อมูลเพิ่มเติมได้ที่ <a href="https://joinmastodon.org">joinmastodon.org</a> </string>
     <string name="label_header">ภาพหัวบน</string>
     <string name="login_connection">กำลังเชื่อมต่อ…</string>
@@ -273,8 +273,8 @@
     <string name="hint_note">ข้อมูลส่วนตัว</string>
     <string name="hint_display_name">ชื่อที่ใช้แสดง</string>
     <string name="hint_content_warning">คำเตือนเนื้อหา</string>
-    <string name="hint_compose">เกิดอะไรขึ้นเอย\?</string>
-    <string name="hint_domain">Instance ไหน\?</string>
+    <string name="hint_compose">เกิดอะไรขึ้นเอย?</string>
+    <string name="hint_domain">Instance ไหน?</string>
     <string name="confirmation_domain_unmuted">เลิกซ่อน %1$s แล้ว</string>
     <string name="confirmation_unblocked">เลิกบล็อกผู้ใช้แล้ว</string>
     <string name="confirmation_unmuted">เลิกปิดเสียงผู้ใช้นี้แล้ว</string>
@@ -345,7 +345,7 @@
     <string name="action_block">บล็อก</string>
     <string name="action_unfollow">เลิกติดตาม</string>
     <string name="action_follow">ติดตาม</string>
-    <string name="action_logout_confirm">คุณต้องการออกจากระบบของบัญชี %1$s หรือไม่\?</string>
+    <string name="action_logout_confirm">คุณต้องการออกจากระบบของบัญชี %1$s หรือไม่?</string>
     <string name="action_compose">เขียนโพสต์ใหม่</string>
     <string name="action_more">อื่น ๆ</string>
     <string name="action_unfavourite">เลิกชื่นชอบ</string>
@@ -420,7 +420,7 @@
     <string name="title_drafts">ฉบับร่าง</string>
     <string name="title_favourites">ชื่นชอบ</string>
     <string name="error_failed_app_registration">การยืนยันตัวตนกับเซิร์ฟเวอร์นั้นล้มเหลว</string>
-    <string name="link_whats_an_instance">Instance คือ\?</string>
+    <string name="link_whats_an_instance">Instance คือ?</string>
     <string name="action_login">เข้าสู่ระบบด้วย Mastodon</string>
     <string name="poll_allow_multiple_choices">เลือกได้หลายตัวเลือก</string>
     <string name="pref_title_confirm_reblogs">แสดงข้อความยืนยันก่อนที่จะบูสต์</string>
@@ -457,7 +457,7 @@
     <string name="drafts_post_reply_removed">โพสต์ที่คุณได้ร่างตอบไว้ ถูกลบแลัว</string>
     <string name="draft_deleted">ลบฉบับร่างแล้ว</string>
     <string name="drafts_failed_loading_reply">ล้มเหลวในการโหลดข้อมูลตอบกลับ</string>
-    <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %1$s ใช่ไหม\?</string>
+    <string name="dialog_delete_list_warning">คุณต้องการลบลิสต์ %1$s ใช่ไหม?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="other">คุณไม่สามารถอัปโหลดไฟล์แนบมากกว่า %1$d ได้</item>
     </plurals>

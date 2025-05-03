@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s markeerde jouw bericht als favoriet</string>
     <string name="notification_follow_format">%1$s volgt jou</string>
     <string name="report_username_format">\@%1$s rapporteren</string>
-    <string name="report_comment_hint">Extra opmerkingen\?</string>
+    <string name="report_comment_hint">Extra opmerkingen?</string>
     <string name="action_quick_reply">Snel reageren</string>
     <string name="action_reply">Reageren</string>
     <string name="action_reblog">Boosten</string>
@@ -62,7 +62,7 @@
     <string name="action_compose">Bericht schrijven</string>
     <string name="action_login">Aanmelden met Tusky</string>
     <string name="action_logout">Uitloggen</string>
-    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden\? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
+    <string name="action_logout_confirm">Weet je zeker dat je %1$s wil afmelden? Dit verwijdert alle lokale gegevens van het account, inclusief conceptberichten en voorkeuren.</string>
     <string name="action_follow">Volgen</string>
     <string name="action_unfollow">Ontvolgen</string>
     <string name="action_block">Blokkeren</string>
@@ -136,19 +136,19 @@
     <string name="label_header">Omslagfoto</string>
     <string name="link_whats_an_instance">Wat is een server?</string>
     <string name="login_connection">Aan het verbinden…</string>
-    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> \u0020
-\n \u0020
-\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. \u0020
-\n \u0020
-\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. \u0020
-\n \u0020
+    <string name="dialog_whats_an_instance">Het adres of domein van eender welke server kan hier worden ingevoerd, zoals mastodon.social, mastodon.nl, mastodon-belgium.be en <a href="https://instances.social">nog veel meer!</a> \u0020 
+\n \u0020 
+\nWanneer je nog geen account hebt, kun je de naam van de server waar jij je graag wil registeren invoeren, waarna je daar een account kunt aanmaken. \u0020 
+\n \u0020 
+\nOp Mastodon is een server (Engels: instance) een computerserver waar jouw account zich bevindt (vergelijk het met een e-mailserver). Je kan eenvoudig mensen van andere servers volgen en met ze communiceren, alsof jullie met elkaar op dezelfde website zitten. \u0020 
+\n \u0020 
 \n Meer informatie kun je vinden op <a href="https://joinmastodon.org">joinmastodon.org</a>. \u0020</string>
     <string name="dialog_title_finishing_media_upload">Uploaden media bijna voltooid</string>
     <string name="dialog_message_uploading_media">Aan het uploaden…</string>
     <string name="dialog_download_image">Downloaden</string>
     <string name="dialog_message_cancel_follow_request">Volgverzoek annuleren?</string>
     <string name="dialog_unfollow_warning">Dit account ontvolgen?</string>
-    <string name="dialog_delete_post_warning">Dit bericht verwijderen\?</string>
+    <string name="dialog_delete_post_warning">Dit bericht verwijderen?</string>
     <string name="visibility_public">Openbaar: op openbare tijdlijnen tonen</string>
     <string name="visibility_unlisted">Minder openbaar: niet op openbare tijdlijnen tonen</string>
     <string name="visibility_private">Alleen volgers: alleen aan jouw volgers tonen</string>
@@ -297,12 +297,12 @@
     <string name="unpin_action">Losmaken</string>
     <string name="pin_action">Vastmaken</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; favoriet</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; favorieten</item>
+        <item quantity="one"><b>%1$s</b> favoriet</item>
+        <item quantity="other"><b>%1$s</b> favorieten</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; boost</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; boosts</item>
+        <item quantity="one"><b>%1$s</b> boost</item>
+        <item quantity="other"><b>%1$s</b> boosts</item>
     </plurals>
     <string name="title_reblogged_by">Geboost door</string>
     <string name="title_favourited_by">Als favoriet gemarkeerd door</string>
@@ -340,14 +340,14 @@
     <string name="hint_list_name">Naam van lijst</string>
     <string name="pick_hashtag_hint">Hashtag zonder #</string>
     <string name="action_delete_and_redraft">Verwijderen en herschrijven</string>
-    <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven\?</string>
+    <string name="dialog_redraft_post_warning">Dit bericht verwijderen en herschrijven?</string>
     <string name="notifications_clear">Verwijderen</string>
     <string name="notifications_apply_filter">Filteren</string>
     <string name="filter_apply">Toepassen</string>
     <string name="compose_shortcut_long_label">Bericht schrijven</string>
     <string name="compose_shortcut_short_label">Schrijven</string>
     <string name="pref_title_bot_overlay">Indicator voor bots tonen</string>
-    <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen\?</string>
+    <string name="notification_clear_text">Weet je zeker dat je alle meldingen permanent wilt verwijderen?</string>
     <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s stem</item>
@@ -367,7 +367,7 @@
     <string name="mute_domain_warning_dialog_ok">Volledig domein verbergen</string>
     <string name="pref_title_animate_gif_avatars">GIF-profielfoto\'s animeren</string>
     <string name="caption_notoemoji">Google\'s huidige emojiset</string>
-    <string name="mute_domain_warning">Weet je zeker dat je alles van %1$s wilt blokkeren\? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
+    <string name="mute_domain_warning">Weet je zeker dat je alles van %1$s wilt blokkeren? Je zult op alle openbare tijdlijnen en in jouw meldingen geen inhoud van dat domein zien. Jouw volgers van dat domein worden verwijderd.</string>
     <string name="description_poll">Poll met keuzes: %1$s, %2$s, %3$s, %4$s; %5$s</string>
     <string name="compose_preview_image_description">Acties voor afbeelding %1$s</string>
     <plurals name="poll_timespan_days">
@@ -467,8 +467,8 @@
     <string name="pref_title_animate_custom_emojis">Lokale emojis animeren</string>
     <string name="pref_title_gradient_for_media">Kleurverloop weergeven voor verborgen media</string>
     <string name="dialog_mute_hide_notifications">Meldingen verbergen</string>
-    <string name="dialog_mute_warning">\@%1$s negeren\?</string>
-    <string name="dialog_block_warning">\@%1$s blokkeren\?</string>
+    <string name="dialog_mute_warning">\@%1$s negeren?</string>
+    <string name="dialog_block_warning">\@%1$s blokkeren?</string>
     <string name="action_unmute_conversation">Gesprek niet meer negeren</string>
     <string name="action_mute_conversation">Gesprek negeren</string>
     <string name="action_unmute_domain">%1$s niet langer negeren</string>
@@ -482,7 +482,7 @@
     <string name="drafts_failed_loading_reply">Laden van reactie-informatie mislukt</string>
     <string name="wellbeing_hide_stats_profile">Kwantitatieve statistieken in profielen verbergen</string>
     <string name="pref_main_nav_position">Positie van de hoofdnavigatie</string>
-    <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen\?</string>
+    <string name="dialog_delete_conversation_warning">Dit gesprek verwijderen?</string>
     <string name="action_delete_conversation">Gesprek verwijderen</string>
     <string name="follow_requests_info">Ook al heb je geen besloten account, de medewerkers van %1$s dachten dat je misschien de volgverzoeken van deze accounts handmatig zou willen controleren.</string>
     <string name="wellbeing_mode_notice">Informatie die je geestelijk welzijn kan beïnvloeden, zal worden verborgen. Het gaat om:
@@ -529,7 +529,7 @@
     <string name="action_set_focus">Centraal punt instellen</string>
     <string name="error_following_hashtag_format">Fout tijdens het volgen van #%1$s</string>
     <string name="error_unfollowing_hashtag_format">Fout tijdens het ontvolgen van #%1$s</string>
-    <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen\?</string>
+    <string name="delete_scheduled_post_warning">Dit ingeplande bericht verwijderen?</string>
     <string name="pref_title_reading_order">Leesvolgorde</string>
     <string name="pref_reading_order_oldest_first">Oudste eerst</string>
     <string name="pref_reading_order_newest_first">Nieuwste eerst</string>
@@ -637,27 +637,27 @@
     <string name="error_media_upload_sending_fmt">Het uploaden is mislukt: %1$s</string>
     <string name="socket_timeout_exception">Contact zoeken met je server duurde te lang</string>
     <string name="dialog_delete_filter_positive_action">Verwijderen</string>
-    <string name="dialog_delete_filter_text">Verwijder filter \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Verwijder filter \'%1$s\'?</string>
     <string name="pref_ui_text_size">UI tekstgrootte</string>
     <string name="notification_prune_cache">Cache onderhoud…</string>
     <string name="about_device_info_title">Je apparaat</string>
-    <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren\?</string>
+    <string name="dialog_save_profile_changes_message">Wil je de wijzigingen aan je profiel bewaren?</string>
     <string name="notification_policies_title">Meldingsbeleid</string>
     <string name="label_translated">Uit het %1$s met %2$s vertaald</string>
-    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 
-\n \u0020 
-\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020 
-\n \u0020 
+    <string name="help_empty_lists">Dit zijn je <b>lijsten</b>. Je kunt privélijsten maken en er accounts aan toevoegen. \u0020 \u0020
+\n \u0020 \u0020
+\nMERK OP dat je enkel accounts aan lijsten kunt toevoegen als je deze volgt. \u0020 \u0020
+\n \u0020 \u0020
 \nJe kunt je lijsten als tabbladen toevoegen in je account-instellingen [iconics gmd_account_circle] [iconics gmd_navigate_next] tabs. \u0020</string>
     <string name="notification_policies_filter_not_following_description">Inclusief accounts die jou korter dan 3 dagen volgen</string>
-    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020
-\n
+    <string name="help_empty_home">Dit is je <b> hoofdtijdlijn</b>. Hier zie je de berichten van de mensen die jij volgt. \u0020 
+\n 
 \nOm andere accounts te ontdekken, kan je andere tijdlijnen bekijken, bijvoorbeeld je lokale tijdlijn van jouw server {{group}}. Of je kan zoeken op naam {{search}}, bijvoorbeeld typ \"tusky\" in het zoekveld om onze Mastodonaccount te vinden.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Gefilterd, tenzij het een reactie is op je eigen vermelding, of als je het account volgt</string>
-    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM).
-\n
-\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020
-\n
+    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). 
+\n 
+\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020 
+\n 
 \nBijvoorbeeld: je kan op het profiel van een account op de toot-knop [iconics gmd_edit] klikken en dan de zichtbaarheid veranderen. \u0020</string>
     <string name="post_privacy_direct">Direct</string>
     <string name="pref_default_reply_privacy_explanation">De gekozen zichtbaarheid hangt af van het bericht waarop je reageert.</string>
@@ -681,8 +681,8 @@
     <string name="app_theme_system_black">Systeemthema gebruiken (zwart)</string>
     <string name="pref_default_reply_privacy">Zichtbaarheid van reacties (niet met de server gesynchroniseerd)</string>
     <string name="ui_error_translate">Fout bij het vertalen: %1$s</string>
-    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen.
-\n
+    <string name="error_missing_edits">Je server weet dat dit bericht bewerkt is, maar kent de bewerkingsgeschiedenis niet, en kan deze dus niet tonen. 
+\n 
 \nDit gaat om <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon issue #25398</a>.</string>
     <string name="list_reply_policy_list">Leden van de lijst</string>
     <string name="list_reply_policy_followed">Iedereen die jij volgt</string>

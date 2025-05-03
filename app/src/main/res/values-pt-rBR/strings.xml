@@ -56,7 +56,7 @@
     <string name="action_compose">Compor</string>
     <string name="action_login">Entrar com Tusky</string>
     <string name="action_logout">Sair</string>
-    <string name="action_logout_confirm">Tem certeza de que deseja sair de %1$s\? Isso excluirá todos os dados locais da conta, incluindo rascunhos e preferências.</string>
+    <string name="action_logout_confirm">Tem certeza de que deseja sair de %1$s? Isso excluirá todos os dados locais da conta, incluindo rascunhos e preferências.</string>
     <string name="action_follow">Seguir</string>
     <string name="action_unfollow">Deixar de seguir</string>
     <string name="action_block">Bloquear</string>
@@ -125,17 +125,17 @@
     <string name="label_header">Capa</string>
     <string name="link_whats_an_instance">O que é uma instância?</string>
     <string name="login_connection">Conectando…</string>
-    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> 
-\n 
-\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. 
-\n 
-\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. 
-\n 
+    <string name="dialog_whats_an_instance">O domínio de qualquer instância pode ser inserido aqui, como mastodon.social, masto.donte.com.br, colorid.es ou qualquer <a href="https://instances.social">outro!</a> \u0020
+\n \u0020
+\n Se não tem uma conta ainda, insira o nome da instância que gostaria de participar e crie uma conta lá. \u0020
+\n \u0020
+\n Uma instância é um lugar onde sua conta é hospedada, mas é fácil se comunicar e seguir pessoas de outras instâncias como se todos estivessem no mesmo site. \u0020
+\n \u0020
 \n Mais informações podem ser encontradas em <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="dialog_title_finishing_media_upload">Envio de mídia terminando</string>
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_download_image">Baixar</string>
-    <string name="dialog_message_cancel_follow_request">Cancelar solicitação para seguir\?</string>
+    <string name="dialog_message_cancel_follow_request">Cancelar solicitação para seguir?</string>
     <string name="dialog_unfollow_warning">Deixar de seguir esta conta?</string>
     <string name="dialog_delete_post_warning">Excluir este toot?</string>
     <string name="visibility_public">Público: Postar em linhas públicas</string>
@@ -293,7 +293,7 @@
     <string name="action_open_media_n">Abrir mídia #%1$d</string>
     <string name="download_media">Baixar mídia</string>
     <string name="downloading_media">Baixando mídia</string>
-    <string name="dialog_redraft_post_warning">Excluir e rascunhar este toot\?</string>
+    <string name="dialog_redraft_post_warning">Excluir e rascunhar este toot?</string>
     <string name="pref_title_timeline_filters">Filtros</string>
     <string name="pref_title_language">Idioma</string>
     <string name="post_privacy_followers_only">Privado</string>
@@ -353,7 +353,7 @@
     <string name="compose_shortcut_long_label">Compor toot</string>
     <string name="compose_shortcut_short_label">Compor</string>
     <string name="pref_title_bot_overlay">Mostrar indicador de robôs</string>
-    <string name="notification_clear_text">Tem certeza de que deseja limpar permanentemente todas as suas notificações\?</string>
+    <string name="notification_clear_text">Tem certeza de que deseja limpar permanentemente todas as suas notificações?</string>
     <string name="compose_preview_image_description">Opções para imagem %1$s</string>
     <string name="poll_info_format"> <!-- 15 votos • 1 hora restante --> %1$s • %2$s</string>
     <plurals name="poll_info_votes">
@@ -398,12 +398,12 @@
     <string name="failed_report">Erro ao denunciar</string>
     <string name="failed_fetch_posts">Erro ao carregar toots</string>
     <string name="report_description_1">A denúncia será enviada aos moderadores da instância. Explique por que denunciou a conta:</string>
-    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá\?</string>
+    <string name="report_description_remote_instance">A conta está em outra instância. Enviar uma cópia anônima da denúncia para lá?</string>
     <string name="title_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_view_domain_mutes">Instâncias bloqueadas</string>
     <string name="action_mute_domain">Bloquear %1$s</string>
     <string name="confirmation_domain_unmuted">%1$s desbloqueada</string>
-    <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %1$s\? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
+    <string name="mute_domain_warning">Tem certeza de que deseja bloquear tudo de %1$s? Você não verá mais o conteúdo desta instância em nenhuma linha do tempo pública ou nas suas notificações. Seus seguidores desta instância serão removidos.</string>
     <string name="mute_domain_warning_dialog_ok">Bloquear instância</string>
     <string name="filter_dialog_whole_word">Toda palavra</string>
     <string name="filter_dialog_whole_word_description">Se for apenas alfanumérico, só se aplicará se combinar com a palavra inteira</string>
@@ -443,8 +443,8 @@
     <string name="notification_follow_request_format">%1$s quer te seguir</string>
     <string name="action_mute_conversation">Silenciar conversa</string>
     <string name="action_unmute_conversation">Dessilenciar conversa</string>
-    <string name="dialog_block_warning">Bloquear @%1$s\?</string>
-    <string name="dialog_mute_warning">Silenciar @%1$s\?</string>
+    <string name="dialog_block_warning">Bloquear @%1$s?</string>
+    <string name="dialog_mute_warning">Silenciar @%1$s?</string>
     <string name="notification_follow_request_description">Notificações sobre seguidores pendentes</string>
     <plurals name="poll_info_people">
         <item quantity="one">%1$s pessoa</item>
@@ -500,9 +500,9 @@
     <string name="action_unsubscribe_account">Cancelar</string>
     <string name="action_subscribe_account">Notificar</string>
     <string name="pref_title_animate_custom_emojis">Animar emojis personalizados</string>
-    <string name="dialog_delete_conversation_warning">Excluir esta conversa\?</string>
+    <string name="dialog_delete_conversation_warning">Excluir esta conversa?</string>
     <string name="action_delete_conversation">Excluir conversa</string>
-    <string name="dialog_delete_list_warning">Deseja excluir a lista %1$s\?</string>
+    <string name="dialog_delete_list_warning">Deseja excluir a lista %1$s?</string>
     <string name="action_unbookmark">Remover do Salvos</string>
     <string name="pref_title_confirm_favourites">Solicitar confirmação antes de favoritar</string>
     <string name="duration_30_days">30 dias</string>
@@ -537,7 +537,7 @@
     <string name="action_add_or_remove_from_list">Adicionar ou remover da lista</string>
     <string name="failed_to_pin">Falha ao fixar</string>
     <string name="failed_to_unpin">Falha ao desafixar</string>
-    <string name="compose_save_draft_loses_media">Salvar rascunho\? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
+    <string name="compose_save_draft_loses_media">Salvar rascunho? (Os anexos serão reenviados assim que você restaurar o rascunho.)</string>
     <string name="status_created_info">%1$s publicou</string>
     <string name="title_edits">Edições</string>
     <string name="pref_default_post_language">Idioma padrão dos toots</string>
@@ -565,8 +565,8 @@
     <string name="action_continue_edit">Continuar editando</string>
     <string name="compose_unsaved_changes">Você tem alterações não salvas.</string>
     <string name="description_post_edited">Editado</string>
-    <string name="delete_scheduled_post_warning">Excluir este toot agendado\?</string>
-    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s\?</string>
+    <string name="delete_scheduled_post_warning">Excluir este toot agendado?</string>
+    <string name="action_unfollow_hashtag_format">Deixar de seguir #%1$s?</string>
     <string name="action_share_account_link">Compartilhar link da conta</string>
     <string name="action_share_account_username">Compartilhar nome de usuário da conta</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
@@ -596,9 +596,9 @@
     <string name="action_refresh">Atualizar</string>
     <string name="action_add">Adicionar</string>
     <string name="notification_unknown_name">Desconhecido</string>
-    <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'\?</string>
+    <string name="dialog_delete_filter_text">Excluir filtro \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Excluir</string>
-    <string name="dialog_save_profile_changes_message">Você deseja salvar as alterações do seu perfil\?</string>
+    <string name="dialog_save_profile_changes_message">Você deseja salvar as alterações do seu perfil?</string>
     <string name="about_copied">Versão e informações do dispositivo copiadas</string>
     <string name="status_filter_placeholder_label_format">Filtrado: %1$s</string>
     <string name="pref_title_account_filter_keywords">Perfis</string>
@@ -609,5 +609,5 @@
     <string name="filter_action_hide">Esconder</string>
     <string name="about_copy">Copiar a versão e as informações do dispositivo</string>
     <string name="load_newest_notifications">Carregar notificações mais recentes</string>
-    <string name="compose_delete_draft">Excluir rascunho\?</string>
+    <string name="compose_delete_draft">Excluir rascunho?</string>
 </resources>

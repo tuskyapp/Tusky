@@ -51,7 +51,7 @@
     <string name="notification_favourite_format">%1$s a ajouté votre message à ses favoris</string>
     <string name="notification_follow_format">%1$s vous suit</string>
     <string name="report_username_format">Signaler @%1$s</string>
-    <string name="report_comment_hint">Commentaires additionnels \?</string>
+    <string name="report_comment_hint">Commentaires additionnels ?</string>
     <string name="action_quick_reply">Réponse rapide</string>
     <string name="action_reply">Répondre</string>
     <string name="action_reblog">Partager</string>
@@ -138,19 +138,19 @@
     <string name="label_header">Image d’en-tête</string>
     <string name="link_whats_an_instance">Qu’est-ce qu’une instance ?</string>
     <string name="login_connection">Connexion en cours…</string>
-    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de, <a href="https://instances.social">et bien d’autres encore</a> (en anglais) !
-\n
-\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre et y créer un compte.
-\n
-\nUne instance est l’endroit où votre compte est hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site.
-\n
+    <string name="dialog_whats_an_instance">Indiquer ici l’adresse ou le domaine d’une instance, comme mastodon.social, icosahedron.website, social.tchncs.de, <a href="https://instances.social">et bien d’autres encore</a> (en anglais) ! 
+\n 
+\nSi vous ne disposez d’aucun compte, vous pouvez renseigner le nom de l’instance que vous souhaitez rejoindre et y créer un compte. 
+\n 
+\nUne instance est l’endroit où votre compte est hébergé, mais vous pouvez facilement suivre des personnes d’autres instances et communiquer avec elles comme si vous étiez sur le même site. 
+\n 
 \nPour plus d’informations, consultez <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Mise en ligne des médias</string>
     <string name="dialog_message_uploading_media">Téléversement en cours…</string>
     <string name="dialog_download_image">Télécharger</string>
     <string name="dialog_message_cancel_follow_request">Révoquer la demande d’abonnement ?</string>
     <string name="dialog_unfollow_warning">Ne plus suivre ce compte ?</string>
-    <string name="dialog_delete_post_warning">Supprimer ce message \?</string>
+    <string name="dialog_delete_post_warning">Supprimer ce message ?</string>
     <string name="visibility_public">Public : afficher dans les fils publics</string>
     <string name="visibility_unlisted">Non listé : ne pas afficher dans les fils publics</string>
     <string name="visibility_private">Abonné·e·s uniquement : seul·e·s vos abonné·e·s verront vos statuts</string>
@@ -217,9 +217,7 @@
     <string name="description_account_locked">Compte verrouillé</string>
     <string name="about_title_activity">À propos</string>
     <string name="about_tusky_version">Tusky %1$s</string>
-    <string name="about_tusky_license">Tusky est une application libre et open source.
-        Elle est publiée sous licence publique générale GNU version 3.
-        Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
+    <string name="about_tusky_license">Tusky est une application libre et open source. Elle est publiée sous licence publique générale GNU version 3. Vous pouvez consulter la licence ici : https://www.gnu.org/licenses/gpl-3.0.fr.html</string>
     <!-- note to translators:
          * you should think of “free” as in “free speech,” not as in “free beer”.
            We sometimes call it “libre software,” borrowing the French or Spanish word for “free” as in freedom,
@@ -335,15 +333,13 @@
     <string name="conversation_2_recipients">%1$s et %2$s</string>
     <string name="conversation_more_recipients">%1$s, %2$s et %3$d autres</string>
     <string name="description_post_media">Média : %1$s</string>
-    <string name="description_post_cw">        Avertissement : %1$s
-    </string>
+    <string name="description_post_cw">Avertissement : %1$s</string>
     <string name="description_post_media_no_description_placeholder">Aucune description</string>
     <string name="description_post_reblogged">Partagé</string>
     <string name="description_post_favourited">Mis en favoris</string>
     <string name="description_visibility_public">Public</string>
     <string name="description_visibility_unlisted">Non listé</string>
-    <string name="description_visibility_private">        Abonné·e·s
-    </string>
+    <string name="description_visibility_private">Abonné·e·s</string>
     <string name="description_visibility_direct">Direct</string>
     <string name="hint_list_name">Nom de la liste</string>
     <string name="pick_hashtag_hint">Hashtag sans #</string>
@@ -353,9 +349,9 @@
     <string name="compose_shortcut_long_label">Écrire un message</string>
     <string name="compose_shortcut_short_label">Écrire</string>
     <string name="pref_title_bot_overlay">Afficher l\'indicateur de robots</string>
-    <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente \?</string>
+    <string name="notification_clear_text">Désirez-vous nettoyer toutes vos notifications de façon permanente ?</string>
     <string name="action_delete_and_redraft">Effacer et ré-écrire</string>
-    <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce message \?</string>
+    <string name="dialog_redraft_post_warning">Effacer et ré-écrire ce message ?</string>
     <string name="poll_info_time_absolute">Terminera à %1$s</string>
     <string name="poll_info_closed">Terminé</string>
     <string name="poll_vote">Voter</string>
@@ -401,9 +397,9 @@
     <string name="failed_report">Échec du signalement</string>
     <string name="failed_fetch_posts">Échec de récupération des messages</string>
     <string name="report_description_1">Le rapport sera envoyé aux modérateur·rice·s de votre instance. Vous pouvez expliquer pourquoi vous signalez le compte ci-dessous :</string>
-    <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %1$s en entier \? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
+    <string name="mute_domain_warning">Êtes-vous sûr⋅e de vouloir bloquer %1$s en entier ? Vous ne verrez plus de contenu provenant de ce domaine, ni dans les fils publics, ni dans vos notifications. Vos abonné·e·s utilisant ce domaine seront retiré·e·s.</string>
     <string name="button_done">Terminé</string>
-    <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport \?</string>
+    <string name="report_description_remote_instance">Le compte provient d’un autre serveur. Envoyez également une copie anonyme du rapport ?</string>
     <string name="filter_dialog_whole_word">Mot entier</string>
     <string name="filter_dialog_whole_word_description">Un mot-clé ou une phrase alphanumérique sera appliqué·e seulement s’il ou elle correspond au mot entier</string>
     <string name="title_accounts">Comptes</string>
@@ -439,12 +435,12 @@
     <string name="no_scheduled_posts">Vous n’avez aucun message planifié.</string>
     <string name="warning_scheduling_interval">L’intervalle minimum de planification sur Mastodon est de 5 minutes.</string>
     <string name="notification_follow_request_name">Demandes d\'abonnement</string>
-    <string name="dialog_block_warning">Bloquer @%1$s \?</string>
+    <string name="dialog_block_warning">Bloquer @%1$s ?</string>
     <string name="pref_title_confirm_reblogs">Demander confirmation avant de partager</string>
     <string name="pref_title_show_cards_in_timelines">Afficher les aperçus des liens dans les fils</string>
     <string name="notification_follow_request_format">%1$s vous a envoyé une demande d’abonnement</string>
     <string name="notification_follow_request_description">Notifications à propos des demandes d’abonnement</string>
-    <string name="dialog_mute_warning">Mettre en sourdine @%1$s \?</string>
+    <string name="dialog_mute_warning">Mettre en sourdine @%1$s ?</string>
     <string name="action_unmute_conversation">Enlever la sourdine à la conversation</string>
     <string name="action_mute_conversation">Masquer la conversation</string>
     <string name="pref_title_enable_swipe_for_tabs">Activer le glissement pour changer d’onglet</string>
@@ -494,9 +490,9 @@
     <string name="wellbeing_hide_stats_posts">Cacher les statistiques quantitatives sur les messages</string>
     <string name="action_unbookmark">Supprimer le signet</string>
     <string name="post_media_attachments">Pièces jointes</string>
-    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %1$s \?</string>
+    <string name="dialog_delete_list_warning">Voulez-vous vraiment supprimer la liste %1$s ?</string>
     <string name="action_subscribe_account">S’abonner</string>
-    <string name="dialog_delete_conversation_warning">Supprimer cette conversation \?</string>
+    <string name="dialog_delete_conversation_warning">Supprimer cette conversation ?</string>
     <string name="pref_title_animate_custom_emojis">Animer les émojis personnalisés</string>
     <string name="draft_deleted">Brouillon supprimé</string>
     <string name="label_duration">Durée</string>
@@ -531,7 +527,7 @@
     <string name="action_edit_image">Retoucher l’image</string>
     <string name="action_dismiss">Fermer</string>
     <string name="error_image_edit_failed">L\'image n’a pas pu être modifiée.</string>
-    <string name="delete_scheduled_post_warning">Supprimer ce message planifié \?</string>
+    <string name="delete_scheduled_post_warning">Supprimer ce message planifié ?</string>
     <string name="filter_expiration_format">%1$s (%2$s)</string>
     <string name="pref_show_self_username_always">Toujours</string>
     <string name="pref_show_self_username_never">Jamais</string>
@@ -592,11 +588,11 @@
     <string name="pref_title_reading_order">Ordre de lecture</string>
     <string name="pref_reading_order_oldest_first">Les plus vieux en premier</string>
     <string name="pref_reading_order_newest_first">Les plus récents en premier</string>
-    <string name="action_unfollow_hashtag_format">Arrêter de suivre #%1$s \?</string>
+    <string name="action_unfollow_hashtag_format">Arrêter de suivre #%1$s ?</string>
     <string name="failed_to_pin">Échec de l\'épinglage</string>
     <string name="status_edit_info">Modification : %1$s</string>
     <string name="status_created_info">Création : %1$s</string>
-    <string name="compose_save_draft_loses_media">Enregistrer comme brouillon \? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
+    <string name="compose_save_draft_loses_media">Enregistrer comme brouillon ? (Les pièces jointes seront à nouveau téléchargées lorsque le brouillon sera réouvert.)</string>
     <string name="no_lists">Vous n\'avez aucune liste.</string>
     <string name="language_display_name_format">%1$s (%2$s)</string>
     <string name="report_category_spam">Spam</string>
@@ -606,6 +602,7 @@
         <item quantity="one">Le statut n\'a pas pu être publié, il a été sauvegardé dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
+        <item quantity="many"/>
         <item quantity="other">Les status n\'ont pas pu être publiés, ils ont été sauvegardés dans les brouillons.
 \n
 \nLe serveur n\'est pas joignable, ou celui-ci a refusé la publication.</item>
@@ -637,8 +634,8 @@
     <string name="pref_title_show_stat_inline">Montrer les statistiques des statuts dans les fils</string>
     <string name="accessibility_talking_about_tag">%1$d personnes parlent du hashtag %2$s</string>
     <string name="total_usage">utilisations</string>
-    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez.
-\n
+    <string name="help_empty_home">Ceci est votre <b>fil d\'accueil</b>. Il affiche les publications récentes des comptes que vous suivez. 
+\n 
 \nPour trouver des comptes vous pouvez soit les découvrir dans l\'un des autres fils, par exemple le fil local de votre instance {{group}} ; soit les chercher par leur nom {{search}}, par exemple cherchez « Tusky » pour trouver notre compte Mastodon.</string>
     <string name="action_add">Ajouter</string>
     <string name="label_filter_keywords">Mots-clés ou phrases à filtrer</string>

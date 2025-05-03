@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well\?</string>
+    <string name="report_description_remote_instance">The account is from another server. Send an anonymised copy of the report there as well?</string>
     <string name="description_post_favourited">Favourited</string>
     <string name="title_favourited_by">Favourited by</string>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Favourite</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Favourites</item>
+        <item quantity="one"><b>%1$s</b> Favourite</item>
+        <item quantity="other"><b>%1$s</b> Favourites</item>
     </plurals>
     <string name="notification_favourite_description">Notifications when your posts get marked as favourite</string>
     <string name="notification_favourite_name">Favourites</string>
@@ -102,4 +102,7 @@
     <string name="action_unreblog">Remove boost</string>
     <string name="action_logout_confirm">Are you sure you want to log out of %1$s? This will delete all local data of the account, including drafts and preferences.</string>
     <string name="action_share_account_link">Share a link to this account</string>
+    <string name="favourite_confirm">Favourite this post?</string>
+    <string name="pref_title_confirm_favourites">Show confirmation before favouriting</string>
+    <string name="ui_error_favourite">Favouriting post failed: %1$s</string>
 </resources>

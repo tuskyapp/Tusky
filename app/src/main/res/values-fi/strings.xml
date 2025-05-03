@@ -3,9 +3,9 @@
     <string name="pref_title_animate_custom_emojis">Animoi mukautetut emojit</string>
     <string name="pref_title_animate_gif_avatars">Animoi GIF-avatarit</string>
     <string name="app_theme_system">Seuraa laitteen teemaa</string>
-    <string name="dialog_unfollow_warning">Lopeta tilin seuraaminen\?</string>
-    <string name="dialog_delete_post_warning">Poista tuuttaus\?</string>
-    <string name="link_whats_an_instance">Mikä on instanssi\?</string>
+    <string name="dialog_unfollow_warning">Lopeta tilin seuraaminen?</string>
+    <string name="dialog_delete_post_warning">Poista tuuttaus?</string>
+    <string name="link_whats_an_instance">Mikä on instanssi?</string>
     <string name="action_copy_link">Kopioi linkki</string>
     <string name="action_open_in_web">Avaa selaimessa</string>
     <string name="action_login">Kirjaudu Tuskylla</string>
@@ -30,7 +30,7 @@
     <string name="system_default">Järjestelmän oletus</string>
     <string name="emoji_style">Emojien tyyli</string>
     <string name="send_post_notification_title">Lähetetään tuuttausta…</string>
-    <string name="compose_save_draft">Tallennetaanko luonnoksena\?</string>
+    <string name="compose_save_draft">Tallennetaanko luonnoksena?</string>
     <string name="lock_account_label">Lukitse tili</string>
     <string name="add_account_name">Lisää tili</string>
     <string name="follows_you">Seuraa sinua</string>
@@ -46,8 +46,8 @@
     <string name="pref_title_app_theme">Teema</string>
     <string name="search_no_results">Ei tuloksia</string>
     <string name="hint_content_warning">Sisältövaroitus</string>
-    <string name="hint_compose">Mitä tapahtuu\?</string>
-    <string name="hint_domain">Mikä instanssi\?</string>
+    <string name="hint_compose">Mitä tapahtuu?</string>
+    <string name="hint_domain">Mikä instanssi?</string>
     <string name="downloading_media">Ladataan mediaa</string>
     <string name="download_media">Lataa media</string>
     <string name="action_open_faved_by">Näytä suosikit</string>
@@ -184,7 +184,7 @@
     <string name="title_public_federated">Verkostoitu</string>
     <string name="error_media_upload_sending">Lähettäminen epäonnistui.</string>
     <string name="report_username_format">Ilmianna @%1$s</string>
-    <string name="report_comment_hint">Lisähuomautuksia\?</string>
+    <string name="report_comment_hint">Lisähuomautuksia?</string>
     <string name="error_loading_account_details">Tilitietojen lataaminen epäonnistui</string>
     <string name="error_media_upload_permission">Tiedostojen lähettäminen vaatii lukuoikeuden.</string>
     <string name="action_set_caption">Aseta kuvaus</string>
@@ -200,7 +200,7 @@
     <string name="download_image">Ladataan kuvaa %1$s</string>
     <string name="action_mute_conversation">Mykistä keskustelu</string>
     <string name="error_generic">Tapahtui virhe.</string>
-    <string name="action_logout_confirm">Halutako varmasti kirjautua ulos tililtä %1$s1\?</string>
+    <string name="action_logout_confirm">Halutako varmasti kirjautua ulos tililtä %1$s1?</string>
     <string name="action_unreblog">Poista jako</string>
     <string name="action_create_list">Luo lista</string>
     <string name="action_mute_domain">Mykistä %1$s</string>
@@ -262,7 +262,7 @@
     <string name="action_details">Yksityiskohdat</string>
     <string name="error_image_edit_failed">Kuvaa ei voitu muokata.</string>
     <string name="description_visibility_unlisted">Listaamaton</string>
-    <string name="dialog_delete_conversation_warning">Poista tämä keskustelu\?</string>
+    <string name="dialog_delete_conversation_warning">Poista tämä keskustelu?</string>
     <string name="pref_title_show_media_preview">Lataa median esikatselu</string>
     <string name="post_privacy_unlisted">Listaamaton</string>
     <string name="pref_title_alway_show_sensitive_media">Näytä aina arkaluonteinen media</string>
@@ -278,7 +278,7 @@
     <string name="action_add_reaction">lisää reaktio</string>
     <string name="confirmation_reported">Lähetetty!</string>
     <string name="login_connection">Yhdistetään…</string>
-    <string name="dialog_mute_warning">Hiljennä @%1$s\?</string>
+    <string name="dialog_mute_warning">Hiljennä @%1$s?</string>
     <string name="dialog_mute_hide_notifications">Piilota ilmoitukset</string>
     <string name="pref_title_appearance_settings">Ulkoasu</string>
     <string name="pref_title_show_boosts">Näytä buustaukset</string>
@@ -301,7 +301,7 @@
     <string name="pref_title_http_proxy_server">HTTP-välityspalvelin</string>
     <string name="restart">Käynnistä uudelleen</string>
     <string name="error_failed_app_registration">Tunnistautuminen valitsemasi instanssin kanssa epäonnistui. Jos tämä jatkuu, valitse valikosta Kirjaudu selaimella.</string>
-    <string name="dialog_block_warning">Estä @%1$s\?</string>
+    <string name="dialog_block_warning">Estä @%1$s?</string>
     <string name="action_follow_hashtag">Seuraa uutta aihetunnistetta</string>
     <string name="action_translate">Käännä</string>
     <string name="action_show_original">Näytä alkuperäinen</string>
@@ -413,12 +413,12 @@
 \n
 \nPalvelimeen ei saatu yhteyttä tai se hylkäsi julkaisun.</item>
     </plurals>
-    <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a>
-\n
-\nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin.
-\n
-\nInstanssi on yksittäinen palvelin joka sisältää sinun tilisi, mutta voit helposti kommunikoida muiden kanssa ja seurata muita toisilta instansseilta kuten he olisivat saman sivuston jäseniä.
-\n
+    <string name="dialog_whats_an_instance">Tähän voit syöttää minkä vaan instanssin osoitteen tai domainin, kuten esimerkiksi mastodon.social, icosahedron.website, social.tchncs.de, ja <a href="https://instances.social">muut!</a> 
+\n 
+\nJos sinulla ei vielä ole tiliä, voit syöttää sen instanssin nimen johon haluat liittyä, ja sitten luoda tilin. 
+\n 
+\nInstanssi on yksittäinen palvelin joka sisältää sinun tilisi, mutta voit helposti kommunikoida muiden kanssa ja seurata muita toisilta instansseilta kuten he olisivat saman sivuston jäseniä. 
+\n 
 \nVoit lukea lisää osoitteesta <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="app_theme_system_black">Seuraa laitteen teemaa (musta)</string>
     <string name="pref_show_self_username_disambiguate">Kun olet kirjautunut usealle tilille</string>

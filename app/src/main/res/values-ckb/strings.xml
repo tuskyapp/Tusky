@@ -196,12 +196,12 @@
     <string name="dialog_download_image">داگرتن</string>
     <string name="dialog_message_uploading_media">بارکردن…</string>
     <string name="dialog_title_finishing_media_upload">تەواوکردنی بارکردنی میدیا</string>
-    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a> 
-\n 
-\nئەگەر هێشتا ئەژمێرێکت نیە، دەتوانیت ناوی ئەو نمونەیە داخڵ بکەیت کە دەتەوێت بیبەستیت و ئەژمێرێک دروست بکەیت لەوێ. 
-\n 
-\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت. 
-\n 
+    <string name="dialog_whats_an_instance">ناونیشان یان دۆمەینی هەر نمونەیەک دەکرێت لێرە تێبنووسرێت، وەک <a href="https://instances.social">فرەتر!</a> \u0020
+\n \u0020
+\nئەگەر هێشتا ئەژمێرێکت نیە، دەتوانیت ناوی ئەو نمونەیە داخڵ بکەیت کە دەتەوێت بیبەستیت و ئەژمێرێک دروست بکەیت لەوێ. \u0020
+\n \u0020
+\nنموونەیەک تاکە شوێنە کە ئەژمێرەکەت میوانداری کراوە، بەڵام دەتوانیت بە ئاسانی پەیوەندی لەگەڵ بکەیت و دوای ئەو خەڵکانە بکەویت لە نمونەکانی تر وەک ئەوەی تۆ لە هەمان سایت دابیت. \u0020
+\n \u0020
 \nزانیاری زیاتر دەتوانرێت بدۆزرێتەوە لە <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">گرێدان…</string>
     <string name="link_whats_an_instance">نموونەیەک چییە؟</string>
@@ -220,6 +220,7 @@
     </plurals>
     <string name="filter_dialog_whole_word_description">کاتێک وشەکە یان دەستەواژەکە تەنها ئەبجەدییە، تەنها ئەگەر لەگەڵ هەموو وشەکە یەکبێت کاری پێدەکرێت</string>
     <plurals name="error_upload_max_media_reached">
+        <item quantity="one"/>
         <item quantity="other">ناتوانیت زیاتر لە %1$d هاوپێچی میدیا باربکەیت.</item>
     </plurals>
     <string name="wellbeing_hide_stats_profile">شاردنەوەی زانیاری چەندێتی لەسەر پرۆفایلەکان</string>
@@ -369,6 +370,7 @@
     <string name="action_remove">لابردن</string>
     <string name="action_set_caption">دانانی سەردێڕ</string>
     <plurals name="hint_describe_for_visually_impaired">
+        <item quantity="one"/>
         <item quantity="other">وەسف بکە بۆ بینایی داڕماو
 \n(%1$d سنوری کاراکتەر)</item>
     </plurals>
@@ -426,6 +428,7 @@
     <string name="about_title_activity">سەبارەت</string>
     <string name="description_account_locked">هەژماری داخراو</string>
     <plurals name="notification_title_summary">
+        <item quantity="one"/>
         <item quantity="other">%1$d چالاکی نوێ</item>
     </plurals>
     <string name="notification_summary_small">%1$s و %2$s</string>

@@ -11,7 +11,7 @@
     <string name="pref_title_enable_swipe_for_tabs">Активиране на плъзгащия жест за превключване между раздели</string>
     <string name="failed_search">Търсенето бе неуспешно</string>
     <string name="title_accounts">Акаунти</string>
-    <string name="report_description_remote_instance">Акаунтът е от друг сървър. Да изпратите ли и там анонимно копие на доклада\?</string>
+    <string name="report_description_remote_instance">Акаунтът е от друг сървър. Да изпратите ли и там анонимно копие на доклада?</string>
     <string name="report_description_1">Докладът ще бъде изпратен на модератора на вашия сървър. Можете да предоставите обяснение защо докладвате този акаунт по-долу:</string>
     <string name="failed_fetch_posts">Извличането на публикации бе неуспешно</string>
     <string name="failed_report">Докладването бе неуспешно</string>
@@ -52,7 +52,7 @@
     </plurals>
     <string name="poll_info_format"> \u0020<!-- 15 votes • 1 hour left --> \u0020%1$s • %2$s</string>
     <string name="compose_preview_image_description">Действия за изображение %1$s</string>
-    <string name="notification_clear_text">Сигурни ли сте, че искате да изчистите окончателно всичките си известия\?</string>
+    <string name="notification_clear_text">Сигурни ли сте, че искате да изчистите окончателно всичките си известия?</string>
     <string name="compose_shortcut_short_label">Композиране</string>
     <string name="compose_shortcut_long_label">Композиране на публикация</string>
     <string name="filter_apply">Прилагане</string>
@@ -80,12 +80,12 @@
     <string name="title_favourited_by">Поставено в любими от</string>
     <string name="title_reblogged_by">Споделено от</string>
     <plurals name="reblogs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Споделяне</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Споделяния</item>
+        <item quantity="one"><b>%1$s</b> Споделяне</item>
+        <item quantity="other"><b>%1$s</b> Споделяния</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; Любимо</item>
-        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; Любими</item>
+        <item quantity="one"><b>%1$s</b> Любимо</item>
+        <item quantity="other"><b>%1$s</b> Любими</item>
     </plurals>
     <string name="pin_action">Закачане</string>
     <string name="unpin_action">Разкачане</string>
@@ -125,7 +125,7 @@
     <string name="send_post_notification_channel_name">Изпращане на публикации</string>
     <string name="send_post_notification_error_title">Грешка при изпращане на публикация</string>
     <string name="send_post_notification_title">Изпращане на публикация…</string>
-    <string name="compose_save_draft">Запазване на чернова\?</string>
+    <string name="compose_save_draft">Запазване на чернова?</string>
     <string name="lock_account_label_description">Изисква ръчно одобряване на последователи</string>
     <string name="lock_account_label">Заключване на акаунт</string>
     <string name="action_remove">Премахване</string>
@@ -235,26 +235,26 @@
     <string name="visibility_private">Само за последователи: Публикуване само за последователи</string>
     <string name="visibility_public">Публично: Публикуване в публични емисии</string>
     <string name="dialog_mute_hide_notifications">Скриване на известия</string>
-    <string name="dialog_mute_warning">Заглушаване на @%1$s\?</string>
+    <string name="dialog_mute_warning">Заглушаване на @%1$s?</string>
     <string name="dialog_block_warning">Блокиране на @%1$s?</string>
     <string name="mute_domain_warning_dialog_ok">Скриване на целия домейн</string>
-    <string name="mute_domain_warning">Сигурни ли сте, че искате да блокирате всички от %1$s\? Няма да виждате съдържание от този домейн в нито една публична емисия или във вашите известия. Последователите ви от този домейн ще бъдат премахнати.</string>
+    <string name="mute_domain_warning">Сигурни ли сте, че искате да блокирате всички от %1$s? Няма да виждате съдържание от този домейн в нито една публична емисия или във вашите известия. Последователите ви от този домейн ще бъдат премахнати.</string>
     <string name="dialog_redraft_post_warning">Да се изтрие и преработи ли тази публикация?</string>
     <string name="dialog_delete_post_warning">Да се изтрие ли тази публикация?</string>
-    <string name="dialog_unfollow_warning">Отследване на този акаунт\?</string>
+    <string name="dialog_unfollow_warning">Отследване на този акаунт?</string>
     <string name="dialog_message_cancel_follow_request">Да се отмени ли заявката за последване?</string>
     <string name="dialog_download_image">Изтегляне</string>
     <string name="dialog_message_uploading_media">Качване…</string>
     <string name="dialog_title_finishing_media_upload">Завършване на мултимедийно качване</string>
-    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">други!</a> 
-\n 
-\nАко все още нямате акаунт, можете да въведете името на инстанцията, към която искате да се присъедините, и да създадете акаунт там. 
-\n 
-\nИнстанцията е единично място, където се хоства акаунтът ви, но можете лесно да комуникирате и да следвате хора в други инстанции, сякаш сте на същия сайт. 
-\n 
+    <string name="dialog_whats_an_instance">Тук може да се въведе адресът или домейнът на която и да е инстанция, като mastodon.social, icosahedron.website, social.tchncs.de и <a href="https://instances.social">други!</a> \u0020
+\n \u0020
+\nАко все още нямате акаунт, можете да въведете името на инстанцията, към която искате да се присъедините, и да създадете акаунт там. \u0020
+\n \u0020
+\nИнстанцията е единично място, където се хоства акаунтът ви, но можете лесно да комуникирате и да следвате хора в други инстанции, сякаш сте на същия сайт. \u0020
+\n \u0020
 \nПовече информация можете да намерите на <a href="https://joinmastodon.org">joinmastodon.org</a>. </string>
     <string name="login_connection">Свързване…</string>
-    <string name="link_whats_an_instance">Какво е инстанция\?</string>
+    <string name="link_whats_an_instance">Какво е инстанция?</string>
     <string name="label_header">Заглавна част</string>
     <string name="label_avatar">Аватар</string>
     <string name="label_quick_reply">Отговор…</string>
@@ -263,8 +263,8 @@
     <string name="hint_note">Био</string>
     <string name="hint_display_name">Показвано име</string>
     <string name="hint_content_warning">Предупреждение за съдържание</string>
-    <string name="hint_compose">Какво се случва\?</string>
-    <string name="hint_domain">Коя инстанция\?</string>
+    <string name="hint_compose">Какво се случва?</string>
+    <string name="hint_domain">Коя инстанция?</string>
     <string name="confirmation_domain_unmuted">%1$s е разкрит</string>
     <string name="confirmation_unmuted">Потребителят е раззаглушен</string>
     <string name="confirmation_unblocked">Потребителят е деблокиран</string>
@@ -342,7 +342,7 @@
     <string name="action_block">Блокиране</string>
     <string name="action_unfollow">Отследване</string>
     <string name="action_follow">Последване</string>
-    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от %1$s\? Това ще изтрие всички локални данни на акаунта, включително чернови и предпочитания.</string>
+    <string name="action_logout_confirm">Сигурни ли сте, че искате да излезете от %1$s? Това ще изтрие всички локални данни на акаунта, включително чернови и предпочитания.</string>
     <string name="action_logout">Излизане</string>
     <string name="action_login">Вписване с Tusky</string>
     <string name="action_compose">Композиране</string>
@@ -354,7 +354,7 @@
     <string name="action_reblog">Споделяне</string>
     <string name="action_reply">Отговор</string>
     <string name="action_quick_reply">Бърз отговор</string>
-    <string name="report_comment_hint">Допълнителни коментари\?</string>
+    <string name="report_comment_hint">Допълнителни коментари?</string>
     <string name="report_username_format">Докладване на @%1$s</string>
     <string name="notification_subscription_format">%1$s току-що публикува</string>
     <string name="notification_follow_request_format">%1$s поиска да ви последва</string>
@@ -413,7 +413,7 @@
     <string name="draft_deleted">Черновата е изтрита</string>
     <string name="drafts_failed_loading_reply">Неуспешно зареждане на информация за отговор</string>
     <string name="drafts_post_failed_to_send">Тази публикация не успя да се изпрати!</string>
-    <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %1$s\?</string>
+    <string name="dialog_delete_list_warning">Наистина ли искате да изтриете списъка %1$s?</string>
     <plurals name="error_upload_max_media_reached">
         <item quantity="one">Не можете да качите повече от %1$d мултимедиен прикачен файл.</item>
         <item quantity="other">Не можете да качите повече от %1$d мултимедийни прикачени файлове.</item>
@@ -578,8 +578,8 @@
     <string name="action_edit_image">Редакция на изображение</string>
     <string name="notification_update_description">Известия, когато публикации с които сте взаимодействали, са редактирани</string>
     <string name="load_newest_notifications">Зареждане на най-новите известия</string>
-    <string name="compose_delete_draft">Изтриване на чернова\?</string>
-    <string name="action_unfollow_hashtag_format">Отследване на #%1$s\?</string>
+    <string name="compose_delete_draft">Изтриване на чернова?</string>
+    <string name="action_unfollow_hashtag_format">Отследване на #%1$s?</string>
     <string name="mute_notifications_switch">Заглушаване на известията</string>
     <string name="action_translate">Превеждане</string>
     <string name="label_translated">Преведено от %1$s чрез %2$s</string>

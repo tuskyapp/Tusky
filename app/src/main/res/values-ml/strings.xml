@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_login">മസ്റ്റഡോൺ വഴി പ്രവേശിക്കുക</string>
-    <string name="link_whats_an_instance">എന്താണ് ഒരു ഇൻസ്റ്റൻസ്\?</string>
+    <string name="link_whats_an_instance">എന്താണ് ഒരു ഇൻസ്റ്റൻസ്?</string>
     <string name="title_favourites">പ്രിയപ്പെട്ടവ</string>
     <string name="title_drafts">കരടുകൾ</string>
     <string name="action_logout">പുറത്തിറങ്ങുക</string>
@@ -89,10 +89,10 @@
     <string name="action_hide_reblogs">ബൂട്ട്‌സ് മറയ്‌ക്കുക</string>
     <string name="action_unblock">നിരോധനം നീക്കുക</string>
     <string name="action_block">നിരോധിക്കുക</string>
-    <string name="action_logout_confirm">ഈ അക്കൗണ്ടിൽ നിന്നും പുറത്തു പോകാൻ ഉറപ്പിച്ചോ %1$s\?</string>
+    <string name="action_logout_confirm">ഈ അക്കൗണ്ടിൽ നിന്നും പുറത്തു പോകാൻ ഉറപ്പിച്ചോ %1$s?</string>
     <string name="action_compose">എഴുതുക</string>
     <string name="action_quick_reply">പെട്ടന്നുള്ള മറുപടി</string>
-    <string name="report_comment_hint">കൂടുതൽ പറയാൻ ഉണ്ടോ\?</string>
+    <string name="report_comment_hint">കൂടുതൽ പറയാൻ ഉണ്ടോ?</string>
     <string name="report_username_format">അറിയിക്കുക @%1$s</string>
     <string name="notification_follow_format">%1$s നിങ്ങളെ പിന്തുടരുന്നു</string>
     <string name="notification_favourite_name">പ്രിയപ്പെട്ടവ</string>
