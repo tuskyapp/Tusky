@@ -47,7 +47,7 @@ robolectric = "4.14.1"
 sparkbutton = "4.2.0"
 touchimageview = "3.7.1"
 turbine = "1.2.0"
-unified-push = "2.4.0"
+unified-push = "2.5.0"
 xmlwriter = "1.0.4"
 
 [plugins]
