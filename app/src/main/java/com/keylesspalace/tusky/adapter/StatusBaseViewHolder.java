@@ -3,13 +3,17 @@ package com.keylesspalace.tusky.adapter;
 import static com.keylesspalace.tusky.viewdata.PollViewDataKt.buildDescription;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +26,10 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.PluralsRes;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -980,14 +984,21 @@ public abstract class StatusBaseViewHolder extends RecyclerView.ViewHolder {
 
     @NonNull
     protected CharSequence getFavsText(@NonNull Context context, int count) {
-        String countString = numberFormat.format(count);
-        return HtmlCompat.fromHtml(context.getResources().getQuantityString(R.plurals.favs, count, countString), HtmlCompat.FROM_HTML_MODE_LEGACY);
+        return getMetaDataText(context, R.plurals.favs, count);
     }
 
     @NonNull
     protected CharSequence getReblogsText(@NonNull Context context, int count) {
+        return getMetaDataText(context, R.plurals.reblogs, count);
+    }
+
+    private CharSequence getMetaDataText(@NonNull Context context, @PluralsRes int text, int count) {
         String countString = numberFormat.format(count);
-        return HtmlCompat.fromHtml(context.getResources().getQuantityString(R.plurals.reblogs, count, countString), HtmlCompat.FROM_HTML_MODE_LEGACY);
+        String textString = context.getResources().getQuantityString(text, count, countString);
+        SpannableStringBuilder sb = new SpannableStringBuilder(textString);
+        int countIndex = textString.indexOf(countString);
+        sb.setSpan(new StyleSpan(Typeface.BOLD), countIndex, countIndex + countString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return sb;
     }
 
     private void setupPoll(PollViewData poll, List<Emoji> emojis,
