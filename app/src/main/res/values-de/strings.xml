@@ -338,7 +338,7 @@
     <string name="compose_shortcut_short_label">Beitrag erstellen</string>
     <string name="pref_title_bot_overlay">Hinweis für Bots anzeigen</string>
     <string name="notification_clear_text">Bist du dir sicher, dass du alle deine Benachrichtigungen dauerhaft löschen möchtest?</string>
-    <string name="poll_info_format"> \u0020<!-- 15 Stimmen • noch 1 Stunde --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s Stimme</item>
         <item quantity="other">%1$s Stimmen</item>
