@@ -361,7 +361,7 @@
     <string name="compose_shortcut_short_label">Semja skilaboð</string>
     <string name="notification_clear_text">Ertu viss um að þú viljir endanlega eyða öllum tilkynningunum þínum?</string>
     <string name="compose_preview_image_description">Aðgerðir fyrir mynd %1$s</string>
-    <string name="poll_info_format"> \u0020<!-- 15 atkvæði • 1 klukkustund eftir --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <plurals name="poll_info_votes">
         <item quantity="one">%1$s atkvæði</item>
         <item quantity="other">%1$s atkvæði</item>
@@ -608,7 +608,7 @@
     <string name="label_filter_title">Titill</string>
     <string name="filter_action_warn">Aðvörun</string>
     <string name="filter_action_hide">Fela</string>
-    <string name="filter_description_warn">Fela með aðvörun</string>
+    <string name="filter_description_warn">Fela alla færsluna með aðvörun</string>
     <string name="filter_description_hide">Fela alveg</string>
     <string name="ui_error_bookmark">Mistókst að bókamerkja færslu: %1$s</string>
     <string name="socket_timeout_exception">Rann út á tíma við að tengjast netþjóninum þínum</string>
@@ -783,4 +783,11 @@
     <string name="accept_follow_request_failure">Mistókst að samþykkja beiðni um að fylgjast með frá %1$s: %2$s</string>
     <string name="block_failure">Mistókst að loka á %1$s: %2$s</string>
     <string name="reject_follow_request_failure">Mistókst að hafna beiðni um að fylgjast með frá %1$s: %2$s</string>
+    <string name="reblog_privacy_followers_only_description">Einungis þeir sem fylgjast með þér geta séð endurbirtinguna þína</string>
+    <string name="filter_action_blur">Móða</string>
+    <string name="filter_description_blur">Fela myndefni með aðvörun</string>
+    <string name="reblog_privacy_public_description">Allir geta séð endurbirtinguna þína</string>
+    <string name="reblog_privacy_unlisted_description">Sama og opinbert, en verður ekki birt á opinberum tímalínum</string>
+    <string name="reblog_confirm">Endurbirta þessa færslu?</string>
+    <string name="favourite_confirm">Setja þessa færslu í eftirlæti?</string>
 </resources>
