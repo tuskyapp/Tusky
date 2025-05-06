@@ -169,7 +169,7 @@
         <item quantity="one">%1$s voto</item>
         <item quantity="other">%1$s votos</item>
     </plurals>
-    <string name="poll_info_format"> \u0020<!-- 15 votos • queda 1 hora --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="compose_preview_image_description">Accións para a imaxe %1$s</string>
     <string name="notification_clear_text">Tes a certeza de que queres borrar permanentemente todas as notificacións?</string>
     <string name="compose_shortcut_short_label">Redactar</string>
