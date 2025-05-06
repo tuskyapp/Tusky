@@ -358,7 +358,7 @@
     <string name="poll_vote">Votar</string>
     <string name="notification_poll_name">Resultats del sondatge</string>
     <string name="notification_poll_description">Notificacion de sondatges tampats</string>
-    <string name="poll_info_format"> \u0020<!-- 15 vòtes • demòra 1 ora --> \u0020%1$s • %2$s</string>
+    <string name="poll_info_format">%1$s • %2$s</string>
     <string name="poll_ended_voted">Un sondatge ont avètz votat es acabat</string>
     <string name="poll_ended_created">Un sondatge qu’avètz creat es acabat</string>
     <plurals name="poll_timespan_days">
@@ -748,4 +748,5 @@
     <string name="post_replied">Respondut</string>
     <string name="post_replied_format">En responsa a %1$s</string>
     <string name="post_replied_self">Seguida del fil</string>
+    <string name="poll_show_results">Mostrar los resultats</string>
 </resources>
