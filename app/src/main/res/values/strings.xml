@@ -556,15 +556,13 @@
     <string name="failed_to_unpin">Failed to Unpin</string>
 
     <plurals name="favs">
-        <item quantity="zero"><b>%1$s</b> Favorites</item>
-        <item quantity="one">&lt;b>%1$s&lt;/b> Favorite</item>
-        <item quantity="other">&lt;b>%1$s&lt;/b> Favorites</item>
+        <item quantity="one">%1$s Favorite</item>
+        <item quantity="other">%1$s Favorites</item>
     </plurals>
 
     <plurals name="reblogs">
-        <item quantity="zero"><b>%1$s</b> Boosts</item>
-        <item quantity="one">&lt;b>%1$s&lt;/b> Boost</item>
-        <item quantity="other">&lt;b>%1$s&lt;/b> Boosts</item>
+        <item quantity="one">%1$s Boost</item>
+        <item quantity="other">%1$s Boosts</item>
     </plurals>
 
     <string name="label_translating">Translating…</string>
