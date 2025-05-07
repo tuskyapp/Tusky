@@ -102,6 +102,8 @@ private val iconNameMapping: Map<String, Int> = mapOf(
     "{{search}}" to R.drawable.ic_search_24dp,
     "{{manage_accounts}}" to R.drawable.ic_manage_accounts_24dp,
     "{{chevron_right}}" to R.drawable.ic_chevron_right_24dp,
+    "{{public}}" to R.drawable.ic_public_24dp,
+    "{{edit}}" to R.drawable.ic_edit_24dp_filled
 )
 
 /**
