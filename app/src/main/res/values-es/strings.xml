@@ -704,10 +704,10 @@
     <string name="pref_title_per_timeline_preferences">Preferencias de cronología</string>
     <string name="notification_policy_filter">Filtrar</string>
     <string name="list_exclusive_label">Ocultar en la cronología de tu instancia</string>
-    <string name="help_empty_conversations">Aquí están tus <b>mensajes privados</b>; a veces llamados conversaciones o mensajes directos (MD). 
-\n 
-\nLos mensajes privados se crean fijando la visibilidad {{public}} de una publicación a {{mail}} <i>Directo</i> y mencionando a uno o más usuarios. 
-\n 
+    <string name="help_empty_conversations">Aquí están tus <b>mensajes privados</b>; a veces llamados conversaciones o mensajes directos (MD). \u0020
+\n \u0020
+\nLos mensajes privados se crean fijando la visibilidad {{public}} de una publicación a {{mail}} <i>Directo</i> y mencionando a uno o más usuarios. \u0020
+\n \u0020
 \nPor ejemplo puedes empezar desde el perfil de otro usuario, pulsar el botón de crear [iconics gmd_edit] y cambiar la visibilidad.</string>
     <string name="about_copied">Se copió la información de versión y dispositivo</string>
     <string name="unknown_notification_type_explanation">Tusky no ha reconocido este tipo de notificación y no pudo mostrartela. La interfaz web de tu servidor quizás pueda. ¡Por favor informa a los desarrolladores de Tusky para que añadir soporte de la misma!</string>

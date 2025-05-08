@@ -678,10 +678,10 @@
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %1$s</string>
     <string name="label_image">Immagine</string>
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
-    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). 
-\n 
-\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo. 
-\n 
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). \u0020
+\n \u0020
+\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo. \u0020
+\n \u0020
 \nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità.</string>
     <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%1$s</string>
     <string name="unmuting_hashtag_success_format">Riattivazione dell\'hashtag #%1$s</string>

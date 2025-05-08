@@ -670,10 +670,10 @@
     <string name="unfollowing_hashtag_success_format">Följer inte längre hashtaggen #%1$s</string>
     <string name="error_media_playback">Kunde inte spela upp: %1$s</string>
     <string name="dialog_save_profile_changes_message">Vill du spara ändringarna i din profil?</string>
-    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). 
-\n 
-\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten. 
-\n 
+    <string name="help_empty_conversations">Här finns dina <b>privata meddelanden</b>, som också kan kallas konversationer eller direktmeddelanden (DM). \u0020
+\n \u0020
+\nMeddelanden blir privata när ett inläggs synlighet {{public}} ändras till {{mail}} <i>Direkt</i>, och en eller flera användare nämns i texten. \u0020
+\n \u0020
 \nTill exempel kan du starta på ett kontos profil och trycka på skapa-knappen [iconics gmd_edit], och ändra synligheten. </string>
     <string name="error_media_upload_sending_fmt">Uppladdningen misslyckades: %1$s</string>
     <string name="title_public_trending_statuses">Populära inlägg</string>

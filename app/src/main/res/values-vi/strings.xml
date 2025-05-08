@@ -642,10 +642,10 @@
     <string name="dialog_delete_filter_text">Xóa bộ lọc \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Xóa</string>
     <string name="dialog_save_profile_changes_message">Bạn có chắc muốn lưu thay đổi?</string>
-    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM). 
-\n 
-\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút {{public}} thành {{mail}} <i>Nhắn riêng</i> và có nhắc đến một người nào đó. 
-\n 
+    <string name="help_empty_conversations">Đây là <b>tin nhắn riêng</b>; đôi khi gọi là thảo luận hoặc nhắn riêng (DM). \u0020
+\n \u0020
+\nTin nhắn riêng được tạo bằng cách chọn tùy chọn kiểu tút {{public}} thành {{mail}} <i>Nhắn riêng</i> và có nhắc đến một người nào đó. \u0020
+\n \u0020
 \nVí dụ: bạn có thể xem hồ sơ của một người và nhấn vào nút [iconics gmd_edit] và đổi kiểu tút. \u0020</string>
     <string name="help_empty_lists">Đây là <b>danh sách</b>. Bạn có thể tạo nhiều danh sách riêng tư và thêm người dùng vào đó. \u0020
 \n \u0020 

@@ -720,10 +720,10 @@
     <string name="dialog_save_profile_changes_message">Hoffech chi gadw\'r newidiadau i\'ch proffil?</string>
     <string name="label_image">Delwedd</string>
     <string name="app_theme_system_black">Defnyddio Cynllun y System (du)</string>
-    <string name="help_empty_conversations">Dyma\'ch <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM). \u0020 
-\n \u0020 
-\nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd {{public}} neges i {{mail}} <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun. \u0020 
-\n \u0020 
+    <string name="help_empty_conversations">Dyma\'ch <b>negeseuon preifat</b>; weithiau\'n cael eu galw\'n sgyrsiau neu negeseuon uniongyrchol (DM). \u0020 \u0020
+\n \u0020 \u0020
+\nMae negeseuon preifat yn cael eu creu drwy osod y gwelededd {{public}} neges i {{mail}} <i>Uniongyrchol</i> a chyfeirio at un neu ragor o ddefnyddwyr yn y testun. \u0020 \u0020
+\n \u0020 \u0020
 \nEr enghraifft gallwch chi dechrau ar y proffil golwg cyfrif a phwyso\'r botwm creu [iconics gmd_edit] a newid y gwelededd.</string>
     <string name="unmuting_hashtag_success_format">Yn dad-dewi hashnod #%1$s</string>
     <string name="muting_hashtag_success_format">Yn tewi hashnod #%1$s fel rhybudd</string>

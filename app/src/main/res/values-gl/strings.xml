@@ -654,10 +654,10 @@
     <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
     <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'?</string>
     <string name="error_media_playback">Produciuse un fallo ao reproducir: %1$s</string>
-    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); 
-\n 
-\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto. 
-\n 
+    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); \u0020
+\n \u0020
+\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto. \u0020
+\n \u0020
 \nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir [iconics gmd_edit] e cambiar a visibilidade.</string>
     <string name="muting_hashtag_success_format">Acalar o cancelo #%1$s cun aviso</string>
     <string name="unmuting_hashtag_success_format">Reactivar o cancelo #%1$s</string>

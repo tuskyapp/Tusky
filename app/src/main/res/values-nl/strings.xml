@@ -654,10 +654,10 @@
 \n 
 \nOm andere accounts te ontdekken, kan je andere tijdlijnen bekijken, bijvoorbeeld je lokale tijdlijn van jouw server {{group}}. Of je kan zoeken op naam {{search}}, bijvoorbeeld typ \"tusky\" in het zoekveld om onze Mastodonaccount te vinden.</string>
     <string name="unknown_notification_filter_unsolicited_private_mentions_description">Gefilterd, tenzij het een reactie is op je eigen vermelding, of als je het account volgt</string>
-    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). 
-\n 
-\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020 
-\n 
+    <string name="help_empty_conversations">Dit zijn je <b>privé berichten</b>, ook wel conversaties of direct messages genoemd (DM). \u0020
+\n \u0020
+\nPrivé berichten maak je door het zichtbaarheidsinstellingen {{public}} van een bericht op {{mail}} <i>Direct</i> te zetten, en dan één of meerdere accounts te vermelden in je bericht. \u0020 \u0020
+\n \u0020
 \nBijvoorbeeld: je kan op het profiel van een account op de toot-knop [iconics gmd_edit] klikken en dan de zichtbaarheid veranderen. \u0020</string>
     <string name="post_privacy_direct">Direct</string>
     <string name="pref_default_reply_privacy_explanation">De gekozen zichtbaarheid hangt af van het bericht waarop je reageert.</string>

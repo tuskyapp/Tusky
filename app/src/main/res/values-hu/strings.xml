@@ -675,10 +675,10 @@
     <string name="unmuting_hashtag_success_format">#%1$s hashtag némításának feloldása</string>
     <string name="muting_hashtag_success_format">#%1$s hashtag elnémítása figyelmeztetésként</string>
     <string name="unfollowing_hashtag_success_format">Már nem követed a(z) #%1$s hashtaget</string>
-    <string name="help_empty_conversations">It találhatóak a <b>privát üzeneteid</b>; melyeket néha beszélgetéseknek vagy közvetlen üzeneteknek hívunk (DM). \u0020 
-\n \u0020 
-\nPrivát üzeneteket az ilyen bejegyzések láthatóságának {{public}} publikusról {{mail}} <i>közvetlenre</i> állításával, és egy vagy több felhasználó megemlítésével hozhatsz létre. \u0020 
-\n \u0020 
+    <string name="help_empty_conversations">It találhatóak a <b>privát üzeneteid</b>; melyeket néha beszélgetéseknek vagy közvetlen üzeneteknek hívunk (DM). \u0020 \u0020
+\n \u0020 \u0020
+\nPrivát üzeneteket az ilyen bejegyzések láthatóságának {{public}} publikusról {{mail}} <i>közvetlenre</i> állításával, és egy vagy több felhasználó megemlítésével hozhatsz létre. \u0020 \u0020
+\n \u0020 \u0020
 \nPéldául indulhatsz egy profilról, a létrehozás gombra kattintva [iconics gmd_edit], majd a láthatóságot megváltoztatva. \u0020</string>
     <string name="title_public_trending_statuses">Felkapott bejegyzések</string>
     <string name="help_empty_lists">Ez a <b>listanézeted</b>. Privát listákat hozhatsz létre és fiókokat adhatsz hozzájuk. \u0020 \u0020

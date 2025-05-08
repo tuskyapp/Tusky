@@ -693,10 +693,10 @@
     <string name="reply_sending">’Ga chur…</string>
     <string name="reply_sending_long">Tha an fhreagairt agad ’ga cur.</string>
     <string name="pref_default_reply_privacy">Prìobhaideachd nam freagairtean (gun sioncronachadh leis an fhrithealaiche)</string>
-    <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. \u0020 
-\n 
-\nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd {{public}} puist air {{mail}} <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. \u0020 
-\n 
+    <string name="help_empty_conversations">Seo na <b>teachdaireachdan prìobhaideach</b> agad ris an canar còmhraidhean no teachdaireachdan dìreach (DM) cuideachd. \u0020 \u0020
+\n \u0020
+\nAirson teachdaireachd phrìobhaideach a chruthachadh, suidhich faicsinneachd {{public}} puist air {{mail}} <i>Dìreach</i> agus thoir iomradh air cleachdaiche no dhà san teacsa. \u0020 \u0020
+\n \u0020
 \nMar eisimpleir, ’s urrainn dhut tòiseachadh air sealladh pròifil cunntais agus gnogag a thoirt air putan a’ chruthachaidh [iconics gmd_edit] agus an fhaicsinneachd atharrachadh. \u0020</string>
     <string name="help_empty_lists">Seo <b>sealladh nan liostaichean</b> agad. ’S urrainn dhut iomadh liosta phrìobhaideach a chruthachadh ’s cunntasan a chur riutha. \u0020 
 \n 

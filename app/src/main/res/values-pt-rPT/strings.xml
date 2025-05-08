@@ -679,10 +679,10 @@
     <string name="ui_success_accepted_follow_request">Seguidor pendente aceite</string>
     <string name="ui_success_rejected_follow_request">Seguidor pendente bloqueado</string>
     <string name="label_filter_action">Ação de filtro</string>
-    <string name="help_empty_conversations">As suas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM). 
-\n 
-\nAs mensagens privadas são criadas definindo a visibilidade {{public}} de uma publicação como {{mail}} <i>Direta</i> e mencionando um ou mais utilizadores no texto. 
-\n 
+    <string name="help_empty_conversations">As suas <b>mensagens privadas</b> estão aqui, também chamadas de conversas ou mensagens diretas (MD/DM). \u0020
+\n \u0020
+\nAs mensagens privadas são criadas definindo a visibilidade {{public}} de uma publicação como {{mail}} <i>Direta</i> e mencionando um ou mais utilizadores no texto. \u0020
+\n \u0020
 \nPor exemplo, pode entrar na vista de perfil de uma conta e pressionar o botão de criar publicação [iconics gmd_edit] e alterar a visibilidade.</string>
     <string name="help_empty_lists">Esta é a sua <b>vista de listas</b>. Pode criar várias listas privadas e adicionar contas nelas. 
 \n 
