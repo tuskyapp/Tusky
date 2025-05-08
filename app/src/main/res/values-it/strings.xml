@@ -316,14 +316,14 @@
     <string name="unpin_action">Non fissare in cima</string>
     <string name="pin_action">Fissa</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Preferito</item>
-        <item quantity="many"><b>%1$s</b> Preferiti</item>
-        <item quantity="other"><b>%1$s</b> Preferiti</item>
+        <item quantity="one">%1$s preferito</item>
+        <item quantity="many">%1$s preferiti</item>
+        <item quantity="other">%1$s preferiti</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> ricondivisione</item>
-        <item quantity="many"><b>%1$s</b> ricondivisioni</item>
-        <item quantity="other"><b>%1$s</b> ricondivisioni</item>
+        <item quantity="one">%1$s ricondivisione</item>
+        <item quantity="many">%1$s ricondivisioni</item>
+        <item quantity="other">%1$s ricondivisioni</item>
     </plurals>
     <string name="title_reblogged_by">Condiviso da</string>
     <string name="title_favourited_by">Aggiunto ai preferiti da</string>
@@ -678,11 +678,13 @@
     <string name="error_media_upload_sending_fmt">Il caricamento è fallito: %1$s</string>
     <string name="label_image">Immagine</string>
     <string name="app_theme_system_black">Usa design di sistema (nero)</string>
-    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). 
-\n 
-\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo. 
-\n 
-\nPer esempio puoi andare su un profilo e creare un messaggio [iconics gmd_edit] e cambiare la visibilità.</string>
+    <string name="help_empty_conversations">Questi sono i tuoi <b>messaggi privati</b>; a volte sono chiamati conversazioni o messaggi diretti (DM). \u0020
+\n \u0020
+\nI messaggi privati sono creati impostando la visibilità {{public}} di un post su {{mail}} <i>Privato</i> e menzionando uno o più utenti nel testo. \u0020
+\n \u0020
+\nPer esempio puoi andare su un profilo e creare un messaggio {{edit}} e cambiare la visibilità.
+\n
+\nRicorda che i messaggi nel Fediverso non sono criptati end-to-end. Non condividere informazioni sensibili.</string>
     <string name="unfollowing_hashtag_success_format">Non segui più l\'hashtag #%1$s</string>
     <string name="unmuting_hashtag_success_format">Riattivazione dell\'hashtag #%1$s</string>
     <string name="action_view_filter">Vedi filtro</string>

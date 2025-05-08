@@ -739,10 +739,10 @@
     <string name="notifications_from">Upozornění od %1$s</string>
     <string name="action_accept_notification_request">Přijmout</string>
     <string name="action_dismiss_notification_request">Zrušit</string>
-    <string name="help_empty_conversations">Zde jsou tvé <b>soukromé zprávy</b>; někdy zvané konverzace nebo přímé zprávy (direct messages, DM). 
-\n 
-\nSoukromé zprávy se vytvoří nastavením viditelnosti {{public}} postu na {{mail}} <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu. 
-\n 
+    <string name="help_empty_conversations">Zde jsou tvé <b>soukromé zprávy</b>; někdy zvané konverzace nebo přímé zprávy (direct messages, DM). \u0020
+\n \u0020
+\nSoukromé zprávy se vytvoří nastavením viditelnosti {{public}} postu na {{mail}} <i>Přímé</i> a zmíněním jednoho nebo více uživatelů v textu. \u0020
+\n \u0020
 \nNa příklad můžeš začít na profilu uživatele a tapnout na tlačítko vytvoření zprávy [iconics gmd_edit] a změnit viditelnost.</string>
     <string name="dialog_delete_filter_positive_action">Smazat</string>
     <string name="dialog_save_profile_changes_message">Chceš uložit změnu ve svém profilu?</string>

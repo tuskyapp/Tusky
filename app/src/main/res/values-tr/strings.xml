@@ -663,10 +663,10 @@
     <string name="dialog_delete_filter_text">Süzgeci sil \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Sil</string>
     <string name="dialog_save_profile_changes_message">Profil değişikliklerinizi kaydetmek istiyor musunuz?</string>
-    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır. 
-\n 
-\nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur. 
-\n 
+    <string name="help_empty_conversations">İşte <b>özel iletileriniz</b>; bazen konuşmalar veya doğrudan iletiler (Dİ) olarak da adlandırılır. \u0020
+\n \u0020
+\nÖzel iletiler, bir gönderinin {{public}} görünürlüğünü {{mail}} <i>Doğrudan</i> olarak ayarlayarak ve metinde bir veya daha fazla kullanıcıdan bahsederek oluşturulur. \u0020
+\n \u0020
 \nÖrneğin, bir hesabın profil görünümünde başlayabilir ve oluştur düğmesine [iconics gmd_edit] dokunabilir ve görünürlüğü değiştirebilirsiniz. </string>
     <string name="help_empty_lists">Bu sizin <b>liste görünümünüzdür</b>. Bir dizi özel liste tanımlayabilir ve bunlara hesaplar ekleyebilirsiniz. 
 \n 

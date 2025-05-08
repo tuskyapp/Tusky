@@ -319,8 +319,8 @@
     <string name="action_open_reblogger">Autor*in des geteilten Beitrags öffnen</string>
     <string name="pref_title_public_filter_keywords">Öffentliche Timelines</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favorit</item>
-        <item quantity="other"><b>%1$s</b> Favoriten</item>
+        <item quantity="one">%1$s-mal favorisiert</item>
+        <item quantity="other">%1$s-mal favorisiert</item>
     </plurals>
     <string name="title_reblogged_by">Geteilt von</string>
     <string name="description_post_media">Medien: %1$s</string>
@@ -440,8 +440,8 @@
     <string name="pref_main_nav_position_option_top">Oben</string>
     <string name="action_unmute_domain">%1$s nicht mehr stummschalten</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b>-mal geteilt</item>
-        <item quantity="other"><b>%1$s</b>-mal geteilt</item>
+        <item quantity="one">%1$s-mal geteilt</item>
+        <item quantity="other">%1$s-mal geteilt</item>
     </plurals>
     <string name="pref_main_nav_position">Position der Hauptnavigation</string>
     <string name="dialog_mute_hide_notifications">Benachrichtigungen ausblenden</string>
@@ -664,11 +664,13 @@
 \nBEACHTE, dass du nur Profile hinzufügen kannst, denen du folgst. \u0020
 \n \u0020
 \nDiese Listen können als Tab in den Kontoeinstellungen {{manage_accounts}} {{chevron_right}} Tabs festgelegt werden.</string>
-    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht). 
-\n 
-\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden. 
-\n 
-\nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« [iconics gmd_edit] und änderst anschließend die Sichtbarkeit.</string>
+    <string name="help_empty_conversations">Hier befinden sich deine <b>privaten Nachrichten</b> – auch bekannt als Unterhaltungen oder »direct messages« (DM, Direktnachricht).
+\n
+\nPrivate Nachrichten werden erstellt, indem die Beitragssichtbarkeit {{public}} auf {{mail}} <i>Direkt</i> gesetzt wird und ein oder mehrere Profile erwähnt werden.
+\n
+\nBeispiel: Du befindest dich auf einer Profilseite und klickst auf die Schaltfläche »Verfassen« {{edit}} und änderst anschließend die Sichtbarkeit.
+\n
+\nBeachte dass Nachrichten im Fediverse nicht Ende-zu-Ende verschlüsselt sind. Versende keine heiklen Informationen.</string>
     <string name="app_theme_system_black">Systemdesign verwenden (Schwarz)</string>
     <string name="error_media_playback">Wiedergabe fehlgeschlagen: %1$s</string>
     <string name="dialog_delete_filter_positive_action">Entfernen</string>

@@ -662,10 +662,10 @@
     <string name="error_blocking_domain">Mistókst að þagga niður í %1$s: %2$s</string>
     <string name="error_unblocking_domain">Mistókst að hætta að þagga niður í %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">Innsendingin mistókst: %1$s</string>
-    <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM). 
-\n 
-\nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. 
-\n 
+    <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM). \u0020
+\n \u0020
+\nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. \u0020
+\n \u0020
 \nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Minnast á\'-hnappinn [iconics gmd_edit] og breytt sýnileikanum.</string>
     <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá. 
 \n 
