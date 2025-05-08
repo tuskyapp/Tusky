@@ -199,12 +199,12 @@
     <string name="title_favourited_by">Favorecido por</string>
     <string name="title_reblogged_by">Promovido por</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> Promoción</item>
-        <item quantity="other"><b>%1$s</b> Promocións</item>
+        <item quantity="one">%1$s Promoción</item>
+        <item quantity="other">%1$s Promocións</item>
     </plurals>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> Favorito</item>
-        <item quantity="other"><b>%1$s</b> Favoritos</item>
+        <item quantity="one">%1$s Favorito</item>
+        <item quantity="other">%1$s Favoritos</item>
     </plurals>
     <string name="pin_action">Fixar</string>
     <string name="unpin_action">Desprender</string>
@@ -396,11 +396,11 @@
     <string name="dialog_message_uploading_media">Enviando…</string>
     <string name="dialog_title_finishing_media_upload">Rematando o envío de multimedia</string>
     <string name="dialog_whats_an_instance">Aquí podes escribir o enderezo ou dominio de calquera instancia, como mastodon.gal, icosahedron.website, social.techncs.de, e <a href="https://instances.social">máis!</a> 
-\n 
-\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela. 
-\n 
-\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí. 
-\n 
+\n
+\nSe aínda non tes unha conta, podes escribir o nome da instancia á que desexas unirte e crear unha conta nela.
+\n
+\nUnha instancia é o lugar onde se hospeda a túa conta, pero podes comunicarte facilmente e seguir a persoas noutras instancias como se estiveses alí.
+\n
 \nPodes atopar máis información en <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="login_connection">Conectando…</string>
     <string name="link_whats_an_instance">Que é unha instancia?</string>
@@ -594,8 +594,8 @@
     <string name="total_usage">Uso total</string>
     <string name="total_accounts">Total de contas</string>
     <string name="dialog_follow_hashtag_title">Seguir cancelo</string>
-    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues. 
-\n 
+    <string name="help_empty_home">Esta é a túa <b>cronoloxía de inicio</b>. Mostra as publicacións recentes das contas que segues.
+\n
 \nPara atopar contas podes mirar nalgunha das outras cronoloxías. Por exemplo, na cronoloxía local da túa instancia {{group}}. Ou buscalas polo seu nome {{search}}; por exemplo busca «Tusky» para atopar a nosa conta en Mastodon.</string>
     <string name="post_media_image">Imaxe</string>
     <string name="hint_filter_title">O meu filtro</string>
@@ -630,8 +630,8 @@
     <string name="filter_keyword_addition_title">Engadir palabra clave</string>
     <string name="filter_edit_keyword_title">Editar palabra clave</string>
     <string name="select_list_manage">Xestionar listas</string>
-    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas. 
-\n 
+    <string name="error_missing_edits">O teu servidor sabe que a publicación foi editada, pero non ten unha copia das edicións, polo que non pode mostralas.
+\n
 \nÉ un <a href="https://github.com/mastodon/mastodon/issues/25398">problema coñecido</a> en Mastodon.</string>
     <string name="load_newest_notifications">Cargar as notificacións máis recentes</string>
     <string name="compose_delete_draft">Eliminar borrador?</string>
@@ -654,22 +654,24 @@
     <string name="list_exclusive_label">Agochar na cronoloxía de inicio</string>
     <string name="dialog_delete_filter_text">Eliminar o filtro \'%1$s\'?</string>
     <string name="error_media_playback">Produciuse un fallo ao reproducir: %1$s</string>
-    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); \u0020
-\n \u0020
-\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto. \u0020
-\n \u0020
-\nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir [iconics gmd_edit] e cambiar a visibilidade.</string>
+    <string name="help_empty_conversations">Aquí están as túas <b>mensaxes privadas</b>; tamén chamadas conversas ou mensaxes directas (DM); 
+\n
+\nAs mensaxes privadas créanse establecendo a visibilidade {{public}} da publicación como {{mail}} <i>Directa</i> e mencionando a unha ou máis usuarias no texto.
+\n
+\nPor exemplo podes ir ao perfil dunha conta e tocar no botón escribir {{edit}} e cambiar a visibilidade.
+\n
+\nTen en conta que as mensaxes no Fediverso non están cifradas de extremo-a-extremo. Non compartas información sensible.</string>
     <string name="muting_hashtag_success_format">Acalar o cancelo #%1$s cun aviso</string>
     <string name="unmuting_hashtag_success_format">Reactivar o cancelo #%1$s</string>
     <string name="action_view_filter">Ver filtro</string>
     <string name="following_hashtag_success_format">Agora segues o cancelo #%1$s</string>
     <string name="unfollowing_hashtag_success_format">Xa non segues o cancelo #%1$s</string>
     <string name="dialog_save_profile_changes_message">Queres gardar os cambios no teu perfil?</string>
-    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas. 
-\n 
-\nTEN EN CONTA que só podes engadir contas que estás a seguir. 
-\n 
-\nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta [iconics gmd_account_circle] [iconics gmd_navigate_next].</string>
+    <string name="help_empty_lists">Esta é a <b>vista de listas</b>. Podes definir varias listas privadas e engadir contas a elas.
+\n
+\nTEN EN CONTA que só podes engadir contas que estás a seguir.
+\n
+\nEstas listas pódense usar como pestanas configurando as Pestanas nas Preferencias da conta {{manage_accounts}} {{chevron_right}}.</string>
     <string name="error_blocking_domain">Non se acalou a %1$s: %2$s</string>
     <string name="error_unblocking_domain">Non se reactivou a %1$s: %2$s</string>
     <string name="label_image">Imaxe</string>
