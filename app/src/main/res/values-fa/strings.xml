@@ -329,12 +329,12 @@
     <string name="license_cc_by_4">نگارش ۴٫۰ CC-BY</string>
     <string name="license_cc_by_sa_4">نگارش ۴٫۰ CC-BY-SA</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> برگزیدن</item>
-        <item quantity="other"><b>%1$s</b> برگزیدن</item>
+        <item quantity="one">%1$s برگزیدن</item>
+        <item quantity="other">%1$s برگزیدن</item>
     </plurals>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> تقویت</item>
-        <item quantity="other"><b>%1$s</b> تقویت</item>
+        <item quantity="one">%1$s تقویت</item>
+        <item quantity="other">%1$s تقویت</item>
     </plurals>
     <string name="title_reblogged_by">تقویت‌شده به دست</string>
     <string name="title_favourited_by">برگزیده به دست</string>
