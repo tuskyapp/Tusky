@@ -28,7 +28,9 @@ fun List<Attachment>.aspectRatios(): List<Double> {
     return map { attachment ->
         // clamp ratio between 2:1 & 1:2, defaulting to 16:9
         val size = (attachment.meta?.small ?: attachment.meta?.original) ?: return@map 1.7778
-        val aspect = if (size.aspect > 0) size.aspect else size.width.toDouble() / size.height
+        if (size.aspect > 0) return@map size.aspect
+        if (size.width == 0 || size.height == 0) return@map 1.7778
+        val aspect = size.width.toDouble() / size.height
         aspect.coerceIn(0.5, 2.0)
     }
 }
