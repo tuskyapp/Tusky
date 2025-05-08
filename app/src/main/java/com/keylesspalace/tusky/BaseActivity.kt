@@ -125,6 +125,8 @@ abstract class BaseActivity : AppCompatActivity() {
         val style = textStyle(preferences.getString(PrefKeys.STATUS_TEXT_SIZE, "medium"))
         getTheme().applyStyle(style, true)
 
+        getDelegate().setHandleNativeActionModesEnabled(false)
+        
         if (requiresLogin()) {
             redirectIfNotLoggedIn()
         }
