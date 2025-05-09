@@ -34,7 +34,6 @@ import com.keylesspalace.tusky.components.preference.PreferencesFragment.Reading
 import com.keylesspalace.tusky.components.preference.PreferencesFragment.ReadingOrder.OLDEST_FIRST
 import com.keylesspalace.tusky.components.timeline.LoadMorePlaceholder
 import com.keylesspalace.tusky.components.timeline.toEntity
-import com.keylesspalace.tusky.components.timeline.toStatus
 import com.keylesspalace.tusky.components.timeline.toViewData
 import com.keylesspalace.tusky.components.timeline.util.ifExpected
 import com.keylesspalace.tusky.db.AccountManager
@@ -101,13 +100,12 @@ class CachedTimelineViewModel @Inject constructor(
         .combine(translations) { pagingData, translations ->
             pagingData.map { timelineData ->
                 val translation = translations[timelineData.status?.serverId]
-                val status = timelineData.account?.let { timelineData.status?.toStatus(it) }
-                val filter = status?.let { shouldFilterStatus(it) }
-                timelineData.toViewData(
+                val viewData = timelineData.toViewData(
                     isDetailed = false,
-                    translation = translation,
-                    filter = filter,
+                    translation = translation
                 )
+                viewData.filter = shouldFilterStatus(viewData)
+                viewData
             }.filter { statusViewData ->
                 statusViewData.filter?.action != Filter.Action.HIDE
             }
