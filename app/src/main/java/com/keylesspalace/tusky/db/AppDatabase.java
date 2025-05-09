@@ -65,7 +65,7 @@ import java.io.File;
     },
     // Note: Starting with version 54, database versions in Tusky are always even.
     // This is to reserve odd version numbers for use by forks.
-    version = 70,
+    version = 72,
     autoMigrations = {
         @AutoMigration(from = 48, to = 49),
         @AutoMigration(from = 49, to = 50, spec = AppDatabase.MIGRATION_49_50.class),

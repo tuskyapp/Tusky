@@ -18,7 +18,7 @@ package com.keylesspalace.tusky.components.preference
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.settings.PrefKeys
@@ -36,7 +36,7 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
     lateinit var accountManager: AccountManager
 
     @Inject
-    lateinit var notificationService: NotificationService
+    lateinit var notificationHelper: NotificationHelper
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val activeAccount = accountManager.activeAccount ?: return
@@ -48,10 +48,10 @@ class NotificationPreferencesFragment : BasePreferencesFragment() {
                 isChecked = activeAccount.notificationsEnabled
                 setOnPreferenceChangeListener { _, newValue ->
                     updateAccount { copy(notificationsEnabled = newValue as Boolean) }
-                    if (notificationService.areNotificationsEnabledBySystem()) {
-                        notificationService.enablePullNotifications()
+                    if (notificationHelper.areNotificationsEnabledBySystem()) {
+                        notificationHelper.enablePullNotifications()
                     } else {
-                        notificationService.disablePullNotifications()
+                        notificationHelper.disablePullNotifications()
                     }
                     true
                 }

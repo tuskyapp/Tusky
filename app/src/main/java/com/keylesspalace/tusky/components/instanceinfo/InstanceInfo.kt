@@ -32,4 +32,5 @@ data class InstanceInfo(
     val version: String?,
     val translationEnabled: Boolean?,
     val mastodonApiVersion: Int?,
+    val vapidKey: String?
 )

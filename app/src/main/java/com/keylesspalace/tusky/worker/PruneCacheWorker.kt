@@ -25,7 +25,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.keylesspalace.tusky.R
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.util.deleteStaleCachedMedia
@@ -39,9 +39,9 @@ class PruneCacheWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val databaseCleaner: DatabaseCleaner,
     private val accountManager: AccountManager,
-    val notificationService: NotificationService,
+    val notificationHelper: NotificationHelper,
 ) : CoroutineWorker(appContext, workerParams) {
-    val notification: Notification = notificationService.createWorkerNotification(
+    val notification: Notification = notificationHelper.createWorkerNotification(
         R.string.notification_prune_cache
     )
 
@@ -57,7 +57,7 @@ class PruneCacheWorker @AssistedInject constructor(
     }
 
     override suspend fun getForegroundInfo() = ForegroundInfo(
-        NotificationService.NOTIFICATION_ID_PRUNE_CACHE,
+        NotificationHelper.NOTIFICATION_ID_PRUNE_CACHE,
         notification
     )
 

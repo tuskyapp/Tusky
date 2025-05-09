@@ -16,7 +16,7 @@
 package com.keylesspalace.tusky.components.notifications
 
 import androidx.recyclerview.widget.RecyclerView
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.databinding.ItemSeveredRelationshipNotificationBinding
 import com.keylesspalace.tusky.util.StatusDisplayOptions
 import com.keylesspalace.tusky.viewdata.NotificationViewData
@@ -37,7 +37,7 @@ class SeveredRelationshipNotificationViewHolder(
         val event = viewData.event!!
         val context = binding.root.context
 
-        binding.severedRelationshipText.text = NotificationService.severedRelationShipText(
+        binding.severedRelationshipText.text = NotificationHelper.severedRelationShipText(
             context,
             event,
             instanceName

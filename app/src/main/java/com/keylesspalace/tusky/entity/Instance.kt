@@ -42,6 +42,7 @@ data class Instance(
     @JsonClass(generateAdapter = true)
     data class Configuration(
         val urls: Urls? = null,
+        val vapid: VapidKey? = null,
         val accounts: Accounts? = null,
         val statuses: Statuses? = null,
         @Json(name = "media_attachments") val mediaAttachments: MediaAttachments? = null,
@@ -50,6 +51,11 @@ data class Instance(
     ) {
         @JsonClass(generateAdapter = true)
         data class Urls(@Json(name = "streaming_api") val streamingApi: String? = null)
+
+        @JsonClass(generateAdapter = true)
+        data class VapidKey(
+            @Json(name = "public_key") val publicKey: String? = null
+        )
 
         @JsonClass(generateAdapter = true)
         data class Accounts(

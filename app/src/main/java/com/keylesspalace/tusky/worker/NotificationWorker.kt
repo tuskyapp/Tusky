@@ -25,7 +25,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.systemnotifications.NotificationFetcher
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -34,9 +34,9 @@ class NotificationWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted params: WorkerParameters,
     private val notificationsFetcher: NotificationFetcher,
-    notificationService: NotificationService,
+    notificationHelper: NotificationHelper,
 ) : CoroutineWorker(appContext, params) {
-    val notification: Notification = notificationService.createWorkerNotification(
+    val notification: Notification = notificationHelper.createWorkerNotification(
         R.string.notification_notification_worker
     )
 
@@ -47,7 +47,7 @@ class NotificationWorker @AssistedInject constructor(
     }
 
     override suspend fun getForegroundInfo() = ForegroundInfo(
-        NotificationService.NOTIFICATION_ID_FETCH_NOTIFICATION,
+        NotificationHelper.NOTIFICATION_ID_FETCH_NOTIFICATION,
         notification
     )
 
