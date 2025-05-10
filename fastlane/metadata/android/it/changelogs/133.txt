@@ -1,0 +1,10 @@
+Tusky 29.0
+
+- Nuove icone
+- Lo stile dei sondaggi è migliorato ed è stato aggiunto un pulsante "Mostra risultati"
+- Supporto per il l'azione del filtro "sfoca" (funzione di Mastodon 4.4)
+- La qualità delle immagini è migliorata
+- Un dialogo aggiuntivo previente la chiusura del dialogo di avviso per aggiungere testo alternativo
+- Ricondivisioni e preferiti confermati da un tasto, invece che da una tendina
+
+Vedi https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md per le tutte le modifiche
