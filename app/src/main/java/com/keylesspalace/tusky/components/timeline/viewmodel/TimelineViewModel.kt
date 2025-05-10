@@ -178,7 +178,8 @@ abstract class TimelineViewModel(
     /** Triggered when currently displayed data must be reloaded. */
     protected abstract suspend fun invalidate()
 
-    protected fun shouldFilterStatus(status: Status): Filter? {
+    protected fun shouldFilterStatus(statusViewData: StatusViewData): Filter? {
+        val status = statusViewData.asStatusOrNull()?.status ?: return null
         return if (
             (status.isReply && filterRemoveReplies) ||
             (status.reblog != null && filterRemoveReblogs) ||

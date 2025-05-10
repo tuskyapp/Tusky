@@ -102,9 +102,7 @@ class NetworkTimelineViewModel @Inject constructor(
     ).flow
         .map { pagingData ->
             pagingData.filter(Dispatchers.Default.asExecutor()) { statusViewData ->
-                statusViewData.asStatusOrNull()?.actionable?.let {
-                    shouldFilterStatus(it)?.action != Filter.Action.HIDE
-                } ?: true
+                shouldFilterStatus(statusViewData)?.action != Filter.Action.HIDE
             }
         }
         .flowOn(Dispatchers.Default)
