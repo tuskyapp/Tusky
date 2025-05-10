@@ -165,7 +165,7 @@ class ConfirmationBottomSheet : BottomSheetDialogFragment(R.layout.bottomsheet_c
         }
 
         fun Fragment.confirmFavourite(preferences: SharedPreferences, onConfirmed: () -> Unit) {
-            if (preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, true)) {
+            if (preferences.getBoolean(PrefKeys.CONFIRM_FAVOURITES, false)) {
                 val bottomSheet = ConfirmationBottomSheet()
                 bottomSheet.arguments = bundleOf(
                     ARG_MODE to Mode.FAVOURITE
