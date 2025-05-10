@@ -1,0 +1,10 @@
+Tusky 29.0
+
+- Novas iconas
+- Melloras para mostrar as enquisas, cun novo botón para «mostrar resultados»
+- Compatiblidade coa acción de filtro «esvaecer» (Mastodon 4.4)
+- Mellor calidade ao ver as imaxes
+- Diálogo adicional para evitar sen querer o aviso de engadir descrición do multimedia
+- As promocións e favorecementos agora cofírmanse a través dun elemento na interface e non nun despregable
+
+Ver o rexistro con todos os cambios https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md
