@@ -46,6 +46,7 @@ import com.keylesspalace.tusky.MainActivity.Companion.openNotificationIntent
 import com.keylesspalace.tusky.R
 import com.keylesspalace.tusky.components.compose.ComposeActivity
 import com.keylesspalace.tusky.components.compose.ComposeActivity.ComposeOptions
+import com.keylesspalace.tusky.components.instanceinfo.InstanceInfoRepository
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.entity.AccountEntity
 import com.keylesspalace.tusky.di.ApplicationScope
@@ -56,7 +57,6 @@ import com.keylesspalace.tusky.entity.visibleNotificationTypes
 import com.keylesspalace.tusky.network.MastodonApi
 import com.keylesspalace.tusky.receiver.SendStatusBroadcastReceiver
 import com.keylesspalace.tusky.settings.PrefKeys
-import com.keylesspalace.tusky.util.CryptoUtil
 import com.keylesspalace.tusky.util.parseAsMastodonHtml
 import com.keylesspalace.tusky.util.unicodeWrap
 import com.keylesspalace.tusky.viewdata.buildDescription
@@ -73,16 +73,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.unifiedpush.android.connector.UnifiedPush
+import org.unifiedpush.android.connector.data.PushEndpoint
+import org.unifiedpush.android.connector.ui.SelectDistributorDialogsBuilder
+import org.unifiedpush.android.connector.ui.UnifiedPushFunctions
 import retrofit2.HttpException
 
 @Singleton
-class NotificationService @Inject constructor(
+class NotificationHelper @Inject constructor(
     private val notificationManager: NotificationManager,
     private val accountManager: AccountManager,
     private val api: MastodonApi,
     private val preferences: SharedPreferences,
     @ApplicationContext private val context: Context,
     @ApplicationScope private val applicationScope: CoroutineScope,
+    private val instanceInfoRepository: InstanceInfoRepository
 ) {
     private var workManager: WorkManager = WorkManager.getInstance(context)
 
@@ -648,7 +652,7 @@ class NotificationService @Inject constructor(
             .putExtra(KEY_CITED_STATUS_ID, inReplyToId)
             .putExtra(KEY_VISIBILITY, replyVisibility)
             .putExtra(KEY_SPOILER, contentWarning)
-            .putExtra(KEY_MENTIONS, mentionedUsernames.toTypedArray<String?>())
+            .putExtra(KEY_MENTIONS, mentionedUsernames.toTypedArray())
 
         return PendingIntent.getBroadcast(
             context.applicationContext,
@@ -768,13 +772,36 @@ class NotificationService @Inject constructor(
             //   make sure this is done in any inconsistent case (is not too often and doesn't hurt).
             unregisterPushEndpoint(account)
 
-            UnifiedPush.registerAppWithDialog(activity, account.id.toString(), features = arrayListOf(UnifiedPush.FEATURE_BYTES_MESSAGE))
-            // Will lead to call of registerPushEndpoint()
+            val vapid = instanceInfoRepository.getUpdatedInstanceInfoOrFallback().vapidKey?.replace("=", "")
+
+            val builder = SelectDistributorDialogsBuilder(
+                activity,
+                object : UnifiedPushFunctions {
+                    override fun getAckDistributor(): String? =
+                        UnifiedPush.getAckDistributor(activity)
+
+                    override fun getDistributors(): List<String> =
+                        UnifiedPush.getDistributors(activity)
+
+                    override fun register(instance: String) =
+                        UnifiedPush.register(activity, instance, vapid = vapid)
+
+                    override fun saveDistributor(distributor: String) =
+                        UnifiedPush.saveDistributor(activity, distributor)
+
+                    override fun tryUseDefaultDistributor(callback: (Boolean) -> Unit) =
+                        UnifiedPush.tryUseDefaultDistributor(activity, callback)
+                }
+            )
+            builder.instances = listOf(account.id.toString())
+            builder.mayUseDefault = false
+            builder.mayUseCurrent = false
+            builder.run()
         }
     }
 
     private fun resetPushWhenDistributorIsMissing() {
-        val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVDER, null)
+        val lastUsedPushProvider = preferences.getString(PrefKeys.LAST_USED_PUSH_PROVIDER, null)
         // NOTE UnifiedPush.getSavedDistributor() cannot be used here as that is already null here if the
         //   distributor was uninstalled.
 
@@ -785,7 +812,7 @@ class NotificationService @Inject constructor(
         Log.w(TAG, "Previous push provider ($lastUsedPushProvider) uninstalled. Resetting all accounts.")
 
         preferences.edit {
-            remove(PrefKeys.LAST_USED_PUSH_PROVDER)
+            remove(PrefKeys.LAST_USED_PUSH_PROVIDER)
         }
 
         applicationScope.launch {
@@ -836,7 +863,7 @@ class NotificationService @Inject constructor(
         unregisterPushEndpoint(account)
 
         // this probably does nothing (distributor to handle this is missing)
-        UnifiedPush.unregisterApp(context, account.id.toString())
+        UnifiedPush.unregister(context, account.id.toString())
     }
 
     fun fetchNotificationsOnPushMessage(account: AccountEntity) {
@@ -857,26 +884,25 @@ class NotificationService @Inject constructor(
     private fun buildAlertSubscriptionData(account: AccountEntity): Map<String, Boolean> =
         buildAlertsMap(account).mapKeys { "data[alerts][${it.key}]" }
 
-    // Called by UnifiedPush callback in UnifiedPushBroadcastReceiver
+    // Called by UnifiedPush callback in UnifiedPushService
     suspend fun registerPushEndpoint(
         account: AccountEntity,
-        endpoint: String
+        endpoint: PushEndpoint
     ) = withContext(Dispatchers.IO) {
-        // Generate a prime256v1 key pair for WebPush
-        // Decryption is unimplemented for now, since Mastodon uses an old WebPush
-        // standard which does not send needed information for decryption in the payload
-        // This makes it not directly compatible with UnifiedPush
-        // As of now, we use it purely as a way to trigger a pull
-        val keyPair = CryptoUtil.generateECKeyPair(CryptoUtil.CURVE_PRIME256_V1)
-        val auth = CryptoUtil.secureRandomBytesEncoded(16)
+        val pubKeySet = endpoint.pubKeySet
+        if (pubKeySet == null) {
+            Log.w(TAG, "cannot register push endpoint without public key")
+            return@withContext
+        }
 
         api.subscribePushNotifications(
-            "Bearer ${account.accessToken}",
-            account.domain,
-            endpoint,
-            keyPair.pubkey,
-            auth,
-            buildAlertSubscriptionData(account)
+            auth = "Bearer ${account.accessToken}",
+            domain = account.domain,
+            standard = true,
+            endpoint = endpoint.url,
+            keysP256DH = pubKeySet.pubKey,
+            keysAuth = pubKeySet.auth,
+            data = buildAlertSubscriptionData(account)
         ).onFailure { throwable ->
             Log.w(TAG, "Error setting push endpoint for account ${account.id}", throwable)
             disablePushNotificationsForAccount(account)
@@ -885,11 +911,12 @@ class NotificationService @Inject constructor(
 
             accountManager.updateAccount(account) {
                 copy(
-                    pushPubKey = keyPair.pubkey,
-                    pushPrivKey = keyPair.privKey,
-                    pushAuth = auth,
+                    pushPubKey = pubKeySet.pubKey,
+                    // TODO
+                    pushPrivKey = "",
+                    pushAuth = pubKeySet.auth,
                     pushServerKey = it.serverKey,
-                    unifiedPushUrl = endpoint
+                    unifiedPushUrl = endpoint.url
                 )
             }
 
@@ -897,7 +924,7 @@ class NotificationService @Inject constructor(
                 Log.d(TAG, "Saving distributor to preferences: $it")
 
                 preferences.edit {
-                    putString(PrefKeys.LAST_USED_PUSH_PROVDER, it)
+                    putString(PrefKeys.LAST_USED_PUSH_PROVIDER, it)
                 }
 
                 // TODO once this is selected it cannot be changed (except by wiping the application or uninstalling the provider)
@@ -949,7 +976,7 @@ class NotificationService @Inject constructor(
     }
 
     companion object {
-        const val TAG = "NotificationService"
+        const val TAG = "NotificationHelper"
 
         const val KEY_CITED_STATUS_ID: String = "KEY_CITED_STATUS_ID"
         const val KEY_MENTIONS: String = "KEY_MENTIONS"

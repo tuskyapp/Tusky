@@ -1,7 +1,7 @@
 package com.keylesspalace.tusky.usecase
 
 import com.keylesspalace.tusky.components.drafts.DraftHelper
-import com.keylesspalace.tusky.components.systemnotifications.NotificationService
+import com.keylesspalace.tusky.components.systemnotifications.NotificationHelper
 import com.keylesspalace.tusky.db.AccountManager
 import com.keylesspalace.tusky.db.DatabaseCleaner
 import com.keylesspalace.tusky.db.entity.AccountEntity
@@ -15,7 +15,7 @@ class LogoutUsecase @Inject constructor(
     private val accountManager: AccountManager,
     private val draftHelper: DraftHelper,
     private val shareShortcutHelper: ShareShortcutHelper,
-    private val notificationService: NotificationService,
+    private val notificationHelper: NotificationHelper,
 ) {
 
     /**
@@ -35,7 +35,7 @@ class LogoutUsecase @Inject constructor(
             )
         }
 
-        notificationService.disableNotificationsForAccount(account)
+        notificationHelper.disableNotificationsForAccount(account)
 
         // remove account from local AccountManager
         val otherAccountAvailable = accountManager.remove(account) != null
