@@ -1,0 +1,10 @@
+Tusky 29.0
+
+- Bộ biểu tượng mới
+- Cải thiện bố cục bình chọn và thêm nút "hiện kết quả"
+- Hỗ trợ hành động lọc "che mờ" (tính năng Mastodon 4.4)
+- Cải thiện chất lượng hiển thị hình ảnh
+- Thêm hộp thoại bổ sung nhắc thêm mô tả hình ảnh
+- Cải thiện hộp thoại xác nhận Đăng lại và Thích
+
+Xem https://github.com/tuskyapp/Tusky/blob/develop/CHANGELOG.md để biết thêm thông tin
