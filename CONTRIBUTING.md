@@ -62,3 +62,6 @@ Our payment policy may be viewed [here](https://github.com/tuskyapp/Tusky/blob/d
 
 ## Resources
 - [Mastodon API documentation](https://docs.joinmastodon.org/api/)
+
+## AI policy
+Tusky does not want any contributions, code or otherwise, created with so-called generative AI tools. Please only submit your own work.
