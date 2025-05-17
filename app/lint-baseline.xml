@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.9.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.1)" variant="all" version="8.9.1">
+<issues format="6" by="lint 8.9.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.2)" variant="all" version="8.9.2">
 
     <issue
         id="GestureBackNavigation"
@@ -63,14 +63,14 @@
         id="InvalidPackage"
         message="Invalid package reference in org.pageseeder.diffx:pso-diffx; not included in Android: `javax.xml.stream.events`. Referenced from `org.pageseeder.diffx.load.XMLEventLoader`.">
         <location
-            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.2/4c1a9f04f2802b97a5ec1de2c241079b29044375/pso-diffx-1.1.2.jar"/>
     </issue>
 
     <issue
         id="InvalidPackage"
         message="Invalid package reference in org.pageseeder.diffx:pso-diffx; not included in Android: `javax.xml.stream`. Referenced from `org.pageseeder.diffx.format.StrictXMLDiffOutput`.">
         <location
-            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.1/b655ebc87588a857a4f3d88cf98bcefa87a6105b/pso-diffx-1.1.1.jar"/>
+            file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/org.pageseeder.diffx/pso-diffx/1.1.2/4c1a9f04f2802b97a5ec1de2c241079b29044375/pso-diffx-1.1.2.jar"/>
     </issue>
 
     <issue
@@ -285,7 +285,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="796"
+            line="795"
             column="5"/>
     </issue>
 
@@ -296,7 +296,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="873"
+            line="872"
             column="5"/>
     </issue>
 
@@ -406,7 +406,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/item_conversation.xml"
-            line="271"
+            line="277"
             column="9"/>
     </issue>
 
@@ -417,7 +417,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/keylesspalace/tusky/util/ShareShortcutHelper.kt"
-            line="102"
+            line="101"
             column="13"/>
     </issue>
 
@@ -428,7 +428,7 @@
         errorLine2="                ^">
         <location
             file="src/main/java/com/keylesspalace/tusky/view/SliderPreference.kt"
-            line="100"
+            line="99"
             column="17"/>
     </issue>
 
