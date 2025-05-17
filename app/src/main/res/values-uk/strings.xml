@@ -158,10 +158,10 @@
     <string name="description_post_favourited">Уподобано</string>
     <string name="title_favourited_by">Вподобали</string>
     <plurals name="favs">
-        <item quantity="one"><b>%1$s</b> вподобання</item>
-        <item quantity="few"><b>%1$s</b> вподобання</item>
-        <item quantity="many"><b>%1$s</b> вподобань</item>
-        <item quantity="other"><b>%1$s</b> вподобань</item>
+        <item quantity="one">%1$s вподобання</item>
+        <item quantity="few">%1$s вподобання</item>
+        <item quantity="many">%1$s вподобань</item>
+        <item quantity="other">%1$s вподобань</item>
     </plurals>
     <string name="notification_favourite_description">Сповіщати про вподобання кимось дописів</string>
     <string name="action_hide_media">Сховати медіа</string>
@@ -484,10 +484,10 @@
     <string name="description_post_bookmarked">Додано до закладок</string>
     <string name="description_post_reblogged">Поширено</string>
     <plurals name="reblogs">
-        <item quantity="one"><b>%1$s</b> поширення</item>
-        <item quantity="few"><b>%1$s</b> поширення</item>
-        <item quantity="many"><b>%1$s</b> поширень</item>
-        <item quantity="other"><b>%1$s</b> поширень</item>
+        <item quantity="one">%1$s поширення</item>
+        <item quantity="few">%1$s поширення</item>
+        <item quantity="many">%1$s поширень</item>
+        <item quantity="other">%1$s поширень</item>
     </plurals>
     <string name="pin_action">Прикріпити</string>
     <string name="unpin_action">Відкріпити</string>
@@ -679,11 +679,13 @@
     <string name="about_copy">Скопіювати версію та відомості про пристрій</string>
     <string name="about_copied">Версію та відомості про пристрій скопійовано</string>
     <string name="list_exclusive_label">Сховати з домашньої стрічки</string>
-    <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM). \u0020
-\n \u0020
-\nОсобисті повідомлення створюються шляхом налаштування видимості {{public}} допису на {{mail}} <i>Особистий</i> і згадування в тексті одного або кількох користувачів. \u0020
-\n \u0020
-\nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку створення [iconics gmd_edit] і змінити видимість.</string>
+    <string name="help_empty_conversations">Тут розміщено ваші <b>приватні повідомлення</b>; іноді їх називають розмовами або прямими повідомленнями (DM).
+\n
+\nОсобисті повідомлення створюються шляхом налаштування видимості {{public}} допису на {{mail}} <i>Особистий</i> і згадування в тексті одного або кількох користувачів.
+\n
+\nНаприклад, ви можете почати з перегляду профілю облікового запису, натиснути кнопку {{edit}} і змінити видимість.
+\n
+\nЗауважте, що повідомлення у Fediverse не захищені наскрізним шифруванням. Не діліться конфіденційною інформацією.</string>
     <string name="error_media_playback">Не вдалося відтворити: %1$s</string>
     <string name="dialog_delete_filter_text">Видалити фільтр \'%1$s\'?</string>
     <string name="dialog_delete_filter_positive_action">Видалити</string>
@@ -815,4 +817,11 @@
     <string name="yes">Так</string>
     <string name="no">Ні</string>
     <string name="confirm_dismiss_caption">Відкинути зміну підписання?</string>
+    <string name="reblog_privacy_unlisted_description">Те саме, що й публічні, але вони ніколи не будуть показані в публічних стрічках</string>
+    <string name="filter_action_blur">Розмити</string>
+    <string name="filter_description_blur">Сховати медіа за попередженням</string>
+    <string name="reblog_privacy_public_description">Усі можуть бачити що ви поширили</string>
+    <string name="reblog_privacy_followers_only_description">Лише ваші підписники бачитимуть що ви поширили</string>
+    <string name="reblog_confirm">Поширити цей допис?</string>
+    <string name="favourite_confirm">Додати допис до вподобань?</string>
 </resources>
