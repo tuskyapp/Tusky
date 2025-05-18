@@ -50,6 +50,7 @@ fun showAddPollDialog(
         .setBackgroundInsetStart(inset)
         .setNegativeButton(android.R.string.cancel, null)
         .setPositiveButton(android.R.string.ok, null)
+        .setCancelable(false)
         .create()
 
     val adapter = AddPollOptionsAdapter(
@@ -96,18 +97,35 @@ fun showAddPollDialog(
 
     binding.multipleChoicesCheckBox.isChecked = poll?.multiple == true
 
+    fun newPoll() = NewPoll(
+        options = adapter.pollOptions,
+        expiresIn = durations[selectedDurationIndex],
+        multiple = binding.multipleChoicesCheckBox.isChecked
+    )
+
+    val existingPoll = newPoll()
+
     dialog.setOnShowListener {
-        val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        button.setOnClickListener {
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
             onUpdatePoll(
-                NewPoll(
-                    options = adapter.pollOptions,
-                    expiresIn = durations[selectedDurationIndex],
-                    multiple = binding.multipleChoicesCheckBox.isChecked
-                )
+                newPoll()
             )
 
             dialog.dismiss()
+        }
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setOnClickListener {
+            if (existingPoll != newPoll()) {
+                MaterialAlertDialogBuilder(context)
+                    .setMessage(R.string.confirm_dismiss_caption)
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.no, null)
+                    .show()
+            } else {
+                dialog.dismiss()
+            }
         }
     }
 

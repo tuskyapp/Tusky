@@ -915,6 +915,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirm_dismiss_caption">Discard caption changes?</string>
+    <string name="confirm_dismiss_poll">Discard poll changes?</string>
 
     <string name="unblock_success">Unblocked %1$s</string>
     <string name="unmute_success">Unmuted %1$s</string>
