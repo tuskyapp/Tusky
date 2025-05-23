@@ -156,11 +156,11 @@
     <string name="label_header">Haus</string>
     <string name="login_connection">Tengist…</string>
     <string name="dialog_whats_an_instance">Hægt er að setja hér inn vistfang eða lén á hvaða tilviki sem er, svo sem mastodon.social, icosahedron.website, social.tchncs.de og <a href="https://instances.social">fleiri!</a> 
-\n \u0020
-\nEf þú ert ekki ennþá með notandaaðgang, geturðu sett inn nafnið á því tilviki sem þú vilt tilheyra og búið til aðgang þar. \u0020
-\n \u0020
-\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu. \u0020
-\n \u0020
+\n 
+\nEf þú ert ekki ennþá með notandaaðgang, geturðu sett inn nafnið á því tilviki sem þú vilt tilheyra og búið til aðgang þar. 
+\n 
+\nTilvik er ákveðinn einn vefþjónn þar sem notandaaðgangurinn þinn er hýstur, en eftir sem áður er auðvelt fyrir þig að eiga í samskiptum við fólk og fylgjast með einstaklingum á öðrum tilvikum, rétt eins og þið væruð á sama vefsvæðinu. 
+\n 
 \nNánari upplýsingar má finna á <a href="https://joinmastodon.org">joinmastodon.org</a>.</string>
     <string name="dialog_title_finishing_media_upload">Klára innsendingu myndefnis</string>
     <string name="dialog_message_uploading_media">Sendi inn…</string>
@@ -628,7 +628,7 @@
     <string name="post_media_image">Mynd</string>
     <string name="select_list_manage">Sýsla með lista</string>
     <string name="help_empty_home">Þetta er <b>tímalínan þín</b>. Hún sýnir nýlegar færslur þeirra sem þú fylgist með. 
-\n \u0020
+\n 
 \nTil að skoða hvað aðrir eru að gera getur þú til dæmis uppgötvað viðkomandi í einni af hinum tímalínunum. Til dæmis á staðværu tímalínu netþjónsins þíns {{group}}. Eða að þú leitar að þeim eftir nafni {{search}}; til dæmis geturðu leitað að Tusky til að finna Mastodon-aðganginn okkar.</string>
     <string name="pref_ui_text_size">Textastærð viðmóts</string>
     <string name="notification_listenable_worker_name">Bakgrunnsvirkni</string>
@@ -638,7 +638,7 @@
     <string name="load_newest_notifications">Hlaða inn nýjustu tilkynningum</string>
     <string name="compose_delete_draft">Eyða drögum?</string>
     <string name="error_missing_edits">Þjónninn þinn veit að þessari færslu hefur verið breytt, en er hins vegar ekki með afrit af breytingunum, þannig að ekki er hægt að sýna þér þær. 
-\n \u0020
+\n 
 \nÞetta er <a href="https://github.com/mastodon/mastodon/issues/25398">Mastodon verkbeiðni #25398</a>.</string>
     <string name="about_device_info_title">Tækið þitt</string>
     <string name="about_device_info">%1$s %2$s
@@ -663,16 +663,16 @@
     <string name="error_unblocking_domain">Mistókst að hætta að þagga niður í %1$s: %2$s</string>
     <string name="error_media_upload_sending_fmt">Innsendingin mistókst: %1$s</string>
     <string name="help_empty_conversations">Hér eru <b>einkaskilaboðin</b> þín; stundum kölluð samtöl eða bein skilaboð (DM). 
-\n \u0020
-\nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. \u0020
-\n \u0020
+\n 
+\nEinkaskilaboð eru gerð með því að stilla sýnileika {{public}} færslu {{mail}} á <i>Beint</i> og að minnast á einn eða fleiri notendur í textanum. 
+\n 
 \nÞú getur til dæmis farið á notandaaðgang einhvers og ýtt á \'Útbúa\'-hnappinn {{edit}} og breytt sýnileikanum.
 \n
 \nAthugaðu að skilaboð í Fediverse-almannarýminu eru ekki dulrituð enda-í-enda. Ekki deila neinum viðkvæmum upplýsingum.</string>
     <string name="help_empty_lists">Þetta er <b>listasýnin</b> þín. Þú getur skilgreint fjölmarga einkalista og bætt notendaaðgöngum á þá. 
-\n \u0020
-\nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína. \u0020
-\n \u0020
+\n 
+\nATHUGAÐU: þú getur bara bætt notendaaðgöngum sem þú fylgist með á listana þína. 
+\n 
 \nÞessa lista má nota sem flipa í Kjörstillingar aðgangs{{manage_accounts}} {{chevron_right} flipunum.</string>
     <string name="label_image">Mynd</string>
     <string name="app_theme_system_black">Nota hönnun kerfis (svart)</string>
