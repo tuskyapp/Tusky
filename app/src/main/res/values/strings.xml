@@ -395,7 +395,7 @@
 
     <string name="notification_mention_format">%1$s mentioned you</string>
     <string name="notification_summary_large">%1$s, %2$s, %3$s and %4$d others</string>
-    <string name="notification_summary_medium">%1$s, %2$s, and %3$s</string>
+    <string name="notification_summary_medium">%1$s, %2$s and %3$s</string>
     <string name="notification_summary_small">%1$s and %2$s</string>
     <plurals name="notification_title_summary">
         <item quantity="one">%1$d new interaction</item>
